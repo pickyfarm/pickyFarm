@@ -40,7 +40,7 @@ DJANGO_APPS = [
 ]
 
 PICKY_APPS = [
-
+    "products.apps.ProductsConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PICKY_APPS
