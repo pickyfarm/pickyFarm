@@ -1,3 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Editor_Reviews
+from .forms import PostForm
 
+
+def index(request):
+    review_list = Editor_Reviews.object.all()
+    ctx = {
+        'review_list': review_list
+    }
+
+    return render(request, 'editors_pick/index.html', ctx)
+
+def detail(request, pk):
+    review = get_object_or_404(Editor_Reviews, pk=pk)
+    ctx = {
+        'review': review,
+    }
+    return render(request, 'editors_pick/details.html', ctx)
 # Create your views here.
+
