@@ -42,6 +42,7 @@ DJANGO_APPS = [
 PICKY_APPS = [
     'locations',
     'editor_reviews'
+    'consumer_reviews'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PICKY_APPS
