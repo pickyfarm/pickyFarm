@@ -45,6 +45,7 @@ PICKY_APPS = [
     "products.apps.ProductsConfig",
     'comments.apps.CommentsConfig',
     'consumers.apps.ConsumersConfig',
+    'consumer_reviews'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PICKY_APPS
@@ -128,3 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = "/media/"
