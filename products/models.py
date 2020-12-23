@@ -77,21 +77,3 @@ class QnA(models.Model):
     #consumer = models.ForeignKey('Consumer')
     #products = models.ForeignKey('Product', on_delete=models.CASCADE)
 
-
-def get_delete_product():
-    return Product.objects.get_or_create(title="삭제된 상품")[0]
-
-
-class Purchase(models.Model):
-    D_STATUS = (
-        ('preparing', '배송 준비 중'),
-        ('shipping', '배송 중'),
-        ('complete', '완료'),
-    )
-    delivery_status = models.CharField(max_length=10, choices=D_STATUS)
-    quantity = models.IntegerField()
-    
-    purchase_datetime = models.DateTimeField(auto_now_add=True)
-
-    product = models.ForeignKey('Product', on_delete=models.SET(get_delete_product))
-    #consumer = models.ForeignKey('Consumer')

@@ -13,7 +13,7 @@ class Consumer_Reviews(models.Model):
 
 class Consumer_Reviews_Image(models.Model):
 
-    image = models.ImageField(upload_to='/consumer_review_images')
+    image = models.ImageField(upload_to='consumer_review_images')
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
     review = models.ForeignKey('Consumer_Reviews', on_delete=models.CASCADE)
