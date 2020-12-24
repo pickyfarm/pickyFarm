@@ -40,12 +40,11 @@ DJANGO_APPS = [
 ]
 
 PICKY_APPS = [
-    'locations',
-    'editor_reviews'
+    # 'locations',
+    'editor_reviews',
     "products.apps.ProductsConfig",
     'comments.apps.CommentsConfig',
-    'consumers.apps.ConsumersConfig',
-    'consumer_reviews'
+    'users.apps.UsersConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PICKY_APPS
@@ -65,7 +64,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,3 +132,5 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MEDIA_URL = "/media/"
+
+AUTH_USER_MODEL = "users.User"

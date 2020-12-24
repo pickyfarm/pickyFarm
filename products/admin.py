@@ -6,8 +6,20 @@ from products import models
 
 @admin.register(models.Product)
 class CustomProductAdmin(admin.ModelAdmin):
+	list_display = (
+		'title', 'price', 
+	)
+
+@admin.register(models.Product_Image)
+class CustomProduct_ImageAdmin(admin.ModelAdmin):
 	pass
 
 @admin.register(models.Category)
 class CustomCategoryAdmin(admin.ModelAdmin):
 	pass
+
+@admin.register(models.QnA)
+class CustomQnAAdmin(admin.ModelAdmin):
+	pass
+
+

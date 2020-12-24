@@ -6,4 +6,4 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Editor_Reviews
-        fields = ['title_text', 'content_text']
+        fields = ['title', 'contents']
