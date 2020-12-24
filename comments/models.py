@@ -38,3 +38,7 @@ class Product_Recomment(Comment):
 
 # class Consumer_Review_Recomment(Comment):
 #     comment = models.ForeignKey("Consumer_Review_Comment", on_delete=CASCADE)
+
+# class Editor_Review_Recomment(Comment):
+    # comment = models.ForeignKey('Editor_Review_Comment', on_delete=models.CASCADE)
+    
