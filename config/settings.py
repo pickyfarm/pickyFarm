@@ -45,6 +45,7 @@ PICKY_APPS = [
     "products.apps.ProductsConfig",
     'comments.apps.CommentsConfig',
     'users.apps.UsersConfig',
+    'purchases.apps.PurchasesConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PICKY_APPS

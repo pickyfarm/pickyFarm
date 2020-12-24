@@ -8,7 +8,7 @@ class Comment(models.Model):
 
     text = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(auto_add=True)
+    updated_at = models.DateTimeField(auto_now= True)
     # author = models.ForeignKey("users.User", on_delete=CASCADE)
 
     class Meta:
@@ -35,5 +35,12 @@ class Product_Comment(Comment):
 #     editor_review = models.ForeignKey("editor_reviews.Editor_Reviews", on_delete=CASCADE)
 
 
-class Recomment(Comment):
-    comment = models.ForeignKey(Product_Comment, on_delete=models.CASCADE)
+class Product_Recomment(Comment):
+    comment = models.ForeignKey("Product_Comment", on_delete=models.CASCADE)
+
+# class Consumer_Review_Recomment(Comment):
+#     comment = models.ForeignKey("Consumer_Review_Comment", on_delete=CASCADE)
+
+# class Editor_Review_Recomment(Comment):
+    # comment = models.ForeignKey('Editor_Review_Comment', on_delete=models.CASCADE)
+    

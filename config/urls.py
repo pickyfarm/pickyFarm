@@ -22,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('editors_pick/', include('editor_reviews.urls'), name='editors_pick'),
     path('product/', include("products.urls"), name="store"),
+    path('comment/', include("comments.urls"), name='comment'),
+    path('purchase/', include("purchases.urls"), name='purchase'),
 ]
 
 if settings.DEBUG:
