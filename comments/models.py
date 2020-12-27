@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-
 class Comment(models.Model):
     """Comment Model Definition"""
 
@@ -24,10 +23,6 @@ class Product_Comment(Comment):
     image = models.ImageField()
     product = models.ForeignKey("products.Product", on_delete=models.CASCADE)
 
-# class Consumer_Review_Comment(Comment):
-#     """Consumer_Review_Comment Model Definition"""
-
-#     consumer_review = models.ForeignKey("consumer_reviews.Consumer_Review", on_delete=CASCADE)
 
 # class Editor_Review_Comment(Comment):
 #     """Editor_Review_Comment Model Definition"""
@@ -37,9 +32,6 @@ class Product_Comment(Comment):
 
 class Product_Recomment(Comment):
     comment = models.ForeignKey("Product_Comment", on_delete=models.CASCADE)
-
-# class Consumer_Review_Recomment(Comment):
-#     comment = models.ForeignKey("Consumer_Review_Comment", on_delete=CASCADE)
 
 # class Editor_Review_Recomment(Comment):
     # comment = models.ForeignKey('Editor_Review_Comment', on_delete=models.CASCADE)
