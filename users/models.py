@@ -22,8 +22,15 @@ class User(AbstractUser):
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.username
+    # def __str__(self):
+    #     if self.consumer is not None:
+    #         return self.name.join(" ", "(소비자)")
+    #     elif self.farmer is not None:
+    #         return self.name.join(" ", "(농가)")
+    #     elif self.editor is not None:
+    #         return self.name.join(" ", "(에디터)")
+    #     else:
+    #         return self.name.join(" ", "(Staff)")
 
 
 class Consumer(models.Model):
@@ -71,7 +78,7 @@ class Farm_Image(models.Model):
 
 class Farm_Tag(models.Model):
     tag = models.CharField(max_length=30)
-    
+
     farmer = models.ManyToManyField(
         Farmer)
 
