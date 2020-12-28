@@ -21,10 +21,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include("core.urls")),
     path('admin/', admin.site.urls),
-    path('editors_pick/', include('editor_reviews.urls'), name='editors_pick'),
-    path('product/', include("products.urls"), name="store"),
-    path('comment/', include("comments.urls"), name='comment'),
-    path('purchase/', include("purchases.urls"), name='purchase'),
+    path('editors_pick/', include('editor_reviews.urls', namespace='editor_reviews')),
+    path('product/', include("products.urls", namespace='products')),
+    path('comment/', include("comments.urls", namespace='comment')),
+    path('purchase/', include("purchases.urls", namespace='purchase')),
 ]
 
 if settings.DEBUG:

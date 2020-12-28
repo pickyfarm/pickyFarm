@@ -9,9 +9,13 @@ class Product(models.Model):
     main_image = models.ImageField(upload_to="product_main_image/%Y/%m/%d/")
     open = models.BooleanField()
 
-    price = models.IntegerField()
+    original_sell_price = models.IntegerField(default=0, help_text="기준 판매가")
+    sell_price = models.IntegerField(default=0, help_text="현재 판매가", blank=True)
     weight = models.FloatField()
-    stock = models.IntegerField()
+    stock = models.IntegerField(default=0, help_text="총 재고 수량")
+    sales_count = models.IntegerField(default=0, help_text="총 판매 수량")
+    sales_rate = models.FloatField(default=0, blank=True)
+    
     instruction = models.TextField(blank=True)
 
     desc = models.TextField()
@@ -22,6 +26,19 @@ class Product(models.Model):
         'Category', related_name='products', on_delete=models.CASCADE)
     #editor_review = models.ForeignKey(editor_review)
 
+    def sale(self):
+        if self.stock > 0:
+            self.stock -= 1
+            self.sales_count += 1
+        else:
+            self.open = False
+        return
+    
+    def calculate_sale_rate(self):
+        rate = self.sales_count / (self.stock + self.sales_count)
+        self.sales_rate = rate
+        return
+    
     def __str__(self):
         return self.title
 
