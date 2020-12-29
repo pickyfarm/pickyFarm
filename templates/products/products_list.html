@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/products/products_list.css' %}">
     <title>Picky Pick : 까다롭게 선택하다</title>
 </head>
 <body>
@@ -40,63 +41,86 @@
                     </ul>
                 </div>
             </div>
-        </header>
+        </header> 
     
-        <div class="main-contents bg-white-400 h-screen text-center font-4xl">
-            <div>
-                <ul>
-                    <li><a href="{% url 'products:store_list_category' 'fruit' %}">과일</a></li>
-                    <li><a href="{% url 'products:store_list_category' 'vege' %}">야채/채소</a></li>
-                    <li><a href="{% url 'products:store_list_category' 'others' %}">기타</a></li>
-                </ul>
-            </div>
+        <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 h-screen text-center font-4xl">
+            <div class="flex flex-row">
+                <div class="flex flex-none w-2/12" id="left_content">
+                    <ul>
+                        <li><a href="{% url 'products:store_list_category' 'fruit' %}">과일</a></li>
+                        <li><a href="{% url 'products:store_list_category' 'vege' %}">야채/채소</a></li>
+                        <li><a href="{% url 'products:store_list_category' 'others' %}">기타</a></li>
+                    </ul>
+                </div>
             
-            <div>
-                <ul>
-                    {%for category in categories %}
-                        <li><a href="{% url 'products:store_list_category' category.slug %}">{{category.name}}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+                <div class="flex flex-none w-9/12" id="right_content">
+                    <div class="flex flex-col w-full" id="content_box">
+                        <div class="flex flex-auto" id = "top">
+                            <div class="flex flex-none w-5/6" id="category">
+                                <ul class="flex justify-start my-12">
+                                    {%for category in categories %}
+                                        <div class="mx-6">
+                                            <a href="{% url 'products:store_list_category' category.slug %}">
+                                                <li class="py-2 px-3.5" id="category_item">{{category.name}}</li></a>
+                                        </div>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="flex flex-none justify-center w-1/6" id="sort">
+                                <img class="mt-9" src="{% static 'images/products_list/sort.svg' %}"  alt="sort_icon">
+                            </div>
+                        </div>
 
-            <div>
-                <div>
-                {% for product in products %}
-                    <img src="{{product.main_image.url}}" width="50"><br>
-                    <h3>{{product.title}}</h3>
-                    <h4>{{product.sell_price}}원</h4>
-                    <p>{{product.sub_title}}</p>
-                {% endfor %}
+                        <div class="mt-10 flex flex-wrap justify-between" id="products"> 
+                            {% for product in products %}
+                            <div id="product_item">
+                                <div class="relative">
+                                    <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
+                                    <div id="like_cart_in" class="flex flex-row z-10">
+                                        <img id="like", src="{% static 'images/products_list/like.svg' %}">
+                                        <img class="ml-1"id="cart_in", src="{% static 'images/products_list/cart_in.svg' %}">
+                                    </div>
+                                    <img class="absolute -top-12 -left-6 {%if product.stock > 3 %} invisible {% endif %}" id="like", src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                                </div>
+                                <div class="mt-10">
+                                    <p class="pl-10" id="title">{{product.title}}</p>
+                                    <p class="pl-10" id="sell_price">{{product.sell_price}}원</p>
+                                    <p class="pl-10" id="sub_title">{{product.sub_title}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+            
+                        <div class="flex justify-center" id="paginator">
+                            <h6>
+                                {% if page != 1 %}
+                                    <a href = '?page={{page|add:-1}}'>Previous</a>
+                                {% endif %}
+                            </h6>
+                            {% if page == 1 %}
+                                {{page}}
+                            {% else %}
+                                {% for page in page_range %}
+                                <a href="?page={{page}}">{{page}}</a>
+                                {% endfor %}
+                            {% endif %}
+                            <h6>
+                                {% if page != page_total %}
+                                <a href = '?page={{page|add:1}}'>Next</a>
+                                {% endif %}
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-none w-1/12">
                 </div>
             </div>
-
-            
-            <div>
-                <h6>
-                    {% if page != 1 %}
-                        <a href = '?page={{page|add:-1}}'>Previous</a>
-                    {% endif %}
-                </h6>
-                {% if page == 1 %}
-                    {{page}}
-                {% else %}
-                    {% for page in page_range %}
-                        <a href="?page={{page}}">{{page}}</a>
-                    {% endfor %}
-                {% endif %}
-                <h6>
-                    {% if page != page_total %}
-                        <a href = '?page={{page|add:1}}'>Next</a>
-                    {% endif %}
-                </h6>
-            </div>
-
-
-        
         
         </div>
 
-        <div class="footer flex justify-between mx-24 my-8">
+        {% comment %} <div class="footer flex justify-between mx-24 my-8">
             <div class="flex">
                 <div class="contacts flex flex-col justify-between">
                     <div>
@@ -165,7 +189,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
     
 </body>

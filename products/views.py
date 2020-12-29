@@ -40,7 +40,8 @@ def store_list_cat(request, cat):
         big_category = Category.objects.get(slug=cat)
         print(big_category)
         categories = big_category.children.all().order_by('name')
-        products = Product.objects.filter(category__parent__slug=cat, open=True).order_by('create_at')
+        products = Product.objects.filter(
+            category__parent__slug=cat, open=True).order_by('create_at')
     else:
         categories = Category.objects.get(slug=cat)
         products = categories.products.filter(open=True).order_by('-create_at')
@@ -59,9 +60,9 @@ def store_list_cat(request, cat):
     products = products[offset:limit]
     if products_count == 0:
         page_total = 1
-    else :    
+    else:
         page_total = ceil(products_count/page_size)
-    
+
     ctx = {
         "products": products,
         "categories": categories,
@@ -70,4 +71,3 @@ def store_list_cat(request, cat):
         "page_range": range(1, page_total),
     }
     return render(request, "products/products_list.html", ctx)
-
