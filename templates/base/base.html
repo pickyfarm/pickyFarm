@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>Picky Pick : 까다롭게 선택하다</title>
+</head>
+<body>
+
+    <div class="base-wrap">
+        
+        {% include "partials/header.html" %}
+        {% block main_content %}
+        <div style="height: 1000vh;"></div>
+        {% endblock main_content %}
+        {% include "partials/footer.html" %}
+
+    </div>
+    <script>
+        var lnb = $(".fix-header").offset().top;
+        $(window).scroll(function() {
+  	        var window = $(this).scrollTop();
+
+            if(lnb <= window) {
+                $(".top-menu").addClass("hidden");
+                $("header").addClass("shadow-md")
+                $(".main-img").addClass("scale-50");
+                $(".fix-header").addClass("h-20");
+
+            } 
+            
+            else {
+                $(".top-menu").removeClass("hidden");
+                $("header").removeClass("shadow-md");
+                $(".main-img").removeClass("scale-50");
+                $(".fix-header").removeClass("h-20");
+            }
+        });
+    </script>
+</body>
+</html>
