@@ -23,16 +23,25 @@ class Product_Comment(Comment):
     image = models.ImageField()
     product = models.ForeignKey("products.Product", on_delete=models.CASCADE)
 
-
-# class Editor_Review_Comment(Comment):
-#     """Editor_Review_Comment Model Definition"""
-
-#     editor_review = models.ForeignKey("editor_reviews.Editor_Reviews", on_delete=CASCADE)
-
-
 class Product_Recomment(Comment):
+    """Product_Recomment Model Definition"""
+
     comment = models.ForeignKey("Product_Comment", on_delete=models.CASCADE)
 
-# class Editor_Review_Recomment(Comment):
-    # comment = models.ForeignKey('Editor_Review_Comment', on_delete=models.CASCADE)
+
+class Qna_Comment(Comment):
+    """Qna_Comment Model Definition"""
+
+    qna = models.ForeignKey("products.QnA", on_delete=models.CASCADE)
+
+
+class Editor_Review_Comment(Comment):
+    """Editor_Review_Comment Model Definition"""
+
+    editor_review = models.ForeignKey("editor_reviews.Editor_Reviews", on_delete=models.CASCADE)
+
+class Editor_Review_Recomment(Comment):
+    """Editor_Review_Recomment Model Definition"""
+
+    comment = models.ForeignKey('Editor_Review_Comment', on_delete=models.CASCADE)
     

@@ -8,3 +8,11 @@ class ProductCommentAdmin(admin.ModelAdmin):
 @admin.register(models.Product_Recomment)
 class ProductRecommentAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(models.Editor_Review_Comment)
+class EditorReviewCommentAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(models.Editor_Review_Recomment)
+class EditorReviewRecommentAdmin(admin.ModelAdmin):
+    pass
