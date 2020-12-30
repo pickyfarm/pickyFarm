@@ -34,3 +34,7 @@ class CustomWishAdmin(admin.ModelAdmin):
 @admin.register(models.Cart)
 class CustomCartAdmin(admin.ModelAdmin):
 	pass
+
+@admin.register(models.Subscribe)
+class SubscribeAdmin(admin.ModelAdmin):
+	pass

@@ -35,11 +35,11 @@ class User(AbstractUser):
 
 class Consumer(models.Model):
     grade = (
-        ("1", '1'),
-        ("2", '2'),
-        ("3", '3'),
-        ("4", '4'),
-        ("5", '5'),
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
     )
 
     user = models.OneToOneField(
@@ -48,7 +48,7 @@ class Consumer(models.Model):
     grade = models.IntegerField(choices=grade)
 
     def __str__(self):
-        return
+        return self.user.nickname
 
 
 class Farmer(models.Model):
@@ -107,3 +107,10 @@ class Cart(models.Model):
 #     update_at = models.DateTimeField(auto_now=True)
 #     create_at = models.DateTimeField(auto_now_add=True)
 #     review = models.ForeignKey('Staffs', on_delete=models.CASCADE)
+
+class Subscribe(models.Model):
+    farmer = models.ForeignKey('Farmer', related_name="subs", on_delete=models.CASCADE)
+    consumer = models.ForeignKey('Consumer', related_name="subs", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.consumer.user.nickname} -> {self.farmer.farm_name}'
