@@ -3,7 +3,7 @@ from django.http import request
 from .models import Product, Category
 from django.utils import timezone
 from math import ceil
-
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 
@@ -71,3 +71,20 @@ def store_list_cat(request, cat):
         "page_range": range(1, page_total),
     }
     return render(request, "products/products_list.html", ctx)
+
+
+def product_detail(request, pk):
+    try:
+        product = Product.objects.filter(pk=pk)
+        farmer = product.farmer
+        comments = product.product_comments
+        qnas = product.QnAs
+        ctx = {
+            'product': product,
+            'farmer': farmer,
+            'comments': comments,
+            'qnas': qnas,
+        }
+        return render(request, "products/product_detail.html", ctx)
+    except ObjectDoesNotExist:
+        return redirect("/")

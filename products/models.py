@@ -18,6 +18,11 @@ class Product(models.Model):
     
     instruction = models.TextField(blank=True)
 
+    freshness_avg = models.FloatField(default=0)
+    flavor_avg = models.FloatField(default=0)
+    cost_performance_avg = models.FloatField(default=0)
+    total_rating_avg = models.FloatField(default=0)
+
     desc = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
 
@@ -117,3 +122,18 @@ class QnA(models.Model):
 
 def get_delete_product():
     return Product.objects.get_or_create(title="삭제된 상품")[0]
+
+
+class Rating(models.Model):
+    evaluate = (
+        ('good', 5),
+        ('normal', 3),
+        ('bad', 1),
+    )
+
+    freshness = models.IntegerField(choices=evaluate)
+    flavor = models.IntegerField(choices=evaluate)
+    cost_performance = models.IntegerField(choices=evaluate)
+
+    product = models.ForeignKey(Product, related_name="ratings", on_delete=models.CASCADE)
+
