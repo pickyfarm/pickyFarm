@@ -62,6 +62,8 @@ class Farmer(models.Model):
     user = models.OneToOneField(
         User, default=None, null=True, blank=True, related_name='farmer', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.farm_name
 
 class Editor(models.Model):
 
@@ -112,5 +114,8 @@ class Subscribe(models.Model):
     farmer = models.ForeignKey('Farmer', related_name="subs", on_delete=models.CASCADE)
     consumer = models.ForeignKey('Consumer', related_name="subs", on_delete=models.CASCADE)
 
+
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.farmer.farm_name}'
+    
+    
