@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block stylesheet %}{% endblock %}
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-    <title>Picky Pick : 까다롭게 선택하다</title>
+    
+    <title>{% block title_name %}{% endblock %}</title>
 </head>
 <body>
 
