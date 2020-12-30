@@ -1,131 +1,20 @@
+{% extends 'base/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <title>Picky Pick : 까다롭게 선택하다</title>
-</head>
-<body>
-    <div class="base-wrap">
-        <header class="flex flex-col">
-            <div class="top-menu ml-auto my-4">
-                <ul class="flex text-xs divide-x-2 h-3">
-                    <li class=" w-24 text-center">로그인</li>
-                    <li class=" w-24 text-center">회원가입</li>
-                    <li class=" w-24 text-center">고객센터</li>
-                    <li class=" w-24 text-center">my page</li>
-                    <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class=" mx-auto w-4" alt="장바구니 보기"></li>
-                </ul>
-            </div>
 
-            <div class="mx-auto my-4">
-                <img src="{% static 'images/mainlogo.svg' %}" alt="PICKY PICK">
-            </div>
+{% block stylesheet %}
+{% endblock stylesheet %}
 
-            <div class="flex justify-between my-4 mx-52">
-                <div class="searchbox mx-20">
-                    <div class="input-form rounded-full w-60 h-6 bg-green-400 bg-opacity-50 flex justify-around">
-                        <input type="text" placeholder="자라나라 머리머리" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44">
-                        <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt="">
-                    </div>
-                </div>
-                <div class="main-menu ml-auto">
-                    <ul class="flex divide-x-2 divide-green-600 h-6">
-                        <li class=" w-48 text-center">Menu</li>
-                        <li class=" w-48 text-center">Store</li>
-                        <li class=" w-48 text-center">Editor's Pick</li>
-                        <li class=" w-48 text-center">Farmer's Page</li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-    
-        <div class="main-contents bg-gray-400 h-screen text-center font-4xl">
-            Farmer's page
-            
-            {% for farmer in farmers %}
-            <div>
-                {{farmer.farm_name}}
-                {{farmer.profile_title}}
-                {{farmer.farm_images.url}}
-            </div>
-            {% endfor %}
-                
+{% block title_name %}
+    Farmer's page
+{% endblock title_name %}
+
+
+{% block main_content %}
+    {% for farmer in farmers %}
+        <div>
+            {{farmer.farm_name}}
+            {{farmer.profile_title}}
+            {{farmer.farm_images.url}}
         </div>
-
-        <div class="footer flex justify-between mx-24 my-8">
-            <div class="flex">
-                <div class="contacts flex flex-col justify-between">
-                    <div>
-                        <div class="text-md">고객 센터</div>
-                        <div class=" text-4xl">1644-0000</div>
-                    </div>
-                    <div class="flex">
-                        <div class="kakao"><img src="{% static 'images/kakao.svg' %}" class="w-12" alt=""></div>
-                        <div class="flex flex-col self-center mx-6">
-                            <div class="text-xs font-medium">카카오톡 문의</div>
-                            <div class="text-md font-light text-gray-500">오전 9시 ~ 오후 6시</div>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <div class="phone"><img src="{% static 'images/phone.svg' %}" class="w-12" alt=""></div>
-                        <div class="self-center mx-6">
-                            <div class="text-xs font-medium">1대1 문의</div>
-                            <div class="text-md font-light text-gray-500">오전 10시 ~ 오후 6시</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="delivery_info_image flex mx-16">
-                    <img src="{% static 'images/tempdelimg.svg' %}" class="w-60 self-center" alt="">
-                </div>
-            </div>
-            <div class="info flex flex-col text-xs justify-between">
-                <div class="ml-auto mb-8">
-                    <ul class="flex">
-                        <li class="mx-4 font-medium">이용약관</li>
-                        <li class="mx-4 font-medium">개인정보처리방침</li>
-                        <li class="mx-4 font-medium">이용안내</li>
-                        <li class="ml-4 font-medium">인사채용</li>
-                    </ul>
-                </div>
-                <div class="flex my-1 justify-between">
-                    <div class=" mr-2">법인명(상호) : 주식회사 피키픽</div>
-                    <div class=" mx-2">사업자등록번호 : 000-00-00000</div>
-                    <div class=" ml-2">사업자정보 확인</div>
-                </div>
-                <div class="flex my-1 justify-between">
-                    <div>통신판매업 : 제 2021-서울마포-00000호</div>
-                    <div>개인정보보호책임자 : 김기윤</div>
-                </div>
-                <div class="flex my-1 justify-between">
-                    <div>주소 : 서울시 마포구 와우산로 94</div>
-                    <div>대표이사 : 김기윤</div>
-                </div>
-                <div class="flex my-1 justify-between">
-                    <div>채용문의 : recruit@pickycorp.com</div>
-                    <div>제휴문의 : business@pickycorp.com</div>
-                </div>
-                <div class="flex my-1 justify-between">
-                    <div>FAX : 000-0000-0000</div>
-                    <div>이메일 : pickypick@pickycorp.com</div>
-                </div>
-                <div class=" flex mt-1 justify-between">
-                    <div class="self-center bg-green-900 w-36 text-white h-8 text-center leading-8 rounded-full">입점문의하기</div>
-                    <div>
-                        <ul class="flex"> 
-                            <li><img src="{% static 'images/phone.svg' %}" class="w-8 mx-1" alt=""></li>
-                            <li><img src="{% static 'images/phone.svg' %}" class="w-8 mx-1" alt=""></li>
-                            <li><img src="{% static 'images/phone.svg' %}" class="w-8 mx-1" alt=""></li>
-                            <li><img src="{% static 'images/phone.svg' %}" class="w-8 mx-1" alt=""></li>
-                            <li><img src="{% static 'images/phone.svg' %}" class="w-8 mx-1" alt=""></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-</body>
-</html>
+    {% endfor %}
+{% endblock main_content %}

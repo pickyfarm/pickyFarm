@@ -56,12 +56,18 @@ class Farmer(models.Model):
     farm_news = models.CharField(max_length=500, blank=True)
     profile_title = models.CharField(max_length=200)
     profile_desc = models.TextField()
-
     contact = models.CharField(max_length=20, blank=True)
+    sub_count = models.IntegerField(blank=True, null=True)
 
     user = models.OneToOneField(
         User, default=None, null=True, blank=True, related_name='farmer', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.farm_name
+
+    def inc_sub(self):
+        self.sub_count+=1
+        return
 
 class Editor(models.Model):
 
@@ -112,5 +118,8 @@ class Subscribe(models.Model):
     farmer = models.ForeignKey('Farmer', related_name="subs", on_delete=models.CASCADE)
     consumer = models.ForeignKey('Consumer', related_name="subs", on_delete=models.CASCADE)
 
+
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.farmer.farm_name}'
+    
+    
