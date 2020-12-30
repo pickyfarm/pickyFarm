@@ -4,7 +4,7 @@ from .forms import PostForm
 
 
 def index(request):
-    review_list = Editor_Reviews.object.all()
+    review_list = Editor_Reviews.objects.all()
     ctx = {
         'review_list': review_list
     }
