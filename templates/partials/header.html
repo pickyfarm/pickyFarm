@@ -1,20 +1,22 @@
 {% load static %}
 
-<header class="sticky top-0 flex flex-col mb-12 z-50 ">
-    
+<header class="sticky top-0 flex flex-col mb-12 z-50 bg-white">
+
     <div class="top-menu ml-auto my-4 mt-8">
         <ul class="flex text-xs divide-x-2 h-3">
             <li class=" w-24 text-center">로그인</li>
             <li class=" w-24 text-center">회원가입</li>
             <li class=" w-24 text-center">고객센터</li>
             <li class=" w-24 text-center">my page</li>
-            <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></li>
+            <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기">
+            </li>
         </ul>
     </div>
 
     <div class="flex justify-between items-center content-center mx-20 fix-header ">
         <div class="">
-            <img src="{% static 'images/mainlogo.svg' %}" class="w-36 transform main-img transition-transform" alt="PICKY PICK">
+            <img src="{% static 'images/mainlogo.svg' %}" class="w-36 transform main-img transition-transform"
+                alt="PICKY PICK">
         </div>
         <div class="flex">
             <div class="main-menu">
@@ -27,7 +29,8 @@
             </div>
             <div class="searchbox">
                 <div class="input-form rounded-full w-60 h-6 bg-green-400 bg-opacity-50 flex justify-around">
-                    <input type="text" placeholder="자라나라 머리머리" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44">
+                    <input type="text" placeholder="자라나라 머리머리"
+                        class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44">
                     <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt="">
                 </div>
             </div>
