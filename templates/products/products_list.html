@@ -73,6 +73,7 @@
 
                         <div class="mt-10 flex flex-wrap justify-between" id="products"> 
                             {% for product in products %}
+                            <a href="/">
                             <div id="product_item">
                                 <div class="relative">
                                     <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
@@ -82,12 +83,14 @@
                                     </div>
                                     <img class="absolute -top-12 -left-6 {%if product.stock > 3 %} invisible {% endif %}" id="like", src="{% static 'images/products_list/almost_sold_out.svg' %}">
                                 </div>
+
                                 <div class="mt-10">
                                     <p class="pl-10" id="title">{{product.title}}</p>
                                     <p class="pl-10" id="sell_price">{{product.sell_price}}원</p>
                                     <p class="pl-10" id="sub_title">{{product.sub_title}}</p>
                                 </div>
                             </div>
+                            </a>
                             {% endfor %}
                         </div>
 
