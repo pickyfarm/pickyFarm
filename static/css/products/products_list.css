@@ -1,0 +1,62 @@
+#title{
+  font-size: 25px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#sell_price{
+  font-size: 25px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#sub_title{
+    font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#category_item{
+  border-radius: 18px;
+  background-color: #5c6754;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+#product_img{
+    width: 319.2px;
+    height: 464.2px;
+    border-radius: 61px;
+    box-shadow: 10px 10px 10px 0 rgba(170, 170, 170, 0.7);
+    background-color: #ffffff;
+    object-fit:cover;
+  }
+
+ 
+
+  #like_cart_in{
+      position: absolute;
+      top: 430px;
+      right: -5px;
+  }

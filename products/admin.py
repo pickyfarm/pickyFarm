@@ -7,7 +7,7 @@ from products import models
 @admin.register(models.Product)
 class CustomProductAdmin(admin.ModelAdmin):
 	list_display = (
-		'title', 'price', 
+		'title', 'sell_price', 
 	)
 
 @admin.register(models.Product_Image)
