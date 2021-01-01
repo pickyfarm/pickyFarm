@@ -41,7 +41,7 @@ DJANGO_APPS = [
 
 PICKY_APPS = [
     # 'locations',
-    'editor_reviews',
+    'editor_reviews.apps.EditorReviewsConfig',
     "products.apps.ProductsConfig",
     'comments.apps.CommentsConfig',
     'users.apps.UsersConfig',

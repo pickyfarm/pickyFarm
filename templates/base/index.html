@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+KR:500&display=swap&subset=korean">
     <title>Picky Pick : 까다롭게 선택하다</title>
 </head>
 <body>
-    <div class="base-wrap">
+    <div class="base-wrap font-sans-kr">
         
-        <header class="flex flex-col">
+        <header class="flex flex-col mx-auto w-header">
     <div class="top-menu ml-auto my-4">
         <ul class="flex text-xs divide-x-2 h-3">
             <li class=" w-24 text-center">로그인</li>
@@ -25,20 +26,20 @@
         <img src="{% static 'images/mainlogo.svg' %}" class="w-28" alt="PICKY PICK">
     </div>
 
-    <div class="flex justify-between my-4 mx-32">
+    <div class="flex justify-between my-4">
+        <div class="main-menu">
+            <ul class="flex h-6">
+                <li class=" pr-16 text-md border-r-2 border-green-700 text-center">Menu</li>
+                <li class=" px-16 text-md border-r-2 border-green-700 text-center">Store</li>
+                <li class=" px-16 text-md border-r-2 border-green-700 text-center">Editor's Pick</li>
+                <li class=" px-16 text-md mr-0">Farmer's Page</li>
+            </ul>
+        </div>
         <div class="searchbox">
             <div class="input-form rounded-full w-60 h-6 bg-green-400 bg-opacity-50 flex justify-around">
                 <input type="text" placeholder="자라나라 머리머리" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44">
                 <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt="">
             </div>
-        </div>
-        <div class="main-menu">
-            <ul class="flex divide-x-2 divide-green-600 h-6">
-                <li class=" w-48 text-center">Menu</li>
-                <li class=" w-48 text-center">Store</li>
-                <li class=" w-48 text-center">Editor's Pick</li>
-                <li class=" w-48 text-center mr-0">Farmer's Page</li>
-            </ul>
         </div>
     </div>
 </header>
