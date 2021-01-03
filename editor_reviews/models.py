@@ -7,6 +7,7 @@ from products.models import Product
 class Editor_Reviews(models.Model):
 
     title = models.TextField()
+    main_image = models.ImageField(upload_to='editor_review_thumbnail/%%Y/%%m/%%d')
     contents = models.TextField()
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
