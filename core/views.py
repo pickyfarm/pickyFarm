@@ -24,7 +24,7 @@ def index(request):
         'main_slider_image': main_slider_image
     }
 
-    return render(request, "base/index.html", ctx)
+    return render(request, "base/index.html", )
 
 
 # Create your views here.
