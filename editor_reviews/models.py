@@ -10,7 +10,7 @@ class Editor_Reviews(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
     #author = models.ForeignKey("staff")
-    product = models.ForeignKey("product")
+    # product = models.ForeignKey("product")
 
 
 class Editor_Reviews_Image(models.Model):

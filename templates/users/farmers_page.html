@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/farmers_page.css' %}">
 {% endblock stylesheet %}
 
 {% block title_name %}
@@ -10,6 +11,106 @@
 
 
 {% block main_content %}
+    <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center">
+        <div>
+            <h1 class='' id='title'>이번주 Best</h1>
+        </div>
+        
+        <div class="block" id="big_category">
+            <ul id=''>
+                <li><a href="{% url 'products:store_list_category' 'fruit' %}">과일</a></li>
+                <li><a href="{% url 'products:store_list_category' 'vege' %}">야채/채소</a></li>
+                <li><a href="{% url 'products:store_list_category' 'others' %}">기타</a></li>
+            </ul>
+        </div>
+        <div class="block mx-auto" id="content">
+            {% for best_farmer in best_farmers %}
+                <div class="block" id="block_item">
+                    <div class="block" id="circle_block">
+                        <div id="farmer_pic">
+                            <img src="{{best_farmer.user.profile_image.url}}" alt="farmer's pic">
+                        </div>
+                        <div id='pick_img'>
+                            <img src="{% static 'images/farmers_page/pick.svg' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="block" id="bestfarm_desc">
+                        <p id='bestfarm_loc'>지역</p>
+                        <p id='bestfarm_name'>{{best_farmer.farm_name}}</p>
+                        <p id='bestfarm_title'>{{best_farmer.profile_title}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="block mx-auto" id="content">
+            <div class="flex flex-col w-full" id="content_box">
+                <div class="flex flex-auto" id = "top">
+                    <div class="flex flex-none w-5/6" id="category">
+                        <ul class="flex justify-start my-12">
+                            {%for category in categories %}
+                                <div class="mx-2">
+                                    <a href="{% url 'products:store_list_category' category.slug %}">
+                                        <li class="py-2 px-3.5" id="category_item">{{category.name}}</li>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="flex flex-none justify-center w-1/6" id="sort">
+                        <img class="mt-9" src="{% static 'images/farmers_page/sort.svg' %}"  alt="sort_icon">
+                    </div>
+                </div>
+
+                <div class="block" id='content_box'>
+                    <!--for문-->
+                    
+                    {% for farmer in farmers %}
+                        <div class="row">
+                        <p>경기 어느 지역</p>
+                        <div class="block" id="farm_pic">
+                            <img src="{{farmer.farm_images.image.url}}" alt="">
+                        </div>
+                        <div class="block" id="farm_desc_bg">
+                        </div>
+                        <div id="farm_desc_block">
+                            <div id="farm_title">
+                                <p>{{farmer.farm_name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <!--for문-->
+                </div>
+
+                <div class="flex justify-center" id="paginator">
+                    <h6>
+                        {% if page != 1 %}
+                            <a href = '?page={{page|add:-1}}'><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a>
+                        {% else %}
+                            <a href="?page=1"><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a>
+                        {% endif %}
+                    </h6>
+                    {% if page == 1 %}
+                        {{page}}
+                    {% else %}
+                        {% for page in page_range %}
+                            <a href="?page={{page}}">{{page}}</a>
+                        {% endfor %}
+                    {% endif %}
+                    <h6>
+                        {% if page != page_total %}
+                            <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'images/products_list/next.svg' %}"></a>
+                        {% else %}
+                            <a href="?page={{page_total}}"><img id="next", src="{% static 'images/products_list/next.svg' %}"></a>
+                        {% endif %}
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main_content %}
+    
     {% for farmer in farmers %}
         <div>
             {{farmer.farm_name}}
@@ -17,4 +118,3 @@
             {{farmer.farm_images.url}}
         </div>
     {% endfor %}
-{% endblock main_content %}
