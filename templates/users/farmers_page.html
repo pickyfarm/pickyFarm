@@ -3,6 +3,22 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/users/farmers_page.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('img[id=fruit]').mouseover(function(){
+            $(this).attr('src', "{% static 'images/farmers_page/fruit_cat_2.svg' %}");
+        }).mouseout(function(){
+            $(this).attr('src', "{% static 'images/farmers_page/fruit_cat.svg' %}");
+        });
+        $('img[id=vege]').mouseover(function(){
+            $(this).attr('src', "{% static 'images/farmers_page/vege_cat_2.svg' %}");
+        }).mouseout(function(){
+            $(this).attr('src', "{% static 'images/farmers_page/vege_cat.svg' %}");
+        });
+    });
+        
+    </script>
 {% endblock stylesheet %}
 
 {% block title_name %}
@@ -11,102 +27,128 @@
 
 
 {% block main_content %}
-    <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center">
-        <div>
-            <h1 class='' id='title'>이번주 Best</h1>
+    <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center flex flex-row justify-center">
+        <!--CATEGORY-->
+        <div class="inline-block flex flex-col justify-between mr-10" id="big_category">
+                <div id="cat_all"><a href="{% url 'products:store_list' %}">ALL</a></div>
+                <div><a href="{% url 'products:store_list_category' 'fruit' %}"><img src="{% static 'images/farmers_page/fruit_cat.svg' %}" id="fruit" alt="과일"></a></div>
+                <div><a href="{% url 'products:store_list_category' 'vege' %}"><img src="{% static 'images/farmers_page/vege_cat.svg' %}" id="vege" alt="채소"></a></div>
+                <div id="cat_etc"><a href="{% url 'products:store_list_category' 'others' %}">ETC</a></div>
         </div>
-        
-        <div class="block" id="big_category">
-            <ul id=''>
-                <li><a href="{% url 'products:store_list_category' 'fruit' %}">과일</a></li>
-                <li><a href="{% url 'products:store_list_category' 'vege' %}">야채/채소</a></li>
-                <li><a href="{% url 'products:store_list_category' 'others' %}">기타</a></li>
-            </ul>
-        </div>
-        <div class="block mx-auto" id="content">
-            {% for best_farmer in best_farmers %}
-                <div class="block" id="block_item">
-                    <div class="block" id="circle_block">
-                        <div id="farmer_pic">
-                            <img src="{{best_farmer.user.profile_image.url}}" alt="farmer's pic">
-                        </div>
-                        <div id='pick_img'>
-                            <img src="{% static 'images/farmers_page/pick.svg' %}" alt="">
-                        </div>
-                    </div>
-                    <div class="block" id="bestfarm_desc">
-                        <p id='bestfarm_loc'>지역</p>
-                        <p id='bestfarm_name'>{{best_farmer.farm_name}}</p>
-                        <p id='bestfarm_title'>{{best_farmer.profile_title}}</p>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="block mx-auto" id="content">
-            <div class="flex flex-col w-full" id="content_box">
-                <div class="flex flex-auto" id = "top">
-                    <div class="flex flex-none w-5/6" id="category">
-                        <ul class="flex justify-start my-12">
-                            {%for category in categories %}
-                                <div class="mx-2">
-                                    <a href="{% url 'products:store_list_category' category.slug %}">
-                                        <li class="py-2 px-3.5" id="category_item">{{category.name}}</li>
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="flex flex-none justify-center w-1/6" id="sort">
-                        <img class="mt-9" src="{% static 'images/farmers_page/sort.svg' %}"  alt="sort_icon">
-                    </div>
-                </div>
 
-                <div class="block" id='content_box'>
-                    <!--for문-->
-                    
-                    {% for farmer in farmers %}
-                        <div class="row">
-                        <p>경기 어느 지역</p>
-                        <div class="block" id="farm_pic">
-                            <img src="{{farmer.farm_images.image.url}}" alt="">
+        <!--MIDDLE CONTENT-->
+        <div id="content_mid" >
+            <!--TITLE-->
+            <div class="inline-block mb-5" id="content">
+                <h1 class='' id='title'>이번주 Best</h1>
+            </div>
+            <!--FIRST SECTION-->
+            <div class="block mx-auto" id="content">
+                {% for best_farmer in best_farmers %}
+                    <div class="block" id="block_item">
+                        <div class="block" id="circle_block">
+                            <div id="farmer_pic">
+                                <img src="{{best_farmer.user.profile_image.url}}" alt="farmer's pic">
+                            </div>
+                            <div id='pick_img'>
+                                <img src="{% static 'images/farmers_page/pick.svg' %}" alt="">
+                            </div>
                         </div>
-                        <div class="block" id="farm_desc_bg">
-                        </div>
-                        <div id="farm_desc_block">
-                            <div id="farm_title">
-                                <p>{{farmer.farm_name}}</p>
+                        <div class="block" id="bestfarm_desc">
+                            <p class='text-sm h-7' id='farm_loc'>지역</p>
+                            <p class="text-3xl font-bold" id='farm_name'>{{best_farmer.farm_name}}</p>
+                            <div class="flex flex-row justify-between" id="farm_desc_div">
+                                <p class="text-3xl font-bold mb-6" id="quote">"</p>
+                                <p class='leading-10 font-bold' id='farm_desc'>{{best_farmer.profile_title}}</p>
+                                <p class="text-3xl font-bold mt-6" id="quote">"</p>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
+                {% endfor %}
+            </div>
 
-                    <!--for문-->
-                </div>
-
-                <div class="flex justify-center" id="paginator">
-                    <h6>
-                        {% if page != 1 %}
-                            <a href = '?page={{page|add:-1}}'><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a>
-                        {% else %}
-                            <a href="?page=1"><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a>
-                        {% endif %}
-                    </h6>
-                    {% if page == 1 %}
-                        {{page}}
-                    {% else %}
-                        {% for page in page_range %}
-                            <a href="?page={{page}}">{{page}}</a>
+            <!--SECOND SECTION-->
+            <div class="block mx-auto" id="content">
+                <div class="flex flex-col w-full" id="content_box">
+                    <!--SUB CATEGORY-->
+                    <div class="flex flex-auto" id = "top">
+                        <div class="flex flex-none w-5/6" id="category">
+                            <ul class="flex justify-start my-12">
+                                {%for category in categories %}
+                                    <div class="mx-2">
+                                        <a href="{% url 'products:store_list_category' category.slug %}">
+                                            <li class="py-2 px-3.5" id="category_item">{{category.name}}</li>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="flex flex-none justify-center w-1/6" id="sort">
+                            <img class="mt-9" src="{% static 'images/farmers_page/sort.svg' %}"  alt="sort_icon">
+                        </div>
+                    </div>
+                    <!--FARMER LIST-->
+                    <div class="block" id='content_box'>
+                        {% for farmer in farmers %}
+                            <div class="row">
+                                <div class="block" id="farm_pic">
+                                    <img src="{{farmer.farm_images.first.image.url}}" alt="">
+                                </div>
+                                <div class="block" id="farm_desc_bg">
+                                </div>
+                                <div class="" id="farm_desc_block">
+                                    <p class="h-9" id="farm_loc">경기 어느 지역</p>
+                                    <p class="text-4xl font-bold " id="farm_name">{{farmer.farm_name}}</p>
+                                    <div class="flex flex-row justify-between mt-8" id="">
+                                        <p class="text-3xl font-bold mb-6" id="quote">"</p>
+                                        <p class='leading-10 font-bold text-xl mx-4' id='farm_desc'>{{farmer.profile_title}}</p>
+                                        <p class="text-3xl font-bold mt-6" id="quote">"</p>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-4 mt-10" id="tag">
+                                    {% for tag in farmer.farm_tags.all %}
+                                        <a href="">
+                                            <div class="text-center align-middle font-bold" id="farm_tag">{{tag}}</div>
+                                        </a>
+                                    {% endfor %}
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         {% endfor %}
-                    {% endif %}
-                    <h6>
-                        {% if page != page_total %}
-                            <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'images/products_list/next.svg' %}"></a>
+                    </div>
+
+                    <!--PAGE SECTION-->
+                    <div class="flex justify-center" id="paginator">
+                        <h6>
+                            {% if page != 1 %}
+                                <a href = '?page={{page|add:-1}}'><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a>
+                            {% else %}
+                                <a href="?page=1"><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a>
+                            {% endif %}
+                        </h6>
+                        {% if page == 1 %}
+                            {{page}}
                         {% else %}
-                            <a href="?page={{page_total}}"><img id="next", src="{% static 'images/products_list/next.svg' %}"></a>
+                            {% for page in page_range %}
+                                <a href="?page={{page}}">{{page}}</a>
+                            {% endfor %}
                         {% endif %}
-                    </h6>
+                        <h6>
+                            {% if page != page_total %}
+                                <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'images/products_list/next.svg' %}"></a>
+                            {% else %}
+                                <a href="?page={{page_total}}"><img id="next", src="{% static 'images/products_list/next.svg' %}"></a>
+                            {% endif %}
+                        </h6>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!--CART-->
+        <div class="inline-block pl-10 ml-5" id="follow_menu">
+            <a href=""><img id="go_up", src="{% static 'images/farmers_page/go_to_up.svg' %}"></a>
+            <a href=""><img id="go_to_cart", src="{% static 'images/farmers_page/go_to_cart.svg' %}"></a>
         </div>
     </div>
 {% endblock main_content %}

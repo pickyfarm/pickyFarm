@@ -6,24 +6,21 @@ from math import ceil
 
 def farmers_page(request):
     page=int(request.GET.get('page', 1))
-    page_size = 15
+    page_size = 6
     limit = page_size * page
     offset = limit - page_size
     farmers_count = Farmer.objects.all().count()
-
+    tags = Farm_Tag.objects.all()
     farmers = Farmer.objects.annotate(sub_counts=Count('subs')) # 구독자 수 필드 임의 추가
     best_farmers = farmers.order_by('-sub_counts')[:3]
     # farmers = Farmer.objects.all()
     # best_farmers = farmers.order_by('-sub_count')[:3]
     
     page_total = ceil(farmers_count/page_size)
-
     categories = Category.objects.filter(parent=None)
-    for farmer in farmers:
-        print(farmer)
-        print(farmer.farm_images)
-
+    
     ctx = {
+        'tags':tags,
         'page':page,
         'page_total':page_total,
         'page_range':range(1, page_total),

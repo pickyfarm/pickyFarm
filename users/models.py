@@ -86,7 +86,10 @@ class Farm_Tag(models.Model):
     tag = models.CharField(max_length=30)
 
     farmer = models.ManyToManyField(
-        Farmer)
+        Farmer, related_name='farm_tags')
+    
+    def __str__(self):
+        return self.tag
 
 
 class Wish(models.Model):

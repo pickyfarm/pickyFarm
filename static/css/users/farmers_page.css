@@ -22,14 +22,38 @@
     color: #004818;
 }
 
+#big_category{
+    position:sticky;
+    top:150px;
+    left:10px;
+    height:300px;
+    width: 50px;
+    overflow: visible;
+} 
+#cat_all, #cat_etc{
+    font-size: 25px;
+    font-weight: 500;
+    color: #5c6754;
+    letter-spacing: normal;
+    text-align: left;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.12;
+}
+
+#follow_menu {
+    position:sticky;
+    top:700px;
+    height: 200px;
+    width:200px;
+}
+
 /* --------------------------------------------------- */
 /* best farmers */
 #circle_block {
     position: relative;
     width: 229px;
     height: 229px;
-    /* margin: 21px 12px 32px 22px; */
-    /* padding: 162px 0 0 162px; */
     border: solid 5px #9d9578;
     background-color: #ffffff;
     border-radius: 50%;
@@ -45,49 +69,33 @@
     bottom:0;
     right:0;
 }
-#bestfarm_loc {
-    width: 89px;
-    height: 22px;
-    /* margin: 32px 17.5px 23px 92px; */
+#farm_loc {
     font-family: NotoSansKR;
-    font-size: 15px;
-    font-weight: 300;
     font-stretch: normal;
     font-style: normal;
     line-height: 2.67;
     letter-spacing: normal;
-    /* text-align: left; */
     margin:0 auto;
     color: #4d4d4d;
 }
-#bestfarm_name {
-    height: 41px;
-    /* margin: 48px 22.1px 6px 69px; */
+#farm_name {
     font-family: NotoSansKR;
-    font-size: 28px;
-    font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.43;
     letter-spacing: normal;
-    /* text-align: left; */
     margin:0 auto;
     color: #004818;
 }
-#bestfarm_title {
-    width: 294px;
-    height: 27px;
-    /* margin: 6px 9px 136px 1px; */
+#farm_desc_div {
+    width:90%;
     font-family: NotoSansKR;
     font-size: 18px;
     font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 2.22;
     letter-spacing: normal;
-    /* text-align: left; */
+    color: #000000;    
     margin:0 auto;
-    color: #000000;
 }
 
 
@@ -103,57 +111,75 @@
     text-align:center;
     font-weight: 600;
 }
-#category_item:hover {
+#category_item:hover, #farm_tag:hover {
     transform: scale(1.1, 1.1);
     transition-duration: 0.5s;
 }
   
-/*  */
+/* farm list */
 .row {
     position:relative;
     height: 400px;
     margin-bottom: 60px;
 }
+
+/* farm list image */
 #farm_pic {
     position:absolute;
     top:0;
-    left:0;
-    width: 415.2px;
-    height: inherit;
+    width: 325px;
+    height: 400px;
+    /* margin: 118px 10.3px 113px 6.7px; */
     border-radius: 61px;
     box-shadow: 10px 10px 10px 0 rgba(170, 170, 170, 0.7);
     background-color: #ffffff;
+    z-index: 1;
 }
-
+.row:nth-child(odd) > #farm_pic {
+    left:0;
+}
+.row:nth-child(even) > #farm_pic {
+    right:0;
+}
+#farm_pic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 61px;
+}
+/* farm list desc */
 #farm_desc_bg {
-    position:relative;
-    z-index: -1;
+    position:absolute;
+    top:75px;
     width: 990px;
-    height: 330px;
-    padding: 59px 422px 33px 350px;
+    height: 250px;
+    padding: 44px 215px 5px 395px;
     opacity: 0.5;
     border-radius: 232px;
     -webkit-filter: blur(1px);
     filter: blur(1px);
+}
+.row:nth-child(odd) > #farm_desc_bg {
     background-image: linear-gradient(to left, #9d9578 2%, rgba(252, 252, 251, 0.03) 57%, rgba(255, 255, 255, 0.55) 112%);
+}
+.row:nth-child(even) > #farm_desc_bg {
+    background-image: linear-gradient(to right, #9d9578 2%, rgba(252, 252, 251, 0.03) 57%, rgba(255, 255, 255, 0.55) 112%);
+}
+.row:nth-child(odd) > #farm_desc_block {
+    left:420px;
+}
+.row:nth-child(even) > #farm_desc_block {
+    left:220px;
 }
 #farm_desc_block {
     position:absolute;
-    top:24px;
-    left:420px;
-    z-index: 1;
-}
-#farm_title {
-    height: 52px;
-    font-family: NotoSansKR;
-    font-size: 35px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.14;
-    letter-spacing: normal;
-    color: #004818;
     text-align:left;
+    top:10px;
 }
-
-  
+#farm_tag {
+    width: 110px;
+    height: 50px;
+    border-radius: 28px;
+    box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+    line-height: 50px;
+}
