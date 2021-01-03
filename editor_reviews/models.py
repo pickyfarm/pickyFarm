@@ -1,4 +1,5 @@
 from django.db import models
+from products.models import Product
 
 
 # Create your models here.
@@ -6,11 +7,12 @@ from django.db import models
 class Editor_Reviews(models.Model):
 
     title = models.TextField()
+    main_image = models.ImageField(upload_to='editor_review_thumbnail/%%Y/%%m/%%d')
     contents = models.TextField()
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
     #author = models.ForeignKey("staff")
-    product = models.ForeignKey("product")
+    product = models.ForeignKey(Product, related_name="editor_reviews", on_delete=models.CASCADE)
 
 
 class Editor_Reviews_Image(models.Model):
@@ -18,4 +20,4 @@ class Editor_Reviews_Image(models.Model):
     image = models.ImageField(upload_to='editor_review_images')
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
-    review = models.ForeignKey('Editor_Reviews', related_name="editor_reviews", on_delete=models.CASCADE)
+    review = models.ForeignKey(Editor_Reviews, related_name="editor_review_images", on_delete=models.CASCADE)

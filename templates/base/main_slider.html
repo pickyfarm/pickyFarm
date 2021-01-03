@@ -1,0 +1,20 @@
+<div class="slick-container w-full h-96">
+    {% for main_image in main_slider_image %}
+    <div><img src="{{main_image.image.url}}" class="w-full h-72 object-cover" alt=""></div>
+    {% endfor %}
+</div>
+
+<script>
+    $(function(){
+        $('.slick-container').slick({
+            dots: true
+        });
+    });
+</script>
+
+<style>
+
+    .slick-dots{
+        color:darkgreen;
+    }
+</style>
