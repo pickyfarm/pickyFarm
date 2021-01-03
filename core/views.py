@@ -6,8 +6,15 @@ from datetime import date
 
 
 def index(request):
-    today_pick_list = Product.objects.filter(open=True).order_by("create_at")
-    best_product_list = Product.objects.filter(open=True).order_by("sales_rate")
+    products = Product.objects.filter(open=True)
+
+    today_pick_list = products.order_by("create_at")
+
+    if len(products) < 4:
+        best_product_list = products.order_by("sales_rate")[:len(products)]
+    
+    else:
+        best_product_list = products.order_by("sale_rate")
     editor_pick_list = Editor_Reviews.objects.all()
     today_farmer_list = Product.objects.filter(create_at__date=date.today())
     main_slider_image = Main_Slider_Image.objects.all()
