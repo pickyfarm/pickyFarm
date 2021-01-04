@@ -6,7 +6,7 @@
         <div class="prev mx-4 w-6"><img src="{% static 'images/index/prev.svg' %}" alt=""></div>
         <div class="slick-images h-96 mt-20">
             {% for product in today_pick_list %}
-            <span class="circle my-auto bg-cover" style="background-image: url({{product.main_image.url}});"></span>
+                <span class="circle my-auto bg-cover" style="background-image: url({{product.main_image.url}});"></span>
             {% endfor %}
         </div>
         <div class="next mx-4 w-6"><img src="{% static 'images/index/next.svg' %}" alt=""></div>
