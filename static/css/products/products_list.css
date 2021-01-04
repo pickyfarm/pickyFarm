@@ -1,8 +1,23 @@
 #sub_menu{
-  z-index: 100;
-  right:200px;
-
+  top:100px;
 }
+
+#big_category{
+  height:300px;
+}
+
+
+#cat_all, #cat_etc{
+  font-size: 25px;
+  font-weight: 500;
+  color: #5c6754;
+  letter-spacing: normal;
+  text-align: left;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.12;
+}
+
 
 #title{
   font-size: 25px;
@@ -31,7 +46,7 @@
 }
 
 #sub_title{
-  width: 210px;
+  width: 300px;
   height: 22px;
   font-family: NotoSansKR;
   font-size: 15px;
@@ -75,7 +90,16 @@
   object-fit:cover;
 }
 
- 
+#pagenum{
+  font-size: 27px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
 
 #like_cart_in{
   position: absolute;

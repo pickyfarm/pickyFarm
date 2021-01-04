@@ -1,37 +1,35 @@
 from django.db import models
 from users.models import Consumer, Farmer
+from django.core.exceptions import ObjectDoesNotExist
 # Create your models here.
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=100)
-    sub_title = models.CharField(max_length=200)
+    title = models.CharField(max_length=50)
+    sub_title = models.CharField(max_length=100)
     main_image = models.ImageField(upload_to="product_main_image/%Y/%m/%d/")
-    open = models.BooleanField()
+    open = models.BooleanField(default=True)
 
     original_sell_price = models.IntegerField(default=0, help_text="기준 판매가")
     sell_price = models.IntegerField(default=0, help_text="현재 판매가", blank=True)
     weight = models.FloatField()
     stock = models.IntegerField(default=0, help_text="총 재고 수량")
-    sales_count = models.IntegerField(default=0, help_text="총 판매 수량")
+    sales_count = models.IntegerField(default=0, help_text="총 판매 수량", blank=True)
     sales_rate = models.FloatField(default=0, blank=True)
     
     instruction = models.TextField(blank=True)
 
-    freshness_avg = models.FloatField(default=0)
-    flavor_avg = models.FloatField(default=0)
-    cost_performance_avg = models.FloatField(default=0)
     total_rating_avg = models.FloatField(default=0)
 
     desc = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
 
-    farmer = models.ForeignKey(Farmer, related_name="products", on_delete=models.CASCADE, null=True)
+    farmer = models.ForeignKey(Farmer, related_name="products", on_delete=models.CASCADE)
     category = models.ForeignKey(
         'Category', related_name='products', on_delete=models.CASCADE)
     #editor_review = models.ForeignKey(editor_review)
 
-    def sale(self):
+    def sold(self):
         if self.stock > 0:
             self.stock -= 1
             self.sales_count += 1
@@ -42,8 +40,20 @@ class Product(models.Model):
     def calculate_sale_rate(self):
         rate = self.sales_count / (self.stock + self.sales_count)
         self.sales_rate = rate
-        return
+        return self.sales_rate
     
+    def calculate_total_rating_avg(self):
+        sum = 0
+        try:
+            comments = self.product_comments.all()
+            comments_num = comments.count()
+            for comment in comments:
+                sum += comment.avg
+            self.total_rating_avg = round(sum/comment.avg, 1)
+            return self.total_rating_avg
+        except ObjectDoesNotExist:
+            return 0
+
     def __str__(self):
         return self.title
 
@@ -124,16 +134,20 @@ def get_delete_product():
     return Product.objects.get_or_create(title="삭제된 상품")[0]
 
 
-class Rating(models.Model):
-    evaluate = (
-        ('good', 5),
-        ('normal', 3),
-        ('bad', 1),
-    )
+# class Rating(models.Model):
+#     evaluate = (
+#         ('good', 5),
+#         ('normal', 3),
+#         ('bad', 1),
+#     )
 
-    freshness = models.IntegerField(choices=evaluate)
-    flavor = models.IntegerField(choices=evaluate)
-    cost_performance = models.IntegerField(choices=evaluate)
+#     freshness = models.IntegerField(choices=evaluate)
+#     flavor = models.IntegerField(choices=evaluate)
+#     cost_performance = models.IntegerField(choices=evaluate)
 
-    product = models.ForeignKey(Product, related_name="ratings", on_delete=models.CASCADE)
+
+#     product = models.ForeignKey(Product, related_name="ratings", on_delete=models.CASCADE)
+
+#     def __str__(self):
+#         return self.product_comment.consumer.nickname.join('->', product.title)
 

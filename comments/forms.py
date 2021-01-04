@@ -10,7 +10,7 @@ from .models import Product_Recomment
 class ProductCommentForm(forms.ModelForm):
     class Meta:
         model = Product_Comment
-        fields=['text', 'image']
+        fields=['text',]
 
 # class EditorReviewCommentForm(forms.ModelForm):
 #     class Meta:
