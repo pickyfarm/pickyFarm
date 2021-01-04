@@ -48,7 +48,7 @@
                     <div class="block" id="block_item">
                         <div class="block" id="circle_block">
                             <div id="farmer_pic">
-                                <img src="{{best_farmer.user.profile_image.url}}" alt="farmer's pic">
+                                <img src="{{best_farmer.farm_profile.url}}" alt="farmer's pic">
                             </div>
                             <div id='pick_img'>
                                 <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" alt=""></a>
@@ -92,7 +92,7 @@
                         {% for farmer in farmers %}
                             <div class="row">
                                 <div class="block" id="farm_pic">
-                                    <img src="{{farmer.farm_images.first.image.url}}" alt="">
+                                    <img src="{{farmer.farm_profile.url}}" alt="">
                                     <div id='pick_img'>
                                         <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" style="width:55px" alt=""></a>
                                     </div>
@@ -159,6 +159,6 @@
         <div>
             {{farmer.farm_name}}
             {{farmer.profile_title}}
-            {{farmer.farm_images.url}}
+            {{farmer.farm_profile.url}}
         </div>
     {% endfor %}
