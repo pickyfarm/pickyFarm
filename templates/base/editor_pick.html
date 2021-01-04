@@ -1,0 +1,97 @@
+{% load static %}
+
+<div class="editor-pick flex flex-col">
+    <div class="title mt-20 text-3xl mx-auto font-semibold">에디터의 추천</div>
+    <div class="sub-title text-sm font-thin mt-2 mx-auto">못난이 작물 이야기부터, 경험담까지 에디터가 직접 겪어보고 전해드립니다</div>
+
+    <div class="category flex justify-center">
+        <div class="flex flex-col mx-20 items-center">
+            <div class="cat text-5xl font-light my-8">ALL</div>
+            <div class="mt-auto category-button w-20 h-8 rounded-full leading-8 text-base text-white text-center">전체</div>
+        </div>
+        <div class="flex flex-col mx-20 items-center">
+            <div class=" text-5xl font-light my-8"><img class="w-14" src="{% static 'images/index/fruits.svg' %}" alt=""></div>
+            <div class="mt-auto category-button w-20 h-8 rounded-full leading-8 text-base text-white text-center">과일</div>
+        </div>
+        <div class="flex flex-col mx-20 items-center">
+            <div class=" text-5xl font-light my-8"><img class="w-10" src="{% static 'images/index/vegs.svg' %}" alt=""></div>
+            <div class="mt-auto category-button w-20 h-8 rounded-full leading-8 text-base text-white text-center">채소</div>
+        </div>
+        <div class="flex flex-col mx-20 items-center">
+            <div class="cat text-5xl font-light my-8">ETC</div>
+            <div class="mt-auto category-button w-20 h-8 rounded-full leading-8 text-base text-white text-center">기타</div>
+        </div>
+    </div>
+
+    <div class="pick-detail flex ml-auto mt-20">
+        <div class="text-area flex flex-col w-48 mr-20">
+            {% for review in editor_pick_list %}
+                <div>
+                    <div class="text-2xl break-words">{{review.title}}</div>
+                    <div class="mt-4">By editor1</div>
+                    <div class="my-12 break-words text-sm text-gray-500">{{review.get_preview}}</div>
+                    <div class="more-button w-36 h-10 rounded-full text-center leading-10 text-white mt-auto">MORE</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="img-area rounded-l-full bg-cover"">
+            {% for review in editor_pick_list %}
+                <span class="bg-cover" style="background-image:url({{review.main_image.url}}); height: 350px;"></span>
+            {% endfor %}
+        </div>
+        
+    </div>
+</div>
+
+<style>
+    .title{
+        color: #005600;
+    }
+
+    .sub-title{
+        color:#999999;
+    }
+
+    .category-button, .more-button{
+        background-color: #005600;
+    }
+
+    .cat{
+        color: #97b297;
+    }
+
+    .img-area{
+        width: calc(175px + 50vw);
+        height: 350px;
+    }
+
+    .img-area div{
+        border-top-left-radius: 9999px;
+        border-bottom-left-radius: 9999px;
+    }
+
+    .text-area {
+        height: 380px;
+    }
+
+
+</style>
+
+<script>
+    $(function(){
+            $('.img-area').slick({
+                dots: true,
+                asNavFor: '.text-area'
+            });
+
+            $('.text-area').slick({
+                slidesToShow : 1,
+                slidesToScroll: 1,
+                arrows: false,
+                fade: true,
+                asNavFor: '.img-area'
+            });
+        });
+</script>
+
