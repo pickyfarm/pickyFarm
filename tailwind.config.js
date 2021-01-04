@@ -6,6 +6,10 @@ module.exports = {
       width: {
         'header': '1280px',
         'content': '990px',
+      },
+
+      height: {
+        'main': '750px',
       }
     },
   },

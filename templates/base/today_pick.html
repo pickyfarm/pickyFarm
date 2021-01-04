@@ -1,16 +1,23 @@
+{% load static %}
 
-<div class="wrap w-full flex flex-col">
-    <div class="mx-auto font-semibold text-3xl">Today's PICK</div>
-    <div class="slick-images mx-auto h-96">
-        {% for product in today_pick_list %}
-        <div class="circle my-auto">    </div>
-        {% endfor %}
+<div class="wrap w-full flex flex-col mt-20">
+    <div class="mx-auto font-semibold text-3xl">오늘의 PICK</div>
+    <div class="flex items-center justify-center">
+        <div class="prev mx-4 w-6"><img src="{% static 'images/index/prev.svg' %}" alt=""></div>
+        <div class="slick-images h-96 mt-20">
+            {% for product in today_pick_list %}
+            <span class="circle my-auto bg-cover" style="background-image: url({{product.main_image.url}});"></span>
+            {% endfor %}
+        </div>
+        <div class="next mx-4 w-6"><img src="{% static 'images/index/next.svg' %}" alt=""></div>
     </div>
 </div>
 <script>
     $(function(){
         $('.slick-images').slick({
-            dots: true
+            dots: true,
+            prevArrow: $(".prev"),
+            nextArrow: $(".next")
         });
     });
 </script>
@@ -19,10 +26,14 @@
     .slick-images{
         width:20rem;
     }
+
+    .slick-images div {
+        border-radius: 9999px;
+    }
+
     .circle{
         width:20rem;
         height: 20rem;
-        border-radius: 9999px;
         background-color: bisque;
     }
 </style>
