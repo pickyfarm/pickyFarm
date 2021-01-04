@@ -40,12 +40,25 @@ def store_list_cat(request, cat):
         big_category = Category.objects.get(slug=cat)
         print(big_category)
         categories = big_category.children.all().order_by('name')
-        products = Product.objects.filter(
-            category__parent__slug=cat, open=True).order_by('create_at')
+        try:
+            products = Product.objects.filter(
+                category__parent__slug=cat, open=True).order_by('create_at')
+        except ObjectDoesNotExist:
+            ctx = {
+                'big_category': big_category,
+            }
+            return render(request, "products/products_list.html", ctx)
     else:
         categories = Category.objects.get(slug=cat)
-        products = categories.products.filter(open=True).order_by('-create_at')
-        categories = categories.parent.children.all().order_by('name')
+        try:
+            products = categories.products.filter(open=True).order_by('-create_at')
+            categories = categories.parent.children.all().order_by('name')
+        except ObjectDoesNotExist:
+            ctx = {
+                "cateogries" : categories,
+            }
+            return render(request, "products/products_list.html", ctx)
+        
     print(categories)
     print(products)
     if sort == '인기순':
@@ -75,10 +88,13 @@ def store_list_cat(request, cat):
 
 def product_detail(request, pk):
     try:
-        product = Product.objects.filter(pk=pk)
+        product = Product.objects.get(pk=pk)
         farmer = product.farmer
+        print(farmer)
         comments = product.product_comments
         qnas = product.QnAs
+        print(product.calculate_total_rating_avg())
+        print(product.calculate_specific_rating())
         ctx = {
             'product': product,
             'farmer': farmer,

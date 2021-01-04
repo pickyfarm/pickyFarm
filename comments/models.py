@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -10,6 +11,7 @@ class Comment(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # author = models.ForeignKey("users.User", on_delete=CASCADE)
+    
 
     class Meta:
         abstract = True
@@ -21,17 +23,39 @@ class Comment(models.Model):
 class Product_Comment(Comment):
     """Product_Comment Model Definition"""
     
-    image = models.ImageField()
-    product = models.ForeignKey("products.Product", related_name="product_comments", on_delete=models.CASCADE)
+    evaluate = (
+        (5, 'good'),
+        (3, 'normal'),
+        (1, 'bad'),
+    )
 
-    rating = models.OneToOneField("products.Rating", on_delete=models.CASCADE, null=True)
+    freshness = models.IntegerField(choices=evaluate)
+    flavor = models.IntegerField(choices=evaluate)
+    cost_performance = models.IntegerField(choices=evaluate)
+    avg = models.IntegerField(default = 0)
+    
+    product = models.ForeignKey("products.Product", related_name="product_comments", on_delete=models.CASCADE)
+    consumer = models.ForeignKey("users.Consumer", related_name="product_comments", on_delete=models.CASCADE)
+
+    def get_rating_avg(self): 
+        self.avg = round((self.freshness+self.flavor+self.cost_performance)/3)
+        return self.avg
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.get_rating_avg()
+        print(self.avg)
+        super(Product_Comment, self).save(*args, **kwargs)
+
+
+class Product_Comment_Image(models.Model):
+
+    image = models.ImageField(upload_to="comments/%Y/%m/%d/")
+    product_comment = models.ForeignKey(Product_Comment, related_name="product_comment_images", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.product.title.join(" : ", self.text)
+        return self.product_comment.product.title.join('-', '상품 리뷰 사진')
 
-    def get_rating_avg(self):
-        self.avg = (self.freshness+self.flavor+self.cost_performance)/3
-        return
 
 
 class Product_Recomment(Comment):
@@ -40,10 +64,10 @@ class Product_Recomment(Comment):
     comment = models.ForeignKey("Product_Comment", related_name="product_recomments", on_delete=models.CASCADE)
 
 
-class Qna_Comment(Comment):
-    """Qna_Comment Model Definition"""
+# class Qna_Comment(Comment):
+#     """Qna_Comment Model Definition"""
 
-    qna = models.ForeignKey("products.QnA", related_name="qna_comments", on_delete=models.CASCADE)
+#     qna = models.ForeignKey("products.QnA", related_name="qna_comments", on_delete=models.CASCADE)
 
 
 class Editor_Review_Comment(Comment):

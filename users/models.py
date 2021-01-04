@@ -43,9 +43,9 @@ class Consumer(models.Model):
     )
 
     user = models.OneToOneField(
-        User, default=None, null=True, blank=True, related_name='consumer', on_delete=models.CASCADE)
+        User, default=None, related_name='consumer', on_delete=models.CASCADE)
 
-    grade = models.IntegerField(choices=grade)
+    grade = models.IntegerField(choices=grade, default=1)
 
     def __str__(self):
         return self.user.nickname
@@ -77,7 +77,7 @@ class Editor(models.Model):
 
 class Farm_Image(models.Model):
     image = models.ImageField(upload_to='farm_image/%Y/%m/%d/')
-
+    
     farmer = models.ForeignKey(
         Farmer, on_delete=models.CASCADE, related_name='farm_images')
 

@@ -1,0 +1,81 @@
+{% extends "base/base.html" %}
+
+{% load static %}   
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
+{% endblock stylesheet %}
+{% block main_content %}   
+
+<div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+
+    <div id="product_content" class="flex flex-row mx-auto">
+        <div id="left" class="flex justify-between">
+            <div>
+                <img id="main_image" src="{{product.main_image.url}}">
+            </div>
+            <div id="farm_news">
+            </div>
+        </div>
+        <div class="flex flex-col" id="right" >
+            <div id="top_section" class="flex flex-row">
+                <div id="title_section">
+                    <div id="title">
+                        {{product.title}}
+                    </div>
+                    <div id="subtitle">
+                        {{product.sub_title}}
+                    </div>
+                </div>
+                <div id="share">
+                    공유
+                </div>
+            </div>
+            <div id="cost">
+                {{product.sell_price}}원
+            </div>
+            <hr id="first_line">
+            <div id="farmer_section" class="flex flex-row justify-start">
+                <div id="farmer_image">
+                    <img src="{{farmer.profile_image.url}}" alt="농장주사진">
+                </div>
+                <div id="farm_name">
+                    {{farmer.farm_name}}
+                </div>
+                <div id="visit">
+                    방문하기
+                </div>
+                <div id="sub">
+                    구독하기
+                </div>
+            </div>
+            <div id="info_section">
+                <div>배송비</div>
+                <div>무료</div>
+                <div>중량/용량</div>
+                <div>{{proudct.weight}}g</div>
+                <div>원산지</div>
+                <div>국산</div>
+                <div>안내사항</div>
+                <div>{{product.instruction}}</div>
+            </div>
+            <hr id="second_line">
+            <div id="purchase_number_section" class="flex flex-row">
+                <div>구매수량</div>
+                <div><input type="number"></div>
+            </div>
+            <hr id="second_line">
+            <div id="total_price" class="flex flex-rows">
+                <div>총 상품 금액</div>
+                <div>2000원</div>
+            </div>
+            <div id="buttons">
+                <div id="like">찜하기</div>
+                <div id="cart">장바구니 담기</div>
+                <div id="purchase">바로 구매하기</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main_content %}

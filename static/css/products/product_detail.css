@@ -1,0 +1,14 @@
+#product_content{
+    width:990px;
+}
+#left{
+    width:498px;
+}
+
+#right{
+}
+#main_image{
+    width: 498px;
+    height: 678px;
+    object-fit: cover;
+}
