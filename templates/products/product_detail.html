@@ -44,21 +44,24 @@
                     </div>
                 </div>
             </div>
-            <div id="cost" class="border-b py-8">
+            <div id="cost" class="py-8 mb-2">
                 {{product.sell_price}}원
             </div>
     
-            <div id="farmer_section" class="flex flex-row justify-start">
+            <div id="farmer_section" class="flex flex-row items-center">
                 <div id="farmer_image">
                     <img src="{{farmer.user.profile_image.url}}" id="farmer_img" alt="농장주사진">
                 </div>
-                <div id="farm_name">
+                <div id="farm_name" class="ml-4 pt-1">
                     {{farmer.farm_name}}
                 </div>
-                <div id="visit">
+                <div id="farmer_name" class="ml-2">
+                    {{farmer.user.nickname}}
+                </div>
+                <div id="visit" class="ml-4">
                     방문하기
                 </div>
-                <div id="sub">
+                <div id="sub" class="ml-2">
                     구독하기
                 </div>
             </div>

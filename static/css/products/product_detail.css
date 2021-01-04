@@ -60,7 +60,8 @@
   letter-spacing: normal;
   text-align: left;
   color: #000000;
-  border-color: #005413;
+  border-bottom: solid 1.7px #005413;
+
 }
 
 #farmer_img{
@@ -69,6 +70,59 @@
   border-radius: 999%;
   border: solid 2px #5e6656;
     object-fit: cover;
+}
+
+#farm_name{
+    font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#visit{
+    font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+    padding: 0.5px 10.5px 0.7px 10.5px;
+  border-radius: 27.6px;
+  background-color: #5e6656;
+  
+
+}
+
+#sub{
+    font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+    padding: 0.5px 10.5px 0.7px 10.5px;
+  border-radius: 27.6px;
+  background-color: #5e6656;
+}
+
+
+#farmer_name{
+    font-size: 19px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
 }
 
 #n_sel{
