@@ -93,6 +93,8 @@ def product_detail(request, pk):
         print(farmer)
         comments = product.product_comments
         qnas = product.QnAs
+        print(product.calculate_total_rating_avg())
+        print(product.calculate_specific_rating())
         ctx = {
             'product': product,
             'farmer': farmer,

@@ -18,8 +18,13 @@ class CustomProduct_ImageAdmin(admin.ModelAdmin):
 class CustomCategoryAdmin(admin.ModelAdmin):
 	pass
 
-@admin.register(models.QnA)
+@admin.register(models.Question)
 class CustomQnAAdmin(admin.ModelAdmin):
 	pass
+
+@admin.register(models.Answer)
+class CustomQnAAdmin(admin.ModelAdmin):
+	pass
+
 
 

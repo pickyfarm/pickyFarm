@@ -64,10 +64,10 @@ class Product_Recomment(Comment):
     comment = models.ForeignKey("Product_Comment", related_name="product_recomments", on_delete=models.CASCADE)
 
 
-class Qna_Comment(Comment):
-    """Qna_Comment Model Definition"""
+# class Qna_Comment(Comment):
+#     """Qna_Comment Model Definition"""
 
-    qna = models.ForeignKey("products.QnA", related_name="qna_comments", on_delete=models.CASCADE)
+#     qna = models.ForeignKey("products.QnA", related_name="qna_comments", on_delete=models.CASCADE)
 
 
 class Editor_Review_Comment(Comment):
