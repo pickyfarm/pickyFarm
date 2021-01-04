@@ -47,9 +47,7 @@
                 {% for best_farmer in best_farmers %}
                     <div class="block" id="block_item">
                         <div class="block" id="circle_block">
-                            <div id="farmer_pic">
-                                <img src="{{best_farmer.farm_profile.url}}" alt="farmer's pic">
-                            </div>
+                                <img id="farmer_image" src="{{best_farmer.farm_profile.url}}" alt="farmer's pic">
                             <div id='pick_img'>
                                 <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" alt=""></a>
                             </div>
