@@ -61,8 +61,12 @@
     margin:0 auto;
 }
 #farmer_pic {
-    border-radius: 50%;
-    overflow: hidden;
+}
+#farmer_image {
+    width: 219px;
+    height:219px;
+    border-radius: 9999px;
+    object-fit: cover;
 }
 #pick_img {
     z-index: 1;
