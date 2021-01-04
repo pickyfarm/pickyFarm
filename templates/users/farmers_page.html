@@ -29,7 +29,7 @@
 {% block main_content %}
     <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center flex flex-row justify-center" id="top">
         <!--CATEGORY-->
-        <div class="flex flex-col justify-between mr-10" id="big_category">
+        <div class="flex flex-col justify-between mr-10 items-center" id="big_category">
                 <div id="cat_all"><a href="{% url 'products:store_list' %}">ALL</a></div>
                 <div><a href="{% url 'products:store_list_category' 'fruit' %}"><img src="{% static 'images/farmers_page/fruit_cat.svg' %}" id="fruit" alt="과일"></a></div>
                 <div><a href="{% url 'products:store_list_category' 'vege' %}"><img src="{% static 'images/farmers_page/vege_cat.svg' %}" id="vege" alt="채소"></a></div>
