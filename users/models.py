@@ -54,6 +54,7 @@ class Consumer(models.Model):
 class Farmer(models.Model):
     farm_name = models.CharField(max_length=50)
     farm_news = models.CharField(max_length=500, blank=True)
+    farm_profile = models.ImageField(upload_to='farm_profile/%Y/%m/%d/', null=True, blank=True)
     profile_title = models.CharField(max_length=200)
     profile_desc = models.TextField()
     contact = models.CharField(max_length=20, blank=True)
@@ -75,18 +76,21 @@ class Editor(models.Model):
         User, default=None, null=True, blank=True, related_name='editor', on_delete=models.CASCADE)
 
 
-class Farm_Image(models.Model):
-    image = models.ImageField(upload_to='farm_image/%Y/%m/%d/')
-    
-    farmer = models.ForeignKey(
-        Farmer, on_delete=models.CASCADE, related_name='farm_images')
+# class Farm_Image(models.Model):
+#     image = models.ImageField(upload_to='farm_image/%Y/%m/%d/')
+
+#     farmer = models.ForeignKey(
+#         Farmer, on_delete=models.CASCADE, related_name='farm_images')
 
 
 class Farm_Tag(models.Model):
     tag = models.CharField(max_length=30)
 
     farmer = models.ManyToManyField(
-        Farmer)
+        Farmer, related_name='farm_tags')
+    
+    def __str__(self):
+        return self.tag
 
 
 class Wish(models.Model):
