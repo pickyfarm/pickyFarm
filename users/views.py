@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Farmer, Farm_Tag, Farm_Image, Subscribe
+from .models import Farmer, Farm_Tag, Subscribe
 from products.models import Category
 from django.db.models import Count
 from math import ceil
@@ -30,7 +30,8 @@ def farmers_page(request):
     }
     return render(request, 'users/farmers_page.html', ctx)
 
-
+def farmer_sub_inc(request):
+    return render(request, 'users/farmers_page.html',)
 
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)

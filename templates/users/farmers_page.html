@@ -27,9 +27,9 @@
 
 
 {% block main_content %}
-    <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center flex flex-row justify-center">
+    <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center flex flex-row justify-center" id="top">
         <!--CATEGORY-->
-        <div class="inline-block flex flex-col justify-between mr-10" id="big_category">
+        <div class="flex flex-col justify-between mr-10" id="big_category">
                 <div id="cat_all"><a href="{% url 'products:store_list' %}">ALL</a></div>
                 <div><a href="{% url 'products:store_list_category' 'fruit' %}"><img src="{% static 'images/farmers_page/fruit_cat.svg' %}" id="fruit" alt="과일"></a></div>
                 <div><a href="{% url 'products:store_list_category' 'vege' %}"><img src="{% static 'images/farmers_page/vege_cat.svg' %}" id="vege" alt="채소"></a></div>
@@ -43,7 +43,7 @@
                 <h1 class='' id='title'>이번주 Best</h1>
             </div>
             <!--FIRST SECTION-->
-            <div class="block mx-auto" id="content">
+            <div class="block" id="content">
                 {% for best_farmer in best_farmers %}
                     <div class="block" id="block_item">
                         <div class="block" id="circle_block">
@@ -51,7 +51,7 @@
                                 <img src="{{best_farmer.user.profile_image.url}}" alt="farmer's pic">
                             </div>
                             <div id='pick_img'>
-                                <img src="{% static 'images/farmers_page/pick.svg' %}" alt="">
+                                <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" alt=""></a>
                             </div>
                         </div>
                         <div class="block" id="bestfarm_desc">
@@ -93,6 +93,9 @@
                             <div class="row">
                                 <div class="block" id="farm_pic">
                                     <img src="{{farmer.farm_images.first.image.url}}" alt="">
+                                    <div id='pick_img'>
+                                        <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" style="width:55px" alt=""></a>
+                                    </div>
                                 </div>
                                 <div class="block" id="farm_desc_bg">
                                 </div>
@@ -110,7 +113,6 @@
                                             <div class="text-center align-middle font-bold" id="farm_tag">{{tag}}</div>
                                         </a>
                                     {% endfor %}
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +149,7 @@
 
         <!--CART-->
         <div class="inline-block pl-10 ml-5" id="follow_menu">
-            <a href=""><img id="go_up", src="{% static 'images/farmers_page/go_to_up.svg' %}"></a>
+            <a href="#top"><img id="go_up", src="{% static 'images/farmers_page/go_to_up.svg' %}"></a>
             <a href=""><img id="go_to_cart", src="{% static 'images/farmers_page/go_to_cart.svg' %}"></a>
         </div>
     </div>

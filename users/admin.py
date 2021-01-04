@@ -15,9 +15,9 @@ class CustomConsumerAdmin(admin.ModelAdmin):
 class CustomFarmerAdmin(admin.ModelAdmin):
 	pass
 
-@admin.register(models.Farm_Image)
-class CustomFarm_ImageAdmin(admin.ModelAdmin):
-	pass
+# @admin.register(models.Farm_Image)
+# class CustomFarm_ImageAdmin(admin.ModelAdmin):
+# 	pass
 
 @admin.register(models.Farm_Tag)
 class CustomFarm_TagAdmin(admin.ModelAdmin):

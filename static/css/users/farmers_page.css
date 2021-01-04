@@ -4,7 +4,8 @@
 #block_item {
     width: 330px;
     float:left;
-    display:inline-block;
+    display:block;
+    margin-bottom: 260px;
 }
 
 #title{
@@ -43,7 +44,7 @@
 
 #follow_menu {
     position:sticky;
-    top:700px;
+    top:730px;
     height: 200px;
     width:200px;
 }
