@@ -18,7 +18,7 @@ def farmers_page(request):
     
     page_total = ceil(farmers_count/page_size)
     categories = Category.objects.filter(parent=None)
-    
+    # best_farmer.user.profile_image.url
     ctx = {
         'tags':tags,
         'page':page,

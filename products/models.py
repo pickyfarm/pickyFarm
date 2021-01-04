@@ -5,9 +5,9 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def check_rate(rate_num):
-    if rate_num is 1:
+    if rate_num == 1:
         return 2
-    elif rate_num is 3:
+    elif rate_num == 3:
         return 1
     else:
         return 0
@@ -78,9 +78,9 @@ class Product(models.Model):
             return 0
 
     def check_rate(rate_num):
-        if rate_num is 1:
+        if rate_num == 1:
             return 2
-        elif rate_num is 3:
+        elif rate_num == 3:
             return 1
         else:
             return 0
