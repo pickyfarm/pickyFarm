@@ -43,7 +43,7 @@ class Consumer(models.Model):
     )
 
     user = models.OneToOneField(
-        User, default=None, related_name='consumer', on_delete=models.CASCADE)
+        User, related_name='consumer', on_delete=models.CASCADE)
 
     grade = models.IntegerField(choices=grade, default=1)
 
@@ -58,10 +58,10 @@ class Farmer(models.Model):
     profile_title = models.CharField(max_length=200)
     profile_desc = models.TextField()
     contact = models.CharField(max_length=20, blank=True)
-    sub_count = models.IntegerField(blank=True, null=True)
+    sub_count = models.IntegerField(default=0)
 
     user = models.OneToOneField(
-        User, default=None, null=True, blank=True, related_name='farmer', on_delete=models.CASCADE)
+        User, related_name='farmer', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.farm_name
