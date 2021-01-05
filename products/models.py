@@ -55,7 +55,7 @@ class Product(models.Model):
         else:
             self.open = False
         return
-
+    
     def calculate_sale_rate(self):
         rate = self.sales_count / (self.stock + self.sales_count)
         self.sales_rate = rate
