@@ -4,12 +4,14 @@ from .forms import PostForm
 
 
 def index(request):
-    review_list = Editor_Reviews.objects.all()
+    first_review = Editor_Reviews.objects.first()
+    review_list = Editor_Reviews.objects.all()[1:]
     ctx = {
+        'first_review': first_review,
         'review_list': review_list
     }
 
-    return render(request, 'editors_pick/index.html', ctx)
+    return render(request, 'editor_reviews/editor_reviews_list.html', ctx)
 
 
 def detail(request, pk):
