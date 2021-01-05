@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 68 68">
+    <defs>
+        <filter id="타원_171" width="68" height="68" x="0" y="0" filterUnits="userSpaceOnUse">
+            <feOffset dx="2" dy="2"/>
+            <feGaussianBlur result="blur" stdDeviation="2.5"/>
+            <feFlood flood-opacity=".161"/>
+            <feComposite in2="blur" operator="in"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <style>
+            .cls-3{fill:#fff;stroke:#b3b3b3;stroke-miterlimit:10;stroke-width:2px}
+        </style>
+    </defs>
+    <g id="그룹_419" transform="translate(-1396.5 -345.5)">
+        <g filter="url(#타원_171)" transform="translate(1396.5 345.5)">
+            <circle id="타원_171-2" cx="26.5" cy="26.5" r="26.5" fill="#fff" transform="translate(5.5 5.5)"/>
+        </g>
+        <g id="그룹_220" transform="translate(-297.125 -2.378)">
+            <path id="패스_201" fill="none" stroke="#b3b3b3" stroke-miterlimit="10" stroke-width="2px" d="M583.976 795.305l-14.8 8.326 14.8 8.866" transform="translate(1149.004 -423.876)"/>
+            <circle id="타원_172" cx="4.052" cy="4.052" r="4.052" class="cls-3" transform="translate(1728.928 367.378)"/>
+            <circle id="타원_173" cx="4.052" cy="4.052" r="4.052" class="cls-3" transform="translate(1728.928 384.03)"/>
+            <circle id="타원_174" cx="4.052" cy="4.052" r="4.052" class="cls-3" transform="translate(1714.125 375.704)"/>
+        </g>
+    </g>
+</svg>

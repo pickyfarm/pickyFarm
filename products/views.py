@@ -89,17 +89,20 @@ def store_list_cat(request, cat):
 def product_detail(request, pk):
     try:
         product = Product.objects.get(pk=pk)
+        product.calculate_total_rating_avg()
         farmer = product.farmer
         print(farmer)
-        comments = product.product_comments
-        qnas = product.QnAs
-        print(product.calculate_total_rating_avg())
+        comments = product.product_comments.all()
+        questions = product.questions.all()
+        
+        print(comments)
+        print(questions)
         print(product.calculate_specific_rating())
         ctx = {
             'product': product,
             'farmer': farmer,
             'comments': comments,
-            'qnas': qnas,
+            'questions': questions,
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:

@@ -77,13 +77,6 @@ class Product(models.Model):
         except ObjectDoesNotExist:
             return 0
 
-    def check_rate(rate_num):
-        if rate_num == 1:
-            return 2
-        elif rate_num == 3:
-            return 1
-        else:
-            return 0
 
     def calculate_specific_rating(self):
         freshness_array = [0, 0, 0]
@@ -164,9 +157,9 @@ class Question(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     consumer = models.ForeignKey(
-        Consumer, related_name='QnAs', on_delete=models.CASCADE)
+        Consumer, related_name='questions', on_delete=models.CASCADE)
     product = models.ForeignKey(
-        Product, related_name='QnAs', on_delete=models.CASCADE)
+        Product, related_name='questions', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.product.title.join('-Q from ', self.consumer.user.nickname)
