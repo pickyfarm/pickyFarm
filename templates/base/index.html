@@ -1,60 +1,12 @@
+{% extends 'base/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+KR:500&display=swap&subset=korean">
-    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-    <title>Picky Pick : 까다롭게 선택하다</title>
-</head>
-<body>
-    <div class="base-wrap font-sans-kr flex flex-col">
-        
-        <header class="flex flex-col mx-auto w-header">
-            <div class="top-menu ml-auto my-4">
-                <ul class="flex text-xs divide-x-2 h-3">
-                    <li class=" w-24 text-center">로그인</li>
-                    <li class=" w-24 text-center">회원가입</li>
-                    <li class=" w-24 text-center">고객센터</li>
-                    <li class=" w-24 text-center">my page</li>
-                    <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></li>
-                </ul>
-            </div>
 
-            <div class="mx-auto my-12">
-                <img src="{% static 'images/mainlogo.svg' %}" class="w-28" alt="PICKY PICK">
-            </div>
+{% block title %}Pick Pick : 까다롭게 선택하다{% endblock title %}
 
-            <div class="flex justify-between my-4 sticky">
-                <div class="main-menu">
-                    <ul class="flex h-6">
-                        <li class=" pr-24 text-md border-r-2 border-green-700 text-center">Categories</li>
-                        <li class=" px-24 text-md border-r-2 border-green-700 text-center">Store</li>
-                        <li class=" px-24 text-md border-r-2 border-green-700 text-center">Editor's Pick</li>
-                        <li class=" px-24 text-md mr-0">Farmer's Page</li>
-                    </ul>
-                </div>
-                <div class="searchbox">
-                    <div class="input-form rounded-full w-60 h-6 bg-green-400 bg-opacity-50 flex justify-around">
-                        <input type="text" placeholder="자라나라 머리머리" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44">
-                        <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt="">
-                    </div>
-                </div>
-            </div>
-        </header>
-        {% include "base/main_slider.html" %}
-        {% include "base/today_pick.html" %}
-        {% include "base/best.html" %}
-        {% include "base/editor_pick.html" %}
-        {% include "base/today_farmer.html" %}
-        {% include "partials/footer.html" %}
-
-    </div>
-    
-</body>
-</html>
+{% block main_content %}
+{% include "base/main_slider.html" %}
+{% include "base/today_pick.html" %}
+{% include "base/best.html" %}
+{% include "base/editor_pick.html" %}
+{% include "base/today_farmer.html" %}
+{% endblock main_content %}

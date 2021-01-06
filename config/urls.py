@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include("core.urls")),
+    path('', include("core.urls", namespace='core')),
     path('admin/', admin.site.urls),
     path('editors_pick/', include('editor_reviews.urls', namespace='editor_reviews')),
     path('product/', include("products.urls", namespace='products')),
