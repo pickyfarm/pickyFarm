@@ -11,13 +11,34 @@
 
 
 #images{
-    width: 76px;
-    height: 76px;
+    width:76px;
     border-radius: 999%;
 }
 
+#farm_news_letter{
+  font-family: NotoSansKR;
+  font-size: 15px;
+
+  letter-spacing: normal;
+  
+}
+
+#farm_news{
+  width: 395px;
+  font-family: NotoSansKR;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d4d4d;
+  border-radius: 68px;
+  border: solid 2px #5e6656;
+  background-color: #ffffff;
+}
+
 #title{
-    font-size: 35px;
+  font-family: NotoSansKR;
+  font-size: 35px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -29,6 +50,7 @@
 #subtitle{
     font-size: 20px;
   font-weight: normal;
+  font-family: NotoSansKR;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
@@ -40,6 +62,7 @@
     font-size: 10px;
   font-weight: 500;
   font-stretch: normal;
+  font-family: NotoSansKR;
   font-style: normal;
   line-height: 2.5;
   letter-spacing: normal;
@@ -54,6 +77,7 @@
 #cost{
     font-size: 40px;
   font-weight: 500;
+  font-family: NotoSansKR;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.28;
@@ -67,6 +91,7 @@
 #farmer_img{
     width: 53px;
   height: 53px;
+  font-family: NotoSansKR;
   border-radius: 999%;
   border: solid 2px #5e6656;
     object-fit: cover;
@@ -74,6 +99,7 @@
 
 #farm_name{
     font-size: 15px;
+    font-family: NotoSansKR;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -86,37 +112,152 @@
 #visit{
     font-size: 15px;
   font-weight: 500;
+  font-family: NotoSansKR;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.6;
   letter-spacing: normal;
   text-align: left;
   color: #ffffff;
-    padding: 0.5px 10.5px 0.7px 10.5px;
+    padding: 1.5px 10.5px 0.7px 10.5px;
   border-radius: 27.6px;
   background-color: #5e6656;
   
 
 }
 
+#visit:hover{
+  font-size: 15px;
+font-weight: 500;
+font-family: NotoSansKR;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.6;
+letter-spacing: normal;
+text-align: left;
+color: #ffffff;
+  padding: 1.5px 10.5px 0.7px 10.5px;
+border-radius: 27.6px;
+background-color: #005413;
+
+
+}
+
 #sub{
     font-size: 15px;
   font-weight: 500;
+  font-family: NotoSansKR;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.6;
   letter-spacing: normal;
   text-align: left;
   color: #ffffff;
-    padding: 0.5px 10.5px 0.7px 10.5px;
+    padding: 1.5px 10.5px 0.7px 10.5px;
   border-radius: 27.6px;
   background-color: #5e6656;
+}
+
+#sub:hover{
+  font-size: 15px;
+font-weight: 500;
+font-family: NotoSansKR;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.6;
+letter-spacing: normal;
+text-align: left;
+color: #ffffff;
+  padding: 1.5px 10.5px 0.7px 10.5px;
+border-radius: 27.6px;
+background-color: #005413;
+}
+
+#info_t{
+  font-size: 15px;
+  font-family: NotoSansKR;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#info_c{
+  width: 346px;
+  height: 22px;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
 }
 
 
 #farmer_name{
     font-size: 19px;
   font-weight: normal;
+  font-family: NotoSansKR;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#quantity_letter{
+  font-size: 15px;
+  font-family: NotoSansKR;
+  
+}
+
+#quantity_input{
+  width: 100px;
+  height: 35px;
+  border-radius: 4px;
+  font-family: NotoSansKR;
+  border: solid 1px #d9d9d9;
+}
+
+#total_price_letter{
+  font-size: 15px;
+  font-weight: 500;
+  font-family: NotoSansKR;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#cost{
+  font-family: NotoSansKR;
+}
+
+#total_price{
+  font-size: 67.9px;
+  font-weight: 500;
+  font-family: NotoSansKR;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#won{
+  font-size: 35px;
+  font-weight: normal;
+  font-family: NotoSansKR;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.2;
@@ -129,6 +270,7 @@
   font-size: 15px;
   font-weight: bold;
   font-stretch: normal;
+  font-family: NotoSansKR;
   font-style: normal;
   line-height: 1.04;
   letter-spacing: normal;
@@ -139,10 +281,28 @@
   border: solid 3px #005413;
 }
 
+#like:hover{
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-family: NotoSansKR;
+  font-style: normal;
+  line-height: 1.04;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  background-color: #005413;
+  padding: 16.5px 20px 16.7px 20px;
+  border-radius: 27.6px;
+  border: solid 3px #005413;
+  transition: ease-in;
+}
+
 #cart{
   padding: 16.5px 14.5px 16.7px 15.5px;
   border-radius: 27.6px;
   border: solid 3px #005413;
+  font-family: NotoSansKR;
   font-size: 15px;
   font-weight: bold;
   font-stretch: normal;
@@ -153,28 +313,187 @@
   color: #005413;
 }
 
+#cart:hover{
+  padding: 16.5px 14.5px 16.7px 15.5px;
+  border-radius: 27.6px;
+  border: solid 3px #005413;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.04;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  background-color: #005413;
+  transition: ease-in;
+}
+
 #purchase{
   font-size: 20px;
   font-weight: bold;
   font-stretch: normal;
+  font-family: NotoSansKR;
   font-style: normal;
   line-height: 0.9;
   letter-spacing: normal;
   text-align: left;
   color: #ffffff;
-  padding: 13.5px 55px 12.7px 58px;
+  padding: 15px 55px 12.7px 58px;
   border-radius: 27.6px;
   border: solid 3px #005413;
   background-color: #005413;
 }
 
+#purchase:hover{
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-family: NotoSansKR;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: normal;
+  text-align: left;
+  color: #005413;
+  padding: 15px 55px 12.7px 58px;
+  border-radius: 27.6px;
+  border: solid 3px #005413;
+  background-color: #ffffff;
+}
+
+#sel{
+  font-weight: 300;
+  font-stretch: normal;
+  font-family: NotoSansKR;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #000000;
+    background-color: #fffffff;
+}
+
 #n_sel{
   font-weight: 300;
   font-stretch: normal;
+  font-family: NotoSansKR;
   font-style: normal;
   letter-spacing: normal;
   color: #000000;
     background-color: #fafafa;
+}
+
+#n_sel:hover{
+  font-weight: 300;
+  font-stretch: normal;
+  font-family: NotoSansKR;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #000000;
+    background-color: #ffffff;
+  transition: ease-in;
+
+}
+
+#question_content{
+  width : 990px;
+}
+
+#q_title{
+  font-family: NotoSansKR;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.66;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+#q_count{
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+#q_desc{
+  font-family: NotoSansKR-KSCpc-EUC-H;
+  font-size: 15px;
+  
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+  padding-top:2px;
+
+}
+
+#q_table_top{
+  border-top: solid 3px #5e6656;
+  border-bottom: solid 1px #5e6656;
+}
+
+#q_table_bottom{
+  border-bottom: solid 1px #5e6656;
+}
+
+
+
+#q_letter_gray{
+  font-family: NotoSansKR;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 4.43;
+  letter-spacing: normal;
+  text-align: center;
+  color: #999999;
+}
+
+#q_letter_black{
+  font-family: NotoSansKR;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 4.43;
+  letter-spacing: normal;
+  text-align: center;
+  color: black
+}
+
+#q_letter_answered{
+  font-family: NotoSansKR;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 4.43;
+  letter-spacing: normal;
+  text-align: center;
+  color: #004818;
+}
+
+#q_write{
+  width: 110px;
+  height: 36px;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  padding: 7px 27.6px 7px 27px;
+  border-radius: 24px;
+  background-color: #5c6754;
+  margin-left:90%;
 }
 
 div{

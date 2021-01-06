@@ -55,7 +55,7 @@ class Product(models.Model):
         else:
             self.open = False
         return
-    
+
     def calculate_sale_rate(self):
         rate = self.sales_count / (self.stock + self.sales_count)
         self.sales_rate = rate
@@ -149,7 +149,7 @@ class Question(models.Model):
     )
     title = models.CharField(max_length=50)
     content = models.TextField()
-    image = models.ImageField(upload_to="question_image/%Y/%m/%d/")
+    image = models.ImageField(upload_to="question_image/%Y/%m/%d/", null=True, blank=True)
 
     status = models.BooleanField(default=False, choices=status)
 
@@ -162,7 +162,7 @@ class Question(models.Model):
         Product, related_name='questions', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.product.title.join('-Q from ', self.consumer.user.nickname)
+        return self.title
 
 
 class Answer(models.Model):

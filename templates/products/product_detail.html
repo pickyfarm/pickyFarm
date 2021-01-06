@@ -13,19 +13,24 @@
             <div>
                 <img id="main_image" src="{{product.main_image.url}}">
             </div>
-            <div id="images" class="w-full flex flex-rows">
+            <div id="images" class="w-full flex flex-rows mt-3">
                 {% if product.product_images is not None %}
                     {% for image in product.product_images.all %}
-                        <div>
-                            <img id="images" src="{{image.image.url}}">
-                        </div>
+                        
+                    <img id="images" class="mr-3" src="{{image.image.url}}">
+                        
                     {% endfor %}
                 {% endif %}
             </div>
-            <div id="farm_news">
+            <div class="ml-10 mt-10 text-left" id="farm_news_letter">
+                농가 소식
+            </div>
+            <div id="farm_news" class="mt-1 pb-2 pl-8">
+                <img class="relative -top-6 -left-7" src="{% static 'images/product_detail/bell.svg' %}">
+                맛있는 간식 호호ddddddddddsfajf;lkfjdlfjsdljfljfalg핳하ㅏ하하하ㅏㅎ하하ㅏ하하하ㅏ하하ㅏ하하ㅏ하핳ㅇ러ㅣ어ㅣ렁ㅇㄹㅇㅁㄹ
             </div>
         </div>
-        <div id="right" class="w-3/5 px-10">
+        <div id="right" class="w-3/5 pr-10 pl-12">
             <div id="top_section" class="flex flex-row">
                 <div id="title_section" class="w-5/6">
                     <div id="title">
@@ -44,11 +49,11 @@
                     </div>
                 </div>
             </div>
-            <div id="cost" class="py-8 mb-2">
+            <div id="cost" class="pt-8 pb-6 mb-2">
                 {{product.sell_price}}원
             </div>
     
-            <div id="farmer_section" class="flex flex-row items-center">
+            <div id="farmer_section" class="flex flex-row items-center mt-3">
                 <div id="farmer_image">
                     <img src="{{farmer.user.profile_image.url}}" id="farmer_img" alt="농장주사진">
                 </div>
@@ -65,23 +70,32 @@
                     구독하기
                 </div>
             </div>
-            <div id="info_section" class="border-b">
-                <div>배송비</div>
-                <div>무료</div>
-                <div>중량/용량</div>
-                <div>{{proudct.weight}}g</div>
-                <div>원산지</div>
-                <div>국산</div>
-                <div>안내사항</div>
-                <div>{{product.instruction}}</div>
+            <div id="info_section" class="border-b mt-12 pt-5 pb-5">
+                <div class="flex flex-rows">
+                    <div id="info_t" class="w-1/5 text-left mb-3">배송비</div>
+                    <div id="info_c" class="w-4/5 text-left text-red-500">무료</div>
+                </div>
+                <div class="flex flex-rows mb-3">
+                    <div id="info_t" class="w-1/5 text-left">중량/용량</div>
+                    <div id="info_c" class="w-4/5 text-left">{{proudct.weight}}g</div>
+                </div>
+                <div class="flex flex-rows mb-3">
+                    <div id="info_t" class="w-1/5 text-left">원산지</div>
+                    <div id="info_c" class="w-4/5 text-left">국산</div>
+                </div>
+                <div class="flex flex-rows mb-3">
+                    <div id="info_t" class="w-1/5 text-left">안내사항</div>
+                    <div id="info_c" class="w-4/5 text-left">{{product.instruction}}</div>
+                </div>
             </div>
-            <div id="purchase_number_section" class="flex flex-row border-b">
-                <div>구매수량</div>
-                <div><input type="number"></div>
+            <div id="purchase_number_section" class="flex flex-row items-center py-10 mb-5 border-b">
+                <div id="quantity_letter" class="mr-12">구매수량</div>
+                <div><input id="quantity_input" class="ml-12 pl-10" name="quantity" type="number" value=1></div>
             </div>
-            <div id="total_price" class="flex flex-rows">
-                <div>총 상품 금액</div>
-                <div>2000원</div>
+            <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10">
+                <div id="total_price_letter" class="mb-4 mr-10">총 상품 금액 :</div>
+                <div id="total_price">2000</div>
+                <div id="won" class="mb-2 ml-2">원</div>
             </div>
             <div id="buttons" class="flex flex-rows">
                 <div id="like">찜하기</div>
@@ -121,6 +135,51 @@
         <a href="#product_review" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div></a>
         <a href="#product_qna" class="w-1/6"><div id="sel" class="py-3 border-t border-r">상품문의 ({{questions.count}})</div></a>
         <div class="w-2/6 border-b"></div>
+    </div>
+
+    <div id="question_content" class="mx-auto">
+        <div class="flex flex-rows mb-3">
+            <div id="q_title">Q & A</div>
+            <div id="q_count" class="ml-5 pt-3">(총 {{questions.count}}건)</div>
+        </div>
+        <div class="flex flex-rows mb-2">
+            <img src="{%static 'images/product_detail/index_leaf.svg' %}">
+            <div id="q_desc" class="ml-3">구매하시려는 무난이에 대해 궁금한 점들을 문의해주세요</div>
+        </div>
+        <div class="flex flex-rows mb-10">
+            <img src="{%static 'images/product_detail/index_leaf.svg' %}">
+            <div id="q_desc" class="ml-3">개인적인 배송관련, 주문 관련 사항들은 1:1 고객상담센터로 문의해주세요</div>
+        </div>
+        <div id="q_table_top" class="flex flex-rows py-1">
+            <div id="q_letter_gray" class="w-2/12">답변상태</div>
+            <div id="q_letter_gray" class="w-6/12">제목</div>
+            <div id="q_letter_gray" class="w-2/12">작성자</div>
+            <div id="q_letter_gray" class="w-2/12">작성일</div>
+        </div>
+        {% if questions.exists is False %}
+            <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
+        {% else %}
+            {% for q in questions %}
+                <a href='#'>
+                <div id="q_table_bottom" class="flex flex-rows py-1">
+                        {% if q.status is True %}
+                            <div id="q_letter_answered" class="w-2/12">답변완료</div>
+                        {% else %}
+                            <div id="q_letter_gray" class="w-2/12">답변대기</div>
+                        {% endif %}
+                    <div id="q_letter_black" class="w-6/12">{{q.title}}</div>
+                    <div id="q_letter_black" class="w-2/12">{{q.consumer.user.nickname}}</div>
+                    <div id="q_letter_gray" class="w-2/12">{{q.create_at.date}}</div>
+                </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+        <div>
+            <div id="q_write" class="flex flex-rows justify-end mt-10">
+                <div>글쓰기</div>
+                <img src="{% static 'images/product_detail/pen.svg' %}" class="mb-1">
+            </div>
+        </div>
     </div>
 </div>
 
