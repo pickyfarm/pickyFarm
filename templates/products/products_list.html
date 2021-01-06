@@ -3,15 +3,31 @@
 {% load static %}   
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/products/products_list.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+        $('img[id=fruit]').mouseover(function(){
+            $(this).attr('src', "{% static 'images/products_list/cat_fruit_sel.svg' %}");
+        }).mouseout(function(){
+            $(this).attr('src', "{% static 'images/products_list/cat_fruit.svg' %}");
+        });
+        $('img[id=vege]').mouseover(function(){
+            $(this).attr('src', "{% static 'images/products_list/cat_vege_sel.svg' %}");
+        }).mouseout(function(){
+            $(this).attr('src', "{% static 'images/products_list/cat_vege.svg' %}");
+        });
+    });
+        
+    </script>
 {% endblock stylesheet %}
 {% block main_content %}   
         <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
              
-                <div class="inline-block flex flex-col justify-between sticky pr-10 mt-10" id="big_category">
+                <div class="flex flex-col justify-between mr-10 items-center" id="big_category">
                     
                         <div id="cat_all"><a href="{% url 'products:store_list' %}">ALL</a></div>
-                        <div><a href="{% url 'products:store_list_category' 'fruit' %}"><img src="{% static 'images/products_list/cat_fruit.svg' %}" alt="과일"></a></div>
-                        <div><a href="{% url 'products:store_list_category' 'vege' %}"><img src="{% static 'images/products_list/cat_vege.svg' %}" alt="과일"></a></div>
+                        <div id="cat_fruit"><a href="{% url 'products:store_list_category' 'fruit' %}"><img id="fruit" src="{% static 'images/products_list/cat_fruit.svg' %}" alt="과일"></a></div>
+                        <div id="cat_vege"><a href="{% url 'products:store_list_category' 'vege' %}"><img id="vege" src="{% static 'images/products_list/cat_vege.svg' %}" alt="야채"></a></div>
                         <div id="cat_etc"><a href="{% url 'products:store_list_category' 'others' %}">ETC</a></div>
                     
                 </div>
@@ -82,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="inline-block sticky top-20 pl-5" id="sub_menu">
+                <div class="inline-block pl-10 ml-5" id="follow_menu">
                     <img id="go_up", src="{% static 'images/products_list/go_to_up.svg' %}">
                     <img id="go_to_cart", src="{% static 'images/products_list/go_to_cart.svg' %}">
                 </div> 
