@@ -2,7 +2,7 @@
 
 <div class="editor-pick flex flex-col">
     <div class="title mt-20 text-3xl mx-auto font-semibold">에디터의 추천</div>
-    <div class="sub-title text-sm font-thin mt-2 mx-auto">못난이 작물 이야기부터, 경험담까지 에디터가 직접 겪어보고 전해드립니다</div>
+    <div class="sub-title text-sm font-medium mt-2 mx-auto">못난이 작물 이야기부터, 경험담까지 에디터가 직접 겪어보고 전해드립니다</div>
 
     <div class="category flex justify-center">
         <div class="flex flex-col mx-20 items-center">
@@ -27,8 +27,8 @@
         <div class="text-area flex flex-col w-48 mr-20">
             {% for review in editor_pick_list %}
                 <div>
-                    <div class="text-2xl break-words">{{review.title}}</div>
-                    <div class="mt-4">By editor1</div>
+                    <div class="text-2xl break-words font-bold">{{review.title}}</div>
+                    <div class="mt-4 font-light">By editor1</div>
                     <div class="my-12 break-words text-sm text-gray-500">{{review.get_preview}}</div>
                     <div class="more-button w-36 h-10 rounded-full text-center leading-10 text-white mt-auto">MORE</div>
                 </div>

@@ -6,14 +6,15 @@
 .first-item{
     width: 560px;
     height: 444px;
-    border: solid 1px #707070;
     background-color: #0dfddd;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .first-item-text{
-  width: 324px;
+  width: 328px;
   height: auto;
-  margin: 75px 18px 0 auto;
+  margin: 75px 18px auto auto;
   font-size: 30px;
   font-weight: 300;
   font-stretch: normal;
@@ -21,7 +22,10 @@
   line-height: 1.17;
   letter-spacing: normal;
   text-align: left;
-  color: #000000;
+}
+
+.first-item-editor{
+  margin: auto 18px 48px 212px !important;
 }
 
 
@@ -36,7 +40,6 @@
     line-height: 1.17;
     letter-spacing: normal;
     text-align: left;
-    color: #000000;
   }
 
   .slick-slide{
@@ -49,7 +52,6 @@
     flex-direction: column !important;
     width: 360px;
     height: 444px;
-    border: solid 1px #707070;
     background-color: #ffffff;
 }
 
@@ -73,7 +75,6 @@
 
   .editor-list {
     width: 145px;
-    height: auto;
     padding: 38px 21px 34px 23px;
     border-radius: 73px;
     background-color: #ffffff;
@@ -90,7 +91,8 @@
   }
 
   .article-count, .view-count{
-      font-size: 8px;
+      font-size: 4px !important;
+      font-weight: 100;
   }
 
   .title{

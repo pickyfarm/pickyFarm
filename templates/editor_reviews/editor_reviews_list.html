@@ -16,51 +16,25 @@
 
     <div class="review-lists-horizon w-full">
         <div class="zero-item"></div>
-        <div class="first-item rounded-l-full">
-            <div class="first-item-text">
-                여기는 첫번째 아이템 들어갈자리
+        <div class="first-item rounded-l-full flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{first_review.main_image.url}}');">
+            <div class="first-item-text text-white">
+                {{first_review.title}}
             </div>
-        </div>
-        <div class="remain-items flex flex-col">
-            <div class="items-text mx-auto">
-                맛있는 토마토를 얻기위해 꼭 필요한 땀
-            </div>
-            <div class="text-sm mt-auto mb-12 ml-4">
+            <div class="first-item-editor text-sm text-white">
                 by editorName
             </div>
         </div>
-        <div class="remain-items flex flex-col">
-            <div class="items-text mx-auto">
-                맛있는 토마토를 얻기위해 꼭 필요한 땀
+
+        {% for review in review_list %}
+        <div class="remain-items flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
+            <div class="items-text mx-auto bg-cover text-white" >
+                {{review.title}}
             </div>
-            <div class="text-sm mt-auto mb-12 ml-4">
+            <div class="text-sm mt-auto mb-12 ml-4 text-white">
                 by editorName
             </div>
         </div>
-        <div class="remain-items flex flex-col">
-            <div class="items-text mx-auto">
-                맛있는 토마토를 얻기위해 꼭 필요한 땀
-            </div>
-            <div class="text-sm mt-auto mb-12 ml-4">
-                by editorName
-            </div>
-        </div>
-        <div class="remain-items flex flex-col">
-            <div class="items-text mx-auto">
-                맛있는 토마토를 얻기위해 꼭 필요한 땀
-            </div>
-            <div class="text-sm mt-auto mb-12 ml-4">
-                by editorName
-            </div>
-        </div>
-        <div class="remain-items flex flex-col">
-            <div class="items-text mx-auto">
-                맛있는 토마토를 얻기위해 꼭 필요한 땀
-            </div>
-            <div class="text-sm mt-auto mb-12 ml-4">
-                by editorName
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
     <div class="w-content mx-auto flex flex-col">
@@ -74,34 +48,40 @@
     </div>
 
     <div class="review-lists-vertical w-full mt-24">
-        <div class="lists-contents w-content mx-auto flex justify-between py-16">
+        <div class="lists-contents w-content mx-auto flex justify-between pb-16">
+
             <div class="lists flex flex-col ">
-                <div class="article flex justify-between">
+            {% for review in review_list %}
+                <div class="article flex justify-between my-8">
                     <div class="info flex flex-col">
-                        <div class="title">맛있는 토마토를 얻기 위해 꼭 필요한 땀</div>
+                        <div class="title">{{review.title}}</div>
                         <div class="article-info flex">
                             <div class="editor mr-10">editor   에디터킴</div>
-                            <div class="upload mr-6">2021.01.07.</div>
+                            <div class="upload mr-6">{{review.create_at.date}}</div>
                             <div class="comments mr-6">댓글 3</div>
                             <div class="views mr-6">조회수 100</div>
                             <div class="likes">좋아요 9</div>
                         </div>
-                        <div class="preview break-words mt-7">1970년 파리 근교 마구간을 작업실이자 숙소로 쓰던 고인은 평생의 반려자가 된 부인 마르틴 질롱 씨를 만났다. 그의 평생 화업에 주축이 된 ‘물방울’이 탄생한 때도 이때다. 1972년, 마구간에서 물을 뿌려둔 캔버스가 계기다.</div>
+                        <div class="preview break-words mt-7">{{review.get_preview}}</div>
                     </div>
-                    <div class="article-img"></div>
+                    <div class="article-img bg-cover" style="background-image:url('{{review.main_image.url}}');"></div>
                 </div>
+            {% endfor %}
             </div>
 
-            <div class="editor-list flex flex-col">
-                <div class=" self-center mb-8">에디터 리스트</div>
-                <div class="editor-lists flex flex-col">
-                    <div class="editor-profile flex justify-between items-center">
-                        <div class="editor-img rounded-full"></div>
-                        <div class="editor-info flex flex-col">
-                            <div class="editor-name">에디터이름</div>
-                            <div class="editor-article-info flex">
-                                <div class="article-count">글 15</div>
-                                <div class="view-count">조회수 100</div>
+            <div>
+
+                <div class="editor-list flex flex-col my-8">
+                    <div class=" self-center mb-8">에디터 리스트</div>
+                    <div class="editor-lists flex flex-col">
+                        <div class="editor-profile flex justify-between items-center">
+                            <div class="editor-img rounded-full"></div>
+                            <div class="editor-info flex flex-col">
+                                <div class="editor-name">에디터이름</div>
+                                <div class="editor-article-info flex justify-between">
+                                    <div class="article-count">글 15</div>
+                                    <div class="view-count">조회수 100</div>
+                                </div>
                             </div>
                         </div>
                     </div>

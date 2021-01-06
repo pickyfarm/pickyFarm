@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans+KR:500&display=swap&subset=korean">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosanskr.css">
     {% block stylesheet %}{% endblock %}
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <div class="base-wrap font-sans-kr">
+    <div class="base-wrap font-sans-kr flex flex-col">
         
         {% include "partials/header.html" %}
         {% block main_content %}
@@ -24,26 +24,6 @@
         {% include "partials/footer.html" %}
 
     </div>
-    <script>
-        var lnb = $(".fix-header").offset().top;
-        $(window).scroll(function() {
-  	        var window = $(this).scrollTop();
 
-            if(lnb <= window) {
-                $(".top-menu").addClass("hidden");
-                $("header").addClass("shadow-md")
-                $(".main-img").addClass("scale-50");
-                $(".fix-header").addClass("h-20");
-
-            } 
-            
-            else {
-                $(".top-menu").removeClass("hidden");
-                $("header").removeClass("shadow-md");
-                $(".main-img").removeClass("scale-50");
-                $(".fix-header").removeClass("h-20");
-            }
-        });
-    </script>
 </body>
 </html>
