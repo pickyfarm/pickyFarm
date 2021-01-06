@@ -64,7 +64,7 @@
 
 }
 
-#farmer_img{
+#farmer_img, #consumer_img{
     width: 53px;
   height: 53px;
   border-radius: 999%;
@@ -138,4 +138,32 @@
 div{
     padding:0;
     margin:0;
+}
+
+/* ------------------------------- */
+#review {
+  height: 425px;
+  background-color: rgb(238,236,230);  
+}
+
+#review_score {
+  height: 192px;
+}
+
+#score_title, #percent {
+  font-size: 18px;
+  font-weight: 500;
+  color: #004818;
+}
+
+#comment_list {
+  margin-top: 72px;
+  width:990px;
+}
+
+#score_range {
+  width: 95px;
+  height: 7px;
+  border-radius: 4px;
+  background-color: #5c6754;
 }

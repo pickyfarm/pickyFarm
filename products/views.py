@@ -94,7 +94,7 @@ def product_detail(request, pk):
         print(farmer)
         comments = product.product_comments.all()
         questions = product.questions.all()
-        
+        total_score = product.calculate_total_rating_avg()
         print(comments)
         print(questions)
         print(product.calculate_specific_rating())
@@ -103,6 +103,8 @@ def product_detail(request, pk):
             'farmer': farmer,
             'comments': comments,
             'questions': questions,
+            'total_score': range(int(total_score)),
+            'remainder_score':range(5-int(total_score)),
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:

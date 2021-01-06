@@ -37,6 +37,9 @@ class Product_Comment(Comment):
     product = models.ForeignKey("products.Product", related_name="product_comments", on_delete=models.CASCADE)
     consumer = models.ForeignKey("users.Consumer", related_name="product_comments", on_delete=models.CASCADE)
 
+    update_at = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+
     def get_rating_avg(self): 
         self.avg = round((self.freshness+self.flavor+self.cost_performance)/3)
         return self.avg
