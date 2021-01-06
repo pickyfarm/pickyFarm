@@ -1,12 +1,14 @@
-#sub_menu{
-  top:100px;
-}
+
+
 
 #big_category{
+  position:sticky;
+  top:150px;
+  left:10px;
   height:300px;
-}
-
-
+  width: 100px;
+  overflow: visible;
+} 
 #cat_all, #cat_etc{
   font-size: 25px;
   font-weight: 500;
@@ -17,8 +19,6 @@
   font-style: normal;
   line-height: 2.12;
 }
-
-
 #title{
   font-size: 25px;
   color: #000000;
@@ -105,4 +105,11 @@
   position: absolute;
   top: 400px;
   right: 15px;
+}
+
+#follow_menu{
+  position:sticky;
+    top:730px;
+    height: 200px;
+    width:200px;
 }

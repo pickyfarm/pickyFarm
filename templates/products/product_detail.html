@@ -3,6 +3,7 @@
 {% load static %}   
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
+    
 {% endblock stylesheet %}
 {% block main_content %}   
 
@@ -22,12 +23,12 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="ml-10 mt-10 text-left" id="farm_news_letter">
+            <div class="ml-7 mt-10 text-left" id="farm_news_letter">
                 농가 소식
             </div>
-            <div id="farm_news" class="mt-1 pb-2 pl-8">
-                <img class="relative -top-6 -left-7" src="{% static 'images/product_detail/bell.svg' %}">
-                맛있는 간식 호호ddddddddddsfajf;lkfjdlfjsdljfljfalg핳하ㅏ하하하ㅏㅎ하하ㅏ하하하ㅏ하하ㅏ하하ㅏ하핳ㅇ러ㅣ어ㅣ렁ㅇㄹㅇㅁㄹ
+            <div id="farm_news" class="relative mt-1 py-2 pl-8">
+                <img class="absolute -top-6 -left-2" src="{% static 'images/product_detail/bell.svg' %}">
+                    {{farmer.farm_news}}
             </div>
         </div>
         <div id="right" class="w-3/5 pr-10 pl-12">
@@ -77,7 +78,7 @@
                 </div>
                 <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">중량/용량</div>
-                    <div id="info_c" class="w-4/5 text-left">{{proudct.weight}}g</div>
+                    <div id="info_c" class="w-4/5 text-left">{{product.weight}}kg</div>
                 </div>
                 <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">원산지</div>
@@ -113,12 +114,31 @@
         <div class="w-2/6 border-b"></div>
     </div>
 
+    <div id="desc_img_box">
+        <img id="desc_img" class="mx-auto" src="{{product.desc_image.url}}" alt="상품설명">
+    </div>
+
     <div id="product_info" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
         <a href="#product_desc" class="w-1/6"><div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div></a>
         <a href="#product_info" class="w-1/6"><div id="sel" class="py-3 border-t border-r">상세정보</div></a>
         <a href="#product_review" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div></a>
         <a href="#product_qna" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div></a>
         <div class="w-2/6 border-b"></div>
+    </div>
+
+    <div id="info_detail" class="grid grid-cols-4 mx-auto">
+        <div>포장단위별 용량(중량), 수량, 크기</div>
+        <div>{{product.weight}}kg</div>
+        <div>관련법상 표기사항</div>
+        <div>해당 사항 없음</div>
+        <div>농수산물 원산지 표시에 관한 법률에 따른 원산지</div>
+        <div>국산</div>
+        <div>상품구성</div>
+        <div>{{product.category.name}}</div>
+        <div>제조연월일, 유통기한 또는 품질유지기한</div>
+        <div>제품 별도 표기</div>
+        <div>소비자상담</div>
+        <div>홈페이지 고객문의센터</div>
     </div>
 
     <div id="product_review" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">

@@ -1,6 +1,6 @@
 #product_content{
     width:990px;
-    margin-top:150px;
+    margin-top:100px;
 }
 
 #main_image{
@@ -12,7 +12,8 @@
 
 #images{
     width:76px;
-    border-radius: 999%;
+    height:76px;
+    border-radius: 50%;
 }
 
 #farm_news_letter{
@@ -362,6 +363,11 @@ background-color: #005413;
   background-color: #ffffff;
 }
 
+#desc_img_box{
+  margin-top:170px;
+  margin-bottom:170px;
+}
+
 #sel{
   font-weight: 300;
   font-stretch: normal;
@@ -369,7 +375,7 @@ background-color: #005413;
   font-style: normal;
   letter-spacing: normal;
   color: #000000;
-    background-color: #fffffff;
+  background-color: #ffffffff;
 }
 
 #n_sel{
@@ -392,6 +398,28 @@ background-color: #005413;
     background-color: #ffffff;
   transition: ease-in;
 
+}
+
+#info_detail{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  color: #000000;
+  width:990px;
+  margin-top:100px;
+  margin-bottom:100px;
+}
+
+
+
+#info_detail > div:nth-child(odd){
+  text-align: left;
+  padding : 20px 20px 20px 20px;
+  background-color: #f2f2f2;
+}
+
+#info_detail > div:nth-child(even){
+  text-align: left;
+  padding : 20px 20px 20px 20px;
 }
 
 #question_content{
