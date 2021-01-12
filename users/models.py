@@ -108,6 +108,7 @@ class Cart(models.Model):
         'Consumer', related_name="carts", on_delete=models.CASCADE)
     product = models.ForeignKey(
         "products.Product", related_name='carts', on_delete=models.CASCADE)
+    quantitiy = models.IntegerField(default=1, blank=True)
 
     def __str__(self):
         return self.consumer.name.join(" ", '장바구니')
@@ -121,7 +122,6 @@ class Cart(models.Model):
 class Subscribe(models.Model):
     farmer = models.ForeignKey('Farmer', related_name="subs", on_delete=models.CASCADE)
     consumer = models.ForeignKey('Consumer', related_name="subs", on_delete=models.CASCADE)
-
 
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.farmer.farm_name}'
