@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from .models import Farmer, Farm_Tag, Subscribe, Cart
+from .models import Farmer, Farm_Tag, Subscribe, Cart, Consumer, Wish
 from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
@@ -7,6 +7,8 @@ from django.views import View
 from .forms import LoginForm, SignUpForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 class Login(View):
@@ -54,11 +56,12 @@ class SignUp(View):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
+            Consumer.objects.create(user=user, grade=1)
             if user is not None:
                 login(request, user=user)
                 return redirect(reverse('core:main'))
         ctx = {
-            'form':form,
+            'form': form,
         }
         return render(request, 'users/signup.html', ctx)
 
@@ -103,13 +106,31 @@ def farmer_detail(request, pk):
     return render(request, 'users/farmer_detail.html', ctx)
 
 
+@login_required
 def cart_in(request, product_pk):
     try:
         cart = Cart.objects.get(
             consumer=request.user.consumer, product__id=product_pk)
+        cart.quantitiy += 1
+        messages.warning(request, "무난이를 장바구니에 +1 하였습니다")
     except ObjectDoesNotExist:
         product = Product.objects.get(pk=product_pk)
         cart = Cart.objects.create(
             product=product, consumer=request.user.consumer, quantitiy=1)
-        cart.save()
-    return redirect(reverse("products:product_detail", args=[product_pk]))
+        messages.warning(request, "무난이를 장바구니에 담았습니다")
+    # return redirect(reverse("products:product_detail", args=[product_pk]))
+    return redirect(request.GET['next'])
+
+@login_required
+def wish(request, product_pk):
+    try:
+        wish = Wish.objects.get(
+            consumer=request.user.consumer, product__id=product_pk)
+        messages.warning(request, "이미 찜한 무난이입니다")
+    except ObjectDoesNotExist:
+        product = Product.objects.get(pk=product_pk)
+        wish = Wish.objects.create(
+            consumer=request.user.consumer, product=product)
+        messages.warning(request, "찜하였습니다")
+    # return redirect(reverse("products:product_detail", args=[product_pk]))
+    return redirect(request.GET['next'])

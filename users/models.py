@@ -100,7 +100,7 @@ class Wish(models.Model):
         "products.Product", related_name='wishes', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.consumer.name.join(" ", '찜하기')
+        return f'{self.consumer.user.nickname} -> {self.product.title}'
 
 
 class Cart(models.Model):
@@ -111,7 +111,7 @@ class Cart(models.Model):
     quantitiy = models.IntegerField(default=1, blank=True)
 
     def __str__(self):
-        return self.consumer.name.join(" ", '장바구니')
+        return f'{self.consumer.user.nickname} -> {self.product.title}'
 
 # class Staffs_Image(models.Model):
 #     image = models.ImageField(upload_to='/staffs_images')

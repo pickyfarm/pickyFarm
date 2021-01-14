@@ -59,9 +59,18 @@
                                 <div class="relative">
                                     <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
                                     <div id="like_cart_in" class="flex flex-row z-10">
-                                        <img class="mr-1" id="like", src="{% static 'images/products_list/like.svg' %}">
-                                        <img class="ml-1" id="cart_in", src="{% static 'images/products_list/cart_in.svg' %}">
+                                        <a href="{% url 'users:wish' product.pk %}?next={{request.path}}"><img class="mr-1" id="like", src="{% static 'images/products_list/like.svg' %}"></a>
+                                        <a href="{% url 'users:cart_in' product.pk %}?next={{request.path}}"><img class="ml-1" id="cart_in", src="{% static 'images/products_list/cart_in.svg' %}"></a>
                                     </div>
+                                    
+                                    {% if messages %}
+                                        
+                                        {% for message in messages %}
+                                            <script>alert("{{message}}");</script>
+                                        {% endfor %}
+                                            
+                                    {% endif %}
+                                        
                                     <img class="absolute -top-10 -left-2 {%if product.stock > 3 %} invisible {% endif %}" id="like", src="{% static 'images/products_list/almost_sold_out.svg' %}">
                                 </div>
 
