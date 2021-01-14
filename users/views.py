@@ -25,7 +25,7 @@ class Login(View):
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(user)
+                login(request, user=user)
                 return redirect(reverse("core:main"))
         ctx = {
             'form': form,
@@ -34,8 +34,8 @@ class Login(View):
 
 
 def log_out(request):
-    logout(request.user)
-    return redirect(reverse("core:home"))
+    logout(request)
+    return redirect(reverse("core:main"))
 
 
 class SignUp(View):
@@ -55,13 +55,13 @@ class SignUp(View):
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(user)
-                return redirect(reverse('core:home'))
+                login(request, user=user)
+                return redirect(reverse('core:main'))
         ctx = {
             'form':form,
         }
         return render(request, 'users/signup.html', ctx)
-        
+
 
 def farmers_page(request):
     page = int(request.GET.get('page', 1))

@@ -3,8 +3,14 @@
         <header class="flex flex-col mx-auto w-header">
             <div class="top-menu ml-auto my-4">
                 <ul class="flex text-xs divide-x-2 h-3">
-                    <a href="{% url 'users:login' %}"><li class=" w-24 text-center">로그인</li></a>
-                    <li class=" w-24 text-center">회원가입</li>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'users:logout' %}"><li class=" w-24 text-center">로그아웃</li></a>
+                    {% else %}
+                        <a href="{% url 'users:login' %}"><li class=" w-24 text-center">로그인</li></a>
+                    {% endif %}
+                    {% if user.is_authenticated != True %}
+                        <a href="{% url 'users:signup' %}"><li class=" w-24 text-center">회원가입</li></a>
+                    {% endif %}
                     <li class=" w-24 text-center">고객센터</li>
                     <li class=" w-24 text-center">my page</li>
                     <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></li>

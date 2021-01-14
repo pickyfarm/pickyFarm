@@ -11,7 +11,7 @@ class LoginForm(forms.Form):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
         try:
-            user = models.User.obejcts.get(username=username)
+            user = models.User.objects.get(username=username)
             if user.check_password(password):
                 return self.cleaned_data
             else:
@@ -37,13 +37,13 @@ class SignUpForm(forms.Form):
     nickname = forms.CharField(label="닉네임", max_length=100)
     email = forms.EmailField(label="이메일")
 
-    gender = forms.ChoiceField(choices=GENDER_CHOICES)
+    gender = forms.ChoiceField(label="성별", choices=GENDER_CHOICES)
     birth = forms.DateField(widget=forms.SelectDateWidget)
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
         try:
-            user = User.objects.get(username=username)
+            user = models.User.objects.get(username=username)
             raise ValidationError("중복된 아이디 입니다. 사용하실 수 없습니다")
         except ObjectDoesNotExist:
             return username
@@ -66,7 +66,7 @@ class SignUpForm(forms.Form):
         gender = self.cleaned_data.get("gender")
         birth = self.cleaned_data.get("birth")
 
-        user = User.objects.create_user(username, email=email, password=password_re)
+        user = models.User.objects.create_user(username, email=email, password=password_re)
 
         user.first_name=first_name
         user.last_name=last_name
