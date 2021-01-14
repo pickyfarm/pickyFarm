@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block stylesheet %}
+    
+{% endblock stylesheet %}
+
+{% block title_name %}
+    로그인
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id='signup_form' class="mt-10">
+        <form method="POST" action="{% url 'users:signup' %}">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button>회원가입</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

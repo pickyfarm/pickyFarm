@@ -4,7 +4,7 @@ from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
 from django.views import View
-from .forms import LoginForm
+from .forms import LoginForm, SignUpForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 
@@ -37,6 +37,31 @@ def log_out(request):
     logout(request.user)
     return redirect(reverse("core:home"))
 
+
+class SignUp(View):
+
+    def get(self, request):
+        form = SignUpForm()
+        ctx = {
+            'form': form,
+        }
+        return render(request, 'users/signup.html', ctx)
+
+    def post(self, request):
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(user)
+                return redirect(reverse('core:home'))
+        ctx = {
+            'form':form,
+        }
+        return render(request, 'users/signup.html', ctx)
+        
 
 def farmers_page(request):
     page = int(request.GET.get('page', 1))
