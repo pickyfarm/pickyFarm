@@ -1,5 +1,6 @@
 from django.db import models
 from products.models import Product, Category
+from users.models import Editor
 
 
 # Create your models here.
@@ -11,7 +12,7 @@ class Editor_Reviews(models.Model):
     contents = models.TextField()
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
-    #author = models.ForeignKey("staff")
+    #author = models.ForeignKey(Editor, related_name="editor_reviews", on_delete=models.CASCADE)
     category = models.ForeignKey(Category, related_name="editor_reviews", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name="editor_reviews", on_delete=models.CASCADE)
 
@@ -21,6 +22,10 @@ class Editor_Reviews(models.Model):
 
         else:
             return self.contents[:60]
+    
+    # def review_count(self):
+    #     return Editor_Reviews.objects.filter(author=self.author.user.nickname).count()
+
 
 
 class Editor_Reviews_Image(models.Model):
