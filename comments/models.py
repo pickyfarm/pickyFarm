@@ -57,7 +57,7 @@ class Product_Comment_Image(models.Model):
     product_comment = models.ForeignKey(Product_Comment, related_name="product_comment_images", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.product_comment.product.title.join('-', '상품 리뷰 사진')
+        return f'{self.product_comment.product.title} : {self.product_comment.text} - 상품 리뷰 사진'
 
 
 

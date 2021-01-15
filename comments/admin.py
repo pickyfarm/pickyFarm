@@ -9,6 +9,10 @@ class ProductCommentAdmin(admin.ModelAdmin):
 class ProductRecommentAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(models.Product_Comment_Image)
+class ProductCommentImageAdmin(admin.ModelAdmin):
+    pass
+
 @admin.register(models.Editor_Review_Comment)
 class EditorReviewCommentAdmin(admin.ModelAdmin):
     pass

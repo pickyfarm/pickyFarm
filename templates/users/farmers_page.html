@@ -39,7 +39,7 @@
         <!--MIDDLE CONTENT-->
         <div id="content_mid" >
             <!--TITLE-->
-            <div class="inline-block mb-5" id="content">
+            <div class="inline-block mb-5 mt-10" id="content">
                 <h1 class='' id='title'>이번주 Best</h1>
             </div>
             <!--FIRST SECTION-->
@@ -54,7 +54,7 @@
                         </div>
                         <div class="block" id="bestfarm_desc">
                             <p class='text-sm h-7' id='farm_loc'>지역</p>
-                            <p class="text-3xl font-bold" id='farm_name'>{{best_farmer.farm_name}}</p>
+                            <a href="{% url 'users:farmer_detail' best_farmer.id %}"><p class="text-3xl font-bold" id='farm_name'>{{best_farmer.farm_name}}</p></a>
                             <div class="flex flex-row justify-between" id="farm_desc_div">
                                 <p class="text-3xl font-bold mb-6" id="quote">“</p>
                                 <p class='leading-10 font-bold' id='farm_desc'>{{best_farmer.profile_title}}</p>
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="" id="farm_desc_block">
                                     <p class="h-9" id="farm_loc">경기 어느 지역</p>
-                                    <p class="text-4xl font-bold " id="farm_name">{{farmer.farm_name}}</p>
+                                    <a href="{% url 'users:farmer_detail' farmer.id %}"><p class="text-4xl font-bold" id="farm_name">{{farmer.farm_name}}</p></a>
                                     <div class="flex flex-row justify-between mt-8" id="">
                                         <p class="text-3xl font-bold mb-6" id="quote">“</p>
                                         <p class='leading-10 font-bold text-xl mx-4' id='farm_desc'>{{farmer.profile_title}}</p>
