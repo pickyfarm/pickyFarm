@@ -76,6 +76,38 @@
   color: #ffffff;
 }
 
+#sort{
+  padding-left:100px;
+}
+
+#sort_list{
+  width: 63px;
+  height: 93px;
+  padding: 14px 0px;
+  border-radius: 30px;
+  border: solid 1px #5e6656;
+  background-color: #ffffff;
+  display:none;
+}
+
+#sort:hover #sort_list{
+  display: inline-flex;
+  /* -webkit-transition: ease-in;
+  -webkit-transition-duration: 5s; */
+}
+
+
+
+#sort_list > a{
+  font-family: NotoSansKR;
+  font-size: 11px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  text-align: center;
+  margin-bottom: 5px;
+  color: #5c6754;
+}
 
 #product_item{
   margin-bottom:100px;

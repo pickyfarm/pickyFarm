@@ -9,12 +9,20 @@ from django.core.exceptions import ObjectDoesNotExist
 
 def store_list_all(request):
     page = int(request.GET.get('page', 1))
+    sort = request.GET.get('sort', '최신순')
     page_size = 15
     limit = page_size * page
     offset = limit - page_size
     products_count = Product.objects.filter(open=True).count()
     products = Product.objects.filter(
-        open=True).order_by('-create_at')[offset:limit]
+        open=True).order_by('-create_at')
+    if sort == '인기순':
+        for product in products:
+            product.calculate_sale_rate()
+        products = products.order_by('sales_rate')
+    elif sort == "마감임박순":
+        products = products.order_by('stock')
+    products = products[offset:limit]
     categories = Category.objects.filter(parent=None).order_by('name')
     page_total = ceil(products_count/page_size)
     ctx = {
@@ -66,7 +74,7 @@ def store_list_cat(request, cat):
             product.calculate_sale_rate()
         products = products.order_by('sales_rate')
     elif sort == "마감임박순":
-        products = products.order_by('-stock')
+        products = products.order_by('stock')
     print(products)
     print(page)
     products_count = products.count()

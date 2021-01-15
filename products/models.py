@@ -52,13 +52,17 @@ class Product(models.Model):
         if self.stock > 0:
             self.stock -= 1
             self.sales_count += 1
+            self.save()
         else:
             self.open = False
+            self.save()
         return
 
     def calculate_sale_rate(self):
         rate = self.sales_count / (self.stock + self.sales_count)
         self.sales_rate = rate
+        self.save()
+        print("판매율 계산")
         return self.sales_rate
 
     def calculate_total_rating_avg(self):
@@ -73,6 +77,7 @@ class Product(models.Model):
                 sum += comment.avg
             print(sum)
             self.total_rating_avg = round(sum/comments_num, 1)
+            self.save()
             return self.total_rating_avg
         except ObjectDoesNotExist:
             return 0
