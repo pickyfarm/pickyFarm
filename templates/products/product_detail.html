@@ -107,8 +107,17 @@
                 <div id="won" class="mb-2 ml-2">원</div>
             </div>
             <div id="buttons" class="flex flex-rows">
-                <div id="like">찜하기</div>
-                <div id="cart" class="mr-12 ml-3">장바구니 담기</div>
+                <a href="{% url 'users:wish' product.pk %}?next={{request.path}}"><div id="wish">찜하기</div></a>
+                
+                {% if messages %}
+                    
+                    {% for message in messages %}
+                        <script>alert("{{message}}");</script>
+                    {% endfor %}
+                        
+                {% endif %}
+                    
+                <a href="{% url 'users:cart_in' product.pk %}?next={{request.path}}"><div id="cart" class="mr-12 ml-3">장바구니 담기</div></a>
                 <div id="purchase">바로 구매하기</div>
             </div>
         </div>

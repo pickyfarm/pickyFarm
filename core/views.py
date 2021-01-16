@@ -22,7 +22,7 @@ def index(request):
         best_product_list = products.order_by("sales_rate")[:len(products)]
     
     else:
-        best_product_list = products.order_by("sales_rate")
+        best_product_list = products.order_by("sales_rate")[0:4]
 
     print(best_product_list)
     editor_pick_list = Editor_Reviews.objects.all()
