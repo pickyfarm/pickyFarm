@@ -1,14 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Editor_Reviews
 from .forms import PostForm
+from users.models import Editor
 
 
 def index(request):
     first_review = Editor_Reviews.objects.first()
     review_list = Editor_Reviews.objects.all()[1:]
+    editors = Editor.objects.all()
     ctx = {
         'first_review': first_review,
-        'review_list': review_list
+        'review_list': review_list,
+        'editors': editors
     }
 
     return render(request, 'editor_reviews/editor_reviews_list.html', ctx)
