@@ -91,7 +91,6 @@ def product_detail(request, pk):
         product = Product.objects.get(pk=pk)
         product.calculate_total_rating_avg()
         farmer = product.farmer
-        print(farmer)
         comments = product.product_comments.all()
         questions = product.questions.all()
         total_score = product.calculate_total_rating_avg()
