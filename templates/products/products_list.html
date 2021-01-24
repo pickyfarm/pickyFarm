@@ -28,7 +28,7 @@
     {% endfor %}
                                             
 {% endif %} 
-        <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+        <div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
              
                 <div class="flex flex-col justify-between mr-10 items-center" id="big_category">
                     
@@ -81,7 +81,7 @@
                                     
                                     
                                         
-                                    <img class="absolute -top-10 -left-2 {%if product.stock > 3 %} invisible {% endif %}" id="like", src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                                    <img class="absolute -top-10 -left-2 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out", src="{% static 'images/products_list/almost_sold_out.svg' %}">
                                 </div>
 
                                 <div class="mt-3">

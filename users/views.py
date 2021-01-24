@@ -121,6 +121,7 @@ def cart_in(request, product_pk):
     # return redirect(reverse("products:product_detail", args=[product_pk]))
     return redirect(request.GET['next'])
 
+
 @login_required
 def wish(request, product_pk):
     try:
@@ -134,3 +135,6 @@ def wish(request, product_pk):
         messages.warning(request, "찜하였습니다")
     # return redirect(reverse("products:product_detail", args=[product_pk]))
     return redirect(request.GET['next'])
+
+
+
