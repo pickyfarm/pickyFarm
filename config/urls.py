@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', include("core.urls", namespace='core')),
@@ -25,7 +26,8 @@ urlpatterns = [
     path('product/', include("products.urls", namespace='products')),
     path('comment/', include("comments.urls", namespace='comment')),
     path('purchase/', include("purchases.urls", namespace='purchase')),
-    path('user/', include("users.urls", namespace='user')),
+    path('user/', include("users.urls", namespace='users')),
+    
 ]
 
 if settings.DEBUG:
