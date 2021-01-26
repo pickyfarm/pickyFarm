@@ -37,7 +37,7 @@
                     {% static 'images/products_list/cat_vege.svg' %}
                     {% endif %}" alt="야채"></a></div>
         <div id="cat_etc"><a href="{% url 'products:store_list_category' 'others' %}"><img id="etc"
-                    src="{% if cat_name == 'etc' %}
+                    src="{% if cat_name == 'others' %}
                     {% static 'images/products_list/cat_etc_sel.svg' %}
                     {% else %}
                     {% static 'images/products_list/cat_etc.svg' %}

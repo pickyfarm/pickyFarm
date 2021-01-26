@@ -47,6 +47,8 @@ PICKY_APPS = [
     'users.apps.UsersConfig',
     'purchases.apps.PurchasesConfig',
     'core.apps.CoreConfig',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PICKY_APPS
@@ -140,3 +142,7 @@ MEDIA_URL = "/media/"
 AUTH_USER_MODEL = "users.User"
 
 LOGIN_URL = "/user/login/"
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+CKEDITOR_IMAGE_BACKEND = 'pillow'

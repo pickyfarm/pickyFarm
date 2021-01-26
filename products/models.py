@@ -81,7 +81,7 @@ class Product(models.Model):
             return self.total_rating_avg
         except ObjectDoesNotExist:
             return 0
-
+        
 
     def calculate_specific_rating(self):
         freshness_array = [0, 0, 0]

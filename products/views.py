@@ -61,7 +61,7 @@ def store_list_cat(request, cat):
             }
             return render(request, "products/products_list.html", ctx)
     else:
-        big_cat_name = {'과일':'fruit', '야채':'vege', '기타':'etc'}
+        big_cat_name = {'과일':'fruit', '야채':'vege', '기타':'others'}
         categories = Category.objects.get(slug=cat)
         print(categories)
         cat_name = big_cat_name[categories.parent.name]

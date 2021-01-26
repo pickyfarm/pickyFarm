@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Editor_Reviews
-from .forms import PostForm
+from .forms import Editors_Reviews_Form
 from users.models import Editor
 
 
@@ -11,7 +11,7 @@ def index(request):
     ctx = {
         'first_review': first_review,
         'review_list': review_list,
-        'editors': editors
+        'editors': editors,
     }
 
     return render(request, 'editor_reviews/editor_reviews_list.html', ctx)
@@ -22,36 +22,39 @@ def detail(request, pk):
     ctx = {
         'review': review,
     }
-    return render(request, 'editors_pick/details.html', ctx)
+    return render(request, 'editor_reviews/details.html', ctx)
 # Create your views here.
 
 
 def create(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = Editors_Reviews_Form(request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect(reverse("core:main"))
 
-        else:
-            form = PostForm()
-        return render(request, 'editors_pick/create.html', {'form': form})
+    else:
+        form = Editors_Reviews_Form()
+        ctx = {
+            'form' : form,
+        }
+        return render(request, 'editor_reviews/editor_reviews_create.html', ctx)
         
 
 def update(request, pk):
     post = get_object_or_404(Editor_Reviews, pk=pk)
 
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = Editors_Reviews_Form(request.POST, instance=post)
         if form.is_valid():
             form.save()
             return redirect('detail', pk)
 
     else:
-        form = PostForm(instance=post)
+        form = Editors_Reviews_Form(instance=post)
     
-    return render(request, 'editors_pick/update.html', {'forms': form})
+    return render(request, 'editors_reviews/update.html', {'forms': form})
     
 
 def delete(request, pk):
