@@ -26,7 +26,7 @@ urlpatterns = [
     path('comment/', include("comments.urls", namespace='comment')),
     path('purchase/', include("purchases.urls", namespace='purchase')),
     path('user/', include("users.urls", namespace='user')),
-    path('ckeditor/', include("ckeditor_uploader.urls")),
+    path('summernote/', include("django_summernote.urls")),
 ]
 
 if settings.DEBUG:
