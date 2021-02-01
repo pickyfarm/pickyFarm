@@ -3,7 +3,7 @@ from .models import Editor_Reviews
 from .forms import Editors_Reviews_Form
 from users.models import Editor
 from django.views.decorators.clickjacking import xframe_options_sameorigin
-
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -28,12 +28,20 @@ def detail(request, pk):
 # Create your views here.
 
 
+@login_required
 def create(request):
+    try:
+        user = request.user.editor
+    except:
+        return redirect(reverse('editors_pick:index'))
+    
     if request.method == 'POST':
         form = Editors_Reviews_Form(request.POST, request.FILES)
         if form.is_valid():
             print("값이 검증은 되었다")
-            form.save()
+            editor_review = Editor_Reviews(**(form.cleaned_data))
+            editor_review.author = request.user.editor
+            editor_review.save()
             return redirect(reverse("core:main"))
         else:
             print("이것은 무엇이냐")

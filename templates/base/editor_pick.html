@@ -35,10 +35,16 @@
             {% endfor %}
         </div>
 
-        <div class="img-area rounded-l-full bg-cover"">
+        <div class="img-area rounded-l-full bg-cover">
+            
+            {% if editor_pick_list is null %}
+            <span class="bg-cover" style="background-color: aliceblue; height: 350px;"></span>
+            {% else %}
+                
             {% for review in editor_pick_list %}
                 <span class="bg-cover" style="background-image:url({{review.main_image.url}}); height: 350px;"></span>
             {% endfor %}
+            {% endif %}
         </div>
         
     </div>

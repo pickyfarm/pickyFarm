@@ -47,10 +47,3 @@ class Editors_Reviews_Form(forms.Form):
         else:
             return product
 
-    def save(self, commit=True):
-        editor_review = Editor_Reviews(**self.cleaned_data)
-        if commit:
-            
-            editor_review.save()
-        return editor_review
-

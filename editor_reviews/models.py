@@ -18,7 +18,7 @@ class Editor_Reviews(models.Model):
     contents = models.TextField()
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
-    #author = models.ForeignKey(Editor, related_name="editor_reviews", on_delete=models.CASCADE)
+    author = models.ForeignKey(Editor, related_name="editor_reviews", on_delete=models.CASCADE)
     
     post_category = models.CharField(max_length=50, choices=POST_CAT, default='farm_cover')
 

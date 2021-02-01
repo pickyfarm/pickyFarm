@@ -26,6 +26,8 @@ def index(request):
 
     print(best_product_list)
     editor_pick_list = Editor_Reviews.objects.all()
+    print(editor_pick_list)
+
     today_farmer_list = Product.objects.filter(create_at__date=date.today())
     main_slider_image = Main_Slider_Image.objects.all()
     
