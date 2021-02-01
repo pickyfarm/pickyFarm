@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block stylesheet %}
+  
+{% endblock stylesheet %}
+
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
+    {{review.contents|safe}}
+</div>
+{% endblock main_content %}

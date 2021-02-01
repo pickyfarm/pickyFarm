@@ -4,6 +4,7 @@ from .forms import Editors_Reviews_Form
 from users.models import Editor
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def index(request):
@@ -24,7 +25,7 @@ def detail(request, pk):
     ctx = {
         'review': review,
     }
-    return render(request, 'editor_reviews/details.html', ctx)
+    return render(request, 'editor_reviews/editor_reviews_detail.html', ctx)
 # Create your views here.
 
 
@@ -32,7 +33,7 @@ def detail(request, pk):
 def create(request):
     try:
         user = request.user.editor
-    except:
+    except ObjectDoesNotExist:
         return redirect(reverse('editors_pick:index'))
     
     if request.method == 'POST':
@@ -40,9 +41,9 @@ def create(request):
         if form.is_valid():
             print("값이 검증은 되었다")
             editor_review = Editor_Reviews(**(form.cleaned_data))
-            editor_review.author = request.user.editor
+            editor_review.author = user
             editor_review.save()
-            return redirect(reverse("core:main"))
+            return redirect(reverse("editors_pick:detail editor_review.pk"))
         else:
             print("이것은 무엇이냐")
             return redirect(reverse("core:main"))
