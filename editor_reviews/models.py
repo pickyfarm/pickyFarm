@@ -7,14 +7,15 @@ from users.models import Editor
 
 class Editor_Reviews(models.Model):
 
+
     title = models.TextField()
     main_image = models.ImageField(upload_to='editor_review_thumbnail/%%Y/%%m/%%d')
     contents = models.TextField()
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
     #author = models.ForeignKey(Editor, related_name="editor_reviews", on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, related_name="editor_reviews", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name="editor_reviews", on_delete=models.CASCADE)
+
 
     def get_preview(self):
         if len(self.contents) < 60:

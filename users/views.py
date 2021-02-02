@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from .models import Farmer, Farm_Tag, Subscribe, Cart, Consumer, Wish
+from .models import Farmer, Farm_Tag, Subscribe, Cart, Consumer, Wish, User
 from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
@@ -9,7 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.urls import reverse_lazy
 
 class Login(View):
 
@@ -134,3 +135,33 @@ def wish(request, product_pk):
         messages.warning(request, "찜하였습니다")
     # return redirect(reverse("products:product_detail", args=[product_pk]))
     return redirect(request.GET['next'])
+
+
+class MyPasswordResetView(PasswordResetView):
+    template_name = 'users/password_reset.html'
+    email_template_name = 'users/password_reset_email.html'
+    success_url = reverse_lazy('users:password_reset_done')
+
+    def form_valid(self, form):
+
+        if User.objects.filter(email=self.request.POST.get('email')).exists():
+            return super().form_valid(form)
+        
+        else:
+            return render(self.request, 'users/password_reset_done_fail.html')
+
+
+class MyPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'users/password_reset_done.html'
+
+
+class MyPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'users/password_reset_confirm.html'
+    success_url = reverse_lazy('users:password_reset_complete')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class MyPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'users/password_reset_complete.html'
