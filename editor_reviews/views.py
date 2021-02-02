@@ -35,17 +35,17 @@ def create(request):
         user = request.user.editor
     except ObjectDoesNotExist:
         return redirect(reverse('editors_pick:index'))
-    
+
     if request.method == 'POST':
         form = Editors_Reviews_Form(request.POST, request.FILES)
         if form.is_valid():
-            print("값이 검증은 되었다")
+            print("form validation 완료")
             editor_review = Editor_Reviews(**(form.cleaned_data))
             editor_review.author = user
             editor_review.save()
             return redirect(reverse("editors_pick:detail editor_review.pk"))
         else:
-            print("이것은 무엇이냐")
+            print("form validation 실패")
             return redirect(reverse("core:main"))
     else:
         form = Editors_Reviews_Form()
@@ -55,24 +55,37 @@ def create(request):
         return render(request, 'editor_reviews/editor_reviews_create.html', ctx)
 
 
+@login_required
 def update(request, pk):
+    try:
+        user = request.user.editor
+    except ObjectDoesNotExist:
+        return redirect(reverse("core:main"))
+
     post = get_object_or_404(Editor_Reviews, pk=pk)
+    form = Editors_Reviews_Form(request.POST, request.FILE, instance=post)
 
     if request.method == 'POST':
-        form = Editors_Reviews_Form(request.POST, instance=post)
         if form.is_valid():
-            form.save()
-            return redirect('detail', pk)
-
+            print("form validation 완료")
+            editor_review = Editor_Reviews(**(form.cleaned_data))
+            editor_review.save()
+            return redirect('editors_pick:detail', pk)
+        else:
+            print("form validation 실패")
+            return redirect(reverse("core:main"))
     else:
         form = Editors_Reviews_Form(instance=post)
+        ctx = {
+            'form': form,
+        }
+        return render(request, 'editors_reviews/update.html', ctx)
 
-    return render(request, 'editors_reviews/update.html', {'forms': form})
 
-
+@login_required
 def delete(request, pk):
 
     post = Editor_Reviews.object.get(pk=pk)
     post.delete()
 
-    return redirect('index')
+    return redirect(reverse('core:main'))
