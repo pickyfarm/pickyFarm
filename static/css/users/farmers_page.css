@@ -1,187 +1,162 @@
-#content{
-    width: 990px;
-}
-#block_item {
-    width: 330px;
-    float:left;
-    display:block;
-    margin-bottom: 260px;
+#content {
+    width:990px;
 }
 
-#title{
-    width: 237.2px;
-    height: 69.1px;
-    margin: 0 auto;
-    font-size: 40px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.36;
-    letter-spacing: normal;
-    text-align: center;
-    color: #004818;
-}
-
-#big_category{
-    position:sticky;
-    top:150px;
-    left:10px;
-    height:300px;
-    width: 100px;
-    overflow: visible;
-} 
-#cat_all, #cat_etc{
-    font-size: 25px;
-    font-weight: 500;
-    color: #5c6754;
-    letter-spacing: normal;
-    text-align: left;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 2.12;
-}
-
-#follow_menu {
-    position:sticky;
-    top:730px;
-    height: 200px;
-    width:200px;
-}
-
-/* --------------------------------------------------- */
-/* best farmers */
-#circle_block {
+/* weekly hot */
+#best-farmer-img {
     position: relative;
-    width: 229px;
-    height: 229px;
-    border: solid 5px #9d9578;
-    background-color: #ffffff;
+    width: 250px;
+    height: 250px;
+    border: solid 1px #707070;
     border-radius: 50%;
-    margin:0 auto;
 }
 
-#farmer_image {
-    width: 219px;
-    height:219px;
+#farmer-img {
+    width: 248px;
+    height: 248px;
     border-radius: 9999px;
     object-fit: cover;
 }
-#pick_img {
-    z-index: 1;
+
+#pick-img {
     position:absolute;
     bottom:0;
     right:0;
-}
-#farm_loc {
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 2.67;
-    letter-spacing: normal;
-    margin:0 auto;
-    color: #4d4d4d;
-}
-#farm_name {
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.43;
-    letter-spacing: normal;
-    margin:0 auto;
-    color: #004818;
-}
-#farm_desc_div {
-    width:90%;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 2.22;
-    letter-spacing: normal;
-    color: #000000;    
-    margin:0 auto;
-}
-#quote {
-    font-family:Georgia, 'Times New Roman', Times, serif
+    z-index: 1;
 }
 
-/* --------------------------------------------------- */
-#category_item{
-    /* width: 133.9px; */
-    height: 30px;
-    /* margin: 77.8px 13px 118.8px 7.1px; */
-    border-radius: 22.7px;
-    background-color: #9d9578;
-    color:#ffffff;
-    line-height: 15px;
-    text-align:center;
-    font-weight: 600;
+#search-bar {
+    width: 740px;
+    height: 35px;
+    padding: 8px;
+    border-radius: 18px;
+    background-color: #f2f2f2;
 }
-#category_item:hover, #farm_tag:hover {
-    transform: scale(1.1, 1.1);
-    transition-duration: 0.5s;
+
+/* tag(채소, 과일, E.T.C) */
+#tag_table {
+    width: 100%;
+    border: 1px solid #707070;
+  }
+#tag_table td {
+    cursor: pointer;
+    padding: 33px 142px;
+    width: 33%;
+    border: 1px solid #707070;
+    color: #808080;
 }
-  
+
+td:hover {
+    background-color: #5e665628;
+    transition-duration: 0.8s;
+}
+
+/* -------------------------------------- */
 /* farm list */
-.row {
-    position:relative;
-    height: 400px;
-    margin-bottom: 60px;
+#farm_content {
+    background-color: rgba(250, 250, 250, 0.93);
 }
+
+.row {
+    margin:178px 0px;
+}
+.row:nth-child(odd) {
+    justify-content: flex-start;
+}
+.row:nth-child(even) {
+    justify-content: flex-end;
+}
+.row:nth-child(even) #wrapper{
+    justify-content: flex-end;
+}
+.row:nth-child(even) #wrapper > div:first-child {
+    order: 1;
+}
+
+#wrapper {
+    width:736px
+}
+
 
 /* farm list image */
 #farm_pic {
-    position:absolute;
-    top:0;
+    position: relative;
     width: 325px;
-    height: 400px;
-    /* margin: 118px 10.3px 113px 6.7px; */
-    border-radius: 61px;
-    box-shadow: 10px 10px 10px 0 rgba(170, 170, 170, 0.7);
-    background-color: #ffffff;
-    z-index: 1;
-}
-.row:nth-child(odd) > #farm_pic {
-    left:0;
-}
-.row:nth-child(even) > #farm_pic {
-    right:0;
-}
-#farm_pic img {
-    width: 100%;
-    height: 100%;
-    border-radius: 61px;
-}
-/* farm list desc */
-#farm_desc_bg {
-    position:absolute;
-    top:75px;
-    width: 990px;
-    height: 250px;
-    padding: 44px 215px 5px 395px;
-    opacity: 0.5;
-    border-radius: 232px;
-    -webkit-filter: blur(1px);
-    filter: blur(1px);
-}
-.row:nth-child(odd) > #farm_desc_bg {
-    background-image: linear-gradient(to left, #9d9578 2%, rgba(252, 252, 251, 0.03) 57%, rgba(255, 255, 255, 0.55) 112%);
-}
-.row:nth-child(even) > #farm_desc_bg {
-    background-image: linear-gradient(to right, #9d9578 2%, rgba(252, 252, 251, 0.03) 57%, rgba(255, 255, 255, 0.55) 112%);
-}
-.row:nth-child(odd) > #farm_desc_block {
-    left:420px;
-}
-.row:nth-child(even) > #farm_desc_block {
-    left:220px;
-}
-#farm_desc_block {
-    position:absolute;
-    text-align:left;
-    top:10px;
-}
-#farm_tag {
-    width: 110px;
-    height: 50px;
-    border-radius: 28px;
+    height: 472px;
     box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
+    z-index: 1;
+
+}
+
+#farmer_profile {
+    width: 325px;
+    height: 472px;
+    object-fit: cover;
+}
+
+#pick_img {
+    position: absolute;
+    bottom:-27.5px; right:-27.5px;
+    width:55px; height: 55px;
     background-color: #ffffff;
-    line-height: 50px;
+    border-radius: 9999px;
+    border:1px solid black;
+}
+
+#farm_desc_block {
+    width:330px;
+}
+.row:nth-child(odd) #farm_desc_block{
+    margin-left: 81px;
+}
+.row:nth-child(even) #farm_desc_block{
+    margin-right: 81px;
+}
+
+/* font color */
+#farm_profile, #farm_loc, #farm_name, #tag, #product_desc, #row_farm {
+    color:#5e6656;
+}
+#story_title {
+    color: #808080;
+}
+#story_subtitle, #table_header, #row_views, #row_create_at {
+    color: #999999;
+}
+
+/* --------------------------------------------------- */
+#farm_tag {
+    background-color: #ffffff;
+}
+
+#product_img_wrapper {
+    box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
+    width: 90px; height: 130px;
+}
+
+#product_img {
+    width: 90px; height: 130px;
+    object-fit: cover;
+}
+
+/* ------------------------------------------- */
+/* farmer's story */
+select {
+    background-color: #f2f2f2;
+    padding: 5px 17px;
+    border-radius: 18px;
+}
+
+#farmer_story_content{
+    height: 640px;
+    margin-bottom: 30px;
+}
+
+#farmer_story_table tr:first-child {
+    border-top: solid 3px #5e6656;
+    border-bottom: solid 1px #5e6656;
+}
+
+#farmer_story_table tr:not(:first-child) {
+    border-bottom: solid 1px #5e665680;
 }
