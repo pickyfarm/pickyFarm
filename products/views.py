@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def store_list_all(request):
+    cat_name = "all"
     page = int(request.GET.get('page', 1))
     sort = request.GET.get('sort', '최신순')
     page_size = 15
@@ -26,6 +27,7 @@ def store_list_all(request):
     categories = Category.objects.filter(parent=None).order_by('name')
     page_total = ceil(products_count/page_size)
     ctx = {
+        "cat_name":cat_name,
         "products": products,
         "categories": categories,
         "page": page,
@@ -38,13 +40,14 @@ def store_list_all(request):
 
 def store_list_cat(request, cat):
     big_cat = ['fruit', 'vege', 'others']
+    cat_name = str(cat)
     products = []
     page = int(request.GET.get('page', 1))
     sort = request.GET.get('sort', '최신순')
     page_size = 15
     limit = page_size * page
     offset = limit - page_size
-    if str(cat) in big_cat:
+    if cat_name in big_cat:
         big_category = Category.objects.get(slug=cat)
         print(big_category)
         categories = big_category.children.all().order_by('name')
@@ -53,16 +56,22 @@ def store_list_cat(request, cat):
                 category__parent__slug=cat, open=True).order_by('create_at')
         except ObjectDoesNotExist:
             ctx = {
+                "cat_name":cat_name,
                 'big_category': big_category,
             }
             return render(request, "products/products_list.html", ctx)
     else:
+        big_cat_name = {'과일':'fruit', '야채':'vege', '기타':'others'}
         categories = Category.objects.get(slug=cat)
+        print(categories)
+        cat_name = big_cat_name[categories.parent.name]
+        print(cat_name)
         try:
             products = categories.products.filter(open=True).order_by('-create_at')
             categories = categories.parent.children.all().order_by('name')
         except ObjectDoesNotExist:
             ctx = {
+                "cat_name":cat_name,
                 "cateogries" : categories,
             }
             return render(request, "products/products_list.html", ctx)
@@ -86,6 +95,7 @@ def store_list_cat(request, cat):
 
     ctx = {
         "products": products,
+        "cat_name":cat_name,
         "categories": categories,
         "page": page,
         "page_total": page_total,

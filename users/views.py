@@ -151,6 +151,7 @@ def cart_in(request, product_pk):
     # return redirect(reverse("products:product_detail", args=[product_pk]))
     return redirect(request.GET['next'])
 
+
 @login_required
 def wish(request, product_pk):
     try:

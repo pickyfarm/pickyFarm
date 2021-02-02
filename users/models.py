@@ -1,7 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from config import settings
+import os
+import shutil
 # Create your models here.
+
+#image default 파일 생성하기 <- 배포전
+# def default_profile_image():
+
+#     if not os.path.exists(os.path.join(settings.BASE_DIR, 'media/default/profile_default.png')):
+#         # os.makedirs(os.path.join(settings.BASE_DIR, 'media/default'))
+#         print("media/default 폴더 생성 완료")
+#         shutil.copy(os.path.join(settings.STATIC_ROOT, 'images/default/profile_default.png'),
+#                os.path.join(settings.MEDIA_ROOT, 'default/profile_default.png'))
 
 
 class User(AbstractUser):
@@ -77,7 +88,7 @@ class Farmer(models.Model):
         return self.farm_name
 
     def inc_sub(self):
-        self.sub_count+=1
+        self.sub_count += 1
         return
 
 
@@ -98,7 +109,7 @@ class Farm_Tag(models.Model):
     tag = models.CharField(max_length=30)
     farmer = models.ManyToManyField(
         Farmer, related_name='farm_tags')
-    
+
     def __str__(self):
         return self.tag
 
@@ -129,11 +140,12 @@ class Cart(models.Model):
 #     create_at = models.DateTimeField(auto_now_add=True)
 #     review = models.ForeignKey('Staffs', on_delete=models.CASCADE)
 
+
 class Subscribe(models.Model):
-    farmer = models.ForeignKey('Farmer', related_name="subs", on_delete=models.CASCADE)
-    consumer = models.ForeignKey('Consumer', related_name="subs", on_delete=models.CASCADE)
+    farmer = models.ForeignKey(
+        'Farmer', related_name="subs", on_delete=models.CASCADE)
+    consumer = models.ForeignKey(
+        'Consumer', related_name="subs", on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.farmer.farm_name}'
-    
-    

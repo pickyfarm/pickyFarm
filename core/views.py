@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from products.models import Product
-from editor_reviews.models import Editor_Reviews
+from editor_reviews.models import Editor_Review
 from .models import Main_Slider_Image
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist

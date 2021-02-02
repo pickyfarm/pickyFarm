@@ -47,6 +47,7 @@ PICKY_APPS = [
     'users.apps.UsersConfig',
     'purchases.apps.PurchasesConfig',
     'core.apps.CoreConfig',
+    'django_summernote',
 ]
 
 INSTALLED_APPS = PICKY_APPS + DJANGO_APPS
@@ -61,7 +62,31 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 ROOT_URLCONF = 'config.urls'
+
+# SUMMERNOTE_CONFIG = {
+#     'iframe': True,
+
+#     'airMode': True,
+
+    
+
+#     'toolbar': [
+#         # ['style', ['style']],
+#         ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
+#         # ['fontname', ['fontname']],
+#         ['fontsize', ['fontsize']],
+#         # ['color', ['color']],
+#         ['para', ['ul', 'ol', 'paragraph']],
+#         ['height', ['height']],
+#         ['table', ['table']],
+#         ['insert', ['link', 'picture', 'video', 'hr']],
+#         ['view', ['fullscreen', 'codeview']],
+#         ['help', ['help']],
+#     ], 
+# }
 
 TEMPLATES = [
     {
@@ -131,7 +156,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 

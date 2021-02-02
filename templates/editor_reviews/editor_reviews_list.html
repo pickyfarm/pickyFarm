@@ -16,6 +16,7 @@
 
     <div class="review-lists-horizon w-full">
         <div class="zero-item"></div>
+        <a href="{% url 'editors_pick:detail' first_review.pk %}">
         <div class="first-item rounded-l-full flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{first_review.main_image.url}}');">
             <div class="first-item-text text-white">
                 {{first_review.title}}
@@ -24,8 +25,11 @@
                 by editorName
             </div>
         </div>
+        </a>
 
+        
         {% for review in review_list %}
+        <a href="{% url 'editors_pick:detail' review.pk %}"></a>
         <div class="remain-items flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
             <div class="items-text mx-auto bg-cover text-white" >
                 {{review.title}}
@@ -34,6 +38,7 @@
                 by editorName
             </div>
         </div>
+        </a>
         {% endfor %}
     </div>
 
