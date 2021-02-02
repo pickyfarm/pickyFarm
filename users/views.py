@@ -1,9 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-<<<<<<< HEAD
-from .models import Farmer, Farm_Tag, Subscribe, Cart, Consumer, Wish, User
-=======
-from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish
->>>>>>> farmers_page_feature
+from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User
 from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
@@ -13,14 +9,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-<<<<<<< HEAD
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import reverse_lazy
-=======
 from django.core.paginator import Paginator
 from django.db.models import Q
 
->>>>>>> farmers_page_feature
 
 class Login(View):
 
