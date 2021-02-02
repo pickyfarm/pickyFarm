@@ -51,15 +51,25 @@ class Consumer(models.Model):
         return self.user.nickname
 
 
-class Farmer(models.Model):
-    farm_name = models.CharField(max_length=50)
-    farm_news = models.CharField(max_length=500, blank=True)
-    farm_profile = models.ImageField(upload_to='farm_profile/%Y/%m/%d/', null=True, blank=True)
-    profile_title = models.CharField(max_length=200)
-    profile_desc = models.TextField()
-    contact = models.CharField(max_length=20, blank=True)
-    sub_count = models.IntegerField(default=0)
+class Editor(models.Model):
+    user = models.OneToOneField(
+        User, default=None, null=True, blank=True, related_name='editor', on_delete=models.CASCADE)
 
+
+class Farmer(models.Model):
+    CAT_CHOICES = {
+        ("vege", "채소"),
+        ("fruit", "과일"),
+        ("etc", "기타"),
+    }
+    farm_name = models.CharField(max_length=50) # 농장 이름
+    framer_profile = models.ImageField(upload_to='farmer_profile/%Y/%m/%d/', null=True, blank=True) # 농장주 사진 default icon 설정
+    farm_profile = models.ImageField(upload_to='farm_profile/%Y/%m/%d/') # 농장 대표사진 or 로고
+    profile_title = models.CharField(max_length=200) # 농가 한 줄 소개
+    profile_desc = models.TextField() # 농가 상세 소개
+    sub_count = models.IntegerField(default=0) # 구독자 수
+    farm_news = models.CharField(max_length=500, null=True, blank=True) # 농가 뉴스
+    farm_cat = models.CharField(choices=CAT_CHOICES, max_length=20, default="vege")
     user = models.OneToOneField(
         User, related_name='farmer', on_delete=models.CASCADE)
 
@@ -70,22 +80,22 @@ class Farmer(models.Model):
         self.sub_count+=1
         return
 
-class Editor(models.Model):
 
-    user = models.OneToOneField(
-        User, default=None, null=True, blank=True, related_name='editor', on_delete=models.CASCADE)
+class Farmer_Story(models.Model):
+    farmer = models.ForeignKey(
+        'Farmer', related_name='farmer_stories', on_delete=models.CASCADE) # 작성자
+    title = models.CharField(max_length=50) # 제목
+    content = models.TextField() # 내용
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
-
-# class Farm_Image(models.Model):
-#     image = models.ImageField(upload_to='farm_image/%Y/%m/%d/')
-
-#     farmer = models.ForeignKey(
-#         Farmer, on_delete=models.CASCADE, related_name='farm_images')
+    def __str__(self):
+        return f'{self.farmer} story - {self.title}'
+    
 
 
 class Farm_Tag(models.Model):
     tag = models.CharField(max_length=30)
-
     farmer = models.ManyToManyField(
         Farmer, related_name='farm_tags')
     

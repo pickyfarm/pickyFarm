@@ -3,21 +3,38 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/users/farmers_page.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-    $(document).ready(function(){
-        $('img[id=fruit]').mouseover(function(){
-            $(this).attr('src', "{% static 'images/farmers_page/fruit_cat_2.svg' %}");
-        }).mouseout(function(){
-            $(this).attr('src', "{% static 'images/farmers_page/fruit_cat.svg' %}");
+        $(function(){
+            // farmer search
+            $("input[name=search_button]").click(function(){
+                var search_key = $('#search_key').val();
+                event.preventDefault()
+                $.ajax({
+                    url:'farmer_search/',
+                    data:{
+                        'search_key':search_key,
+                    },
+                    success:function(data){
+                        $('.search_block_1').html(data)
+                    }
+                })
+            });
+
+            // farmer's story search
+            $("input[name=search_button_2]").click(function(){
+                var search_key_2 = $('#search_key_2').val();
+                event.preventDefault()
+                $.ajax({
+                    url:'farmer_story_search/',
+                    data:{
+                        'search_key_2':search_key_2,
+                    },
+                    success:function(data){
+                        $('.search_block_2').html(data)
+                    }
+                })
+            });
         });
-        $('img[id=vege]').mouseover(function(){
-            $(this).attr('src', "{% static 'images/farmers_page/vege_cat_2.svg' %}");
-        }).mouseout(function(){
-            $(this).attr('src', "{% static 'images/farmers_page/vege_cat.svg' %}");
-        });
-    });
-        
     </script>
 {% endblock stylesheet %}
 
@@ -27,136 +44,195 @@
 
 
 {% block main_content %}
-    <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center flex flex-row justify-center" id="top">
-        <!--CATEGORY-->
-        <div class="flex flex-col justify-between mr-10 items-center" id="big_category">
-                <div id="cat_all"><a href="{% url 'products:store_list' %}">ALL</a></div>
-                <div><a href="{% url 'products:store_list_category' 'fruit' %}"><img src="{% static 'images/farmers_page/fruit_cat.svg' %}" id="fruit" alt="과일"></a></div>
-                <div><a href="{% url 'products:store_list_category' 'vege' %}"><img src="{% static 'images/farmers_page/vege_cat.svg' %}" id="vege" alt="채소"></a></div>
-                <div id="cat_etc"><a href="{% url 'products:store_list_category' 'others' %}">ETC</a></div>
-        </div>
-
-        <!--MIDDLE CONTENT-->
-        <div id="content_mid" >
-            <!--TITLE-->
-            <div class="inline-block mb-5 mt-10" id="content">
-                <h1 class='' id='title'>이번주 Best</h1>
+    <div class="main-contents bg-white-400 " id="top">
+        <!--weekly hot block-->
+        <div class="w-full" id="weekly-hot">
+            <div class="mt-24 mb-8 mx-auto" id='content'>
+                <p class='text-4xl font-medium mb-5' id='title'>WEEKLY HOT</p>
+                <p class="text-xl my-2 text-gray-500">이번 주 여러분들의 관심을 많이 받은 농가,</p>
+                <p class="text-xl my-2 text-gray-500">농가 페이지를 방문하여 구독해보세요</p>
             </div>
-            <!--FIRST SECTION-->
-            <div class="block" id="content">
-                {% for best_farmer in best_farmers %}
-                    <div class="block" id="block_item">
-                        <div class="block" id="circle_block">
-                                <img id="farmer_image" src="{{best_farmer.farm_profile.url}}" alt="farmer's pic">
-                            <div id='pick_img'>
-                                <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" alt=""></a>
-                            </div>
+            <div class="flex flex-row justify-center" id="best-farmer">
+                {% for best in best_farmers %}
+                    <div class="w-1/6" id="best-farmer-img">
+                        <img id="farmer-img" src="{{best.farm_profile.url}}" alt="">
+                        <div id='pick-img'>
+                            <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" alt=""></a>
                         </div>
-                        <div class="block" id="bestfarm_desc">
-                            <p class='text-sm h-7' id='farm_loc'>지역</p>
-                            <a href="{% url 'users:farmer_detail' best_farmer.id %}"><p class="text-3xl font-bold" id='farm_name'>{{best_farmer.farm_name}}</p></a>
-                            <div class="flex flex-row justify-between" id="farm_desc_div">
-                                <p class="text-3xl font-bold mb-6" id="quote">“</p>
-                                <p class='leading-10 font-bold' id='farm_desc'>{{best_farmer.profile_title}}</p>
-                                <p class="text-3xl font-bold mt-6" id="quote">”</p>
-                            </div>
+                    </div>
+                    <div class="rounded-l-full w-full" id="best-farmer-desc" style="border:1px solid black">
+                        <div>
+                            <div>{{best.profile_title}}</div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
+        </div>
 
-            <!--SECOND SECTION-->
-            <div class="block mx-auto" id="content">
-                <div class="flex flex-col w-full" id="content_box">
-                    <!--SUB CATEGORY-->
-                    <div class="flex flex-auto" id = "top">
-                        <div class="flex flex-none w-5/6" id="category">
-                            <ul class="flex justify-start my-12">
-                                {%for category in categories %}
-                                    <div class="mx-2">
-                                        <a href="{% url 'products:store_list_category' category.slug %}">
-                                            <li class="py-2 px-3.5" id="category_item">{{category.name}}</li>
-                                        </a>
-                                    </div>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="flex flex-none justify-center w-1/6" id="sort">
-                            <img class="mt-9" src="{% static 'images/farmers_page/sort.svg' %}"  alt="sort_icon">
-                        </div>
-                    </div>
-                    <!--FARMER LIST-->
-                    <div class="block" id='content_box'>
-                        {% for farmer in farmers %}
-                            <div class="row">
-                                <div class="block" id="farm_pic">
-                                    <img id="farmer_profile" class="object-cover" src="{{farmer.farm_profile.url}}" alt="">
-                                    <div id='pick_img'>
-                                        <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" style="width:55px" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="block" id="farm_desc_bg">
-                                </div>
-                                <div class="" id="farm_desc_block">
-                                    <p class="h-9" id="farm_loc">경기 어느 지역</p>
-                                    <a href="{% url 'users:farmer_detail' farmer.id %}"><p class="text-4xl font-bold" id="farm_name">{{farmer.farm_name}}</p></a>
-                                    <div class="flex flex-row justify-between mt-8" id="">
-                                        <p class="text-3xl font-bold mb-6" id="quote">“</p>
-                                        <p class='leading-10 font-bold text-xl mx-4' id='farm_desc'>{{farmer.profile_title}}</p>
-                                        <p class="text-3xl font-bold mt-6" id="quote">”</p>
-                                    </div>
-                                    <div class="grid grid-cols-3 gap-4 mt-10" id="tag">
-                                    {% for tag in farmer.farm_tags.all %}
-                                        <a href="">
-                                            <div class="text-center align-middle font-bold" id="farm_tag">{{tag}}</div>
-                                        </a>
-                                    {% endfor %}
-                                    </div>
-                                </div>
+        <!--search bar-->
+        <div class="mx-auto mt-72 mb-20" id="content">
+            <input id="search-bar" type="text" placeholder="검색어를 입력하세요."/>
+        </div>
+
+        <!--tag table-->
+        <div class="mx-auto" id="content">
+            <div class='text-center text-gray-500 text-3xl'> Tag </div>
+            <div class="text-center mx-auto mt-8 mb-20">
+                <table id="tag_table">
+                    <tr>
+                        <td> 채소 </td>
+                        <td> 과일 </td>
+                        <td> E.T.C </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!--farmer list-->
+        <div class="w-full search_block_1" id="farm_content">
+            <div class="mx-auto py-11" id="content">
+                {% for farmer in farmers %}
+                <div class="flex row mx-auto">
+                    <div class="flex flex-row" id="wrapper">
+                        <!--farmer's image-->
+                        <div class="block" id="farm_pic">
+                            <img id="farmer_profile" class="object-cover" src="{{farmer.farm_profile.url}}" alt="">
+                            <div id='pick_img'>
+                                <a href=""><img src="" alt=""></a>
                             </div>
-                        {% endfor %}
+                        </div>
+                        <!--farmer's desc-->
+                        <div class="" id="farm_desc_block">
+                            <p class="font-medium text-2xl mb-3" id="farm_profile">{{farmer.profile_title}}</p>
+                            <p class="text-2xl font-light mb-8" id="farm_loc">경기 어느 지역</p>
+                            <a href="{% url 'users:farmer_detail' farmer.id %}"><p class="mb-8 font-medium text-5xl" id="farm_name">{{farmer.farm_name}}</p></a>
+                            <!--tag-->
+                            <div class="grid grid-cols-4 gap-2 mb-24" id="tag">
+                                {% for tag in farmer.farm_tags.all %}
+                                    <a href="">
+                                        <div class="text-center align-middle py-1 px-2 font-light text-sm transform hover:scale-105 transition duration-300 ease-in-out" id="farm_tag">#{{tag}}</div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <!--farmer's products-->
+                            <div class="grid grid-cols-3 gap-2 justify-around" id="farm_product_wrapper">
+                                {% for product in farmer.products.all|slice:":3" %}
+                                    <a href="#"><div id="farm_product">
+                                        <div class="mb-3" id="product_img_wrapper">
+                                            <img class="object-cover" id="product_img" src="{{product.main_image.url}}" alt="">
+                                        </div>
+                                        <div class="text-xs font-light" id="product_desc">{{product.title}} | {{product.sell_price}}원</div>
+                                    </div></a>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
-
-                    <!--PAGE SECTION-->
-                    <div class="flex justify-center" id="paginator">
-                        <h6>
-                            {% if page != 1 %}
-                                <a href = '?page={{page|add:-1}}'><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a>
-                            {% else %}
-                                <a href="?page=1"><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a>
-                            {% endif %}
-                        </h6>
-                        {% if page == 1 %}
-                            {{page}}
-                        {% else %}
-                            {% for page in page_range %}
-                                <a href="?page={{page}}">{{page}}</a>
-                            {% endfor %}
-                        {% endif %}
-                        <h6>
-                            {% if page != page_total %}
-                                <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'images/products_list/next.svg' %}"></a>
-                            {% else %}
-                                <a href="?page={{page_total}}"><img id="next", src="{% static 'images/products_list/next.svg' %}"></a>
-                            {% endif %}
-                        </h6>
-                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!--paginator-->
+            <div class="flex flex-row mx-auto justify-center pb-56" id='content'>
+                <div class='flex flex-row'>
+                    {% if farmers.has_previous %}
+                        <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                        <img src="{% static 'images/farmers_page/prev.png' %}" onclick="location.href='?page={{farmers.previous_page_number}}'" style="cursor: pointer">
+                    {% else %}
+                        <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                        <img src="{% static 'images/farmers_page/prev.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                    {% endif %}
+                </div>
+                <div class='flex flex-row'>
+                        <div>{{farmers.number}}</div>
+                        <div>/</div>
+                        <div>{{farmers.paginator.num_pages}}</div>
+                </div>
+                <div class='flex flex-row'>
+                    {% if farmers.has_next %}
+                        <img src="{% static 'images/farmers_page/next.png' %}" onclick="location.href='?page={{farmers.next_page_number}}'" style="cursor: pointer">
+                        <img src="{% static 'images/farmers_page/nexter.png' %}" onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
+                    {% else %}
+                        <img src="{% static 'images/farmers_page/next.png' %}" onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
+                        <img src="{% static 'images/farmers_page/nexter.png' %}" onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
+                    {% endif %}
                 </div>
             </div>
         </div>
 
-        <!--CART-->
-        <div class="inline-block pl-10 ml-5" id="follow_menu">
-            <a href="#top"><img id="go_up", src="{% static 'images/farmers_page/go_to_up.svg' %}"></a>
-            <a href=""><img id="go_to_cart", src="{% static 'images/farmers_page/go_to_cart.svg' %}"></a>
+        <!--farmer's story-->
+        <div class="mx-auto mt-20" id="content">
+            <!--header-->
+            <div class="text-center" id="header">
+                <img class="mx-auto mb-5" src="{% static 'images/farmers_page/farmer_story.svg' %}" alt="">
+                <p class="mb-5 text-3xl" id="story_title"> Farmer's Story </p>
+                <p class="mb-20 text-sm" id="story_subtitle"> 파머가 직접 전하는 농가 이야기 </p>
+            </div>
+            <!--search bar-->
+            <div class="flex flex-row mb-36" id="story_search">
+                <div>
+                    <select class="mx-7 w-24" name="" id="">
+                        <option value="" selected> 제목 </option>
+                        <option value=""> 농가 이름 </option>
+                        <option value=""> 농부 이름 </option>
+                    </select>
+                </div>
+                <div>
+                    <input class="mx-7" id="search-bar" type="text" placeholder="검색어를 입력하세요."/>
+                </div>
+            </div>
+            <!--story list-->
+            <div class="w-full" id="content">
+                <!--story table-->
+                <div id="farmer_story_content">
+                    <table class="w-full" id="farmer_story_table">
+                        <tr class="font-medium text-sm" id="table_header">
+                            <th class="py-6"> FARM </th>
+                            <th class="py-6"> FARMER </th>
+                            <th class="py-6"> 제목 </th>
+                            <th class="py-6"> 조회수 </th>
+                            <th class="py-6"> 작성일 </th>
+                        </tr>
+                        {% for story in farmer_stories %}
+                        <tr class="text-center" id="table_row">
+                            <td class="py-7" id="row_farm"> {{ story.farmer.farm_name }} </td>
+                            <td class="py-7" id="row_farmer"> {{ story.farmer.user.nickname }} </td>
+                            <td class="py-7" id="row_title"> {{ story.title }} </td>
+                            <td class="py-7" id="row_views"> 1000 </td>
+                            <td class="py-7" id="row_create_at"> {{ story.create_at|date:"Y-m-d" }} </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <!--글쓰기 버튼-->
+                <div class="flex flex-row justify-end mb-20">
+                    <a href=""><img src="{% static 'images/farmers_page/story_write_btn.svg' %}" alt=""></a>
+                </div>
+                <!--paginator-->
+                <div class="flex flex-row mx-auto justify-center pb-56">
+                    <div class='flex flex-row'>
+                        {% if farmer_stories.has_previous %}
+                            <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page_2=1'" style="cursor: pointer">
+                            <img src="{% static 'images/farmers_page/prev.png' %}" onclick="location.href='?page_2={{farmer_stories.previous_page_number}}'" style="cursor: pointer">
+                        {% else %}
+                            <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page_2=1'" style="cursor: pointer">
+                            <img src="{% static 'images/farmers_page/prev.png' %}" onclick="location.href='?page_2=1'" style="cursor: pointer">
+                        {% endif %}
+                    </div>
+                    <div class='flex flex-row'>
+                            <div>{{farmer_stories.number}}</div>
+                            <div>/</div>
+                            <div>{{farmer_stories.paginator.num_pages}}</div>
+                    </div>
+                    <div class='flex flex-row'>
+                        {% if farmer_stories.has_next %}
+                            <img src="{% static 'images/farmers_page/next.png' %}" onclick="location.href='?page_2={{farmer_stories.next_page_number}}'" style="cursor: pointer">
+                            <img src="{% static 'images/farmers_page/nexter.png' %}" onclick="location.href='?page_2={{farmer_stories.paginator.num_pages}}'" style="cursor: pointer">
+                        {% else %}
+                            <img src="{% static 'images/farmers_page/next.png' %}" onclick="location.href='?page_2={{farmer_stories.paginator.num_pages}}'" style="cursor: pointer">
+                            <img src="{% static 'images/farmers_page/nexter.png' %}" onclick="location.href='?page_2={{farmer_stories.paginator.num_pages}}'" style="cursor: pointer">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock main_content %}
-    
-    {% for farmer in farmers %}
-        <div>
-            {{farmer.farm_name}}
-            {{farmer.profile_title}}
-            {{farmer.farm_profile.url}}
-        </div>
-    {% endfor %}

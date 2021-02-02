@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from .models import Farmer, Farm_Tag, Subscribe, Cart, Consumer, Wish
+from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish
 from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
@@ -9,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 class Login(View):
@@ -67,29 +69,55 @@ class SignUp(View):
 
 
 def farmers_page(request):
-    page = int(request.GET.get('page', 1))
-    page_size = 6
-    limit = page_size * page
-    offset = limit - page_size
-    farmers_count = Farmer.objects.all().count()
-    tags = Farm_Tag.objects.all()
-    farmers = Farmer.objects.annotate(
-        sub_counts=Count('subs'))  # 구독자 수 필드 임의 추가
-    best_farmers = farmers.order_by('-sub_counts')[:3]
-    # farmers = Farmer.objects.all()
-    # best_farmers = farmers.order_by('-sub_count')[:3]
+    # farmer list
+    farmer = Farmer.objects.all()
+    paginator = Paginator(farmer, 3)
+    page = request.GET.get('page')
+    farmers = paginator.get_page(page)
 
-    page_total = ceil(farmers_count/page_size)
-    categories = Category.objects.filter(parent=None)
-    # best_farmer.user.profile_image.url
+    # weekly hot farmer
+    best_farmers = farmer.order_by('-sub_count')[:1] # 조회수 대신 임의로
+
+    # farmer's story list
+    farmer_story = Farmer_Story.objects.all()
+    paginator_2 = Paginator(farmer_story, 7)
+    page_2 = request.GET.get('page_2')
+    farmer_stories = paginator_2.get_page(page_2)
+
     ctx = {
-        'tags': tags,
-        'page': page,
-        'page_total': page_total,
-        'page_range': range(1, page_total),
-        'farmers': farmers,
         'best_farmers': best_farmers,
-        "categories": categories,
+        'farmers': farmers,
+        'farmer_stories': farmer_stories,
+    }
+    return render(request, 'users/farmers_page.html', ctx)
+
+# farmer 검색 view
+def farmer_search(request):
+    search_key = request.GET.get('search_key') # 검색어 가져오기
+    search_list = Farmer.objects.all()
+    if search_key: # 검색어 존재 시
+        search_list = search_list.filter(Q(farm_name__contains=search_key)|Q(user__nickname__contains=search_key)) 
+    search_list = search_list.order_by('-id')
+    paginator = Paginator(search_list, 10)
+    page = request.GET.get('page')
+    farmers = paginator.get_page(page)
+    ctx = {
+        'farmers':farmers,
+    }
+    return render(request, 'users/farmers_page.html', ctx)
+
+# farmer story 검색 view
+def farmer_story_search(request):
+    search_key_2 = request.GET.get('search_key_2')
+    search_list = Farmer_Story.objects.all()
+    if search_key_2:
+        search_list = search_list.filter(Q(farmer__contains=search_key)|Q(title__contains=search_key))
+    search_list = search_list.order_by('-id')
+    paginator = Paginator(search_list, 10)
+    page_2 = request.GET.get('page_2')
+    farmer_stories = paginator.get_page(page_2)
+    ctx = {
+        'farmer_stories':farmer_stories,
     }
     return render(request, 'users/farmers_page.html', ctx)
 
