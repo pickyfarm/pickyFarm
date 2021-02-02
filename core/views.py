@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from products.models import Product
-from editor_reviews.models import Editor_Reviews
+from editor_reviews.models import Editor_Review
 from .models import Main_Slider_Image
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
@@ -25,7 +25,7 @@ def index(request):
         best_product_list = products.order_by("sales_rate")[0:4]
 
     print(best_product_list)
-    editor_pick_list = Editor_Reviews.objects.all()
+    editor_pick_list = Editor_Review.objects.all()
     print(editor_pick_list)
 
     today_farmer_list = Product.objects.filter(create_at__date=date.today())

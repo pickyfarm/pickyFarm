@@ -5,7 +5,7 @@ from django_summernote import fields as summer_fields
 
 
 
-class Editor_Reviews(models.Model):
+class Editor_Review(models.Model):
 
     POST_CAT = (
         ('farm_cover','농가 취재기'),
@@ -35,9 +35,9 @@ class Editor_Reviews(models.Model):
     #     return Editor_Reviews.objects.filter(author=self.author.user.nickname).count()
 
 
-class Editor_Reviews_Image(models.Model):
+class Editor_Review_Image(models.Model):
 
     image = models.ImageField(upload_to='editor_review_images')
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
-    review = models.ForeignKey(Editor_Reviews, related_name="editor_review_images", on_delete=models.CASCADE)
+    review = models.ForeignKey(Editor_Review, related_name="editor_review_images", on_delete=models.CASCADE)

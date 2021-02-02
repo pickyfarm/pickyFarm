@@ -76,7 +76,7 @@ class Product_Recomment(Comment):
 class Editor_Review_Comment(Comment):
     """Editor_Review_Comment Model Definition"""
 
-    editor_review = models.ForeignKey("editor_reviews.Editor_Reviews", related_name="editor_review_comments", on_delete=models.CASCADE)
+    editor_review = models.ForeignKey("editor_reviews.Editor_Review", related_name="editor_review_comments", on_delete=models.CASCADE)
 
 
 class Editor_Review_Recomment(Comment):

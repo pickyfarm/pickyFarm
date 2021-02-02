@@ -1,5 +1,5 @@
 from django import forms
-from .models import Editor_Reviews
+from .models import Editor_Review
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from products.models import Category, Product
 
@@ -20,7 +20,7 @@ class Editors_Reviews_Form(forms.Form):
     product = forms.ModelChoiceField(required=False, label="연관 작물", queryset=Product.objects.filter(open=True), empty_label='--관련 작물 선택--')
 
     # class Meta:
-    #     model = Editor_Reviews
+    #     model = Editor_Review
     #     fields = ['contents']
     #     labels = {
     #         # 'title': '',
