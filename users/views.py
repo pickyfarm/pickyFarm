@@ -151,7 +151,6 @@ class MyPasswordResetView(PasswordResetView):
             return render(self.request, 'users/password_reset_done_fail.html')
 
 
-
 class MyPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'users/password_reset_done.html'
 

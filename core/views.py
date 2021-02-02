@@ -14,17 +14,17 @@ def index(request):
     except ObjectDoesNotExist:
         pass
 
-    today_pick_list = products.order_by("create_at")
-
-    print(today_pick_list)
-
-    if len(products) < 4:
+    if len(products) < 5:
+        today_pick_list = products.order_by("create_at")[:len(products)]
+    
+    elif len(products) < 4:
+        today_pick_list = products.order_by("create_at")[:len(products)]
         best_product_list = products.order_by("sales_rate")[:len(products)]
     
     else:
+        today_pick_list = products.order_by("create_at")[:5]
         best_product_list = products.order_by("sales_rate")[0:4]
 
-    print(best_product_list)
     editor_pick_list = Editor_Reviews.objects.all()
     today_farmer_list = Product.objects.filter(create_at__date=date.today())
     main_slider_image = Main_Slider_Image.objects.all()
@@ -34,6 +34,7 @@ def index(request):
         today_farmer_list = today_farmer_list | Product.objects.exclude(create_at__date=date.today())[: 3 - len(today_farmer_list)]
         
     ctx = {
+        'products': products,
         'today_pick_list': today_pick_list,
         'best_product_list': best_product_list,
         'editor_pick_list': editor_pick_list,
