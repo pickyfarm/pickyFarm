@@ -6,6 +6,10 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from core.models import NoQuerySet, AuthorNotMatched
+from django.core.files.uploadedfile import SimpleUploadedFile
+from config.settings import BASE_DIR
+import os
+from django.utils import timezone
 
 
 def index(request):
@@ -81,8 +85,14 @@ def update(request, pk):
         form = Editors_Reviews_Form(request.POST, request.FILES)
         if form.is_valid():
             print("form validation 완료")
-            editor_review = Editor_Review(**(form.cleaned_data))
-            editor_review.save()
+            post.title = form.cleaned_data['title']
+            post.main_image = form.cleaned_data['main_image']
+            post.contents = form.cleaned_data['contents']
+            post.post_category = form.cleaned_data['post_category']
+            post.product_category = form.cleaned_data['product_category']
+            post.product = form.cleaned_data['product']
+            post.updated_at = timezone.now()
+            post.save()
             return redirect('editors_pick:detail', pk)
         else:
             print("form validation 실패")
@@ -91,16 +101,23 @@ def update(request, pk):
         form_data = {
             'title': post.title,
             'contents': post.contents,
-            'main_image': post.main_image.url,
             'post_category': post.post_category,
             'product_category': post.product_category,
             'product': post.product,
         }
+        # main_image_path = os.path.join(BASE_DIR, post.main_image)
+        # print(main_image_path)
+        # with open(main_image_path, 'rb') as f:
+        #     image_data = {
+        #         'main_image': SimpleUploadedFile('sumbnail', f.read()),
+        #     }
         form = Editors_Reviews_Form(form_data)
+
         ctx = {
+            'post': post,
             'form': form,
         }
-        return render(request, 'editor_reviews/editor_reviews_create.html', ctx)
+        return render(request, 'editor_reviews/editor_reviews_update.html', ctx)
 
 
 @login_required
