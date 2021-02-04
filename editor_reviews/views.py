@@ -5,7 +5,7 @@ from users.models import Editor
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from core.models import NoQuerySet
+from core.models import NoQuerySet, AuthorNotMatched
 
 
 def index(request):
@@ -66,12 +66,16 @@ def create(request):
 
 @login_required
 def update(request, pk):
+    post = get_object_or_404(Editor_Review, pk=pk)
+
     try:
         user = request.user.editor
+        if post.author != user:
+            raise AuthorNotMatched
     except ObjectDoesNotExist:
         return redirect(reverse("core:main"))
-
-    post = get_object_or_404(Editor_Review, pk=pk)
+    except AuthorNotMatched:
+        return redirect(reverse("core:main"))
 
     if request.method == 'POST':
         form = Editors_Reviews_Form(request.POST, request.FILES)
@@ -84,7 +88,15 @@ def update(request, pk):
             print("form validation 실패")
             return redirect(reverse("core:main"))
     else:
-        form = Editors_Reviews_Form(instance=post)
+        form_data = {
+            'title': post.title,
+            'contents': post.contents,
+            'main_image': post.main_image.url,
+            'post_category': post.post_category,
+            'product_category': post.product_category,
+            'product': post.product,
+        }
+        form = Editors_Reviews_Form(form_data)
         ctx = {
             'form': form,
         }
@@ -93,12 +105,17 @@ def update(request, pk):
 
 @login_required
 def delete(request, pk):
+    post = get_object_or_404(Editor_Review, pk=pk)
+
     try:
         user = request.user.editor
+        if post.author != user:
+            raise AuthorNotMatched
     except ObjectDoesNotExist:
         return redirect(reverse("core:main"))
-    print(pk)
-    post = Editor_Review.objects.get(pk=pk)
+    except AuthorNotMatched:
+        return redirect(reverse("core:main"))
+
     post.delete()
 
     return redirect(reverse('core:main'))

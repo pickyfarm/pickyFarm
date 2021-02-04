@@ -7,7 +7,9 @@
 
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
+    <div class="w-3/5">
     {{review.contents|safe}}
+    </div>
 </div>
 
 <a href="{% url 'editors_pick:delete' review.pk %}"><div>지우기.</div></a>

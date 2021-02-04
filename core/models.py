@@ -12,3 +12,6 @@ class Main_Slider_Image(models.Model):
 
 class NoQuerySet(Exception):
     pass
+
+class AuthorNotMatched(Exception):
+    pass
