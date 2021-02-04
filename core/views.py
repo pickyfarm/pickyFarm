@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from products.models import Product
 from editor_reviews.models import Editor_Review
+from users.models import Farmer
 from .models import Main_Slider_Image
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
@@ -15,7 +16,8 @@ def index(request):
         pass
 
     if len(products) < 5:
-        today_pick_list = products.order_by("create_at")[:len(products)]
+        today_pick_list = products.order_by("create_at")[: len(products)]
+        best_product_list = products.order_by("sales_rate")[:len(products)]
     
     elif len(products) < 4:
         today_pick_list = products.order_by("create_at")[:len(products)]
@@ -25,13 +27,13 @@ def index(request):
         today_pick_list = products.order_by("create_at")[:5]
         best_product_list = products.order_by("sales_rate")[0:4]
 
-    editor_pick_list = Editor_Reviews.objects.all()
-    today_farmer_list = Product.objects.filter(create_at__date=date.today())
+    editor_pick_list = Editor_Review.objects.all()
+    today_farmer_list = Farmer.objects.all()
     main_slider_image = Main_Slider_Image.objects.all()
     
 
     if len(today_farmer_list) < 3:
-        today_farmer_list = today_farmer_list | Product.objects.exclude(create_at__date=date.today())[: 3 - len(today_farmer_list)]
+        today_farmer_list = today_farmer_list | Farmer.objects.all()[: 3 - len(today_farmer_list)]
         
     ctx = {
         'products': products,

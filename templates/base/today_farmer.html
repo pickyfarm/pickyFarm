@@ -1,50 +1,38 @@
 {% load static %}
 
 <div class="today-farmer flex flex-col w-full mt-8">
-    <div class="title mx-auto text-3xl mt-8 font-bold">Today's Farmer</div>
-    <div class="flex mt-20">
-        <div class="farmer-list flex">
-            {% for product in today_farmer_list %}
-            <div class="flex farm-content">
-
-                <div class="images flex items-center">
-                    <div class="farm-image rounded-r-full bg-cover" style="background-image:url('{{product.farmer.farm_profile.url}}')"></div>
-                    <div class="round relative right-12">
-                        <div class="round-image rounded-full bg-gray-600 bg-cover" style="background-image: url('{{product.main_image.url}}');"></div>
-                        <img class=" absolute right-0 top-0 w-16" src="{% static 'images/index/338.svg' %}" alt="">
-                    </div>
-                </div>
-                
-                <div class="relative ml-8" id="farm_desc_block">
-                    <p class=" text-xs text-gray-400" id="farm_loc">경기 어느 지역</p>
-                    <p class="text-2xl title font-bold " id="farm_name">{{product.farmer.farm_name}}</p>
-                    <div class="flex flex-row justify-between mt-8" id="">
-                        <p class="text-3xl font-bold mb-6" id="quote">“</p>
-                        <p class='leading-10 font-bold text-xl mx-4' id='farm_desc'>{{product.farmer.profile_title}}</p>
-                        <p class="text-3xl font-bold mt-6" id="quote">”</p>
-                    </div>
-                    <div class="grid grid-cols-3 gap-4 mt-4" id="tag">
-                        {% for tag in product.farmer.farm_tags.all %}
-                        <a href="">
-                            <div class="text-center align-middle font-bold text-sm" id="farm_tag">#{{tag}}</div>
-                        </a>
-                        {% endfor %}
-                    </div>
-                    
-                    <div class="w-32 h-8 rounded-full farm-visit mt-auto absolute bottom-0 text-center leading-8 text-white text-xs">방문하기</div>
+    <div class="title mx-auto text-3xl mt-8 font-medium">Farmer of the week</div>
+    <div class="mx-auto text-base font-light text-gray-400 mt-3">매주 월요일 0시에 업데이트 됩니다</div>
+    
+    <div class="farmer-list mt-12">
+        {% for farmer in today_farmer_list %}
+        <div class="">
+            <div class="inline-flex farm-content">
+                <div class="farm-image rounded-r-full bg-cover"
+                    style="background-image:url('{{farmer.farm_profile.url}}')"></div>
+                <div class="relative ml-12" id="farm_desc_block">
+                    <p class="text-lg title font-bold " id="farm_name">{{farmer.farm_name}}</p>
+                    <p class="text-2xl font-normal break-words mt-4">최다 조회수를 기록한 어쩌구저쩌리~</p>
+                    <p class="text-xs font-light text-gray-300">기준에대한 설명 어쩌구~</p>
+                    <p class="text-xs break-words font-light text-gray-300 mt-6 leading-6">여기는 뭘통해서 어떻게 되었고 그 결과
+                        어쩌구저쩌리~~~~~~~~~~~~</p>
+                    <div
+                        class="w-32 h-8 rounded-full farm-visit mt-auto absolute bottom-0 text-center leading-8 text-white text-xs">
+                        방문하기</div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-
-        <div class="next-arrow ml-auto mr-24 w-6 self-center"><img src="{% static 'images/index/next.svg' %}" alt=""></div>
+        {% endfor %}
     </div>
+
+    <div class="next-arrow ml-auto mr-24 w-6"><img class="arrow" src="{% static 'images/index/next.svg' %}" alt=""></div>
 </div>
 
 <script>
-    $(function(){
+    $(function () {
         $('.farmer-list').slick({
             fade: true,
+            draggable: false,
             nextArrow: $(".next-arrow")
         });
     });
@@ -52,56 +40,42 @@
 
 
 <style>
-    .round{
-        width: 270px;
+    .farm-image {
         height: 270px;
-    }
-    
-    .round-image{
-        width: 270px;
-        height: 270px;
-        border: solid 8px #5e6656;
-        
-    }
-
-    .farm-image{
-        height: 270px;
-        width: calc(30vw + 135px);
-        border: solid 8px #5e6656;
+        width: 60vw;
         border-left: none;
     }
 
     #farm_desc_block {
         height: 270px;
+        width: 200px;
     }
 
-#farm_tag {
-    padding: 0 10px;
-    height: 28px;
-    border-radius: 28px;
-    box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
-    background-color: #ffffff;
-    line-height: 28px;
-}
 
-    #category_item:hover, #farm_tag:hover {
-    transform: scale(1.1, 1.1);
-    transition-duration: 0.5s;
-    }
 
-    .farm-visit{
+    .farm-visit {
         background-color: #9e9574;
     }
 
-    .farmer-list{
+    .farmer-list {
         height: 270px;
+        width: calc(65vw+200px) !important;
+
     }
 
-    .today-farmer{
+    .today-farmer {
         height: 490px;
     }
 
-    .farm-content{
-        display: flex !important;
+    .farm-content {
+
+        
+    }
+
+    .arrow{
+        position: relative;
+        top: -156px;
+        right: 150px;
+        z-index: 1000;
     }
 </style>
