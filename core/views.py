@@ -15,7 +15,8 @@ def index(request):
         pass
 
     if len(products) < 5:
-        today_pick_list = products.order_by("create_at")[:len(products)]
+        today_pick_list = products.order_by("create_at")[: len(products)]
+        best_product_list = products.order_by("sales_rate")[:len(products)]
     
     elif len(products) < 4:
         today_pick_list = products.order_by("create_at")[:len(products)]
