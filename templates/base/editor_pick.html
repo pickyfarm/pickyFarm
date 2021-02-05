@@ -2,13 +2,13 @@
 
 <div class="editor-pick flex flex-col" style="background-color: #fafafa;">
     <div class="title mt-20 text-3xl mx-auto font-semibold">에디터의 추천</div>
-    <div class="sub-title text-sm font-medium mt-2 mx-auto">못난이 작물 이야기부터, 경험담까지 에디터가 직접 겪어보고 전해드립니다</div>
+    <div class="sub-title text-sm font-light mt-2 mx-auto">못난이 작물 이야기부터, 경험담까지 에디터가 직접 겪어보고 전해드립니다</div>
 
     <div class="category flex justify-center mt-8">
-            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" src="{% static 'images/index/all_select.svg' %}" alt=""></div>
-            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" src="{% static 'images/index/fruit.svg' %}" alt=""></div>
-            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" src="{% static 'images/index/vege.svg' %}" alt=""></div>
-            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" src="{% static 'images/index/etc.svg' %}" alt=""></div>
+            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" id='all' src="{% static 'images/index/all_select.svg' %}" onmouseover=this.src = "{% static 'images/index/all_select.svg' %}"; alt=""></div>
+            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" id='fruit' src="{% static 'images/index/fruit.svg' %}" alt=""></div>
+            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" id='vege' src="{% static 'images/index/vege.svg' %}" alt=""></div>
+            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" id='etc' src="{% static 'images/index/etc.svg' %}" alt=""></div>
     </div>
 
     <div class="pick-detail flex ml-auto mt-4">
