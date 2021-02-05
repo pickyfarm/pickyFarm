@@ -13,15 +13,108 @@
 
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
-    <div id='login_form' class="mt-10">
+    <div id='login_form' class="mt-24 mx-auto" style="width: 350px;">
+        <img src="{% static 'images/user/login.svg' %}" class="mx-auto" alt="">
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 100px;">로그인</div>
         <form method="POST" action="{% url 'users:login' %}">
             {% csrf_token %}
-            {{form.as_p}}
-            <button>로그인</button>
+            <div class="input_forms flex flex-col">
+                
+                {% for field in form %}
+                {{field}}
+                {% endfor %}
+                <div class="mr-auto">
+                    <input type="checkbox" name="auto_login" id="auto_login" value="자동 로그인">
+                    <label for="auto_login" style="line-height: 20px;">자동로그인</label>
+                </div>
+                <button class="login-button" >로그인</button>
+            </div>
         </form>
+        <div class="flex justify-between links">
+            <div>회원 가입</div>
+            <div class="bar"></div>
+            <div>아이디 찾기</div>
+            <div class="bar"></div>
+            <div>비밀번호 찾기</div>
+        </div>
     </div>
 </div>
+
+<style>
+    *::selection{
+        background: none;
+    }
+
+    #login_form{
+        width: 350px !important;
+    }
+
+    #auto_login{
+        display: none;
+    }
+
+    #auto_login + label::before{
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
+    }
+
+    input[id='auto_login']:checked + label::before{
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+
+    label{
+        color: #5c6754;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+
+    #id_username, #id_password, button{
+        height: 50px;
+        border-radius: 10px;
+        border: 1px solid #b3b3b3;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 20px;
+    }
+
+    #id_username, #id_password{
+        font-weight:300;
+    }
+
+    .login-button{
+        margin-top: 45px;
+        background-color: #5c6754;
+        color: white;
+        border: none;
+    }
+
+    .links{
+        height: 17px;
+    }
+
+    .links *{
+        line-height: 17px;
+        font-size: 15px;
+        color: #5c6754;
+        font-weight: 500;
+    }
+
+    .bar{
+        border: 1px solid #b3b3b3;
+    }
+ 
+</style>
     
 {% endblock %}
+
+
     
     
