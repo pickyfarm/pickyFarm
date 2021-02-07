@@ -98,20 +98,20 @@ def update(request, pk):
             print("form validation 실패")
             return redirect(reverse("core:main"))
     else:
-        form_data = {
-            'title': post.title,
-            'contents': post.contents,
-            'post_category': post.post_category,
-            'product_category': post.product_category,
-            'product': post.product,
-        }
+        # form_data = {
+        #     'title': post.title,
+        #     'contents': post.contents,
+        #     'post_category': post.post_category,
+        #     'product_category': post.product_category,
+        #     'product': post.product,
+        # }
         # main_image_path = os.path.join(BASE_DIR, post.main_image)
         # print(main_image_path)
         # with open(main_image_path, 'rb') as f:
         #     image_data = {
         #         'main_image': SimpleUploadedFile('sumbnail', f.read()),
         #     }
-        form = Editors_Reviews_Form(form_data)
+        form = Editors_Reviews_Form(instance=post)
 
         ctx = {
             'post': post,
