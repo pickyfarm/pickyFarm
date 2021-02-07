@@ -25,7 +25,7 @@ urlpatterns = [
     path('editors_pick/', include('editor_reviews.urls', namespace='editor_reviews')),
     path('product/', include("products.urls", namespace='products')),
     path('comment/', include("comments.urls", namespace='comment')),
-    path('purchase/', include("purchases.urls", namespace='purchase')),
+    path('order/', include("orders.urls", namespace='orders')),
     path('user/', include("users.urls", namespace='user')),
     path('summernote/', include("django_summernote.urls")),
 ]

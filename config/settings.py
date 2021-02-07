@@ -45,8 +45,8 @@ PICKY_APPS = [
     "products.apps.ProductsConfig",
     'comments.apps.CommentsConfig',
     'users.apps.UsersConfig',
-    'purchases.apps.PurchasesConfig',
     'core.apps.CoreConfig',
+    'orders.apps.OrdersConfig',
     'django_summernote',
 ]
 
