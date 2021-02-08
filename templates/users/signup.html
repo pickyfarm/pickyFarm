@@ -3,21 +3,192 @@
 
 
 {% block stylesheet %}
-    
+
 {% endblock stylesheet %}
 
-{% block title_name %}
-    로그인
-{% endblock title_name %}
+{% block title_name %}회원가입{% endblock title_name %}
 
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
-    <div id='signup_form' class="mt-10">
+    <div id='signup_form' class="mt-10 flex flex-col">
+        <img src="{% static 'images/user/login.svg' %}" class="mx-auto mt-12" alt="">
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 100px;">회원가입</div>
         <form method="POST" action="{% url 'users:signup' %}">
             {% csrf_token %}
-            {{form.as_p}}
-            <button>회원가입</button>
+            <div class="input_forms grid">
+                {{form.username.label_tag}}
+                <div>
+                    {{form.username}}
+                    {{form.username.errors}}
+                </div>
+                {{form.password.label_tag}}
+                {{form.password}}
+                {{form.password_re.label_tag}}
+                {{form.password_re}}
+                {{form.last_name.label_tag}}
+                {{form.last_name}}
+                {{form.first_name.label_tag}}
+                {{form.first_name}}
+                {{form.nickname.label_tag}}
+                {{form.nickname}}
+                <div class="valid-button">중복확인</div>
+                {{form.email.label_tag}}
+                {{form.email}}
+                <div class="valid-button">중복확인</div>
+                {{form.gender.label_tag}}
+                <div class="flex gender-selection">
+                    {{form.gender}}
+                </div>
+
+                {{form.birth.label_tag}}
+                <div class="flex justify-between birth-selection">
+                    {{form.birth}}
+                </div>
+            </div>
+            <div class="line mx-auto"></div>
+            <div class="line mx-auto"></div>
+            <button class="submit">회원가입</button>
         </form>
     </div>
 </div>
+
+<style>
+    #signup_form {
+        width: 820px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+        
+    }
+
+    .input_forms {
+        grid-template-columns: 302.5px 300px 217.5px;
+        row-gap: 40px;
+        margin-bottom: 38px;
+    }
+
+    .input_forms input {
+        border-radius: 3px;
+        border: solid 1px #808080;
+        width: 300px;
+        height: 40px;
+        padding-left: 15px;
+        font-size: 20px;
+        color: #808080;
+        font-weight: normal;
+    }
+
+    .input_forms input, .errorlist {
+        grid-column: 2;
+    }
+
+    .errorlist li{
+        font-size: 12px;
+        color:red;
+        text-align: start;
+        margin-top: 5px;
+        padding-left: 15px;
+    }
+
+    .input_forms input::placeholder {
+        position: relative;
+        right: 7.5px;
+        font-size: 15px;
+        text-align: center;
+        font-weight: normal;
+    }
+
+    .input_forms label {
+        grid-column: 1;
+        margin-right: auto;
+        margin-left: 60.5px;
+        font-size: 25px;
+        font-weight: normal;
+        color: #4d4d4d;
+    }
+
+    .birth-selection ul , .gender-selection ul{
+        display: flex;
+    }
+
+    .gender-selection label{
+        margin-left: 0;
+    }
+
+    .gender-selection li:nth-child(1){
+        margin-right: 75px !important;
+    }
+
+    .valid-button {
+        width: 110px;
+        height: 40px;
+        border-radius: 20px;
+        background-color: #5e6656;
+        color: white;
+        line-height: 40px;
+        margin-left: 33px;
+        font-size: 15px;
+        font-weight: normal;
+    }
+
+    #id_gender_0,
+    #id_gender_1 {
+        display: none;
+    }
+
+    .gender-selection label{
+        font-size: 20px;
+        color: #808080;
+        font-weight: normal;
+    }
+
+    #id_gender label::before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 3.5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
+    }
+
+    label.checked::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+
+    .submit{
+        width: 350px;
+        height: 100px;
+        border-radius: 50px;
+        background-color: #5c6754;
+        color: white;
+        font-size: 35px;
+        font-weight: bold;
+        margin-top: 54px;
+        margin-bottom: 42px;
+    }
+
+    .line{
+        width: 740px;
+        border: solid 1px #5e6656;;
+    }
+</style>
+
+<script>
+
+    $("input:radio[name=gender]").on('change', function () {
+        if(this.value == "female") {
+            $("#id_gender_0").parent().addClass("checked");
+            $("#id_gender_1").parent().removeClass("checked");
+        }
+
+        if(this.value == "male"){
+            $("#id_gender_1").parent().addClass("checked");
+            $("#id_gender_0").parent().removeClass("checked");
+        }
+    });
+
+</script>
 {% endblock %}

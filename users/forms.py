@@ -2,10 +2,21 @@ from django import forms
 from . import models
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
+class BaseForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')  
+        super(BaseForm, self).__init__(*args, **kwargs)
+
+class BaseModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(BaseModelForm, self).__init__(*args, **kwargs)
+
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label="아이디", max_length=100)
-    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput)
+    username = forms.CharField(label="아이디", max_length=100,
+        widget=forms.TextInput(attrs={'placeholder': '아이디를 입력해주세요', 'style': 'height:50px'}))
+    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(attrs={'placeholder': '비밀번호를 입력해주세요'}))
 
     def clean(self):
         username = self.cleaned_data.get('username')
@@ -21,24 +32,24 @@ class LoginForm(forms.Form):
 
 
 GENDER_CHOICES = {
-    ("male", "남자"),
-    ("female", "여자"),
+    ("male", "남성"),
+    ("female", "여성"),
 }
 
 
 class SignUpForm(forms.Form):
-    username = forms.CharField(label="아이디", max_length=100)
-    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput)
-    password_re = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput)
+    username = forms.CharField(label="아이디", max_length=100, label_suffix='', widget=forms.TextInput(attrs={'placeholder': '6자 이상의 영문 혹은 영문과 숫자를 조합'}))
+    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(attrs={'placeholder': '비밀번호를 입력하세요'}), label_suffix='')
+    password_re = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput(attrs={'placeholder': '비밀번호를 한번 더 입력하세요'}), label_suffix='')
 
-    last_name = forms.CharField(label="성", max_length=25)
-    first_name = forms.CharField(label="이름", max_length=50)
+    last_name = forms.CharField(label="성", max_length=25, label_suffix='')
+    first_name = forms.CharField(label="이름", max_length=50, label_suffix='')
 
-    nickname = forms.CharField(label="닉네임", max_length=100)
-    email = forms.EmailField(label="이메일")
+    nickname = forms.CharField(label="닉네임", max_length=100, label_suffix='', widget=forms.TextInput(attrs={'placeholder': '부적절한 닉네임은 제재를 받을 수 있습니다'}))
+    email = forms.EmailField(label="이메일", label_suffix='')
 
-    gender = forms.ChoiceField(label="성별", choices=GENDER_CHOICES)
-    birth = forms.DateField(widget=forms.SelectDateWidget)
+    gender = forms.ChoiceField(label="성별", choices=GENDER_CHOICES, widget=forms.RadioSelect, label_suffix='')
+    birth = forms.DateField(label="생년월일", widget=forms.SelectDateWidget, label_suffix='')
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
