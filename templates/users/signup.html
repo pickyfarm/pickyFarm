@@ -179,12 +179,12 @@
 <script>
 
     $("input:radio[name=gender]").on('change', function () {
-        if(this.value == "male") {
+        if(this.value == "female") {
             $("#id_gender_0").parent().addClass("checked");
             $("#id_gender_1").parent().removeClass("checked");
         }
 
-        if(this.value == "female"){
+        if(this.value == "male"){
             $("#id_gender_1").parent().addClass("checked");
             $("#id_gender_0").parent().removeClass("checked");
         }
