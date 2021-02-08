@@ -16,6 +16,7 @@ def index(request):
 
     if len(products) < 5:
         today_pick_list = products.order_by("create_at")[:len(products)]
+        best_product_list = None # inji add
     
     elif len(products) < 4:
         today_pick_list = products.order_by("create_at")[:len(products)]
@@ -25,7 +26,7 @@ def index(request):
         today_pick_list = products.order_by("create_at")[:5]
         best_product_list = products.order_by("sales_rate")[0:4]
 
-    editor_pick_list = Editor_Reviews.objects.all()
+    editor_pick_list = Editor_Review.objects.all()
     today_farmer_list = Product.objects.filter(create_at__date=date.today())
     main_slider_image = Main_Slider_Image.objects.all()
     

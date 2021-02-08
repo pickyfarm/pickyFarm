@@ -46,7 +46,7 @@
     color: #808080;
 }
 
-td:hover {
+#tag_tagle td:hover {
     background-color: #5e665628;
     transition-duration: 0.8s;
 }
