@@ -119,6 +119,8 @@ class Wish(models.Model):
         'Consumer', related_name="wishes", on_delete=models.CASCADE)
     product = models.ForeignKey(
         "products.Product", related_name='wishes', on_delete=models.CASCADE)
+    
+    create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.product.title}'
@@ -130,6 +132,8 @@ class Cart(models.Model):
     product = models.ForeignKey(
         "products.Product", related_name='carts', on_delete=models.CASCADE)
     quantitiy = models.IntegerField(default=1, blank=True)
+
+    create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.product.title}'

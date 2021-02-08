@@ -78,7 +78,7 @@ def farmers_page(request):
     farmers = paginator.get_page(page)
 
     # weekly hot farmer
-    best_farmers = farmer.order_by('-sub_count')[:1] # 조회수 대신 임의로
+    best_farmers = farmer.order_by('-sub_count')[:1]  # 조회수 대신 임의로
 
     # farmer's story list
     farmer_story = Farmer_Story.objects.all()
@@ -94,32 +94,38 @@ def farmers_page(request):
     return render(request, 'users/farmers_page.html', ctx)
 
 # farmer 검색 view
+
+
 def farmer_search(request):
-    search_key = request.GET.get('search_key') # 검색어 가져오기
+    search_key = request.GET.get('search_key')  # 검색어 가져오기
     search_list = Farmer.objects.all()
-    if search_key: # 검색어 존재 시
-        search_list = search_list.filter(Q(farm_name__contains=search_key)|Q(user__nickname__contains=search_key)) 
+    if search_key:  # 검색어 존재 시
+        search_list = search_list.filter(
+            Q(farm_name__contains=search_key) | Q(user__nickname__contains=search_key))
     search_list = search_list.order_by('-id')
     paginator = Paginator(search_list, 10)
     page = request.GET.get('page')
     farmers = paginator.get_page(page)
     ctx = {
-        'farmers':farmers,
+        'farmers': farmers,
     }
     return render(request, 'users/farmers_page.html', ctx)
 
 # farmer story 검색 view
+
+
 def farmer_story_search(request):
     search_key_2 = request.GET.get('search_key_2')
     search_list = Farmer_Story.objects.all()
     if search_key_2:
-        search_list = search_list.filter(Q(farmer__contains=search_key)|Q(title__contains=search_key))
+        search_list = search_list.filter(
+            Q(farmer__contains=search_key) | Q(title__contains=search_key))
     search_list = search_list.order_by('-id')
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get('page_2')
     farmer_stories = paginator.get_page(page_2)
     ctx = {
-        'farmer_stories':farmer_stories,
+        'farmer_stories': farmer_stories,
     }
     return render(request, 'users/farmers_page.html', ctx)
 
@@ -176,7 +182,7 @@ class MyPasswordResetView(PasswordResetView):
 
         if User.objects.filter(email=self.request.POST.get('email')).exists():
             return super().form_valid(form)
-        
+
         else:
             return render(self.request, 'users/password_reset_done_fail.html')
 
@@ -195,3 +201,58 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
 
 class MyPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'users/password_reset_complete.html'
+
+
+@login_required
+def mypage(request, cat):
+    try:
+        consumer = request.user.consumer
+    except ObjectDoesNotExist:
+        return redirect(reverse('core:main'))
+
+    cat_name = str(cat)
+    print(cat_name)
+
+    if request.method == 'GET':
+        consumer_nickname = consumer.user.nickname
+        sub_farmers = consumer.subs
+        print(sub_farmers)
+        questions = consumer.questions.order_by('-create_at')
+        print(questions)
+
+        products = consumer.order_groups.order_details.all()
+        print(products)
+        preparing_num = products.filter(status='preparing').count()
+        print(preparing_num)
+        delivery_num = products.filter(status='shipping').count()
+        print(delivery_num)
+        complete_num = products.filter(status='complete').count()
+        print(complete_num)
+        cancel_num = products.filter(status='cancel').count()
+
+        ctx = {
+            'consumer_nickname': consumer_nickname,
+            'sub_farmers': sub_farmers,
+            'questions': questions,
+            'preparing_num': preparing_num,
+            'delivery_num': delivery_num,
+            'complete_num': complete_num,
+            'cancel_num': cancel_num,
+        }
+
+        if cat_name == 'orders':
+            order_groups = consumer.order_groups.all()
+
+            ctx_orders = {
+                'order_groups': order_groups,
+            }
+            ctx = ctx + ctx_orders
+            return render(request, 'users/mypage.html', ctx)
+        elif cat_name == 'wishes':
+            wishes = consumer.wishes.filter('-create_at')
+
+            ctx_wishes = {
+                'wishes': wishes,
+            }
+            ctx = ctx + ctx_wishes
+            return render(request, 'users/mypage.html', ctx)
