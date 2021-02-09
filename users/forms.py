@@ -1,16 +1,7 @@
 from django import forms
 from . import models
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-
-class BaseForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('label_suffix', '')  
-        super(BaseForm, self).__init__(*args, **kwargs)
-
-class BaseModelForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('label_suffix', '')
-        super(BaseModelForm, self).__init__(*args, **kwargs)
+from django.contrib.auth.forms import PasswordResetForm
 
 
 class LoginForm(forms.Form):
@@ -86,3 +77,6 @@ class SignUpForm(forms.Form):
         user.birth=birth
 
         user.save()
+
+class MyPasswordResetForm(PasswordResetForm):
+    username = forms.CharField(label="아이디")

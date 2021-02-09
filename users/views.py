@@ -4,7 +4,7 @@ from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
 from django.views import View
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, MyPasswordResetForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -171,10 +171,11 @@ class MyPasswordResetView(PasswordResetView):
     template_name = 'users/password_reset.html'
     email_template_name = 'users/password_reset_email.html'
     success_url = reverse_lazy('users:password_reset_done')
+    form_class = MyPasswordResetForm
 
     def form_valid(self, form):
 
-        if User.objects.filter(email=self.request.POST.get('email')).exists():
+        if User.objects.filter(email=self.request.POST.get('email')).exists() and User.objects.get(email=self.request.POST.get('email')).username == self.request.POST.get('username'):
             return super().form_valid(form)
         
         else:
