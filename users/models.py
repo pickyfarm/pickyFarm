@@ -28,8 +28,9 @@ class User(AbstractUser):
     birth = models.DateField(null=True)
     # location = models.ForeignKey(Product,
     #                              related_name="consumers", on_delete=models.SET_NULL)
+    # number = models.CharField(max_length=20)
     superhost = models.BooleanField(default=False)
-
+    
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
@@ -119,6 +120,8 @@ class Wish(models.Model):
         'Consumer', related_name="wishes", on_delete=models.CASCADE)
     product = models.ForeignKey(
         "products.Product", related_name='wishes', on_delete=models.CASCADE)
+    
+    create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.product.title}'
@@ -130,6 +133,8 @@ class Cart(models.Model):
     product = models.ForeignKey(
         "products.Product", related_name='carts', on_delete=models.CASCADE)
     quantitiy = models.IntegerField(default=1, blank=True)
+
+    create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.product.title}'
