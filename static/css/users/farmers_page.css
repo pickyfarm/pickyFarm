@@ -28,7 +28,7 @@
 #input-box {
     width: 740px;
 }
-#search-bar {
+#search-bar, #search_key_2 {
     width: 680px;
 }
 

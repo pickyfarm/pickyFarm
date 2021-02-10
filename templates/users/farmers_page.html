@@ -21,13 +21,17 @@
                 })
             });
 
-            // farmer's story search
-            $("input[name=search_button_2]").click(function(){
+            // farmer's story search ajax
+            $("img[name=search_button_2]").click(function(){
+                var select_val = $("#story-search-select option:selected").val()
                 var search_key_2 = $('#search_key_2').val();
+                console.log(select_val)
+                console.log(search_key_2)
                 event.preventDefault()
                 $.ajax({
                     url:'farmer_story_search/',
                     data:{
+                        'select_val':select_val,
                         'search_key_2':search_key_2,
                     },
                     success:function(data){
@@ -35,7 +39,7 @@
                     }
                 })
             });
-            // tag search
+            // tag search ajax
             $("td").click(function(){
                 var search_cat = $(this).attr("id")
                 event.preventDefault()
@@ -49,10 +53,6 @@
                     }
                 })
             });
-            
-            //$('td').click(function() {
-            //    $(this).css('backgroundColor', '#5e665628');
-            //});
         });
     </script>
 {% endblock stylesheet %}
@@ -90,21 +90,23 @@
 
         <!--search bar-->
         <div class="flex flex-row mx-auto mt-72 mb-20 justify-between" id="content">
+            <!--search input-->
             <div class="h-9 input-form rounded-full flex justify-between px-4 align-middle" id="input-box">
                 <input class="h-9 placeholder-gray-500 bg-transparent focus:outline-none text-sm text-gray-800" id="search-bar" type="text" placeholder="검색어를 입력하세요."/>
                 <img class="w-5 h-9 m-0" src="{% static 'images/search.svg' %}" alt="">
             </div>
+            <!--search sort-->
             <div class="relative flex flex-col justify-end" id="sort">
-                        <div class="mb-10" id="sort_img">
-                            <img src="{% static 'images/products_list/sort.svg' %}" alt="sort_icon">
-                        </div>
-                        <div class="absolute flex flex-col none z-10" id='sort_list'>
-                            <a href="?sort=최신순">최신순</a>
-                            <a href="?sort=인기순">인기순</a>
-                            <a href="?sort=마감임박순">마감임박순</a>
-                        </div>
-                    </div>
+                <div class="mb-10" id="sort_img">
+                    <img src="{% static 'images/products_list/sort.svg' %}" alt="sort_icon">
+                </div>
+                <div class="absolute flex flex-col none z-10" id='sort_list'>
+                    <a href="?sort=최신순">최신순</a>
+                    <a href="?sort=인기순">인기순</a>
+                    <a href="?sort=마감임박순">마감임박순</a>
+                </div>
             </div>
+        </div>
         <!--tag table-->
         <div class="mx-auto" id="content">
             <div class='text-center text-gray-500 text-3xl'> Tag </div>
@@ -200,19 +202,19 @@
             <!--search bar-->
             <div class="flex flex-row mb-36 justify-around" id="story_search">
                 <div>
-                    <select class="w-24" name="" id="">
-                        <option value="" selected> 제목 </option>
-                        <option value=""> FARM </option>
-                        <option value=""> FARMER </option>
+                    <select class="w-24" name="" id="story-search-select">
+                        <option value="title" selected> 제목 </option>
+                        <option value="farm"> FARM </option>
+                        <option value="farmer"> FARMER </option>
                     </select>
                 </div>
                 <div class="h-9 input-form rounded-full flex justify-between px-4 align-middle" id="input-box">
-                    <input class="h-9 placeholder-gray-500 bg-transparent focus:outline-none text-sm text-gray-800" id="search-bar" type="text" placeholder="검색어를 입력하세요."/>
-                    <img class="w-5 h-9 m-0" src="{% static 'images/search.svg' %}" alt="">
+                    <input class="h-9 placeholder-gray-500 bg-transparent focus:outline-none text-sm text-gray-800" id="search_key_2" type="text" placeholder="검색어를 입력하세요."/>
+                    <img class="w-5 h-9 m-0" src="{% static 'images/search.svg' %}" name="search_button_2" alt="">
                 </div>
             </div>
             <!--story list-->
-            <div class="w-full" id="content">
+            <div class="w-full search_block_2" id="content">
                 <!--story table-->
                 <div id="farmer_story_content">
                     <table class="w-full" id="farmer_story_table">
