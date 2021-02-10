@@ -77,7 +77,6 @@ def farmers_page(request):
     page = request.GET.get('page')
     farmers = paginator.get_page(page)
     user = User.objects.filter(nickname='쳉지11')
-    print(user)
 
     # weekly hot farmer
     best_farmers = farmer.order_by('-sub_count')[:1] # 조회수 대신 임의로

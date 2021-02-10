@@ -25,12 +25,41 @@
     z-index: 1;
 }
 
-#search-bar {
+#input-box {
     width: 740px;
-    height: 35px;
-    padding: 8px;
-    border-radius: 18px;
-    background-color: #f2f2f2;
+}
+#search-bar {
+    width: 680px;
+}
+
+/* sort(정렬) */
+#sort{
+    margin-right: 0;
+}
+
+#sort_list{
+    width: 63px;
+    height: 93px;
+    padding: 14px 0px;
+    border-radius: 30px;
+    border: solid 1px #5e6656;
+    background-color: #ffffff;
+    display:none;
+}
+
+#sort:hover #sort_list{
+    display: inline-flex;
+}
+
+#sort_list > a{
+    font-family: NotoSansKR;
+    font-size: 11px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #5c6754;
 }
 
 /* tag(채소, 과일, E.T.C) */
@@ -46,10 +75,11 @@
     color: #808080;
 }
 
-#tag_tagle td:hover {
+#tag_table td:hover {
     background-color: #5e665628;
     transition-duration: 0.8s;
 }
+
 
 /* -------------------------------------- */
 /* farm list */
