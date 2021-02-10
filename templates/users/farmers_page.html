@@ -3,10 +3,11 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/users/farmers_page.css' %}">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script> 
     <script>
         $(function(){
             // farmer search
-            $("input[name=search_button]").click(function(){
+            $("img[name=search_button_1]").click(function(){
                 var search_key = $('#search_key').val();
                 event.preventDefault()
                 $.ajax({
@@ -20,17 +21,35 @@
                 })
             });
 
-            // farmer's story search
-            $("input[name=search_button_2]").click(function(){
+            // farmer's story search ajax
+            $("img[name=search_button_2]").click(function(){
+                var select_val = $("#story-search-select option:selected").val()
                 var search_key_2 = $('#search_key_2').val();
+                console.log(select_val)
+                console.log(search_key_2)
                 event.preventDefault()
                 $.ajax({
                     url:'farmer_story_search/',
                     data:{
+                        'select_val':select_val,
                         'search_key_2':search_key_2,
                     },
                     success:function(data){
                         $('.search_block_2').html(data)
+                    }
+                })
+            });
+            // tag search ajax
+            $("td").click(function(){
+                var search_cat = $(this).attr("id")
+                event.preventDefault()
+                $.ajax({
+                    url:'farm_cat_search/',
+                    data:{
+                        'search_cat': search_cat,
+                    },
+                    success:function(data){
+                        $('.search_block_1').html(data)
                     }
                 })
             });
@@ -70,19 +89,33 @@
         </div>
 
         <!--search bar-->
-        <div class="mx-auto mt-72 mb-20" id="content">
-            <input id="search-bar" type="text" placeholder="검색어를 입력하세요."/>
+        <div class="flex flex-row mx-auto mt-72 mb-20 justify-between" id="content">
+            <!--search input-->
+            <div class="h-9 input-form rounded-full flex justify-between px-4 align-middle" id="input-box">
+                <input class="h-9 placeholder-gray-500 bg-transparent focus:outline-none text-sm text-gray-800" id="search_key" type="text" placeholder="검색어를 입력하세요."/>
+                <img class="w-5 h-9 m-0" src="{% static 'images/search.svg' %}" name="search_button_1" alt="">
+            </div>
+            <!--search sort-->
+            <div class="relative flex flex-col justify-end" id="sort">
+                <div class="mb-10" id="sort_img">
+                    <img src="{% static 'images/products_list/sort.svg' %}" alt="sort_icon">
+                </div>
+                <div class="absolute flex flex-col none z-10" id='sort_list'>
+                    <a href="?sort=최신순">최신순</a>
+                    <a href="?sort=인기순">인기순</a>
+                    <a href="?sort=마감임박순">마감임박순</a>
+                </div>
+            </div>
         </div>
-
         <!--tag table-->
         <div class="mx-auto" id="content">
             <div class='text-center text-gray-500 text-3xl'> Tag </div>
             <div class="text-center mx-auto mt-8 mb-20">
                 <table id="tag_table">
                     <tr>
-                        <td> 채소 </td>
-                        <td> 과일 </td>
-                        <td> E.T.C </td>
+                        <td id="vege"> 채소 </td>
+                        <td id="fruit"> 과일 </td>
+                        <td id="etc"> E.T.C </td>
                     </tr>
                 </table>
             </div>
@@ -107,7 +140,7 @@
                             <p class="text-2xl font-light mb-8" id="farm_loc">경기 어느 지역</p>
                             <a href="{% url 'users:farmer_detail' farmer.id %}"><p class="mb-8 font-medium text-5xl" id="farm_name">{{farmer.farm_name}}</p></a>
                             <!--tag-->
-                            <div class="grid grid-cols-4 gap-2 mb-24" id="tag">
+                            <div class="grid grid-cols-4 gap-2 mb-24 h-7" id="tag">
                                 {% for tag in farmer.farm_tags.all %}
                                     <a href="">
                                         <div class="text-center align-middle py-1 px-2 font-light text-sm transform hover:scale-105 transition duration-300 ease-in-out" id="farm_tag">#{{tag}}</div>
@@ -167,20 +200,21 @@
                 <p class="mb-20 text-sm" id="story_subtitle"> 파머가 직접 전하는 농가 이야기 </p>
             </div>
             <!--search bar-->
-            <div class="flex flex-row mb-36" id="story_search">
+            <div class="flex flex-row mb-36 justify-around" id="story_search">
                 <div>
-                    <select class="mx-7 w-24" name="" id="">
-                        <option value="" selected> 제목 </option>
-                        <option value=""> 농가 이름 </option>
-                        <option value=""> 농부 이름 </option>
+                    <select class="w-24" name="" id="story-search-select">
+                        <option value="title" selected> 제목 </option>
+                        <option value="farm"> FARM </option>
+                        <option value="farmer"> FARMER </option>
                     </select>
                 </div>
-                <div>
-                    <input class="mx-7" id="search-bar" type="text" placeholder="검색어를 입력하세요."/>
+                <div class="h-9 input-form rounded-full flex justify-between px-4 align-middle" id="input-box">
+                    <input class="h-9 placeholder-gray-500 bg-transparent focus:outline-none text-sm text-gray-800" id="search_key_2" type="text" placeholder="검색어를 입력하세요."/>
+                    <img class="w-5 h-9 m-0" src="{% static 'images/search.svg' %}" name="search_button_2" alt="">
                 </div>
             </div>
             <!--story list-->
-            <div class="w-full" id="content">
+            <div class="w-full search_block_2" id="content">
                 <!--story table-->
                 <div id="farmer_story_content">
                     <table class="w-full" id="farmer_story_table">
@@ -195,14 +229,18 @@
                         <tr class="text-center" id="table_row">
                             <td class="py-7" id="row_farm"> {{ story.farmer.farm_name }} </td>
                             <td class="py-7" id="row_farmer"> {{ story.farmer.user.nickname }} </td>
-                            <td class="py-7" id="row_title"> {{ story.title }} </td>
+                            {% if story.title|length > 15 %}
+                            <td class="py-7" id="row_title"><a href="#"> {{ story.title|slice:":15"}}... </a></td>
+                            {% else %}
+                            <td class="py-7" id="row_title"><a href="#"> {{ story.title }}...</a></td>
+                            {% endif %}
                             <td class="py-7" id="row_views"> 1000 </td>
                             <td class="py-7" id="row_create_at"> {{ story.create_at|date:"Y-m-d" }} </td>
                         </tr>
                         {% endfor %}
                     </table>
                 </div>
-                <!--글쓰기 버튼-->
+                <!--글쓰기 버튼(farmer login 시에만 보이게)--> 
                 <div class="flex flex-row justify-end mb-20">
                     <a href=""><img src="{% static 'images/farmers_page/story_write_btn.svg' %}" alt=""></a>
                 </div>

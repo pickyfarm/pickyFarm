@@ -72,7 +72,7 @@ class SignUp(View):
 
 def farmers_page(request):
     # farmer list
-    farmer = Farmer.objects.all()
+    farmer = Farmer.objects.all().order_by('-id')
     paginator = Paginator(farmer, 3)
     page = request.GET.get('page')
     farmers = paginator.get_page(page)
@@ -93,7 +93,7 @@ def farmers_page(request):
     }
     return render(request, 'users/farmers_page.html', ctx)
 
-# farmer 검색 view
+# farmer input 검색 view for AJAX
 def farmer_search(request):
     search_key = request.GET.get('search_key') # 검색어 가져오기
     search_list = Farmer.objects.all()
@@ -106,14 +106,32 @@ def farmer_search(request):
     ctx = {
         'farmers':farmers,
     }
-    return render(request, 'users/farmers_page.html', ctx)
+    return render(request, 'users/farmer_search.html', ctx)
 
-# farmer story 검색 view
+# farmer category(채소, 과일, E.T.C) 검색 view - for AJAX
+def farm_cat_search(request):
+    search_cat = request.GET.get('search_cat')
+    farmer = Farmer.objects.filter(farm_cat=search_cat).order_by('-id')
+    paginator = Paginator(farmer, 3)
+    page = request.GET.get('page')
+    farmers = paginator.get_page(page)
+    ctx = {
+        'farmers':farmers,
+    }
+    return render(request, 'users/farmer_search.html', ctx)
+
+# farmer story 검색 view - for AJAX
 def farmer_story_search(request):
+    select_val = request.GET.get('select_val')
     search_key_2 = request.GET.get('search_key_2')
     search_list = Farmer_Story.objects.all()
     if search_key_2:
-        search_list = search_list.filter(Q(farmer__contains=search_key)|Q(title__contains=search_key))
+        if select_val == 'title':
+            search_list = search_list.filter(Q(title__contains=search_key_2))
+        elif select_val == 'farm':
+            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
+        elif select_val == 'farmer':
+            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by('-id')
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get('page_2')
@@ -121,12 +139,10 @@ def farmer_story_search(request):
     ctx = {
         'farmer_stories':farmer_stories,
     }
-    return render(request, 'users/farmers_page.html', ctx)
-
+    return render(request, 'users/farmer_story_search.html', ctx)
 
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)
-
 
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)
