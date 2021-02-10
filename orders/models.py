@@ -10,7 +10,7 @@ class Order_Group(models.Model):
         ('complete', '결제완료'),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS)
+    status = models.CharField(max_length=20, choices=STATUS, default='wait')
     rev_address = models.TextField()
     rev_name = models.CharField(max_length=50)
     rev_loc_at = models.CharField(max_length=20)
@@ -32,7 +32,7 @@ class Order_Group(models.Model):
     def __str__(self):
         name = []
         name.append(self.consumer.user.nickname)
-        name.append(self.create_at + ' 주문')
+        name.append(str(self.create_at) + ' 주문')
         return '-'.join(name)
 
 
@@ -47,7 +47,7 @@ class Order_Detail(models.Model):
         ('cancel', '주문취소'),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS)
+    status = models.CharField(max_length=20, choices=STATUS, default='wait')
     invoice_number = models.CharField(max_length=30, null=True, blank=True)
     quantity = models.IntegerField()
     total_price = models.IntegerField()
@@ -63,7 +63,7 @@ class Order_Detail(models.Model):
 
     def __str__(self):
         name = []
-        name.append(self.product.title)
-        name.append(self.quantity)
-        name.append(self.status)
+        name.append(str(self.product.title))
+        name.append(str(self.quantity))
+        name.append(str(self.status))
         return '-'.join(name)

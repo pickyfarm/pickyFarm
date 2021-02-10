@@ -256,3 +256,4 @@ def mypage(request, cat):
             }
             ctx = ctx + ctx_wishes
             return render(request, 'users/mypage.html', ctx)
+    
