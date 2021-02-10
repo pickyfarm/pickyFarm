@@ -28,8 +28,9 @@ class User(AbstractUser):
     birth = models.DateField(null=True)
     # location = models.ForeignKey(Product,
     #                              related_name="consumers", on_delete=models.SET_NULL)
+    # number = models.CharField(max_length=20)
     superhost = models.BooleanField(default=False)
-
+    
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, reverse
+from django.http import JsonResponse
 from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User
 from products.models import Category, Product
 from django.db.models import Count
@@ -13,6 +14,10 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.db.models import Q
+
+
+class NoRelatedInstance(Exception):
+    pass
 
 
 class Login(View):
@@ -215,20 +220,34 @@ def mypage(request, cat):
 
     if request.method == 'GET':
         consumer_nickname = consumer.user.nickname
-        sub_farmers = consumer.subs
+        sub_farmers = consumer.subs.all()  # pagenation 필요
         print(sub_farmers)
-        questions = consumer.questions.order_by('-create_at')
+        if sub_farmers.exists() is False:
+            print("구독자는 없다")
+        questions = consumer.questions.order_by('-create_at')  # pagenation 필요
         print(questions)
-
-        products = consumer.order_groups.order_details.all()
-        print(products)
-        preparing_num = products.filter(status='preparing').count()
-        print(preparing_num)
-        delivery_num = products.filter(status='shipping').count()
-        print(delivery_num)
-        complete_num = products.filter(status='complete').count()
-        print(complete_num)
-        cancel_num = products.filter(status='cancel').count()
+        if questions.exists() is False:
+            print("질문은 없다")
+        try:
+            groups = consumer.order_groups.all()
+            print(groups)
+            if groups.exists() is False:
+                print("여기안와?")
+                raise NoRelatedInstance
+            for group in groups:
+                details = group.order_details
+                preparing_num = details.filter(status='preparing').count()
+                print(preparing_num)
+                delivery_num = details.filter(status='shipping').count()
+                print(delivery_num)
+                complete_num = details.filter(status='complete').count()
+                print(complete_num)
+                cancel_num = details.filter(status='cancel').count()
+        except NoRelatedInstance:
+            preparing_num = 0
+            delivery_num = 0
+            complete_num = 0
+            cancel_num = 0
 
         ctx = {
             'consumer_nickname': consumer_nickname,
@@ -242,11 +261,15 @@ def mypage(request, cat):
 
         if cat_name == 'orders':
             order_groups = consumer.order_groups.all()
+            total_ordered_price = 0
+            for group in order_groups:
+                total_ordered_price += group.total_price
 
             ctx_orders = {
                 'order_groups': order_groups,
+                'total_ordered_price': total_ordered_price,
             }
-            ctx = ctx + ctx_orders
+            ctx.update(ctx_orders)
             return render(request, 'users/mypage.html', ctx)
         elif cat_name == 'wishes':
             wishes = consumer.wishes.filter('-create_at')
@@ -254,6 +277,32 @@ def mypage(request, cat):
             ctx_wishes = {
                 'wishes': wishes,
             }
-            ctx = ctx + ctx_wishes
+            ctx.update(ctx_wishes)
             return render(request, 'users/mypage.html', ctx)
-    
+        elif cat_name == 'cart':
+            carts = consumer.carts.filter('-create_at')
+
+            ctx_carts = {
+                'carts': carts,
+            }
+            ctx.update(ctx_carts)
+            return render(request, 'users/mypage.html', ctx)
+        elif cat_name == 'rev_address':
+            pass
+        elif cat_name == 'info':
+            user = consumer.user
+            if request.is_ajax():
+                info = {
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    # 'number':number,
+                    'email': user.email,
+                    'nickname': user.nickname,
+                    'profile_image': user.profile_image.url,
+                }
+                return JsonResponse(info)
+            ctx_info = {
+                'user': user,
+            }
+            ctx.update(ctx_info)
+            return render(request, 'users/mypage.html', ctx)
