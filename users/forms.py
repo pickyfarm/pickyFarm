@@ -78,5 +78,20 @@ class SignUpForm(forms.Form):
 
         user.save()
 
+
+class FindMyIdForm(forms.Form):
+    name = forms.CharField(label='이름', widget=forms.TextInput(attrs={'placeholder': '이름을 입력해주세요'}))
+    email = forms.EmailField(label="이메일", widget=forms.TextInput(attrs={'placeholder': '이메일을 입력해주세요'}))
+    
+
 class MyPasswordResetForm(PasswordResetForm):
-    username = forms.CharField(label="아이디")
+    username = forms.CharField(
+        label="아이디",
+        widget=forms.TextInput(attrs={'placeholder': '아이디를 입력해주세요'})
+    )
+
+    email = forms.EmailField(
+        label="Email",
+        max_length=254,
+        widget=forms.EmailInput(attrs={'autocomplete': 'email', 'placeholder': '이메일을 입력해주세요'})
+    )

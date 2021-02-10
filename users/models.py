@@ -33,6 +33,16 @@ class User(AbstractUser):
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
+    def FindMyIdInAsterisk(self):
+        src = self.username[:-3]
+        src = src + "***"
+
+        return src
+
+    def get_full_name(self):
+        full_name = '%s%s' % (self.last_name, self.first_name)
+        return full_name.strip()
+
     # def __str__(self):
     #     if self.consumer is not None:
     #         return self.name.join(" ", "(소비자)")

@@ -31,11 +31,11 @@
             </div>
         </form>
         <div class="flex justify-between links">
-            <div>회원 가입</div>
+            <a href="{% url 'user:signup' %}"><div>회원 가입</div></a>
             <div class="bar"></div>
-            <div>아이디 찾기</div>
+            <a href="{% url 'user:find_my_id' %}"><div>아이디 찾기</div></a>
             <div class="bar"></div>
-            <div>비밀번호 찾기</div>
+            <a href="{% url 'user:password_reset' %}"><div>비밀번호 찾기</div></a>
         </div>
     </div>
 </div>
