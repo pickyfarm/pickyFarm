@@ -7,7 +7,7 @@
     <script>
         $(function(){
             // farmer search
-            $("input[name=search_button]").click(function(){
+            $("img[name=search_button_1]").click(function(){
                 var search_key = $('#search_key').val();
                 event.preventDefault()
                 $.ajax({
@@ -92,8 +92,8 @@
         <div class="flex flex-row mx-auto mt-72 mb-20 justify-between" id="content">
             <!--search input-->
             <div class="h-9 input-form rounded-full flex justify-between px-4 align-middle" id="input-box">
-                <input class="h-9 placeholder-gray-500 bg-transparent focus:outline-none text-sm text-gray-800" id="search-bar" type="text" placeholder="검색어를 입력하세요."/>
-                <img class="w-5 h-9 m-0" src="{% static 'images/search.svg' %}" alt="">
+                <input class="h-9 placeholder-gray-500 bg-transparent focus:outline-none text-sm text-gray-800" id="search_key" type="text" placeholder="검색어를 입력하세요."/>
+                <img class="w-5 h-9 m-0" src="{% static 'images/search.svg' %}" name="search_button_1" alt="">
             </div>
             <!--search sort-->
             <div class="relative flex flex-col justify-end" id="sort">

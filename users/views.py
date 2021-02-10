@@ -72,11 +72,10 @@ class SignUp(View):
 
 def farmers_page(request):
     # farmer list
-    farmer = Farmer.objects.all()
+    farmer = Farmer.objects.all().order_by('-id')
     paginator = Paginator(farmer, 3)
     page = request.GET.get('page')
     farmers = paginator.get_page(page)
-    user = User.objects.filter(nickname='쳉지11')
 
     # weekly hot farmer
     best_farmers = farmer.order_by('-sub_count')[:1] # 조회수 대신 임의로
@@ -94,7 +93,7 @@ def farmers_page(request):
     }
     return render(request, 'users/farmers_page.html', ctx)
 
-# farmer 검색 view
+# farmer input 검색 view for AJAX
 def farmer_search(request):
     search_key = request.GET.get('search_key') # 검색어 가져오기
     search_list = Farmer.objects.all()
@@ -107,7 +106,19 @@ def farmer_search(request):
     ctx = {
         'farmers':farmers,
     }
-    return render(request, 'users/farmers_page.html', ctx)
+    return render(request, 'users/farmer_search.html', ctx)
+
+# farmer category(채소, 과일, E.T.C) 검색 view - for AJAX
+def farm_cat_search(request):
+    search_cat = request.GET.get('search_cat')
+    farmer = Farmer.objects.filter(farm_cat=search_cat).order_by('-id')
+    paginator = Paginator(farmer, 3)
+    page = request.GET.get('page')
+    farmers = paginator.get_page(page)
+    ctx = {
+        'farmers':farmers,
+    }
+    return render(request, 'users/farmer_search.html', ctx)
 
 # farmer story 검색 view - for AJAX
 def farmer_story_search(request):
@@ -130,21 +141,8 @@ def farmer_story_search(request):
     }
     return render(request, 'users/farmer_story_search.html', ctx)
 
-# farmer category(채소, 과일, E.T.C) filter view - for AJAX
-def farm_cat_search(request):
-    search_cat = request.GET.get('search_cat')
-    farmer = Farmer.objects.filter(farm_cat=search_cat)
-    paginator = Paginator(farmer, 3)
-    page = request.GET.get('page')
-    farmers = paginator.get_page(page)
-    ctx = {
-        'farmers':farmers,
-    }
-    return render(request, 'users/farm_cat_search.html', ctx)
-
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)
-
 
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)
