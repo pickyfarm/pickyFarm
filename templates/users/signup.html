@@ -35,6 +35,15 @@
                 {{form.email.label_tag}}
                 {{form.email}}
                 <div class="valid-button">중복확인</div>
+                {{addressform.full_address.label_tag}}
+                <div>
+                    {{addressform.full_address}}
+                    {{addressform.detail_address}}
+                </div>
+                <div class="valid-button" onclick="getAddress()">검색</div>
+                {{addressform.sido}}
+                {{addressform.sigungu}}
+                {{addressform.extra_address}}
                 {{form.gender.label_tag}}
                 <div class="flex gender-selection">
                     {{form.gender}}
@@ -191,4 +200,5 @@
     });
 
 </script>
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 {% endblock %}

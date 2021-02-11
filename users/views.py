@@ -14,6 +14,8 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.db.models import Q
+from addresses.forms import AddressForm
+from addresses.models import Address
 
 
 class NoRelatedInstance(Exception):
@@ -53,24 +55,37 @@ class SignUp(View):
 
     def get(self, request):
         form = SignUpForm()
+        addressform = AddressForm()
+
         ctx = {
             'form': form,
+            'addressform': addressform,
         }
         return render(request, 'users/signup.html', ctx)
 
     def post(self, request):
         form = SignUpForm(request.POST)
+        addressform = AddressForm(request.POST)
+
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             Consumer.objects.create(user=user, grade=1)
+
+            address = addressform.save(commit=False)
+            address.user = user
+            address.is_default = True
+            address.save()
+
             if user is not None:
                 login(request, user=user)
                 return redirect(reverse('core:main'))
+
         ctx = {
             'form': form,
+            'addressform': addressform,
         }
         return render(request, 'users/signup.html', ctx)
 
