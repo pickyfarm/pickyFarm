@@ -99,6 +99,8 @@ def farmers_page(request):
     return render(request, 'users/farmers_page.html', ctx)
 
 # farmer input 검색 view for AJAX
+
+
 def farmer_search(request):
     search_key = request.GET.get('search_key')  # 검색어 가져오기
     search_list = Farmer.objects.all()
@@ -115,6 +117,8 @@ def farmer_search(request):
     return render(request, 'users/farmer_search.html', ctx)
 
 # farmer category(채소, 과일, E.T.C) 검색 view - for AJAX
+
+
 def farm_cat_search(request):
     search_cat = request.GET.get('search_cat')
     farmer = Farmer.objects.filter(farm_cat=search_cat).order_by('-id')
@@ -122,11 +126,13 @@ def farm_cat_search(request):
     page = request.GET.get('page')
     farmers = paginator.get_page(page)
     ctx = {
-        'farmers':farmers,
+        'farmers': farmers,
     }
     return render(request, 'users/farmer_search.html', ctx)
 
 # farmer story 검색 view - for AJAX
+
+
 def farmer_story_search(request):
     select_val = request.GET.get('select_val')
     search_key_2 = request.GET.get('search_key_2')
@@ -135,9 +141,11 @@ def farmer_story_search(request):
         if select_val == 'title':
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == 'farm':
-            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
+            search_list = search_list.filter(
+                Q(farmer__farm_name__contains=search_key_2))
         elif select_val == 'farmer':
-            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
+            search_list = search_list.filter(
+                Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by('-id')
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get('page_2')
@@ -147,8 +155,10 @@ def farmer_story_search(request):
     }
     return render(request, 'users/farmer_story_search.html', ctx)
 
+
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)
+
 
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)
@@ -272,17 +282,45 @@ def mypage(request, cat):
         }
 
         if cat_name == 'orders':
-            order_groups = consumer.order_groups.all()
-            total_ordered_price = 0
-            for group in order_groups:
-                total_ordered_price += group.total_price
+            order_groups = consumer.order_groups.filter(
+                status='complete').order_by('-create_at')
+            order_groups_count = order_groups.count()
+            page_size_min = 7
+            details_num = 0
+            pagination = []
+            # for group in order_groups:
+            #     details_num += group.order_details.all().count()
+            #     if details_num <= page_size_min:
+            #         group_count += 1
+            #     else:
+            #         pagination.append(group_count)
+            #         details_num = 0
+            print(order_groups)
+            if order_groups.exists():
+                for index in range(0, order_groups_count):
+                    details_num += order_groups[index].order_details.count()
+                    if details_num <= page_size_min:
+                        if index == order_groups_count-1:
+                            pagination.append(index)
+                        continue
+                    else:
+                        index -= 1
+                        details_num = 0
+                        pagination.append(index)
+
+                print(pagination)
+                total_pages = len(pagination)
+                order_groups = order_groups[0:pagination[0]+1]
+                print(order_groups)
+            else:
+                total_pages = 1
 
             ctx_orders = {
+                'total_pages': range(1, total_pages+1),
                 'order_groups': order_groups,
-                'total_ordered_price': total_ordered_price,
             }
             ctx.update(ctx_orders)
-            return render(request, 'users/mypage.html', ctx)
+            return render(request, 'users/mypage_orders.html', ctx)
         elif cat_name == 'wishes':
             wishes = consumer.wishes.filter('-create_at')
 
