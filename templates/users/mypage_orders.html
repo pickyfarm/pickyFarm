@@ -5,11 +5,9 @@
   <div id="filter">
       
   </div>
-  <div id="products">
-    {% for group in order_groups %}
-        <div>{{group.order_at | date}} 주문</div>
-        {% for detail in group.order_details.all %}
-          <div id="product" class="flex flex-row">
+  <div id="products-section" class="mt-5">
+        {% for detail in order_details %}
+          <div id="product" class="flex flex-row mb-5">
               <div id="product_img" class="w-1/5">
                 <img src = "{{detail.product.main_image.url}}">
               </div>
@@ -51,13 +49,12 @@
                 <a><div>리뷰 쓰기</div></a>
                 <a><div>주문 취소</div></a>
               </div>
-          </div>
+        </div>
         {% endfor %}
-    {% endfor %}
   </div>
-  <div id="paginator" class="flex flex-row">
+  <div id="paginator" class="flex flex-row justify-center">
       {% for page in total_pages %}
-        <div id="page_btn" value="{{page}}">{{page}}</div>
+        <a href='?page={{page}}'><div id="page_btn" value="{{page}}">{{page}}</div></a>
       {% endfor %}
   </div>
 {% endblock content %}

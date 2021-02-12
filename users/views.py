@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse
 from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User
 from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
 from django.views import View
+from django.views.decorators.http import require_POST
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
@@ -14,10 +15,37 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.db.models import Q
+from math import ceil
 
 
 class NoRelatedInstance(Exception):
     pass
+
+
+@login_required
+@require_POST
+def CartInAjax(request):
+    if request.method == 'POST':
+        pk = request.POST.get('pk', None)
+        print(pk)
+        user = request.user
+        product = Product.objects.get(pk=pk)
+        if (product is None) or (product.open is False):
+            message = "존재하지 않는 상품입니다"
+            return JsonResponse(message)
+        
+        try:
+            cart = Cart.objects.get(consumer=user.consumer, product=product)
+            message = "이미 장바구니에 있는 무난이 입니다"
+        except ObjectDoesNotExist:
+            cart = Cart.objects.create(consumer=user.consumer,product=product, quantitiy=1)
+            message = product.title + "를 장바구니에 담았습니다!"
+        print(cart)
+        
+        data = {
+            "message":message,
+        }
+        return JsonResponse(data)
 
 
 class Login(View):
@@ -282,53 +310,55 @@ def mypage(request, cat):
         }
 
         if cat_name == 'orders':
-            order_groups = consumer.order_groups.filter(
+            page = int(request.GET.get('page', 1))
+            page_size = 5
+
+            order_groups = groups.filter(
                 status='complete').order_by('-create_at')
-            order_groups_count = order_groups.count()
-            page_size_min = 7
-            details_num = 0
-            pagination = []
-            # for group in order_groups:
-            #     details_num += group.order_details.all().count()
-            #     if details_num <= page_size_min:
-            #         group_count += 1
-            #     else:
-            #         pagination.append(group_count)
-            #         details_num = 0
             print(order_groups)
             if order_groups.exists():
-                for index in range(0, order_groups_count):
-                    details_num += order_groups[index].order_details.count()
-                    if details_num <= page_size_min:
-                        if index == order_groups_count-1:
-                            pagination.append(index)
-                        continue
-                    else:
-                        index -= 1
-                        details_num = 0
-                        pagination.append(index)
-
-                print(pagination)
-                total_pages = len(pagination)
-                order_groups = order_groups[0:pagination[0]+1]
-                print(order_groups)
+                order_details = order_groups[0].order_details.all()
+                print(order_groups.count())
+                if order_groups.count() > 1:
+                    for group in order_groups[1:]:
+                        print(group.order_details.all())
+                        order_details = order_details | group.order_details.all()
+                order_details = order_details.order_by(
+                    '-order_group__create_at')
             else:
-                total_pages = 1
+                order_details = None
+
+            print(order_details)
+            order_details_count = order_details.count()
+            total_pages = ceil(order_details_count/page_size)
+            offset = page * page_size - page_size
+            order_details = order_details[offset:page*page_size]
 
             ctx_orders = {
                 'total_pages': range(1, total_pages+1),
-                'order_groups': order_groups,
+                'order_details': order_details,
             }
             ctx.update(ctx_orders)
             return render(request, 'users/mypage_orders.html', ctx)
         elif cat_name == 'wishes':
-            wishes = consumer.wishes.filter('-create_at')
+            page = int(request.GET.get('page', 1))
+            page_size = 5
+
+            wishes = consumer.wishes.filter(product__open=True).order_by('-create_at')
+            print(wishes)
+
+            wishes_count = wishes.count()
+            total_pages = ceil(wishes_count/page_size)
+            offset = page * page_size - page_size
+            wishes = wishes[offset:page*page_size]
+            print(wishes)
 
             ctx_wishes = {
+                'total_pages': range(1, total_pages+1),
                 'wishes': wishes,
             }
             ctx.update(ctx_wishes)
-            return render(request, 'users/mypage.html', ctx)
+            return render(request, 'users/mypage_wishes.html', ctx)
         elif cat_name == 'cart':
             carts = consumer.carts.filter('-create_at')
 
