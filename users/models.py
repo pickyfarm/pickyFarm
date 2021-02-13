@@ -75,7 +75,7 @@ class Farmer(models.Model):
         ("etc", "기타"),
     }
     farm_name = models.CharField(max_length=50) # 농장 이름
-    framer_profile = models.ImageField(upload_to='farmer_profile/%Y/%m/%d/', null=True, blank=True) # 농장주 사진 default icon 설정
+    farmer_profile = models.ImageField(upload_to='farmer_profile/%Y/%m/%d/', null=True, blank=True) # 농장주 사진 default icon 설정
     farm_profile = models.ImageField(upload_to='farm_profile/%Y/%m/%d/') # 농장 대표사진 or 로고
     profile_title = models.CharField(max_length=200) # 농가 한 줄 소개
     profile_desc = models.TextField() # 농가 상세 소개

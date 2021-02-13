@@ -66,26 +66,37 @@
     <div class="main-contents bg-white-400 " id="top">
         <!--weekly hot block-->
         <div class="w-full" id="weekly-hot">
-            <div class="mt-24 mb-8 mx-auto" id='content'>
+            <div class="mt-24 mb-8 mx-auto" id='big-content'>
                 <p class='text-4xl font-medium mb-5' id='title'>WEEKLY HOT</p>
                 <p class="text-xl my-2 text-gray-500">이번 주 여러분들의 관심을 많이 받은 농가,</p>
                 <p class="text-xl my-2 text-gray-500">농가 페이지를 방문하여 구독해보세요</p>
             </div>
-            <div class="flex flex-row justify-center" id="best-farmer">
-                {% for best in best_farmers %}
-                    <div class="w-1/6" id="best-farmer-img">
-                        <img id="farmer-img" src="{{best.farm_profile.url}}" alt="">
+            {% for best in best_farmers %}
+            <div class="relative">
+                <div class="flex flex-row mx-auto" id="big-content">
+                    <div class="" id="best-farmer-img">
+                        <img id="farmer-img" src="{{best.farmer_profile.url}}" alt="">
                         <div id='pick-img'>
                             <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" alt=""></a>
                         </div>
                     </div>
-                    <div class="rounded-l-full w-full" id="best-farmer-desc" style="border:1px solid black">
-                        <div>
-                            <div>{{best.profile_title}}</div>
-                        </div>
+                </div>
+                <div class="ml-auto rounded-l-full flex flex-row justify-around" id="best-farmer-desc" style="border:1px solid black">
+                    <div class="flex flex-row my-auto">
+                        <div class="text-4xl font-light">“ </div>
+                        <div class="text-4xl font-light mx-10">{{best.profile_title}}</div>
+                        <div class="text-4xl font-light"> ”</div>
                     </div>
-                {% endfor %}
+                    <div class="flex flex-col my-auto">
+                
+                        <div class="text-center font-light" id="hot_farm_loc"> 경기 어느 지역 </div>
+                        <div class="text-center font-medium text-2xl" id="farm_name"> {{best.farm_name}} </div>
+                    </div>
+                    <img class="w-12" src="{% static 'images/farmers_page/hot_detail.svg' %}" alt="">
+                
+                </div>
             </div>
+            {% endfor %}
         </div>
 
         <!--search bar-->
@@ -129,7 +140,7 @@
                     <div class="flex flex-row" id="wrapper">
                         <!--farmer's image-->
                         <div class="block" id="farm_pic">
-                            <img id="farmer_profile" class="object-cover" src="{{farmer.farm_profile.url}}" alt="">
+                            <img id="farmer_profile" class="object-cover" src="{{farmer.farmer_profile.url}}" alt="">
                             <div id='pick_img'>
                                 <a href=""><img src="" alt=""></a>
                             </div>
