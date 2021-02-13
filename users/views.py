@@ -4,6 +4,8 @@ from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, W
 from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
+from datetime import timedelta
+from django.utils import timezone
 from django.views import View
 from django.views.decorators.http import require_POST
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm
@@ -260,6 +262,7 @@ class MyPasswordResetCompleteView(PasswordResetCompleteView):
 
 @login_required
 def mypage(request, cat):
+    
     try:
         consumer = request.user.consumer
     except ObjectDoesNotExist:
@@ -299,6 +302,19 @@ def mypage(request, cat):
             complete_num = 0
             cancel_num = 0
 
+        #구독 농가
+        subs = consumer.subs.all().order_by('-create_at').all()
+        subs_count = subs.count()
+        print("구독자 수 " + (str)(subs_count))
+
+        #상품 Q&A
+        now = timezone.localtime()
+        one_month_before = now + timedelta(days=-30)
+        print(one_month_before)
+    
+        questions = consumer.questions.filter(create_at__gt=one_month_before).order_by('-create_at').all()
+        print("질문 쿼리 : " + (str)(questions))
+
         ctx = {
             'consumer_nickname': consumer_nickname,
             'sub_farmers': sub_farmers,
@@ -307,6 +323,9 @@ def mypage(request, cat):
             'delivery_num': delivery_num,
             'complete_num': complete_num,
             'cancel_num': cancel_num,
+            'subs_count':subs_count,
+            'subs':subs,
+            'questions':questions,
         }
 
         if cat_name == 'orders':
