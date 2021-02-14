@@ -35,6 +35,15 @@
                 {{form.email.label_tag}}
                 {{form.email}}
                 <div class="valid-button">중복확인</div>
+                {{addressform.full_address.label_tag}}
+                <div>
+                    {{addressform.full_address}}
+                    {{addressform.detail_address}}
+                </div>
+                <div class="valid-button" onclick="getAddress()">검색</div>
+                {{addressform.sido}}
+                {{addressform.sigungu}}
+                {{addressform.extra_address}}
                 {{form.gender.label_tag}}
                 <div class="flex gender-selection">
                     {{form.gender}}
@@ -73,7 +82,7 @@
         width: 300px;
         height: 40px;
         padding-left: 15px;
-        font-size: 20px;
+        font-size: 16px;
         color: #808080;
         font-weight: normal;
     }
@@ -129,6 +138,10 @@
         margin-left: 33px;
         font-size: 15px;
         font-weight: normal;
+    }
+
+    #id_detail_address{
+        margin-top: 20px;
     }
 
     #id_gender_0,
@@ -191,4 +204,5 @@
     });
 
 </script>
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 {% endblock %}
