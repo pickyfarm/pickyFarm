@@ -5,7 +5,8 @@ from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
 from django.views import View
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm
+from django.views.generic import TemplateView
+from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -223,6 +224,7 @@ class MyPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'users/password_reset_done.html'
 
 
+
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'users/password_reset_confirm.html'
     success_url = reverse_lazy('users:password_reset_complete')
@@ -333,3 +335,43 @@ def mypage(request, cat):
             }
             ctx.update(ctx_info)
             return render(request, 'users/mypage.html', ctx)
+
+
+
+class FindMyIdView(TemplateView):
+    template_name = 'users/find_my_id.html'  #to be added
+    
+    def get(self, request):
+        form = FindMyIdForm()
+        ctx = {
+            'form': form,
+        }
+
+        return self.render_to_response(ctx)
+    
+    def post(self, request):
+        form = FindMyIdForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+
+            try:
+                user = User.objects.get(email=email)
+                username = user.get_full_name()
+
+                if form.cleaned_data.get("name") == username:
+                    ctx = {
+                        'user': user
+                    }
+                    return render(request, "users/find_my_id_complete.html", ctx)
+                
+                else:
+                    raise User.DoesNotExist
+
+            except User.DoesNotExist:
+                return redirect(reverse('users:find_my_id_failed'))
+
+
+class FindMyIdFailView(TemplateView):
+    template_name = 'users/find_my_id_failed.html'
+    
