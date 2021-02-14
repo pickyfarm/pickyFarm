@@ -91,6 +91,50 @@ class SignUp(View):
         return render(request, 'users/signup.html', ctx)
 
 
+# id validation function for AJAX
+def idValidation(request):
+    target = request.GET.get('target')
+    isValid = User.objects.filter(username=target).exists()
+    print(target)
+    print(isValid)
+
+    ctx = {
+        'target': target,
+        'isValid': isValid
+    }
+
+    return JsonResponse(ctx)
+
+# email validation function for AJAX
+def emailValidation(request):
+    target = request.GET.get('target')
+    isValid = User.objects.filter(email=target).exists()
+    print(target)
+    print(isValid)
+
+    ctx = {
+        'target': target,
+        'isValid': isValid
+    }
+
+    return JsonResponse(ctx)
+
+# nickname validation function for AJAX
+def nicknameValidation(request):
+    target = request.GET.get('target')
+    isValid = User.objects.filter(nickname=target).exists()
+
+    ctx = {
+        'target': target,
+        'isValid': isValid
+    }
+
+    return JsonResponse(ctx)
+
+
+
+
+
 def farmers_page(request):
     # farmer list
     farmer = Farmer.objects.all().order_by('-id')
