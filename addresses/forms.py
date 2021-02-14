@@ -2,6 +2,11 @@ from django import forms
 from .models import Address
 
 class AddressForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AddressForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+        
+
     class Meta:
         model = Address
         fields = ('full_address', 'detail_address', 'extra_address', 'sido', 'sigungu')
