@@ -18,8 +18,8 @@ class Editors_Reviews_Form(forms.ModelForm):
     post_category = forms.ChoiceField(choices=POST_CAT, label="포스팅 카테고리")
     product_category = forms.ModelChoiceField(required=False, label="작물 카테고리", queryset=Category.objects.filter(
         parent=None), empty_label='--관련 작물 카테고리 선택--')
-    product = forms.ModelChoiceField(required=False, label="연관 작물", queryset=Product.objects.filter(
-        open=True), empty_label='--관련 작물 선택--')
+    product = forms.ModelMultipleChoiceField(required=False, label="연관 작물", queryset=Product.objects.filter(
+        open=True), widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Editor_Review

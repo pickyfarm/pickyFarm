@@ -41,7 +41,6 @@ class Product(models.Model):
         Farmer, related_name="products", on_delete=models.CASCADE)
     category = models.ForeignKey(
         'Category', related_name='products', on_delete=models.CASCADE)
-    #editor_review = models.ForeignKey(editor_review)
 
     def save(self, *args, **kwargs):
         self.weight = round(self.weight, 1)
@@ -165,6 +164,7 @@ class Question(models.Model):
         Consumer, related_name='questions', on_delete=models.CASCADE)
     product = models.ForeignKey(
         Product, related_name='questions', on_delete=models.CASCADE)
+    
 
     def __str__(self):
         return self.title
