@@ -556,3 +556,8 @@ div{
   border-radius: 4px;
   background-color: #5c6754;
 }
+
+#stars {
+  width: 180px;
+  overflow: hidden;
+}

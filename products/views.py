@@ -4,6 +4,8 @@ from .models import Product, Category
 from django.utils import timezone
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
+from django import template
+
 # Create your views here.
 
 
@@ -104,24 +106,35 @@ def store_list_cat(request, cat):
     return render(request, "products/products_list.html", ctx)
 
 
+register = template.Library()
+@register.filter(name='range')
+def _range(_min, args=None):
+    _max, _step = None, None
+    if args:
+        if not isinstance(args, int):
+            _max, _step = map(int, args.split(','))
+        else:
+            _max = args
+    args = filter(None, (_min, _max, _step))
+    return range(*args)
+
 def product_detail(request, pk):
     try:
         product = Product.objects.get(pk=pk)
         product.calculate_total_rating_avg()
         farmer = product.farmer
-        comments = product.product_comments.all()
+        comments = product.product_comments.all().order_by('-create_at')
         questions = product.questions.all()
         total_score = product.calculate_total_rating_avg()
-        print(comments)
-        print(questions)
-        print(product.calculate_specific_rating())
+        total_percent = total_score/5 * 100
         ctx = {
             'product': product,
             'farmer': farmer,
             'comments': comments,
             'questions': questions,
             'total_score': range(int(total_score)),
-            'remainder_score':range(5-int(total_score)),
+            'remainder_score': range(5-int(total_score)),
+            'total_percent': total_percent,
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:
