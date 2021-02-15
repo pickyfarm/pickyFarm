@@ -59,7 +59,7 @@ class Order_Detail(models.Model):
     product = models.ForeignKey(
         'products.Product', related_name='order_details', on_delete=models.CASCADE)
     order_group = models.ForeignKey(
-        Order_Group, related_name='order_details', on_delete=models.CASCADE)
+        Order_Group, related_name='order_details', on_delete=models.SET_NULL)
 
     def __str__(self):
         name = []
