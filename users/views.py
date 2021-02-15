@@ -1,12 +1,16 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse
 from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User
 from products.models import Category, Product
 from django.db.models import Count
 from math import ceil
+from datetime import timedelta
+from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
+from django.views.decorators.http import require_POST
+from .forms import LoginForm, SignUpForm, MyPasswordResetForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -17,10 +21,37 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from addresses.forms import AddressForm
 from addresses.models import Address
+from math import ceil
 
 
 class NoRelatedInstance(Exception):
     pass
+
+
+@login_required
+@require_POST
+def CartInAjax(request):
+    if request.method == 'POST':
+        pk = request.POST.get('pk', None)
+        print(pk)
+        user = request.user
+        product = Product.objects.get(pk=pk)
+        if (product is None) or (product.open is False):
+            message = "존재하지 않는 상품입니다"
+            return JsonResponse(message)
+        
+        try:
+            cart = Cart.objects.get(consumer=user.consumer, product=product)
+            message = "이미 장바구니에 있는 무난이 입니다"
+        except ObjectDoesNotExist:
+            cart = Cart.objects.create(consumer=user.consumer,product=product, quantitiy=1)
+            message = product.title + "를 장바구니에 담았습니다!"
+        print(cart)
+        
+        data = {
+            "message":message,
+        }
+        return JsonResponse(data)
 
 
 class Login(View):
@@ -159,6 +190,8 @@ def farmers_page(request):
     return render(request, 'users/farmers_page.html', ctx)
 
 # farmer input 검색 view for AJAX
+
+
 def farmer_search(request):
     search_key = request.GET.get('search_key')  # 검색어 가져오기
     search_list = Farmer.objects.all()
@@ -175,6 +208,8 @@ def farmer_search(request):
     return render(request, 'users/farmer_search.html', ctx)
 
 # farmer category(채소, 과일, E.T.C) 검색 view - for AJAX
+
+
 def farm_cat_search(request):
     search_cat = request.GET.get('search_cat')
     farmer = Farmer.objects.filter(farm_cat=search_cat).order_by('-id')
@@ -182,11 +217,13 @@ def farm_cat_search(request):
     page = request.GET.get('page')
     farmers = paginator.get_page(page)
     ctx = {
-        'farmers':farmers,
+        'farmers': farmers,
     }
     return render(request, 'users/farmer_search.html', ctx)
 
 # farmer story 검색 view - for AJAX
+
+
 def farmer_story_search(request):
     select_val = request.GET.get('select_val')
     search_key_2 = request.GET.get('search_key_2')
@@ -195,9 +232,11 @@ def farmer_story_search(request):
         if select_val == 'title':
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == 'farm':
-            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
+            search_list = search_list.filter(
+                Q(farmer__farm_name__contains=search_key_2))
         elif select_val == 'farmer':
-            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
+            search_list = search_list.filter(
+                Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by('-id')
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get('page_2')
@@ -207,8 +246,10 @@ def farmer_story_search(request):
     }
     return render(request, 'users/farmer_story_search.html', ctx)
 
+
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)
+
 
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)
@@ -282,6 +323,7 @@ class MyPasswordResetCompleteView(PasswordResetCompleteView):
 
 @login_required
 def mypage(request, cat):
+    
     try:
         consumer = request.user.consumer
     except ObjectDoesNotExist:
@@ -321,6 +363,19 @@ def mypage(request, cat):
             complete_num = 0
             cancel_num = 0
 
+        #구독 농가
+        subs = consumer.subs.all().order_by('-create_at').all()
+        subs_count = subs.count()
+        print("구독자 수 " + (str)(subs_count))
+
+        #상품 Q&A
+        now = timezone.localtime()
+        one_month_before = now + timedelta(days=-30)
+        print(one_month_before)
+    
+        questions = consumer.questions.filter(create_at__gt=one_month_before).order_by('-create_at').all()
+        print("질문 쿼리 : " + (str)(questions))
+
         ctx = {
             'consumer_nickname': consumer_nickname,
             'sub_farmers': sub_farmers,
@@ -329,28 +384,61 @@ def mypage(request, cat):
             'delivery_num': delivery_num,
             'complete_num': complete_num,
             'cancel_num': cancel_num,
+            'subs_count':subs_count,
+            'subs':subs,
+            'questions':questions,
         }
 
         if cat_name == 'orders':
-            order_groups = consumer.order_groups.all()
-            total_ordered_price = 0
-            for group in order_groups:
-                total_ordered_price += group.total_price
+            page = int(request.GET.get('page', 1))
+            page_size = 5
+
+            order_groups = groups.filter(
+                status='complete').order_by('-create_at')
+            print(order_groups)
+            if order_groups.exists():
+                order_details = order_groups[0].order_details.all()
+                print(order_groups.count())
+                if order_groups.count() > 1:
+                    for group in order_groups[1:]:
+                        print(group.order_details.all())
+                        order_details = order_details | group.order_details.all()
+                order_details = order_details.order_by(
+                    '-order_group__create_at')
+            else:
+                order_details = None
+
+            print(order_details)
+            order_details_count = order_details.count()
+            total_pages = ceil(order_details_count/page_size)
+            offset = page * page_size - page_size
+            order_details = order_details[offset:page*page_size]
 
             ctx_orders = {
-                'order_groups': order_groups,
-                'total_ordered_price': total_ordered_price,
+                'total_pages': range(1, total_pages+1),
+                'order_details': order_details,
             }
             ctx.update(ctx_orders)
-            return render(request, 'users/mypage.html', ctx)
+            return render(request, 'users/mypage_orders.html', ctx)
         elif cat_name == 'wishes':
-            wishes = consumer.wishes.filter('-create_at')
+            page = int(request.GET.get('page', 1))
+            page_size = 5
+
+            wishes = consumer.wishes.filter(product__open=True).order_by('-create_at')
+            print(wishes)
+
+            wishes_count = wishes.count()
+            total_pages = ceil(wishes_count/page_size)
+            offset = page * page_size - page_size
+            wishes = wishes[offset:page*page_size]
+            print(wishes)
 
             ctx_wishes = {
+                'total_pages': range(1, total_pages+1),
                 'wishes': wishes,
             }
             ctx.update(ctx_wishes)
-            return render(request, 'users/mypage.html', ctx)
+            return render(request, 'users/mypage_wishes.html', ctx)
         elif cat_name == 'cart':
             carts = consumer.carts.filter('-create_at')
 

@@ -2,15 +2,16 @@
 {% load static %}
 
 {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/users/mypage_base.css' %}">
 {% endblock stylesheet %}
-<link rel="stylesheet" href="{% static 'css/users/mypage.css' %}">
+
 {% block title_name %}
     피키팜 | My Picky Farm
 {% endblock title_name %}
 
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
-
+    <div class="flex flex-col">
     <div id="top-section" class="flex flex-row">
         <div id="left" class="">
             <div class="flex flex-row">
@@ -25,8 +26,8 @@
                 {{consumer_nickname}}님
             </div>
         </div>
-        <div id="right" class="flex flex-row justify-between">
-            <div id="preparing" class="mr-10 ml-5">
+        <div id="right" class="flex flex-row">
+            <div id="preparing" class="mx-10">
                 <div id="status_text">
                     배송 준비중
                 </div>
@@ -37,7 +38,7 @@
                     {{preparing_num}}
                 </div>
             </div>
-            <div id="delivering" class="mr-10">
+            <div id="delivering" class="mx-10">
                 <div id="status_text">
                     배송중
                 </div>
@@ -48,7 +49,7 @@
                     {{delivery_num}}
                 </div>
             </div>
-            <div id="complete" class="mr-10">
+            <div id="complete" class="mx-10">
                 <div id="status_text">
                     배송완료
                 </div>
@@ -59,7 +60,7 @@
                     {{complete_num}}
                 </div>
             </div>
-            <div id="cancel" class="mr-10">
+            <div id="cancel" class="mx-10">
                 <div id="status_text">
                     취소/반품/교환
                 </div>
@@ -72,6 +73,27 @@
             </div>
         </div>
     </div>
-
+    <div id="middle-section" class="flex flex-row">
+        
+        <div id="menu">
+            <div id="menu_content">구매 내역</div>
+            <div id="menu_content">찜한 목록</div>
+            <div id="menu_content">장바구니</div>
+            <div id="menu_content">배송지 관리</div>
+            <div id="menu_content">개인 정보 수정</div>
+        </div>
+        <div id="content">
+            {% block content %}
+              
+            {% endblock content %}
+        </div>
+        
+    </div>
+    </div>
+    
 </div>
+
+{% block script_section %}
+      
+{% endblock script_section %}
 {% endblock main_content %}

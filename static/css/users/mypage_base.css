@@ -1,0 +1,171 @@
+#top-section{
+    width:990px;
+}
+
+#left{
+    width:240px;
+}
+
+#right{
+    width:750px;
+}
+
+#middle-section{
+    width:990px;
+}
+
+#menu{
+    width:150px;
+}
+
+#menu_content{
+    width: 145px;
+    height: 48px;
+    margin-bottom: 12px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 35px;
+    border: solid 1px #5e6656;
+    background-color: #ffffff;
+
+    font-size: 17px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+}
+
+#filter-section{
+    margin-left : 126px;
+}
+
+#content{
+    width:840px;
+}
+
+#products-section{
+    height:720px;
+    margin-left : 126px;
+}
+
+#product{
+    width: 684px;
+    height: 130px;
+    padding: 15px 20px;
+    border-radius: 20px;
+    border: solid 1px #b3b3b3;
+}
+
+#product_img{
+    width: 95px;
+    height: 95px;
+    margin: 0 76.6px 0 0;
+    border-radius: 20px;
+}
+
+
+
+#product_order_at2{
+  
+  font-family: NotoSansKR;
+  font-size: 11px;
+  text-align: left;
+  letter-spacing: normal;
+  
+  color: #5c6754;
+}
+
+#product_farm_name{
+    font-family: NotoSansKR;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+#slash{
+    margin:0 15px;
+  color : #5e6656;
+}
+
+#product_title{
+    font-family: NotoSansKR;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+
+  letter-spacing: normal;
+  text-align: left;
+  color: #707070;
+}
+
+#product_price{
+    font-family: NotoSansKR;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #b3b3b3;
+    margin-right : 20px;
+}
+
+#product_quantity{
+    font-family: NotoSansKR;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+}
+
+#product_weight{
+    font-family: NotoSansKR;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+}
+
+
+
+#product_btn{
+    width: 95px;
+  height: 25px;
+  padding: 5px 13px 5px;
+  border-radius: 11px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 12px;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+#cartIn_btn{
+    width: 95px;
+    height: 25px;
+    padding: 5px 13px 5px;
+    border-radius: 11px;
+    background-color: #5c6754;
+    font-family: NotoSansKR;
+    font-size: 12px;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}

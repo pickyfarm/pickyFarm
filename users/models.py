@@ -162,6 +162,9 @@ class Subscribe(models.Model):
     consumer = models.ForeignKey(
         'Consumer', related_name="subs", on_delete=models.CASCADE)
 
+    update_at = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return f'{self.consumer.user.nickname} -> {self.farmer.farm_name}'
 

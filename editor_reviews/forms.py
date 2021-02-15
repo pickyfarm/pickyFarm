@@ -2,6 +2,7 @@ from django import forms
 from .models import Editor_Review
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from products.models import Category, Product
+from users.models import Farmer
 
 
 class Editors_Reviews_Form(forms.ModelForm):
@@ -18,15 +19,17 @@ class Editors_Reviews_Form(forms.ModelForm):
     post_category = forms.ChoiceField(choices=POST_CAT, label="포스팅 카테고리")
     product_category = forms.ModelChoiceField(required=False, label="작물 카테고리", queryset=Category.objects.filter(
         parent=None), empty_label='--관련 작물 카테고리 선택--')
-    product = forms.ModelChoiceField(required=False, label="연관 작물", queryset=Product.objects.filter(
-        open=True), empty_label='--관련 작물 선택--')
+    farm = forms.ModelChoiceField(required=False, label="관련 농가", empty_label='--관련 농가 선택--', queryset=Farmer.objects.all())
+    product = forms.ModelMultipleChoiceField(required=False, label="연관 작물", queryset=Product.objects.filter(
+        open=True), widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Editor_Review
-        fields = ('title', 'contents', 'main_image',
-                  'post_category', 'product_category', 'product')
+        fields = ('title', 'sub_title', 'contents', 'main_image',
+                  'post_category', 'product_category', 'farm', 'product')
         labels = {
             'title': '제목',
+            'sub_title' : '부제목',
             'contents': '',
             'main_image': '썸네일',
             # 'post_category': '카테고리',
@@ -50,3 +53,10 @@ class Editors_Reviews_Form(forms.ModelForm):
             return None
         else:
             return product
+    
+    def clean_farm(self):
+        farm = self.cleaned_data.get('farm')
+        if farm is None:
+            return None
+        else:
+            return farm

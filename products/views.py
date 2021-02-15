@@ -99,7 +99,7 @@ def store_list_cat(request, cat):
         "categories": categories,
         "page": page,
         "page_total": page_total,
-        "page_range": range(1, page_total),
+        "page_range": range(1, page_total+1),
     }
     return render(request, "products/products_list.html", ctx)
 
