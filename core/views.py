@@ -27,7 +27,12 @@ def index(request):
         today_pick_list = products.order_by("create_at")[:5]
         best_product_list = products.order_by("sales_rate")[0:4]
 
-    editor_pick_list = Editor_Review.objects.all()
+    try:
+        editor_pick_list = Editor_Review.objects.all()
+    
+    except Editor_Review.DoesNotExist:
+        pass
+
     today_farmer_list = Farmer.objects.all()
     main_slider_image = Main_Slider_Image.objects.all()
     
@@ -43,7 +48,7 @@ def index(request):
         'today_farmer_list': today_farmer_list,
         'main_slider_image': main_slider_image
     }
-    print(products.first().farmer.user)
+
     return render(request, "base/index.html", ctx)
 
 
