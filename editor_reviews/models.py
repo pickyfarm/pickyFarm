@@ -14,6 +14,7 @@ class Editor_Review(models.Model):
     )
 
     title = models.CharField(max_length=500)
+    sub_title = models.CharField(max_length=500)
     main_image = models.ImageField(upload_to='editor_review_thumbnail/%Y/%m/%d')
     contents = models.TextField()
     update_at = models.DateTimeField(auto_now=True)
@@ -24,6 +25,7 @@ class Editor_Review(models.Model):
 
     product_category = models.ForeignKey(Category, related_name="editor_reviews", on_delete=models.CASCADE, null=True, blank=True)
     product = models.ManyToManyField(Product, related_name="editor_reviews", blank=True)
+    farm = models.ForeignKey('users.Farmer', related_name="editor_reviews", on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_preview(self):
         if len(self.contents) < 60:
