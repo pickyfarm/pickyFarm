@@ -375,7 +375,7 @@ def mypage(request, cat):
     
         questions = consumer.questions.filter(create_at__gt=one_month_before).order_by('-create_at').all()
         print("질문 쿼리 : " + (str)(questions))
-
+        
         ctx = {
             'consumer_nickname': consumer_nickname,
             'sub_farmers': sub_farmers,
