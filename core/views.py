@@ -43,7 +43,6 @@ def index(request):
         'today_farmer_list': today_farmer_list,
         'main_slider_image': main_slider_image
     }
-    print(products.first().farmer.user)
     return render(request, "base/index.html", ctx)
 
 
