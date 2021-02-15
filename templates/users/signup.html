@@ -207,53 +207,74 @@
 
     $('#nickname-check').click(function(){
         let target = $('#id_nickname').val();
-        $.ajax({
-            url: 'nickname_validation/',
-            data: {'target': target},
-            success: function (data) {
-                if (data['isValid'] == false){
-                    alert("사용 가능한 닉네임입니다.");
-                    $('#nicknameValidCheck').attr("valid", "true");
-                } else {
-                    alert("이미 사용중인 닉네임입니다.");
-                    $('#nicknameValidCheck').attr("valid", "false");
+
+        if (target=="") {
+            alert("닉네임을 입력해주세요.");
+        }
+
+        else {
+            $.ajax({
+                url: 'nickname_validation/',
+                data: {'target': target},
+                success: function (data) {
+                    if (data['isValid'] == false){
+                        alert("사용 가능한 닉네임입니다.");
+                        $('#nicknameValidCheck').attr("valid", "true");
+                    } else {
+                        alert("이미 사용중인 닉네임입니다.");
+                        $('#nicknameValidCheck').attr("valid", "false");
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     $('#id-check').click(function(){
         let target = $('#id_username').val();
-        $.ajax({
-            url: 'id_validation/',
-            data: {'target': target},
-            success: function (data) {
-                if (data['isValid'] == false){
-                    alert("사용 가능한 ID입니다.");
-                    $('#idValidCheck').attr("valid", "true");
-                } else {
-                    alert("이미 사용중인 ID입니다.");
-                    $('#idValidCheck').attr("valid", "false");
+
+        if (target=="") {
+            alert("아이디를 입력해주세요.");
+        }
+
+        else {
+            $.ajax({
+                url: 'id_validation/',
+                data: {'target': target},
+                success: function (data) {
+                    if (data['isValid'] == false){
+                        alert("사용 가능한 ID입니다.");
+                        $('#idValidCheck').attr("valid", "true");
+                    } else {
+                        alert("이미 사용중인 ID입니다.");
+                        $('#idValidCheck').attr("valid", "false");
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     $('#email-check').click(function(){
         let target = $('#id_email').val();
-        $.ajax({
-            url: 'email_validation/',
-            data: {'target': target},
-            success: function (data) {
-                if (data['isValid'] == false){
-                    alert("사용 가능한 이메일입니다.");
-                    $('#emailValidCheck').attr("valid", "true");
-                } else {
-                    alert("이미 사용중인 이메일입니다.");
-                    $('#emailValidCheck').attr("valid", "false");
+
+        if (target=="") {
+            alert("이메일을 입력해주세요.");
+        }
+
+        else {
+            $.ajax({
+                url: 'email_validation/',
+                data: {'target': target},
+                success: function (data) {
+                    if (data['isValid'] == false){
+                        alert("사용 가능한 이메일입니다.");
+                        $('#emailValidCheck').attr("valid", "true");
+                    } else {
+                        alert("이미 사용중인 이메일입니다.");
+                        $('#emailValidCheck').attr("valid", "false");
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     $('#id_username').change(function(){
