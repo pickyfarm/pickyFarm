@@ -6,9 +6,71 @@
 {% endblock stylesheet %}
 
 {% block main_content %}
-<div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
-    <div class="w-3/5">
+<div class="main-contents flex justify-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
+    <div id="top-section">
+        <div>{{review.title}}</div>
+        <div>{{review.sub_title}}</div>
+        <div>editor{{review.author.user.nickname}}</div>
+    </div>
+    
+    <div id="content-section" class="w-3/5">
     {{review.contents|safe}}
+    </div>
+
+    <div id="info-section">
+        <div id="editor_profile">
+            <img src="{{review.author.user.profile_image">
+            <div>editor{{review.author.user.nickname}}</div>
+        </div>
+        
+        {% if review.product is not None %}
+            <div id="related_products">
+                <div class="flex flex-row">
+                    <img src="">
+                    <div id="desc_title">관련 상품 보기</div>
+                </div>
+                <div id="products" class="flex flex-row">
+                {% for p in review.product.all %}
+                <a href="{% url 'products:product_detail' p.pk %}">
+
+                    <div class="float-left mx-3" id="product_item">
+                        <div class="relative">
+                            <img class="z-0" id="product_img" src="{{p.main_image.url}}" width="50"><br>
+                            <div id="like_cart_in" class="flex flex-row z-10">
+                                <a href="{% url 'users:wish' p.pk %}?next={{request.path}}"><img class="mr-1"
+                                        id="like" , src="{% static 'images/products_list/like.svg' %}"></a>
+                                <a href="{% url 'users:cart_in' p.pk %}?next={{request.path}}"><img
+                                        class="ml-1" id="cart_in" ,
+                                        src="{% static 'images/products_list/cart_in.svg' %}"></a>
+                            </div>
+
+
+                            <img class="absolute -top-5 left-1 {%if p.stock > 3 %} invisible {% endif %}"
+                                id="almost_sold_out" ,
+                                src="{% static 'images/products_list/almost_sold_out2.svg' %}">
+                            <img class="absolute top-1 left-4 {%if p.stock > 3 %} invisible {% endif %}"
+                                id="almost_sold_out" ,
+                                src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                        </div>
+
+                        <div class="mt-1">
+                            <p class="pl-5" id="title">{{p.title}}</p>
+                            <p class="pl-5" id="sell_price">{{p.sell_price}}원</p>
+                            <p class="pl-5" id="sub_title">{{p.sub_title}}</p>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        
+        {% if review.farm is not None %}
+            
+        {% endif %}
+            
+            
     </div>
 </div>
 
