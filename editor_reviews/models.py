@@ -24,8 +24,6 @@ class Editor_Review(models.Model):
     post_category = models.CharField(
         max_length=50, choices=POST_CAT, default='farm_cover')
 
-    product_category = models.ForeignKey(
-        Category, related_name="editor_reviews", on_delete=models.CASCADE, null=True, blank=True)
     product = models.ManyToManyField(
         Product, related_name="editor_reviews", blank=True)
     farm = models.ForeignKey('users.Farmer', related_name="editor_reviews",

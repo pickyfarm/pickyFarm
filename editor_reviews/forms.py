@@ -17,8 +17,6 @@ class Editors_Reviews_Form(forms.ModelForm):
     # contents = forms.CharField(widget=SummernoteWidget(), label="")
     # main_image = forms.ImageField(label="썸네일")
     post_category = forms.ChoiceField(choices=POST_CAT, label="포스팅 카테고리")
-    product_category = forms.ModelChoiceField(required=False, label="작물 카테고리", queryset=Category.objects.filter(
-        parent=None), empty_label='--관련 작물 카테고리 선택--')
     farm = forms.ModelChoiceField(required=False, label="관련 농가", empty_label='--관련 농가 선택--', queryset=Farmer.objects.all())
     product = forms.ModelMultipleChoiceField(required=False, label="연관 작물", queryset=Product.objects.filter(
         open=True), widget=forms.CheckboxSelectMultiple)
@@ -26,26 +24,18 @@ class Editors_Reviews_Form(forms.ModelForm):
     class Meta:
         model = Editor_Review
         fields = ('title', 'sub_title', 'contents', 'main_image',
-                  'post_category', 'product_category', 'farm', 'product')
+                  'post_category', 'farm', 'product')
         labels = {
             'title': '제목',
             'sub_title' : '부제목',
             'contents': '',
             'main_image': '썸네일',
             # 'post_category': '카테고리',
-            # 'product_category': '관련 작물 종류',
             # 'product': '관련 작물',
         }
         widgets = {
             'contents': SummernoteWidget(),
         }
-
-    def clean_product_category(self):
-        product_category = self.cleaned_data.get('product_category')
-        if product_category is None:
-            return None
-        else:
-            return product_category
 
     def clean_product(self):
         product = self.cleaned_data.get('product')

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Editor_Review
 from .forms import Editors_Reviews_Form
+from django.views.generic import DetailView
 from users.models import Editor
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.auth.decorators import login_required
@@ -39,7 +40,17 @@ def detail(request, pk):
         'review': review,
     }
     return render(request, 'editor_reviews/editor_reviews_detail.html', ctx)
-# Create your views here.
+
+class Editor_review_detail(DetailView):
+    model = Editor_Review
+    template_name = "editor_reviews/editor_reviews_detail.html"
+    context_object_name = "review"
+    
+    def get_context_data(self, **kwargs):
+        ctx = super(DetailView, self).get_context_data(**kwargs)
+        ctx['comments'] = self.get_object().editor_review_comments.all()
+
+        return ctx
 
 
 @login_required
@@ -88,8 +99,6 @@ def update(request, pk):
             post.title = form.cleaned_data['title']
             post.main_image = form.cleaned_data['main_image']
             post.contents = form.cleaned_data['contents']
-            post.post_category = form.cleaned_data['post_category']
-            post.product_category = form.cleaned_data['product_category']
             post.product = form.cleaned_data['product']
             post.updated_at = timezone.now()
             post.save()
