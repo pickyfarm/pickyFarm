@@ -2,6 +2,16 @@
 {% load static %}
 
 {% block content %}
+
+{% if order_detail is None %}
+  <div class="mt-14 flex flex-col justify-center">
+    <div>
+      아직 구매한 무난이가 없습니다
+    </div>
+    <a id="redirect_a" href="{% url 'products:store_list' %}"><div id="redirect_btn">무난이 구매하러 가기</div></a>
+  </div>
+{% else %}
+  
   <div id="filter">
       
   </div>
@@ -57,4 +67,5 @@
         <a href='?page={{page}}'><div id="page_btn" value="{{page}}">{{page}}</div></a>
       {% endfor %}
   </div>
+{% endif %}
 {% endblock content %}

@@ -6,94 +6,175 @@
 {% endblock stylesheet %}
 
 {% block title_name %}
-    피키팜 | My Picky Farm
+피키팜 | My Picky Farm
 {% endblock title_name %}
 
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
     <div class="flex flex-col">
-    <div id="top-section" class="flex flex-row">
-        <div id="left" class="">
-            <div class="flex flex-row">
-                <div>
-                    My
+        <div id="top-section" class="flex flex-row mt-14">
+            <div id="left" class="">
+                <div class="flex flex-row mt-4">
+                    <div id="title_text1">
+                        My
+                    </div>
+                    <div id="title_text2" class="ml-5">
+                        Picky Farm
+                    </div>
                 </div>
-                <div>
-                    Picky Farm
+                <div id="user_nickname" class="mt-5 flex flex-row">
+                    <div id="nickname_text1">{{consumer_nickname}}</div>
+                    <div id="nickname_text2">님</div>
                 </div>
             </div>
-            <div id="user_nickname">
-                {{consumer_nickname}}님
+            <div id="right" class="flex flex-row">
+                <div id="preparing" class="mx-10">
+                    <div id="status_text" class="mx-auto">
+                        배송 준비중
+                    </div>
+                    <div class="mx-auto" id="status_icon">
+                        <img src="{% static 'images/users/preparing.svg' %}" alt="배송 준비중 아이콘" class="pt-2 pl-1.5">
+                    </div>
+                    <div id="status_number" class="mx-auto">
+                        {{preparing_num}}
+                    </div>
+                </div>
+                <div id="delivering" class="mx-10">
+                    <div id="status_text" class="mx-auto">
+                        배송중
+                    </div>
+                    <div class="mx-auto" id="status_icon">
+                        <img src="{% static 'images/users/delivering.svg' %}" alt="배송중 아이콘" class="pt-2">
+                    </div>
+                    <div id="status_number" class="mx-auto">
+                        {{delivery_num}}
+                    </div>
+                </div>
+                <div id="complete" class="mx-10">
+                    <div id="status_text" class="mx-auto">
+                        배송완료
+                    </div>
+                    <div class="mx-auto" id="status_icon">
+                        <img src="{% static 'images/users/complete.svg' %}" alt="배송완료 아이콘">
+                    </div>
+                    <div id="status_number" class="mx-auto">
+                        {{complete_num}}
+                    </div>
+                </div>
+                <div id="cancel" class="mx-14">
+                    <div id="status_text" class="mx-auto">
+                        취소/반품/교환
+                    </div>
+                    <div class="mx-auto" id="status_icon">
+                        <img src="{% static 'images/users/cancel.svg' %}" alt="취소/반품/교환 아이콘" class="pt-2 pl-2">
+                    </div>
+                    <div id="status_number" class="mx-auto">
+                        {{cancel_num}}
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="right" class="flex flex-row">
-            <div id="preparing" class="mx-10">
-                <div id="status_text">
-                    배송 준비중
-                </div>
-                <div>
-                    <img src="{% static 'images/users/preparing.svg' %}" alt="배송완료 아이콘">
-                </div>
-                <div id="status_number">
-                    {{preparing_num}}
-                </div>
+        <div id="middle-section" class="flex flex-row">
+
+            <div id="menu">
+                <div id="menu_content">구매 내역</div>
+                <div id="menu_content">찜한 목록</div>
+                <div id="menu_content">장바구니</div>
+                <div id="menu_content">배송지 관리</div>
+                <div id="menu_content">개인 정보 수정</div>
             </div>
-            <div id="delivering" class="mx-10">
-                <div id="status_text">
-                    배송중
-                </div>
-                <div>
-                    <img src="{% static 'images/users/delivering.svg' %}" alt="배송완료 아이콘">
-                </div>
-                <div id="status_number">
-                    {{delivery_num}}
-                </div>
+            <div id="content">
+                {% block content %}
+
+                {% endblock content %}
             </div>
-            <div id="complete" class="mx-10">
-                <div id="status_text">
-                    배송완료
-                </div>
-                <div>
-                    <img src="{% static 'images/users/complete.svg' %}" alt="배송완료 아이콘">
-                </div>
-                <div id="status_number">
-                    {{complete_num}}
-                </div>
-            </div>
-            <div id="cancel" class="mx-10">
-                <div id="status_text">
-                    취소/반품/교환
-                </div>
-                <div>
-                    <img src="{% static 'images/users/cancel.svg' %}" alt="배송완료 아이콘">
-                </div>
-                <div id="status_number">
-                    {{cancel_num}}
-                </div>
-            </div>
+
         </div>
+
     </div>
-    <div id="middle-section" class="flex flex-row">
-        
-        <div id="menu">
-            <div id="menu_content">구매 내역</div>
-            <div id="menu_content">찜한 목록</div>
-            <div id="menu_content">장바구니</div>
-            <div id="menu_content">배송지 관리</div>
-            <div id="menu_content">개인 정보 수정</div>
+
+</div>
+<div id="bottom_section" class="z-0 mt-8">
+    <di id="bottom_contents" class="flex flex-row mx-auto">
+        <div id="subscribe_section">
+            <div class="mx-auto mt-8 mb-1">
+                <img src="{% static 'images/users/farmer_icon.svg' %}" class="mx-auto">
+            </div>
+            <div id="subs_title_box" class="mx-auto flex flex-row">
+                <div id="subs_title_text1">My</div>
+                <div id="subs_title_text2">Farmer</div>
+            </div>
+            <div id="subs_contents_box" class="mx-auto mt-10">
+
+                {% if subs is None %}
+                <div>아직 구독한 농가가 없습니다</div>
+                <a id="redirect_a" href="{% url 'products:store_list' %}">
+                    <div id="redirect_btn">농가 구독하러 가기</div>
+                </a>
+                {% else %}
+
+
+                {% for sub in subs %}
+                <div class="flex flex-row" class="w-100">
+                    <div class="w-1/5">
+                        <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
+                    </div>
+                    <div class="w-3/5">
+                        <div id="farm_tags" class="flex flex-row">
+
+                        </div>
+                        <div id="farm_infos" class="flex flex-row">
+                            <div id="farm_loc">서울시 임시구</div>
+                            <div id="farm_name">{{sub.farmer.farm_name}}</div>
+                        </div>
+                        <div id="farm_news" class="flex flex-row">
+                            <div>
+                                <img class="mt-2 mr-1" src="{% static 'images/users/news_icon.svg' %}">
+                            </div>
+
+                            {% if sub.farm_news is None %}
+                            <div id="sub_farm_news">아직 새 소식이 없어요!</div>
+                            {% else %}
+                            <div id="sub_farm_news">{{sub.farmer.farm_news}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="w-1/5">
+                        <a href="">
+                            <div id="sub_cancel_btn" class="mt-4 mx-auto">구독 취소</div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% endif %}
+            </div>
         </div>
-        <div id="content">
-            {% block content %}
-              
-            {% endblock content %}
+        <div id="qnas_section">
+            <div id="qnas_title_box">
+                <div id="qnas_title_text1">
+                    Q&A
+                </div>
+                <div id="qnas_title_text2">
+                    개인적인 배송관련, 주문 관련 사항들은 1:1 고객상담센터로 문의해주세요
+                </div>
+            </div>
+            <div id="qnas_contents" class="mx-auto mt-10 flex flex-col justify-center">
+
+                {% if questions.exists == False %}
+                <div class="text-center">아직 무난이에 대해 궁금한 것이 없습니다!</div>
+                <a id="redirect_a" href="{% url 'products:store_list' %}">
+                    <div id="redirect_qnas_btn">무난이 구경하러 가기</div>
+                </a>
+                {% endif %}
+
+            </div>
         </div>
-        
-    </div>
-    </div>
-    
+</div>
 </div>
 
 {% block script_section %}
-      
+
 {% endblock script_section %}
 {% endblock main_content %}

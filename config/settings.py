@@ -67,27 +67,28 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 ROOT_URLCONF = 'config.urls'
 
-# SUMMERNOTE_CONFIG = {
-#     'iframe': True,
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
 
-#     'airMode': True,
+    'airMode': True,
 
-    
+    'width' : '990px',
+    'height' : '661px',
 
-#     'toolbar': [
-#         # ['style', ['style']],
-#         ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
-#         # ['fontname', ['fontname']],
-#         ['fontsize', ['fontsize']],
-#         # ['color', ['color']],
-#         ['para', ['ul', 'ol', 'paragraph']],
-#         ['height', ['height']],
-#         ['table', ['table']],
-#         ['insert', ['link', 'picture', 'video', 'hr']],
-#         ['view', ['fullscreen', 'codeview']],
-#         ['help', ['help']],
-#     ], 
-# }
+    'toolbar': [
+        # ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
+        # ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        # ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'hr']],
+        ['view', ['fullscreen', 'codeview']],
+        ['help', ['help']],
+    ], 
+}
 
 TEMPLATES = [
     {

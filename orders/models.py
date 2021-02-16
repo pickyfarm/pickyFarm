@@ -25,7 +25,7 @@ class Order_Group(models.Model):
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
-
+    
     consumer = models.ForeignKey(
         'users.Consumer', related_name='order_groups', on_delete=models.CASCADE)
 
@@ -59,7 +59,7 @@ class Order_Detail(models.Model):
     product = models.ForeignKey(
         'products.Product', related_name='order_details', on_delete=models.CASCADE)
     order_group = models.ForeignKey(
-        Order_Group, related_name='order_details', on_delete=models.SET_NULL)
+        Order_Group, related_name='order_details', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         name = []

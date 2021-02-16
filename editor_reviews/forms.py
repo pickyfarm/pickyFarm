@@ -16,20 +16,22 @@ class Editors_Reviews_Form(forms.ModelForm):
     # title = forms.CharField(label="제목")
     # contents = forms.CharField(widget=SummernoteWidget(), label="")
     # main_image = forms.ImageField(label="썸네일")
-    post_category = forms.ChoiceField(choices=POST_CAT, label="포스팅 카테고리")
+    post_category = forms.ChoiceField(
+        choices=POST_CAT, label="카테고리", widget=forms.RadioSelect)
     product_category = forms.ModelChoiceField(required=False, label="작물 카테고리", queryset=Category.objects.filter(
         parent=None), empty_label='--관련 작물 카테고리 선택--')
-    farm = forms.ModelChoiceField(required=False, label="관련 농가", empty_label='--관련 농가 선택--', queryset=Farmer.objects.all())
+    farm = forms.ModelChoiceField(
+        required=False, label="관련 농가", empty_label='농가 선택하기', queryset=Farmer.objects.all())
     product = forms.ModelMultipleChoiceField(required=False, label="연관 작물", queryset=Product.objects.filter(
         open=True), widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Editor_Review
-        fields = ('title', 'sub_title', 'contents', 'main_image',
-                  'post_category', 'product_category', 'farm', 'product')
+        fields = ('post_category', 'title', 'sub_title', 'main_image',
+                  'contents', 'product_category', 'product', 'farm')
         labels = {
             'title': '제목',
-            'sub_title' : '부제목',
+            'sub_title': '부제목',
             'contents': '',
             'main_image': '썸네일',
             # 'post_category': '카테고리',
@@ -53,7 +55,7 @@ class Editors_Reviews_Form(forms.ModelForm):
             return None
         else:
             return product
-    
+
     def clean_farm(self):
         farm = self.cleaned_data.get('farm')
         if farm is None:
