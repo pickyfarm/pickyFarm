@@ -19,7 +19,7 @@
 
     <div id="info-section">
         <div id="editor_profile">
-            <img src="{{review.author.user.profile_image">
+            <img src="#">
             <div>editor{{review.author.user.nickname}}</div>
         </div>
         
@@ -74,6 +74,6 @@
     </div>
 </div>
 
-<a href="{% url 'editors_pick:delete' review.pk %}"><div>지우기.</div></a>
-<a href="{% url 'editors_pick:update' review.pk %}"><div>업데이트</div></a>
+{% comment %} <a href="{% url 'editors_pick:delete' review.pk %}"><div>지우기.</div></a>
+<a href="{% url 'editors_pick:update' review.pk %}"><div>업데이트</div></a> {% endcomment %}
 {% endblock main_content %}
