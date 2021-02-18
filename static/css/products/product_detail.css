@@ -561,3 +561,18 @@ div{
   width: 180px;
   overflow: hidden;
 }
+
+/* review score_table */
+#score_table_wrap {
+  width: 780px;
+}
+
+#score_table {
+  width: 780px;
+  border: 1px solid #707070;
+}
+
+#score_table td {
+  width: 33%;
+  border: 1px solid #707070;
+}

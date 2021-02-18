@@ -259,6 +259,44 @@
                     </div>
                 </div>
             </div>
+            <div class="ml-20 mb-12" id="score_table_wrap">
+                <table id="score_table">
+                    <tr>
+                        <td class="py-2"> 신선도 </td>
+                        <td class="py-2"> 맛 </td>
+                        <td class="py-2"> 가성비 </td>
+                    </tr>
+                    <tr>
+                        <td class="py-4">
+                            {% if comment.freshness == 1 %}
+                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                            {% elif comment.freshness == 3 %}
+                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                            {% else %}
+                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                            {% endif %}
+                        </td>
+                        <td class="py-4">
+                            {% if comment.flavor == 1 %}
+                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                            {% elif comment.flavor == 3 %}
+                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                            {% else %}
+                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                            {% endif %}
+                        </td>
+                        <td class="py-4">
+                            {% if comment.cost_performance == 1 %}
+                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                            {% elif comment.cost_performance == 3 %}
+                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                            {% else %}
+                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <div id="review_txt" class="text-left">{{ comment.text }}</div>
             <div id="review_imgs" class="flex flex-row text-left mt-5 mb-9">
                 {% for img in comment.product_comment_images.all %}
