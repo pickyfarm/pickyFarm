@@ -49,6 +49,7 @@ PICKY_APPS = [
     'orders.apps.OrdersConfig',
     'django_summernote',
     'addresses.apps.AddressesConfig',
+    'django_seed',
 ]
 
 INSTALLED_APPS = PICKY_APPS + DJANGO_APPS

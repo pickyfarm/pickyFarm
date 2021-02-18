@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 # Create your models here.
@@ -77,10 +78,11 @@ class Editor_Review_Comment(Comment):
     """Editor_Review_Comment Model Definition"""
 
     editor_review = models.ForeignKey("editor_reviews.Editor_Review", related_name="editor_review_comments", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name='editor_review_comment', on_delete=models.CASCADE)
 
 
 class Editor_Review_Recomment(Comment):
     """Editor_Review_Recomment Model Definition"""
 
     comment = models.ForeignKey('Editor_Review_Comment', related_name="editor_review_recomments", on_delete=models.CASCADE)
-    
+    author = models.ForeignKey(User, related_name='editor_review_recomment', on_delete=models.CASCADE)

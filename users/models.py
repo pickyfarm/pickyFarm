@@ -16,10 +16,10 @@ import shutil
 
 
 class User(AbstractUser):
-    GENDER_CHOICES = {
+    GENDER_CHOICES = (
         ("male", "남자"),
         ("female", "여자"),
-    }
+    )
 
     profile_image = models.ImageField(
         upload_to='profile_image/%Y/%m/%d/', null=True, blank=True)
@@ -79,11 +79,11 @@ class Editor(models.Model):
 
 
 class Farmer(models.Model):
-    CAT_CHOICES = {
+    CAT_CHOICES = (
         ("vege", "채소"),
         ("fruit", "과일"),
         ("etc", "기타"),
-    }
+    )
     farm_name = models.CharField(max_length=50) # 농장 이름
     farmer_profile = models.ImageField(upload_to='farmer_profile/%Y/%m/%d/', null=True, blank=True) # 농장주 사진 default icon 설정
     farm_profile = models.ImageField(upload_to='farm_profile/%Y/%m/%d/') # 농장 대표사진 or 로고
