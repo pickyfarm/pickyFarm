@@ -13,7 +13,7 @@ class Command(BaseCommand):
         os.system("python manage.py seed_user")
 
 def seed_user():
-    seeder = Seed.seeder()
+    seeder = Seed.seeder("ko_KR")
     seeder.add_entity(user_models.User, 20, {"is_staff": False, "is_superuser": False})
     seeder.execute()
 
