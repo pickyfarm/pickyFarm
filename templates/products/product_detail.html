@@ -169,16 +169,16 @@
         <div class='flex flex-col my-10 mx-auto w-5/6' id='review_score'>
             <h2 class="text-left mb-10">구매 만족도</h2>
             <div class='flex flex-row items-end'>
-                <div id="stars" class="w-1/4 mr-8 ">
-                    <div id="stars" class='flex flex-row items-center'>
+                <div id="total_stars" class="w-1/4 mr-8 ">
+                    <div id="total_stars" class='flex flex-row justify-center'>
                         {% for i in total_score %}
                             <img class='mr-3' src="{% static 'images/yellow_star.svg' %}" alt="yellow_star">
                         {% endfor %}
                         {% for i in remainder_score %}
-                            <img class='' src="{% static 'images/star.svg' %}" alt="yellow_star">
+                            <img class='mr-3' src="{% static 'images/star.svg' %}" alt="yellow_star">
                         {% endfor %}
                     </div>
-                    <p class="mt-2" id="percent">99.9% 만족</p>
+                    <p class="mt-2" id="percent">{{ total_percent }}% 만족</p>
                 </div>
                 <div id="fresh" class="w-1/4">
                     <p class ="mb-3" id='score_title'>신선도</p>
@@ -248,18 +248,54 @@
                         <div class="text-black text-opacity-40 text-sm mr-10">
                             <span class='inline-block align-text-bottom'>{{product.title}} 구매</span>
                         </div>
-                        <div id="stars">
-                            <div id="stars" class='flex flex-row items-center'>
-                                {% for i in comment.avg|rjust:"4" %}
-                                    <img class='mr-3 h-6 w-6' src="{% static 'images/yellow_star.svg' %}" alt="yellow_star">
-                                {% endfor %}
-                                {% for i in remainder_score %}
-                                    <img class='mr-3 h-6 w-6' src="{% static 'images/star.svg' %}" alt="yellow_star">
-                                {% endfor %}
-                            </div>
+                        <div id="stars" class='flex flex-row items-center'>
+                            {% for i in comment.avg|rjust:comment.avg %}
+                                <img class='mr-3 h-6 w-6' src="{% static 'images/yellow_star.svg' %}" alt="yellow_star">
+                            {% endfor %}
+                            {% for i in 5|rjust:4 %}
+                                <img class='mr-3 h-6 w-6' src="{% static 'images/star.svg' %}" alt="yellow_star">
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="ml-20 mb-12" id="score_table_wrap">
+                <table id="score_table">
+                    <tr>
+                        <td class="py-2"> 신선도 </td>
+                        <td class="py-2"> 맛 </td>
+                        <td class="py-2"> 가성비 </td>
+                    </tr>
+                    <tr>
+                        <td class="py-4">
+                            {% if comment.freshness == 1 %}
+                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                            {% elif comment.freshness == 3 %}
+                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                            {% else %}
+                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                            {% endif %}
+                        </td>
+                        <td class="py-4">
+                            {% if comment.flavor == 1 %}
+                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                            {% elif comment.flavor == 3 %}
+                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                            {% else %}
+                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                            {% endif %}
+                        </td>
+                        <td class="py-4">
+                            {% if comment.cost_performance == 1 %}
+                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                            {% elif comment.cost_performance == 3 %}
+                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                            {% else %}
+                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div id="review_txt" class="text-left">{{ comment.text }}</div>
             <div id="review_imgs" class="flex flex-row text-left mt-5 mb-9">
@@ -268,16 +304,17 @@
                 {% endfor %}
             </div>
             <div id="review_comment">
-                <form action="">
-                {% csrf_token %}
                 <div class="flex flex-row">
-                    <input type="text" class="w-4/5 mt-2 mb-6 px-4 py-2 border border-gray-500 rounded-3xl text-gray-700 focus:outline-none" />
+                <form action="{% url 'comments:product_recomment_create' comment.pk %}">
+                    {% csrf_token %}
+                    {{ recomment_form }}
+                    {% comment %} <input type="text" class="w-4/5 mt-2 mb-6 px-4 py-2 border border-gray-500 rounded-3xl text-gray-700 focus:outline-none" /> {% endcomment %}
                     <button type="submit" 
                             class="w-1/5 mt-2 mb-6 ml-8 px-4 py-2 border border-gray-500 rounded-3xl focus:outline-none transition duration-500 hover:bg-gray-500 hover:text-gray-50">
                             댓글 작성
                     </button>
-                </div>
                 </form>
+                </div>
                 <div>
                     <button id="comment_btn_{{comment.id}}" class="px-4 py-2 rounded-3xl bg-green-700 text-gray-50 focus:outline-none">
                             댓글보기 &nbsp; <i id="show_icon"class='fas fa-caret-down'></i>
