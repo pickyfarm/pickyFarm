@@ -14,6 +14,11 @@ $("input:radio[name=gender]").on('change', function () {
 
 $('#nickname-check').click(function () {
     let target = $('#id_nickname').val();
+
+    if (target=="") {
+        alert("닉네임을 입력해주세요.");
+    }
+
     $.ajax({
         url: 'nickname_validation/',
         data: { 'target': target },
@@ -31,6 +36,11 @@ $('#nickname-check').click(function () {
 
 $('#id-check').click(function () {
     let target = $('#id_username').val();
+
+    if (target=="") {
+        alert("아이디를 입력해주세요.");
+    }
+
     $.ajax({
         url: 'id_validation/',
         data: { 'target': target },
@@ -48,6 +58,11 @@ $('#id-check').click(function () {
 
 $('#email-check').click(function () {
     let target = $('#id_email').val();
+
+    if (target=="") {
+        alert("이메일을 입력해주세요.");
+    }
+
     $.ajax({
         url: 'email_validation/',
         data: { 'target': target },
