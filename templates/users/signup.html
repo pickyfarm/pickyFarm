@@ -246,11 +246,57 @@
         margin-right: 12px;
         top: 2px;
     }
+    $('#nickname-check').click(function(){
+        let target = $('#id_nickname').val();
+
+        if (target=="") {
+            alert("닉네임을 입력해주세요.");
+        }
+
+        else {
+            $.ajax({
+                url: 'nickname_validation/',
+                data: {'target': target},
+                success: function (data) {
+                    if (data['isValid'] == false){
+                        alert("사용 가능한 닉네임입니다.");
+                        $('#nicknameValidCheck').attr("valid", "true");
+                    } else {
+                        alert("이미 사용중인 닉네임입니다.");
+                        $('#nicknameValidCheck').attr("valid", "false");
+                    }
+                }
+            });
+        }
+    });
 
     .form_term_agree input:checked+label::before {
         content: "";
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
+    $('#id-check').click(function(){
+        let target = $('#id_username').val();
+
+        if (target=="") {
+            alert("아이디를 입력해주세요.");
+        }
+
+        else {
+            $.ajax({
+                url: 'id_validation/',
+                data: {'target': target},
+                success: function (data) {
+                    if (data['isValid'] == false){
+                        alert("사용 가능한 ID입니다.");
+                        $('#idValidCheck').attr("valid", "true");
+                    } else {
+                        alert("이미 사용중인 ID입니다.");
+                        $('#idValidCheck').attr("valid", "false");
+                    }
+                }
+            });
+        }
+    });
 
     label.mand::after,
     label.opt::after {
@@ -259,6 +305,29 @@
         color: #b3b3b3;
         font-weight: 300;
     }
+    $('#email-check').click(function(){
+        let target = $('#id_email').val();
+
+        if (target=="") {
+            alert("이메일을 입력해주세요.");
+        }
+
+        else {
+            $.ajax({
+                url: 'email_validation/',
+                data: {'target': target},
+                success: function (data) {
+                    if (data['isValid'] == false){
+                        alert("사용 가능한 이메일입니다.");
+                        $('#emailValidCheck').attr("valid", "true");
+                    } else {
+                        alert("이미 사용중인 이메일입니다.");
+                        $('#emailValidCheck').attr("valid", "false");
+                    }
+                }
+            });
+        }
+    });
 
     label.mand::after {
         content: "(필수)";
