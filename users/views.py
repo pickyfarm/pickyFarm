@@ -39,17 +39,18 @@ def CartInAjax(request):
         if (product is None) or (product.open is False):
             message = "존재하지 않는 상품입니다"
             return JsonResponse(message)
-        
+
         try:
             cart = Cart.objects.get(consumer=user.consumer, product=product)
             message = "이미 장바구니에 있는 무난이 입니다"
         except ObjectDoesNotExist:
-            cart = Cart.objects.create(consumer=user.consumer,product=product, quantitiy=1)
+            cart = Cart.objects.create(
+                consumer=user.consumer, product=product, quantitiy=1)
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
-        
+
         data = {
-            "message":message,
+            "message": message,
         }
         return JsonResponse(data)
 
@@ -137,6 +138,8 @@ def idValidation(request):
     return JsonResponse(ctx)
 
 # email validation function for AJAX
+
+
 def emailValidation(request):
     target = request.GET.get('target')
     isValid = User.objects.filter(email=target).exists()
@@ -151,6 +154,8 @@ def emailValidation(request):
     return JsonResponse(ctx)
 
 # nickname validation function for AJAX
+
+
 def nicknameValidation(request):
     target = request.GET.get('target')
     isValid = User.objects.filter(nickname=target).exists()
@@ -161,9 +166,6 @@ def nicknameValidation(request):
     }
 
     return JsonResponse(ctx)
-
-
-
 
 
 def farmers_page(request):
@@ -323,7 +325,7 @@ class MyPasswordResetCompleteView(PasswordResetCompleteView):
 
 @login_required
 def mypage(request, cat):
-    
+
     try:
         consumer = request.user.consumer
     except ObjectDoesNotExist:
@@ -363,19 +365,24 @@ def mypage(request, cat):
             complete_num = 0
             cancel_num = 0
 
-        #구독 농가
+        # 구독 농가
         subs = consumer.subs.all().order_by('-create_at').all()
-        subs_count = subs.count()
+        if subs is None:
+            subs_count = 0
+        else:
+            subs_count = subs.count()
         print("구독자 수 " + (str)(subs_count))
 
-        #상품 Q&A
+        # 상품 Q&A
         now = timezone.localtime()
         one_month_before = now + timedelta(days=-30)
         print(one_month_before)
-    
-        questions = consumer.questions.filter(create_at__gt=one_month_before).order_by('-create_at').all()
+
+        questions = consumer.questions.filter(
+            create_at__gt=one_month_before).order_by('-create_at').all()
         print("질문 쿼리 : " + (str)(questions))
         
+
         ctx = {
             'consumer_nickname': consumer_nickname,
             'sub_farmers': sub_farmers,
@@ -384,9 +391,9 @@ def mypage(request, cat):
             'delivery_num': delivery_num,
             'complete_num': complete_num,
             'cancel_num': cancel_num,
-            'subs_count':subs_count,
-            'subs':subs,
-            'questions':questions,
+            'subs_count': subs_count,
+            'subs': subs,
+            'questions': questions,
         }
 
         if cat_name == 'orders':
@@ -409,10 +416,15 @@ def mypage(request, cat):
                 order_details = None
 
             print(order_details)
-            order_details_count = order_details.count()
-            total_pages = ceil(order_details_count/page_size)
-            offset = page * page_size - page_size
-            order_details = order_details[offset:page*page_size]
+            if order_details is None:
+                order_details_count = 0
+                total_pages = 0
+                offset = 0
+            else:
+                order_details_count = order_details.count()
+                total_pages = ceil(order_details_count/page_size)
+                offset = page * page_size - page_size
+                order_details = order_details[offset:page*page_size]
 
             ctx_orders = {
                 'total_pages': range(1, total_pages+1),
@@ -424,7 +436,8 @@ def mypage(request, cat):
             page = int(request.GET.get('page', 1))
             page_size = 5
 
-            wishes = consumer.wishes.filter(product__open=True).order_by('-create_at')
+            wishes = consumer.wishes.filter(
+                product__open=True).order_by('-create_at')
             print(wishes)
 
             wishes_count = wishes.count()
@@ -468,10 +481,9 @@ def mypage(request, cat):
             return render(request, 'users/mypage.html', ctx)
 
 
-
 class FindMyIdView(TemplateView):
-    template_name = 'users/find_my_id.html'  #to be added
-    
+    template_name = 'users/find_my_id.html'  # to be added
+
     def get(self, request):
         form = FindMyIdForm()
         ctx = {
@@ -479,7 +491,7 @@ class FindMyIdView(TemplateView):
         }
 
         return self.render_to_response(ctx)
-    
+
     def post(self, request):
         form = FindMyIdForm(request.POST)
 
@@ -495,7 +507,7 @@ class FindMyIdView(TemplateView):
                         'user': user
                     }
                     return render(request, "users/find_my_id_complete.html", ctx)
-                
+
                 else:
                     raise User.DoesNotExist
 
@@ -505,4 +517,3 @@ class FindMyIdView(TemplateView):
 
 class FindMyIdFailView(TemplateView):
     template_name = 'users/find_my_id_failed.html'
-    

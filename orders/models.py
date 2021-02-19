@@ -25,7 +25,7 @@ class Order_Group(models.Model):
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
-
+    
     consumer = models.ForeignKey(
         'users.Consumer', related_name='order_groups', on_delete=models.CASCADE)
 
