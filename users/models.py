@@ -114,7 +114,12 @@ class Farmer_Story(models.Model):
     def __str__(self):
         return f'{self.farmer} story - {self.title}'
     
-
+class Farmer_Story_Image(models.Model):
+    image = models.ImageField(upload_to='editor_review_images')
+    update_at = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    farmer_story = models.ForeignKey(
+        Farmer_Story, related_name="farmer_story_images", on_delete=models.CASCADE)
 
 class Farm_Tag(models.Model):
     tag = models.CharField(max_length=30)
