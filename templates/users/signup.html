@@ -55,9 +55,28 @@
                     {{form.birth}}
                 </div>
             </div>
-            <div class="line mx-auto"></div>
-            <div class="line mx-auto"></div>
-            <button class="submit">회원가입</button>
+            <div class="line mx-auto" style="margin-bottom: 35px;"></div>
+            <div class="form_term_agree grid">
+                <div class="mr-auto" id='term-agree' style="margin-left: 60.5px; ">이용약관 동의</div>
+                <input type="checkbox" name="agree-all" id="agree-all">
+                <label id="all-agree" for="agree-all" style="font-size: 25px !important; margin-bottom: 45px;">전체 동의합니다</label>
+                <div class="flex justify-between items-center">
+                    <input type="checkbox" name="terms_of_services" id="terms_of_services">
+                    <label class="mand" for="terms_of_services">이용약관 동의</label>
+                    <a href="#">약관보기</a>
+                </div>
+                <div class="flex justify-between items-center">
+                    <input type="checkbox" name="personal_info" id="personal_info">
+                    <label class="mand" for="personal_info">개인정보처리방침 동의</label>
+                    <a href="#">약관보기</a>
+                </div>
+                <input type="checkbox" name="push-agree" id="push-agree">
+                <label class="opt" for="push-agree">무료배송, 할인쿠폰 등 혜택/정보 수신동의</label>
+                <input type="checkbox" name="over14" id="over14">
+                <label for="over14">본인은 만 14세 이상입니다</label>
+            </div>
+            <div class="line mx-auto" style="margin-top: 35px;"></div>
+            <button class="submit">가입하기</button>
             <!-- 이 부분은 <input type="submit" value="">으로 바꿔서 차후 JS에서 submit event를 감지하는 방법으로 코드를 변경할 예정임. -->
         </form>
     </div>
@@ -69,13 +88,18 @@
         height: auto;
         border-radius: 10px;
         box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
-        
+
     }
 
     .input_forms {
         grid-template-columns: 302.5px 300px 217.5px;
         row-gap: 40px;
         margin-bottom: 38px;
+    }
+
+    .form_term_agree {
+        grid-template-columns: 302.5px auto;
+        row-gap: 20px;
     }
 
     .input_forms input {
@@ -89,13 +113,16 @@
         font-weight: normal;
     }
 
-    .input_forms input, .errorlist {
+    .input_forms input,
+    .errorlist,
+    .form_term_agree label,
+    .form_term_agree div:not(#term-agree) {
         grid-column: 2;
     }
 
-    .errorlist li{
+    .errorlist li {
         font-size: 12px;
-        color:red;
+        color: red;
         text-align: start;
         margin-top: 5px;
         padding-left: 15px;
@@ -109,7 +136,8 @@
         font-weight: normal;
     }
 
-    .input_forms label {
+    .input_forms label,
+    #term-agree {
         grid-column: 1;
         margin-right: auto;
         margin-left: 60.5px;
@@ -118,15 +146,16 @@
         color: #4d4d4d;
     }
 
-    .birth-selection ul , .gender-selection ul{
+    .birth-selection ul,
+    .gender-selection ul {
         display: flex;
     }
 
-    .gender-selection label{
+    .gender-selection label {
         margin-left: 0;
     }
 
-    .gender-selection li:nth-child(1){
+    .gender-selection li:nth-child(1) {
         margin-right: 75px !important;
     }
 
@@ -142,7 +171,7 @@
         font-weight: normal;
     }
 
-    #id_detail_address{
+    #id_detail_address {
         margin-top: 20px;
     }
 
@@ -151,7 +180,7 @@
         display: none;
     }
 
-    .gender-selection label{
+    .gender-selection label {
         font-size: 20px;
         color: #808080;
         font-weight: normal;
@@ -173,7 +202,7 @@
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
 
-    .submit{
+    .submit {
         width: 350px;
         height: 100px;
         border-radius: 50px;
@@ -185,113 +214,69 @@
         margin-bottom: 42px;
     }
 
-    .line{
+    .line {
         width: 740px;
-        border: solid 1px #5e6656;;
+        border: solid 1px #5e6656;
+        ;
+    }
+
+    .form_term_agree input {
+        display: none;
+    }
+
+    .form_term_agree label {
+        margin-right: auto;
+        color: #707070;
+        font-size: 20px;
+    }
+
+    .form_term_agree input+label::before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 3px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
+    }
+
+    #all-agree::before{
+        transform: scale(1.5, 1.5);
+        margin-right: 12px;
+        top: 2px;
+    }
+
+    .form_term_agree input:checked+label::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+
+    label.mand::after,
+    label.opt::after {
+        margin-left: 20px;
+        font-size: 20px;
+        color: #b3b3b3;
+        font-weight: 300;
+    }
+
+    label.mand::after {
+        content: "(필수)";
+    }
+
+    label.opt::after {
+        content: "(선택)";
+    }
+
+    .form_term_agree a {
+        margin-right: 67.5px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #5c6754;
     }
 </style>
 
-<script>
-
-    $("input:radio[name=gender]").on('change', function () {
-        if(this.value == "male") {
-            $("input:radio[value=male]").parent().addClass("checked");
-            $("input:radio[value=female]").parent().removeClass("checked");
-        }
-
-        if(this.value == "female"){
-            $("input:radio[value=female]").parent().addClass("checked");
-            $("input:radio[value=male]").parent().removeClass("checked");
-        }
-    });
-
-    $('#nickname-check').click(function(){
-        let target = $('#id_nickname').val();
-        $.ajax({
-            url: 'nickname_validation/',
-            data: {'target': target},
-            success: function (data) {
-                if (data['isValid'] == false){
-                    alert("사용 가능한 닉네임입니다.");
-                    $('#nicknameValidCheck').attr("valid", "true");
-                } else {
-                    alert("이미 사용중인 닉네임입니다.");
-                    $('#nicknameValidCheck').attr("valid", "false");
-                }
-            }
-        });
-    });
-
-    $('#id-check').click(function(){
-        let target = $('#id_username').val();
-        $.ajax({
-            url: 'id_validation/',
-            data: {'target': target},
-            success: function (data) {
-                if (data['isValid'] == false){
-                    alert("사용 가능한 ID입니다.");
-                    $('#idValidCheck').attr("valid", "true");
-                } else {
-                    alert("이미 사용중인 ID입니다.");
-                    $('#idValidCheck').attr("valid", "false");
-                }
-            }
-        });
-    });
-
-    $('#email-check').click(function(){
-        let target = $('#id_email').val();
-        $.ajax({
-            url: 'email_validation/',
-            data: {'target': target},
-            success: function (data) {
-                if (data['isValid'] == false){
-                    alert("사용 가능한 이메일입니다.");
-                    $('#emailValidCheck').attr("valid", "true");
-                } else {
-                    alert("이미 사용중인 이메일입니다.");
-                    $('#emailValidCheck').attr("valid", "false");
-                }
-            }
-        });
-    });
-
-    $('#id_username').change(function(){
-        $('#idValidCheck').attr("valid", "false");
-    })
-
-    $('#id_email').change(function(){
-        $('#emailValidCheck').attr("valid", "false");
-    })
-
-    $('#id_nickname').change(function(){
-        $('#nicknameValidCheck').attr("valid", "false");
-    })
-
-    $('.submit').click(function(){
-        if ($('#idValidCheck').attr("valid") == "false"){
-            alert("ID 중복확인을 해주시기 바랍니다");
-            $('id_username').focus();
-            event.preventDefault();
-            return;
-        }
-
-        if ($('#nicknameValidCheck').attr("valid") == "false"){
-            alert("닉네임 중복확인을 해주시기 바랍니다");
-            $('id_nickname').focus();
-            event.preventDefault();
-            return;
-        }
-
-        if ($('#emailValidCheck').attr("valid") == "false"){
-            alert("이메일 중복확인을 해주시기 바랍니다");
-            event.preventDefault();
-            $('id_email').focus();
-        }
-    })
-
-</script>
-
+<script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 
 {% endblock %}
