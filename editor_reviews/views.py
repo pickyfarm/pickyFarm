@@ -53,8 +53,24 @@ def create(request):
         form = Editors_Reviews_Form(request.POST, request.FILES)
         if form.is_valid():
             print("form validation 완료")
-            editor_review = Editor_Review(**(form.cleaned_data))
+            post_category = form.cleaned_data.get('post_category')
+            title = form.cleaned_data.get('title')
+            sub_title = form.cleaned_data.get('sub_title')
+            main_image = form.cleaned_data.get('main_image')
+            contents = form.cleaned_data.get('contents')
+            farm = form.cleaned_data.get('farm')
+            print(farm)
+            editor_review = Editor_Review(
+                post_category=post_category,
+                title=title,
+                sub_title=sub_title,
+                main_image=main_image,
+                contents=contents,
+                farm=farm,
+            )
             editor_review.author = user
+            editor_review.save()
+            editor_review.product.set(form.cleaned_data.get('product'))
             editor_review.save()
             return redirect(reverse('editors_pick:detail', args=[editor_review.pk]))
         else:
