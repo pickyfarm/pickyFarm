@@ -7,6 +7,10 @@ from users.models import Farmer
 
 class Editors_Reviews_Form(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ''
+
     POST_CAT = (
         ('farm_cover', '농가 취재기'),
         ('products', '못난이 농산물'),
@@ -18,8 +22,6 @@ class Editors_Reviews_Form(forms.ModelForm):
     # main_image = forms.ImageField(label="썸네일")
     post_category = forms.ChoiceField(
         choices=POST_CAT, label="카테고리", widget=forms.RadioSelect)
-    product_category = forms.ModelChoiceField(required=False, label="작물 카테고리", queryset=Category.objects.filter(
-        parent=None), empty_label='--관련 작물 카테고리 선택--')
     farm = forms.ModelChoiceField(
         required=False, label="관련 농가", empty_label='농가 선택하기', queryset=Farmer.objects.all())
     product = forms.ModelMultipleChoiceField(required=False, label="연관 작물", queryset=Product.objects.filter(
@@ -28,12 +30,12 @@ class Editors_Reviews_Form(forms.ModelForm):
     class Meta:
         model = Editor_Review
         fields = ('post_category', 'title', 'sub_title', 'main_image',
-                  'contents', 'product_category', 'product', 'farm')
+                  'contents', 'product', 'farm')
         labels = {
             'title': '제목',
             'sub_title': '부제목',
             'contents': '',
-            'main_image': '썸네일',
+            'main_image': '썸네일 올리기',
             # 'post_category': '카테고리',
             # 'product_category': '관련 작물 종류',
             # 'product': '관련 작물',
