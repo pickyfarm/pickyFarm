@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import request
 from .models import Product, Category
+from comments.forms import ProductRecommentForm
 from django.utils import timezone
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
@@ -127,6 +128,9 @@ def product_detail(request, pk):
         questions = product.questions.all()
         total_score = product.calculate_total_rating_avg()
         total_percent = total_score/5 * 100
+
+        recomment_form = ProductRecommentForm()
+
         ctx = {
             'product': product,
             'farmer': farmer,
@@ -135,6 +139,7 @@ def product_detail(request, pk):
             'total_score': range(int(total_score)),
             'remainder_score': range(5-int(total_score)),
             'total_percent': total_percent,
+            'recomment_form': recomment_form,
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:

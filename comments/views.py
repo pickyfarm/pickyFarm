@@ -80,15 +80,20 @@ def product_recomment_detail(request, pk):
 # 상품 대댓글 create
 def product_recomment_create(request, pk):
     product_comment = Product_Comment.objects.get(pk=pk)
+    print(product_comment.text)
     product = product_comment.product
-    product_recomment_form = ProductRecommentForm(request.POST)
+    print(product)
+    recomment_form = ProductRecommentForm(request.POST)
+    if recomment_form.is_valid():
+        print('valid')
+        recomment = recomment_form.save(commit=False)
+        recomment.author = request.user
+        recomment.comment = product_comment
+        recomment.save()
 
-    if product_recomment_form.is_valid():
-        product_recomment = product_recomment_form.save(commit=False)
-        product_recomment.author = request
-        product_recomment.comment = product_comment
+    return redirect('products:product_detail', product.pk)
     
-    return redirect(reverse('comments:product_recomment_detail', args=[pk]))
+    # return redirect(reverse('products:product_detail', args=[pk]))
 
 # 상품 대댓글 update
 def product_recomment_update(request, pk):
