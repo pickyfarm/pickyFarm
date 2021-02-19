@@ -1,1 +1,123 @@
-<h1>farmer_detail page</h1>
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/farmers_detail.css' %}">
+{% endblock %}
+
+{% block title_name %}
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents bg-white-400 mx-auto" id="top">
+    <div id="content">
+        <div class="mt-24 mb-16" id="farmer_title">
+            <div class="text-5xl mb-6">Farmer's Page</div>
+            <div class="text-xl" id="title_text">파머의 무난이소식을 가장 먼저 받아보세요</div>
+        </div>
+
+        <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
+            <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-4" id="farmer_profile">
+            <img src="{{ farmer.farm_profile.url }}" alt="" class="mr-16" id="farm_profile">
+            <div class="w-96">
+                <div class="flex flex-row mb-2" id="tag_wrap">
+                    {% for tag in tags %}
+                        <a href="#"><div class="mr-2" id="farm_tag">#{{ tag }}</div></a>
+                    {% endfor %}
+                </div>
+                <div class="flex flex-row items-center mb-3" id="farm_wrap">
+                    <div class="font-medium text-3xl" id="farm_name">{{ farmer.farm_name }}</div>
+                    <div class="font-thin text-2xl mx-4" id="bar">|</div>
+                    <div class="font-light text-xl" id="farmer_name">{{ farmer.user.nickname }}</div>
+                </div>
+                <div id="profile_title_wrap">
+                    <div class="font-light text-xl" id="profile_title">"{{ farmer.profile_title }}"</div>
+                </div>
+            </div>
+            <div id="sub_wrap">
+                <div class="text-xl" id="sub_btn">구독하기</div>
+            </div>
+        </div>
+
+        <div class="flex flex-row items-center p-2" id="farmer_news">
+            <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="mr-4" id="">
+            <div class="w-1/5 text-xl" id="news_text">농가 News</div>
+            <div class="text-xl mx-4" id="bar">|</div>
+            <div class="w-4/5 font-light text-2xl text-center" id="farm_news">{{ farmer.farm_news }}</div>
+        </div>
+
+        <!--farmer intro-->
+        <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+            <a href="#farmer_intro" class="w-1/4"><div class="font-light text-2xl choice" id="nav_item">농가소개</div></a>
+            <a href="#farmer_product" class="w-1/4"><div class="font-light text-2xl" id="nav_item">판매 상품</div></a>
+            <a href="#farmer_story" class="w-1/4"><div class="font-light text-2xl" id="nav_item">Farmer's Story</div></a>
+            <a href="#farmer_editor" class="w-1/4"><div class="font-light text-2xl" id="nav_item">Editor's Page</div></a>
+        </div>
+        </div>
+        <div id="farmer_intro">
+            <div class="text-5xl font-medium mb-10" id="intro_title">{{ farmer.farm_name }}</div>
+            <div class="h-96 bg-gray-200 text-lg py-10">농장 소개 디자인 이미지</div>
+        </div>
+
+        <!--farmer product-->
+        <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+            <a href="#farmer_intro" class="w-1/4"><div class="font-light text-2xl" id="nav_item">농가소개</div></a>
+            <a href="#farmer_product" class="w-1/4"><div class="font-light text-2xl choice" id="nav_item">판매 상품</div></a>
+            <a href="#farmer_story" class="w-1/4"><div class="font-light text-2xl" id="nav_item">Farmer's Story</div></a>
+            <a href="#farmer_editor" class="w-1/4"><div class="font-light text-2xl" id="nav_item">Editor's Page</div></a>
+        </div>
+        <div id="farmer_product">
+            <div class="text-3xl mb-32" id="main_title">{{ farmer.farm_name }}의 무난이들</div>
+            <div class="flex flex-row justify-around mb-24">
+                {% for product in products %}
+                <div id="product_wrap">
+                    <img src="{{ product.main_image.url }}" alt="" class="mb-4" id="product_img">
+                    <div class="font-light" id="product_title">{{ product.title }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="h-10 mb-56 bg-gray-200" id="paginator">
+                paginator
+            </div>
+        </div>
+
+        <!--farmer story-->
+        <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+            <a href="#farmer_intro" class="w-1/4"><div class="font-light text-2xl" id="nav_item">농가소개</div></a>
+            <a href="#farmer_product" class="w-1/4"><div class="font-light text-2xl" id="nav_item">판매 상품</div></a>
+            <a href="#farmer_story" class="w-1/4"><div class="font-light text-2xl choice" id="nav_item">Farmer's Story</div></a>
+            <a href="#farmer_editor" class="w-1/4"><div class="font-light text-2xl" id="nav_item">Editor's Page</div></a>
+        </div>
+        <div id="farmer_story">
+            <div class="text-3xl mb-5" id="main_title">Farmer's Story</div>
+            <div class="mb-40" id="story_subtitle">파머가 직접 전하는 농가 이야기</div>
+            <div class="flex flex-row justify-around mb-40">
+                {% for story in stories %}
+                    <div class="p-5" id="story_wrap">
+                        <img src="" alt="" class="" id="story_img">
+                        <div class="flex flex-row justify-between text-xs mt-2 mb-1">
+                            <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+                            <div id="views">조회수</div>
+                        </div>
+                        <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="h-10 mb-56 bg-gray-200" id="paginator">
+                paginator
+            </div>
+        </div>
+
+        <!--farmer editor-->
+        <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+            <a href="#farmer_intro" class="w-1/4"><div class="font-light text-2xl" id="nav_item">농가소개</div></a>
+            <a href="#farmer_product" class="w-1/4"><div class="font-light text-2xl" id="nav_item">판매 상품</div></a>
+            <a href="#farmer_story" class="w-1/4"><div class="font-light text-2xl" id="nav_item">Farmer's Story</div></a>
+            <a href="#farmer_editor" class="w-1/4"><div class="font-light text-2xl choice" id="nav_item">Editor's Page</div></a>
+        </div>
+        <div id="farmer_editor">
+            <div class="text-center text-3xl mb-40" id="main_title">Editor's Page</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

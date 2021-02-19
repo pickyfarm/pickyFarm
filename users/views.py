@@ -255,8 +255,15 @@ def farmer_sub_inc(request):
 
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)
+    tags = Farm_Tag.objects.all().filter(farmer=farmer)
+    products = Product.objects.all().filter(farmer=farmer)
+    stories = Farmer_Story.objects.all().filter(farmer=farmer)
+
     ctx = {
         'farmer': farmer,
+        'tags': tags,
+        'products': products,
+        'stories': stories,
     }
     return render(request, 'users/farmer_detail.html', ctx)
 
