@@ -104,41 +104,42 @@
                 <div id="subs_title_text1">My</div>
                 <div id="subs_title_text2">Farmer</div>
             </div>
-            <div id="subs_contents_box" class="mx-auto mt-10">
+            <div id="subs_contents" class="mx-auto mt-10">
 
-                {% if subs is None %}
-                <div>아직 구독한 농가가 없습니다</div>
-                <a id="redirect_a" href="{% url 'products:store_list' %}">
-                    <div id="redirect_btn">농가 구독하러 가기</div>
-                </a>
+                {% if subs.exists is False %}
+                <div id="subs_not_exist_box" class="flex flex-col items-center">
+                    <div>아직 구독한 농가가 없습니다</div>
+                    <a id="subs_redirect_a" href="{% url 'users:farmers_page' %}">
+                        <div id="subs_redirect_btn">농가 구독하러 가기</div>
+                    </a>
+                </div>
                 {% else %}
 
 
                 {% for sub in subs %}
                 <div class="flex flex-row" class="w-100">
-                    <div class="w-1/5">
-                        <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
-                    </div>
-                    <div class="w-3/5">
-                        <div id="farm_tags" class="flex flex-row">
-
+                    <a href="{% url 'users:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
+                        <div class="">
+                            <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
                         </div>
-                        <div id="farm_infos" class="flex flex-row">
-                            <div id="farm_loc">서울시 임시구</div>
-                            <div id="farm_name">{{sub.farmer.farm_name}}</div>
-                        </div>
-                        <div id="farm_news" class="flex flex-row">
-                            <div>
-                                <img class="mt-2 mr-1" src="{% static 'images/users/news_icon.svg' %}">
+                        <div class="">
+                            <div id="farm_infos" class="flex flex-row">
+                                <div id="farm_loc">서울시 임시구</div>
+                                <div id="farm_name">{{sub.farmer.farm_name}}</div>
                             </div>
+                            <div id="farm_news" class="flex flex-row">
+                                <div>
+                                    <img class="mt-2 mr-1" src="{% static 'images/users/news_icon.svg' %}">
+                                </div>
 
-                            {% if sub.farm_news is None %}
-                            <div id="sub_farm_news">아직 새 소식이 없어요!</div>
-                            {% else %}
-                            <div id="sub_farm_news">{{sub.farmer.farm_news}}</div>
-                            {% endif %}
+                                {% if sub.farmer.farm_news is None %}
+                                <div id="sub_farm_news">아직 새 소식이 없어요!</div>
+                                {% else %}
+                                <div id="sub_farm_news">{{sub.farmer.farm_news}}</div>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="w-1/5">
                         <a href="">
@@ -146,6 +147,7 @@
                         </a>
                     </div>
                 </div>
+
                 {% endfor %}
 
                 {% endif %}
@@ -163,10 +165,46 @@
             <div id="qnas_contents" class="mx-auto mt-10 flex flex-col justify-center">
 
                 {% if questions.exists == False %}
-                <div class="text-center">아직 무난이에 대해 궁금한 것이 없습니다!</div>
-                <a id="redirect_a" href="{% url 'products:store_list' %}">
-                    <div id="redirect_qnas_btn">무난이 구경하러 가기</div>
-                </a>
+                <div id="qnas_not_exist_box" class="flex flex-col items-center">
+                    <div class="text-center">아직 무난이에 대해 궁금한 것이 없습니다!</div>
+                    <a id="qnas_redirect_a" href="{% url 'products:store_list' %}">
+                        <div id="qnas_redirect_btn">무난이 구경하러 가기</div>
+                    </a>
+                </div>
+                {% else %}
+                    
+                    {% for q in questions %}
+                        <div id="qna_box">
+                            <div>{{q.create_at.year}}.{{q.create_at.month}}.{{q.create_at.day}}</div>
+                            <div id="q_box">
+                                <div>Q.</div>
+                                <div id="q_detail">
+                                    <div>{{q.content|slice:":15"}}</div>
+                                    
+                                    {% if q.answer is not None %}
+                                    {% else %}
+                                    <a id="see_more_a" href=""><div id="see_more">더보기</div></a>
+                                    {% endif %}
+                                        
+                                </div>
+                                    
+                            </div>
+                            {% if q.answer is not None %}
+                                <div id="a_box">
+                                    <div id="a_detail">
+                                        <div>{{q.answer.content|slice:":15"}}</div>
+                                        <a id="see_more_a" href=""><div id="see_more">더보기</div></a>
+                                    </div>
+                                    <div>A.</div>
+                                </div>
+                            {% else %}
+                                <div id="a_not_box">
+                                    <div>아직 답변이 등록되지 않았습니다!</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                        
                 {% endif %}
 
             </div>
