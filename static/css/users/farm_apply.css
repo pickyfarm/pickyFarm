@@ -1,0 +1,79 @@
+#content {
+    margin-top: 110px;
+    width: 820px;
+    height: 943px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+}
+
+#title {
+    color: #5c6754;
+}
+
+form {
+    width: 473px;
+}
+
+#label {
+    /* font-family: NotoSansKR; */
+    color: #4d4d4d;
+    width: 175.5px;
+}
+
+#id_name, #id_phone_num, #id_farm_name, #id_detail_cat {
+    width: 300px;
+    height: 40px;
+    border-radius: 3px;
+    border: solid 1px #b3b3b3;
+}
+
+#id_farm_cat {
+    display: flex;
+    flex-direction: row;
+    height: 37px;
+}
+
+#id_farm_cat li {
+    display: flex;
+    align-items: center;
+}
+
+#id_farm_cat li label {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    margin-right: 28px;
+}
+
+#id_farm_cat li label input {
+    width: 20px; 
+    height: 20px;
+    display: inline-block;
+    margin-right: 12px;
+}
+
+
+#id_desc {
+    width: 473px;
+    height: 109px;
+    border-radius: 3px;
+    border: solid 1px #b3b3b3;
+    background-color: #ffffff;
+    resize: none;
+}
+
+#submit_btn {
+    font-size: 35px;
+    font-weight: bold;
+    color: #fff;
+    width: 350px;
+    height: 100px;
+    padding: 24px 110px 24px 111px;
+    border-radius: 50px;
+    background-color: #5c6754;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+}

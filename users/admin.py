@@ -23,6 +23,10 @@ class CustomFarmer_StoryAdmin(admin.ModelAdmin):
 class CustomFarm_TagAdmin(admin.ModelAdmin):
 	pass
 
+@admin.register(models.Farm_Apply)
+class CustomFarm_TagAdmin(admin.ModelAdmin):
+	pass
+
 @admin.register(models.Editor)
 class CustomEditorAdmin(admin.ModelAdmin):
 	pass
