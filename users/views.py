@@ -184,6 +184,7 @@ def farmers_page(request):
     page_2 = request.GET.get('page_2')
     farmer_stories = paginator_2.get_page(page_2)
 
+    print(farmer.first().user)
     ctx = {
         'best_farmers': best_farmers,
         'farmers': farmers,

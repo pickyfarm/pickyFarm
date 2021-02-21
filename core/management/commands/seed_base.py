@@ -38,8 +38,10 @@ def seed_address():
     seeder.add_entity(address_models.Address, 20, {
         "full_address": lambda x: seeder.faker.road_address(),
         "sido": lambda x: seeder.faker.province(),
-        "sigungu": lambda x: seeder.faker.city()
+        "sigungu": lambda x: seeder.faker.city(),
+        "user": lambda x: random.choice(user_models.User.objects.all())
     })
+
     seeder.execute()
 
 def seed_product():
