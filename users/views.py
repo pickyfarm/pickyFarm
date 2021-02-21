@@ -299,6 +299,7 @@ def wish(request, product_pk):
     # return redirect(reverse("products:product_detail", args=[product_pk]))
     return redirect(request.GET['next'])
 
+user_email = ''
 
 class MyPasswordResetView(PasswordResetView):
     template_name = 'users/password_reset.html'
@@ -307,8 +308,11 @@ class MyPasswordResetView(PasswordResetView):
     form_class = MyPasswordResetForm
 
     def form_valid(self, form):
+        global user_email
 
         if User.objects.filter(email=self.request.POST.get('email')).exists() and User.objects.get(email=self.request.POST.get('email')).username == self.request.POST.get('username'):
+            user_email = form.cleaned_data.get("email")
+            print(user_email)
             return super().form_valid(form)
 
         else:
@@ -317,11 +321,25 @@ class MyPasswordResetView(PasswordResetView):
 
 class MyPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'users/password_reset_done.html'
+    
+    def get_context_data(self, **kwargs):
+        global user_email
+        ctx = super().get_context_data(**kwargs)
+        ctx['email'] = user_email
+        print(user_email)
+        return ctx
 
 
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'users/password_reset_confirm.html'
     success_url = reverse_lazy('users:password_reset_complete')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class=form_class)
+        form.fields['new_password1'].widget.attrs = {'placeholder': '새 비밀번호를 입력해주세요'}
+        form.fields['new_password2'].widget.attrs = {'placeholder': '새 비밀번호를 한번 더 입력해주세요'}
+        
+        return form
 
     def form_valid(self, form):
         return super().form_valid(form)
