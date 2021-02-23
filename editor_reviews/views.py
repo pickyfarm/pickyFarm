@@ -55,8 +55,8 @@ class Editor_review_detail(DetailView):
     def render_to_response(self, context, **response_kwargs):
         response = super().render_to_response(context, **response_kwargs)
 
-        if self.request.COOKIES.get('ip_address') is None:
-            response.set_cookie('ip_address', self.request.META.get('REMOTE_ADDR'), 3600)
+        if self.request.COOKIES.get('review_id') != self.object.title:
+            response.set_cookie('review_id', self.object.title, 3600)
             review = self.get_object()
             review.hits += 1
             review.save()

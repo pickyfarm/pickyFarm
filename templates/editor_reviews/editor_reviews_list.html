@@ -29,15 +29,15 @@
 
         
         {% for review in review_list %}
-        <a href="{% url 'editors_pick:detail' review.pk %}"></a>
-        <div class="remain-items flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
-            <div class="items-text mx-auto bg-cover text-white" >
-                {{review.title}}
+        <a href="{% url 'editors_pick:detail' review.pk %}">
+            <div class="remain-items flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
+                <div class="items-text mx-auto bg-cover text-white" >
+                    {{review.title}}
+                </div>
+                <div class="text-sm mt-auto mb-12 ml-4 text-white">
+                    by editorName
+                </div>
             </div>
-            <div class="text-sm mt-auto mb-12 ml-4 text-white">
-                by editorName
-            </div>
-        </div>
         </a>
         {% endfor %}
     </div>
