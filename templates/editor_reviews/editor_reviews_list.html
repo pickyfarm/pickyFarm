@@ -61,10 +61,10 @@
                     <div class="info flex flex-col">
                         <div class="title">{{review.title}}</div>
                         <div class="article-info flex">
-                            <div class="editor mr-10">editor   에디터킴</div>
+                            <div class="editor mr-10">editor {{review.author.user.nickname}}</div>
                             <div class="upload mr-6">{{review.create_at.date}}</div>
                             <div class="comments mr-6">댓글 3</div>
-                            <div class="views mr-6">조회수 100</div>
+                            <div class="views mr-6">조회수 {{review.hits}}</div>
                             <div class="likes">좋아요 9</div>
                         </div>
                         <div class="preview break-words mt-7">{{review.get_preview}}</div>
@@ -83,10 +83,10 @@
                         <div class="editor-profile flex justify-between items-center">
                             <div class="editor-img rounded-full"></div>
                             <div class="editor-info flex flex-col">
-                                <div class="editor-name">에디터이름 {% comment '' %} {{editor.author.user.nickname}} {% endcomment %}</div>
+                                <div class="editor-name">{{editor.user.nickname}}</div> 
                                 <div class="editor-article-info flex justify-between">
-                                    <div class="article-count">글 15 {% comment '' %} {{editor.review_count}} {% endcomment %}</div>
-                                    <div class="view-count">조회수 100</div>
+                                    <div class="article-count">글 {{editor.review_count}}</div>
+                                    <div class="view-count">조회수 {{editor.review_hits_count}}</div>
                                 </div>
                             </div>
                         </div>

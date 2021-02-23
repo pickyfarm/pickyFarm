@@ -1,5 +1,4 @@
 from django.db import models
-from users.models import Consumer, Farmer
 from django.core.exceptions import ObjectDoesNotExist
 # Create your models here.
 
@@ -38,7 +37,7 @@ class Product(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     farmer = models.ForeignKey(
-        Farmer, related_name="products", on_delete=models.CASCADE)
+        "users.Farmer", related_name="products", on_delete=models.CASCADE)
     category = models.ForeignKey(
         'Category', related_name='products', on_delete=models.CASCADE)
 
@@ -161,7 +160,7 @@ class Question(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     consumer = models.ForeignKey(
-        Consumer, related_name='questions', on_delete=models.CASCADE)
+        'users.Consumer', related_name='questions', on_delete=models.CASCADE)
     product = models.ForeignKey(
         Product, related_name='questions', on_delete=models.CASCADE)
     

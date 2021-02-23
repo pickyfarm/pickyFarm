@@ -1,6 +1,5 @@
 from django.db import models
 from products.models import Product, Category
-from users.models import Editor
 from django_summernote import fields as summer_fields
 
 
@@ -20,7 +19,7 @@ class Editor_Review(models.Model):
     hits = models.PositiveIntegerField(default=0)
 
     author = models.ForeignKey(
-        Editor, related_name="editor_reviews", on_delete=models.CASCADE)
+        "users.Editor", related_name="editor_reviews", on_delete=models.CASCADE)
 
     post_category = models.CharField(
         max_length=50, choices=POST_CAT, default='farm_cover')
@@ -39,8 +38,6 @@ class Editor_Review(models.Model):
         else:
             return self.contents[:60]
 
-    # def review_count(self):
-    #     return Editor_Reviews.objects.filter(author=self.author.user.nickname).count()
 
 
 class Editor_Review_Image(models.Model):
