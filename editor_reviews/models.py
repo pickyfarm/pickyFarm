@@ -17,6 +17,7 @@ class Editor_Review(models.Model):
     main_image = models.ImageField(
         upload_to='editor_review_thumbnail/%Y/%m/%d')
     contents = models.TextField()
+    hits = models.PositiveIntegerField(default=0)
 
     author = models.ForeignKey(
         Editor, related_name="editor_reviews", on_delete=models.CASCADE)
