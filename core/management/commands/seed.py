@@ -1,21 +1,39 @@
 from django.core.management.base import BaseCommand
 from django_seed import Seed
+from faker import Faker
 from users import models as user_models
 from addresses import models as address_models
 from products import models as product_models
 from editor_reviews import models as review_models
 from comments import models as comment_models
 import random
-import os
+import os, sys
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         os.system("python manage.py seed_user")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 20 Users!"))
+        os.system("python manage.py seed_farmer")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 5 Farmers!"))
+        os.system("python manage.py seed_editors")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 5 Editors!"))
+        os.system("python manage.py seed_address")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 5 Addresses!"))
+        os.system("python manage.py seed_product")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 20 Products!"))
+        os.system("python manage.py seed_editor_review")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 5 Editor Reviews!"))
+        os.system("python manage.py seed_comment")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 10 Comments!"))
+        os.system("python manage.py seed_recomment")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 10 Recomments!"))
+        
 
 def seed_user():
     seeder = Seed.seeder("ko_KR")
     seeder.add_entity(user_models.User, 20, {"is_staff": False, "is_superuser": False})
     seeder.execute()
+    
 
 
 def seed_farmer():
@@ -34,11 +52,12 @@ def seed_editor():
     seeder.execute()
 
 def seed_address():
-    seeder = Seed.seeder()
+    seeder = Seed.seeder(locale="ko_KR")
+    faker = Faker(locale="ko_KR")
     seeder.add_entity(address_models.Address, 20, {
-        "full_address": lambda x: seeder.faker.road_address(),
-        "sido": lambda x: seeder.faker.province(),
-        "sigungu": lambda x: seeder.faker.city(),
+        "full_address": lambda x: faker.road_address(),
+        "sido": lambda x: faker.province(),
+        "sigungu": lambda x: faker.city(),
         "user": lambda x: random.choice(user_models.User.objects.all())
     })
 

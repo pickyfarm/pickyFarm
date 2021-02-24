@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-import core.management.commands.seed_base as base
+import core.management.commands.seed as base
 
 
 class Command(BaseCommand):
