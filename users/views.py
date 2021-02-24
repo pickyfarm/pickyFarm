@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+import json
 from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User
 from products.models import Category, Product
 from django.db.models import Count
@@ -15,6 +16,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
@@ -54,6 +56,34 @@ def CartInAjax(request):
         }
         return JsonResponse(data)
 
+
+@login_required
+@require_POST
+def CancelSubs(request):
+    if request.method == 'POST':
+        print("진입")
+        pk = request.POST.get('pk', None)
+        print(pk)
+        try:
+            sub = Subscribe.objects.get(pk=pk)
+        except ObjectDoesNotExist:
+            msg = "구독 기록이 존재하지 않습니다. 다시 시도해주세요"
+            data = {
+                'success': "0",
+                'msg': msg,
+            }
+            return JsonResponse(data)
+        farm_name = sub.farmer.farm_name
+        print(farm_name)
+        sub.delete()
+        msg = f'{farm_name} 구독 취소 했습니다'
+        data = {
+            "success": "1",
+            'msg': msg,
+        }
+        print("전달 직전")
+        # return HttpResponse(json.dumps(data), content_type='application/json')
+        return JsonResponse(data)
 
 class Login(View):
 
@@ -299,7 +329,9 @@ def wish(request, product_pk):
     # return redirect(reverse("products:product_detail", args=[product_pk]))
     return redirect(request.GET['next'])
 
+
 user_email = ''
+
 
 class MyPasswordResetView(PasswordResetView):
     template_name = 'users/password_reset.html'
@@ -321,7 +353,7 @@ class MyPasswordResetView(PasswordResetView):
 
 class MyPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'users/password_reset_done.html'
-    
+
     def get_context_data(self, **kwargs):
         global user_email
         ctx = super().get_context_data(**kwargs)
@@ -336,9 +368,11 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
-        form.fields['new_password1'].widget.attrs = {'placeholder': '새 비밀번호를 입력해주세요'}
-        form.fields['new_password2'].widget.attrs = {'placeholder': '새 비밀번호를 한번 더 입력해주세요'}
-        
+        form.fields['new_password1'].widget.attrs = {
+            'placeholder': '새 비밀번호를 입력해주세요'}
+        form.fields['new_password2'].widget.attrs = {
+            'placeholder': '새 비밀번호를 한번 더 입력해주세요'}
+
         return form
 
     def form_valid(self, form):
@@ -407,10 +441,10 @@ def mypage(request, cat):
         questions = consumer.questions.filter(
             create_at__gt=one_month_before).order_by('-create_at').all()
         print((type)(questions))
-        
+
         for q in questions:
             print(type(q))
-        
+
         ctx = {
             'consumer_nickname': consumer_nickname,
             'sub_farmers': sub_farmers,

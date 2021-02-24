@@ -25,8 +25,9 @@ urlpatterns = [
     path('password_reset/<uidb64>/<token>/', views.MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', views.MyPasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('mypage/<slug:cat>', views.mypage, name='mypage'),
-    path('mypage/cartIn/', views.CartInAjax, name="cartInAjax"),
     path('find_my_id/', views.FindMyIdView.as_view(), name='find_my_id'),
     path('find_my_id/complete', views.FindMyIdView.as_view(), name='find_my_id_complete'),
     path('find_my_id/failed', views.FindMyIdFailView.as_view(), name='find_my_id_failed'),
+    path('cartIn/', views.CartInAjax, name="cartInAjax"),
+    path('cancelSubs/', views.CancelSubs, name="cancelSubs"),
 ]
