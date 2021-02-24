@@ -52,6 +52,38 @@ class Editor_review_detail(DetailView):
 
         return ctx
 
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+
+        if self.request.session.get('_auth_user_id') is None:
+            cookie_name = 'editor_review_hit'
+        
+        else:
+            cookie_name = f'editor_review_hit:{self.request.session["_auth_user_id"]}'
+
+        
+        if self.request.COOKIES.get(cookie_name) is None:
+            response.set_cookie(cookie_name, self.kwargs['pk'], 3600)
+
+            review = self.get_object()
+            review.hits += 1
+            review.save()
+
+        else:
+            cookie = self.request.COOKIES.get(cookie_name)
+            cookies = cookie.split('|')
+
+            if str(self.kwargs['pk']) not in cookies:
+                response.set_cookie(cookie_name, cookie + f'|{self.kwargs["pk"]}', 3600)
+                
+                review = self.get_object()
+                review.hits += 1
+                review.save()
+
+
+        return response
+
+
 
 @login_required
 def create(request):

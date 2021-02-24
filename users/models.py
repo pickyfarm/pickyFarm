@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from editor_reviews.models import Editor_Review
 from config import settings
 import os
 import shutil
@@ -76,6 +77,18 @@ class Consumer(models.Model):
 class Editor(models.Model):
     user = models.OneToOneField(
         User, default=None, null=True, blank=True, related_name='editor', on_delete=models.CASCADE)
+
+    def review_count(self):
+        return Editor_Review.objects.filter(author=self).count()
+
+    def review_hit_count(self):
+        reviews = Editor_Review.objects.filter(author=self)
+        count = 0
+        
+        for review in reviews:
+            count += review.hits
+        
+        return count
 
 
 class Farmer(models.Model):
