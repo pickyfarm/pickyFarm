@@ -175,7 +175,7 @@
                     
                     {% for q in questions %}
                         <div id="qna_box">
-                            <div>{{q.create_at.year}}.{{q.create_at.month}}.{{q.create_at.day}}</div>
+                            <div id="qna_date">{{q.create_at.year}}.{{q.create_at.month}}.{{q.create_at.day}}</div>
                             <div id="q_box">
                                 <div>Q.</div>
                                 <div id="q_detail">
@@ -189,7 +189,8 @@
                                 </div>
                                     
                             </div>
-                            {% if q.answer is not None %}
+                            <div>{{q.answer.title}}</div>
+                            {% if q.answer.title.exists %}
                                 <div id="a_box">
                                     <div id="a_detail">
                                         <div>{{q.answer.content|slice:":15"}}</div>
