@@ -34,7 +34,7 @@ def seed_editor():
     seeder.execute()
 
 def seed_address():
-    seeder = Seed.seeder()
+    seeder = Seed.seeder("ko_KR")
     seeder.add_entity(address_models.Address, 20, {
         "full_address": lambda x: seeder.faker.road_address(),
         "sido": lambda x: seeder.faker.province(),
