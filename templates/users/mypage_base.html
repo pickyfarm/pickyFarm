@@ -256,7 +256,7 @@
         }
     });
 
-    $('#sub_cancel_btn').click(function () {
+    $('[id^=sub_cancel_btn]').click(function () {
         let pk = $(this).attr('name');
         console.log(pk)
         let data = { 'pk': pk };

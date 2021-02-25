@@ -85,6 +85,7 @@ def CancelSubs(request):
         # return HttpResponse(json.dumps(data), content_type='application/json')
         return JsonResponse(data)
 
+
 class Login(View):
 
     def get(self, request):
@@ -509,19 +510,29 @@ def mypage(request, cat):
             print(wishes)
 
             ctx_wishes = {
+                'page': page,
                 'total_pages': range(1, total_pages+1),
                 'wishes': wishes,
             }
             ctx.update(ctx_wishes)
             return render(request, 'users/mypage_wishes.html', ctx)
         elif cat_name == 'cart':
-            carts = consumer.carts.filter('-create_at')
+            page = int(request.GET.get('page', 1))
+            page_size = 5
+            carts = consumer.carts.all().order_by('-create_at').filter(product__open=True)
+            print(carts)
+            carts_count = carts.count()
 
+            total_pages = ceil(carts_count/page_size)
+            offset = page * page_size - page_size
+            carts = carts[offset:page*page_size]
             ctx_carts = {
+                'page': page,
+                'total_pages': range(1, total_pages+1),
                 'carts': carts,
             }
             ctx.update(ctx_carts)
-            return render(request, 'users/mypage.html', ctx)
+            return render(request, 'users/mypage_carts.html', ctx)
         elif cat_name == 'rev_address':
             pass
         elif cat_name == 'info':
