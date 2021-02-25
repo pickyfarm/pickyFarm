@@ -517,18 +517,10 @@ def mypage(request, cat):
             ctx.update(ctx_wishes)
             return render(request, 'users/mypage_wishes.html', ctx)
         elif cat_name == 'cart':
-            page = int(request.GET.get('page', 1))
-            page_size = 5
             carts = consumer.carts.all().order_by('-create_at').filter(product__open=True)
             print(carts)
-            carts_count = carts.count()
 
-            total_pages = ceil(carts_count/page_size)
-            offset = page * page_size - page_size
-            carts = carts[offset:page*page_size]
             ctx_carts = {
-                'page': page,
-                'total_pages': range(1, total_pages+1),
                 'carts': carts,
             }
             ctx.update(ctx_carts)

@@ -37,14 +37,14 @@
                 </div>
                 <div class="flex flex-row mt-2">
                     <div id="product_weight">{{cart.product.weight}}g / </div>
-                    <div id="product_price"> {{cart.product.sell_price}}원</div>
+                    <div id="product_price_{{cart.product.pk}}" name="{{cart.product.sell_price}}"> {{cart.product.sell_price}}원</div>
 
                 </div>
 
                 <div class="flex flex-row"></div>
             </div>
             <div id="cart-button-section" class="w-1/5 mt-4 pl-8 items-center">
-                <div><input id="quantity" type="number" value="{{cart.quantity}}"></div>
+                <div><input id="quantity-{{cart.product.pk}}" type="number" value="{{cart.quantity}}"></div>
             </div>
         </div>
     </div>
@@ -58,19 +58,6 @@
     <div class="flex justify-left">
         <a><div id="delete_btn">삭제하기</div></a>
     </div>
-    <div id="paginator" class="flex flex-row justify-center">
-        {% for p in total_pages %}
-        {% if p == page %}
-        <a href='?page={{p}}'>
-            <div id="page_btn_sel" value="{{page}}">{{p}}</div>
-        </a>
-        {% else %}
-        <a href='?page={{p}}'>
-            <div id="page_btn" value="{{page}}">{{p}}</div>
-        </a>
-        {% endif %}
-        {% endfor %}
-    </div>
 </div>
 
 <div id="order-section" class="flex flex-row">
@@ -80,7 +67,7 @@
     </div>
     <div class="flex flex-row w-1/2 justify-end">
         <div id="total_order_text">총 주문금액</div>
-        <div id="total_order_price">00000</div>
+        <div id="total_order_price">0</div>
         <div id="won_text">원</div>
     </div>  
 
@@ -91,6 +78,35 @@
 {% block script_section %}
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
     // $(function(){
     let hey = document.querySelectorAll('#cartIn_btn')
     hey.forEach(item=>{
@@ -115,12 +131,40 @@
       })
     })
 
+    let selectors = document.querySelectorAll('#select-radio')
+    let total_price_div = document.querySelector('#total_order_price')
+    selectors.forEach(item=>{
+        item.addEventListener('click', function(){
+            let pk = $(this).attr('name')
+            console.log(pk)
+            
+            let total_price = document.querySelector('#total_order_price').innerText;
+            total_price = parseInt(total_price)
+            console.log(total_price)
+            
+            let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
+            price = parseInt(price)
+            console.log(price)
+
+            let quantity = document.querySelector(`#quantity-${pk}`).getAttribute('value')
+            quantity = parseInt(quantity)
+            console.log(quantity)
+
+            let new_total_order_price = total_price + price*quantity
+            console.log(new_total_order_price)
+
+            total_price_div.innerHTML = String(new_total_order_price)
+        })
+    })
+
     $('#order_now').click(function(){
-        let selects = document.querySelectorAll('#select_radio');
+        let selects = document.querySelectorAll('#select-radio');
+        console.log(selects)
         let products = [];
         selects.forEach(item=>{
+            console.log(item)
             if(item.checked == true){
-                let pk = item.attr('name');
+                let pk = item.getAttribute('name');
                 products.push(pk);
             }
         });
