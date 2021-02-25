@@ -22,6 +22,7 @@ from django.db.models import Q
 from addresses.forms import AddressForm
 from addresses.models import Address
 from math import ceil
+from django.conf import settings
 
 
 class NoRelatedInstance(Exception):
@@ -71,6 +72,11 @@ class Login(View):
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is not None:
+                keep_login = self.request.POST.get('auto_login', False)
+                print(keep_login)
+                if keep_login:
+                    settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
                 login(request, user=user)
                 return redirect(reverse("core:main"))
         ctx = {
