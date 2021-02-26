@@ -55,7 +55,7 @@
                             <div class="flex items-center">
                                 <div class="pr-2 text-base  " id="title">{{p.farmer.user.nickname}}</div>
                                 <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
-                                <div class="pl-2 font-light" id="sub_title">{{p.category.name}}  {{p.weight}}kg</div>
+                                <div class="pl-2 font-light" id="sub_title">{{p.category.name}} {{p.weight}}kg</div>
                             </div>
                             <p class="" id="sell_price">{{p.sell_price}}원</p>
                         </div>
@@ -75,7 +75,30 @@
             </div>
 
             <div id="farmer">
-                
+                <div class="flex justify-between items-center">
+                    <div id="image-desc" class="flex">
+                        <div class="block" id="farm_pic">
+                            <img id="farmer_profile" class="object-cover" src="{{review.farm.farmer_profile.url}}"
+                                alt="">
+                            <div id='pick_img'>
+                                <a href=""><img src="{% static 'images/farmers_page/small_pick.svg' %}" alt=""></a>
+                            </div>
+                        </div>
+                        <div id="farm-desc">
+                            <div id="farm-profile-title">{{review.farm.profile_title}}</div>
+                            <div id="farm-info" class="flex items-center">
+                                <div id="farm-location" class="">{{review.farm.user.addresses.first.sido}}
+                                    {{review.farm.user.addresses.first.sigungu}}</div>
+                                <div id="farm-name" class="">{{review.farm.farm_name}}</div>
+                            </div>
+                            <div id="farm-news" class="flex items-center">
+                                <img src="{% static 'images/product_detail/bell.svg' %}" id="farm-news-icon">
+                                <div id="farm-news-text">{{review.farm.farm_news}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="{% static 'images/editors_review/editor_review_detail_visit_farm.svg'%}" id="visit">
+                </div>
             </div>
         </div>
         {% endif %}
@@ -152,7 +175,8 @@
         margin-bottom: 100px;
     }
 
-    #related_products_desc, #visit_farmer_desc{
+    #related_products_desc,
+    #visit_farmer_desc {
         margin-bottom: 60px;
     }
 
@@ -193,8 +217,6 @@
         object-fit: cover;
     }
 
-
-
     #like_cart_in {
         position: absolute;
         top: 320px;
@@ -203,6 +225,90 @@
 
     #like_cart_in img {
         transform: scale(0.9);
+    }
+
+    #farm_pic {
+        position: relative;
+
+    }
+
+    #farmer_profile {
+        width: 145px;
+        height: 145px;
+        border-radius: 100%;
+        object-fit: cover;
+    }
+
+    #pick_img {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        width: 39px;
+        height: 39px;
+        background-color: #ffffff;
+        border-radius: 9999px;
+    }
+
+    #farm-desc {
+        margin-left: 90px;
+    }
+
+    #farm-profile-title {
+        height: 22px;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+
+        text-align: left;
+        color: #5e6656;
+    }
+
+    #farm-info {
+        height: 45px;
+        margin-top: 8px;
+    }
+
+    #farm-location {
+        font-size: 20px;
+        font-weight: 200;
+        line-height: 45px;
+        font-stretch: normal;
+
+
+        text-align: left;
+        color: #5e6656;
+    }
+
+    #farm-name {
+        font-size: 30px;
+        font-weight: 500;
+        font-stretch: normal;
+        line-height: 45px;
+
+
+        text-align: left;
+        color: #5e6656;
+        margin-left: 20px;
+    }
+
+    #farm-news {
+        margin-top: 15px;
+    }
+
+    #farm-news-icon {
+        width: 24px;
+    }
+
+    #farm-news-text {
+        font-size: 11px;
+        font-weight: 300;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.36;
+        letter-spacing: normal;
+        text-align: left;
+        color: #707070;
+        margin-left: 25px;
     }
 </style>
 {% endblock main_content %}
