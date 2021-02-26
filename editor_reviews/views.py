@@ -11,6 +11,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from config.settings import BASE_DIR
 import os
 from django.utils import timezone
+from django.contrib.auth.models import AnonymousUser
+from comments.forms import EditorReviewCommentForm, EditorReviewRecommentForm
 
 
 def index(request):
@@ -49,6 +51,13 @@ class Editor_review_detail(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(DetailView, self).get_context_data(**kwargs)
         ctx['comments'] = self.get_object().editor_review_comments.all()
+        ctx['form'] = EditorReviewCommentForm()
+        
+        if self.request.user != AnonymousUser():
+            ctx['user'] = self.request.user
+
+        else:
+            ctx['user'] = None
 
         return ctx
 
@@ -80,8 +89,14 @@ class Editor_review_detail(DetailView):
                 review.hits += 1
                 review.save()
 
-
         return response
+
+    def post(self, request):
+        form = self.get_form()
+        if form.is_valid():
+            form.save()
+            ctx = self.get_context_data()
+            return self.render_to_response(ctx)
 
 
 
