@@ -110,8 +110,13 @@
         <div id="comment-submit-form">
             <div id="comment-submit-my-info" class="flex items-center">
                 <img src="{{user.profile_image.url}}" id="comment-submit-my-info--profile-image">
-                <input type="text" id="comment-submit-my-info--profile-image">
+                <div id="comment-submit-my-info--id">{{user.nickname}}</div>
             </div>
+            <form action="{% url 'editor_reviews:detail' review.pk%}" method="post">
+                {% csrf_token %} 
+                {{form}}
+                <input type="submit" value="글쓰기">
+            </form>
         </div>
     {% endif %}
     </div>

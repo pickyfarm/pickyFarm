@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Editor_Review
 from .forms import Editors_Reviews_Form
 from django.views.generic import DetailView
+from django.views.generic.edit import FormMixin
 from users.models import Editor
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.auth.decorators import login_required
@@ -43,10 +44,14 @@ def detail(request, pk):
     }
     return render(request, 'editor_reviews/editor_reviews_detail.html', ctx)
 
-class Editor_review_detail(DetailView):
+class Editor_review_detail(DetailView, FormMixin):
     model = Editor_Review
     template_name = "editor_reviews/editor_reviews_detail.html"
     context_object_name = "review"
+    form_class = EditorReviewCommentForm
+
+    def get_success_url(self):
+        return reverse('editor_reviews:detail', kwargs={'pk': self.kwargs['pk']})
     
     def get_context_data(self, **kwargs):
         ctx = super(DetailView, self).get_context_data(**kwargs)
@@ -91,12 +96,24 @@ class Editor_review_detail(DetailView):
 
         return response
 
-    def post(self, request):
+    def post(self, request, pk):
+        self.object = self.get_object()
         form = self.get_form()
+
         if form.is_valid():
-            form.save()
-            ctx = self.get_context_data()
-            return self.render_to_response(ctx)
+            return self.form_valid(form)
+
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.editor_review = get_object_or_404(Editor_Review, pk=self.object.pk)
+        comment.author = self.request.user
+        comment.save()
+        return super().form_valid(form)
+
+
 
 
 
