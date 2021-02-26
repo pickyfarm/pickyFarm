@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+{% if carts.exists is True %}
 <div id="filter-section" class="flex flex-row">
     <div>
         <input type="checkbox">
@@ -10,12 +11,11 @@
         전체 상품 선택
     </div>
 </div>
+{% endif %}
 <div id="products-section" class="mt-5">
-    {% if carts is None %}
-    <div class="mt-14 flex flex-col justify-center">
-    <div>
-      아직 구매한 무난이가 없습니다
-    </div>
+    {% if carts.exists is False %}
+    <div class="mt-14 flex flex-col justify-center items-center">
+    <div>아직 구매한 무난이가 없습니다</div>
     <a id="redirect_a" href="{% url 'products:store_list' %}"><div id="redirect_btn">무난이 구매하러 가기</div></a>
     </div>
     {% else %}
@@ -55,7 +55,7 @@
 
 </div>
 
-
+{% if carts.exists is True %}
 <div id="controll-section">
     <div class="flex justify-left">
         <a><div id="delete_btn">삭제하기</div></a>
@@ -74,6 +74,7 @@
     </div>  
 
 </div>
+{% endif %}
 
 {% endblock content %}
 
@@ -240,8 +241,6 @@
 
 
 
-    
-
     $('#order_now').click(function(){
         console.log(selectors)
         let products = [];
@@ -267,6 +266,38 @@
                 
             }
         });
+    })
+
+
+    $('#delete_btn').click(function(){
+        let products = []
+        selectors.forEach(item=>{
+            if(item.checked == true){
+                let pk = item.getAttribute('name')
+                products.push(pk)
+            }
+        })
+        
+        if(products.length == 0){
+            alert("삭제할 무난이를 선택해주세요!")
+            return 
+        }
+        data = {
+            'pkList':products,
+        }
+        console.log(data.pkList)
+        $.ajax({
+            type : "POST",
+            url : "{% url 'users:cartOutAjax' %}",
+            data : data,
+            dataType : "json",
+            success: function(response){
+                if(response.success == true)
+                    window.location.reload()
+                    alert("무난이를 삭제하였습니다")
+                    
+            }
+        })
 
     })
    

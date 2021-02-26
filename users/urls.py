@@ -29,5 +29,7 @@ urlpatterns = [
     path('find_my_id/complete', views.FindMyIdView.as_view(), name='find_my_id_complete'),
     path('find_my_id/failed', views.FindMyIdFailView.as_view(), name='find_my_id_failed'),
     path('cartIn/', views.CartInAjax, name="cartInAjax"),
+    path('cartOut/', views.cartOutAjax, name="cartOutAjax"),
     path('cancelSubs/', views.CancelSubs, name="cancelSubs"),
+    
 ]

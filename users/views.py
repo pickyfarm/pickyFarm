@@ -59,6 +59,28 @@ def CartInAjax(request):
 
 @login_required
 @require_POST
+def cartOutAjax(request):
+    if request.method == 'POST':
+        product_pk = request.POST.getlist('pkList[]', None)
+        print(product_pk)
+        # print(request.POST)
+        consumer = request.user.consumer
+
+        for pk in product_pk:
+            try:
+                cart = Cart.objects.get(product__pk=pk, consumer=consumer)
+            except ObjectDoesNotExist:
+                print("없음")
+
+            cart.delete()
+        response = {
+            'success': True,
+        }
+        return JsonResponse(response)
+
+
+@login_required
+@require_POST
 def CancelSubs(request):
     if request.method == 'POST':
         print("진입")
