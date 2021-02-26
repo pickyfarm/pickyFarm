@@ -4,7 +4,7 @@
 {% block content %}
 <div id="filter-section" class="flex flex-row">
     <div>
-        <input type="radio">
+        <input type="checkbox">
     </div>
     <div>
         전체 상품 선택
@@ -23,7 +23,7 @@
     {% for cart in carts %}
     <div class="flex flex-row">
         <div id="select-section" class="mt-12 pr-8">
-            <input id="select-radio" type="radio" name="{{cart.product.pk}}">
+            <input id="select-checkbox-{{cart.product.pk}}" type="checkbox" name="{{cart.product.pk}}">
         </div>
         <div id="product" class="flex flex-row mb-5">
             <div id="product_img_section" class="w-1/5">
@@ -43,8 +43,10 @@
 
                 <div class="flex flex-row"></div>
             </div>
-            <div id="cart-button-section" class="w-1/5 mt-4 pl-8 items-center">
-                <div><input id="quantity-{{cart.product.pk}}" type="number" value="{{cart.quantity}}"></div>
+            <div id="cart-button-section" class="flex flex-row w-1/5 mt-4 pl-8 items-center">
+                <div id="quantity-up" name="{{cart.product.pk}}">0</div>
+                <div id="quantity-{{cart.product.pk}}">{{cart.quantity}}</div>
+                <div id="quantity-down" name="{{cart.product.pk}}">0</div>
             </div>
         </div>
     </div>
@@ -107,7 +109,9 @@
             }
         }
     });
-    // $(function(){
+
+
+
     let hey = document.querySelectorAll('#cartIn_btn')
     hey.forEach(item=>{
         item.addEventListener('click', function(){
@@ -131,49 +135,131 @@
       })
     })
 
-    let selectors = document.querySelectorAll('#select-radio')
-    let total_price_div = document.querySelector('#total_order_price')
+
+    let quantityUp = document.querySelectorAll('#quantity-up')
+    let quantityDown = document.querySelectorAll('#quantity-down')
+    let selectors = document.querySelectorAll('[id^="select-checkbox"]')
+    let totalPriceDiv = document.querySelector('#total_order_price')
+
+
+    function addCalTotalPrice(price, quantity){
+        let nowTotalPrice = totalPriceDiv.innerHTML
+        nowTotalPrice = parseInt(nowTotalPrice)
+
+        let newTotalOrderPrice = nowTotalPrice + price*quantity
+        totalPriceDiv.innerHTML = String(newTotalOrderPrice)
+    }
+
+    function subCalTotalPrice(price, quantity){
+        let nowTotalPrice = totalPriceDiv.innerHTML
+        nowTotalPrice = parseInt(nowTotalPrice)
+
+        let newTotalOrderPrice = nowTotalPrice - price*quantity
+        totalPriceDiv.innerHTML = String(newTotalOrderPrice)
+    }
+
+
+
     selectors.forEach(item=>{
         item.addEventListener('click', function(){
             let pk = $(this).attr('name')
             console.log(pk)
             
-            let total_price = document.querySelector('#total_order_price').innerText;
-            total_price = parseInt(total_price)
-            console.log(total_price)
-            
             let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
             price = parseInt(price)
             console.log(price)
 
-            let quantity = document.querySelector(`#quantity-${pk}`).getAttribute('value')
+            let quantity = document.querySelector(`#quantity-${pk}`).innerHTML
             quantity = parseInt(quantity)
             console.log(quantity)
+            
+            console.log(item)
 
-            let new_total_order_price = total_price + price*quantity
-            console.log(new_total_order_price)
-
-            total_price_div.innerHTML = String(new_total_order_price)
+            if(item.checked == true){
+                addCalTotalPrice(price, quantity)
+            }
+            else{
+                subCalTotalPrice(price, quantity)
+            }
         })
     })
 
+    quantityUp.forEach(item=>{
+        item.addEventListener('click', function(){
+            let pk = this.getAttribute('name')
+            console.log(pk)
+
+            let quantity = document.querySelector(`#quantity-${pk}`)
+            console.log(quantity)
+            let quantityNum = parseInt(quantity.innerHTML) + 1
+            quantity.innerHTML = String(quantityNum)
+
+            let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
+            price = parseInt(price)
+            console.log(price)
+
+            let checkbox = document.querySelector(`#select-checkbox-${pk}`)
+            console.log(checkbox)
+
+            if(checkbox.checked == true){
+                console.log("checkbox checked")
+                addCalTotalPrice(price, 1)
+            }
+        })
+    })
+
+    quantityDown.forEach(item=>{
+        item.addEventListener('click', function(){
+            let pk = this.getAttribute('name')
+            console.log(pk)
+
+            let quantity = document.querySelector(`#quantity-${pk}`)
+            console.log(quantity)
+            let quantityNum = parseInt(quantity.innerHTML)
+            if(quantityNum == 0){
+                quantityNum = 0
+            }
+            else{
+                quantityNum = quantityNum -1
+            }
+            quantity.innerHTML = String(quantityNum)
+
+            let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
+            price = parseInt(price)
+            console.log(price)
+
+            let checkbox = document.querySelector(`#select-checkbox-${pk}`)
+            console.log(checkbox)
+
+            if(checkbox.checked == true){
+                console.log("checkbox checked")
+                subCalTotalPrice(price, 1)
+            }
+        })
+    })
+
+
+
+    
+
     $('#order_now').click(function(){
-        let selects = document.querySelectorAll('#select-radio');
-        console.log(selects)
+        console.log(selectors)
         let products = [];
-        selects.forEach(item=>{
+        selectors.forEach(item=>{
             console.log(item)
             if(item.checked == true){
                 let pk = item.getAttribute('name');
                 products.push(pk);
             }
         });
+        if(products.length == 0)
+            alert("주문할 무난이를 선택해주세요!")
         data = {
             'products':products,
         };
         console.log(products)
         $.ajax({
-            url : "{% url 'orders:ordering_cart'}",
+            url : "{% url 'orders:ordering_cart' %}",
             dataType : "json",
             type : "POST",
             data : data,
