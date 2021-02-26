@@ -99,11 +99,15 @@
             </div>
             <div id="purchase_number_section" class="flex flex-row items-center py-10 mb-5 border-b">
                 <div id="quantity_letter" class="mr-12">구매수량</div>
-                <div><input id="quantity_input" class="ml-12 pl-10" name="quantity" type="number" value=1></div>
+                <div id="quantity_num_section" class="flex flex-row items-center">
+                    <div id="minus_btn">-</div>
+                    <div id="quantity_number" class="">1</div>
+                    <div id="plus_btn">+</div>
+                </div>
             </div>
             <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10">
                 <div id="total_price_letter" class="mb-4 mr-10">총 상품 금액 :</div>
-                <div id="total_price">2000</div>
+                <div id="total_price">{{product.sell_price}}</div>
                 <div id="won" class="mb-2 ml-2">원</div>
             </div>
             <div id="buttons" class="flex flex-rows">
@@ -386,5 +390,57 @@
     </div>
 </div>
 
+<script>
+
+    let plusBtn = document.getElementById('plus_btn')
+    let minusBtn = document.getElementById('minus_btn')
+    let totalPrice = document.getElementById('total_price')
+    let quantityNum = document.getElementById('quantity_number')
+    
+    let pricePerOne = parseInt(totalPrice.innerHTML)
+
+    console.log(pricePerOne)
+    console.log(plusBtn)
+    console.log(minusBtn)
+    console.log(totalPrice)
+
+    function addCalTotalPrice(price, quantity){
+        let nowTotalPrice = totalPrice.innerHTML
+        nowTotalPrice = parseInt(nowTotalPrice)
+
+        let newTotalOrderPrice = nowTotalPrice + price*quantity
+        totalPrice.innerHTML = String(newTotalOrderPrice)
+    }
+
+    function subCalTotalPrice(price, quantity){
+        let nowTotalPrice = totalPrice.innerHTML
+        nowTotalPrice = parseInt(nowTotalPrice)
+
+        let newTotalOrderPrice = nowTotalPrice - price*quantity
+        if(newTotalOrderPrice < 0)
+            newTotalOrderPrice = 0
+        totalPrice.innerHTML = String(newTotalOrderPrice)
+    }
+
+    plusBtn.addEventListener('click', function(){
+        let num = parseInt(quantityNum.innerHTML)
+        num += 1
+        quantityNum.innerHTML = num
+        addCalTotalPrice(pricePerOne, 1)
+    })
+
+    minusBtn.addEventListener('click', function(){
+        let num = parseInt(quantityNum.innerHTML)
+        if(num <= 1)
+            num = 1
+        else{
+            num -= 1
+            quantityNum.innerHTML = num
+            subCalTotalPrice(pricePerOne, 1)
+        }
+        
+    })
+
+</script>
 
 {% endblock main_content %}
