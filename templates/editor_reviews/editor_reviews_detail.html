@@ -2,78 +2,207 @@
 
 {% load static %}
 {% block stylesheet %}
-  
+
 {% endblock stylesheet %}
 
 {% block main_content %}
-<div class="main-contents flex justify-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
-    <div id="top-section">
-        <div>{{review.title}}</div>
-        <div>{{review.sub_title}}</div>
-        <div>editor{{review.author.user.nickname}}</div>
-    </div>
-    
-    <div id="content-section" class="w-3/5">
-    {{review.contents|safe}}
+<div class="main-contents flex flex-col lg:mx-0 sm:mx-0 bg-white-400 font-4xl" id="main">
+    <div class="mx-auto flex flex-col items-center bg-cover text-center" id="top-section"
+        style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
+        <div id="review-title">{{review.title}}</div>
+        <div id="review-subtitle">{{review.sub_title}}</div>
+        <div id="review-author">editor_{{review.author.user.nickname}}</div>
+        <img id="review-arrow" src="{% static 'images/editors_review/editor_review_detail_arrow_bottom.svg' %}" alt="">
     </div>
 
-    <div id="info-section">
-        <div id="editor_profile">
-            <img src="#">
-            <div>editor{{review.author.user.nickname}}</div>
+    <div id="content-section" class="mx-auto">
+        {{review.contents|safe}}
+    </div>
+
+    <div id="info-section" class="mx-auto flex flex-col">
+        <div id="editor-profile" class="flex items-center ml-auto">
+            <img id="editor-profile-image" src="{{review.author.user.profile_image.url}}">
+            <div id="editor-profile-name">editor_{{review.author.user.nickname}}</div>
         </div>
-        
+
         {% if review.product is not None %}
-            <div id="related_products">
-                <div class="flex flex-row">
-                    <img src="">
-                    <div id="desc_title">관련 상품 보기</div>
-                </div>
-                <div id="products" class="flex flex-row">
+        <div id="related_products">
+            <div class="flex flex-row" id="related_products_desc">
+                <img src="{% static 'images/editors_review/editor_review_detail_leaf.svg'%}">
+                <div id="desc_title">관련 상품 보기</div>
+            </div>
+            <div id="products" class="">
                 {% for p in review.product.all %}
                 <a href="{% url 'products:product_detail' p.pk %}">
-
-                    <div class="float-left mx-3" id="product_item">
+                    <div class="inline-block" id="product_item">
                         <div class="relative">
                             <img class="z-0" id="product_img" src="{{p.main_image.url}}" width="50"><br>
                             <div id="like_cart_in" class="flex flex-row z-10">
-                                <a href="{% url 'users:wish' p.pk %}?next={{request.path}}"><img class="mr-1"
-                                        id="like" , src="{% static 'images/products_list/like.svg' %}"></a>
-                                <a href="{% url 'users:cart_in' p.pk %}?next={{request.path}}"><img
-                                        class="ml-1" id="cart_in" ,
-                                        src="{% static 'images/products_list/cart_in.svg' %}"></a>
+                                <a href="{% url 'users:wish' p.pk %}?next={{request.path}}"><img class="" id="like" ,
+                                        src="{% static 'images/products_list/like.svg' %}"></a>
+                                <a href="{% url 'users:cart_in' p.pk %}?next={{request.path}}"><img class=""
+                                        id="cart_in" , src="{% static 'images/products_list/cart_in.svg' %}"></a>
                             </div>
 
 
                             <img class="absolute -top-5 left-1 {%if p.stock > 3 %} invisible {% endif %}"
-                                id="almost_sold_out" ,
-                                src="{% static 'images/products_list/almost_sold_out2.svg' %}">
+                                id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out2.svg' %}">
                             <img class="absolute top-1 left-4 {%if p.stock > 3 %} invisible {% endif %}"
-                                id="almost_sold_out" ,
-                                src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                                id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out.svg' %}">
                         </div>
 
-                        <div class="mt-1">
-                            <p class="pl-5" id="title">{{p.title}}</p>
-                            <p class="pl-5" id="sell_price">{{p.sell_price}}원</p>
-                            <p class="pl-5" id="sub_title">{{p.sub_title}}</p>
+                        <div class="mt-2 flex flex-col">
+                            <div class="flex items-center">
+                                <div class="pr-2 text-base  " id="title">{{p.farmer.user.nickname}}</div>
+                                <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
+                                <div class="pl-2 font-light" id="sub_title">{{p.category.name}}  {{p.weight}}kg</div>
+                            </div>
+                            <p class="" id="sell_price">{{p.sell_price}}원</p>
                         </div>
                     </div>
                 </a>
                 {% endfor %}
-                </div>
             </div>
+        </div>
         {% endif %}
 
-        
+
         {% if review.farm is not None %}
-            
+        <div id="visit-farmer">
+            <div class="flex flex-row" id="visit_farmer_desc">
+                <img src="{% static 'images/editors_review/editor_review_detail_leaf.svg'%}">
+                <div id="desc_title">농가 방문하기</div>
+            </div>
+
+            <div id="farmer">
+                
+            </div>
+        </div>
         {% endif %}
-            
-            
+
+
     </div>
 </div>
 
-{% comment %} <a href="{% url 'editors_pick:delete' review.pk %}"><div>지우기.</div></a>
-<a href="{% url 'editors_pick:update' review.pk %}"><div>업데이트</div></a> {% endcomment %}
+{% comment %} <a href="{% url 'editors_pick:delete' review.pk %}">
+    <div>지우기.</div>
+</a>
+<a href="{% url 'editors_pick:update' review.pk %}">
+    <div>업데이트</div>
+</a> {% endcomment %}
+
+<style>
+    #top-section {
+        height: 42vw;
+        width: 100% !important;
+        margin-top: 100px;
+    }
+
+    #review-title {
+        font-size: 45px;
+        font-weight: bold;
+        width: 990px;
+        margin-top: 5vw;
+        color: white;
+    }
+
+    #review-subtitle {
+        font-size: 25px;
+        font-weight: 200;
+        margin-top: 3vw;
+        color: white;
+    }
+
+    #review-author {
+        font-size: 15px;
+        margin-top: 12vw;
+        color: white;
+    }
+
+    #review-arrow {
+        margin-top: 30px;
+    }
+
+    #content-section {
+        width: 990px;
+        margin-top: 200px;
+    }
+
+    #info-section {
+        width: 990px;
+        margin-top: 380px;
+    }
+
+    #editor-profile-image {
+        height: 55px;
+        width: 55px;
+        border: 2px solid #707070;
+        border-radius: 100%;
+        object-fit: cover;
+    }
+
+    #editor-profile-name {
+        font-size: 20px;
+        margin-left: 20px;
+        color: #5c6754;
+        font-weight: normal;
+    }
+
+    #related_products {
+        margin-bottom: 100px;
+    }
+
+    #related_products_desc, #visit_farmer_desc{
+        margin-bottom: 60px;
+    }
+
+    #desc_title {
+        font-size: 20px;
+        font-weight: 500;
+        color: #5c6754;
+        margin-left: 11px;
+    }
+
+    #sell_price {
+        font-size: 25px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.3;
+        letter-spacing: normal;
+        text-align: left;
+        color: #5c6754;
+    }
+
+    #products {
+        width: 990px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
+
+    #product_img {
+        width: 235px;
+        height: 341px;
+        border-radius: 10px;
+        box-shadow: 10px 10px 10px 0 rgba(170, 170, 170, 0.7);
+        margin-right: 70px;
+
+
+        background-color: #ffffff;
+        object-fit: cover;
+    }
+
+
+
+    #like_cart_in {
+        position: absolute;
+        top: 320px;
+        right: 68px;
+    }
+
+    #like_cart_in img {
+        transform: scale(0.9);
+    }
+</style>
 {% endblock main_content %}
