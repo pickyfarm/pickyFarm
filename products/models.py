@@ -172,7 +172,7 @@ class Question(models.Model):
 class Answer(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
-    question = models.OneToOneField(Question, on_delete=models.CASCADE)
+    question = models.OneToOneField(Question, related_name = "answer", on_delete=models.CASCADE)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)

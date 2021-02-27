@@ -157,6 +157,7 @@ background-color: #005413;
     padding: 1.5px 10.5px 0.7px 10.5px;
   border-radius: 27.6px;
   background-color: #5e6656;
+  cursor:pointer;
 }
 
 #sub:hover{
@@ -172,6 +173,7 @@ color: #ffffff;
   padding: 1.5px 10.5px 0.7px 10.5px;
 border-radius: 27.6px;
 background-color: #005413;
+cursor:pointer;
 }
 
 #info_t{
@@ -219,13 +221,44 @@ background-color: #005413;
   
 }
 
-#quantity_input{
-  width: 100px;
-  height: 35px;
-  border-radius: 4px;
-  font-family: NotoSansKR;
-  border: solid 1px #d9d9d9;
+#quantity_num_section{
+  margin-left:100px;
 }
+
+#plus_btn, #minus_btn{
+  width: 35px;
+  height: 35px;
+  padding: 10px 12.3px 10.6px 12.7px;
+  background-color: #d9d9d9;
+  font-family: YDIYGO330;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #005413;
+  cursor:pointer;
+}
+
+#quantity_number{
+  width:60px;
+  height: 35px;
+  padding-top:8px;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000000;
+  border-top : solid 1px #d9d9d9;
+  border-bottom : solid 1px #d9d9d9;
+}
+
 
 #total_price_letter{
   font-size: 15px;
@@ -280,6 +313,7 @@ background-color: #005413;
   padding: 16.5px 20px 16.7px 20px;
   border-radius: 27.6px;
   border: solid 3px #005413;
+  cursor:pointer;
 }
 
 #wish:hover{
@@ -297,6 +331,7 @@ background-color: #005413;
   border-radius: 27.6px;
   border: solid 3px #005413;
   transition: ease-in;
+  cursor:pointer;
 }
 
 #cart{
@@ -312,6 +347,7 @@ background-color: #005413;
   letter-spacing: normal;
   text-align: left;
   color: #005413;
+  cursor:pointer
 }
 
 #cart:hover{
@@ -329,6 +365,7 @@ background-color: #005413;
   color: #ffffff;
   background-color: #005413;
   transition: ease-in;
+  cursor:pointer
 }
 
 #purchase{
@@ -345,6 +382,7 @@ background-color: #005413;
   border-radius: 27.6px;
   border: solid 3px #005413;
   background-color: #005413;
+  cursor:pointer
 }
 
 #purchase:hover{
@@ -361,6 +399,7 @@ background-color: #005413;
   border-radius: 27.6px;
   border: solid 3px #005413;
   background-color: #ffffff;
+  cursor:pointer
 }
 
 #desc_img_box{

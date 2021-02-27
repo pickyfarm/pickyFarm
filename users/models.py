@@ -178,7 +178,7 @@ class Cart(models.Model):
         'Consumer', related_name="carts", on_delete=models.CASCADE)
     product = models.ForeignKey(
         "products.Product", related_name='carts', on_delete=models.CASCADE)
-    quantitiy = models.IntegerField(default=1, blank=True)
+    quantity = models.IntegerField(default=1, blank=True)
 
     create_at = models.DateTimeField(auto_now_add=True)
 

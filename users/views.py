@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+import json
 from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User
 from products.models import Category, Product
 from django.db.models import Count
@@ -15,6 +16,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
@@ -25,15 +27,21 @@ from math import ceil
 from django.conf import settings
 
 
+# Exception 선언 SECTION
+
 class NoRelatedInstance(Exception):
     pass
 
+
+# AJAX 통신 선언 SECTION (상품 장바구니/장바구니에서 제거하기, 상품 찜하기/찜하기 취소하기, 농가 구독/구독 취소하기)
 
 @login_required
 @require_POST
 def CartInAjax(request):
     if request.method == 'POST':
         pk = request.POST.get('pk', None)
+        quantity = request.POST.get('quantity', 1)
+        print(quantity)
         print(pk)
         user = request.user
         product = Product.objects.get(pk=pk)
@@ -46,7 +54,7 @@ def CartInAjax(request):
             message = "이미 장바구니에 있는 무난이 입니다"
         except ObjectDoesNotExist:
             cart = Cart.objects.create(
-                consumer=user.consumer, product=product, quantitiy=1)
+                consumer=user.consumer, product=product, quantity=quantity)
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
 
@@ -55,6 +63,119 @@ def CartInAjax(request):
         }
         return JsonResponse(data)
 
+
+@login_required
+@require_POST
+def cartOutAjax(request):
+    if request.method == 'POST':
+        product_pk = request.POST.getlist('pkList[]', None)
+        print(product_pk)
+        # print(request.POST)
+        consumer = request.user.consumer
+
+        for pk in product_pk:
+            try:
+                cart = Cart.objects.get(product__pk=pk, consumer=consumer)
+            except ObjectDoesNotExist:
+                print("없음")
+
+            cart.delete()
+        response = {
+            'success': True,
+        }
+        return JsonResponse(response)
+
+
+@login_required
+@require_POST
+def CancelSubs(request):
+    if request.method == 'POST':
+        print("진입")
+        pk = request.POST.get('pk', None)
+        print(pk)
+        try:
+            sub = Subscribe.objects.get(pk=pk)
+        except ObjectDoesNotExist:
+            msg = "구독 기록이 존재하지 않습니다. 다시 시도해주세요"
+            data = {
+                'success': "0",
+                'msg': msg,
+            }
+            return JsonResponse(data)
+        farm_name = sub.farmer.farm_name
+        print(farm_name)
+        sub.delete()
+        msg = f'{farm_name} 구독 취소 했습니다'
+        data = {
+            "success": "1",
+            'msg': msg,
+        }
+        print("전달 직전")
+        # return HttpResponse(json.dumps(data), content_type='application/json')
+        return JsonResponse(data)
+
+
+@login_required
+@require_POST
+def subs(request):
+    if request.method == 'POST':
+        farmer_pk = request.POST.get('farmer_pk', None)
+        consumer = request.user.consumer
+        if farmer_pk is None:
+            data = {
+                'success': -1,
+
+            }
+            return JsonResponse(data)
+        try:
+            sub = Subscribe.objects.get(
+                farmer__pk=farmer_pk, consumer=consumer)
+            data = {
+                'success': 0,
+            }
+            return JsonResponse(data)
+        except ObjectDoesNotExist:
+            try:
+                farmer = Farmer.objects.get(pk=farmer_pk)
+            except ObjectDoesNotExist:
+                data = {
+                    'success': -1,
+                }
+                return JsonResponse(data)
+            Subscribe.objects.create(farmer=farmer, consumer=consumer)
+            data={
+                'success': 1,
+            }
+            return JsonResponse(data)
+
+
+@login_required
+@require_POST
+def wish(request):
+    if request.method == 'POST':
+        user = request.user.consumer
+        product_pk = request.POST.get('pk', None)
+
+        print("로그인이 안되는거?")
+
+        try:
+            wish = Wish.objects.get(
+                consumer=user, product__pk=product_pk)
+            response = {
+                'status': 0,
+            }
+            return JsonResponse(response)
+        except ObjectDoesNotExist:
+            product = Product.objects.get(pk=product_pk)
+            Wish.objects.create(
+                consumer=request.user.consumer, product=product)
+            response = {
+                'status': 1,
+            }
+            return JsonResponse(response)
+
+
+# 회원 관련 view
 
 class Login(View):
 
@@ -286,37 +407,8 @@ def farm_apply(request):
         return render(request, 'users/farm_apply.html', ctx)
 
 
-@login_required
-def cart_in(request, product_pk):
-    try:
-        cart = Cart.objects.get(
-            consumer=request.user.consumer, product__id=product_pk)
-        cart.quantitiy += 1
-        messages.warning(request, "무난이를 장바구니에 +1 하였습니다")
-    except ObjectDoesNotExist:
-        product = Product.objects.get(pk=product_pk)
-        cart = Cart.objects.create(
-            product=product, consumer=request.user.consumer, quantitiy=1)
-        messages.warning(request, "무난이를 장바구니에 담았습니다")
-    # return redirect(reverse("products:product_detail", args=[product_pk]))
-    return redirect(request.GET['next'])
-
-
-@login_required
-def wish(request, product_pk):
-    try:
-        wish = Wish.objects.get(
-            consumer=request.user.consumer, product__id=product_pk)
-        messages.warning(request, "이미 찜한 무난이입니다")
-    except ObjectDoesNotExist:
-        product = Product.objects.get(pk=product_pk)
-        wish = Wish.objects.create(
-            consumer=request.user.consumer, product=product)
-        messages.warning(request, "찜하였습니다")
-    # return redirect(reverse("products:product_detail", args=[product_pk]))
-    return redirect(request.GET['next'])
-
 user_email = ''
+
 
 class MyPasswordResetView(PasswordResetView):
     template_name = 'users/password_reset.html'
@@ -338,7 +430,7 @@ class MyPasswordResetView(PasswordResetView):
 
 class MyPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'users/password_reset_done.html'
-    
+
     def get_context_data(self, **kwargs):
         global user_email
         ctx = super().get_context_data(**kwargs)
@@ -353,9 +445,11 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
-        form.fields['new_password1'].widget.attrs = {'placeholder': '새 비밀번호를 입력해주세요'}
-        form.fields['new_password2'].widget.attrs = {'placeholder': '새 비밀번호를 한번 더 입력해주세요'}
-        
+        form.fields['new_password1'].widget.attrs = {
+            'placeholder': '새 비밀번호를 입력해주세요'}
+        form.fields['new_password2'].widget.attrs = {
+            'placeholder': '새 비밀번호를 한번 더 입력해주세요'}
+
         return form
 
     def form_valid(self, form):
@@ -423,8 +517,10 @@ def mypage(request, cat):
 
         questions = consumer.questions.filter(
             create_at__gt=one_month_before).order_by('-create_at').all()
-        print("질문 쿼리 : " + (str)(questions))
-        
+        print((type)(questions))
+
+        for q in questions:
+            print(type(q))
 
         ctx = {
             'consumer_nickname': consumer_nickname,
@@ -490,19 +586,21 @@ def mypage(request, cat):
             print(wishes)
 
             ctx_wishes = {
+                'page': page,
                 'total_pages': range(1, total_pages+1),
                 'wishes': wishes,
             }
             ctx.update(ctx_wishes)
             return render(request, 'users/mypage_wishes.html', ctx)
         elif cat_name == 'cart':
-            carts = consumer.carts.filter('-create_at')
+            carts = consumer.carts.all().order_by('-create_at').filter(product__open=True)
+            print(carts)
 
             ctx_carts = {
                 'carts': carts,
             }
             ctx.update(ctx_carts)
-            return render(request, 'users/mypage.html', ctx)
+            return render(request, 'users/mypage_carts.html', ctx)
         elif cat_name == 'rev_address':
             pass
         elif cat_name == 'info':

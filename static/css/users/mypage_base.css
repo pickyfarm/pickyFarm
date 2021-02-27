@@ -125,14 +125,18 @@
 
 #filter-section{
     margin-left : 126px;
+    margin-bottom : 45px;
+}
+
+#filter-section>div:nth-child(2){
+  margin-left:35px;
 }
 
 #redirect_btn{
   width:170px;
   height: 30px;
   padding-top:5px;
-  margin-left: 335px;
-  margin-top:50px;
+  margin-top:30px;
   border-radius: 11px;
   background-color: #5c6754;
   font-family: NotoSansKR;
@@ -152,7 +156,6 @@
 }
 
 #products-section{
-    height:720px;
     margin-left : 126px;
 }
 
@@ -387,6 +390,30 @@
   color: #5c6754;
 }
 
+#quantity{
+  width:100px;
+  text-align:center;
+  margin-top:20px;
+}
+
+#delete_btn{
+  width: 115px;
+  height: 30px;
+  padding: 4px 30px;
+  border-radius: 15px;
+  border: solid 1px #b3b3b3;
+  background-color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  margin-left:171px;
+}
+
 #sub_cancel_btn{
   width: 53px;
   height: 25px;
@@ -403,6 +430,85 @@
   opacity: 0.6;
   border-radius: 13px;
   background-color: #ffffff;
+}
+
+#paginator{
+  margin-top:20px;
+  width:650px;
+  margin-left:170px;
+}
+
+#page_btn_sel{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  color: #5c6754;
+}
+
+#page_btn{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  color: #b3b3b3;
+}
+
+#order-section{
+  width:650px;
+  margin-left:170px;
+  margin-top:35px;
+}
+
+#continue_shop{
+  width: 146px;
+  height: 30px;
+  padding: 4px 30px;
+  border-radius: 15px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  text-align: center;
+  color: #ffffff;
+}
+
+#order_now{
+  width: 115px;
+  height: 30px;
+  padding: 4px 30px;
+  border-radius: 15px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  text-align: center;
+  color: #ffffff;
+  margin-left:20px;
+}
+
+#total_order_text{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  color: #b3b3b3;
+  padding-top:7px;
+}
+
+#total_order_price{
+  font-family: NotoSansKR;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #5c6754;
+  margin-left:10px;
+}
+
+#won_text{
+  font-family: NotoSansKR;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #5c6754;
 }
 
 #sub_farm_news{
@@ -425,8 +531,11 @@
   width:550px;
 }
 
-#qnas_contents{
+#qna_box_container{
   overflow:scroll;
+}
+
+#qnas_contents{
   width: 506px;
   height: 400px;
   padding: 30px;
@@ -486,6 +595,96 @@
   font-stretch: normal;
   letter-spacing: normal;
   text-align: center;
+  color: #ffffff;
+}
+
+#qna_date{
+  font-family: NotoSansKR;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+#q_box>div:nth-child(1){
+  font-family: NotoSansKR;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  margin-top:8px;
+}
+
+#q_detail{
+  width: 315px;
+  margin: 10px 43px 3px 15px;
+  padding: 3px 20px 3px 17px;
+  opacity: 0.6;
+  border-radius: 20px;
+  background-color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #283023;
+}
+
+#see_more_a{
+  width:48px !important;
+}
+
+#see_more{
+  width: 48px;
+  border-radius: 10px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 11px;
+  opacity: 1;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+}
+
+#a_detail{
+  width: 315px;
+  padding: 14px 11px;
+  opacity: 0.6;
+  border-radius: 20px;
+  margin-top:7px;
+  background-color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: right;
+  color: #283023;
+}
+
+#a_box>div:nth-child(2){
+  margin-left:14px;
+  margin-top:5px;
+  font-family: NotoSansKR;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
   color: #ffffff;
 }
 

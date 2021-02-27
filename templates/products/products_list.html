@@ -30,14 +30,12 @@
                             {% else %}
                             {% static 'images/products_list/cat_fruit.svg' %}
                             {% endif %}" alt="과일"></a></div>
-        <div id="cat_vege"><a href="{% url 'products:store_list_category' 'vege' %}"><img id="vege"
-                    src="{% if cat_name == 'vege' %}
+        <div id="cat_vege"><a href="{% url 'products:store_list_category' 'vege' %}"><img id="vege" src="{% if cat_name == 'vege' %}
                     {% static 'images/products_list/cat_vege_sel.svg' %}
                     {% else %}
                     {% static 'images/products_list/cat_vege.svg' %}
                     {% endif %}" alt="야채"></a></div>
-        <div id="cat_etc"><a href="{% url 'products:store_list_category' 'others' %}"><img id="etc"
-                    src="{% if cat_name == 'others' %}
+        <div id="cat_etc"><a href="{% url 'products:store_list_category' 'others' %}"><img id="etc" src="{% if cat_name == 'others' %}
                     {% static 'images/products_list/cat_etc_sel.svg' %}
                     {% else %}
                     {% static 'images/products_list/cat_etc.svg' %}
@@ -73,20 +71,24 @@
             </div>
 
             <div class="block">
-                <ul class="mt-3" id="products">
+                <div class="mt-3" id="products">
 
                     {% for product in products %}
-                    <a href="{% url 'products:product_detail' product.pk %}">
+                    
 
-                        <li class="float-left mx-3" id="product_item">
-                            <div class="relative">
-                                <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
-                                <div id="like_cart_in" class="flex flex-row z-10">
-                                    <a href="{% url 'users:wish' product.pk %}?next={{request.path}}"><img class="mr-1"
-                                            id="like" , src="{% static 'images/products_list/like.svg' %}"></a>
-                                    <a href="{% url 'users:cart_in' product.pk %}?next={{request.path}}"><img
-                                            class="ml-1" id="cart_in" ,
-                                            src="{% static 'images/products_list/cart_in.svg' %}"></a>
+                        <div class="float-left mx-3 z-0" id="product_item" name="{{product.pk}}">
+                            <div class="relative mb-10">
+                                <a href="{% url 'products:product_detail' product.pk %}" class="">
+                                    <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
+                                </a>
+                                <div id="like_cart_in" class="flex flex-row">
+                                    <div id="wish" class="z-10">
+                                        <img class="mr-1", src="{% static 'images/products_list/like.svg' %}">
+                                    </div>
+                                    <div id="cart">
+                                        <img class="ml-1" id="cart_in",
+                                            src="{% static 'images/products_list/cart_in.svg' %}">
+                                    </div>
                                 </div>
 
 
@@ -97,16 +99,17 @@
                                     id="almost_sold_out" ,
                                     src="{% static 'images/products_list/almost_sold_out.svg' %}">
                             </div>
+                            <a href="{% url 'products:product_detail' product.pk %}" class=""> 
+                                <div class="mt-1">
+                                    <p class="pl-5" id="title">{{product.title}}</p>
+                                    <p class="pl-5" id="sell_price">{{product.sell_price}}원</p>
+                                    <p class="pl-5" id="sub_title">{{product.sub_title}}</p>
+                                </div>
+                            </a>
+                        </div>
 
-                            <div class="mt-1">
-                                <p class="pl-5" id="title">{{product.title}}</p>
-                                <p class="pl-5" id="sell_price">{{product.sell_price}}원</p>
-                                <p class="pl-5" id="sub_title">{{product.sub_title}}</p>
-                            </div>
-                        </li>
-                    </a>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
 
 
@@ -140,5 +143,58 @@
 
 </div>
 <script type="text/javascript" src="{% static 'js/products_list.js' %}"></script>
+<script>
+    let wishBtn = document.querySelectorAll('#wish')
+    console.log(wishBtn)
+    let product_pk = document.getElementById('product_item').getAttribute('name')
+
+    wishBtn.forEach(item => {
+        item.addEventListener('click', function () {
+            data = {
+                'pk': product_pk,
+                "csrfmiddlewaretoken": "{{csrf_token}}",
+            }
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'users:wish' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    if (response.status == 0) {
+                        alert('이미 찜한 무난이 입니다!')
+                    }
+                    else if (response.status == 1) {
+                        alert('무난이를 찜했습니다')
+                    }
+                },
+                error: function (request, status, error) {
+                    alert('로그인이 필요합니다.')
+                }
+            })
+        })
+    })
+
+    let cartBtn = document.getElementById('cart')
+    console.log(cartBtn)
+    cartBtn.addEventListener('click', function(){
+        data = {
+            'pk':product_pk,
+            "csrfmiddlewaretoken":"{{csrf_token}}",
+        }
+        $.ajax({
+            type:'POST',
+            url : "{% url 'users:cartInAjax' %}",
+            dataType : 'json',
+            data : data,
+            success : function(response){
+                alert(response.message)
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
+    })
+
+</script>
 
 {% endblock %}

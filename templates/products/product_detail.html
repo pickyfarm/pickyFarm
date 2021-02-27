@@ -17,7 +17,7 @@
 
 <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
 
-    <div id="product_content" class="flex flex-row mx-auto z-0">
+    <div id="product_content" name="{{product.pk}}" class="flex flex-row mx-auto z-0">
         <div id="left" class="w=2/5">
             <div>
                 <img id="main_image" src="{{product.main_image.url}}">
@@ -75,7 +75,7 @@
                 <div id="visit" class="ml-4">
                     방문하기
                 </div>
-                <div id="sub" class="ml-2">
+                <div id="sub" name="{{farmer.pk}}" class="ml-2">
                     구독하기
                 </div>
             </div>
@@ -99,25 +99,21 @@
             </div>
             <div id="purchase_number_section" class="flex flex-row items-center py-10 mb-5 border-b">
                 <div id="quantity_letter" class="mr-12">구매수량</div>
-                <div><input id="quantity_input" class="ml-12 pl-10" name="quantity" type="number" value=1></div>
+                <div id="quantity_num_section" class="flex flex-row items-center">
+                    <div id="minus_btn">-</div>
+                    <div id="quantity_number" class="">1</div>
+                    <div id="plus_btn">+</div>
+                </div>
             </div>
             <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10">
                 <div id="total_price_letter" class="mb-4 mr-10">총 상품 금액 :</div>
-                <div id="total_price">2000</div>
+                <div id="total_price">{{product.sell_price}}</div>
                 <div id="won" class="mb-2 ml-2">원</div>
             </div>
             <div id="buttons" class="flex flex-rows">
-                <a href="{% url 'users:wish' product.pk %}?next={{request.path}}"><div id="wish">찜하기</div></a>
-                
-                {% if messages %}
+                <div id="wish">찜하기</div>
                     
-                    {% for message in messages %}
-                        <script>alert("{{message}}");</script>
-                    {% endfor %}
-                        
-                {% endif %}
-                    
-                <a href="{% url 'users:cart_in' product.pk %}?next={{request.path}}"><div id="cart" class="mr-12 ml-3">장바구니 담기</div></a>
+                <div id="cart" class="mr-12 ml-3">장바구니 담기</div>
                 <div id="purchase">바로 구매하기</div>
             </div>
         </div>
@@ -386,5 +382,140 @@
     </div>
 </div>
 
+<script>
+    
+
+    let plusBtn = document.getElementById('plus_btn')
+    let minusBtn = document.getElementById('minus_btn')
+    let totalPrice = document.getElementById('total_price')
+    let quantityNum = document.getElementById('quantity_number')
+    console.log(quantityNum)
+    
+    let pricePerOne = parseInt(totalPrice.innerHTML)
+
+    console.log(pricePerOne)
+    console.log(plusBtn)
+    console.log(minusBtn)
+    console.log(totalPrice)
+
+    function addCalTotalPrice(price, quantity){
+        let nowTotalPrice = totalPrice.innerHTML
+        nowTotalPrice = parseInt(nowTotalPrice)
+
+        let newTotalOrderPrice = nowTotalPrice + price*quantity
+        totalPrice.innerHTML = String(newTotalOrderPrice)
+    }
+
+    function subCalTotalPrice(price, quantity){
+        let nowTotalPrice = totalPrice.innerHTML
+        nowTotalPrice = parseInt(nowTotalPrice)
+
+        let newTotalOrderPrice = nowTotalPrice - price*quantity
+        if(newTotalOrderPrice < 0)
+            newTotalOrderPrice = 0
+        totalPrice.innerHTML = String(newTotalOrderPrice)
+    }
+
+    plusBtn.addEventListener('click', function(){
+        let num = parseInt(quantityNum.innerHTML)
+        num += 1
+        quantityNum.innerHTML = num
+        addCalTotalPrice(pricePerOne, 1)
+    })
+
+    minusBtn.addEventListener('click', function(){
+        let num = parseInt(quantityNum.innerHTML)
+        if(num <= 1)
+            num = 1
+        else{
+            num -= 1
+            quantityNum.innerHTML = num
+            subCalTotalPrice(pricePerOne, 1)
+        }
+        
+    })
+
+    let wishBtn = document.getElementById('wish')
+    let product_pk = document.getElementById('product_content').getAttribute('name')
+
+    wishBtn.addEventListener('click', function(){
+        
+        data = {
+            'pk':product_pk,
+            "csrfmiddlewaretoken":"{{csrf_token}}",
+        }
+        $.ajax({
+            type : 'POST',
+            url : "{% url 'users:wish' %}",
+            dataType : 'json',
+            data : data,
+            success : function(response){
+                if(response.status == 0){
+                    alert('이미 찜한 무난이 입니다!')
+                }
+                else if(response.status == 1){
+                    alert('무난이를 찜했습니다')
+                }
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
+    })
+
+    let cartBtn = document.getElementById('cart')
+    console.log(cartBtn)
+    cartBtn.addEventListener('click', function(){
+        let quantityNumber = parseInt(quantityNum.innerHTML)
+        console.log(quantityNumber)
+        data = {
+            'pk':product_pk,
+            'quantity':quantityNumber,
+            "csrfmiddlewaretoken":"{{csrf_token}}",
+        }
+        $.ajax({
+            type:'POST',
+            url : "{% url 'users:cartInAjax' %}",
+            dataType : 'json',
+            data : data,
+            success : function(response){
+                alert(response.message)
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
+    })
+
+    let subBtn = document.getElementById('sub')
+    console.log(subBtn)
+    subBtn.addEventListener('click', function(){
+        let farmerPk = subBtn.getAttribute('name')
+        console.log(farmerPk)
+        data = {
+            'farmer_pk' : farmerPk,
+            "csrfmiddlewaretoken":"{{csrf_token}}",
+        }
+        $.ajax({
+            type:'POST',
+            url : "{% url 'users:subs' %}",
+            dataType:'json',
+            data : data,
+            success: function(response){
+                if(response.success == -1)
+                    alert("구독하지 못했습니다. 다시 시도해주세요")
+                else if(response.success == 0)
+                    alert("이미 구독한 농가입니다!")
+                else
+                    alert("농가를 구독하였습니다!")
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
+    })
+
+
+</script>
 
 {% endblock main_content %}

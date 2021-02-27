@@ -117,7 +117,7 @@
 
 
                 {% for sub in subs %}
-                <div class="flex flex-row" class="w-100">
+                <div class="flex flex-row w-100" id="{{sub.pk}}-sub-farmer">
                     <a href="{% url 'users:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
                         <div class="">
                             <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
@@ -139,12 +139,13 @@
                                 {% endif %}
                             </div>
                         </div>
+
                     </a>
 
                     <div class="w-1/5">
-                        <a href="">
-                            <div id="sub_cancel_btn" class="mt-4 mx-auto">구독 취소</div>
-                        </a>
+
+                        <div id="sub_cancel_btn" class="mt-4 mx-auto" name="{{sub.pk}}">구독 취소</div>
+
                     </div>
                 </div>
 
@@ -172,45 +173,116 @@
                     </a>
                 </div>
                 {% else %}
-                    
+                <div id="qna_box_container">
                     {% for q in questions %}
-                        <div id="qna_box">
-                            <div>{{q.create_at.year}}.{{q.create_at.month}}.{{q.create_at.day}}</div>
-                            <div id="q_box">
-                                <div>Q.</div>
-                                <div id="q_detail">
-                                    <div>{{q.content|slice:":15"}}</div>
-                                    
-                                    {% if q.answer is not None %}
-                                    {% else %}
-                                    <a id="see_more_a" href=""><div id="see_more">더보기</div></a>
-                                    {% endif %}
-                                        
-                                </div>
-                                    
+
+                    <div id="qna_box">
+                        <div id="qna_date">{{q.create_at.year}}. {{q.create_at.month}}. {{q.create_at.day}}</div>
+                        <div id="q_box" class="flex flex-row">
+                            <div>Q.</div>
+                            <div id="q_detail">
+                                <div>{{q.content|slice:":20"}}</div>
+
+                                {% if q.answer.title != "" %}
+                                {% else %}
+
+                                <a id="see_more_a" href="" class="items-end">
+                                    <div id="see_more" class="items-end">더보기</div>
+                                </a>
+
+                                {% endif %}
+
                             </div>
-                            {% if q.answer is not None %}
-                                <div id="a_box">
-                                    <div id="a_detail">
-                                        <div>{{q.answer.content|slice:":15"}}</div>
-                                        <a id="see_more_a" href=""><div id="see_more">더보기</div></a>
-                                    </div>
-                                    <div>A.</div>
-                                </div>
-                            {% else %}
-                                <div id="a_not_box">
-                                    <div>아직 답변이 등록되지 않았습니다!</div>
-                                </div>
-                            {% endif %}
+
                         </div>
+                        {% if q.answer.title != "" %}
+                        <div id="a_box" class="flex flex-row justify-end">
+                            <div id="a_detail">
+                                <div>{{q.answer.content|slice:":"}}</div>
+                                <a id="see_more_a" href="">
+                                    <div id="see_more">더보기</div>
+                                </a>
+                            </div>
+                            <div>A.</div>
+                        </div>
+                        {% else %}
+                        <div id="a_box" class="flex flex-row justify-end">
+                            <div id="a_detail">
+                                <div>아직 답변이 등록되지 않았습니다!</div>
+                            </div>
+                            <div>A.</div>
+                        </div>
+                        {% endif %}
+                    </div>
+
                     {% endfor %}
-                        
+                </div>
                 {% endif %}
 
             </div>
         </div>
 </div>
 </div>
+
+<script>
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    $('[id^=sub_cancel_btn]').click(function () {
+        let pk = $(this).attr('name');
+        console.log(pk)
+        let data = { 'pk': pk };
+        console.log("data 확인 완료");
+        $.ajax({
+            type: 'POST',
+            url: '{% url "users:cancelSubs" %}',
+            dataType: "json",
+            data: data,
+            success: function(response) {
+                if (response.success == 0) {
+                    alert("다시 시도해주세요");
+                }
+                else {
+                    console.log(response.success)
+                    alert(response.msg);
+                    $(`#${pk}-sub-farmer`).remove();
+                    
+                }
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        })
+    })
+</script>
 
 {% block script_section %}
 

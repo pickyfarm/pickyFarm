@@ -49,14 +49,20 @@
 
 
 <div id="controll-section">
-    <div>
-        <div id="delete_btn">삭제하기</div>
+    <div class="flex justify-left">
+        <a><div id="delete_btn">삭제하기</div></a>
     </div>
     <div id="paginator" class="flex flex-row justify-center">
-        {% for page in total_pages %}
-        <a href='?page={{page}}'>
-            <div id="page_btn" value="{{page}}">{{page}}</div>
+        {% for p in total_pages %}
+        {% if p == page %}
+        <a href='?page={{p}}'>
+            <div id="page_btn_sel" value="{{page}}">{{p}}</div>
         </a>
+        {% else %}
+        <a href='?page={{p}}'>
+            <div id="page_btn" value="{{page}}">{{p}}</div>
+        </a>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

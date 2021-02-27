@@ -20,16 +20,18 @@ urlpatterns = [
     path('farmers_page/farm_cat_search/', views.farm_cat_search, name='farm_cat_search'),
     path('farmer_detail/<int:pk>/', views.farmer_detail, name='farmer_detail'),
     path('farm_apply/', views.farm_apply, name='farm_apply'),
-    
-    path('cart_in/<int:product_pk>/', views.cart_in, name="cart_in"),
-    path('wish/<int:product_pk>/', views.wish, name='wish'),
     path('password_reset/', views.MyPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', views.MyPasswordResetDoneView.as_view(), name='password_reset_done'),
     path('password_reset/<uidb64>/<token>/', views.MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', views.MyPasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('mypage/<slug:cat>', views.mypage, name='mypage'),
-    path('mypage/cartIn/', views.CartInAjax, name="cartInAjax"),
     path('find_my_id/', views.FindMyIdView.as_view(), name='find_my_id'),
     path('find_my_id/complete', views.FindMyIdView.as_view(), name='find_my_id_complete'),
     path('find_my_id/failed', views.FindMyIdFailView.as_view(), name='find_my_id_failed'),
+    path('cartIn/', views.CartInAjax, name="cartInAjax"),
+    path('cartOut/', views.cartOutAjax, name="cartOutAjax"),
+    path('subs/', views.subs, name="subs"),
+    path('cancelSubs/', views.CancelSubs, name="cancelSubs"),
+    path('wish/', views.wish, name='wish'),
+    
 ]
