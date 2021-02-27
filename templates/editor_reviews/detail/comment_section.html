@@ -1,0 +1,105 @@
+{% load static %}
+
+<div id="comment-section-wrap">
+    <div id="comment-section" class="mx-auto">
+        {% if request.user.is_authenticated %}
+        <div id="comment-submit-form">
+            <div id="comment-submit-my-info" class="flex items-center">
+                <img src="{{user.profile_image.url}}" id="comment-submit-my-info--profile-image">
+                <div id="comment-submit-my-info--id">{{user.nickname}}</div>
+            </div>
+            {% csrf_token %}
+            {{form.text}}
+            <button class="comment-button mx-auto" id="comment-submit" onclick=commentSubmit()>올리기</button>
+        </div>
+        {% endif %}
+
+        <div id="comments">
+            {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-info flex items-center">
+                    <div class="comment-author flex items-center">
+                        <img src="{{comment.author.profile_image.url}}" class="comment-author--profile-image">
+                        <div class="comment-author--id">{{comment.author.nickname}}</div>
+                    </div>
+                    <div class="bar"></div>
+                    <div class="comment-create text-center">{{comment.create_at}}</div>
+                    <div class="bar"></div>
+                    <div class="comment-report flex items-center ml-auto">
+                        <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
+                        <div class="comment-report--report">신고하기</div>
+                    </div>
+                </div>
+                <div class="comment-content relative">
+                    <div class="comment-text">
+                        <div class="comment-text--text">{{comment.text}}</div>
+                        <div class="comment-text-reply text-right">답글작성</div>
+                    </div>
+                    <div class="absolute comment-like-button-wrap">
+                        <div class="comment-like-button relative"
+                            style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
+                            <p class="comment-like-count absolute text-center align-text-bottom">000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function commentSubmit(pk){
+        let text = $('#id_text').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'editors_pick:comment' review.pk %}",
+            dataType: 'json',
+            data: {
+                'text': text,
+                'pk': '{{review.pk}}',
+                'user': '{{request.user.pk}}',
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: function(data) {
+                let comment = `
+                <div class="comment">
+                    <div class="comment-info flex items-center">
+                        <div class="comment-author flex items-center">
+                            <img src="{{comment.author.profile_image.url}}" class="comment-author--profile-image">
+                            <div class="comment-author--id">{{comment.author.nickname}}</div>
+                        </div>
+                        <div class="bar"></div>
+                        <div class="comment-create text-center">{{comment.create_at}}</div>
+                        <div class="bar"></div>
+                        <div class="comment-report flex items-center ml-auto">
+                            <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
+                            <div class="comment-report--report">신고하기</div>
+                        </div>
+                    </div>
+                    <div class="comment-content relative">
+                        <div class="comment-text">
+                            <div class="comment-text--text">${text}</div>
+                            <div class="comment-text-reply text-right">답글작성</div>
+                        </div>
+                        <div class="absolute comment-like-button-wrap">
+                            <div class="comment-like-button relative"
+                                style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
+                                <p class="comment-like-count absolute text-center align-text-bottom">000</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+
+                $('#comments').prepend(comment);
+                console.log('success!');
+            },
+            error: function(){
+                if ($('id_text').val() == ''){
+                    alert("댓글을 입력하세요");
+                }
+            }
+        })
+    };
+</script>

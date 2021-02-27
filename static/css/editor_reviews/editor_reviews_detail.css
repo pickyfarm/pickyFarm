@@ -306,6 +306,8 @@
 
 .comment-text--text{
     font-size: 18px;
+    width: 850px;
+    word-break: break-all;
 }
 
 .comment-text-reply{
