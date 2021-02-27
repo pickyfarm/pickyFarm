@@ -1,0 +1,203 @@
+#border {
+    width: 560px;
+    height: 10px;
+    border-radius: 5px;
+    margin-bottom: 88px;
+    background-color: rgb(225, 227, 224);
+}
+
+#step {
+    height: 10px;
+    border-radius: 5px;
+    background-color: rgb(172, 178, 168);
+}
+
+
+/* ------------------------------------------ */
+#signup_form {
+    width: 990px;
+    border-radius: 10px;(0, 0, 0, 0.16);
+}
+
+.input_forms {
+    grid-template-columns: 302.5px 300px 217.5px;
+    row-gap: 40px;
+    margin-bottom: 38px;
+}
+
+.form_term_agree {
+    grid-template-columns: 302.5px auto;
+    row-gap: 20px;
+}
+
+.input_forms input {
+    border-radius: 3px;
+    border: solid 1px #808080;
+    width: 300px;
+    height: 40px;
+    padding-left: 15px;
+    font-size: 16px;
+    color: #808080;
+    font-weight: normal;
+}
+
+.input_forms input,
+.errorlist,
+.form_term_agree label,
+.form_term_agree div:not(#term-agree) {
+    grid-column: 2;
+}
+
+.errorlist li {
+    font-size: 12px;
+    color: red;
+    text-align: start;
+    margin-top: 5px;
+    padding-left: 15px;
+}
+
+.input_forms input::placeholder {
+    position: relative;
+    right: 7.5px;
+    font-size: 15px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.input_forms label,
+#term-agree {
+    grid-column: 1;
+    margin-right: auto;
+    margin-left: 60.5px;
+    font-size: 25px;
+    font-weight: normal;
+    color: #4d4d4d;
+}
+
+.birth-selection ul,
+.gender-selection ul {
+    display: flex;
+}
+
+.gender-selection label {
+    margin-left: 0;
+}
+
+.gender-selection li:nth-child(1) {
+    margin-right: 75px !important;
+}
+
+.valid-button {
+    width: 110px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #5e6656;
+    color: white;
+    line-height: 40px;
+    margin-left: 33px;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+#id_detail_address {
+    margin-top: 20px;
+}
+
+#id_gender_0,
+#id_gender_1 {
+    display: none;
+}
+
+.gender-selection label {
+    font-size: 20px;
+    color: #808080;
+    font-weight: normal;
+}
+
+#id_gender label::before {
+    content: "";
+    display: inline-block;
+    position: relative;
+    top: 3.5px;
+    width: 20px;
+    height: 20px;
+    background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+    margin-right: 9px;
+}
+
+label.checked::before {
+    content: "";
+    background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+}
+
+.submit {
+    width: 350px;
+    height: 100px;
+    border-radius: 50px;
+    background-color: #5c6754;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    margin-top: 54px;
+    margin-bottom: 42px;
+}
+
+.line {
+    width: 990px;
+    border: solid 1px #5e6656;
+}
+
+.form_term_agree input {
+    display: none;
+}
+
+.form_term_agree label {
+    margin-right: auto;
+    color: #707070;
+    font-size: 20px;
+}
+
+.form_term_agree input+label::before {
+    content: "";
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    width: 20px;
+    height: 20px;
+    background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+    margin-right: 9px;
+}
+
+#all-agree::before{
+    transform: scale(1.5, 1.5);
+    margin-right: 12px;
+    top: 2px;
+}
+
+.form_term_agree input:checked+label::before {
+    content: "";
+    background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+}
+
+label.mand::after,
+label.opt::after {
+    margin-left: 20px;
+    font-size: 20px;
+    color: #b3b3b3;
+    font-weight: 300;
+}
+
+label.mand::after {
+    content: "(필수)";
+}
+
+label.opt::after {
+    content: "(선택)";
+}
+
+.form_term_agree a {
+    margin-right: 67.5px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #5c6754;
+}

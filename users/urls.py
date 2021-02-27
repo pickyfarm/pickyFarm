@@ -20,6 +20,7 @@ urlpatterns = [
     path('farmers_page/farm_cat_search/', views.farm_cat_search, name='farm_cat_search'),
     path('farmer_detail/<int:pk>/', views.farmer_detail, name='farmer_detail'),
     path('farm_apply/', views.farm_apply, name='farm_apply'),
+    path('farm_enroll/<str:step>/', views.FarmEnroll.as_view(), name='farm_enroll'),
     
     path('cart_in/<int:product_pk>/', views.cart_in, name="cart_in"),
     path('wish/<int:product_pk>/', views.wish, name='wish'),

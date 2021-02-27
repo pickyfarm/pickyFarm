@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/farm_enroll.css' %}">
+{% endblock %}
+
+{% block title_name %}
+입점 등록
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id='signup_form' class="mt-10 flex flex-col">
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 63px;">입점 등록</div>
+        <div class="relative mx-auto" id="border">
+            <div class="absolute" id="step" style="width:30%"></div>
+        </div>
+        <form method="POST" action="{% url 'users:farm_enroll' step='step_1' %}">
+            {% csrf_token %}
+            <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px">농장 정보 입력</div>
+            <div class="input_forms grid">
+                {{farm_form.farm_name.label_tag}}
+                {{farm_form.farm_name}}
+            </div>
+            <div class="flex flex row">
+                {{farm_form.farmer_profile.label_tag}}
+                {{farm_form.farmer_profile}}
+                {{farm_form.farm_profile.label_tag}}
+                {{farm_form.farm_profile}}
+            </div>
+            <div>
+
+            </div>
+            <div class="line mx-auto mb-14" style="margin-top: 35px;"></div>
+            <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px">Farmer's Page</div>
+            <button class="submit" onclick="location.href='{% url 'users:farm_enroll' step='step_3' %}'">다음 단계로</button>
+        </form>
+    </div>
+</div> 
+{% endblock %}

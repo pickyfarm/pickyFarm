@@ -97,6 +97,19 @@ class MyPasswordResetForm(PasswordResetForm):
     )
 
 # farm 입점 관련
+class FarmEnrollForm(forms.ModelForm):
+    class Meta:
+        model = models.Farmer
+        fields = ('farm_name', 'farmer_profile', 'farm_profile', 'profile_title', 'profile_desc', 'sub_count', 'farm_news', 'farm_cat',)
+        labels = {
+            'farm_name': '농장 이름',
+            'farmer_profile': '프로필 사진',
+            'farm_profile': '농장 사진',
+            'profile_title': '',
+            'profile_desc': '',
+            'farm_cat': '', 
+        }
+
 class FarmApplyForm(forms.ModelForm):
      class Meta:
         model = models.Farm_Apply
