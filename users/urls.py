@@ -18,8 +18,6 @@ urlpatterns = [
     path('farmers_page/farmer_story_search/', views.farmer_story_search, name='farmer_story_search'),
     path('farmers_page/farm_cat_search/', views.farm_cat_search, name='farm_cat_search'),
     path('farmer_detail/<int:pk>/', views.farmer_detail, name='farmer_detail'),
-    path('cart_in/<int:product_pk>/', views.cart_in, name="cart_in"),
-    path('wish/<int:product_pk>/', views.wish, name='wish'),
     path('password_reset/', views.MyPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', views.MyPasswordResetDoneView.as_view(), name='password_reset_done'),
     path('password_reset/<uidb64>/<token>/', views.MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
@@ -31,5 +29,6 @@ urlpatterns = [
     path('cartIn/', views.CartInAjax, name="cartInAjax"),
     path('cartOut/', views.cartOutAjax, name="cartOutAjax"),
     path('cancelSubs/', views.CancelSubs, name="cancelSubs"),
+    path('wish/', views.wish, name='wish'),
     
 ]

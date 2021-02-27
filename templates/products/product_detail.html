@@ -17,7 +17,7 @@
 
 <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
 
-    <div id="product_content" class="flex flex-row mx-auto z-0">
+    <div id="product_content" name="{{product.pk}}" class="flex flex-row mx-auto z-0">
         <div id="left" class="w=2/5">
             <div>
                 <img id="main_image" src="{{product.main_image.url}}">
@@ -111,17 +111,9 @@
                 <div id="won" class="mb-2 ml-2">원</div>
             </div>
             <div id="buttons" class="flex flex-rows">
-                <a href="{% url 'users:wish' product.pk %}?next={{request.path}}"><div id="wish">찜하기</div></a>
-                
-                {% if messages %}
+                <div id="wish">찜하기</div>
                     
-                    {% for message in messages %}
-                        <script>alert("{{message}}");</script>
-                    {% endfor %}
-                        
-                {% endif %}
-                    
-                <a href="{% url 'users:cart_in' product.pk %}?next={{request.path}}"><div id="cart" class="mr-12 ml-3">장바구니 담기</div></a>
+                <div id="cart" class="mr-12 ml-3">장바구니 담기</div>
                 <div id="purchase">바로 구매하기</div>
             </div>
         </div>
@@ -391,11 +383,13 @@
 </div>
 
 <script>
+    
 
     let plusBtn = document.getElementById('plus_btn')
     let minusBtn = document.getElementById('minus_btn')
     let totalPrice = document.getElementById('total_price')
     let quantityNum = document.getElementById('quantity_number')
+    console.log(quantityNum)
     
     let pricePerOne = parseInt(totalPrice.innerHTML)
 
@@ -439,6 +433,58 @@
             subCalTotalPrice(pricePerOne, 1)
         }
         
+    })
+
+    let wishBtn = document.getElementById('wish')
+    let product_pk = document.getElementById('product_content').getAttribute('name')
+
+    wishBtn.addEventListener('click', function(){
+        
+        data = {
+            'pk':product_pk,
+            "csrfmiddlewaretoken":"{{csrf_token}}",
+        }
+        $.ajax({
+            type : 'POST',
+            url : "{% url 'users:wish' %}",
+            dataType : 'json',
+            data : data,
+            success : function(response){
+                if(response.status == 0){
+                    alert('이미 찜한 무난이 입니다!')
+                }
+                else if(response.status == 1){
+                    alert('무난이를 찜했습니다')
+                }
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
+    })
+
+    let cartBtn = document.getElementById('cart')
+    console.log(cartBtn)
+    cartBtn.addEventListener('click', function(){
+        let quantityNumber = parseInt(quantityNum.innerHTML)
+        console.log(quantityNumber)
+        data = {
+            'pk':product_pk,
+            'quantity':quantityNumber,
+            "csrfmiddlewaretoken":"{{csrf_token}}",
+        }
+        $.ajax({
+            type:'POST',
+            url : "{% url 'users:cartInAjax' %}",
+            dataType : 'json',
+            data : data,
+            success : function(response){
+                alert(response.message)
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
     })
 
 </script>

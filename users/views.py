@@ -26,15 +26,21 @@ from addresses.models import Address
 from math import ceil
 
 
+#Exception 선언 SECTION
+
 class NoRelatedInstance(Exception):
     pass
 
+
+#AJAX 통신 선언 SECTION (상품 장바구니/장바구니에서 제거하기, 상품 찜하기/찜하기 취소하기, 농가 구독/구독 취소하기)
 
 @login_required
 @require_POST
 def CartInAjax(request):
     if request.method == 'POST':
         pk = request.POST.get('pk', None)
+        quantity = request.POST.get('quantity', 1)
+        print(quantity)
         print(pk)
         user = request.user
         product = Product.objects.get(pk=pk)
@@ -47,7 +53,7 @@ def CartInAjax(request):
             message = "이미 장바구니에 있는 무난이 입니다"
         except ObjectDoesNotExist:
             cart = Cart.objects.create(
-                consumer=user.consumer, product=product, quantitiy=1)
+                consumer=user.consumer, product=product, quantity=quantity)
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
 
@@ -107,6 +113,33 @@ def CancelSubs(request):
         # return HttpResponse(json.dumps(data), content_type='application/json')
         return JsonResponse(data)
 
+
+@login_required
+@require_POST
+def wish(request):
+    if request.method == 'POST':
+        user = request.user.consumer
+        product_pk = request.POST.get('pk', None)
+
+        print("로그인이 안되는거?")
+
+        try:
+            wish = Wish.objects.get(
+                consumer=user, product__pk=product_pk)
+            response = {
+                'status': 0,
+            }
+            return JsonResponse(response)
+        except ObjectDoesNotExist:
+            product = Product.objects.get(pk=product_pk)
+            Wish.objects.create(consumer=request.user.consumer, product=product)
+            response = {
+                'status': 1,
+            }
+            return JsonResponse(response)
+
+
+#회원 관련 view 
 
 class Login(View):
 
@@ -321,36 +354,6 @@ def farmer_detail(request, pk):
     }
     return render(request, 'users/farmer_detail.html', ctx)
 
-
-@login_required
-def cart_in(request, product_pk):
-    try:
-        cart = Cart.objects.get(
-            consumer=request.user.consumer, product__id=product_pk)
-        cart.quantitiy += 1
-        messages.warning(request, "무난이를 장바구니에 +1 하였습니다")
-    except ObjectDoesNotExist:
-        product = Product.objects.get(pk=product_pk)
-        cart = Cart.objects.create(
-            product=product, consumer=request.user.consumer, quantitiy=1)
-        messages.warning(request, "무난이를 장바구니에 담았습니다")
-    # return redirect(reverse("products:product_detail", args=[product_pk]))
-    return redirect(request.GET['next'])
-
-
-@login_required
-def wish(request, product_pk):
-    try:
-        wish = Wish.objects.get(
-            consumer=request.user.consumer, product__id=product_pk)
-        messages.warning(request, "이미 찜한 무난이입니다")
-    except ObjectDoesNotExist:
-        product = Product.objects.get(pk=product_pk)
-        wish = Wish.objects.create(
-            consumer=request.user.consumer, product=product)
-        messages.warning(request, "찜하였습니다")
-    # return redirect(reverse("products:product_detail", args=[product_pk]))
-    return redirect(request.GET['next'])
 
 
 user_email = ''
