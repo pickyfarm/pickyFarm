@@ -26,13 +26,13 @@ from addresses.models import Address
 from math import ceil
 
 
-#Exception 선언 SECTION
+# Exception 선언 SECTION
 
 class NoRelatedInstance(Exception):
     pass
 
 
-#AJAX 통신 선언 SECTION (상품 장바구니/장바구니에서 제거하기, 상품 찜하기/찜하기 취소하기, 농가 구독/구독 취소하기)
+# AJAX 통신 선언 SECTION (상품 장바구니/장바구니에서 제거하기, 상품 찜하기/찜하기 취소하기, 농가 구독/구독 취소하기)
 
 @login_required
 @require_POST
@@ -116,6 +116,40 @@ def CancelSubs(request):
 
 @login_required
 @require_POST
+def subs(request):
+    if request.method == 'POST':
+        farmer_pk = request.POST.get('farmer_pk', None)
+        consumer = request.user.consumer
+        if farmer_pk is None:
+            data = {
+                'success': -1,
+
+            }
+            return JsonResponse(data)
+        try:
+            sub = Subscribe.objects.get(
+                farmer__pk=farmer_pk, consumer=consumer)
+            data = {
+                'success': 0,
+            }
+            return JsonResponse(data)
+        except ObjectDoesNotExist:
+            try:
+                farmer = Farmer.objects.get(pk=farmer_pk)
+            except ObjectDoesNotExist:
+                data = {
+                    'success': -1,
+                }
+                return JsonResponse(data)
+            Subscribe.objects.create(farmer=farmer, consumer=consumer)
+            data={
+                'success': 1,
+            }
+            return JsonResponse(data)
+
+
+@login_required
+@require_POST
 def wish(request):
     if request.method == 'POST':
         user = request.user.consumer
@@ -132,14 +166,15 @@ def wish(request):
             return JsonResponse(response)
         except ObjectDoesNotExist:
             product = Product.objects.get(pk=product_pk)
-            Wish.objects.create(consumer=request.user.consumer, product=product)
+            Wish.objects.create(
+                consumer=request.user.consumer, product=product)
             response = {
                 'status': 1,
             }
             return JsonResponse(response)
 
 
-#회원 관련 view 
+# 회원 관련 view
 
 class Login(View):
 
@@ -353,7 +388,6 @@ def farmer_detail(request, pk):
         'stories': stories,
     }
     return render(request, 'users/farmer_detail.html', ctx)
-
 
 
 user_email = ''

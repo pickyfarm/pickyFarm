@@ -5,3 +5,7 @@ from django.shortcuts import render
 
 def orderingCart(request):
     pass
+
+
+def payment(request):
+    pass

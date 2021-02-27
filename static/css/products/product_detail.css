@@ -157,6 +157,7 @@ background-color: #005413;
     padding: 1.5px 10.5px 0.7px 10.5px;
   border-radius: 27.6px;
   background-color: #5e6656;
+  cursor:pointer;
 }
 
 #sub:hover{
@@ -172,6 +173,7 @@ color: #ffffff;
   padding: 1.5px 10.5px 0.7px 10.5px;
 border-radius: 27.6px;
 background-color: #005413;
+cursor:pointer;
 }
 
 #info_t{
@@ -237,6 +239,7 @@ background-color: #005413;
   letter-spacing: normal;
   text-align: center;
   color: #005413;
+  cursor:pointer;
 }
 
 #quantity_number{
@@ -310,6 +313,7 @@ background-color: #005413;
   padding: 16.5px 20px 16.7px 20px;
   border-radius: 27.6px;
   border: solid 3px #005413;
+  cursor:pointer;
 }
 
 #wish:hover{
@@ -327,6 +331,7 @@ background-color: #005413;
   border-radius: 27.6px;
   border: solid 3px #005413;
   transition: ease-in;
+  cursor:pointer;
 }
 
 #cart{
@@ -342,6 +347,7 @@ background-color: #005413;
   letter-spacing: normal;
   text-align: left;
   color: #005413;
+  cursor:pointer
 }
 
 #cart:hover{
@@ -359,6 +365,7 @@ background-color: #005413;
   color: #ffffff;
   background-color: #005413;
   transition: ease-in;
+  cursor:pointer
 }
 
 #purchase{
@@ -375,6 +382,7 @@ background-color: #005413;
   border-radius: 27.6px;
   border: solid 3px #005413;
   background-color: #005413;
+  cursor:pointer
 }
 
 #purchase:hover{
@@ -391,6 +399,7 @@ background-color: #005413;
   border-radius: 27.6px;
   border: solid 3px #005413;
   background-color: #ffffff;
+  cursor:pointer
 }
 
 #desc_img_box{

@@ -28,6 +28,7 @@ urlpatterns = [
     path('find_my_id/failed', views.FindMyIdFailView.as_view(), name='find_my_id_failed'),
     path('cartIn/', views.CartInAjax, name="cartInAjax"),
     path('cartOut/', views.cartOutAjax, name="cartOutAjax"),
+    path('subs/', views.subs, name="subs"),
     path('cancelSubs/', views.CancelSubs, name="cancelSubs"),
     path('wish/', views.wish, name='wish'),
     
