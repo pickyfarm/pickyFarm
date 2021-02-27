@@ -10,7 +10,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm
+from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -198,9 +198,7 @@ def farmers_page(request):
     }
     return render(request, 'users/farmers_page.html', ctx)
 
-# farmer input 검색 view for AJAX
-
-
+# farmer input 검색 view - for AJAX
 def farmer_search(request):
     search_key = request.GET.get('search_key')  # 검색어 가져오기
     search_list = Farmer.objects.all()
@@ -217,8 +215,6 @@ def farmer_search(request):
     return render(request, 'users/farmer_search.html', ctx)
 
 # farmer category(채소, 과일, E.T.C) 검색 view - for AJAX
-
-
 def farm_cat_search(request):
     search_cat = request.GET.get('search_cat')
     farmer = Farmer.objects.filter(farm_cat=search_cat).order_by('-id')
@@ -231,8 +227,6 @@ def farm_cat_search(request):
     return render(request, 'users/farmer_search.html', ctx)
 
 # farmer story 검색 view - for AJAX
-
-
 def farmer_story_search(request):
     select_val = request.GET.get('select_val')
     search_key_2 = request.GET.get('search_key_2')
@@ -259,7 +253,7 @@ def farmer_story_search(request):
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)
 
-
+# 농가 세부 페이지
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)
     tags = Farm_Tag.objects.all().filter(farmer=farmer)
@@ -273,6 +267,23 @@ def farmer_detail(request, pk):
         'stories': stories,
     }
     return render(request, 'users/farmer_detail.html', ctx)
+
+# 입점 신청
+def farm_apply(request):
+    if request.method =='POST':
+        form = FarmApplyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'users/farm_apply_complete.html')
+        else:
+            return redirect(reverse("core:main"))
+    else:
+        print('get')
+        form = FarmApplyForm()
+        ctx = {
+            'form':form,
+        }
+        return render(request, 'users/farm_apply.html', ctx)
 
 
 @login_required

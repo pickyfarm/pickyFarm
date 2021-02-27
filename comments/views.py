@@ -46,7 +46,7 @@ def product_comment_update(request, pk):
             product_comment = product_comment_form.save(commit=False) 
             product_comment.author = request.user
             product_comment.product = product
-            return redirect(reverse('commens:product_comment_detail', kwargs={'pk':pk}))
+            return redirect(reverse('comments:product_comment_detail', kwargs={'pk':pk}))
     else:
         product_comment_form = ProductCommentForm(instance=product_comment)       
 

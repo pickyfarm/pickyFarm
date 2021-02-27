@@ -13,11 +13,14 @@ urlpatterns = [
     path('signup/id_validation/', views.idValidation, name='id_validation'),
     path('signup/nickname_validation/', views.nicknameValidation, name='nickname_validation'),
     path('signup/email_validation/', views.emailValidation, name='email_validation'),
+    
     path('farmers_page/', views.farmers_page, name='farmers_page'),
     path('farmers_page/farmer_search/', views.farmer_search, name='farmer_search'),
     path('farmers_page/farmer_story_search/', views.farmer_story_search, name='farmer_story_search'),
     path('farmers_page/farm_cat_search/', views.farm_cat_search, name='farm_cat_search'),
     path('farmer_detail/<int:pk>/', views.farmer_detail, name='farmer_detail'),
+    path('farm_apply/', views.farm_apply, name='farm_apply'),
+    
     path('cart_in/<int:product_pk>/', views.cart_in, name="cart_in"),
     path('wish/<int:product_pk>/', views.wish, name='wish'),
     path('password_reset/', views.MyPasswordResetView.as_view(), name='password_reset'),

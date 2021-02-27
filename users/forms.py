@@ -95,3 +95,21 @@ class MyPasswordResetForm(PasswordResetForm):
         max_length=254,
         widget=forms.EmailInput(attrs={'autocomplete': 'email', 'placeholder': '이메일을 입력해주세요'})
     )
+
+# farm 입점 관련
+class FarmApplyForm(forms.ModelForm):
+     class Meta:
+        model = models.Farm_Apply
+        fields = ('name', 'phone_num', 'farm_name', 'farm_cat', 'detail_cat', 'desc',)
+        widgets = {
+            'farm_cat': forms.RadioSelect,
+            'detail_cat': forms.TextInput(attrs={'placeholder': '세부품목을 작성해주세요'}),
+        }
+        labels = {
+            'name': '이름',
+            'phone_num': '휴대폰 번호',
+            'farm_name': '농장 이름',
+            'farm_cat': '품종',
+            'detail_cat':'',
+            'desc': '추가 전달 사항',
+        }
