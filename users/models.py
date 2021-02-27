@@ -145,7 +145,7 @@ class Farm_Apply(models.Model):
     update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.farm_name}({farm_cat}) 입점 신청'
+        return f'{self.farm_name}({self.farm_cat}) 입점 신청'
 
 
 class Wish(models.Model):
