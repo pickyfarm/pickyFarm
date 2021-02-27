@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/farm_apply.css' %}">
 {% endblock %}
 
 {% block title_name %}
@@ -9,5 +10,14 @@
 
 {% block main_content %}
 <div class="main-contents bg-white-400 mx-auto" id="top">
+    <div class="mx-auto" id="content_2">
+        <div class="pt-24 mb-5"><img class="mx-auto" src="{% static 'images/farm/apply.svg' %}" alt=""></div>
+        <div class="text-3xl text-center font-bold mb-16" id="title">입점 신청</div>
+        <div class="text-2xl text-center mb-7" id="title">신청 완료!</div>
+        <div class="text-xl text-center mx-auto mb-12" id="desc">검토는 a~b일 정도 소요되며, 입점등록서 및 계약서는
+            작성하신 번호로 문자발송 예정입니다</div>
+        <div class="text-center">
+            <input type="button" value="확인" id="check_btn" onclick="location.href='{% url 'core:main' %}'"/>
+        </div>
 </div>
 {% endblock %}

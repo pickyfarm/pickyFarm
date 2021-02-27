@@ -264,19 +264,15 @@ def farmer_detail(request, pk):
 # 입점 신청
 def farm_apply(request):
     if request.method =='POST':
-        print('post')
         form = FarmApplyForm(request.POST)
         if form.is_valid():
-            print('valid')
             form.save()
-            print('save')
-            return redirect(reverse("core:main"))
+            return render(request, 'users/farm_apply_complete.html')
         else:
             return redirect(reverse("core:main"))
     else:
         print('get')
         form = FarmApplyForm()
-        
         ctx = {
             'form':form,
         }

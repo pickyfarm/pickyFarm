@@ -7,8 +7,22 @@
     background-color: #ffffff;
 }
 
+#content_2 {
+    margin-top: 110px;
+    width: 820px;
+    height: 754px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+}
+
 #title {
     color: #5c6754;
+}
+
+#desc {
+    color: #b3b3b3;
+    width: 436px;
 }
 
 form {
@@ -72,7 +86,25 @@ form {
     padding: 24px 110px 24px 111px;
     border-radius: 50px;
     background-color: #5c6754;
+    outline: none;
 }
+
+#check_btn {
+    width: 350px;
+    height: 50px;
+    padding: 11px 156px 10px 157px;
+    border-radius: 10px;
+    background-color: #5c6754;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    outline: none;
+}
+
+#check_btn:hover, #submit_btn:hover {
+    cursor: pointer;
+}
+
 
 ::-webkit-input-placeholder {
     text-align: center;
