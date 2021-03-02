@@ -1,0 +1,85 @@
+{% load static %}
+
+<div id="info-section" class="mx-auto flex flex-col">
+    <div id="editor-profile" class="flex items-center ml-auto">
+        <img id="editor-profile-image" src="{{review.author.user.profile_image.url}}">
+        <div id="editor-profile-name">editor_{{review.author.user.nickname}}</div>
+    </div>
+
+    {% if review.product is not None %}
+    <div id="related_products">
+        <div class="flex flex-row" id="related_products_desc">
+            <img src="{% static 'images/editors_review/editor_review_detail_leaf.svg'%}">
+            <div id="desc_title">관련 상품 보기</div>
+        </div>
+        <div id="products" class="">
+            {% for p in review.product.all %}
+            <a href="{% url 'products:product_detail' p.pk %}">
+                <div class="inline-block" id="product_item">
+                    <div class="relative">
+                        <img class="z-0" id="product_img" src="{{p.main_image.url}}" width="50"><br>
+                        <div id="like_cart_in" class="flex flex-row z-10">
+                            <a href="{% url 'users:wish' p.pk %}?next={{request.path}}"><img class="" id="like" ,
+                                    src="{% static 'images/products_list/like.svg' %}"></a>
+                            <a href="{% url 'users:cart_in' p.pk %}?next={{request.path}}"><img class="" id="cart_in" ,
+                                    src="{% static 'images/products_list/cart_in.svg' %}"></a>
+                        </div>
+
+
+                        <img class="absolute -top-5 left-1 {%if p.stock > 3 %} invisible {% endif %}"
+                            id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out2.svg' %}">
+                        <img class="absolute top-1 left-4 {%if p.stock > 3 %} invisible {% endif %}"
+                            id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                    </div>
+
+                    <div class="mt-2 flex flex-col">
+                        <div class="flex items-center">
+                            <div class="pr-2 text-base  " id="title">{{p.farmer.user.nickname}}</div>
+                            <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
+                            <div class="pl-2 font-light" id="sub_title">{{p.category.name}} {{p.weight}}kg</div>
+                        </div>
+                        <p class="" id="sell_price">{{p.sell_price}}원</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+
+    {% if review.farm is not None %}
+    <div id="visit-farmer">
+        <div class="flex flex-row" id="visit_farmer_desc">
+            <img src="{% static 'images/editors_review/editor_review_detail_leaf.svg'%}">
+            <div id="desc_title">농가 방문하기</div>
+        </div>
+
+        <div id="farmer">
+            <div class="flex justify-between items-center">
+                <div id="image-desc" class="flex">
+                    <div class="block" id="farm_pic">
+                        <img id="farmer_profile" class="object-cover" src="{{review.farm.farmer_profile.url}}" alt="">
+                        <div id='pick_img'>
+                            <a href=""><img src="{% static 'images/farmers_page/small_pick.svg' %}" alt=""></a>
+                        </div>
+                    </div>
+                    <div id="farm-desc">
+                        <div id="farm-profile-title">{{review.farm.profile_title}}</div>
+                        <div id="farm-info" class="flex items-center">
+                            <div id="farm-location" class="">{{review.farm.user.addresses.first.sido}}
+                                {{review.farm.user.addresses.first.sigungu}}</div>
+                            <div id="farm-name" class="">{{review.farm.farm_name}}</div>
+                        </div>
+                        <div id="farm-news" class="flex items-center">
+                            <img src="{% static 'images/product_detail/bell.svg' %}" id="farm-news-icon">
+                            <div id="farm-news-text">{{review.farm.farm_news}}</div>
+                        </div>
+                    </div>
+                </div>
+                <img src="{% static 'images/editors_review/editor_review_detail_visit_farm.svg'%}" id="visit">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

@@ -90,6 +90,9 @@ class Editor(models.Model):
         
         return count
 
+    def __str__(self):
+        return self.user.nickname
+
 
 class Farmer(models.Model):
     CAT_CHOICES = (

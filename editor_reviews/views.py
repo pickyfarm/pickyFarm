@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .models import Editor_Review
 from .forms import Editors_Reviews_Form
 from django.views.generic import DetailView
+from django.views.generic.edit import FormMixin
 from users.models import Editor
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.contrib.auth.decorators import login_required
@@ -11,6 +12,11 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from config.settings import BASE_DIR
 import os
 from django.utils import timezone
+from django.contrib.auth.models import AnonymousUser
+from comments.forms import EditorReviewCommentForm, EditorReviewRecommentForm
+from comments.models import Editor_Review_Comment, Editor_Review_Recomment
+from django.http import JsonResponse
+from users.models import User
 
 
 def index(request):
@@ -43,12 +49,23 @@ def detail(request, pk):
 
 class Editor_review_detail(DetailView):
     model = Editor_Review
-    template_name = "editor_reviews/editor_reviews_detail.html"
+    template_name = "editor_reviews/detail/editor_reviews_detail.html"
     context_object_name = "review"
+    # form_class = EditorReviewCommentForm
+
+    # def get_success_url(self):
+    #     return reverse('editor_reviews:detail', kwargs={'pk': self.kwargs['pk']})
     
     def get_context_data(self, **kwargs):
         ctx = super(DetailView, self).get_context_data(**kwargs)
-        ctx['comments'] = self.get_object().editor_review_comments.all()
+        ctx['comments'] = self.get_object().editor_review_comments.order_by('-create_at')
+        ctx['form'] = EditorReviewCommentForm()
+        
+        if self.request.user != AnonymousUser():
+            ctx['user'] = self.request.user
+
+        else:
+            ctx['user'] = None
 
         return ctx
 
@@ -80,8 +97,41 @@ class Editor_review_detail(DetailView):
                 review.hits += 1
                 review.save()
 
-
         return response
+
+    # def post(self, request, pk):
+    #     self.object = self.get_object()
+    #     form = self.get_form()
+
+    #     if form.is_valid():
+    #         return self.form_valid(form)
+
+    #     else:
+    #         return self.form_invalid(form)
+
+    # def form_valid(self, form):
+    #     comment = form.save(commit=False)
+    #     comment.editor_review = get_object_or_404(Editor_Review, pk=self.object.pk)
+    #     comment.author = self.request.user
+    #     comment.save()
+    #     return super().form_valid(form)
+
+def editor_review_comment(request, pk):
+    post = get_object_or_404(Editor_Review, pk=pk)
+    author = request.user
+    text = request.POST.get('text')
+
+    comment = Editor_Review_Comment(editor_review=post, author=author, text=text)
+    comment.save()
+
+    data = {
+        'text': text,
+        'create_at': comment.create_at.strftime(r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"),
+        'author': author.nickname,
+        'user_image': author.profile_image.url
+    }
+
+    return JsonResponse(data)
 
 
 

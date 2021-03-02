@@ -65,7 +65,11 @@
     padding: 25px 20px;
     box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
     background-color: rgba(255, 255, 255, 0.8);
-  }
+}
+
+.info{
+  width: 530px;
+}
 
   .article-img {
     width: 180px;
