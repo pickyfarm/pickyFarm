@@ -370,6 +370,17 @@ def farmer_story_search(request):
     }
     return render(request, 'users/farmer_story_search.html', ctx)
 
+# farmer's story detail page
+def farmer_story_detail(request, pk):
+    main_story = Farmer_Story.objects.get(pk=pk)
+    farmer = main_story.farmer
+    stories = Farmer_Story.objects.all().filter(farmer=farmer)
+    ctx = {
+        'main_story': main_story,
+        'farmer': farmer,
+        'stories': stories,
+    }
+    return render(request, 'users/farmer_story_detail.html', ctx)
 
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)

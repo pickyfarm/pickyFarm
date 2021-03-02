@@ -237,17 +237,17 @@
                             <th class="py-6"> 작성일 </th>
                         </tr>
                         {% for story in farmer_stories %}
-                        <tr class="text-center" id="table_row">
-                            <td class="py-7" id="row_farm"> {{ story.farmer.farm_name }} </td>
-                            <td class="py-7" id="row_farmer"> {{ story.farmer.user.nickname }} </td>
-                            {% if story.title|length > 15 %}
-                            <td class="py-7" id="row_title"><a href="#"> {{ story.title|slice:":15"}}... </a></td>
-                            {% else %}
-                            <td class="py-7" id="row_title"><a href="#"> {{ story.title }}...</a></td>
-                            {% endif %}
-                            <td class="py-7" id="row_views"> 1000 </td>
-                            <td class="py-7" id="row_create_at"> {{ story.create_at|date:"Y-m-d" }} </td>
-                        </tr>
+                            <tr class="text-center" id="table_row" onclick="location.href='{% url 'users:farmer_story_detail' story.pk %}'">
+                                <td class="py-7" id="row_farm"> {{ story.farmer.farm_name }} </td>
+                                <td class="py-7" id="row_farmer"> {{ story.farmer.user.nickname }} </td>
+                                {% if story.title|length > 15 %}
+                                <td class="py-7" id="row_title"><a href="#"> {{ story.title|slice:":15"}}... </a></td>
+                                {% else %}
+                                <td class="py-7" id="row_title"><a href="#"> {{ story.title }}...</a></td>
+                                {% endif %}
+                                <td class="py-7" id="row_views"> 1000 </td>
+                                <td class="py-7" id="row_create_at"> {{ story.create_at|date:"Y-m-d" }} </td>
+                            </tr>
                         {% endfor %}
                     </table>
                 </div>

@@ -199,3 +199,11 @@ select {
 #farmer_story_table tr:not(:first-child) {
     border-bottom: solid 1px #5e665680;
 }
+
+#farmer_story_table #table_row {
+    cursor: pointer;
+}
+#farmer_story_table #table_row:hover {
+    background-color: #5e66561c;
+    transition-duration: 0.5s;
+}

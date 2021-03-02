@@ -20,6 +20,7 @@ urlpatterns = [
     path('farmers_page/farm_cat_search/', views.farm_cat_search, name='farm_cat_search'),
     path('farmer_detail/<int:pk>/', views.farmer_detail, name='farmer_detail'),
     path('farm_apply/', views.farm_apply, name='farm_apply'),
+    path('farmers_page/farmer_story_detail/<int:pk>/', views.farmer_story_detail, name='farmer_story_detail'),
     path('password_reset/', views.MyPasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', views.MyPasswordResetDoneView.as_view(), name='password_reset_done'),
     path('password_reset/<uidb64>/<token>/', views.MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
