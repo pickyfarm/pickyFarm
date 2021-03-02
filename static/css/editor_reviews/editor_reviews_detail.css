@@ -334,3 +334,83 @@
     top: 21px;
     right: 0px;
 }
+
+.recomment-wrap{
+    background-color: #e6e6e6;
+    width: 961px;
+    border-radius: 7px;
+    margin-top: 20px;
+    margin-bottom: 85px;
+}
+.recomment{
+    width: 961px;
+    border-radius: 7px;
+}
+
+.recomment-arrow{
+    width: 10px;
+    height: 10px;
+    border-bottom: 3px solid #5c6754;
+    border-left: 3px solid #5c6754;
+    margin-right: 20px;
+}
+
+.recomment-author{
+    width: 250px;
+}
+
+
+.recomment-create{
+    width:384px;
+
+}
+
+.recomment-info{
+    margin: 0 25px 0 25px;
+    padding-top: 20px;
+}
+
+.recomment-text--text{
+    font-size: 18px;
+    width: 830px;
+    word-break: break-all;
+}
+
+.recomment-text{
+    width: 961px;
+    padding: 30px 62px 22px 55px
+}
+
+.recomment-like-button-wrap{
+    top: 12.5px;
+    right: -23.5px;
+}
+
+.recomment-like-button{
+    width: 47px;
+    height: 47px;
+}
+
+.recomment-like-count{
+    width: 47px;
+    top: 27px;
+    font-size: 10px;
+    color: #ffffff;
+    font-weight: 300;
+}
+
+.recomment-report{
+    margin-right: 30px;
+}
+
+.horizon-bar{
+    width: 885px;
+    border-top: 0.5px solid #5e6656;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.horizon-bar:last-child{
+    display: none;
+}
+
