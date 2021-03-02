@@ -688,3 +688,71 @@
   color: #ffffff;
 }
 
+#info-edit-container{
+  padding-left:128px;
+}
+
+#title-section{
+  font-family: NotoSansKR;
+  font-size: 25px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+#profile-content-section, #info-content-section{
+  margin-top:33px;
+}
+
+#info-section, #profile-section{
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+#info-section{
+  width:400px;
+}
+
+#name{
+  border-left : solid 0.5px #b3b3b3;
+  height:75px;
+  padding-left:40px;
+}
+
+#email{
+  border-left : solid 0.5px #b3b3b3;
+  padding-left:40px;
+}
+
+#nickname{
+  border-left : solid 0.5px #b3b3b3;
+  padding-left:40px;
+}
+
+
+
+#profile-section{
+  width:300px;
+}
+
+#image-section{
+  margin-bottom: 30px;
+}
+
+#profile-image{
+  width: 110px;
+  height: 110px;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+}
+

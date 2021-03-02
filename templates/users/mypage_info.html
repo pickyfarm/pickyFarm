@@ -1,0 +1,52 @@
+{% extends "users/mypage_base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div id="info-edit-container" class="flex flex-row w-100">
+    <div id="info-section" class="">
+        <div id="title-section" class="flex flex-row">
+            <div class="mr-10">개인정보 수정</div>
+            <div><img id="edit-info" src="{% static 'images/users/pen.svg' %}"></div>
+        </div>
+        <div id="info-content-section" class="w-100">
+            <div id="name-section" class="flex flex-row w-100">
+                <div class="w-1/5">이름</div>
+                <div id="name" class="flex flex-row w-4/5">
+                    <div>{{last_name}}</div>
+                    <div>{{first_name}}</div>
+                </div>
+            </div>
+            <div id="email-section" class="flex flex-row w-100">
+                <div class="w-1/5">이메일</div>
+                <div id="email" class="w-4/5">{{email}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-section" class="">
+        <div id="title-section" class="flex flex-row">
+            <div class="mr-10">프로필 수정</div>
+            <div><img id = "edit-profile" src="{% static 'images/users/pen.svg' %}"></div>
+        </div>
+        <div id="profile-content-section" class="w-100">
+            <div id="image-section" class="flex justify-center w-100 ">
+                <div><img id="profile-image" src="{{profile_image.url}}"></div>
+            </div>
+            <div id="email-section" class="flex flex-row w-100">
+                <div class="w-1/4">닉네임</div>
+                <div id="nickname" class="w-3/4">{{nickname}}</div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+{% endblock content %}
+
+{% block script_section %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+
+</script>
+{% endblock script_section %}
