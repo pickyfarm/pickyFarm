@@ -125,6 +125,10 @@ def editor_review_comment(request, pk):
     comment.save()
 
     data = {
+        'text': text,
+        'create_at': comment.create_at.strftime(r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"),
+        'author': author.nickname,
+        'user_image': author.profile_image.url
     }
 
     return JsonResponse(data)

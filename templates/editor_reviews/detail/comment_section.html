@@ -23,7 +23,7 @@
                         <div class="comment-author--id">{{comment.author.nickname}}</div>
                     </div>
                     <div class="bar"></div>
-                    <div class="comment-create text-center">{{comment.create_at}}</div>
+                    <div class="comment-create text-center">{{comment.create_at|date:"Y. m. d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.create_at|date:"h : i"}}</div>
                     <div class="bar"></div>
                     <div class="comment-report flex items-center ml-auto">
                         <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
@@ -63,15 +63,18 @@
                 'csrfmiddlewaretoken': '{{csrf_token}}'
             },
             success: function(data) {
+                let time = data.create_at;
+                console.log(typeof(time));
+
                 let comment = `
                 <div class="comment">
                     <div class="comment-info flex items-center">
                         <div class="comment-author flex items-center">
-                            <img src="{{comment.author.profile_image.url}}" class="comment-author--profile-image">
-                            <div class="comment-author--id">{{comment.author.nickname}}</div>
+                            <img src="${data.user_image}" class="comment-author--profile-image">
+                            <div class="comment-author--id">${data.author}</div>
                         </div>
                         <div class="bar"></div>
-                        <div class="comment-create text-center">{{comment.create_at}}</div>
+                        <div class="comment-create text-center">${data.create_at}</div>
                         <div class="bar"></div>
                         <div class="comment-report flex items-center ml-auto">
                             <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
@@ -80,7 +83,7 @@
                     </div>
                     <div class="comment-content relative">
                         <div class="comment-text">
-                            <div class="comment-text--text">${text}</div>
+                            <div class="comment-text--text">${data.text}</div>
                             <div class="comment-text-reply text-right">답글작성</div>
                         </div>
                         <div class="absolute comment-like-button-wrap">
