@@ -5,40 +5,44 @@
 </div>
 
 <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
-    <div class="default_img_1 bg-gray-400 mr-4" id="farmer_profile"></div>
-    <div class="default_img_2 bg-gray-400 mr-16" id="farm_profile"></div>
+    <div class="default_img_1 mr-4" 
+        style="background-image: url('{% static 'images/farm/farmer_default.svg' %}');"></div>
+    <div class="default_img_2 mr-10" 
+        style="background-image: url('{% static 'images/farm/farm_default.svg' %}');"></div>
     <div class="w-96">
         <div class="flex flex-row mb-2" id="tag_wrap">
             {% for tag in tags %}
                 <a href="#"><div class="mr-2" id="farm_tag">#{{ tag }}</div></a>
             {% endfor %}
         </div>
-        <div class="flex flex-row items-center mb-3 pr-2" id="farm_wrap">
+        <div class="flex flex-row items-center mb-3 px-2" id="farm_wrap">
             <div class="font-medium text-3xl" id="sample_farm_name"></div>
             <div class="font-thin text-2xl mx-4" id="bar">|</div>
             <div class="font-light text-xl" id="sample_farmer_name">{{ farmer.user.nickname }}</div>
         </div>
-        <div class="flex flex-row pr-2" id="profile_title_wrap">
-            "<div class="font-light text-xl" id="sample_profile_title"></div>"
+        <div class="flex flex-row px-2" id="profile_title_wrap">
+            <div class="mr-2" id="d_quotes"> " </div>
+            <div class="font-light text-xl" id="sample_profile_title"></div>
+            <div class="ml-2" id="d_quotes"> " </div>
         </div>
     </div>
 
     <div id="sub_wrap">
-        <div class="text-xl" id="sub_btn">구독하기</div>
+        <div class="text-xl" id="sub_btn"> 구독하기 </div>
     </div>
 
 </div>
 
 <div class="flex flex-row items-center p-2" id="farmer_news">
     <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="mr-4" id="">
-    <div class="w-1/5 text-xl" id="news_text">농가 News</div>
-    <div class="text-xl mx-4" id="bar">|</div>
-    <div class="w-4/5 font-light text-2xl text-center" id="farm_news">{{ farmer.farm_news }}</div>
+    <div class="w-1/5 text-xl" id="news_text"> 농가 News </div>
+    <div class="text-xl mx-4" id="bar"> | </div>
+    <div class="w-4/5 font-light text-2xl text-center" id="farm_news"> {{ farmer.farm_news }} </div>
 </div>
 
 <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
-    <div class="w-1/4"><div class="font-light text-2xl choice" id="nav_item">농가소개</div></div>
-    <div class="w-1/4"><div class="font-light text-2xl" id="nav_item">판매 상품</div></div>
-    <div class="w-1/4"><div class="font-light text-2xl" id="nav_item">Farmer's Story</div></div>
-    <div class="w-1/4"><div class="font-light text-2xl" id="nav_item">Editor's Page</div></div>
+    <div class="w-1/4"><div class="font-light text-2xl choice" id="nav_item"> 농가소개 </div></div>
+    <div class="w-1/4"><div class="font-light text-2xl" id="nav_item"> 판매 상품 </div></div>
+    <div class="w-1/4"><div class="font-light text-2xl" id="nav_item"> Farmer's Story </div></div>
+    <div class="w-1/4"><div class="font-light text-2xl" id="nav_item"> Editor's Page </div></div>
 </div>
