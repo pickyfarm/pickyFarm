@@ -2,7 +2,7 @@ from django import forms
 from . import models
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth.forms import PasswordResetForm
-
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="아이디", max_length=100,
@@ -112,4 +112,12 @@ class FarmApplyForm(forms.ModelForm):
             'farm_cat': '품종',
             'detail_cat':'',
             'desc': '추가 전달 사항',
+        }
+
+class FarmerStoryForm(forms.ModelForm):
+    class Meta:
+        model = models.Farmer_Story
+        fields = ('title', 'content',)
+        widgets = {
+            'content': SummernoteWidget(),
         }
