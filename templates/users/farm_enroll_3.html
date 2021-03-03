@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/farm_enroll.css' %}">
+{% endblock %}
+
+{% block title_name %}
+입점 등록
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id='signup_form' class="mt-10 flex flex-col">
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 63px;">입점 등록</div>
+        <div class="flex flex-row justify-around" id="sub_title">
+            <div> 정보 입력 </div>
+            <div> 계약서 작성 </div>
+        </div>
+        <div class="relative mx-auto mt-2" id="border">
+            <div class="absolute" id="step" style="width:100%"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
