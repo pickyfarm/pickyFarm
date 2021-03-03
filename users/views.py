@@ -700,22 +700,18 @@ def mypage(request, cat):
             pass
         elif cat_name == 'info':
             user = consumer.user
-            if request.is_ajax():
-                info = {
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    # 'number':number,
-                    'email': user.email,
-                    'nickname': user.nickname,
-                    'profile_image': user.profile_image.url,
-                }
-                return JsonResponse(info)
-            ctx_info = {
-                'user': user,
+            info = {
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                # 'number':number,
+                'email': user.email,
+                'nickname': user.nickname,
+                'profile_image': user.profile_image,
             }
-            ctx.update(ctx_info)
-            return render(request, 'users/mypage.html', ctx)
-
+            
+            ctx.update(info)
+            return render(request, 'users/mypage_info.html', ctx)
+    
 
 class FindMyIdView(TemplateView):
     template_name = 'users/find_my_id.html'  # to be added
