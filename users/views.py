@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmEnrollForm, FarmApplyForm
+from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm, FarmerStoryForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -370,6 +370,46 @@ def farmer_story_search(request):
     }
     return render(request, 'users/farmer_story_search.html', ctx)
 
+#farmer's story create page
+def farmer_story_create(request):
+    try:
+        user = request.user.farmer
+    except ObjectDoesNotExist:
+        return redirect(reverse("core:main"))
+    if request.method == 'POST':
+        form = FarmerStoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            # sub_title = form.cleaned_data.get('sub_title')
+            content = form.cleaned_data.get('content')
+            farmer_story = Farmer_Story(
+                title=title,
+                # sub_title=sub_title,
+                content=content,
+            )
+            farmer_story.farmer = user
+            farmer_story.save()
+            return redirect(reverse('users:farmer_story_detail', args=[farmer_story.pk]))
+        else:
+            return redirect(reverse("core:main"))
+    elif request.method == 'GET':
+        form = FarmerStoryForm()
+        ctx = {
+            'form': form,
+        }
+        return render(request, 'users/farmer_story_create.html', ctx)
+
+# farmer's story detail page
+def farmer_story_detail(request, pk):
+    main_story = Farmer_Story.objects.get(pk=pk)
+    farmer = main_story.farmer
+    stories = Farmer_Story.objects.all().filter(farmer=farmer)
+    ctx = {
+        'main_story': main_story,
+        'farmer': farmer,
+        'stories': stories,
+    }
+    return render(request, 'users/farmer_story_detail.html', ctx)
 
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)
