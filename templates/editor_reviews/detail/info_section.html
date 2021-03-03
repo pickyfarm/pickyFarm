@@ -19,9 +19,9 @@
                     <div class="relative">
                         <img class="z-0" id="product_img" src="{{p.main_image.url}}" width="50"><br>
                         <div id="like_cart_in" class="flex flex-row z-10">
-                            <a href="{% url 'users:wish' p.pk %}?next={{request.path}}"><img class="" id="like" ,
+                            <a href=""><img class="" id="like" ,
                                     src="{% static 'images/products_list/like.svg' %}"></a>
-                            <a href="{% url 'users:cart_in' p.pk %}?next={{request.path}}"><img class="" id="cart_in" ,
+                            <a href=""><img class="" id="cart_in" ,
                                     src="{% static 'images/products_list/cart_in.svg' %}"></a>
                         </div>
 
