@@ -2,7 +2,7 @@ from django import forms
 from . import models
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth.forms import PasswordResetForm
-
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 class LoginForm(forms.Form):
     username = forms.CharField(label="아이디", max_length=100,
@@ -97,6 +97,27 @@ class MyPasswordResetForm(PasswordResetForm):
     )
 
 # farm 입점 관련
+class FarmEnrollForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ""
+
+    class Meta:
+        model = models.Farmer
+        fields = ('farm_name', 'farmer_profile', 'farm_profile', 'profile_title', 'profile_desc', 'sub_count', 'farm_news', 'farm_cat',)
+        widgets = {
+            'farm_cat': forms.RadioSelect,
+            'profile_title': forms.TextInput(attrs={'placeholder': '농장을 한 문장으로 소개해주세요'})
+        }
+        labels = {
+            'farm_name': '농장 이름',
+            'farmer_profile': '프로필 사진',
+            'farm_profile': '농장 사진',
+            'profile_title': '농장 한 줄 소개',
+            'profile_desc': '농장 상세 소개',
+            'farm_cat': '해시 태그 선택', 
+        }
+
 class FarmApplyForm(forms.ModelForm):
      class Meta:
         model = models.Farm_Apply
@@ -112,4 +133,12 @@ class FarmApplyForm(forms.ModelForm):
             'farm_cat': '품종',
             'detail_cat':'',
             'desc': '추가 전달 사항',
+        }
+
+class FarmerStoryForm(forms.ModelForm):
+    class Meta:
+        model = models.Farmer_Story
+        fields = ('title', 'content',)
+        widgets = {
+            'content': SummernoteWidget(),
         }

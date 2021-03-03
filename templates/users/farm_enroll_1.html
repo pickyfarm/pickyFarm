@@ -1,0 +1,100 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/farm_enroll.css' %}">
+{% endblock %}
+
+{% block title_name %}
+입점 등록
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id='signup_form' class="mt-10 flex flex-col">
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 63px;">입점 등록</div>
+        <div class="flex flex-row justify-around" id="sub_title">
+            <div> 정보 입력 </div>
+            <div> 계약서 작성 </div>
+        </div>
+        <div class="relative mx-auto mt-2" id="border">
+            <div class="absolute" id="step" style="width:33%"></div>
+        </div>
+        <form method="POST" action="{% url 'users:farm_enroll' step='step_1' %}">
+            {% csrf_token %}
+            <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px">계정 정보 입력</div>
+            <div class="input_forms grid">
+                {{form.username.label_tag}}
+                {{form.username}}
+                <div class="valid-button" id="id-check">중복확인</div>
+                <input type="hidden" id="idValidCheck">
+                {{form.password.label_tag}}
+                {{form.password}}
+                {{form.password_re.label_tag}}
+                {{form.password_re}}
+            </div>
+            <div class="line mx-auto mb-14" style="margin-top: 35px;"></div>
+            <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px">농장 담당자 정보 입력</div>
+            <div class="input_forms grid">
+                {{form.last_name.label_tag}}
+                {{form.last_name}}
+                {{form.first_name.label_tag}}
+                {{form.first_name}}
+                {{form.nickname.label_tag}}
+                {{form.nickname}}
+                <div class="valid-button" id="nickname-check">중복확인</div>
+                <input type="hidden" id="nicknameValidCheck">
+                {{form.email.label_tag}}
+                {{form.email}}
+                <div class="valid-button" id="email-check">중복확인</div>
+                <input type="hidden" id="emailValidCheck">
+                {{addressform.full_address.label_tag}}
+                <div>
+                    {{addressform.full_address}}
+                    {{addressform.detail_address}}
+                </div>
+                <div class="valid-button" onclick="getAddress()">검색</div>
+                {{addressform.sido}}
+                {{addressform.sigungu}}
+                {{addressform.extra_address}}
+                {{form.gender.label_tag}}
+                <div class="flex gender-selection">
+                    {{form.gender}}
+                </div>
+
+                {{form.birth.label_tag}}
+                <div class="flex justify-between birth-selection">
+                    {{form.birth}}
+                </div>
+                </div>
+            <div class="line mx-auto" style="margin-bottom: 35px;"></div>
+            <div class="form_term_agree grid">
+                <div class="mr-auto" id='term-agree' style="margin-left: 60.5px; ">이용약관 동의</div>
+                <input type="checkbox" name="agree-all" id="agree-all">
+                <label id="all-agree" for="agree-all" style="font-size: 25px !important; margin-bottom: 45px;">전체 동의합니다</label>
+                <div class="flex justify-between items-center">
+                    <input type="checkbox" name="terms_of_services" id="terms_of_services">
+                    <label class="mand" for="terms_of_services">이용약관 동의</label>
+                    <a href="#">약관보기</a>
+                </div>
+                <div class="flex justify-between items-center">
+                    <input type="checkbox" name="personal_info" id="personal_info">
+                    <label class="mand" for="personal_info">개인정보처리방침 동의</label>
+                    <a href="#">약관보기</a>
+                </div>
+                <input type="checkbox" name="push-agree" id="push-agree">
+                <label class="opt" for="push-agree">무료배송, 할인쿠폰 등 혜택/정보 수신동의</label>
+                <input type="checkbox" name="over14" id="over14">
+                <label for="over14">본인은 만 14세 이상입니다</label>
+            </div>
+            <div class="line mx-auto" style="margin-top: 35px;"></div>
+            <button class="submit" onclick="location.href='{% url 'users:farm_enroll' step='step_2' %}'">다음 단계로</button>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
+
+{% endblock %}

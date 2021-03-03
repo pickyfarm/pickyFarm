@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm
+from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm, FarmerStoryForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -370,6 +370,46 @@ def farmer_story_search(request):
     }
     return render(request, 'users/farmer_story_search.html', ctx)
 
+#farmer's story create page
+def farmer_story_create(request):
+    try:
+        user = request.user.farmer
+    except ObjectDoesNotExist:
+        return redirect(reverse("core:main"))
+    if request.method == 'POST':
+        form = FarmerStoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            # sub_title = form.cleaned_data.get('sub_title')
+            content = form.cleaned_data.get('content')
+            farmer_story = Farmer_Story(
+                title=title,
+                # sub_title=sub_title,
+                content=content,
+            )
+            farmer_story.farmer = user
+            farmer_story.save()
+            return redirect(reverse('users:farmer_story_detail', args=[farmer_story.pk]))
+        else:
+            return redirect(reverse("core:main"))
+    elif request.method == 'GET':
+        form = FarmerStoryForm()
+        ctx = {
+            'form': form,
+        }
+        return render(request, 'users/farmer_story_create.html', ctx)
+
+# farmer's story detail page
+def farmer_story_detail(request, pk):
+    main_story = Farmer_Story.objects.get(pk=pk)
+    farmer = main_story.farmer
+    stories = Farmer_Story.objects.all().filter(farmer=farmer)
+    ctx = {
+        'main_story': main_story,
+        'farmer': farmer,
+        'stories': stories,
+    }
+    return render(request, 'users/farmer_story_detail.html', ctx)
 
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)
@@ -405,6 +445,61 @@ def farm_apply(request):
             'form':form,
         }
         return render(request, 'users/farm_apply.html', ctx)
+
+# 입점 등록
+class FarmEnroll(View):
+    def get(self, request, step):
+        if step == "step_1":
+            print('step 1')
+            form = SignUpForm()
+            addressform = AddressForm()
+            print('not form error')
+            ctx = {
+                'form': form,
+                'addressform': addressform,
+            }
+            print('not ctx error')
+            return render(request, 'users/farm_enroll_1.html', ctx)
+
+        elif step == "step_2":
+            print('step2')
+            farm_form = FarmEnrollForm()
+            ctx= {
+                'farm_form':farm_form,
+            }
+            return render(request, 'users/farm_enroll_2.html', ctx)
+
+        elif step == "step_3":
+            print('step3')
+            return render(request, 'users/farm_enroll_3.html')
+        print(step)
+        return redirect(reverse("core:main"))
+
+    def post(self, request):
+        form = SignUpForm(request.POST)
+        addressform = AddressForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            Consumer.objects.create(user=user, grade=1)
+
+            address = addressform.save(commit=False)
+            address.user = user
+            address.is_default = True
+            address.save()
+
+            if user is not None:
+                login(request, user=user)
+                return redirect(reverse('core:main'))
+
+        ctx = {
+            'form': form,
+            'addressform': addressform,
+        }
+        return render(request, 'users/signup.html', ctx)
 
 
 user_email = ''
@@ -605,22 +700,18 @@ def mypage(request, cat):
             pass
         elif cat_name == 'info':
             user = consumer.user
-            if request.is_ajax():
-                info = {
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    # 'number':number,
-                    'email': user.email,
-                    'nickname': user.nickname,
-                    'profile_image': user.profile_image.url,
-                }
-                return JsonResponse(info)
-            ctx_info = {
-                'user': user,
+            info = {
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                # 'number':number,
+                'email': user.email,
+                'nickname': user.nickname,
+                'profile_image': user.profile_image,
             }
-            ctx.update(ctx_info)
-            return render(request, 'users/mypage.html', ctx)
-
+            
+            ctx.update(info)
+            return render(request, 'users/mypage_info.html', ctx)
+    
 
 class FindMyIdView(TemplateView):
     template_name = 'users/find_my_id.html'  # to be added
