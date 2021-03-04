@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm, FarmerStoryForm
+from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm, FarmerStoryForm, FarmEnrollForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -25,6 +25,7 @@ from addresses.forms import AddressForm
 from addresses.models import Address
 from math import ceil
 from django.conf import settings
+
 
 
 # Exception 선언 SECTION
