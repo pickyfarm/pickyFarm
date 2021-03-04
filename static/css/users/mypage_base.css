@@ -625,7 +625,7 @@
 #q_detail{
   width: 315px;
   margin: 10px 43px 3px 15px;
-  padding: 3px 20px 3px 17px;
+  padding: 14px 11px;
   opacity: 0.6;
   border-radius: 20px;
   background-color: #ffffff;
@@ -687,6 +687,7 @@
   text-align: left;
   color: #ffffff;
 }
+
 
 #info-edit-container{
   padding-left:128px;

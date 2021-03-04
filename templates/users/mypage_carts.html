@@ -15,7 +15,7 @@
 <div id="products-section" class="mt-5">
     {% if carts.exists is False %}
     <div class="mt-14 flex flex-col justify-center items-center">
-    <div>아직 구매한 무난이가 없습니다</div>
+    <div>아직 장바구니에 담은 무난이가 없습니다</div>
     <a id="redirect_a" href="{% url 'products:store_list' %}"><div id="redirect_btn">무난이 구매하러 가기</div></a>
     </div>
     {% else %}
@@ -23,7 +23,7 @@
     {% for cart in carts %}
     <div class="flex flex-row">
         <div id="select-section" class="mt-12 pr-8">
-            <input id="select-checkbox-{{cart.product.pk}}" type="checkbox" name="{{cart.product.pk}}">
+            <input id="select-checkbox-{{cart.product.pk}}" type="checkbox" name="{{cart.product.pk}}" checked>
         </div>
         <div id="product" class="flex flex-row mb-5">
             <div id="product_img_section" class="w-1/5">
@@ -44,9 +44,9 @@
                 <div class="flex flex-row"></div>
             </div>
             <div id="cart-button-section" class="flex flex-row w-1/5 mt-4 pl-8 items-center">
-                <div id="quantity-up" name="{{cart.product.pk}}">0</div>
-                <div id="quantity-{{cart.product.pk}}">{{cart.quantity}}</div>
                 <div id="quantity-down" name="{{cart.product.pk}}">0</div>
+                <div id="quantity-{{cart.product.pk}}">{{cart.quantity}}</div>
+                <div id="quantity-up" name="{{cart.product.pk}}">0</div>
             </div>
         </div>
     </div>
@@ -143,6 +143,7 @@
     let totalPriceDiv = document.querySelector('#total_order_price')
 
 
+
     function addCalTotalPrice(price, quantity){
         let nowTotalPrice = totalPriceDiv.innerHTML
         nowTotalPrice = parseInt(nowTotalPrice)
@@ -155,11 +156,28 @@
         let nowTotalPrice = totalPriceDiv.innerHTML
         nowTotalPrice = parseInt(nowTotalPrice)
 
-        let newTotalOrderPrice = nowTotalPrice - price*quantity
-        totalPriceDiv.innerHTML = String(newTotalOrderPrice)
+        if(nowTotalPrice > 0){
+            let newTotalOrderPrice = nowTotalPrice - price*quantity
+            totalPriceDiv.innerHTML = String(newTotalOrderPrice)
+        }
     }
 
+    selectors.forEach(item=>{
+        if(item.checked == true){
+            let pk = item.getAttribute('name')
+            console.log(pk)
 
+            let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
+            price = parseInt(price)
+            console.log(price)
+
+            let quantity = document.querySelector(`#quantity-${pk}`).innerHTML
+            quantity = parseInt(quantity)
+            console.log(quantity)
+
+            addCalTotalPrice(price, quantity)
+        }
+    })
 
     selectors.forEach(item=>{
         item.addEventListener('click', function(){
@@ -217,25 +235,26 @@
             let quantity = document.querySelector(`#quantity-${pk}`)
             console.log(quantity)
             let quantityNum = parseInt(quantity.innerHTML)
-            if(quantityNum == 0){
-                quantityNum = 0
+            if(quantityNum == 1){
+                quantityNum = 1
             }
             else{
                 quantityNum = quantityNum -1
+                quantity.innerHTML = String(quantityNum)
+
+                let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
+                price = parseInt(price)
+                console.log(price)
+
+                let checkbox = document.querySelector(`#select-checkbox-${pk}`)
+                console.log(checkbox)
+
+                if(checkbox.checked == true){
+                    console.log("checkbox checked")
+                    subCalTotalPrice(price, 1)
+                }
             }
-            quantity.innerHTML = String(quantityNum)
-
-            let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
-            price = parseInt(price)
-            console.log(price)
-
-            let checkbox = document.querySelector(`#select-checkbox-${pk}`)
-            console.log(checkbox)
-
-            if(checkbox.checked == true){
-                console.log("checkbox checked")
-                subCalTotalPrice(price, 1)
-            }
+            
         })
     })
 
