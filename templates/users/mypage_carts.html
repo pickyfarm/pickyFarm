@@ -5,7 +5,7 @@
 {% if carts.exists is True %}
 <div id="filter-section" class="flex flex-row">
     <div>
-        <input type="checkbox">
+        <input id="total-select" type="checkbox">
     </div>
     <div>
         전체 상품 선택
@@ -15,8 +15,10 @@
 <div id="products-section" class="mt-5">
     {% if carts.exists is False %}
     <div class="mt-14 flex flex-col justify-center items-center">
-    <div>아직 장바구니에 담은 무난이가 없습니다</div>
-    <a id="redirect_a" href="{% url 'products:store_list' %}"><div id="redirect_btn">무난이 구매하러 가기</div></a>
+        <div>아직 장바구니에 담은 무난이가 없습니다</div>
+        <a id="redirect_a" href="{% url 'products:store_list' %}">
+            <div id="redirect_btn">무난이 구매하러 가기</div>
+        </a>
     </div>
     {% else %}
 
@@ -37,7 +39,8 @@
                 </div>
                 <div class="flex flex-row mt-2">
                     <div id="product_weight">{{cart.product.weight}}g / </div>
-                    <div id="product_price_{{cart.product.pk}}" name="{{cart.product.sell_price}}"> {{cart.product.sell_price}}원</div>
+                    <div id="product_price_{{cart.product.pk}}" name="{{cart.product.sell_price}}">
+                        {{cart.product.sell_price}}원</div>
 
                 </div>
 
@@ -58,20 +61,26 @@
 {% if carts.exists is True %}
 <div id="controll-section">
     <div class="flex justify-left">
-        <a><div id="delete_btn">삭제하기</div></a>
+        <a>
+            <div id="delete_btn">삭제하기</div>
+        </a>
     </div>
 </div>
 
 <div id="order-section" class="flex flex-row">
     <div class="flex flex-row w-1/2 justify-start">
-        <a href="{% url 'products:store_list' %}"><div id="continue_shop">쇼핑 계속하기</div></a>
-        <a><div id="order_now">주문하기</div></a>
+        <a href="{% url 'products:store_list' %}">
+            <div id="continue_shop">쇼핑 계속하기</div>
+        </a>
+        <a>
+            <div id="order_now">주문하기</div>
+        </a>
     </div>
     <div class="flex flex-row w-1/2 justify-end">
         <div id="total_order_text">총 주문금액</div>
         <div id="total_order_price">0</div>
         <div id="won_text">원</div>
-    </div>  
+    </div>
 
 </div>
 {% endif %}
@@ -114,26 +123,26 @@
 
 
     let hey = document.querySelectorAll('#cartIn_btn')
-    hey.forEach(item=>{
-        item.addEventListener('click', function(){
+    hey.forEach(item => {
+        item.addEventListener('click', function () {
             let pk = $(this).attr('name')
-        console.log(pk);
-        $.ajax({
-            type : "POST",
-            url:"{% url 'users:cartInAjax' %}",
-            data : {
-                "pk":pk,
-                "csrfmiddlewaretoken":"{{csrf_token}}",
-            },
-            dataType:"json",
-            success: function(response){
-                alert(response.message);
-            },
-            error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
-            }
-        });
-      })
+            console.log(pk);
+            $.ajax({
+                type: "POST",
+                url: "{% url 'users:cartInAjax' %}",
+                data: {
+                    "pk": pk,
+                    "csrfmiddlewaretoken": "{{csrf_token}}",
+                },
+                dataType: "json",
+                success: function (response) {
+                    alert(response.message);
+                },
+                error: function (request, status, error) {
+                    alert('로그인이 필요합니다.')
+                }
+            });
+        })
     })
 
 
@@ -141,29 +150,77 @@
     let quantityDown = document.querySelectorAll('#quantity-down')
     let selectors = document.querySelectorAll('[id^="select-checkbox"]')
     let totalPriceDiv = document.querySelector('#total_order_price')
+    let totalSelector = document.getElementById('total-select')
 
-
-
-    function addCalTotalPrice(price, quantity){
+    function addCalTotalPrice(price, quantity) {
         let nowTotalPrice = totalPriceDiv.innerHTML
         nowTotalPrice = parseInt(nowTotalPrice)
 
-        let newTotalOrderPrice = nowTotalPrice + price*quantity
+        let newTotalOrderPrice = nowTotalPrice + price * quantity
         totalPriceDiv.innerHTML = String(newTotalOrderPrice)
     }
 
-    function subCalTotalPrice(price, quantity){
+    function subCalTotalPrice(price, quantity) {
         let nowTotalPrice = totalPriceDiv.innerHTML
         nowTotalPrice = parseInt(nowTotalPrice)
 
-        if(nowTotalPrice > 0){
-            let newTotalOrderPrice = nowTotalPrice - price*quantity
+        if (nowTotalPrice > 0) {
+            let newTotalOrderPrice = nowTotalPrice - price * quantity
             totalPriceDiv.innerHTML = String(newTotalOrderPrice)
         }
     }
 
-    selectors.forEach(item=>{
-        if(item.checked == true){
+    totalSelector.addEventListener('click', function () {
+        if (totalSelector.checked == true) {
+            selectors.forEach(item => {
+                if (item.checked == false) {
+                    item.checked = true
+
+                    let pk = item.getAttribute('name')
+                    console.log(pk)
+
+                    let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
+                    price = parseInt(price)
+                    console.log(price)
+
+                    let quantity = document.querySelector(`#quantity-${pk}`).innerHTML
+                    quantity = parseInt(quantity)
+                    console.log(quantity)
+
+                    addCalTotalPrice(price, quantity)
+
+                }
+            })
+        }
+        else{
+            selectors.forEach(item=>{
+                if(item.checked == true){
+                    item.checked = false
+
+                    let pk = item.getAttribute('name')
+                    console.log(pk)
+
+                    let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
+                    price = parseInt(price)
+                    console.log(price)
+
+                    let quantity = document.querySelector(`#quantity-${pk}`).innerHTML
+                    quantity = parseInt(quantity)
+                    console.log(quantity)
+
+                    subCalTotalPrice(price, quantity)
+
+
+                }
+            })
+        }
+    })
+
+
+    
+
+    selectors.forEach(item => {
+        if (item.checked == true) {
             let pk = item.getAttribute('name')
             console.log(pk)
 
@@ -179,11 +236,11 @@
         }
     })
 
-    selectors.forEach(item=>{
-        item.addEventListener('click', function(){
+    selectors.forEach(item => {
+        item.addEventListener('click', function () {
             let pk = $(this).attr('name')
             console.log(pk)
-            
+
             let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
             price = parseInt(price)
             console.log(price)
@@ -191,20 +248,20 @@
             let quantity = document.querySelector(`#quantity-${pk}`).innerHTML
             quantity = parseInt(quantity)
             console.log(quantity)
-            
+
             console.log(item)
 
-            if(item.checked == true){
+            if (item.checked == true) {
                 addCalTotalPrice(price, quantity)
             }
-            else{
+            else {
                 subCalTotalPrice(price, quantity)
             }
         })
     })
 
-    quantityUp.forEach(item=>{
-        item.addEventListener('click', function(){
+    quantityUp.forEach(item => {
+        item.addEventListener('click', function () {
             let pk = this.getAttribute('name')
             console.log(pk)
 
@@ -220,26 +277,26 @@
             let checkbox = document.querySelector(`#select-checkbox-${pk}`)
             console.log(checkbox)
 
-            if(checkbox.checked == true){
+            if (checkbox.checked == true) {
                 console.log("checkbox checked")
                 addCalTotalPrice(price, 1)
             }
         })
     })
 
-    quantityDown.forEach(item=>{
-        item.addEventListener('click', function(){
+    quantityDown.forEach(item => {
+        item.addEventListener('click', function () {
             let pk = this.getAttribute('name')
             console.log(pk)
 
             let quantity = document.querySelector(`#quantity-${pk}`)
             console.log(quantity)
             let quantityNum = parseInt(quantity.innerHTML)
-            if(quantityNum == 1){
+            if (quantityNum == 1) {
                 quantityNum = 1
             }
-            else{
-                quantityNum = quantityNum -1
+            else {
+                quantityNum = quantityNum - 1
                 quantity.innerHTML = String(quantityNum)
 
                 let price = document.querySelector(`#product_price_${pk}`).getAttribute('name')
@@ -249,77 +306,77 @@
                 let checkbox = document.querySelector(`#select-checkbox-${pk}`)
                 console.log(checkbox)
 
-                if(checkbox.checked == true){
+                if (checkbox.checked == true) {
                     console.log("checkbox checked")
                     subCalTotalPrice(price, 1)
                 }
             }
-            
+
         })
     })
 
 
 
-    $('#order_now').click(function(){
+    $('#order_now').click(function () {
         console.log(selectors)
         let products = [];
-        selectors.forEach(item=>{
+        selectors.forEach(item => {
             console.log(item)
-            if(item.checked == true){
+            if (item.checked == true) {
                 let pk = item.getAttribute('name');
                 products.push(pk);
             }
         });
-        if(products.length == 0)
+        if (products.length == 0)
             alert("주문할 무난이를 선택해주세요!")
         data = {
-            'products':products,
+            'products': products,
         };
         console.log(products)
         $.ajax({
-            url : "{% url 'orders:ordering_cart' %}",
-            dataType : "json",
-            type : "POST",
-            data : data,
-            success: function(response){
-                
+            url: "{% url 'orders:ordering_cart' %}",
+            dataType: "json",
+            type: "POST",
+            data: data,
+            success: function (response) {
+
             }
         });
     })
 
 
-    $('#delete_btn').click(function(){
+    $('#delete_btn').click(function () {
         let products = []
-        selectors.forEach(item=>{
-            if(item.checked == true){
+        selectors.forEach(item => {
+            if (item.checked == true) {
                 let pk = item.getAttribute('name')
                 products.push(pk)
             }
         })
-        
-        if(products.length == 0){
+
+        if (products.length == 0) {
             alert("삭제할 무난이를 선택해주세요!")
-            return 
+            return
         }
         data = {
-            'pkList':products,
+            'pkList': products,
         }
         console.log(data.pkList)
         $.ajax({
-            type : "POST",
-            url : "{% url 'users:cartOutAjax' %}",
-            data : data,
-            dataType : "json",
-            success: function(response){
-                if(response.success == true)
+            type: "POST",
+            url: "{% url 'users:cartOutAjax' %}",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                if (response.success == true)
                     window.location.reload()
-                    alert("무난이를 삭제하였습니다")
-                    
+                alert("무난이를 삭제하였습니다")
+
             }
         })
 
     })
-   
+
     //   $("#cartIn_btn").click(function(){
     //     let pk = $(this).attr('name')
     //     console.log(pk);
