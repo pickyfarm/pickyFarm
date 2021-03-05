@@ -46,7 +46,37 @@
 {% endblock content %}
 
 {% block script_section %}
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+
+<script>
+
+  let menuBtns = []
+  menuBtns.push(document.getElementById('menu_carts'))
+  menuBtns.push(document.getElementById('menu_boughts'))
+  menuBtns.push(document.getElementById('menu_deliveries'))
+  menuBtns.push(document.getElementById('menu_likes'))
+
+  $('#menu_infos').css({
+    "background-color": "#5c6754",
+    "color": "white",
+  })
+
+
+  menuBtns.forEach(item => {
+    item.addEventListener('mouseover', function () {
+      $(this).css({
+        "background-color": "#5c6754",
+        "color": "white",
+
+      })
+    })
+    item.addEventListener('mouseout', function () {
+      $(this).css({
+        "background-color": "white",
+        "color": "#5c6754"
+      })
+    })
+  })
 
 </script>
+  
 {% endblock script_section %}

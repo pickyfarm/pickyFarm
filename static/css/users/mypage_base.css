@@ -105,7 +105,7 @@
     width:150px;
 }
 
-#menu_content{
+.menu_content{
     width: 145px;
     height: 48px;
     margin-bottom: 12px;
@@ -121,6 +121,8 @@
   letter-spacing: normal;
   text-align: center;
   color: #5c6754;
+
+  cursor: pointer;
 }
 
 #filter-section{
