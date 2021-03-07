@@ -18,7 +18,7 @@
 {% endif %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
 
-    <div class="flex flex-col justify-between mr-10 items-center" id="big_category">
+    <div class="flex flex-col justify-between mr-10 items-center" id="big_category" name="{{cat_name}}">
 
         <div id="cat_all"><a href="{% url 'products:store_list' %}"><img id="all" src="{% if cat_name == 'all' %}
                                                     {% static 'images/products_list/cat_all_sel.svg' %}
