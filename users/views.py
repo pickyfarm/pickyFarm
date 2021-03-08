@@ -1,20 +1,22 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 import json
-from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User
+from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User, Editor
 from products.models import Category, Product
+from editor_reviews.models import Editor_Review
 from django.db.models import Count
 from math import ceil
 from datetime import timedelta
 from django.utils import timezone
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm, FarmerStoryForm, FarmEnrollForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
@@ -750,3 +752,27 @@ class FindMyIdView(TemplateView):
 
 class FindMyIdFailView(TemplateView):
     template_name = 'users/find_my_id_failed.html'
+
+
+@method_decorator(login_required, name='dispatch')
+class EditorMyPage(ListView):
+    model = Editor_Review
+    context_object_name = "reviews"
+    template_name = "users/editor_mypage_post_list.html"
+
+    def get_queryset(self):
+        user = self.request.user
+        try:
+            return Editor_Review.objects.filter(author=user.editor)
+        
+        except Editor.DoesNotExist:
+            return None
+    
+    def render_to_response(self, context, **response_kwargs):
+        if not Editor.objects.filter(user=self.request.user).exists():
+            return redirect(reverse('core:main'))
+
+
+        return super().render_to_response(context, **response_kwargs)
+
+    
