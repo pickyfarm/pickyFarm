@@ -30,16 +30,20 @@
                 </div>
                 <div class="article-img bg-cover" style="background-image:url('{{review.main_image.url}}');"></div>
             </div>
-            <div class="edit-review flex flex-col">
-                <img src="{% static 'images/users/pen.svg' %}" alt="">
-                <p class="edit-review-button">수정</p>
-            </div>
+            <a href="{% url 'editors_pick:update' review.pk %}">
+                <div class="edit-review flex flex-col">
+                    <img src="{% static 'images/users/pen.svg' %}" alt="">
+                    <p class="edit-review-button">수정</p>
+                </div>
+            </a>
         </div>
         {% endfor %}
     </div>
 
     <button id="select-delete" class="text-center">선택 삭제</button>
-    <button id="post-review" class="mx-auto">글 쓰기</button>
+    <a href="{% url 'editors_pick:create' %}">
+        <button id="post-review" class="mx-auto">글 쓰기</button>
+    </a>
 </div>
 
 <style>
@@ -73,4 +77,30 @@
         font-size: 15px;
     }
 </style>
+
+<script>
+    let selectAllButton = document.querySelector('input[name="select-all"]');
+    let selectedReviews = document.querySelectorAll('input[name="select"]');
+
+    selectAllButton.addEventListener('click', function(){
+        selectedReviews.forEach((checkbox) =>{
+            checkbox.checked = selectAllButton.checked;
+        });
+    });
+
+    selectedReviews.forEach(item => {
+        item.addEventListener('click', function(){
+            let selectedReviewCount = document.querySelectorAll('input[name="select"]:checked').length;
+
+            if (selectedReviews.length != selectedReviewCount) {
+                selectAllButton.checked = false;
+            }
+
+            else {
+                selectAllButton.checked = true;
+            }
+        });
+    });
+
+</script>
 {% endblock content %}
