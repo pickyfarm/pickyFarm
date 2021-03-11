@@ -138,7 +138,7 @@ class FarmApplyForm(forms.ModelForm):
 class FarmerStoryForm(forms.ModelForm):
     class Meta:
         model = models.Farmer_Story
-        fields = ('title', 'content',)
+        fields = ('title', 'thumbnail', 'content',)
         widgets = {
             'content': SummernoteWidget(),
         }

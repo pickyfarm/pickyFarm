@@ -123,6 +123,7 @@ class Farmer_Story(models.Model):
     farmer = models.ForeignKey(
         'Farmer', related_name='farmer_stories', on_delete=models.CASCADE) # 작성자
     title = models.CharField(max_length=50) # 제목
+    thumbnail = models.ImageField(upload_to='story_thumbnail/%Y/%m/%d/', null=True, blank=True)
     content = models.TextField() # 내용
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -130,12 +131,12 @@ class Farmer_Story(models.Model):
     def __str__(self):
         return f'{self.farmer} story - {self.title}'
     
-class Farmer_Story_Image(models.Model):
-    image = models.ImageField(upload_to='editor_review_images')
-    update_at = models.DateTimeField(auto_now=True)
-    create_at = models.DateTimeField(auto_now_add=True)
-    farmer_story = models.ForeignKey(
-        Farmer_Story, related_name="farmer_story_images", on_delete=models.CASCADE)
+# class Farmer_Story_Image(models.Model):
+#     image = models.ImageField(upload_to='editor_review_images')
+#     update_at = models.DateTimeField(auto_now=True)
+#     create_at = models.DateTimeField(auto_now_add=True)
+#     farmer_story = models.ForeignKey(
+#         Farmer_Story, related_name="farmer_story_images", on_delete=models.CASCADE)
 
 class Farm_Tag(models.Model):
     tag = models.CharField(max_length=30)
