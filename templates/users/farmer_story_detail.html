@@ -5,6 +5,10 @@
 Farmer's Story
 {% endblock title_name %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/farmers_detail.css' %}">
+{% endblock %}
+
 {% block main_content %}
 <div class="content mx-auto" style="margin-top: 130px;">
     <img src="{% static 'images/farm/leaf.svg' %}" class="mx-auto" alt="">
@@ -21,37 +25,82 @@ Farmer's Story
             </div>
         </div>
         <div class="text-center text-5xl font-medium" style="color:#5e6656;"> {{ main_story.title }} </div>
-        <div class="w-2 h-2 mx-auto mt-6 mb-4" style="border: solid 1px rgba(112, 112, 112, 0.5); border-radius:50%;"></div>
-        <div class="text-center text-lg font-light" style="color:#5e6656;"> 부제 들어가는 자리 </div>
+        <div class="w-2 h-2 mx-auto mt-6 mb-16" style="border: solid 1px rgba(112, 112, 112, 0.5); border-radius:50%;"></div>
+        <div class="px-5">{{ main_story.content|safe }}</div>
         <div class="absolute bottom-0 pb-12 w-full text-center font-light text-3xl" style="color:#5e6656;"> {{ farmer.farm_name }} </div>
     </div>
     <!--목록으로 버튼-->
-    <div class="content relative mb-28">
-        <div class="absolute right-0 text-xl text-center" id="back_btn"
-        onclick="location.href='{% url 'users:farmers_page' %}'"> 목록으로 </div>
+    <div class="content flex flex-row justify-end mb-28" onclick="location.href='{% url 'users:farmers_page' %}'"> 
+        <div class="text-lg" id="back_btn"> 파머스 페이지로 돌아가기 </div>
+        <img src="{% static 'images/farm/r_arrow.svg' %}" class="cursor-pointer" alt="">
     </div>
-    <!--farmer's story list-->
-    <div class="text-3xl text-center mb-24" style="color: #808080;"> Farmer's Story </div>
-    <div class="flex flex-row justify-around mb-28">
-        {% for story in stories %}
-            <div class="p-5" id="story_wrap">
-                <img src="" alt="" class="" id="story_img">
-                <div class="flex flex-row justify-between text-xs mt-2 mb-1">
-                    <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
-                    <div id="views">조회수</div>
+    <!--농가 정보-->
+    <div class="" id="farm_info">
+        <div class="flex flex-row mb-6">
+            <img src="{% static 'images/farm/sm_leaf.svg' %}" class="mr-3" alt="">
+            <div class="font_green font-light" id="">농가 정보</div>
+        </div>
+        <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
+            <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-4" id="farmer_profile">
+            <img src="{{ farmer.farm_profile.url }}" alt="" class="mr-16" id="farm_profile">
+            <div class="w-96">
+                <div class="flex flex-row mb-2" id="tag_wrap">
+                    {% for tag in tags %}
+                        <a href="#"><div class="mr-2" id="farm_tag">#{{ tag }}</div></a>
+                    {% endfor %}
                 </div>
-                <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+                <div class="flex flex-row items-center mb-3" id="farm_wrap">
+                    <div class="font-medium text-3xl" id="farm_name">{{ farmer.farm_name }}</div>
+                    <div class="font-thin text-2xl mx-4" id="bar">|</div>
+                    <div class="font-light text-xl" id="farmer_name">{{ farmer.user.nickname }}</div>
+                </div>
+                <div id="profile_title_wrap">
+                    <div class="font-light text-xl" id="profile_title">"{{ farmer.profile_title }}"</div>
+                </div>
             </div>
-        {% endfor %}
+            <div id="sub_wrap">
+                <div class="text-xl" id="sub_btn">구독하기</div>
+            </div>
+        </div>
     </div>
-    <div class="h-10 mb-56 bg-gray-200 text-center" id="paginator">
-        paginator
+</div>
+<div class="mx-auto w-screen bg_gray pt-16">
+    <div class="content mx-auto">
+        <!-- comment -->
+        <div class="flex justify-end">
+            <div>댓글쓰기</div>
+        </div>
+        <div></div>
+        <!--farmer's story list-->
+        <div class="text-3xl text-center mb-24" style="color: #808080;"> Farmer's Story </div>
+        <div class="flex flex-row justify-around mb-28">
+            {% for story in stories %}
+                <div class="p-5" id="story_wrap">
+                    <img src="" alt="" class="" id="story_img">
+                    <div class="flex flex-row justify-between text-xs mt-2 mb-1">
+                        <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+                        <div id="views">조회수</div>
+                    </div>
+                    <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- paginator -->
+        <div class="h-10 mb-56 bg-gray-200 text-center" id="paginator">
+            paginator
+        </div>
     </div>
 </div>
 
 <style>
     .content{
         width: 990px;
+    }
+    .font_green {
+        color: #5e6656;
+    }
+    .bg_gray {
+        background-color: #f2f2f2;
     }
 
     #story_content {
@@ -62,17 +111,13 @@ Farmer's Story
     }
 
     #back_btn {
-        width: 147px;
-        height: 40px;
-        border-radius: 20px;
-        border: solid 1px #b3b3b3;
+        height: 29px;
         color: #5e6656;
-        padding: 6px 32px 5px 32px;
         cursor: pointer;
+        margin-right: 10px;
     }
     #back_btn:hover {
-        background-color: #5e6656;
-        color:#fff;
+        font-size: 1.127rem;
         transition-duration: 0.8s;
     }
 
