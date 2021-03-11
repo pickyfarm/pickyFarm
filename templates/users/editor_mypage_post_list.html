@@ -1,0 +1,76 @@
+{% extends "users/editor_mypage_base.html" %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/users/editor_mypage_post_list.css' %}">
+
+
+{% block content %}
+<div id="content-wrap" class="ml-auto flex flex-col">
+    <div id="section-title" class=" text-left">글 등록 현황 / 관리</div>
+    <div id="select-all-section" class="flex items-center">
+        <input type="checkbox" name="select-all" id="select-all-reviews">
+        <label for="select-all-reviews" id="select-all">전체 글 선택</label>
+    </div>
+
+    <div id="review-list-section" class="flex flex-col">
+        {% for review in reviews %}
+        <div class="review-section flex items-center">
+            <input type="checkbox" name="select" id="select-review-{{review.pk}}">
+            <label for="select-review-{{review.pk}}" class="select-review"></label>
+            <div class="article flex justify-between">
+                <div class="info flex flex-col">
+                    <a href="{% url 'editors_pick:detail' review.pk %}"><div class="title">{{review.title}}</div></a>
+                    <div class="article-info flex">
+                        <div class="upload mr-6">{{review.create_at.date|date:"Y.m.d"}}</div>
+                        <div class="comments mr-6">댓글 3</div>
+                        <div class="views mr-6">조회수 {{review.hits}}</div>
+                        <div class="likes">좋아요 9</div>
+                    </div>
+                    <div class="preview break-words mt-auto">{{review.get_preview}}</div>
+                </div>
+                <div class="article-img bg-cover" style="background-image:url('{{review.main_image.url}}');"></div>
+            </div>
+            <div class="edit-review flex flex-col">
+                <img src="{% static 'images/users/pen.svg' %}" alt="">
+                <p class="edit-review-button">수정</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button id="select-delete" class="text-center">선택 삭제</button>
+    <button id="post-review" class="mx-auto">글 쓰기</button>
+</div>
+
+<style>
+    input[type='checkbox']{
+        display: none;
+    }
+
+    input[type='checkbox'] + label::before{
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+ 
+    }
+
+    input[type='checkbox']:checked + label::before{
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+
+    #select-all::before{
+        margin-right: 34px;
+    }
+
+    #select-all{
+        color: #5c6754;
+        font-weight: normal;
+        font-size: 15px;
+    }
+</style>
+{% endblock content %}

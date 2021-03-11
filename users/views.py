@@ -772,7 +772,12 @@ class EditorMyPage(ListView):
         if not Editor.objects.filter(user=self.request.user).exists():
             return redirect(reverse('core:main'))
 
-
         return super().render_to_response(context, **response_kwargs)
 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["editor"] = self.request.user.editor
+        print(context) 
+        return context
     
