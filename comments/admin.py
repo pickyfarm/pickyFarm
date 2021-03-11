@@ -20,3 +20,11 @@ class EditorReviewCommentAdmin(admin.ModelAdmin):
 @admin.register(models.Editor_Review_Recomment)
 class EditorReviewRecommentAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(models.Farmer_Story_Comment)
+class FarmerStoryCommentAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(models.Farmer_Story_Recomment)
+class FarmerStoryRecommentAdmin(admin.ModelAdmin):
+    pass
