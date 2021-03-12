@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from .forms import Order_Group_Form
 # Create your views here.
 
 
@@ -8,11 +9,15 @@ def orderingCart(request):
 
 
 @login_required
-def payment(request):
-    # user = request.user
-    # if request.method == 'GET':
-    #     ctx = {
-            
-    #     }
-    # else:
+def payment_create(request):
+    consumer = request.user.consumer
+    if request.method == 'GET':
+        form = Order_Group_Form()
+        ctx = {
+            'form':form,
+            'consumer':consumer,
+        }
+        return render(request, 'orders/payment.html', ctx)
+
+
     pass

@@ -24,15 +24,10 @@ class Order_Group_Form(forms.ModelForm):
         ('기타장소', '기타장소'),
     }
 
-
-    payment_type = forms.ChoiceField(
-        choices=PAYMENT_TYPES, label="결제 수단")
+    payment_type = forms.ChoiceField(choices=PAYMENT_TYPES, label="결제 수단")
     rev_loc_at = forms.ChoiceField(
         choices=REV_LOC_ATS, widget=forms.RadioSelect)
 
-    rev_loc_detail = forms.TextInput(required=False)
-    rev_message = forms.TextInput(required=False)
-    to_farm_message = forms.TextInput(required=False)
 
     # status, rev_address, total_price, total_quantity, oreder_at 은 따로 처리
 
@@ -50,6 +45,10 @@ class Order_Group_Form(forms.ModelForm):
             'payment_type': '결제 수단',
         }
         widgets = {
+            'rev_loc_detail': forms.TextInput(attrs={'required':'False'}),
+            'rev_message': forms.TextInput(attrs={'required':'False'}),
+            'to_farm_message': forms.TextInput(attrs={'required':'False'})
+
         }
 
     # def clean_product(self):

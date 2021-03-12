@@ -1,0 +1,107 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/users/payment.css' %}">
+{% endblock stylesheet %}
+
+{% block title_name %}
+피키팜 | 결제 진행
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents flex flex-col lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
+    
+    <div id="title-section">
+        <div id="title-text">주문서 작성 / 결제</div>
+        <div id="requried-section">
+            <img src="{% static 'images/orders/dot.svg' %}">
+            <div id="required-text">필수입력사항</div>
+        </div>
+    </div>
+
+    <div id="info-section">
+        <div id="info-title-section" class="flex flex-row ">
+            <div>주문자 정보</div>
+            <div></div>
+        </div>
+        <div id="info-name-section" class="flex flex-row">
+            <div>{{form.rev_name.label_tag}}</div>
+            <div>{{form.rev_name}}</div>
+        </div>
+        <div id="info-phone-number-section" class="flex flex-row">
+            <div>{{form.rev_phone_number.label_tag}}</div>
+            <div>{{form.rev_phone_number}}</div>
+        </div>
+    </div>
+
+    <div id="delivery-section">
+        <div id="delivery-title-section" class="flex flex-row ">
+            <div>배송지 정보</div>
+            <div></div>
+        </div>
+        <div id="delivery-cat-section" class="flex flex-row">
+            <div><input type="radio" value="기본배송지"></div>
+            <div><input type="radio" value="직접입력"></div>
+        </div>
+        <div id="delivery-address-section" class="flex flex-row">
+            <div>배송지</div>
+            <div><img src="{% static 'images/orders/dot.svg' %}"></div>
+            <div></div>
+        </div>
+        <div id="delivery-rev-loc-at-section" class="flex flex-row">
+            <div>{{form.rev_loc_at.label_tag}}</div>
+            <div><img src="{% static 'images/orders/dot.svg' %}"></div>
+            <div>{{form.rev_loc_at}}</div>
+        </div>
+        <div id="delivery-rev-message-section" class="flex flex-row">
+            <div>{{form.rev_message.label_tag}}</div>
+            <div>
+                <div>{{form.rev_message}}</div>
+                <div>* 정확한 배송을 위해서 장소의 출입방법이나 특징 등을 자세하게 작성해주세요</div>
+            </div>
+        </div>
+        <div id="delivery-to-farm-message-section" class="flex flex-row">
+            <div>{{form.to_farm_message.label_tag}}</div>
+            <div>{{form.to_farm_message}}</div>
+        </div>
+    </div>
+
+    <div id="orders-section">
+
+    </div>
+
+    <div id="pay-section">
+        <div id="pay-title-section" class="flex flex-row ">
+            <div>결제 수단</div>
+            <div></div>
+        </div>
+        <div id="payment-type-section" class="flex flex-row">
+            {{form.payment_type}}
+        </div>
+    </div>
+
+    <div id="btns-section">
+        <div id="agree-section">
+            <label><input type="radio" value="agree">구매할 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다</label>
+        </div>
+        <div id="buttons"> 
+            <div id="go-back-btn">뒤로가기</div>
+            <div id="go-btn">결제하기</div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+
+    
+    
+
+</script>
+
+{% block script_section %}
+
+{% endblock script_section %}
+{% endblock main_content %}
