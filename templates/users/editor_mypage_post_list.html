@@ -114,27 +114,21 @@
             return;
         }
 
-        $.when($.each(deleteReviews, function (index, item) {
-            $.ajax({
-                url: 'http://127.0.0.1:8000/editors_pick/' + item + '/delete',
-                success: function (data) {
-                    console.log("deletion success : " + data['success']);
-                },
-            });
-        })).done(function () {
-            alert(`${deleteReviews.length}개의 리뷰가 삭제되었습니다.`);
-            location.reload();
+        $.ajax({
+            type: "POST",
+            url: "{% url 'editors_pick:delete' %}",
+            data: {
+                'select':deleteReviews,
+            },
+            dataType: "json",
+            success: function(data){
+                if(data['success']){
+                    alert(`${deleteReviews.length}개의 리뷰를 삭제하였습니다.`);
+                    location.reload();
+                }
+            }
         });
     });
-
-    let reviewDelete = function (pk) {
-        $.ajax({
-            url: 'http://127.0.0.1:8000/editors_pick/' + pk + '/delete',
-            success: function (data) {
-                console.log("deletion success : " + data['success']);
-            },
-        });
-    };
 
 </script>
 {% endblock content %}
