@@ -60,12 +60,12 @@ form {
     margin-right: 28px;
 }
 
-#id_farm_cat li label input {
+/* #id_farm_cat li label input {
     width: 20px; 
     height: 20px;
     display: inline-block;
     margin-right: 12px;
-}
+} */
 
 
 #id_desc {
