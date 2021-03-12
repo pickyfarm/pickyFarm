@@ -231,6 +231,17 @@ def update(request, pk):
 def delete(request, pk):
     post = get_object_or_404(Editor_Review, pk=pk)
 
+    if request.is_ajax():
+        post.delete()
+
+        ctx = {
+            "success": True,
+        }
+
+        print('delete success')
+
+        return JsonResponse(ctx)
+
     try:
         user = request.user.editor
         if post.author != user:

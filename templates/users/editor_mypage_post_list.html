@@ -19,7 +19,9 @@
             <label for="select-review-{{review.pk}}" class="select-review"></label>
             <div class="article flex justify-between">
                 <div class="info flex flex-col">
-                    <a href="{% url 'editors_pick:detail' review.pk %}"><div class="title">{{review.title}}</div></a>
+                    <a href="{% url 'editors_pick:detail' review.pk %}">
+                        <div class="title">{{review.title}}</div>
+                    </a>
                     <div class="article-info flex">
                         <div class="upload mr-6">{{review.create_at.date|date:"Y.m.d"}}</div>
                         <div class="comments mr-6">댓글 3</div>
@@ -47,11 +49,11 @@
 </div>
 
 <style>
-    input[type='checkbox']{
+    input[type='checkbox'] {
         display: none;
     }
 
-    input[type='checkbox'] + label::before{
+    input[type='checkbox']+label::before {
         content: "";
         display: inline-block;
         position: relative;
@@ -59,19 +61,19 @@
         width: 20px;
         height: 20px;
         background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
- 
+
     }
 
-    input[type='checkbox']:checked + label::before{
+    input[type='checkbox']:checked+label::before {
         content: "";
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
 
-    #select-all::before{
+    #select-all::before {
         margin-right: 34px;
     }
 
-    #select-all{
+    #select-all {
         color: #5c6754;
         font-weight: normal;
         font-size: 15px;
@@ -82,14 +84,14 @@
     let selectAllButton = document.querySelector('input[name="select-all"]');
     let selectedReviews = document.querySelectorAll('input[name="select"]');
 
-    selectAllButton.addEventListener('click', function(){
-        selectedReviews.forEach((checkbox) =>{
+    selectAllButton.addEventListener('click', function () {
+        selectedReviews.forEach((checkbox) => {
             checkbox.checked = selectAllButton.checked;
         });
     });
 
     selectedReviews.forEach(item => {
-        item.addEventListener('click', function(){
+        item.addEventListener('click', function () {
             let selectedReviewCount = document.querySelectorAll('input[name="select"]:checked').length;
 
             if (selectedReviews.length != selectedReviewCount) {
@@ -101,6 +103,38 @@
             }
         });
     });
+
+    $('#select-delete').click(function () {
+        let deleteReviews = $.makeArray($('input[name="select"]:checked').map(function () {
+            return parseInt($(this).attr("id").slice(14));
+        }));
+
+        if (deleteReviews.length == 0) {
+            alert("삭제할 리뷰를 선택하세요!");
+            return;
+        }
+
+        $.when($.each(deleteReviews, function (index, item) {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/editors_pick/' + item + '/delete',
+                success: function (data) {
+                    console.log("deletion success : " + data['success']);
+                },
+            });
+        })).done(function () {
+            alert(`${deleteReviews.length}개의 리뷰가 삭제되었습니다.`);
+            location.reload();
+        });
+    });
+
+    let reviewDelete = function (pk) {
+        $.ajax({
+            url: 'http://127.0.0.1:8000/editors_pick/' + pk + '/delete',
+            success: function (data) {
+                console.log("deletion success : " + data['success']);
+            },
+        });
+    };
 
 </script>
 {% endblock content %}
