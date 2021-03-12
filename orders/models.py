@@ -13,9 +13,11 @@ class Order_Group(models.Model):
     status = models.CharField(max_length=20, choices=STATUS, default='wait')
     rev_address = models.TextField()
     rev_name = models.CharField(max_length=50)
+    rev_phone_number = models.CharField(max_length=30)
     rev_loc_at = models.CharField(max_length=20)
     rev_loc_detail = models.TextField(null=True, blank=True)
     rev_message = models.TextField(null=True, blank=True)
+    to_farm_message = models.TextField(null=True, blank=True)
 
     payment_type = models.CharField(max_length=20)
 
