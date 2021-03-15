@@ -405,10 +405,12 @@ def farmer_story_detail(request, pk):
     main_story = Farmer_Story.objects.get(pk=pk)
     farmer = main_story.farmer
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
+    tags = Farm_Tag.objects.all().filter(farmer=farmer)
     ctx = {
         'main_story': main_story,
         'farmer': farmer,
         'stories': stories,
+        'tags': tags,
     }
     return render(request, 'users/farmer_story_detail.html', ctx)
 

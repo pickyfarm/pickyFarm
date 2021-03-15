@@ -86,3 +86,17 @@ class Editor_Review_Recomment(Comment):
 
     comment = models.ForeignKey('Editor_Review_Comment', related_name="editor_review_recomments", on_delete=models.CASCADE)
     author = models.ForeignKey(User, related_name='editor_review_recomment', on_delete=models.CASCADE)
+
+
+class Farmer_Story_Comment(Comment):
+    """Farmer_Story_Comment Model Defiition"""
+
+    story = models.ForeignKey("users.Farmer_Story", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name='farmer_story_comments', on_delete=models.CASCADE)
+
+
+class Farmer_Story_Recomment(Comment):
+    """Farmer_Story_Recomment Model Defiition"""
+
+    comment = models.ForeignKey("Farmer_Story_Comment", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name='farmer_story_recomments', on_delete=models.CASCADE)
