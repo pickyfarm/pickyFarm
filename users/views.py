@@ -521,7 +521,6 @@ class MyPasswordResetView(PasswordResetView):
 
         if User.objects.filter(email=self.request.POST.get('email')).exists() and User.objects.get(email=self.request.POST.get('email')).username == self.request.POST.get('username'):
             user_email = form.cleaned_data.get("email")
-            print(user_email)
             return super().form_valid(form)
 
         else:
