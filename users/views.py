@@ -4,6 +4,7 @@ import json
 from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User, Editor
 from products.models import Category, Product
 from editor_reviews.models import Editor_Review
+from comments.models import Editor_Review_Comment
 from django.db.models import Count
 from math import ceil
 from datetime import timedelta
@@ -27,6 +28,7 @@ from addresses.forms import AddressForm
 from addresses.models import Address
 from math import ceil
 from django.conf import settings
+
 
 
 
@@ -777,7 +779,34 @@ class EditorMyPage(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["editor"] = self.request.user.editor
-        print(context) 
+        context["editor"] = self.request.user.editor 
         return context
     
+@method_decorator(login_required, name='dispatch')
+class EditorMyPage_Comments(ListView):
+    model = Editor_Review_Comment
+    context_object_name = 'comments'
+    template_name = 'users/editor_mypage_comments.html'
+
+    def get_queryset(self):
+        reviews = Editor_Review.objects.filter(author=self.request.user.editor)
+        print(reviews)
+
+        comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
+
+        for review in reviews:
+            comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
+
+        return comments.order_by('-create_at')
+
+    def render_to_response(self, context, **response_kwargs):
+        if not Editor.objects.filter(user=self.request.user).exists():
+            return redirect(reverse('core:main'))
+
+        return super().render_to_response(context, **response_kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["editor"] = self.request.user.editor
+        
+        return context

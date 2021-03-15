@@ -1,0 +1,8 @@
+{% extends "users/editor_mypage_base.html" %}
+{% load static %}
+
+{% block content %}
+{% for comment in comments %}
+{{comment.text}}
+{% endfor %}
+{% endblock content %}
