@@ -1,0 +1,9 @@
+#content-wrap{
+    width: 720px !important;
+}
+    
+#section-title{
+    font-size: 23px;
+    font-weight: bold;
+    color: #5c6754;
+}

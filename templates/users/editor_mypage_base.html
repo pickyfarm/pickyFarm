@@ -3,7 +3,8 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/users/editor_mypage_base.css' %}">
-<link rel="stylesheet" href="{% static 'css/users/editor_mypage_post_list.css' %}">
+{% block stylesheet_editor_mypage %}
+{% endblock stylesheet_editor_mypage %}
 {% endblock stylesheet %}
 
 {% block title_name %}
