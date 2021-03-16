@@ -1,0 +1,29 @@
+{% extends "users/mypage_base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div id="top-btn-section" class="flex flex-row">
+  <div>배송지에 따라 배송비가 달라질 수 있습니다</div>
+  <div>+ 배송지 추가</div>
+</div>
+
+<div id="index-section" class="flex flex-row">
+  <div>선택</div>
+  <div>주소</div>
+  <div>수정</div>
+</div>
+
+<div id="rev-address-section">
+  
+</div>
+
+{% endblock content %}
+
+{% block script_section %}
+
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
+
+</script>
+  
+{% endblock script_section %}

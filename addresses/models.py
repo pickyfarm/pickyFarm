@@ -12,6 +12,9 @@ class Address(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
 
+    update_at = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return f'{self.user.nickname}'
     

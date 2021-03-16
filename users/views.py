@@ -697,7 +697,12 @@ def mypage(request, cat):
             ctx.update(ctx_carts)
             return render(request, 'users/mypage_carts.html', ctx)
         elif cat_name == 'rev_address':
-            pass
+            rev_addresses = request.user.addresses.all().order_by('-create_at')
+            ctx_rev_address = {
+                'rev_addresses':rev_addresses,
+            }
+            ctx.update(ctx_rev_address)
+            return render(request, 'users/mypage_rev_address.html', ctx)
         elif cat_name == 'info':
             user = consumer.user
             info = {
