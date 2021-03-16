@@ -9,7 +9,6 @@ from datetime import timedelta
 from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView, DetailView
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm, FarmerStoryForm, FarmEnrollForm
 from django.core.exceptions import ObjectDoesNotExist
@@ -26,6 +25,8 @@ from addresses.models import Address
 from math import ceil
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
+from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
+
 
 
 
@@ -403,19 +404,6 @@ def farmer_story_create(request):
         return render(request, 'users/farmer_story_create.html', ctx)
 
 # farmer's story detail page
-# def farmer_story_detail(request, pk):
-#     main_story = Farmer_Story.objects.get(pk=pk)
-#     farmer = main_story.farmer
-#     stories = Farmer_Story.objects.all().filter(farmer=farmer)
-#     tags = Farm_Tag.objects.all().filter(farmer=farmer)
-#     ctx = {
-#         'main_story': main_story,
-#         'farmer': farmer,
-#         'stories': stories,
-#         'tags': tags,
-#     }
-#     return render(request, 'users/farmer_story_detail.html', ctx)
-
 class Story_Detail(DetailView):
     model = Farmer_Story
     template_name = "users/farmer_story_detail.html"
@@ -424,9 +412,20 @@ class Story_Detail(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(DetailView, self).get_context_data(**kwargs)
         farmer = self.get_object().farmer
+        story = Farmer_Story.objects.all().order_by('-id')
+        
+        paginator = Paginator(story, 3)
+        page = self.request.GET.get('page')
+        stories = paginator.get_page(page)
+        
+        comments = self.get_object().farmer_story_comments.order_by('-id')
+        form = FarmerStoryCommentForm()
+
         ctx['farmer'] = farmer
-        ctx['stories'] = Farmer_Story.objects.all().filter(farmer=farmer)
+        ctx['stories'] = stories
         ctx['tags'] = Farm_Tag.objects.all().filter(farmer=farmer)
+        ctx['comments'] = comments
+        ctx['form'] = form
         
         if self.request.user != AnonymousUser():
             ctx['user'] = self.request.user
@@ -434,8 +433,6 @@ class Story_Detail(DetailView):
         else:
             ctx['user'] = None
 
-        return ctx
-        
         return ctx
 
     def render_to_response(self, context, **response_kwargs):

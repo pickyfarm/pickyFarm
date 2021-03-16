@@ -12,4 +12,7 @@ urlpatterns = [
     # editors_review
     # path('editors_review_comment/<int:pk>/', views.editors_review_comment, name="editors_review_comment"),
     # path('editors_review_comment/<int:pk>/recomment/', views.editors_review_recomment, name="editors_review_recomment"),
+
+    # farmer_story
+    path('farmer_story_comment/<int:pk>/create/', views.story_comment_create, name='story_comment_create'),
 ]
