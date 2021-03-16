@@ -8,7 +8,7 @@ from math import ceil
 from datetime import timedelta
 from django.utils import timezone
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm, FarmerStoryForm, FarmEnrollForm
@@ -25,6 +25,8 @@ from addresses.forms import AddressForm
 from addresses.models import Address
 from math import ceil
 from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
+
 
 
 
@@ -401,18 +403,66 @@ def farmer_story_create(request):
         return render(request, 'users/farmer_story_create.html', ctx)
 
 # farmer's story detail page
-def farmer_story_detail(request, pk):
-    main_story = Farmer_Story.objects.get(pk=pk)
-    farmer = main_story.farmer
-    stories = Farmer_Story.objects.all().filter(farmer=farmer)
-    tags = Farm_Tag.objects.all().filter(farmer=farmer)
-    ctx = {
-        'main_story': main_story,
-        'farmer': farmer,
-        'stories': stories,
-        'tags': tags,
-    }
-    return render(request, 'users/farmer_story_detail.html', ctx)
+# def farmer_story_detail(request, pk):
+#     main_story = Farmer_Story.objects.get(pk=pk)
+#     farmer = main_story.farmer
+#     stories = Farmer_Story.objects.all().filter(farmer=farmer)
+#     tags = Farm_Tag.objects.all().filter(farmer=farmer)
+#     ctx = {
+#         'main_story': main_story,
+#         'farmer': farmer,
+#         'stories': stories,
+#         'tags': tags,
+#     }
+#     return render(request, 'users/farmer_story_detail.html', ctx)
+
+class Story_Detail(DetailView):
+    model = Farmer_Story
+    template_name = "users/farmer_story_detail.html"
+    context_object_name = "main_story"
+
+    def get_context_data(self, **kwargs):
+        ctx = super(DetailView, self).get_context_data(**kwargs)
+        farmer = self.get_object().farmer
+        ctx['farmer'] = farmer
+        ctx['stories'] = Farmer_Story.objects.all().filter(farmer=farmer)
+        ctx['tags'] = Farm_Tag.objects.all().filter(farmer=farmer)
+        
+        if self.request.user != AnonymousUser():
+            ctx['user'] = self.request.user
+
+        else:
+            ctx['user'] = None
+
+        return ctx
+        
+        return ctx
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+
+        if self.request.session.get('_auth_user_id') is None:
+            cookie_name = 'farmer_story_hit'
+        else:
+            cookie_name = f'farmer_story_hit:{self.request.session["_auth_user_id"]}'
+
+        if self.request.COOKIES.get(cookie_name) is None:
+            response.set_cookie(cookie_name, self.kwargs['pk'], 3600)
+            main_story = self.get_object()
+            main_story.hits += 1
+            main_story.save()
+        else:
+            cookie = self.request.COOKIES.get(cookie_name)
+            cookies = cookie.split('|')
+
+            if str(self.kwargs['pk']) not in cookies:
+                response.set_cookie(cookie_name, cookie + f'|{self.kwargs["pk"]}')
+                main_story = self.get_object()
+                main_story.hits += 1
+                main_story.save()
+
+        return response
+
 
 def farmer_sub_inc(request):
     return render(request, 'users/farmers_page.html',)

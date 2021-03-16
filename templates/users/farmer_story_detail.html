@@ -20,7 +20,7 @@ Farmer's Story
         <div class="relative mb-11"> 
             <div class="text-center text-3xl font-light pt-5" style="color:#5e6656;">{{ main_story.create_at|date:"Y.m.d" }}</div>
             <div class="absolute bottom-0 right-0 flex flex-row">
-                <div class="mr-2" style="color: #999999;">1,200</div>
+                <div class="mr-2" style="color: #999999;">{{ main_story.hits }}</div>
                 <img class="mr-9" src="{% static 'images/farm/view.svg' %}" alt=""/>
             </div>
         </div>

@@ -245,7 +245,7 @@
                                 {% else %}
                                 <td class="py-7" id="row_title"><a href="#"> {{ story.title }}...</a></td>
                                 {% endif %}
-                                <td class="py-7" id="row_views"> 1000 </td>
+                                <td class="py-7" id="row_views"> {{ story.hits }} </td>
                                 <td class="py-7" id="row_create_at"> {{ story.create_at|date:"Y-m-d" }} </td>
                             </tr>
                         {% endfor %}
