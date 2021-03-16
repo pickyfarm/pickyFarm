@@ -18,18 +18,16 @@ class Order_Group_Form(forms.ModelForm):
     )
 
     REV_LOC_ATS = {
-        ('문 앞', '문 앞'),
+        ('기타장소', '기타장소'),
         ('경비실', '경비실'),
         ('택배함', '택배함'),
-        ('기타장소', '기타장소'),
+        ('문 앞', '문 앞'),
     }
 
-    payment_type = forms.ChoiceField(choices=PAYMENT_TYPES, label="결제 수단")
+    payment_type = forms.ChoiceField(choices=PAYMENT_TYPES, label="결제 수단", widget=forms.RadioSelect)
     rev_loc_at = forms.ChoiceField(
-        choices=REV_LOC_ATS, widget=forms.RadioSelect)
+        label="받으실 장소", choices=REV_LOC_ATS, widget=forms.RadioSelect)
 
-
-    # status, rev_address, total_price, total_quantity, oreder_at 은 따로 처리
 
     class Meta:
         model = Order_Group

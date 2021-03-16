@@ -1,0 +1,171 @@
+#title-section{
+    width:990px;
+    padding-top:100px;
+}
+
+
+#title-text{
+    font-family: NotoSansKR;
+  font-size: 30px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #808080;
+  margin-bottom:72px;
+}
+
+#required-text{
+    font-family: NotoSansKR;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #707070;
+  margin-left:8px;
+}
+
+#sub-title-text{
+    font-family: NotoSansKR;
+  font-size: 25px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.4;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+#sub-title-line{
+    width: 845px;
+    height:28px;
+    margin-left:24.5px;
+    margin-bottom:0px;
+  border-bottom: solid 1px #afb3ab;
+}
+
+#label-text{
+    font-family: NotoSansKR;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #808080;
+}
+
+
+/* input text form style */
+
+#small-form>input{
+    width: 300px;
+    height:40px;
+  border-radius: 3px;
+  border: solid 1px #808080;
+}
+
+#middle-form>input{
+    width: 499px;
+  height: 40px;
+  padding-left:5px;
+  border-radius: 3px;
+  border: solid 1px #808080;
+}
+
+#big-form>input{
+    width: 499px;
+  height: 80px;
+  padding: 3px;
+  border-radius: 3px;
+  border: solid 1px #808080;
+}
+
+
+#help-text{
+    font-family: NotoSansKR;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: right;
+  color: #5c6754;
+  margin-top:5px;
+}
+
+#dot{
+    width:15px;
+    margin-left: 5px;
+}
+
+#dot-rev-loc-at{
+    width:15px;
+    padding-bottom: 90px;
+    margin-left: 5px;
+}
+
+#info-section{
+    width:990px;
+    margin-bottom: 80px;
+}
+
+#delivery-section{
+    width:990px;
+}
+
+#orders-section{
+    width:990px;
+}
+
+#pay-section{
+    width:990px;
+}
+
+#payment-type-section>ul{
+    display: flex;
+    direction: row;
+}
+
+#payment-type-section>ul>li{
+    margin-left:10px;
+    font-family: NotoSansKR;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #808080;
+}
+
+#btns-section{
+    width:990px;
+    margin-top:106px;
+}
+
+#go-btn{
+    width: 350px;
+  height: 80px;
+  padding: 14px 110px 14px 111px;
+  border-radius: 50px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 35px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
