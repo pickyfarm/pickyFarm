@@ -1,0 +1,45 @@
+{% extends "users/mypage_base.html" %}
+{% load static %}
+
+{% block content %}
+<div id="contents-container">
+<div id="add-rev-address-title-section" class="flex flex-row">
+  <div class="w-1/6 flex justify-center"><img id="leaf" src="{% static 'images/users/leaf.svg' %}"></div>
+  <div class="w-4/6">
+    <div id="add-rev-address-title">무료배송이 가능한 지역입니다</div>
+    <div id="add-rev-address-sub-title">제주도 외 산지 지역은 별도의 배송비가 추가됩니다</div>
+  </div>
+  <div class="w-1/6 flex justify-center"><img id="leaf" src="{% static 'images/users/leaf.svg' %}"></div>
+</div>
+
+
+<div id="rev-address-section">
+    <form method="POST">
+        {% csrf_token %}
+    <div id="full-address-section" class="flex flex-row">
+        {{addressform.full_address}}
+        <div id="address-search-btn" onclick="getAddress()">검색</div>
+    </div>
+
+    <div>
+        {{addressform.detail_address}}
+        <div id="add-rev-address-help-text">*상세주소를 입력하세요</div>
+    </div>
+  
+    {{addressform.sido}}
+    {{addressform.sigungu}}
+    {{addressform.extra_address}}
+
+    <button id="add-rev-address-btn" type="submit">저장</div>
+    </form>
+</div>
+</div>
+
+{% endblock content %}
+
+{% block script_section %}
+
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
+
+
+{% endblock script_section %}
