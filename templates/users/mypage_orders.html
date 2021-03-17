@@ -4,68 +4,118 @@
 {% block content %}
 
 {% if order_detail is None %}
-  <div class="mt-14 flex flex-col justify-center">
-    <div>
-      아직 구매한 무난이가 없습니다
-    </div>
-    <a id="redirect_a" href="{% url 'products:store_list' %}"><div id="redirect_btn">무난이 구매하러 가기</div></a>
+<div class="mt-14 flex flex-col justify-center items-center">
+  <div>
+    아직 구매한 무난이가 없습니다
   </div>
+  <a id="redirect_a" href="{% url 'products:store_list' %}">
+    <div id="redirect_btn">무난이 구매하러 가기</div>
+  </a>
+</div>
 {% else %}
-  
-  <div id="filter">
-      
+
+<div id="filter">
+
+</div>
+<div id="products-section" class="mt-5">
+  {% for detail in order_details %}
+  <div id="product" class="flex flex-row mb-5">
+    <div id="product_img" class="w-1/5">
+      <img src="{{detail.product.main_image.url}}">
+    </div>
+    <div class="w-2/5">
+      <div id="product_order_at2">{{group.order_at | date}} 주문</div>
+      <div class="flex flex-row">
+        <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
+        <div id="slash">|</div>
+        <div id="product_title">{{detail.product.title}}</div>
+      </div>
+      <div class="flex flex-row">
+        <div id="product_price">{{detail.total_price}}원</div>
+        <div id="product_quantity">{{detail.quantity}}g</div>
+      </div>
+      <div class="flex flex-row">
+
+        {% if detail.status == 'preparing' %}
+        <div></div>
+        <div>배송 준비 중</div>
+        {% elif detail.status == 'shipping' %}
+        <div></div>
+        <div>배송중</div>
+        {% elif detail.status == 'complete' %}
+        <div></div>
+        <div>배송 완료</div>
+        {% elif detail.status == 'cancel' %}
+        <div></div>
+        <div>주문 취소</div>
+        {% endif %}
+
+      </div>
+      <div class="flex flex-row"></div>
+    </div>
+    <div id="cart-button-section" class="w-1/5">
+      <a>
+        <div>장바구니 담기</div>
+      </a>
+    </div>
+    <div class="w-1/5">
+      <a href="{% url 'products:product_detail' detail.product.pk %}">
+        <div>무난이 보기</div>
+      </a>
+      <a>
+        <div>리뷰 쓰기</div>
+      </a>
+      <a>
+        <div>주문 취소</div>
+      </a>
+    </div>
   </div>
-  <div id="products-section" class="mt-5">
-        {% for detail in order_details %}
-          <div id="product" class="flex flex-row mb-5">
-              <div id="product_img" class="w-1/5">
-                <img src = "{{detail.product.main_image.url}}">
-              </div>
-              <div class="w-2/5">
-                <div id="product_order_at2">{{group.order_at | date}} 주문</div>
-                <div class="flex flex-row">
-                    <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
-                    <div id="slash">|</div>
-                    <div id="product_title">{{detail.product.title}}</div>
-                </div>
-                <div class="flex flex-row">
-                    <div id="product_price">{{detail.total_price}}원</div>
-                    <div id="product_quantity">{{detail.quantity}}g</div>
-                </div>
-                <div class="flex flex-row">
-                    
-                    {% if detail.status == 'preparing' %}
-                        <div></div>
-                        <div>배송 준비 중</div>
-                    {% elif detail.status == 'shipping' %}
-                        <div></div>
-                        <div>배송중</div>
-                    {% elif detail.status == 'complete' %}
-                        <div></div>
-                        <div>배송 완료</div>
-                    {% elif detail.status == 'cancel' %}
-                        <div></div>
-                        <div>주문 취소</div>
-                    {% endif %}
-                    
-                </div>
-                <div class="flex flex-row"></div>
-              </div>
-              <div id="cart-button-section" class="w-1/5">
-                <a><div>장바구니 담기</div></a>
-              </div>
-              <div class="w-1/5">
-                <a href="{% url 'products:product_detail' detail.product.pk %}"><div>무난이 보기</div></a>
-                <a><div>리뷰 쓰기</div></a>
-                <a><div>주문 취소</div></a>
-              </div>
-        </div>
-        {% endfor %}
-  </div>
-  <div id="paginator" class="flex flex-row justify-center">
-      {% for page in total_pages %}
-        <a href='?page={{page}}'><div id="page_btn" value="{{page}}">{{page}}</div></a>
-      {% endfor %}
-  </div>
+  {% endfor %}
+</div>
+<div id="paginator" class="flex flex-row justify-center">
+  {% for page in total_pages %}
+  <a href='?page={{page}}'>
+    <div id="page_btn" value="{{page}}">{{page}}</div>
+  </a>
+  {% endfor %}
+</div>
+
 {% endif %}
 {% endblock content %}
+
+{% block script_section %}
+
+<script>
+
+  let menuBtns = []
+  menuBtns.push(document.getElementById('menu_carts'))
+  menuBtns.push(document.getElementById('menu_likes'))
+  menuBtns.push(document.getElementById('menu_deliveries'))
+  menuBtns.push(document.getElementById('menu_infos'))
+  console.l
+
+  $('#menu_boughts').css({
+    "background-color": "#5c6754",
+    "color": "white",
+  })
+
+
+  menuBtns.forEach(item => {
+    item.addEventListener('mouseover', function () {
+      $(this).css({
+        "background-color": "#5c6754",
+        "color": "white",
+
+      })
+    })
+    item.addEventListener('mouseout', function () {
+      $(this).css({
+        "background-color": "white",
+        "color": "#5c6754"
+      })
+    })
+  })
+
+</script>
+  
+{% endblock script_section %}

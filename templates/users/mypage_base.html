@@ -77,11 +77,11 @@
         <div id="middle-section" class="flex flex-row">
 
             <div id="menu">
-                <div id="menu_content">구매 내역</div>
-                <div id="menu_content">찜한 목록</div>
-                <div id="menu_content">장바구니</div>
-                <div id="menu_content">배송지 관리</div>
-                <div id="menu_content">개인 정보 수정</div>
+                <div class="menu_content" id="menu_boughts">구매 내역</div>
+                <div class="menu_content" id="menu_likes">찜한 목록</div>
+                <div class="menu_content" id="menu_carts">장바구니</div>
+                <div class="menu_content" id="menu_deliveries">배송지 관리</div>
+                <div class="menu_content" id="menu_infos">개인 정보 수정</div>
             </div>
             <div id="content">
                 {% block content %}
@@ -242,7 +242,7 @@
         return cookieValue;
     }
 
-    var csrftoken = getCookie('csrftoken');
+    let csrftoken = getCookie('csrftoken');
 
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
@@ -282,6 +282,9 @@
             }
         })
     })
+
+    
+
 </script>
 
 {% block script_section %}

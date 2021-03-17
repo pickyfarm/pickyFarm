@@ -105,7 +105,7 @@
     width:150px;
 }
 
-#menu_content{
+.menu_content{
     width: 145px;
     height: 48px;
     margin-bottom: 12px;
@@ -121,6 +121,8 @@
   letter-spacing: normal;
   text-align: center;
   color: #5c6754;
+
+  cursor: pointer;
 }
 
 #filter-section{
@@ -625,7 +627,7 @@
 #q_detail{
   width: 315px;
   margin: 10px 43px 3px 15px;
-  padding: 3px 20px 3px 17px;
+  padding: 14px 11px;
   opacity: 0.6;
   border-radius: 20px;
   background-color: #ffffff;
@@ -687,6 +689,187 @@
   text-align: left;
   color: #ffffff;
 }
+
+
+/* 배송지 정보 수정 */
+
+#contents-container{
+  margin-left:130px;
+}
+
+#not-register{
+  margin-top:80px;
+}
+
+#index-section{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  text-align: left;
+  color: #5c6754;
+  margin-top:57px;
+  text-align: center;
+}
+
+#index-title-section{
+  width:97%;
+  border-bottom: solid 0.5px #b3b3b3;
+  padding-bottom : 15px;
+}
+
+#addr-section{
+  width:97%;
+  margin-top:40px;
+}
+
+#addr{
+  width:100%;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+  margin-bottom:35px;
+}
+
+#pen{
+  width:15px;
+}
+
+#del-btn-section{
+  width:68.1px;
+
+}
+
+#x{
+  width:15px;
+}
+
+#top-btn-section>:nth-child(1){
+  
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #707070;
+}
+
+#top-btn-section>:nth-child(2){
+  width: 147px;
+  height: 30px;
+  padding: 4px 28px 4px 30px;
+  border-radius: 15px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+  margin-left:300px;
+}
+
+/* 배송지 추가 */
+
+#add-rev-address-title-section{
+  width:100%;
+}
+
+#add-rev-address-title{
+  font-family: NotoSansKR;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+}
+
+#add-rev-address-sub-title{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #b3b3b3;
+}
+
+#leaf{
+  width:36.2px;
+}
+
+#full-address-section{
+  margin-top:80px;
+}
+
+#id_full_address{
+  width: 664px;
+  height: 35px;
+  opacity: 0.5;
+  padding-left:10px;
+  padding-right:10px;
+  border-radius: 20px;
+  border: solid 1px #5c6754;
+}
+
+#id_detail_address{
+  width: 719px;
+  height: 35px;
+  opacity: 0.5;
+  padding-left:10px;
+  padding-right:10px;
+  border-radius: 20px;
+  margin-top:15px;
+  border: solid 1px #5c6754;
+}
+
+#add-rev-address-help-text{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+#submit-rev-address-btn{
+  width: 125px;
+  height: 30px;
+  padding: 4px 4px;
+  border-radius: 15px;
+  border: solid 1px #5e6656;
+  background-color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  margin-top:67px;
+}
+
+
+/* 개인정보 수정 */
 
 #info-edit-container{
   padding-left:128px;

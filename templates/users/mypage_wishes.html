@@ -50,7 +50,9 @@
 
 <div id="controll-section">
     <div class="flex justify-left">
-        <a><div id="delete_btn">삭제하기</div></a>
+        <a>
+            <div id="delete_btn">삭제하기</div>
+        </a>
     </div>
     <div id="paginator" class="flex flex-row justify-center">
         {% for p in total_pages %}
@@ -69,14 +71,65 @@
 
 {% endblock content %}
 
+
 {% block script_section %}
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
+
+    let menuBtns = []
+    menuBtns.push(document.getElementById('menu_carts'))
+    menuBtns.push(document.getElementById('menu_boughts'))
+    menuBtns.push(document.getElementById('menu_deliveries'))
+    menuBtns.push(document.getElementById('menu_infos'))
+    console.l
+
+    $('#menu_likes').css({
+        "background-color": "#5c6754",
+        "color": "white",
+    })
+
+
+    menuBtns.forEach(item => {
+        item.addEventListener('mouseover', function () {
+            $(this).css({
+                "background-color": "#5c6754",
+                "color": "white",
+
+            })
+        })
+        item.addEventListener('mouseout', function () {
+            $(this).css({
+                "background-color": "white",
+                "color": "#5c6754"
+            })
+        })
+    })
     // $(function(){
     let hey = document.querySelectorAll('#cartIn_btn')
-    hey.forEach(item=>{
-        item.addEventListener('click', function(){
+    hey.forEach(item => {
+        item.addEventListener('click', function () {
             let pk = $(this).attr('name')
+            console.log(pk);
+            $.ajax({
+                type: "POST",
+                url: "{% url 'users:cartInAjax' %}",
+                data: {
+                    "pk": pk,
+                    "csrfmiddlewaretoken": "{{csrf_token}}",
+                },
+                dataType: "json",
+                success: function (response) {
+                    alert(response.message);
+                },
+                error: function (request, status, error) {
+                    alert('로그인이 필요합니다.')
+                }
+            });
+        })
+    })
+
+      $("#cartIn_btn").click(function(){
+        let pk = $(this).attr('name')
         console.log(pk);
         $.ajax({
             type : "POST",
@@ -94,27 +147,6 @@
             }
         });
       })
-    })
-   
-    //   $("#cartIn_btn").click(function(){
-    //     let pk = $(this).attr('name')
-    //     console.log(pk);
-    //     $.ajax({
-    //         type : "POST",
-    //         url:"{% url 'users:cartInAjax' %}",
-    //         data : {
-    //             "pk":pk,
-    //             "csrfmiddlewaretoken":"{{csrf_token}}",
-    //         },
-    //         dataType:"json",
-    //         success: function(response){
-    //             alert(response.message);
-    //         },
-    //         error: function (request, status, error) {
-    //             alert('로그인이 필요합니다.')
-    //         }
-    //     });
-    //   })
-    // });
+    });
 </script>
 {% endblock script_section %}

@@ -64,6 +64,13 @@
   color: #ffffff;
 }
 
+#category_item:hover{
+  background-color: #ffffff;
+  color: #5c6754;
+  line-height:1.5;
+  border:solid 1px #5c6754;
+}
+
 #sort{
   padding-left:100px;
 }
@@ -130,6 +137,14 @@
   position: absolute;
   top: 365px;
   right: 20px;
+}
+
+#cart_in_btn{
+  cursor: pointer;
+}
+
+#wish_btn{
+  cursor: pointer;
 }
 
 #follow_menu{
