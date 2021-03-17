@@ -5,13 +5,7 @@
     <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        let comment_btn_{{comment.id}} = $('#comment_btn_{{comment.id}}');
-        comment_btn_{{comment.id}}.click(function(){
-            console.log(1)
-            $('#recomment_form_{{comment.id}}').toggle()
-        });
-    </script>
+    
 {% endblock stylesheet %}
 {% block main_content %}   
 
@@ -232,12 +226,14 @@
                     <img id="consumer_img" src="{{comment.consumer.user.profile_image.url}}" alt="">
                 </div>
                 <div class="w-full flex flex-col ml-6 border-b-2">
-                    <div class="flex flex-row mb-1">
+                    <div class="flex flex-row mb-1 items-center">
                         <div>{{comment.consumer.user.nickname}}</div>
                         <div class="mx-16">|</div>
-                        <div>{{comment.create_at}}</div>
+                        <div class="">{{comment.create_at|date:"Y. m. d h:i"}}</div>
                         <div class="mx-16">|</div>
-                        <img style="height: 18.9px;" src="{% static 'images/report.svg' %}" alt="">
+                        <div clas="flex flex-col items-center">
+                            <img src="{% static 'images/report.svg' %}" alt="">
+                        </div>
                         <div class="text-black text-opacity-40 pl-2">신고하기</div>
                     </div>
                     <div class="text-left flex flex-row pb-5">
@@ -300,20 +296,16 @@
                 {% endfor %}
             </div>
             <div id="review_comment">
-                <div class="flex flex-row">
-                <form action="{% url 'comments:product_recomment_create' comment.pk %}">
+                <form method="POST" action="{% url 'comments:product_recomment_create' comment.pk %}">
+                    <div class="flex flex-row">
                     {% csrf_token %}
                     {{ recomment_form }}
-                    {% comment %} <input type="text" class="w-4/5 mt-2 mb-6 px-4 py-2 border border-gray-500 rounded-3xl text-gray-700 focus:outline-none" /> {% endcomment %}
-                    <button type="submit" 
-                            class="w-1/5 mt-2 mb-6 ml-8 px-4 py-2 border border-gray-500 rounded-3xl focus:outline-none transition duration-500 hover:bg-gray-500 hover:text-gray-50">
-                            댓글 작성
-                    </button>
+                    <button type="submit" id="rec_submit">댓글 작성</button>
+                    </div>
                 </form>
-                </div>
                 <div>
-                    <button id="comment_btn_{{comment.id}}" class="px-4 py-2 rounded-3xl bg-green-700 text-gray-50 focus:outline-none">
-                            댓글보기 &nbsp; <i id="show_icon"class='fas fa-caret-down'></i>
+                    <button id="comment_btn_{{comment.id}}" class="rec_more">
+                            댓글보기 &nbsp; <i id="show_icon" class='fas fa-caret-down'></i>
                     </button>
                     <div class='row recomment_form' id='recomment_form_{{ comment.id }}'>
                         <div class="container recomment_list" id="recomment_list_{{ comment.id }}">
@@ -516,6 +508,14 @@
     })
 
 
+</script>
+
+<script>
+    let comment_btn_{{comment.id}} = $('#comment_btn_{{comment.id}}');
+    comment_btn_{{comment.id}}.click(function(){
+        console.log(1)
+        $('#recomment_form_{{comment.id}}').toggle()
+    });
 </script>
 
 {% endblock main_content %}
