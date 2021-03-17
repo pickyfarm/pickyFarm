@@ -719,10 +719,12 @@ def mypage(request, cat):
             if get_arg == 'go':
                 if request.method == 'GET':
                     addressform = AddressForm()
-                    ctx = {
+                    ctx_add_rev_address = {
                         'addressform': addressform,
                     }
+                    ctx.update(ctx_add_rev_address)
                     return render(request, 'users/mypage_add_rev_address.html', ctx)
+                    
             else:
                 rev_addresses = request.user.addresses.all().order_by('-create_at')
                 ctx_rev_address = {
@@ -743,6 +745,19 @@ def mypage(request, cat):
 
             ctx.update(info)
             return render(request, 'users/mypage_info.html', ctx)
+        
+    else:
+        get_arg = request.GET.get('add', None)
+        print('post에 왔다')
+        addressform = AddressForm(request.POST)
+        if addressform.is_valid():
+            user = request.user
+            address = addressform.save(commit=False)
+            address.user = user
+            address.is_default = False
+            address.save()
+            return redirect(reverse('users:mypage', kwargs={'cat':'rev_address'}))
+
 
 
 # def add_rev_address(request):

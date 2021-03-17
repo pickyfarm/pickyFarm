@@ -14,7 +14,7 @@
 
 
 <div id="rev-address-section">
-    <form method="POST">
+    <form action="?add=go", method="POST">
         {% csrf_token %}
     <div id="full-address-section" class="flex flex-row">
         {{addressform.full_address}}
@@ -30,7 +30,7 @@
     {{addressform.sigungu}}
     {{addressform.extra_address}}
 
-    <button id="add-rev-address-btn" type="submit">저장</div>
+    <button id="submit-rev-address-btn" type="submit">저장</div>
     </form>
 </div>
 </div>
