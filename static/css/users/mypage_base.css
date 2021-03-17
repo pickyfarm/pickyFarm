@@ -691,6 +691,98 @@
 }
 
 
+/* 배송지 정보 수정 */
+
+#contents-container{
+  margin-left:130px;
+}
+
+#not-register{
+  margin-top:80px;
+}
+
+#index-section{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  text-align: left;
+  color: #5c6754;
+  margin-top:57px;
+  text-align: center;
+}
+
+#index-title-section{
+  width: 645.5px;
+  border-bottom: solid 0.5px #b3b3b3;
+  padding-bottom : 15px;
+}
+
+#delete-index-section{
+  width:68.1px;
+}
+
+#addr{
+  margin-top:40px;
+}
+
+#addr-section{
+  width:645.5px;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+}
+
+#pen{
+  width:20px;
+}
+
+#del-btn-section{
+  width:68.1px;
+
+}
+
+#x{
+  width:15px;
+}
+
+#top-btn-section>:nth-child(1){
+  
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #707070;
+}
+
+#top-btn-section>:nth-child(2){
+  width: 147px;
+  height: 30px;
+  padding: 4px 28px 4px 30px;
+  border-radius: 15px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+  margin-left:300px;
+}
+
+/* 개인정보 수정 */
+
 #info-edit-container{
   padding-left:128px;
 }

@@ -2,20 +2,45 @@
 {% load static %}
 
 {% block content %}
-
+<div id="contents-container">
 <div id="top-btn-section" class="flex flex-row">
   <div>배송지에 따라 배송비가 달라질 수 있습니다</div>
-  <div>+ 배송지 추가</div>
+  <div class="justify-self-end">+ 배송지 추가</div>
 </div>
 
 <div id="index-section" class="flex flex-row">
-  <div>선택</div>
-  <div>주소</div>
-  <div>수정</div>
+  <div id="index-title-section" class="flex flex-row">
+    <div class="w-1/12">선택</div>
+    <div class="w-10/12">주소</div>
+    <div class="w-1/12">수정</div>
+  </div>
+  <div id="delete-index-section">
+
+  </div>
 </div>
 
-<div id="rev-address-section">
+<div id="rev-address-section" class="flex flex-row">
   
+  {% if rev_addresses.exists is False %}
+    <div class="mt-10" id="not-register">아직 등록된 무난이 배송지가 없습니다!</div>
+  {% else %}
+    {% for addr in rev_addresses %}
+  <div id="addr" class="flex flex-row">
+    <div id="addr-section" class="flex flex-row">
+      <div class="flex w-1/12 justify-center">
+        <input id="addr-select"type="radio" name="{{addr.pk}}">
+      </div>
+      <div class="w-10/12 text-center">{{addr.full_address}} {{addr.detail_address}}</div>
+      <div class="flex w-1/12 justify-center"><img id="pen" src="{% static 'images/users/pen.svg' %}"></div>
+    </div>
+    <div id="del-btn-section" class="flex justify-center">
+      <img id="x" src="{% static 'images/users/delete_x.svg' %}">
+    </div>
+  </div>
+    {% endfor %}
+  {% endif %}
+    
+</div>
 </div>
 
 {% endblock content %}
