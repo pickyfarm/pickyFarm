@@ -90,17 +90,24 @@
 }
 
 #farmer_img, #consumer_img{
-    width: 53px;
+  width: 53px;
   height: 53px;
   font-family: NotoSansKR;
   border-radius: 999%;
   border: solid 2px #5e6656;
-    object-fit: cover;
+  object-fit: cover;
+}
+
+#reviewer_img {
+  width: 78px;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 #farm_name{
-    font-size: 15px;
-    font-family: NotoSansKR;
+  font-size: 15px;
+  font-family: NotoSansKR;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -628,6 +635,14 @@ div{
   outline: none;
 }
 
+#review_img {
+  margin-right: 44px;
+}
+
+#review_comment {
+  width: 810px;
+}
+
 #rec_submit {
   width: 169px;
   height: 47px;
@@ -636,12 +651,17 @@ div{
   background-color: #ffffff;
   margin-left: 31px;
 }
+#rec_submit:hover {
+  transition-duration: 0.6s;
+  color: #fff;
+  background-color: #5c6754;
+}
 
 .rec_more {
   width: 110px;
   height: 36px;
   margin-top:30px;
-  padding: 7px 15px;
+  /* padding: 7px 15px; */
   border-radius: 24px;
   background-color: #5c6754;
   color: #fff;
@@ -650,4 +670,19 @@ div{
 
 #show_icon {
   color:#fff;
+}
+
+.recomment_form {
+  width: 810px;
+  opacity: 0.7;
+  border-radius: 7px;
+  background-color: #e6e6e6;
+}
+
+.recomment_list:not(:last-child) {
+  border-bottom: solid 0.5px #5e6656;
+}
+
+.hide {
+  display: none;
 }

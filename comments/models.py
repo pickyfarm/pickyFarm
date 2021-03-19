@@ -66,7 +66,7 @@ class Product_Recomment(Comment):
     """Product_Recomment Model Definition"""
 
     comment = models.ForeignKey("Product_Comment", related_name="product_recomments", on_delete=models.CASCADE)
-
+    author = models.ForeignKey(User, related_name='product_recomment', on_delete=models.CASCADE)
 
 # class Qna_Comment(Comment):
 #     """Qna_Comment Model Definition"""
