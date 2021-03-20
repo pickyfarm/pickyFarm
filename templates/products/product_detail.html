@@ -157,64 +157,64 @@
 </div>
 
 <!-- 리뷰 -->
-<div id="review" class='flex items-center justify-center w-full'>
-    <div class='flex flex-col my-10 mx-auto w-5/6' id='review_score'>
-        <h2 class="text-left mb-10">구매 만족도</h2>
-        <div class='flex flex-row items-end'>
-            <div id="total_stars" class="w-1/4 mr-8 ">
-                <div id="total_stars" class='flex flex-row justify-center'>
-                    {% for i in total_score %}
-                        <img class='mr-3' src="{% static 'images/yellow_star.svg' %}" alt="yellow_star">
-                    {% endfor %}
-                    {% for i in remainder_score %}
-                        <img class='mr-3' src="{% static 'images/star.svg' %}" alt="yellow_star">
-                    {% endfor %}
-                </div>
-                <p class="mt-2 text-center" id="percent">{{ total_percent }}% 만족</p>
+<div id="review" class='flex justify-center w-full'>
+    <div class='flex flex-col my-16 mx-auto w-5/6' id='review_score'>
+        <h2 class="text-center mb-5 text-xl" style="color: #4d4d4d;">구매 만족도</h2>
+        <div id="total_stars" class="mx-auto">
+            <div id="total_stars" class='flex flex-row justify-center'>
+                {% for i in total_score %}
+                    <img class='mr-3' src="{% static 'images/product_detail/big_yellow_star.svg' %}" alt="big_yellow_star">
+                {% endfor %}
+                {% for i in remainder_score %}
+                    <img class='mr-3' src="{% static 'images/product_detail/big_star.svg' %}" alt="star">
+                {% endfor %}
             </div>
-            <div id="fresh" class="w-1/4">
-                <p class ="mb-3" id='score_title'>신선도</p>
+            <p class="mt-3 text-center mb-16" id="percent">{{ total_percent }}% 만족</p>
+        </div>
+        <div class='flex flex-row justify-between mx-auto' style="width: 990px;">
+            <div id="fresh" style="width: 265px;">
+                <p class ="mb-5 text-center" id='score_title'>신선도</p>
                 <div class="flex flex-row items-center">
-                    <p>신선해요</p>
-                    <div class="ml-5" id="score_range"></div>
+                    <div class="text-right mr-4" style="width: 60px;">신선해요</div>
+                    <div class="" id="score_range"></div>
                 </div>
                 <div class="flex flex-row items-center">
-                    <p>보통이에요</p>
-                    <div class="ml-1" id="score_range"></div>
+                    <div class="mr-4" style="width: 60px;">보통이에요</div>
+                    <div class="" id="score_range"></div>
                 </div>
                 <div class="flex flex-row items-center">
-                    <p>아쉬워요</p>
-                    <div class="ml-5" id="score_range"></div>
-                </div>
-            </div>
-            <div id="taste" class="w-1/4">
-                <p class ="mb-3" id='score_title'>맛</p>
-                <div class="flex flex-row items-center">
-                    <p >신선해요</p>
-                    <div class="ml-5" id="score_range"></div>
-                </div>
-                <div class="flex flex-row items-center">
-                    <p>보통이에요</p>
-                    <div class="ml-1" id="score_range"></div>
-                </div>
-                <div class="flex flex-row items-center">
-                    <p>아쉬워요</p>
-                    <div class="ml-5" id="score_range"></div>
+                    <div class="text-right mr-4" style="width: 60px;">아쉬워요</div>
+                    <div class="" id="score_range"></div>
                 </div>
             </div>
-            <div id="price" class="w-1/4">
-                <p class ="mb-3" id='score_title'>가성비</p>
+            <div id="taste" style="width: 265px;">
+                <p class ="mb-5 text-center" id='score_title'>맛</p>
                 <div class="flex flex-row items-center">
-                    <p>신선해요</p>
-                    <div class="ml-5" id="score_range"></div>
+                    <div class="text-right mr-4" style="width: 60px;">맛있어요</div>
+                    <div class="" id="score_range"></div>
                 </div>
                 <div class="flex flex-row items-center">
-                    <p>보통이에요</p>
-                    <div class="ml-1" id="score_range"></div>
+                    <div class="mr-4" style="width: 60px;">보통이에요</div>
+                    <div class="" id="score_range"></div>
                 </div>
                 <div class="flex flex-row items-center">
-                    <p>아쉬워요</p>
-                    <div class="ml-5" id="score_range"></div>
+                    <div class="text-right mr-4" style="width: 60px;">아쉬워요</div>
+                    <div class="" id="score_range"></div>
+                </div>
+            </div>
+            <div id="price" style="width: 265px;">
+                <p class ="mb-5 text-center" id='score_title'>가성비</p>
+                <div class="flex flex-row items-center">
+                    <div class="text-right mr-4" style="width: 60px;">맛있어요</div>
+                    <div class="" id="score_range"></div>
+                </div>
+                <div class="flex flex-row items-center">
+                    <div class="mr-4" style="width: 60px;">보통이에요</div>
+                    <div class="" id="score_range"></div>
+                </div>
+                <div class="flex flex-row items-center">
+                    <div class="text-right mr-4" style="width: 60px;">아쉬워요</div>
+                    <div class="" id="score_range"></div>
                 </div>
             </div>
         </div>
@@ -231,33 +231,29 @@
                 <div class="">
                     <img id="reviewer_img" src="{{comment.consumer.user.profile_image.url}}" alt="">
                 </div>
-                <div class="flex flex-col ml-6 border-b-2" style="width: 880px;">
-                    <div class="flex flex-row mb-1 items-center">
-                        <div>{{ comment.consumer.user.nickname }}</div>
-                        <div class="mx-16">|</div>
-                        <div class="">{{ comment.create_at|date:"Y. m. d h:i" }}</div>
-                        <div class="mx-16">|</div>
-                        <div clas="flex flex-col items-center">
+                <div class="flex flex-col ml-6 border-b-2" style="width: 880px; font-size: 15px;">
+                    <div class="flex flex-row mb-3">
+                        <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">{{ comment.consumer.user.nickname }}</div>
+                        <div class="text-center" style="width: 340px; border-right: solid 3px #999999; color:#989898;">{{ comment.create_at|date:"Y. m. d h:i" }}</div>
+                        <div class="flex flex-row" id="report" style="margin-left:87.8px">
                             <img src="{% static 'images/report.svg' %}" alt="">
+                            <div class="text-black text-opacity-40 pl-2">신고하기</div>
                         </div>
-                        <div class="text-black text-opacity-40 pl-2">신고하기</div>
                     </div>
-                    <div class="text-left flex flex-row pb-5">
-                        <div class="text-black text-opacity-40 text-sm mr-10">
-                            <span class='inline-block align-text-bottom'>{{product.title}} 구매</span>
-                        </div>
+                    <div class="flex flex-row pb-5 items-center">
+                        <div class="text-black text-opacity-40 mr-16">{{ product.title }} 구매</div>
                         <div id="stars" class='flex flex-row items-center'>
                             {% for i in comment.avg|rjust:comment.avg %}
-                                <img class='mr-3 h-6 w-6' src="{% static 'images/yellow_star.svg' %}" alt="yellow_star">
+                                <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}" alt="yellow_star">
                             {% endfor %}
                             {% for i in 5|rjust:4 %}
-                                <img class='mr-3 h-6 w-6' src="{% static 'images/star.svg' %}" alt="yellow_star">
+                                <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/star.svg' %}" alt="yellow_star">
                             {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="ml-20 mb-12" id="score_table_wrap">
+            <div class="mb-12" id="score_table_wrap">
                 <table id="score_table">
                     <tr>
                         <td class="py-2 text-center"> 신선도 </td>
@@ -296,52 +292,52 @@
                 </table>
             </div>
             <div id="review_txt" class="text-left">{{ comment.text }}</div>
-            <div id="review_imgs" class="flex flex-row text-left mt-5 mb-9">
+            <div id="review_imgs" class="flex flex-row text-left mt-5">
                 {% for img in comment.product_comment_images.all %}
-                    <div id="review_img"><img src="{{img.image.url}}" alt="사진없음" style="width:241px; height:241px; object-fit: cover;"></div>
+                    <div id="review_img" class="mb-9"><img src="{{img.image.url}}" alt="사진없음" style="width:241px; height:241px; object-fit: cover;"></div>
                 {% endfor %}
             </div>
             <div id="review_comment">
-                <form method="POST" action="{% url 'comments:product_recomment_create' comment.pk %}">
-                    <div class="flex flex-row">
-                    {% csrf_token %}
-                    {{ recomment_form }}
-                    <button type="submit" id="rec_submit">댓글 작성</button>
-                    </div>
-                </form>
                 <div class="flex flex-row justify-center mb-4">
                     <button id="more_btn" class="rec_more" style="outline: none;">
                         댓글보기 &nbsp; <i id="show_icon" class='fas fa-caret-down'></i> <i class="fas fa-caret-up" style="display: none;"></i>
                     </button>
                 </div>
-                <div class='flex flex-col recomment_form hide' id='recomment_form_{{ comment.id }}'>
-                    {% for recomment in comment.product_recomments.all %}
-                    <div class="recomment_list text-center m-4 p-4" id="recomment_list_{{ comment.id }}">
-                        <div class="flex flex-row items-center" id="recomment">
-                            <div class="mr-4" style="width: 10px; height: 10px; 
-                                                border-left: 2px solid #5c6754; 
-                                                border-bottom: 2px solid #5c6754;"></div>
-                            <div class="">
-                                <img id="consumer_img" src="{{ recomment.author.profile_image.url }}" alt="">
-                            </div>
-                            <div class="flex flex-col ml-6">
-                                <div class="flex flex-row items-center text-sm">
-                                    <div>{{ recomment.author.nickname }}</div>
-                                    <div class="mx-16">|</div>
-                                    <div class="">{{ recomment.create_at|date:"Y. m. d h:i" }}</div>
-                                    <div class="mx-16">|</div>
-                                    <div clas="flex flex-col items-center">
-                                        <img src="{% static 'images/report.svg' %}" alt="">
+                <div class="recomments hide">
+                    <div class='flex flex-col recomment_form' id='recomment_form_{{ comment.id }}'>
+                        {% for recomment in comment.product_recomments.all %}
+                        <div class="recomment_list text-center m-4 p-4" id="recomment_list_{{ comment.id }}">
+                            <div class="flex flex-row" id="recomment">
+                                <div class="mr-4" style="width: 10px; height: 10px; 
+                                                    border-left: 2px solid #5c6754; 
+                                                    border-bottom: 2px solid #5c6754;"></div>
+                                <div class="">
+                                    <img id="consumer_img" src="{{ recomment.author.profile_image.url }}" alt="">
+                                </div>
+                                <div class="flex items-center ml-6">
+                                    <div class="flex flex-row" style="font-size: 15px;">
+                                        <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">{{ recomment.author.nickname }}</div>
+                                        <div class="" style="width: 340px; border-right: solid 3px #999999; color:#989898;">{{ recomment.create_at|date:"Y. m. d h:i" }}</div>
+                                        <div class="flex flex-row" id="report" style="margin-left:87.8px">
+                                            <img src="{% static 'images/report.svg' %}" alt="">
+                                            <div class="text-black text-opacity-40 pl-2">신고하기</div>
+                                        </div>
                                     </div>
-                                    <div class="text-black text-opacity-40 pl-2">신고하기</div>
                                 </div>
                             </div>
+                            <div class="mt-6 mb-6 text-left pl-8" style="font-size: 17px;">
+                                {{ recomment.text }}
+                            </div>
                         </div>
-                        <div class="mt-6 mb-6 text-left pl-8">
-                            {{ recomment.text }}
-                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <form method="POST" action="{% url 'comments:product_recomment_create' comment.pk %}">
+                        <div class="flex flex-row mt-4 justify-between">
+                        {% csrf_token %}
+                        {{ recomment_form }}
+                        <button type="submit" id="rec_submit">댓글 작성</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>    
@@ -543,10 +539,10 @@
 </script>
 
 <script>
-    let recomments = document.querySelectorAll('.recomment_form')
+    let recomments = document.querySelectorAll('.recomments')
     recomments.forEach(recomment => recomment.classList.add("hide"))
     $(document).on('click', '#more_btn' , function(){ 
-        $(this).parent().siblings('.recomment_form').toggle();
+        $(this).parent().siblings('.recomments').toggle();
         $(this).children('.fa-caret-down').toggle();
         $(this).children('.fa-caret-up').toggle();
     });

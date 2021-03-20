@@ -77,7 +77,7 @@ def product_recomment_detail(request, pk):
 
     return render(request, 'comments/product_comment.html', ctx)
 
-# 상품 대댓글 create
+# 상품 대댓글(리뷰 댓글) create ajax
 def product_recomment_create(request, pk):
     product_comment = Product_Comment.objects.get(pk=pk)
     print(product_comment.text)
