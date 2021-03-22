@@ -850,6 +850,14 @@
   color: #5c6754;
 }
 
+#address-search-btn{
+  padding-left:20px;
+}
+
+#address-search-btn>img{
+  cursor: pointer;
+}
+
 #submit-rev-address-btn{
   width: 125px;
   height: 30px;
