@@ -737,6 +737,7 @@ def mypage(request, cat):
                 return render(request, 'users/mypage_rev_address.html', ctx)
         elif cat_name == 'info':
             user = consumer.user
+            
             info = {
                 'first_name': user.first_name,
                 'last_name': user.last_name,

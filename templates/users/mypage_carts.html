@@ -364,16 +364,28 @@
         console.log(products)
         if (products.length == 0)
             alert("주문할 무난이를 선택해주세요!")
+
         data = {
-            'orderProducts':JSON.stringify(products)
+            'orders':JSON.stringify(products),
+            "csrfmiddlewaretoken": "{{csrf_token}}"
         }
-        console.log(data)
-        $.ajax({
-            url: "{% url 'orders:payment_create' %}",
-            dataType: "json",
-            type: "GET",
-            data: data,
-        });
+        
+        let form = document.createElement("form")
+        form.setAttribute("method", "post")
+        form.setAttribute("action", "{% url 'orders:payment' %}")
+
+        for(let key in data){
+            let hiddenField = document.createElement('input')
+            hiddenField.setAttribute('type', 'hidden')
+            hiddenField.setAttribute('name', key)
+            hiddenField.setAttribute('value', data[key])
+
+            form.appendChild(hiddenField)
+        }
+        
+        document.body.appendChild(form)
+        form.submit()
+
     })
 
 
@@ -392,6 +404,7 @@
         }
         data = {
             'pkList': products,
+            "csrfmiddlewaretoken": "{{csrf_token}}"
         }
         console.log(data.pkList)
         $.ajax({

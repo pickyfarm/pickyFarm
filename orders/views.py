@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import Order_Group_Form
 from .models import Order_Group
 from django.utils import timezone
+from products.models import Product
 import json
 # Create your views here.
 
@@ -12,14 +13,40 @@ def orderingCart(request):
 
 
 @login_required
+def payment(request):
+    consumer = request.user.consumer
+    if request.method == 'POST':
+        form = Order_Group_Form()
+        orders = json.loads(request.POST.get('orders'))
+        print(orders)
+        products = []
+        for order in orders:
+            pk = (int)(order['pk'])
+            quantity = (int)(order['quantity'])
+            print(f'{pk}:{quantity}')
+            product = Product.objects.get(pk=pk)
+            products.append(product)
+
+        print(products)
+
+        ctx = {
+            'produtcs': products,
+            'form': form,
+            'consumer': consumer,
+        }
+       
+        return render(request, 'orders/payment.html', ctx)
+
+
+@login_required
 def payment_create(request):
     consumer = request.user.consumer
 
     if request.method == 'GET':
         form = Order_Group_Form()
-        # order_products = json.loads(request.GET.get('orderProducts'))
-        # print("왔다")
-        # print(order_products)
+        order_products = json.loads(request.GET.get('orders'))
+        print("왔다")
+        print(order_products)
         ctx = {
             'form': form,
             'consumer': consumer,
