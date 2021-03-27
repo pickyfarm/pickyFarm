@@ -146,7 +146,6 @@
         <div>소비자상담</div>
         <div>홈페이지 고객문의센터</div>
     </div>
-
     <div id="product_review" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
         <a href="#product_desc" class="w-1/6"><div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div></a>
         <a href="#product_info" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div></a>
@@ -331,11 +330,12 @@
                         </div>
                         {% endfor %}
                     </div>
-                    <form method="POST" action="{% url 'comments:product_recomment_create' comment.pk %}">
+                    <form method="POST" action="{% url 'comments:product_recomment_create' comment.pk %}" id="recommentform_{{comment.pk}}">
                         <div class="flex flex-row mt-4 justify-between">
                         {% csrf_token %}
+                        <input type="hidden" name='is_ajax' value=''>
                         {{ recomment_form }}
-                        <button type="submit" id="rec_submit">댓글 작성</button>
+                        <input type="submit" id="rec_submit" value="댓글 작성">
                         </div>
                     </form>
                 </div>
@@ -402,9 +402,11 @@
     </div>
 </div>
 
+
+
 <script>
     
-
+    
     let plusBtn = document.getElementById('plus_btn')
     let minusBtn = document.getElementById('minus_btn')
     let totalPrice = document.getElementById('total_price')
@@ -546,6 +548,30 @@
         $(this).children('.fa-caret-down').toggle();
         $(this).children('.fa-caret-up').toggle();
     });
+    
+    // create recomment
+    {% for comment in comments %}
+        $('#recommentform_{{comment.pk}}').submit(function(e) {
+            e.preventDefault();
+            
+            $("input[name='is_ajax']").val('1');
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+            }).done(function(data) {
+                $('#recomment_list_{{comment.id}}').append(data.html);
+                // is_ajax 값 초기화
+                $('#recommentform_{{comment.pk}} input[name="is_ajax"]').val("");
+                $('#recommentform_{{comment.pk}} #id_text').val("");
+            })
+            return false;
+        });
+    {% endfor %}
 </script>
 
 {% endblock main_content %}
