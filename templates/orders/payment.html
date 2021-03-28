@@ -30,7 +30,7 @@
             <div id="info-name-section" class="flex flex-row mb-5">
                 <div class="flex flex-row w-1/12">
                     <div id="label-text">{{form.rev_name.label_tag}}</div>
-                    <img id="dot" class="pb-3" src="{% static 'images/orders/dot.svg' %}">
+                    <img id="dot" class="pb-5" src="{% static 'images/orders/dot.svg' %}">
                 </div>
 
                 <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start">{{form.rev_name}}</div>
@@ -38,7 +38,7 @@
             <div id="info-phone-number-section" class="flex flex-row">
                 <div class="flex flex-row w-1/12">
                     <div id="label-text">{{form.rev_phone_number.label_tag}}</div>
-                    <img id="dot" class="pb-3" src="{% static 'images/orders/dot.svg' %}">
+                    <img id="dot" class="pb-5" src="{% static 'images/orders/dot.svg' %}">
                 </div>
 
                 <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start">{{form.rev_phone_number}}</div>
@@ -64,7 +64,7 @@
                 <div></div>
             </div>
             <div id="delivery-rev-loc-at-section" class="flex flex-row mb-5">
-                <div class="flex flex-row">
+                <div class="flex flex-row mr-5">
                     <div id="label-text">{{form.rev_loc_at.label_tag}}</div>
                     <img id="dot-rev-loc-at" src="{% static 'images/orders/dot.svg' %}">
                 </div>
@@ -72,14 +72,14 @@
                 <div id="label-text" class="ml-9">{{form.rev_loc_at}}</div>
             </div>
             <div id="delivery-rev-message-section" class="flex flex-row mb-5">
-                <div id="label-text">{{form.rev_message.label_tag}}</div>
+                <div id="label-text" class="mr-8">{{form.rev_message.label_tag}}</div>
                 <div class="ml-4">
                     <div id="big-form">{{form.rev_message}}</div>
                     <div id="help-text">* 정확한 배송을 위해서 장소의 출입방법이나 특징 등을 자세하게 작성해주세요</div>
                 </div>
             </div>
             <div id="delivery-to-farm-message-section" class="flex flex-row mb-5">
-                <div id="label-text">{{form.to_farm_message.label_tag}}</div>
+                <div id="label-text" class="mr-7">{{form.to_farm_message.label_tag}}</div>
                 <div id="middle-form" class="ml-4">{{form.to_farm_message}}</div>
             </div>
         </div>
@@ -89,7 +89,7 @@
                 <div id="sub-title-text">주문 상세 내역 / 결제 금액</div>
                 <div id="orders-sub-title-line"></div>
             </div>
-            <div id="products-index-section" class="flex flex-row">
+            <div id="products-index-section" class="flex flex-row mt-5">
                 <div class="w-2/12"></div>
                 <div class="w-3/12">농장</div>
                 <div class="w-3/12">상품명</div>
@@ -101,13 +101,13 @@
                 <div id="products-section">
                     
                     {% for product in products %}
-                    <div id="product" class="flex flex-row">
-                        <div><img src="{{product.main_image.url}}"></div>
-                        <div>{{product.farmer.farm_name}}</div>
-                        <div>{{product.title}}</div>
-                        <div>{{product.stock}}</div>
-                        <div>{{product.weight}}</div>
-                        <div>{{product.sell_price}}</div>
+                    <div id="product" class="flex flex-row items-center">
+                        <div class="w-2/12"><img id="product-img" src="{{product.main_image.url}}"></div>
+                        <div class="w-3/12" id="farm_name">{{product.farmer.farm_name}}</div>
+                        <div class="w-3/12" id="title">{{product.title}}</div>
+                        <div class="w-1/12" id="orders-num">{{product.stock}}</div>
+                        <div class="w-1/12" id="weight">{{product.weight}}</div>
+                        <div class="w-2/12" id="sell-price">{{product.sell_price}}</div>
                     </div>
                     {% endfor %}
                 </div>
