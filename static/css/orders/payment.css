@@ -169,3 +169,26 @@
   color: #ffffff;
 }
 
+/* 주문 상세 내역 결제 금액 부분 */
+
+#orders-sub-title-line{
+  width: 702px;
+    height:28px;
+    margin-left:24.5px;
+    margin-bottom:0px;
+  border-bottom: solid 1px #afb3ab;
+}
+
+#products-index-section{
+  width:575px;
+  text-align: center;
+}
+
+#price-check-section{
+  width: 341px;
+  height: 309px;
+  padding: 9px 24.5px 16px 24px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+}
+

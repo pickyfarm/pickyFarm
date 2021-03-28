@@ -30,7 +30,7 @@ def payment(request):
         print(products)
 
         ctx = {
-            'produtcs': products,
+            'products': products,
             'form': form,
             'consumer': consumer,
         }
