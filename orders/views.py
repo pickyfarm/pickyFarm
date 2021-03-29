@@ -19,22 +19,44 @@ def payment(request):
         form = Order_Group_Form()
         orders = json.loads(request.POST.get('orders'))
         print(orders)
+        # 주문 상품 list (주문 수량, 주문 수량 고려한 가격, 주문 수량 고려한 무게)
         products = []
+        # 총 주문 상품 개수
+        total_quantity = 0
+        # 총 주문 상품 무게
+        total_weight = 0
+        # 총 주문 상품 가격의 합
+        price_sum = 0
+
         for order in orders:
             pk = (int)(order['pk'])
             quantity = (int)(order['quantity'])
             print(f'{pk}:{quantity}')
             product = Product.objects.get(pk=pk)
-            products.append(product)
+            total_quantity += quantity
+            price_sum += product.sell_price*quantity
+            total_weight += product.weight*quantity
+            products.append({'product': product, 'order_quantity': quantity,
+                             'order_price': product.sell_price*quantity, 'weight': product.weight*quantity})
 
-        print(products)
+        delivery_fee = 0  # 추후 배송비 관련 전략 생길 시 작성
+        discount = 0  # 추후 할인 전략 도입 시 작성
+
+        # 최종 주문 금액
+        final_price = price_sum + delivery_fee + discount
 
         ctx = {
-            'products': products,
             'form': form,
             'consumer': consumer,
+            'products': products,
+            'total_quantity': total_quantity,
+            'price_sum': price_sum,
+            'discount': discount,
+            'delivery_fee': delivery_fee,
+            'final_price': final_price,
+            'total_weight': total_weight,
         }
-       
+
         return render(request, 'orders/payment.html', ctx)
 
 

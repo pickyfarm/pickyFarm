@@ -100,18 +100,45 @@
             <div id="orders-contents-section" class="flex flex-row">
                 <div id="products-section">
                     
-                    {% for product in products %}
+                    {% for p in products %}
                     <div id="product" class="flex flex-row items-center">
                         <div class="w-2/12"><img id="product-img" src="{{product.main_image.url}}"></div>
-                        <div class="w-3/12" id="farm_name">{{product.farmer.farm_name}}</div>
-                        <div class="w-3/12" id="title">{{product.title}}</div>
-                        <div class="w-1/12" id="orders-num">{{product.stock}}</div>
-                        <div class="w-1/12" id="weight">{{product.weight}}</div>
-                        <div class="w-2/12" id="sell-price">{{product.sell_price}}</div>
+                        <div class="w-3/12" id="farm_name">{{p.product.farmer.farm_name}}</div>
+                        <div class="w-3/12" id="title">{{p.product.title}}</div>
+                        <div class="w-1/12" id="orders-num">{{p.order_quantity}}</div>
+                        <div class="w-1/12" id="weight">{{p.weight}}kg</div>
+                        <div class="w-2/12" id="sell-price">{{p.order_price}}원</div>
                     </div>
                     {% endfor %}
                 </div>
                 <div id="price-check-section">
+                    <div class="flex flex-row">
+                        <div></div>
+                        <div>결제금액</div>
+                        <div></div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="w-3/5">총 {{total_quantity}}개의 주문금액</div>
+                        <div class="w-2/5">{{price_sum}}원</div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="w-3/5">-할인금액</div>
+                        <div class="w-2/5">{{discount}}원</div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="w-3/5">배송비</div>
+                        <div class="w-2/5">{{delivery_fee}}원</div>
+                    </div>
+                    <div></div>
+                    <div class="flex flex-row">
+                        <div class="w-3/5">최종 주문금액</div>
+                        <div class="w-2/5">{{final_price}}원</div>
+                    </div>
+                    <div></div>
+                    <div class="flex flex-row">
+                        <div class="w-3/5">총 주문 Kg</div>
+                        <div class="w-2/5">{{total_weight}}Kg</div>
+                    </div>
 
                 </div>
             </div>
