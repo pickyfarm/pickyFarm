@@ -1,7 +1,17 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 import json
-from .models import Farmer, Farm_Tag, Farmer_Story, Subscribe, Cart, Consumer, Wish, User, Editor
+from .models import (
+    Farmer,
+    Farm_Tag,
+    Farmer_Story,
+    Subscribe,
+    Cart,
+    Consumer,
+    Wish,
+    User,
+    Editor,
+)
 from products.models import Category, Product
 from editor_reviews.models import Editor_Review
 from comments.models import Editor_Review_Comment
@@ -13,14 +23,26 @@ from django.views import View
 from django.views.generic import TemplateView, ListView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FarmApplyForm, FarmerStoryForm, FarmEnrollForm
+from .forms import (
+    LoginForm,
+    SignUpForm,
+    MyPasswordResetForm,
+    FarmApplyForm,
+    FarmerStoryForm,
+    FarmEnrollForm,
+)
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.views import (
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView,
+)
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -30,9 +52,8 @@ from math import ceil
 from django.conf import settings
 
 
-
-
 # Exception 선언 SECTION
+
 
 class NoRelatedInstance(Exception):
     pass
@@ -40,12 +61,13 @@ class NoRelatedInstance(Exception):
 
 # AJAX 통신 선언 SECTION (상품 장바구니/장바구니에서 제거하기, 상품 찜하기/찜하기 취소하기, 농가 구독/구독 취소하기)
 
+
 @login_required
 @require_POST
 def CartInAjax(request):
-    if request.method == 'POST':
-        pk = request.POST.get('pk', None)
-        quantity = request.POST.get('quantity', 1)
+    if request.method == "POST":
+        pk = request.POST.get("pk", None)
+        quantity = request.POST.get("quantity", 1)
         print(quantity)
         print(pk)
         user = request.user
@@ -59,7 +81,8 @@ def CartInAjax(request):
             message = "이미 장바구니에 있는 무난이 입니다"
         except ObjectDoesNotExist:
             cart = Cart.objects.create(
-                consumer=user.consumer, product=product, quantity=quantity)
+                consumer=user.consumer, product=product, quantity=quantity
+            )
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
 
@@ -72,8 +95,8 @@ def CartInAjax(request):
 @login_required
 @require_POST
 def cartOutAjax(request):
-    if request.method == 'POST':
-        product_pk = request.POST.getlist('pkList[]', None)
+    if request.method == "POST":
+        product_pk = request.POST.getlist("pkList[]", None)
         print(product_pk)
         # print(request.POST)
         consumer = request.user.consumer
@@ -86,7 +109,7 @@ def cartOutAjax(request):
 
             cart.delete()
         response = {
-            'success': True,
+            "success": True,
         }
         return JsonResponse(response)
 
@@ -94,26 +117,26 @@ def cartOutAjax(request):
 @login_required
 @require_POST
 def CancelSubs(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         print("진입")
-        pk = request.POST.get('pk', None)
+        pk = request.POST.get("pk", None)
         print(pk)
         try:
             sub = Subscribe.objects.get(pk=pk)
         except ObjectDoesNotExist:
             msg = "구독 기록이 존재하지 않습니다. 다시 시도해주세요"
             data = {
-                'success': "0",
-                'msg': msg,
+                "success": "0",
+                "msg": msg,
             }
             return JsonResponse(data)
         farm_name = sub.farmer.farm_name
         print(farm_name)
         sub.delete()
-        msg = f'{farm_name} 구독 취소 했습니다'
+        msg = f"{farm_name} 구독 취소 했습니다"
         data = {
             "success": "1",
-            'msg': msg,
+            "msg": msg,
         }
         print("전달 직전")
         # return HttpResponse(json.dumps(data), content_type='application/json')
@@ -123,20 +146,18 @@ def CancelSubs(request):
 @login_required
 @require_POST
 def subs(request):
-    if request.method == 'POST':
-        farmer_pk = request.POST.get('farmer_pk', None)
+    if request.method == "POST":
+        farmer_pk = request.POST.get("farmer_pk", None)
         consumer = request.user.consumer
         if farmer_pk is None:
             data = {
-                'success': -1,
-
+                "success": -1,
             }
             return JsonResponse(data)
         try:
-            sub = Subscribe.objects.get(
-                farmer__pk=farmer_pk, consumer=consumer)
+            sub = Subscribe.objects.get(farmer__pk=farmer_pk, consumer=consumer)
             data = {
-                'success': 0,
+                "success": 0,
             }
             return JsonResponse(data)
         except ObjectDoesNotExist:
@@ -144,12 +165,12 @@ def subs(request):
                 farmer = Farmer.objects.get(pk=farmer_pk)
             except ObjectDoesNotExist:
                 data = {
-                    'success': -1,
+                    "success": -1,
                 }
                 return JsonResponse(data)
             Subscribe.objects.create(farmer=farmer, consumer=consumer)
-            data={
-                'success': 1,
+            data = {
+                "success": 1,
             }
             return JsonResponse(data)
 
@@ -157,37 +178,35 @@ def subs(request):
 @login_required
 @require_POST
 def wish(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         user = request.user.consumer
-        product_pk = request.POST.get('pk', None)
+        product_pk = request.POST.get("pk", None)
 
         print("로그인이 안되는거?")
 
         try:
-            wish = Wish.objects.get(
-                consumer=user, product__pk=product_pk)
+            wish = Wish.objects.get(consumer=user, product__pk=product_pk)
             response = {
-                'status': 0,
+                "status": 0,
             }
             return JsonResponse(response)
         except ObjectDoesNotExist:
             product = Product.objects.get(pk=product_pk)
-            Wish.objects.create(
-                consumer=request.user.consumer, product=product)
+            Wish.objects.create(consumer=request.user.consumer, product=product)
             response = {
-                'status': 1,
+                "status": 1,
             }
             return JsonResponse(response)
 
 
 # 회원 관련 view
 
-class Login(View):
 
+class Login(View):
     def get(self, request):
         form = LoginForm()
         ctx = {
-            'form': form,
+            "form": form,
         }
         return render(request, "users/login.html", ctx)
 
@@ -198,7 +217,7 @@ class Login(View):
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                keep_login = self.request.POST.get('auto_login', False)
+                keep_login = self.request.POST.get("auto_login", False)
                 print(keep_login)
                 if keep_login:
                     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
@@ -206,7 +225,7 @@ class Login(View):
                 login(request, user=user)
                 return redirect(reverse("core:main"))
         ctx = {
-            'form': form,
+            "form": form,
         }
         return render(request, "users/login.html", ctx)
 
@@ -217,16 +236,15 @@ def log_out(request):
 
 
 class SignUp(View):
-
     def get(self, request):
         form = SignUpForm()
         addressform = AddressForm()
 
         ctx = {
-            'form': form,
-            'addressform': addressform,
+            "form": form,
+            "addressform": addressform,
         }
-        return render(request, 'users/signup.html', ctx)
+        return render(request, "users/signup.html", ctx)
 
     def post(self, request):
         form = SignUpForm(request.POST)
@@ -234,8 +252,8 @@ class SignUp(View):
 
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             Consumer.objects.create(user=user, grade=1)
 
@@ -246,147 +264,147 @@ class SignUp(View):
 
             if user is not None:
                 login(request, user=user)
-                return redirect(reverse('core:main'))
+                return redirect(reverse("core:main"))
 
         ctx = {
-            'form': form,
-            'addressform': addressform,
+            "form": form,
+            "addressform": addressform,
         }
-        return render(request, 'users/signup.html', ctx)
+        return render(request, "users/signup.html", ctx)
 
 
 # id validation function for AJAX
 def idValidation(request):
-    target = request.GET.get('target')
+    target = request.GET.get("target")
     isValid = User.objects.filter(username=target).exists()
     print(target)
     print(isValid)
 
-    ctx = {
-        'target': target,
-        'isValid': isValid
-    }
+    ctx = {"target": target, "isValid": isValid}
 
     return JsonResponse(ctx)
+
 
 # email validation function for AJAX
 
 
 def emailValidation(request):
-    target = request.GET.get('target')
+    target = request.GET.get("target")
     isValid = User.objects.filter(email=target).exists()
     print(target)
     print(isValid)
 
-    ctx = {
-        'target': target,
-        'isValid': isValid
-    }
+    ctx = {"target": target, "isValid": isValid}
 
     return JsonResponse(ctx)
+
 
 # nickname validation function for AJAX
 
 
 def nicknameValidation(request):
-    target = request.GET.get('target')
+    target = request.GET.get("target")
     isValid = User.objects.filter(nickname=target).exists()
 
-    ctx = {
-        'target': target,
-        'isValid': isValid
-    }
+    ctx = {"target": target, "isValid": isValid}
 
     return JsonResponse(ctx)
 
 
 def farmers_page(request):
     # farmer list
-    farmer = Farmer.objects.all().order_by('-id')
+    farmer = Farmer.objects.all().order_by("-id")
     paginator = Paginator(farmer, 3)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     farmers = paginator.get_page(page)
 
     # weekly hot farmer
-    best_farmers = farmer.order_by('-sub_count')[:1]  # 조회수 대신 임의로
+    best_farmers = farmer.order_by("-sub_count")[:1]  # 조회수 대신 임의로
 
     # farmer's story list
     farmer_story = Farmer_Story.objects.all()
     paginator_2 = Paginator(farmer_story, 7)
-    page_2 = request.GET.get('page_2')
+    page_2 = request.GET.get("page_2")
     farmer_stories = paginator_2.get_page(page_2)
 
     print(farmer.first().user)
     ctx = {
-        'best_farmers': best_farmers,
-        'farmers': farmers,
-        'farmer_stories': farmer_stories,
+        "best_farmers": best_farmers,
+        "farmers": farmers,
+        "farmer_stories": farmer_stories,
     }
-    return render(request, 'users/farmers_page.html', ctx)
+    return render(request, "users/farmers_page.html", ctx)
+
 
 # farmer input 검색 view - for AJAX
 def farmer_search(request):
-    search_key = request.GET.get('search_key')  # 검색어 가져오기
+    search_key = request.GET.get("search_key")  # 검색어 가져오기
     search_list = Farmer.objects.all()
     if search_key:  # 검색어 존재 시
         search_list = search_list.filter(
-            Q(farm_name__contains=search_key) | Q(user__nickname__contains=search_key))
-    search_list = search_list.order_by('-id')
+            Q(farm_name__contains=search_key) | Q(user__nickname__contains=search_key)
+        )
+    search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     farmers = paginator.get_page(page)
     ctx = {
-        'farmers': farmers,
+        "farmers": farmers,
     }
-    return render(request, 'users/farmer_search.html', ctx)
+    return render(request, "users/farmer_search.html", ctx)
+
 
 # farmer category(채소, 과일, E.T.C) 검색 view - for AJAX
 def farm_cat_search(request):
-    search_cat = request.GET.get('search_cat')
-    farmer = Farmer.objects.filter(farm_cat=search_cat).order_by('-id')
+    search_cat = request.GET.get("search_cat")
+    farmer = Farmer.objects.filter(farm_cat=search_cat).order_by("-id")
     paginator = Paginator(farmer, 3)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     farmers = paginator.get_page(page)
     ctx = {
-        'farmers': farmers,
+        "farmers": farmers,
     }
-    return render(request, 'users/farmer_search.html', ctx)
+    return render(request, "users/farmer_search.html", ctx)
+
 
 # farmer story 검색 view - for AJAX
 def farmer_story_search(request):
-    select_val = request.GET.get('select_val')
-    search_key_2 = request.GET.get('search_key_2')
+    select_val = request.GET.get("select_val")
+    search_key_2 = request.GET.get("search_key_2")
     search_list = Farmer_Story.objects.all()
     if search_key_2:
-        if select_val == 'title':
+        if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
-        elif select_val == 'farm':
+        elif select_val == "farm":
             search_list = search_list.filter(
-                Q(farmer__farm_name__contains=search_key_2))
-        elif select_val == 'farmer':
+                Q(farmer__farm_name__contains=search_key_2)
+            )
+        elif select_val == "farmer":
             search_list = search_list.filter(
-                Q(farmer__user__nickname__contains=search_key_2))
-    search_list = search_list.order_by('-id')
+                Q(farmer__user__nickname__contains=search_key_2)
+            )
+    search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
-    page_2 = request.GET.get('page_2')
+    page_2 = request.GET.get("page_2")
     farmer_stories = paginator.get_page(page_2)
     ctx = {
-        'farmer_stories': farmer_stories,
+        "farmer_stories": farmer_stories,
     }
-    return render(request, 'users/farmer_story_search.html', ctx)
+    return render(request, "users/farmer_story_search.html", ctx)
 
-#farmer's story create page
+
+# farmer's story create page
 def farmer_story_create(request):
     try:
         user = request.user.farmer
     except ObjectDoesNotExist:
         return redirect(reverse("core:main"))
-    if request.method == 'POST':
+    if request.method == "POST":
         form = FarmerStoryForm(request.POST, request.FILES)
         if form.is_valid():
-            title = form.cleaned_data.get('title')
+            title = form.cleaned_data.get("title")
             # sub_title = form.cleaned_data.get('sub_title')
-            content = form.cleaned_data.get('content')
+            content = form.cleaned_data.get("content")
             farmer_story = Farmer_Story(
                 title=title,
                 # sub_title=sub_title,
@@ -394,15 +412,18 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(reverse('users:farmer_story_detail', args=[farmer_story.pk]))
+            return redirect(
+                reverse("users:farmer_story_detail", args=[farmer_story.pk])
+            )
         else:
             return redirect(reverse("core:main"))
-    elif request.method == 'GET':
+    elif request.method == "GET":
         form = FarmerStoryForm()
         ctx = {
-            'form': form,
+            "form": form,
         }
-        return render(request, 'users/farmer_story_create.html', ctx)
+        return render(request, "users/farmer_story_create.html", ctx)
+
 
 # farmer's story detail page
 def farmer_story_detail(request, pk):
@@ -410,14 +431,19 @@ def farmer_story_detail(request, pk):
     farmer = main_story.farmer
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     ctx = {
-        'main_story': main_story,
-        'farmer': farmer,
-        'stories': stories,
+        "main_story": main_story,
+        "farmer": farmer,
+        "stories": stories,
     }
-    return render(request, 'users/farmer_story_detail.html', ctx)
+    return render(request, "users/farmer_story_detail.html", ctx)
+
 
 def farmer_sub_inc(request):
-    return render(request, 'users/farmers_page.html',)
+    return render(
+        request,
+        "users/farmers_page.html",
+    )
+
 
 # 농가 세부 페이지
 def farmer_detail(request, pk):
@@ -427,56 +453,58 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
 
     ctx = {
-        'farmer': farmer,
-        'tags': tags,
-        'products': products,
-        'stories': stories,
+        "farmer": farmer,
+        "tags": tags,
+        "products": products,
+        "stories": stories,
     }
-    return render(request, 'users/farmer_detail.html', ctx)
+    return render(request, "users/farmer_detail.html", ctx)
+
 
 # 입점 신청
 def farm_apply(request):
-    if request.method =='POST':
+    if request.method == "POST":
         form = FarmApplyForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'users/farm_apply_complete.html')
+            return render(request, "users/farm_apply_complete.html")
         else:
             return redirect(reverse("core:main"))
     else:
-        print('get')
+        print("get")
         form = FarmApplyForm()
         ctx = {
-            'form':form,
+            "form": form,
         }
-        return render(request, 'users/farm_apply.html', ctx)
+        return render(request, "users/farm_apply.html", ctx)
+
 
 # 입점 등록
 class FarmEnroll(View):
     def get(self, request, step):
         if step == "step_1":
-            print('step 1')
+            print("step 1")
             form = SignUpForm()
             addressform = AddressForm()
-            print('not form error')
+            print("not form error")
             ctx = {
-                'form': form,
-                'addressform': addressform,
+                "form": form,
+                "addressform": addressform,
             }
-            print('not ctx error')
-            return render(request, 'users/farm_enroll_1.html', ctx)
+            print("not ctx error")
+            return render(request, "users/farm_enroll_1.html", ctx)
 
         elif step == "step_2":
-            print('step2')
+            print("step2")
             farm_form = FarmEnrollForm()
-            ctx= {
-                'farm_form':farm_form,
+            ctx = {
+                "farm_form": farm_form,
             }
-            return render(request, 'users/farm_enroll_2.html', ctx)
+            return render(request, "users/farm_enroll_2.html", ctx)
 
         elif step == "step_3":
-            print('step3')
-            return render(request, 'users/farm_enroll_3.html')
+            print("step3")
+            return render(request, "users/farm_enroll_3.html")
         print(step)
         return redirect(reverse("core:main"))
 
@@ -486,8 +514,8 @@ class FarmEnroll(View):
 
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
             Consumer.objects.create(user=user, grade=1)
 
@@ -498,56 +526,62 @@ class FarmEnroll(View):
 
             if user is not None:
                 login(request, user=user)
-                return redirect(reverse('core:main'))
+                return redirect(reverse("core:main"))
 
         ctx = {
-            'form': form,
-            'addressform': addressform,
+            "form": form,
+            "addressform": addressform,
         }
-        return render(request, 'users/signup.html', ctx)
+        return render(request, "users/signup.html", ctx)
 
 
-user_email = ''
+user_email = ""
 
 
 class MyPasswordResetView(PasswordResetView):
-    template_name = 'users/password_reset.html'
-    email_template_name = 'users/password_reset_email.html'
-    success_url = reverse_lazy('users:password_reset_done')
+    template_name = "users/password_reset.html"
+    email_template_name = "users/password_reset_email.html"
+    success_url = reverse_lazy("users:password_reset_done")
     form_class = MyPasswordResetForm
 
     def form_valid(self, form):
         global user_email
 
-        if User.objects.filter(email=self.request.POST.get('email')).exists() and User.objects.get(email=self.request.POST.get('email')).username == self.request.POST.get('username'):
+        if User.objects.filter(
+            email=self.request.POST.get("email")
+        ).exists() and User.objects.get(
+            email=self.request.POST.get("email")
+        ).username == self.request.POST.get(
+            "username"
+        ):
             user_email = form.cleaned_data.get("email")
             return super().form_valid(form)
 
         else:
-            return render(self.request, 'users/password_reset_done_fail.html')
+            return render(self.request, "users/password_reset_done_fail.html")
 
 
 class MyPasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'users/password_reset_done.html'
+    template_name = "users/password_reset_done.html"
 
     def get_context_data(self, **kwargs):
         global user_email
         ctx = super().get_context_data(**kwargs)
-        ctx['email'] = user_email
+        ctx["email"] = user_email
         print(user_email)
         return ctx
 
 
 class MyPasswordResetConfirmView(PasswordResetConfirmView):
-    template_name = 'users/password_reset_confirm.html'
-    success_url = reverse_lazy('users:password_reset_complete')
+    template_name = "users/password_reset_confirm.html"
+    success_url = reverse_lazy("users:password_reset_complete")
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
-        form.fields['new_password1'].widget.attrs = {
-            'placeholder': '새 비밀번호를 입력해주세요'}
-        form.fields['new_password2'].widget.attrs = {
-            'placeholder': '새 비밀번호를 한번 더 입력해주세요'}
+        form.fields["new_password1"].widget.attrs = {"placeholder": "새 비밀번호를 입력해주세요"}
+        form.fields["new_password2"].widget.attrs = {
+            "placeholder": "새 비밀번호를 한번 더 입력해주세요"
+        }
 
         return form
 
@@ -556,7 +590,7 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
 
 
 class MyPasswordResetCompleteView(PasswordResetCompleteView):
-    template_name = 'users/password_reset_complete.html'
+    template_name = "users/password_reset_complete.html"
 
 
 @login_required
@@ -565,18 +599,18 @@ def mypage(request, cat):
     try:
         consumer = request.user.consumer
     except ObjectDoesNotExist:
-        return redirect(reverse('core:main'))
+        return redirect(reverse("core:main"))
 
     cat_name = str(cat)
     print(cat_name)
 
-    if request.method == 'GET':
+    if request.method == "GET":
         consumer_nickname = consumer.user.nickname
         sub_farmers = consumer.subs.all()  # pagenation 필요
         print(sub_farmers)
         if sub_farmers.exists() is False:
             print("구독자는 없다")
-        questions = consumer.questions.order_by('-create_at')  # pagenation 필요
+        questions = consumer.questions.order_by("-create_at")  # pagenation 필요
         print(questions)
         if questions.exists() is False:
             print("질문은 없다")
@@ -588,13 +622,13 @@ def mypage(request, cat):
                 raise NoRelatedInstance
             for group in groups:
                 details = group.order_details
-                preparing_num = details.filter(status='preparing').count()
+                preparing_num = details.filter(status="preparing").count()
                 print(preparing_num)
-                delivery_num = details.filter(status='shipping').count()
+                delivery_num = details.filter(status="shipping").count()
                 print(delivery_num)
-                complete_num = details.filter(status='complete').count()
+                complete_num = details.filter(status="complete").count()
                 print(complete_num)
-                cancel_num = details.filter(status='cancel').count()
+                cancel_num = details.filter(status="cancel").count()
         except NoRelatedInstance:
             preparing_num = 0
             delivery_num = 0
@@ -602,7 +636,7 @@ def mypage(request, cat):
             cancel_num = 0
 
         # 구독 농가
-        subs = consumer.subs.all().order_by('-create_at').all()
+        subs = consumer.subs.all().order_by("-create_at").all()
         if subs is None:
             subs_count = 0
         else:
@@ -614,32 +648,34 @@ def mypage(request, cat):
         one_month_before = now + timedelta(days=-30)
         print(one_month_before)
 
-        questions = consumer.questions.filter(
-            create_at__gt=one_month_before).order_by('-create_at').all()
+        questions = (
+            consumer.questions.filter(create_at__gt=one_month_before)
+            .order_by("-create_at")
+            .all()
+        )
         print((type)(questions))
 
         for q in questions:
             print(type(q))
 
         ctx = {
-            'consumer_nickname': consumer_nickname,
-            'sub_farmers': sub_farmers,
-            'questions': questions,
-            'preparing_num': preparing_num,
-            'delivery_num': delivery_num,
-            'complete_num': complete_num,
-            'cancel_num': cancel_num,
-            'subs_count': subs_count,
-            'subs': subs,
-            'questions': questions,
+            "consumer_nickname": consumer_nickname,
+            "sub_farmers": sub_farmers,
+            "questions": questions,
+            "preparing_num": preparing_num,
+            "delivery_num": delivery_num,
+            "complete_num": complete_num,
+            "cancel_num": cancel_num,
+            "subs_count": subs_count,
+            "subs": subs,
+            "questions": questions,
         }
 
-        if cat_name == 'orders':
-            page = int(request.GET.get('page', 1))
+        if cat_name == "orders":
+            page = int(request.GET.get("page", 1))
             page_size = 5
 
-            order_groups = groups.filter(
-                status='complete').order_by('-create_at')
+            order_groups = groups.filter(status="complete").order_by("-create_at")
             print(order_groups)
             if order_groups.exists():
                 order_details = order_groups[0].order_details.all()
@@ -648,8 +684,7 @@ def mypage(request, cat):
                     for group in order_groups[1:]:
                         print(group.order_details.all())
                         order_details = order_details | group.order_details.all()
-                order_details = order_details.order_by(
-                    '-order_group__create_at')
+                order_details = order_details.order_by("-order_group__create_at")
             else:
                 order_details = None
 
@@ -660,70 +695,71 @@ def mypage(request, cat):
                 offset = 0
             else:
                 order_details_count = order_details.count()
-                total_pages = ceil(order_details_count/page_size)
+                total_pages = ceil(order_details_count / page_size)
                 offset = page * page_size - page_size
-                order_details = order_details[offset:page*page_size]
+                order_details = order_details[offset : page * page_size]
 
             ctx_orders = {
-                'total_pages': range(1, total_pages+1),
-                'order_details': order_details,
+                "total_pages": range(1, total_pages + 1),
+                "order_details": order_details,
             }
             ctx.update(ctx_orders)
-            return render(request, 'users/mypage_orders.html', ctx)
-        elif cat_name == 'wishes':
-            page = int(request.GET.get('page', 1))
+            return render(request, "users/mypage_orders.html", ctx)
+        elif cat_name == "wishes":
+            page = int(request.GET.get("page", 1))
             page_size = 5
 
-            wishes = consumer.wishes.filter(
-                product__open=True).order_by('-create_at')
+            wishes = consumer.wishes.filter(product__open=True).order_by("-create_at")
             print(wishes)
 
             wishes_count = wishes.count()
-            total_pages = ceil(wishes_count/page_size)
+            total_pages = ceil(wishes_count / page_size)
             offset = page * page_size - page_size
-            wishes = wishes[offset:page*page_size]
+            wishes = wishes[offset : page * page_size]
             print(wishes)
 
             ctx_wishes = {
-                'page': page,
-                'total_pages': range(1, total_pages+1),
-                'wishes': wishes,
+                "page": page,
+                "total_pages": range(1, total_pages + 1),
+                "wishes": wishes,
             }
             ctx.update(ctx_wishes)
-            return render(request, 'users/mypage_wishes.html', ctx)
-        elif cat_name == 'cart':
-            carts = consumer.carts.all().order_by('-create_at').filter(product__open=True)
+            return render(request, "users/mypage_wishes.html", ctx)
+        elif cat_name == "cart":
+            carts = (
+                consumer.carts.all().order_by("-create_at").filter(product__open=True)
+            )
             print(carts)
 
             ctx_carts = {
-                'carts': carts,
+                "carts": carts,
             }
             ctx.update(ctx_carts)
-            return render(request, 'users/mypage_carts.html', ctx)
-        elif cat_name == 'rev_address':
+            return render(request, "users/mypage_carts.html", ctx)
+        elif cat_name == "rev_address":
             pass
-        elif cat_name == 'info':
+        elif cat_name == "info":
             user = consumer.user
             info = {
-                'first_name': user.first_name,
-                'last_name': user.last_name,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
                 # 'number':number,
-                'email': user.email,
-                'nickname': user.nickname,
-                'profile_image': user.profile_image,
+                "email": user.email,
+                "nickname": user.nickname,
+                "profile_image": user.profile_image,
             }
-            
+
             ctx.update(info)
-            return render(request, 'users/mypage_info.html', ctx)
-    
+            return render(request, "users/mypage_info.html", ctx)
+
 
 class FindMyIdView(TemplateView):
-    template_name = 'users/find_my_id.html'  # to be added
+    template_name = "users/find_my_id.html"  # to be added
 
     def get(self, request):
         form = FindMyIdForm()
         ctx = {
-            'form': form,
+            "form": form,
         }
 
         return self.render_to_response(ctx)
@@ -739,23 +775,21 @@ class FindMyIdView(TemplateView):
                 username = user.get_full_name()
 
                 if form.cleaned_data.get("name") == username:
-                    ctx = {
-                        'user': user
-                    }
+                    ctx = {"user": user}
                     return render(request, "users/find_my_id_complete.html", ctx)
 
                 else:
                     raise User.DoesNotExist
 
             except User.DoesNotExist:
-                return redirect(reverse('users:find_my_id_failed'))
+                return redirect(reverse("users:find_my_id_failed"))
 
 
 class FindMyIdFailView(TemplateView):
-    template_name = 'users/find_my_id_failed.html'
+    template_name = "users/find_my_id_failed.html"
 
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name="dispatch")
 class EditorMyPage(ListView):
     model = Editor_Review
     context_object_name = "reviews"
@@ -765,47 +799,48 @@ class EditorMyPage(ListView):
         user = self.request.user
         try:
             return Editor_Review.objects.filter(author=user.editor)
-        
+
         except Editor.DoesNotExist:
             return None
-    
-    def render_to_response(self, context, **response_kwargs):
-        if not Editor.objects.filter(user=self.request.user).exists():
-            return redirect(reverse('core:main'))
-
-        return super().render_to_response(context, **response_kwargs)
-
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["editor"] = self.request.user.editor 
-        return context
-    
-@method_decorator(login_required, name='dispatch')
-class EditorMyPage_Comments(ListView):
-    model = Editor_Review_Comment
-    context_object_name = 'comments'
-    template_name = 'users/editor_mypage_comments.html'
-
-    def get_queryset(self):
-        reviews = Editor_Review.objects.filter(author=self.request.user.editor)
-        print(reviews)
-
-        comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
-
-        for review in reviews:
-            comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
-
-        return comments.order_by('-create_at')
 
     def render_to_response(self, context, **response_kwargs):
         if not Editor.objects.filter(user=self.request.user).exists():
-            return redirect(reverse('core:main'))
+            return redirect(reverse("core:main"))
 
         return super().render_to_response(context, **response_kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["editor"] = self.request.user.editor
-        
+        return context
+
+
+@method_decorator(login_required, name="dispatch")
+class EditorMyPage_Comments(ListView):
+    model = Editor_Review_Comment
+    context_object_name = "comments"
+    template_name = "users/editor_mypage_comments.html"
+
+    def get_queryset(self):
+        reviews = Editor_Review.objects.filter(author=self.request.user.editor)
+
+        comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
+
+        for review in reviews:
+            comments = comments.union(
+                Editor_Review_Comment.objects.filter(editor_review=review)
+            )
+
+        return comments.order_by("-create_at")
+
+    def render_to_response(self, context, **response_kwargs):
+        if not Editor.objects.filter(user=self.request.user).exists():
+            return redirect(reverse("core:main"))
+
+        return super().render_to_response(context, **response_kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["editor"] = self.request.user.editor
+
         return context

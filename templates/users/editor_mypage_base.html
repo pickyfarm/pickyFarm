@@ -55,10 +55,10 @@
         <div id="middle-section" class="flex flex-row">
 
             <div id="menu">
-                <div id="menu_content">전체 글</div>
-                <div id="menu_content">댓글 관리</div>
-                <div id="menu_content">알림</div>
-                <div id="menu_content">에디터 정보 관리</div>
+                <a href="{% url 'users:editor_mypage' %}"><div class="menu_content" id="menu-articles">전체 글</div></a>
+                <a href="{% url 'users:editor_mypage_comments' %}"><div class="menu_content" id="menu-comments">댓글 관리</div></a>
+                <div class="menu_content" id="menu-notifications">알림</div>
+                <div class="menu_content" id="menu-editor-info">에디터 정보 관리</div>
             </div>
             <div id="content">
                 {% block content %}
@@ -127,6 +127,8 @@
             }
         })
     })
+
+
 </script>
 
 {% block script_section %}

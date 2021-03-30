@@ -96,7 +96,7 @@
     width:150px;
 }
 
-#menu_content{
+.menu_content{
     width: 145px;
     height: 48px;
     margin-bottom: 12px;
@@ -112,6 +112,18 @@
   letter-spacing: normal;
   text-align: center;
   color: #5c6754;
+
+  transition: all .15s ease-in;
+}
+
+.menu_content_selected{
+  background-color: #5c6754;
+  color: #ffffff;
+}
+
+.menu_content:hover{
+  background-color: #5c6754;
+  color: #ffffff;
 }
 
 #filter-section{
