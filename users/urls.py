@@ -39,5 +39,6 @@ urlpatterns = [
     path('subs/', views.subs, name="subs"),
     path('cancelSubs/', views.CancelSubs, name="cancelSubs"),
     path('wish/', views.wish, name='wish'),
+    path('infoUpdate/', views.infoUpdate, name='infoUpdate')
     
 ]

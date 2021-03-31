@@ -13,14 +13,15 @@
             <div id="name-section" class="flex flex-row w-100">
                 <div class="w-1/5">이름</div>
                 <div id="name" class="flex flex-row w-4/5">
-                    <div>{{last_name}}</div>
-                    <div>{{first_name}}</div>
+                    <div id="last-name">{{last_name}}</div>
+                    <div id="first-name">{{first_name}}</div>
                 </div>
             </div>
             <div id="email-section" class="flex flex-row w-100">
                 <div class="w-1/5">이메일</div>
                 <div id="email" class="w-4/5">{{email}}</div>
             </div>
+            <img id="info-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
         </div>
     </div>
 
@@ -78,11 +79,81 @@
   })
 
   let editInfoBtn = document.getElementById('edit-info')
+  console.log(editInfoBtn)
   let editProfileBtn = document.getElementById('edit-profile')
 
-  editInfoBtn.addEventListener(click, function(){
+  let profileContentSection = document.getElementById('profile-content-section')
+
+  editInfoBtn.addEventListener('click', function(){
+    let lastName = document.getElementById('last-name').innerHTML
+    let firstName = document.getElementById('first-name').innerHTML
+    let nameSection = document.getElementById('name')
+
+    let emailSection = document.getElementById('email')
+    let email = emailSection.innerHTML
     
+
+    console.log(lastName)
+    console.log(firstName)
+    console.log(email)
+
+    nameSection.innerHTML = ''
+    emailSection.innerHTML = ''
+
+    nameInnerHTML = `<div>성</div><input id="last-name-input" type="text" value=${lastName}><div>이름</div><input id="first-name-input" type="text" value=${firstName}>`
+    nameSection.innerHTML = nameInnerHTML
+    emailInnerHTML = `<input id="email-input" type="text" value=${email}>`
+    emailSection.innerHTML = emailInnerHTML
+
+    let infoSection = document.getElementById('info-section')
+    let completeBtn = document.getElementById('info-edit-complete')
+    completeBtn.setAttribute('class', 'mx-auto mt-10')
+    console.log(completeBtn)
+    infoSection.appendChild(completeBtn)
+
+    let lastNameInputTag = document.getElementById('last-name-input')
+    let firstNameInputTag = document.getElementById('first-name-input')
+    let emailInputTag = document.getElementById('email-input')
+
   })
+
+  
+
+  let infoEditCompleteBtn = document.getElementById('info-edit-complete')
+
+  infoEditCompleteBtn.addEventListener('click', function(){
+    let lastName = document.getElementById('last-name-input').value
+    let firstName = document.getElementById('first-name-input').value
+    let email = document.getElementById('email-input').value
+
+    console.log(lastName)
+    console.log(firstName)
+    console.log(email)
+
+    let data = {
+      'last_name' : lastName,
+      'first_name' : firstName,
+      'email' : email,
+      "csrfmiddlewaretoken":"{{csrf_token}}",
+    }
+
+    $.ajax({
+      type :'POST',
+      url : "{% url 'users:infoUpdate' %}",
+      data : data,
+      dataType : 'json',
+      success : function(){
+        alert("개인정보 수정 완료")
+        window.location.reload()
+      }
+
+    })
+
+
+  })
+
+
+
 
 </script>
   

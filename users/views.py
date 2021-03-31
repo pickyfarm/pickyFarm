@@ -176,6 +176,27 @@ def wish(request):
             return JsonResponse(response)
 
 
+@login_required
+@require_POST
+def infoUpdate(request):
+    if request.method == 'POST':
+        user = request.user
+
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+
+        response = {
+                'status': 1,
+        }
+        return JsonResponse(response)
+
+
 # 회원 관련 view
 
 class Login(View):
