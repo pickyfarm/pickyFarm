@@ -38,6 +38,7 @@
                 <div class="w-1/4">닉네임</div>
                 <div id="nickname" class="w-3/4">{{nickname}}</div>
             </div>
+            <img id="profile-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
         </div>
     </div>
     
@@ -146,7 +147,6 @@
         alert("개인정보 수정 완료")
         window.location.reload()
       }
-
     })
 
 

@@ -977,5 +977,12 @@
   cursor: pointer;
 }
 
+#info-edit-complete{
+  cursor: pointer;
+}
+
+#profile-edit-complete{
+  cursor: pointer;
+}
 
 
