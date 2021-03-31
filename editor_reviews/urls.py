@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
 
 
@@ -10,5 +10,5 @@ urlpatterns = [
     path('<int:pk>/', views.Editor_review_detail.as_view(), name='detail'),
     path('<int:pk>/comment/', views.editor_review_comment, name='comment'),
     path('<int:pk>/update/', views.update, name='update'),
-    path('<int:pk>/delete/', views.delete, name='delete'),
+    path('delete/', views.delete, name='delete'),
 ]

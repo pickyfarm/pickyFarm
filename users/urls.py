@@ -29,8 +29,8 @@ urlpatterns = [
     path('reset/done/', views.MyPasswordResetCompleteView.as_view(), name='password_reset_complete'),
     
     path('mypage/<slug:cat>', views.mypage, name='mypage'),
-    # path('add_rev_address', views.add_rev_address, name="add_rev_address"),
-    
+    path('editor_mypage/', views.EditorMyPage.as_view(), name='editor_mypage'),
+    path('editor_mypage/comments', views.EditorMyPage_Comments.as_view(), name='editor_mypage_comments'),
     path('find_my_id/', views.FindMyIdView.as_view(), name='find_my_id'),
     path('find_my_id/complete', views.FindMyIdView.as_view(), name='find_my_id_complete'),
     path('find_my_id/failed', views.FindMyIdFailView.as_view(), name='find_my_id_failed'),

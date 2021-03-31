@@ -228,18 +228,19 @@ def update(request, pk):
 
 
 @login_required
-def delete(request, pk):
-    post = get_object_or_404(Editor_Review, pk=pk)
+def delete(request):
+    if not request.is_ajax():
+        return redirect(reverse('core:main'))
 
-    try:
-        user = request.user.editor
-        if post.author != user:
-            raise AuthorNotMatched
-    except ObjectDoesNotExist:
-        return redirect(reverse("core:main"))
-    except AuthorNotMatched:
-        return redirect(reverse("core:main"))
+    reviewpks = request.POST.getlist('select[]')
 
-    post.delete()
+    for reviewpk in reviewpks:
+        review = Editor_Review.objects.get(pk=reviewpk)
+        review.delete()
+    
+    ctx = {
+        "success": True,
+    }
 
-    return redirect(reverse('core:main'))
+    return JsonResponse(ctx)
+
