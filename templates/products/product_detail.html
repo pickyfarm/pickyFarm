@@ -544,13 +544,14 @@
         $(this).parent().siblings('.recomments').toggle();
         $(this).children('.fa-caret-down').toggle();
         $(this).children('.fa-caret-up').toggle();
+        const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+        recomment_forms.forEach((form) => {
+            form.scrollBy(0, 10000)
+        });
     });
 
-    // 스크롤 하단 고정
-    const [...recomment_forms] = document.querySelectorAll('.recomment_form')
-    recomment_forms.forEach((form) => {
-        form.scrollTo(0,form.scrollHeight)
-    });
+    // 스크롤 하단 고정 (수정 필요)
+    
 
     // 리뷰 댓글 작성
     const btns = document.querySelectorAll('#rec_submit')
@@ -572,7 +573,7 @@
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
             },
             success: function(data) {
-                if (text === '') {
+                if (text === '') {ㅎ
                     alert('댓글을 입력해주세요');
                     return;
                 }
@@ -603,6 +604,10 @@
                 let list = parent.parent().children(`div[name=${comment_id}]`);
                 list.append(recomment);
                 parent.children('#id_text').val('')
+                const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+                recomment_forms.forEach((form) => {
+                    form.scrollBy(0, 10000)
+                });
             },
             error: function() {
                 alert('error');
