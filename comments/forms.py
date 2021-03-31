@@ -22,6 +22,9 @@ class ProductRecommentForm(forms.ModelForm):
     class Meta:
         model = Product_Recomment
         fields = ['text', ]
+        labels = {
+            'text' : ''
+        }
 
 class EditorReviewRecommentForm(forms.ModelForm):
     class Meta:

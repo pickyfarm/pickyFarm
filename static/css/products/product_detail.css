@@ -89,18 +89,32 @@
 
 }
 
-#farmer_img, #consumer_img{
-    width: 53px;
+#farmer_img{
+  width: 53px;
   height: 53px;
   font-family: NotoSansKR;
   border-radius: 999%;
   border: solid 2px #5e6656;
-    object-fit: cover;
+  object-fit: cover;
+}
+
+#consumer_img {
+  width: 32px; height: 32px;
+  object-fit: cover;
+  border: solid 2px #5e6656;
+  border-radius: 50%;
+}
+
+#reviewer_img {
+  width: 78px;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 #farm_name{
-    font-size: 15px;
-    font-family: NotoSansKR;
+  font-size: 15px;
+  font-family: NotoSansKR;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -574,14 +588,22 @@ div{
   background-color: rgb(238,236,230);  
 }
 
-#review_score {
-  height: 192px;
+#percent {
+  font-size: 15px;
+  font-weight: 500;
+  color: #5c6754;
 }
 
-#score_title, #percent {
+#score_title {
   font-size: 18px;
+  font-weight: bold;
+  color: #5c6754;
+}
+
+#fresh div, #taste div, #price div{
+  font-size: 13px;
   font-weight: 500;
-  color: #004818;
+  color: #5c6754;
 }
 
 #comment_list {
@@ -603,15 +625,89 @@ div{
 
 /* review score_table */
 #score_table_wrap {
-  width: 780px;
+  width: 720px;
+  margin-left: 102px;
 }
 
 #score_table {
-  width: 780px;
+  width: 720px;
   border: 1px solid #707070;
 }
 
 #score_table td {
   width: 33%;
   border: 1px solid #707070;
+}
+
+/* comment section */
+#id_text {
+  width: 740px;
+  height: 35px;
+  border-radius: 38px;
+  border: solid 1px #b3b3b3;
+  background-color: #ffffff;
+  resize: none;
+  padding: 3px 10px;
+  outline: none;
+}
+
+#review_txt, #review_imgs {
+  margin-left: 102px;
+}
+#review_img {
+  margin-right: 44px;
+}
+
+#review_comment {
+  width: 880px;
+  margin-left: 102px;
+}
+
+#rec_submit {
+  width: 100px;
+  height: 35px;
+  border-radius: 38px;
+  border: solid 1px #5c6854;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 7px 15px 6px;
+  color: #5c6754;
+}
+#rec_submit:hover {
+  transition-duration: 0.6s;
+  color: #fff;
+  background-color: #5c6754;
+}
+
+.rec_more {
+  width: 140px;
+  height: 36px;
+  /* margin-top:30px; */
+  /* padding: 7px 15px; */
+  border-radius: 24px;
+  background-color: #5c6754;
+  color: #fff;
+  outline: none;
+}
+
+#show_icon {
+  color:#fff;
+}
+
+.recomment_form {
+  width: 880px;
+  max-height: 500px;
+  overflow-y: scroll;
+  opacity: 0.7;
+  border-radius: 7px;
+  background-color: #e6e6e6;
+}
+
+.recomment_list:not(:last-child) {
+  border-bottom: solid 0.5px #5e6656;
+}
+
+.hide {
+  display: none;
 }

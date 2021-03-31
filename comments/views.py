@@ -3,7 +3,10 @@ from django.urls import reverse
 from .models import Product_Comment, Product_Recomment
 from .forms import ProductCommentForm, ProductRecommentForm
 from products.models import Product
-# from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 # 상품 댓글 Read
 def product_comment_detail(request, pk):
@@ -78,22 +81,19 @@ def product_recomment_detail(request, pk):
     return render(request, 'comments/product_comment.html', ctx)
 
 # 상품 대댓글 create
-def product_recomment_create(request, pk):
-    product_comment = Product_Comment.objects.get(pk=pk)
-    print(product_comment.text)
-    product = product_comment.product
-    print(product)
-    recomment_form = ProductRecommentForm(request.POST)
-    if recomment_form.is_valid():
-        print('valid')
-        recomment = recomment_form.save(commit=False)
-        recomment.author = request.user
-        recomment.comment = product_comment
-        recomment.save()
-
-    return redirect('products:product_detail', product.pk)
-    
-    # return redirect(reverse('products:product_detail', args=[pk]))
+def product_recomment_create(request, comment_id):
+    product_comment = Product_Comment.objects.get(pk=comment_id)
+    author = request.user
+    text = request.POST.get('text')
+    recomment = Product_Recomment(comment=product_comment, author=author, text=text)
+    recomment.save()
+    data = {
+        'text': text,
+        'create_at': recomment.create_at.strftime(r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"),
+        'author': author.nickname,
+        'user_image': author.profile_image.url,
+    }
+    return JsonResponse(data)
 
 # 상품 대댓글 update
 def product_recomment_update(request, pk):
