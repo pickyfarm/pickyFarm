@@ -5,40 +5,44 @@
 
 
 #title-text{
-    font-family: NotoSansKR;
+  font-family: NotoSansKR;
   font-size: 30px;
-  font-weight: normal;
+  font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.5;
   letter-spacing: normal;
   text-align: center;
-  color: #808080;
-  margin-bottom:72px;
+  color: #5c6754;
+  margin-bottom: 70px;
 }
 
 #required-text{
-    font-family: NotoSansKR;
-  font-size: 20px;
+  font-family: NotoSansKR;
+  font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.5;
+  line-height: 2.5;
   letter-spacing: normal;
+  text-align: center;
   color: #707070;
-  margin-left:8px;
+  margin-left:9px;
+  margin-right: 50px;
+  padding-top:3px;
 }
 
 #sub-title-text{
-    font-family: NotoSansKR;
-  font-size: 25px;
-  font-weight: 500;
+  font-family: NotoSansKR;
+  font-size: 23px;
+  font-weight: bold;
   font-stretch: normal;
   font-style: normal;
-  line-height: 2.4;
+  line-height: 2.61;
   letter-spacing: normal;
-  text-align: left;
+  text-align: center;
   color: #5c6754;
+  margin-bottom: 33px;
 }
 
 #sub-title-line{
@@ -51,14 +55,14 @@
 
 #label-text{
     font-family: NotoSansKR;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.5;
   letter-spacing: normal;
   text-align: left;
-  color: #808080;
+  color: #4d4d4d
 }
 
 
@@ -66,25 +70,25 @@
 
 #small-form>input{
     width: 300px;
-    height:40px;
-  border-radius: 3px;
-  border: solid 1px #808080;
+    height:35px;
+  border-radius: 20px;
+  border: solid 1px #b3b3b3;
 }
 
 #middle-form>input{
-    width: 499px;
+    width: 529px;
   height: 40px;
   padding-left:5px;
-  border-radius: 3px;
-  border: solid 1px #808080;
+  border-radius: 14px;
+  border: solid 1px #b3b3b3;
 }
 
 #big-form>input{
-    width: 499px;
+    width: 529px;
   height: 80px;
-  padding: 3px;
-  border-radius: 3px;
-  border: solid 1px #808080;
+  border-radius: 14px;
+  padding-left:5px;
+  border: solid 1px #b3b3b3;
 }
 
 
@@ -167,5 +171,78 @@
   letter-spacing: normal;
   text-align: center;
   color: #ffffff;
+}
+
+/* 주문 상세 내역 결제 금액 부분 */
+
+#orders-sub-title-line{
+  width: 702px;
+    height:28px;
+    margin-left:24.5px;
+    margin-bottom:0px;
+  border-bottom: solid 1px #afb3ab;
+}
+
+#products-index-section{
+  width:575px;
+  text-align: center;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: #5e6656;
+  margin-bottom: 7px;
+}
+
+#products-section{
+  height:381px;
+  overflow:scroll;
+  margin-bottom: 50px;
+}
+
+#product{
+  width: 575px;
+  height: 87px;
+  border-radius: 20px;
+  border: solid 1px #b3b3b3;
+  background-color: #ffffff;
+  margin-bottom: 11px;
+}
+
+#product-img{
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  margin-left:8px;
+}
+
+#farm_name{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: normal;
+  color: #5c6754;
+}
+
+#title, #orders-num{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  color: #5c6754;
+}
+
+#weight, #sell-price{
+  font-family: NotoSansKR;
+  font-size: 16px;
+  color: #c7c7c7;
+}
+
+#price-check-section{
+  width: 341px;
+  height: 309px;
+  padding: 9px 24.5px 16px 24px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  margin-left:70px;
 }
 

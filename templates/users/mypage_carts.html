@@ -27,7 +27,7 @@
         <div id="select-section" class="mt-12 pr-8">
             <input id="select-checkbox-{{cart.product.pk}}" type="checkbox" name="{{cart.product.pk}}" checked>
         </div>
-        <div id="product" class="flex flex-row mb-5">
+        <div id="product" name="{{cart.product.pk}}" class="flex flex-row mb-5">
             <div id="product_img_section" class="w-1/5">
                 <img id="product_img" src="{{cart.product.main_image.url}}">
             </div>
@@ -353,24 +353,39 @@
             console.log(item)
             if (item.checked == true) {
                 let pk = item.getAttribute('name');
-                products.push(pk);
+                let quantity = parseInt(document.getElementById(`quantity-${pk}`).innerText)
+                let product = {
+                    'pk':pk,
+                    'quantity':quantity
+                }
+                products.push(product)
             }
         });
+        console.log(products)
         if (products.length == 0)
             alert("주문할 무난이를 선택해주세요!")
-        data = {
-            'products': products,
-        };
-        console.log(products)
-        $.ajax({
-            url: "{% url 'orders:ordering_cart' %}",
-            dataType: "json",
-            type: "POST",
-            data: data,
-            success: function (response) {
 
-            }
-        });
+        data = {
+            'orders':JSON.stringify(products),
+            "csrfmiddlewaretoken": "{{csrf_token}}"
+        }
+        
+        let form = document.createElement("form")
+        form.setAttribute("method", "post")
+        form.setAttribute("action", "{% url 'orders:payment' %}")
+
+        for(let key in data){
+            let hiddenField = document.createElement('input')
+            hiddenField.setAttribute('type', 'hidden')
+            hiddenField.setAttribute('name', key)
+            hiddenField.setAttribute('value', data[key])
+
+            form.appendChild(hiddenField)
+        }
+        
+        document.body.appendChild(form)
+        form.submit()
+
     })
 
 
@@ -389,6 +404,7 @@
         }
         data = {
             'pkList': products,
+            "csrfmiddlewaretoken": "{{csrf_token}}"
         }
         console.log(data.pkList)
         $.ajax({
@@ -426,5 +442,25 @@
     //     });
     //   })
     // });
+    
+    // let orderBtn = document.getElementById('order_now')
+    
+    // let orderProducts = []
+    
+    // orderBtn.addEventListener('click', function(){
+    //     let carts = document.querySelectorAll('#product')
+    //     carts.forEach(item=>{
+    //         let pk = item.getAttribute('name');
+    //         let quantity = parseInt(document.getElementById(`quantity-${pk}`).innerText)
+    //         let product = {
+    //             'pk':pk,
+    //             'quantity':quantity
+    //         }
+    //         orderProducts.push(product)
+    //     })
+    //     console.log(orderProducts);
+    // })
+    
+
 </script>
 {% endblock script_section %}

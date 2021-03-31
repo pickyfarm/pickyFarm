@@ -82,10 +82,10 @@
                                     <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
                                 </a>
                                 <div id="like_cart_in" class="flex flex-row">
-                                    <div id="wish" class="z-10">
+                                    <div id="wish" name="{{product.pk}}" class="z-10">
                                         <img class="mr-1", id="wish_btn" src="{% static 'images/products_list/like.svg' %}">
                                     </div>
-                                    <div id="cart">
+                                    <div id="cart" name="{{product.pk}}">
                                         <img class="ml-1" id="cart_in_btn",
                                             src="{% static 'images/products_list/cart_in.svg' %}">
                                     </div>
@@ -146,10 +146,11 @@
 <script>
     let wishBtn = document.querySelectorAll('#wish')
     console.log(wishBtn)
-    let product_pk = document.getElementById('product_item').getAttribute('name')
+    
 
     wishBtn.forEach(item => {
         item.addEventListener('click', function () {
+            let product_pk=item.getAttribute('name')
             data = {
                 'pk': product_pk,
                 "csrfmiddlewaretoken": "{{csrf_token}}",
@@ -178,6 +179,7 @@
     console.log(cartBtn)
     cartBtn.forEach(item=>{
         item.addEventListener('click', function(){
+        let product_pk = item.getAttribute('name')
         data = {
             'pk':product_pk,
             "csrfmiddlewaretoken":"{{csrf_token}}",

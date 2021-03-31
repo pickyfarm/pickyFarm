@@ -850,6 +850,14 @@
   color: #5c6754;
 }
 
+#address-search-btn{
+  padding-left:20px;
+}
+
+#address-search-btn>img{
+  cursor: pointer;
+}
+
 #submit-rev-address-btn{
   width: 125px;
   height: 30px;
@@ -912,9 +920,31 @@
   padding-left:40px;
 }
 
+
+
+#name>input{
+  width:80px;
+  height: 30px;
+  border-radius: 15px;
+  padding:0 10px 0 10px;
+  margin-right:10px;
+  margin-left:5px;
+  border: solid 1px #e6e6e6;
+  background-color: #ffffff;
+}
+
 #email{
   border-left : solid 0.5px #b3b3b3;
   padding-left:40px;
+}
+
+#email>input{
+  width: 270px;
+  height: 30px;
+  padding:0 10px 0 10px;
+  border-radius: 15px;
+  border: solid 1px #e6e6e6;
+  background-color: #ffffff;
 }
 
 #nickname{
@@ -938,4 +968,21 @@
   background-color: #f2f2f2;
   border-radius: 50%;
 }
+
+#edit-info{
+  cursor: pointer;
+}
+
+#edit-profile{
+  cursor: pointer;
+}
+
+#info-edit-complete{
+  cursor: pointer;
+}
+
+#profile-edit-complete{
+  cursor: pointer;
+}
+
 
