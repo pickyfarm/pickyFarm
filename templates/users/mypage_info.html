@@ -31,8 +31,12 @@
             <div><img id = "edit-profile" src="{% static 'images/users/pen.svg' %}"></div>
         </div>
         <div id="profile-content-section" class="w-100">
-            <div id="image-section" class="flex justify-center w-100 ">
+            <div id="image-section" class="flex flex-col items-center w-100 ">
                 <div><img id="profile-image" src="{{profile_image.url}}"></div>
+                <div id="edit-profile-image" class="hidden">
+                  <label for="edit-profile-image-input">사진 변경</label>
+                  <input type="file" id="edit-profile-image-input" class="mx-auto">
+                </div>
             </div>
             <div id="email-section" class="flex flex-row w-100">
                 <div class="w-1/4">닉네임</div>
@@ -80,10 +84,11 @@
   })
 
   let editInfoBtn = document.getElementById('edit-info')
-  console.log(editInfoBtn)
   let editProfileBtn = document.getElementById('edit-profile')
 
   let profileContentSection = document.getElementById('profile-content-section')
+
+  /* 개인 정보 수정 버튼 클릭 -> 수정 항목 input화 */
 
   editInfoBtn.addEventListener('click', function(){
     let lastName = document.getElementById('last-name').innerHTML
@@ -118,6 +123,29 @@
 
   })
 
+  editProfileBtn.addEventListener('click', function(){
+    let nickNameSection = document.getElementById('nickname')
+    let nickName = nickNameSection.innerHTML
+    nickNameSection.innerHTML = ''
+    
+    console.log(nickName)
+
+    nickNameInnerHTML = `<input id="last-name-input" type="text" value=${nickName}>`
+    nickNameSection.innerHTML = nickNameInnerHTML
+    
+    let editProfileImage = document.getElementById('edit-profile-image')
+    editProfileImage.setAttribute('class', 'flex mx-auto mt-5')
+
+    let profileSection = document.getElementById('profile-section')
+    let completeBtn = document.getElementById('profile-edit-complete')
+    completeBtn.setAttribute('class', 'mx-auto mt-10')
+    console.log(completeBtn)
+    profileSection.appendChild(completeBtn)
+
+
+  })
+
+
   
 
   let infoEditCompleteBtn = document.getElementById('info-edit-complete')
@@ -151,6 +179,8 @@
 
 
   })
+
+
 
 
 
