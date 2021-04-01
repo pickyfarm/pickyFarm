@@ -50,6 +50,8 @@ from addresses.forms import AddressForm
 from addresses.models import Address
 from math import ceil
 from django.conf import settings
+from django.contrib.auth.models import AnonymousUser
+from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
 
 
 # Exception 선언 SECTION
@@ -454,20 +456,61 @@ def farmer_story_create(request):
 
 
 # farmer's story detail page
+class Story_Detail(DetailView):
+    model = Farmer_Story
+    template_name = "users/farmer_story_detail.html"
+    context_object_name = "main_story"
 
+    def get_context_data(self, **kwargs):
+        ctx = super(DetailView, self).get_context_data(**kwargs)
+        farmer = self.get_object().farmer
+        story = Farmer_Story.objects.all().order_by('-id')
+        
+        paginator = Paginator(story, 3)
+        page = self.request.GET.get('page')
+        stories = paginator.get_page(page)
+        
+        comments = self.get_object().farmer_story_comments.order_by('-id')
+        form = FarmerStoryCommentForm()
 
-def farmer_story_detail(request, pk):
-    main_story = Farmer_Story.objects.get(pk=pk)
-    farmer = main_story.farmer
-    stories = Farmer_Story.objects.all().filter(farmer=farmer)
-    tags = Farm_Tag.objects.all().filter(farmer=farmer)
-    ctx = {
-        'main_story': main_story,
-        'farmer': farmer,
-        'stories': stories,
-        'tags': tags,
-    }
-    return render(request, "users/farmer_story_detail.html", ctx)
+        ctx['farmer'] = farmer
+        ctx['stories'] = stories
+        ctx['tags'] = Farm_Tag.objects.all().filter(farmer=farmer)
+        ctx['comments'] = comments
+        ctx['form'] = form
+        
+        if self.request.user != AnonymousUser():
+            ctx['user'] = self.request.user
+
+        else:
+            ctx['user'] = None
+
+        return ctx
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+
+        if self.request.session.get('_auth_user_id') is None:
+            cookie_name = 'farmer_story_hit'
+        else:
+            cookie_name = f'farmer_story_hit:{self.request.session["_auth_user_id"]}'
+
+        if self.request.COOKIES.get(cookie_name) is None:
+            response.set_cookie(cookie_name, self.kwargs['pk'], 3600)
+            main_story = self.get_object()
+            main_story.hits += 1
+            main_story.save()
+        else:
+            cookie = self.request.COOKIES.get(cookie_name)
+            cookies = cookie.split('|')
+
+            if str(self.kwargs['pk']) not in cookies:
+                response.set_cookie(cookie_name, cookie + f'|{self.kwargs["pk"]}')
+                main_story = self.get_object()
+                main_story.hits += 1
+                main_story.save()
+
+        return response
 
 
 def farmer_sub_inc(request):

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import Product_Comment, Product_Recomment
+from .models import Product_Comment, Product_Recomment, Farmer_Story_Comment
 from .forms import ProductCommentForm, ProductRecommentForm
 from products.models import Product
 from django.template.loader import render_to_string
@@ -113,3 +113,20 @@ def product_recomment_update(request, pk):
         product_recomment_form = ProductRecommentForm(instance=product_recomment)       
 
     return render(request, 'comments/product_recomment.html', {'product_recomment_form':product_recomment_form})
+
+def story_comment_create(request, pk):
+    story = get_object_or_404(Farmer_Story, pk=pk)
+    author = request.user
+    text = request.POST.get('text')
+
+    comment = Farmer_Story_Comment(story=story, author=author, text=text)
+    comment.save()
+
+    data = {
+        'text': text,
+        'create_at': comment.create_at.strftime(r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"),
+        'author': author.nickname,
+        'user_image': author.profile_image.url
+    }
+
+    return JsonResponse(data)
