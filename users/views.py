@@ -20,7 +20,7 @@ from math import ceil
 from datetime import timedelta
 from django.utils import timezone
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
 from .forms import (
@@ -172,7 +172,7 @@ def subs(request):
                 return JsonResponse(data)
             Subscribe.objects.create(farmer=farmer, consumer=consumer)
             data = {
-                'success': 1,
+                "success": 1,
             }
             return JsonResponse(data)
 
@@ -204,12 +204,12 @@ def wish(request):
 @login_required
 @require_POST
 def infoUpdate(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         user = request.user
 
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
 
         user.first_name = first_name
         user.last_name = last_name
@@ -217,7 +217,7 @@ def infoUpdate(request):
         user.save()
 
         response = {
-                'status': 1,
+            "status": 1,
         }
         return JsonResponse(response)
 
@@ -421,6 +421,7 @@ def farmer_story_search(request):
     }
     return render(request, "users/farmer_story_search.html", ctx)
 
+
 # farmer's story create page
 
 
@@ -464,47 +465,47 @@ class Story_Detail(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(DetailView, self).get_context_data(**kwargs)
         farmer = self.get_object().farmer
-        story = Farmer_Story.objects.all().order_by('-id')
-        
+        story = Farmer_Story.objects.all().order_by("-id")
+
         paginator = Paginator(story, 3)
-        page = self.request.GET.get('page')
+        page = self.request.GET.get("page")
         stories = paginator.get_page(page)
-        
-        comments = self.get_object().farmer_story_comments.order_by('-id')
+
+        comments = self.get_object().farmer_story_comments.order_by("-id")
         form = FarmerStoryCommentForm()
 
-        ctx['farmer'] = farmer
-        ctx['stories'] = stories
-        ctx['tags'] = Farm_Tag.objects.all().filter(farmer=farmer)
-        ctx['comments'] = comments
-        ctx['form'] = form
-        
+        ctx["farmer"] = farmer
+        ctx["stories"] = stories
+        ctx["tags"] = Farm_Tag.objects.all().filter(farmer=farmer)
+        ctx["comments"] = comments
+        ctx["form"] = form
+
         if self.request.user != AnonymousUser():
-            ctx['user'] = self.request.user
+            ctx["user"] = self.request.user
 
         else:
-            ctx['user'] = None
+            ctx["user"] = None
 
         return ctx
 
     def render_to_response(self, context, **response_kwargs):
         response = super().render_to_response(context, **response_kwargs)
 
-        if self.request.session.get('_auth_user_id') is None:
-            cookie_name = 'farmer_story_hit'
+        if self.request.session.get("_auth_user_id") is None:
+            cookie_name = "farmer_story_hit"
         else:
             cookie_name = f'farmer_story_hit:{self.request.session["_auth_user_id"]}'
 
         if self.request.COOKIES.get(cookie_name) is None:
-            response.set_cookie(cookie_name, self.kwargs['pk'], 3600)
+            response.set_cookie(cookie_name, self.kwargs["pk"], 3600)
             main_story = self.get_object()
             main_story.hits += 1
             main_story.save()
         else:
             cookie = self.request.COOKIES.get(cookie_name)
-            cookies = cookie.split('|')
+            cookies = cookie.split("|")
 
-            if str(self.kwargs['pk']) not in cookies:
+            if str(self.kwargs["pk"]) not in cookies:
                 response.set_cookie(cookie_name, cookie + f'|{self.kwargs["pk"]}')
                 main_story = self.get_object()
                 main_story.hits += 1
@@ -542,7 +543,7 @@ def farmer_detail(request, pk):
 
 
 def farm_apply(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = FarmApplyForm(request.POST)
         if form.is_valid():
             form.save()
@@ -553,7 +554,7 @@ def farm_apply(request):
         print("get")
         form = FarmApplyForm()
         ctx = {
-            'form': form,
+            "form": form,
         }
         return render(request, "users/farm_apply.html", ctx)
 
@@ -579,7 +580,7 @@ class FarmEnroll(View):
             print("step2")
             farm_form = FarmEnrollForm()
             ctx = {
-                'farm_form': farm_form,
+                "farm_form": farm_form,
             }
             return render(request, "users/farm_enroll_2.html", ctx)
 
@@ -816,29 +817,29 @@ def mypage(request, cat):
                 "carts": carts,
             }
             ctx.update(ctx_carts)
-            return render(request, 'users/mypage_carts.html', ctx)
-        elif cat_name == 'rev_address':
-            print('왔댜')
-            get_arg = request.GET.get('add', None)
-            if get_arg == 'go':
-                if request.method == 'GET':
+            return render(request, "users/mypage_carts.html", ctx)
+        elif cat_name == "rev_address":
+            print("왔댜")
+            get_arg = request.GET.get("add", None)
+            if get_arg == "go":
+                if request.method == "GET":
                     addressform = AddressForm()
                     ctx_add_rev_address = {
-                        'addressform': addressform,
+                        "addressform": addressform,
                     }
                     ctx.update(ctx_add_rev_address)
-                    return render(request, 'users/mypage_add_rev_address.html', ctx)
-                    
+                    return render(request, "users/mypage_add_rev_address.html", ctx)
+
             else:
-                rev_addresses = request.user.addresses.all().order_by('-create_at')
+                rev_addresses = request.user.addresses.all().order_by("-create_at")
                 ctx_rev_address = {
-                    'rev_addresses': rev_addresses,
+                    "rev_addresses": rev_addresses,
                 }
                 ctx.update(ctx_rev_address)
-                return render(request, 'users/mypage_rev_address.html', ctx)
-        elif cat_name == 'info':
+                return render(request, "users/mypage_rev_address.html", ctx)
+        elif cat_name == "info":
             user = consumer.user
-            
+
             info = {
                 "first_name": user.first_name,
                 "last_name": user.last_name,
@@ -849,11 +850,11 @@ def mypage(request, cat):
             }
 
             ctx.update(info)
-            return render(request, 'users/mypage_info.html', ctx)
-        
+            return render(request, "users/mypage_info.html", ctx)
+
     else:
-        get_arg = request.GET.get('add', None)
-        print('post에 왔다')
+        get_arg = request.GET.get("add", None)
+        print("post에 왔다")
         addressform = AddressForm(request.POST)
         if addressform.is_valid():
             user = request.user
@@ -861,8 +862,7 @@ def mypage(request, cat):
             address.user = user
             address.is_default = False
             address.save()
-            return redirect(reverse('users:mypage', kwargs={'cat':'rev_address'}))
-
+            return redirect(reverse("users:mypage", kwargs={"cat": "rev_address"}))
 
 
 # def add_rev_address(request):
