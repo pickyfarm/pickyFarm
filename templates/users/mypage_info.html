@@ -4,48 +4,48 @@
 {% block content %}
 
 <div id="info-edit-container" class="flex flex-row w-100">
-    <div id="info-section" class="">
-        <div id="title-section" class="flex flex-row">
-            <div class="mr-10">개인정보 수정</div>
-            <div><img id="edit-info" src="{% static 'images/users/pen.svg' %}"></div>
-        </div>
-        <div id="info-content-section" class="w-100">
-            <div id="name-section" class="flex flex-row w-100">
-                <div class="w-1/5">이름</div>
-                <div id="name" class="flex flex-row w-4/5">
-                    <div id="last-name">{{last_name}}</div>
-                    <div id="first-name">{{first_name}}</div>
-                </div>
-            </div>
-            <div id="email-section" class="flex flex-row w-100">
-                <div class="w-1/5">이메일</div>
-                <div id="email" class="w-4/5">{{email}}</div>
-            </div>
-            <img id="info-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
-        </div>
+  <div id="info-section" class="">
+    <div id="title-section" class="flex flex-row">
+      <div class="mr-10">개인정보 수정</div>
+      <div><img id="edit-info" src="{% static 'images/users/pen.svg' %}"></div>
     </div>
+    <div id="info-content-section" class="w-100">
+      <div id="name-section" class="flex flex-row w-100">
+        <div class="w-1/5">이름</div>
+        <div id="name" class="flex flex-row w-4/5">
+          <div id="last-name">{{last_name}}</div>
+          <div id="first-name">{{first_name}}</div>
+        </div>
+      </div>
+      <div id="email-section" class="flex flex-row w-100">
+        <div class="w-1/5">이메일</div>
+        <div id="email" class="w-4/5">{{email}}</div>
+      </div>
+      <img id="info-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
+    </div>
+  </div>
 
-    <div id="profile-section" class="">
-        <div id="title-section" class="flex flex-row">
-            <div class="mr-10">프로필 수정</div>
-            <div><img id = "edit-profile" src="{% static 'images/users/pen.svg' %}"></div>
-        </div>
-        <div id="profile-content-section" class="w-100">
-            <div id="image-section" class="flex flex-col items-center w-100 ">
-                <div><img id="profile-image" src="{{profile_image.url}}"></div>
-                <div id="edit-profile-image" class="hidden">
-                  <label for="edit-profile-image-input">사진 변경</label>
-                  <input type="file" id="edit-profile-image-input" class="mx-auto">
-                </div>
-            </div>
-            <div id="email-section" class="flex flex-row w-100">
-                <div class="w-1/4">닉네임</div>
-                <div id="nickname" class="w-3/4">{{nickname}}</div>
-            </div>
-            <img id="profile-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
-        </div>
+  <div id="profile-section" class="">
+    <div id="title-section" class="flex flex-row">
+      <div class="mr-10">프로필 수정</div>
+      <div><img id="edit-profile" src="{% static 'images/users/pen.svg' %}"></div>
     </div>
-    
+    <div id="profile-content-section" class="w-100">
+      <div id="image-section" class="flex flex-col items-center w-100 ">
+        <div><img id="profile-image" src="{{profile_image.url}}"></div>
+        <div id="edit-profile-image" class="hidden">
+          <label for="edit-profile-image-input">사진 변경</label>
+          <input type="file" id="edit-profile-image-input" class="mx-auto">
+        </div>
+      </div>
+      <div id="email-section" class="flex flex-row w-100">
+        <div class="w-1/4">닉네임</div>
+        <div id="nickname" class="w-3/4">{{nickname}}</div>
+      </div>
+      <img id="profile-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
+    </div>
+  </div>
+
 
 </div>
 
@@ -90,14 +90,14 @@
 
   /* 개인 정보 수정 버튼 클릭 -> 수정 항목 input화 */
 
-  editInfoBtn.addEventListener('click', function(){
+  editInfoBtn.addEventListener('click', function () {
     let lastName = document.getElementById('last-name').innerHTML
     let firstName = document.getElementById('first-name').innerHTML
     let nameSection = document.getElementById('name')
 
     let emailSection = document.getElementById('email')
     let email = emailSection.innerHTML
-    
+
 
     console.log(lastName)
     console.log(firstName)
@@ -123,16 +123,16 @@
 
   })
 
-  editProfileBtn.addEventListener('click', function(){
+  editProfileBtn.addEventListener('click', function () {
     let nickNameSection = document.getElementById('nickname')
     let nickName = nickNameSection.innerHTML
     nickNameSection.innerHTML = ''
-    
+
     console.log(nickName)
 
     nickNameInnerHTML = `<input id="last-name-input" type="text" value=${nickName}>`
     nickNameSection.innerHTML = nickNameInnerHTML
-    
+
     let editProfileImage = document.getElementById('edit-profile-image')
     editProfileImage.setAttribute('class', 'flex mx-auto mt-5')
 
@@ -146,11 +146,11 @@
   })
 
 
-  
+
 
   let infoEditCompleteBtn = document.getElementById('info-edit-complete')
 
-  infoEditCompleteBtn.addEventListener('click', function(){
+  infoEditCompleteBtn.addEventListener('click', function () {
     let lastName = document.getElementById('last-name-input').value
     let firstName = document.getElementById('first-name-input').value
     let email = document.getElementById('email-input').value
@@ -160,18 +160,18 @@
     console.log(email)
 
     let data = {
-      'last_name' : lastName,
-      'first_name' : firstName,
-      'email' : email,
-      "csrfmiddlewaretoken":"{{csrf_token}}",
+      'last_name': lastName,
+      'first_name': firstName,
+      'email': email,
+      "csrfmiddlewaretoken": "{{csrf_token}}",
     }
 
     $.ajax({
-      type :'POST',
-      url : "{% url 'users:infoUpdate' %}",
-      data : data,
-      dataType : 'json',
-      success : function(){
+      type: 'POST',
+      url: "{% url 'users:infoUpdate' %}",
+      data: data,
+      dataType: 'json',
+      success: function () {
         alert("개인정보 수정 완료")
         window.location.reload()
       }
@@ -180,11 +180,29 @@
 
   })
 
+  let imgTag = document.getElementById('profile-image')
+  let imageInput = document.getElementById('edit-profile-image-input')
+
+  imageInput.addEventListener('change', function () {
+    console.log(this.files)
+    let file = this.files[0]
+
+    if (!file.type.startsWith('image/'))
+      return
+
+    let reader = new FileReader()
+    reader.onload = function(e){
+      let src = e.target.result
+      imgTag.setAttribute('src', src)
+    }
+    reader.readAsDataURL(file)
+  })
+
 
 
 
 
 
 </script>
-  
+
 {% endblock script_section %}
