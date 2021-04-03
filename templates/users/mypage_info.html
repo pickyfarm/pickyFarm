@@ -123,6 +123,8 @@
 
   })
 
+  /* 개인 정보 수정 버튼 클릭 -> 수정 항목 input화 */
+
   editProfileBtn.addEventListener('click', function () {
     let nickNameSection = document.getElementById('nickname')
     let nickName = nickNameSection.innerHTML
@@ -130,7 +132,7 @@
 
     console.log(nickName)
 
-    nickNameInnerHTML = `<input id="last-name-input" type="text" value=${nickName}>`
+    nickNameInnerHTML = `<input id="nickname-input" type="text" value=${nickName}>`
     nickNameSection.innerHTML = nickNameInnerHTML
 
     let editProfileImage = document.getElementById('edit-profile-image')
@@ -196,6 +198,60 @@
       imgTag.setAttribute('src', src)
     }
     reader.readAsDataURL(file)
+  })
+
+  let profileEditCompleteBtn = document.getElementById('profile-edit-complete')
+
+  profileEditCompleteBtn.addEventListener('click', function(){
+    let nickName = document.getElementById('nickname-input').value
+    console.log(nickName)
+
+    let imageFile = document.getElementById('edit-profile-image-input').files[0]
+    console.log(imageFile)
+
+    let formData = new FormData();
+    formData.append("nick_name", nickName)
+    formData.append("profile_img", imageFile)
+
+    for (var key of formData.keys()) {
+      console.log(key);
+    }
+
+    for (var value of formData.values()) {
+      console.log(value);
+    }
+
+    // data = {
+    //   'nick_name':nickName,
+    //   'profile_image':imageFile,
+    //   "csrfmiddlewaretoken": "{{csrf_token}}",
+    // }
+    console.log(formData)
+    /*이미지를 보내려면 ajax가 아닌 http post를 써야 하는가 */
+    // axios.post("{% url 'users:profileUpdate'%}", formData,{
+    //   headers:{
+    //     'Content-Type':'multipart/form-data'
+    //   }
+    // })
+    // .then((response)=>{
+    //   alert("프로필 정보 수정 완료")
+    //   window.location.reload()
+    // })
+    // .catch((error)=>{
+    //   alert("프로필 정보 수정 실패")
+    // })
+
+    $.ajax({
+      type:'POST',
+      url:"{% url 'users:profileUpdate'%}",
+      data : formData,
+      processData : false,
+      contentType : false,
+      success: function () {
+        alert("프로필 정보 수정 완료")
+        window.location.reload()
+      }
+    })
   })
 
 
