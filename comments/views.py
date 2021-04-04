@@ -114,6 +114,8 @@ def product_recomment_update(request, pk):
 
     return render(request, 'comments/product_recomment.html', {'product_recomment_form':product_recomment_form})
 
+
+# farmer's story 댓글 create
 def story_comment_create(request, pk):
     story = get_object_or_404(Farmer_Story, pk=pk)
     author = request.user

@@ -29,7 +29,7 @@
                         {{comment.create_at|date:"Y. m. d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.create_at|date:"H : i"}}
                     </div>
                     <div class="bar"></div>
-                    <div class="comment-report flex items-center ml-auto">
+                    <div class="comment-report flex items-center ml-20">
                         <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
                         <div class="comment-report--report">신고하기</div>
                     </div>
@@ -37,7 +37,7 @@
                 <div class="comment-content relative">
                     <div class="comment-text">
                         <div class="comment-text--text">{{comment.text}}</div>
-                        <div class="comment-text-reply text-right">답글작성</div>
+                        <div class="text-center font-medium mx-auto" id="recomment-write">답글작성</div>
                     </div>
                     <div class="absolute comment-like-button-wrap">
                         <div class="comment-like-button relative"
@@ -46,9 +46,9 @@
                         </div>
                     </div>
                 </div>
-                {% if comment.editor_review_recomments.exists %}
-                <div class="recomment-wrap">
-                    {% for recomment in comment.editor_review_recomments.all %}
+                {% if comment.farmer_story_recomments.exists %}
+                <div class="recomment-wrap flex" style="width: 927px; margin-left: 34px;">
+                    {% for recomment in comment.farmer_story_recomments.all %}
                     <div class="recomment relative">
                         <div class="flex items-center recomment-info">
                             <div class="recomment-arrow"></div>
@@ -67,7 +67,7 @@
                                 <div class="comment-report--report">신고하기</div>
                             </div>
                         </div>
-                        <div class="absolute recomment-like-button-wrap">
+                        <div class="absolute" style="top: 41.5px; right: 11.5px;">
                             <div class="recomment-like-button relative"
                                 style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
                                 <p class="recomment-like-count absolute text-center align-text-bottom">000</p>
@@ -89,7 +89,29 @@
     </div>
 </div>
 
+<style>
+    #recomment-write {
+        width: 89px;
+        height: 22px;
+        border-radius: 11px;
+        border: solid 0.5px #989898;
+        background-color: #f2f2f2;
+        color: #5c6754;
+        margin-bottom: 5px;
+    }
+</style>
+
 <script>
+    // 댓글 쓰기 버튼 toggle
+    let recomment_form = $('#recomment-submit-form')
+    let recomment_btn = $('#recomment-write')
+
+    recomment_form.hide()
+    recomment_btn.click(function(){
+        recomment_form.toggle()
+    })
+
+    // 댓글 작성 ajax
     function commentSubmit(pk) {
         let text = $('#id_text').val();
 
@@ -123,7 +145,7 @@
                     <div class="comment-content relative">
                         <div class="comment-text">
                             <div class="comment-text--text">${data.text}</div>
-                            <div class="comment-text-reply text-right">답글작성</div>
+                            <div class="text-center" id="recomment-write">답글작성</div>
                         </div>
                         <div class="absolute comment-like-button-wrap">
                             <div class="comment-like-button relative"
@@ -143,4 +165,6 @@
             }
         })
     };
+
+
 </script>
