@@ -12,15 +12,17 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 from django.conf import settings
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^^l-mg#e=3&lph@2!kc!8qqha-n*0gth41n768wp(a)5w0o)^4'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -175,18 +177,18 @@ LOGIN_URL = "/user/login/"
 
 # Email 전송
 # 메일을 호스트하는 서버
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
 
 # gmail과의 통신하는 포트
-EMAIL_PORT = '587'
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
 
 # 발신할 이메일
 # EMAIL_HOST_USER = '구글아이디@gmail.com'
-EMAIL_HOST_USER = "pickycorp@gmail.com"
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 
 # 발신할 메일의 비밀번호
 # EMAIL_HOST_PASSWORD = '구글비밀번호'
-EMAIL_HOST_PASSWORD = "pickyfarm!!"
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # TLS 보안 방법
 EMAIL_USE_TLS = True
