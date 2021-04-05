@@ -53,7 +53,6 @@ from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
 
-
 # Exception 선언 SECTION
 
 
@@ -217,8 +216,30 @@ def infoUpdate(request):
         user.save()
 
         response = {
-                'status': 1,
+            'status': 1,
         }
+        return JsonResponse(response)
+
+
+@login_required
+@require_POST
+def profileUpdate(request):
+    if request.method == 'POST':
+        user = request.user
+
+        nickname = request.POST.get('nick_name')
+        profile_image = request.FILES.get('profile_img')
+
+        print(profile_image)
+
+        user.nickname = nickname
+        user.profile_image = profile_image
+        user.save()
+
+        response = {
+            'status': 1,
+        }
+
         return JsonResponse(response)
 
 
@@ -828,7 +849,7 @@ def mypage(request, cat):
                     }
                     ctx.update(ctx_add_rev_address)
                     return render(request, 'users/mypage_add_rev_address.html', ctx)
-                    
+
             else:
                 rev_addresses = request.user.addresses.all().order_by('-create_at')
                 ctx_rev_address = {
@@ -838,7 +859,7 @@ def mypage(request, cat):
                 return render(request, 'users/mypage_rev_address.html', ctx)
         elif cat_name == 'info':
             user = consumer.user
-            
+
             info = {
                 "first_name": user.first_name,
                 "last_name": user.last_name,
@@ -850,7 +871,7 @@ def mypage(request, cat):
 
             ctx.update(info)
             return render(request, 'users/mypage_info.html', ctx)
-        
+
     else:
         get_arg = request.GET.get('add', None)
         print('post에 왔다')
@@ -861,8 +882,7 @@ def mypage(request, cat):
             address.user = user
             address.is_default = False
             address.save()
-            return redirect(reverse('users:mypage', kwargs={'cat':'rev_address'}))
-
+            return redirect(reverse('users:mypage', kwargs={'cat': 'rev_address'}))
 
 
 # def add_rev_address(request):

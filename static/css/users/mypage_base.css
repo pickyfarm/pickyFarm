@@ -900,7 +900,7 @@
 }
 
 #info-section, #profile-section{
-  font-size: 18px;
+  font-size: 15px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -947,6 +947,15 @@
   background-color: #ffffff;
 }
 
+#nickname>input{
+  width: 270px;
+  height: 30px;
+  padding:0 10px 0 10px;
+  border-radius: 15px;
+  border: solid 1px #e6e6e6;
+  background-color: #ffffff;
+}
+
 #nickname{
   border-left : solid 0.5px #b3b3b3;
   padding-left:40px;
@@ -967,6 +976,36 @@
   height: 110px;
   background-color: #f2f2f2;
   border-radius: 50%;
+}
+
+#edit-profile-image>label{
+  width: 83px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 10px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  padding-top:4px;
+  color: #ffffff;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#edit-profile-image>input{
+  position: absolute; 
+  width: 1px; 
+  height: 1px; 
+  padding: 0; 
+  margin: -1px; 
+  overflow: hidden; 
+  clip:rect(0,0,0,0); 
+  border: 0;
+
 }
 
 #edit-info{
