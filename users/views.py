@@ -23,6 +23,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView
 from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
 from django.views.decorators.http import require_POST
+from django.views.generic.detail import DetailView
 from .forms import (
     LoginForm,
     SignUpForm,
