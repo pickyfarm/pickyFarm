@@ -1,0 +1,126 @@
+{% load static %}
+
+<div class="z-50 flex items-center top-menu mb-4 w-full bg-white" id="header-wrapper">
+    <div id="header-content" class="w-header flex mx-auto items-center">
+        <div id="header-wrap" style="margin: 60px auto;" class="w-full flex items-center mx-auto">
+            <div class="">
+                <a href="{% url 'core:main' %}"><img src="{% static 'images/mainlogo_small.svg' %}" id="mainlogo"
+                        alt="PICKY PICK"></a>
+            </div>
+            <div class="flex flex-col justify-between mx-auto items-end">
+
+                <ul id='auth-menu' class="flex text-xs divide-x-2 h-3 divide-gray-400">
+                    {% if user.is_authenticated %}
+                    <li class="text-center">
+                        <a href="{% url 'users:logout' %}">로그아웃</a>
+                    </li>
+                    {% else %}
+                    <li class="text-center">
+                        <a href="{% url 'users:login' %}">로그인</a>
+                    </li>
+                    {% endif %}
+                    {% if user.is_authenticated != True %}
+                    <li class="text-center">
+                        <a href="{% url 'users:signup' %}">회원가입</a>
+                    </li>
+                    {% endif %}
+                    <li class="text-center">고객센터</li>
+                    <li class="text-center">my page</li>
+                    <li class="text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기">
+                    </li>
+                </ul>
+
+                <div class=" menu-bar h-auto  flex z-50" style="height: 56px;">
+                    <div class="mx-auto mt-auto flex justify-between sticky ">
+                        <div class="main-menu">
+                            <ul class="flex h-6 header-menu">
+                                <li class="header-first ml-0 font-medium w-auto  border-green-700 text-center">카테고리</li>
+                                <li class="header-list font-medium w-auto  border-green-700 text-center"><a
+                                        href="{% url 'products:store_list' %}">스토어</a></li>
+                                <li class="header-list font-medium w-auto  border-green-700 text-center"><a
+                                        href="{% url 'editor_reviews:index' %}">Editor's Pick</a></li>
+                                <li class="header-last font-medium w-auto mr-0"><a
+                                        href="{% url 'users:farmers_page' %}">Farmer's
+                                        Page</a></li>
+                            </ul>
+                        </div>
+                        <div class="searchbox">
+                            <div class="input-form rounded-full h-6 flex justify-around">
+                                <input type="text" placeholder="자라나라 머리머리"
+                                    class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44">
+                                <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .header-first {
+        padding-right: 78.5px;
+        border-right: solid 3px #5e6656;
+    }
+
+    .header-last {
+        padding-left: 78.5px;
+        margin-right: 46.5px;
+    }
+
+    .header-list {
+        padding: 0 78.5px;
+        border-right: solid 3px #5e6656;
+    }
+
+    .header-menu li {
+        font-size: 15px;
+    }
+
+    .input-form {
+        width: 240px;
+        background-color: #f2f2f2;
+    }
+
+    #auth-memu a li {
+        font-size: 12px;
+    }
+
+    #auth-menu li:first-child {
+        padding-right: 50px;
+    }
+
+    #auth-menu li:not(:first-child, :last-child) {
+        padding: 0 50px;
+    }
+
+    #auth-menu li:last-child {
+        padding-left: 50px;
+    }
+
+    #mainlogo {
+        transition: transform 75ms ease-in;
+    }
+</style>
+
+<script>
+    $(window).scroll(function () {    // this will work when your window scrolled.
+        var height = $(window).scrollTop();  //getting the scrolling height of window
+        if (height > 100) {
+            $("#header-wrapper").css({ "position": "fixed", "height": "56px" });
+            $("#header-wrap").css({ "margin": "0" });
+            $("#auth-menu").css({ "display": "none" });
+            $("#header-wrapper").addClass("shadow");
+            $("#mainlogo").css({ "transform": "scale(0.4)" })
+            $(".menu-bar").css({ "height": "auto" });
+        } else {
+            $("#header-wrapper").css({ "position": "inherit", "height": "auto" });
+            $("#header-wrap").css({ "margin": "60px auto" });
+            $("#auth-menu").css({ "display": "inherit" });
+            $("#header-wrapper").removeClass("shadow");
+            $("#mainlogo").css({ "transform": "scale(1)" })
+            $(".menu-bar").css({ "height": "56px" });
+        }
+    });
+</script>
