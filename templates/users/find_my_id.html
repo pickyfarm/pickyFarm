@@ -1,6 +1,9 @@
 {% extends 'base/base.html' %}
 
 {% load static %}
+{% block auth_stylesheet %}
+<link rel="stylesheet" href="{% static 'css/users/user_auth_input.css' %}">
+{% endblock auth_stylesheet %}
 
 {% block title_name %}아이디 찾기{% endblock title_name %}
 {% block main_content %}
@@ -11,7 +14,7 @@
         {% csrf_token %}
         <div class="input_forms flex flex-col">
             {% for field in form %}
-                {{field}}
+            {{field}}
             {% endfor %}
         </div>
         <button>찾기</button>
@@ -19,52 +22,16 @@
 </div>
 
 <style>
-    .content{
-        width: 350px;
+    .content {
+        width: 340px;
     }
 
-    .content input, button{
-        width:100%;
-        height: 50px;
-        font-size: 20px;
-        border-radius: 10px;
-        transition: border .3s ease;
-        text-align: center;
+    #id_name {
+        margin-bottom: 14px;
     }
 
-    .input_forms input{
-        border: solid 1px #b3b3b3;
-        font-weight:300;
-    }
-
-    
-    .input_forms input:hover{
-        border: 1px solid #707070;
-    }
-
-    .input_forms input:focus{
-        border: 1px solid #707070;
-        outline: none;
-    }
-
-    .input_forms input::placeholder{
-        text-align: center;
-        font-weight: 300;
-    }
-
-    .input_forms input:nth-child(1){
-        margin-bottom: 20px;
-    }
-
-    button{
-        margin-top: 85px;
-        color: white;
-        background-color: #5c6754;
-        font-weight: bold;
-    }
-
-    button:focus{
-        outline: none;
+    #id_email {
+        margin-bottom: 44px;
     }
 </style>
 {% endblock main_content %}

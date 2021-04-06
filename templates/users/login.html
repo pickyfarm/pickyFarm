@@ -2,58 +2,60 @@
 {% load static %}
 
 
-{% block stylesheet %}
-    
-{% endblock stylesheet %}
+{% block auth_stylesheet %}
+<link rel="stylesheet" href="{% static 'css/users/user_auth_input.css' %}">
+{% endblock auth_stylesheet %}
 
 {% block title_name %}
-    로그인
+로그인
 {% endblock title_name %}
 
 
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
-    <div id='login_form' class="mt-24 mx-auto" style="width: 350px;">
+    <div id='login_form' class="mt-24 mx-auto" style="width: 340px;">
         <img src="{% static 'images/user/login.svg' %}" class="mx-auto" alt="">
         <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 100px;">로그인</div>
         <form method="POST" action="{% url 'users:login' %}">
             {% csrf_token %}
             <div class="input_forms flex flex-col">
-                
+
                 {% for field in form %}
                 {{field}}
                 {% endfor %}
-                <div class="mr-auto">
+                <div class="mr-auto" id="auto-login-section">
                     <input type="checkbox" name="auto_login" id="auto_login">
                     <label for="auto_login" style="line-height: 20px;">자동로그인</label>
                 </div>
-                <button class="login-button" >로그인</button>
+                <button class="login-button">로그인</button>
             </div>
         </form>
         <div class="flex justify-between links">
-            <a href="{% url 'user:signup' %}"><div>회원 가입</div></a>
+            <a href="{% url 'user:signup' %}">
+                <div>회원 가입</div>
+            </a>
             <div class="bar"></div>
-            <a href="{% url 'user:find_my_id' %}"><div>아이디 찾기</div></a>
+            <a href="{% url 'user:find_my_id' %}">
+                <div>아이디 찾기</div>
+            </a>
             <div class="bar"></div>
-            <a href="{% url 'user:password_reset' %}"><div>비밀번호 찾기</div></a>
+            <a href="{% url 'user:password_reset' %}">
+                <div>비밀번호 찾기</div>
+            </a>
         </div>
     </div>
 </div>
 
 <style>
-    *::selection{
+    *::selection {
         background: none;
     }
 
-    #login_form{
-        width: 350px !important;
-    }
-
-    #auto_login{
+    #auto_login {
         display: none;
     }
 
-    #auto_login + label::before{
+    #auto_login+label::before {
         content: "";
         display: inline-block;
         position: relative;
@@ -64,67 +66,43 @@
         margin-right: 9px;
     }
 
-    input[id='auto_login']:checked + label::before{
+    input[id='auto_login']:checked+label::before {
         content: "";
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
 
-    label{
+    label {
         color: #5c6754;
         font-weight: bold;
         font-size: 15px;
     }
 
-
-    #id_username, #id_password, button{
-        height: 50px;
-        border-radius: 10px;
-        border: 1px solid #b3b3b3;
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 20px;
-        transition: border .3s ease;
-    }
-
-    #id_username, #id_password{
-        font-weight:300;
-    }
-
-    #id_username:hover, #id_password:hover{
-        border: 1px solid #707070;
-    }
-
-    #id_username:focus, #id_password:focus{
-        border: 1px solid #707070;
-        outline: none;
-    }
-
-    .login-button{
-        margin-top: 45px;
-        background-color: #5c6754;
-        color: white;
-        border: none;
-    }
-
-    .links{
+    .links {
         height: 17px;
     }
 
-    .links *{
+    .links * {
         line-height: 17px;
         font-size: 15px;
         color: #5c6754;
         font-weight: 500;
     }
 
-    .bar{
+    #id_username {
+        margin-bottom: 14px;
+    }
+
+    #auto-login-section {
+        margin: 30px auto 30px 0;
+    }
+
+    .login-button {
+        margin-bottom: 12px;
+    }
+
+    .bar {
         border: 1px solid #b3b3b3;
     }
- 
 </style>
-    
+
 {% endblock %}
-
-
-    
-    
