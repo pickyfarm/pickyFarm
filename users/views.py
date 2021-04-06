@@ -908,8 +908,9 @@ class FindMyIdView(TemplateView):
 
     def post(self, request):
         form = FindMyIdForm(request.POST)
-
+        print(form.is_valid())
         if form.is_valid():
+            print("hello")
             email = form.cleaned_data.get("email")
 
             try:
