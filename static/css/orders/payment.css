@@ -156,21 +156,38 @@
     margin-top:106px;
 }
 
-#go-btn{
-    width: 350px;
-  height: 80px;
-  padding: 14px 110px 14px 111px;
-  border-radius: 50px;
-  background-color: #5c6754;
+#go-back-btn{
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  border: solid 1px #5c6754;
+  background-color: #ffffff;
+  padding-top:8px;
   font-family: NotoSansKR;
-  font-size: 35px;
+  font-size: 25px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+}
 
+#go-btn{
+  width: 200px;
+  height: 50px;
+  padding: 6.5px 54px;
+  border-radius: 25px;
+  background-color: #5c6754;
   letter-spacing: normal;
   text-align: center;
   color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 25px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
 }
 
 /* 주문 상세 내역 결제 금액 부분 */
