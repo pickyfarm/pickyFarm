@@ -20,7 +20,7 @@
         <div class="relative mx-auto mt-2" id="border">
             <div class="absolute" id="step" style="width:33%"></div>
         </div>
-        <form method="POST" action="{% url 'users:farm_enroll' step='step_1' %}">
+        <form method="POST" action="{% url 'farmers:farm_enroll' step='step_1' %}">
             {% csrf_token %}
             <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px">계정 정보 입력</div>
             <div class="input_forms grid">
@@ -88,7 +88,7 @@
                 <label for="over14">본인은 만 14세 이상입니다</label>
             </div>
             <div class="line mx-auto" style="margin-top: 35px;"></div>
-            <button class="submit" onclick="location.href='{% url 'users:farm_enroll' step='step_2' %}'">다음 단계로</button>
+            <button class="submit" onclick="location.href='{% url 'farmers:farm_enroll' step='step_2' %}'">다음 단계로</button>
         </form>
     </div>
 </div>

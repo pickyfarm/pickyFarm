@@ -31,7 +31,7 @@ Farmer's Story
         <div class="absolute bottom-0 pb-16 w-full text-center font-light" style="color:#5e6656; font-size: 20px;"> {{ farmer.farm_name }} </div>
     </div>
     <!--목록으로 버튼-->
-    <div class="content flex flex-row justify-end mb-28" onclick="location.href='{% url 'users:farmers_page' %}'"> 
+    <div class="content flex flex-row justify-end mb-28" onclick="location.href='{% url 'farmers:farmers_page' %}'"> 
         <div class="" id="back_btn" style='font-size: 20px;'> 파머스 페이지로 돌아가기 </div>
         <img src="{% static 'images/farm/arrow.svg' %}" class="cursor-pointer" alt="">
     </div>

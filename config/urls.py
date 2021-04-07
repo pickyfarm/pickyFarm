@@ -27,6 +27,7 @@ urlpatterns = [
     path('comment/', include("comments.urls", namespace='comment')),
     path('order/', include("orders.urls", namespace='orders')),
     path('user/', include("users.urls", namespace='user')),
+    path('farmer/', include("farmers.urls", namespace='farmer')),
     path('summernote/', include("django_summernote.urls")),
 ]
 

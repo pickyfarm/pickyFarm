@@ -149,7 +149,7 @@
                         <div class="" id="farm_desc_block">
                             <p class="font-medium text-2xl mb-3" id="farm_profile">{{farmer.profile_title}}</p>
                             <p class="text-2xl font-light mb-8" id="farm_loc">{{farmer.user.addresses.first.sido}} {{farmer.user.addresses.first.sigungu}}</p>
-                            <a href="{% url 'users:farmer_detail' farmer.id %}"><p class="mb-8 font-medium text-5xl" id="farm_name">{{farmer.farm_name}}</p></a>
+                            <a href="{% url 'farmers:farmer_detail' farmer.id %}"><p class="mb-8 font-medium text-5xl" id="farm_name">{{farmer.farm_name}}</p></a>
                             <!--tag-->
                             <div class="grid grid-cols-4 gap-2 mb-24 h-7" id="tag">
                                 {% for tag in farmer.farm_tags.all %}
@@ -237,7 +237,7 @@
                             <th class="py-6"> 작성일 </th>
                         </tr>
                         {% for story in farmer_stories %}
-                            <tr class="text-center" id="table_row" onclick="location.href='{% url 'users:farmer_story_detail' story.pk %}'">
+                            <tr class="text-center" id="table_row" onclick="location.href='{% url 'farmers:farmer_story_detail' story.pk %}'">
                                 <td class="py-7" id="row_farm"> {{ story.farmer.farm_name }} </td>
                                 <td class="py-7" id="row_farmer"> {{ story.farmer.user.nickname }} </td>
                                 {% if story.title|length > 15 %}
@@ -253,7 +253,7 @@
                 </div>
                 <!--글쓰기 버튼(farmer login 시에만 보이게)--> 
                 <div class="flex flex-row justify-end mb-20">
-                    <a href="{% url 'users:farmer_story_create' %}"><img src="{% static 'images/farmers_page/story_write_btn.svg' %}" alt=""></a>
+                    <a href="{% url 'farmers:farmer_story_create' %}"><img src="{% static 'images/farmers_page/story_write_btn.svg' %}" alt=""></a>
                 </div>
                 <!--paginator-->
                 <div class="flex flex-row mx-auto justify-center pb-56">
