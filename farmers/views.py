@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from .models import *
 from .forms import *
 from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
+from products.models import Product
 
 
 def farmers_page(request):
