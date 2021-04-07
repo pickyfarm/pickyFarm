@@ -37,7 +37,7 @@ class Product(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     farmer = models.ForeignKey(
-        "users.Farmer", related_name="products", on_delete=models.CASCADE)
+        "farmers.Farmer", related_name="products", on_delete=models.CASCADE)
     category = models.ForeignKey(
         'Category', related_name='products', on_delete=models.CASCADE)
 
@@ -177,7 +177,7 @@ class Answer(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
-    farmer = models.ForeignKey('users.Farmer', on_delete=models.CASCADE)
+    farmer = models.ForeignKey('farmers.Farmer', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.question.__str__().join('에 대한 답변')

@@ -109,7 +109,7 @@
                 {% if subs.exists is False %}
                 <div id="subs_not_exist_box" class="flex flex-col items-center">
                     <div>아직 구독한 농가가 없습니다</div>
-                    <a id="subs_redirect_a" href="{% url 'users:farmers_page' %}">
+                    <a id="subs_redirect_a" href="{% url 'farmers:farmers_page' %}">
                         <div id="subs_redirect_btn">농가 구독하러 가기</div>
                     </a>
                 </div>
@@ -118,7 +118,7 @@
 
                 {% for sub in subs %}
                 <div class="flex flex-row w-100" id="{{sub.pk}}-sub-farmer">
-                    <a href="{% url 'users:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
+                    <a href="{% url 'farmers:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
                         <div class="">
                             <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
                         </div>

@@ -2,7 +2,7 @@ from django import forms
 from .models import Editor_Review
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from products.models import Category, Product
-from users.models import Farmer
+from farmers.models import Farmer
 
 
 class Editors_Reviews_Form(forms.ModelForm):

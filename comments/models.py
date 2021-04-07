@@ -91,7 +91,7 @@ class Editor_Review_Recomment(Comment):
 class Farmer_Story_Comment(Comment):
     """Farmer_Story_Comment Model Defiition"""
 
-    story = models.ForeignKey("users.Farmer_Story", related_name='farmer_story_comments', on_delete=models.CASCADE)
+    story = models.ForeignKey("farmers.Farmer_Story", related_name='farmer_story_comments', on_delete=models.CASCADE)
     author = models.ForeignKey(User, related_name='farmer_story_comment', on_delete=models.CASCADE)
 
 

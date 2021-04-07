@@ -26,7 +26,7 @@ class Editor_Review(models.Model):
 
     product = models.ManyToManyField(
         Product, related_name="editor_reviews", blank=True)
-    farm = models.ForeignKey('users.Farmer', related_name="editor_reviews",
+    farm = models.ForeignKey('farmers.Farmer', related_name="editor_reviews",
                              on_delete=models.SET_NULL, null=True, blank=True)
 
     update_at = models.DateTimeField(auto_now=True)

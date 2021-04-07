@@ -15,7 +15,7 @@
                 <div class="" id="farm_desc_block">
                     <p class="font-medium text-2xl mb-3" id="farm_profile">{{farmer.profile_title}}</p>
                     <p class="text-2xl font-light mb-8" id="farm_loc">경기 어느 지역</p>
-                    <a href="{% url 'users:farmer_detail' farmer.id %}"><p class="mb-8 font-medium text-5xl" id="farm_name">{{farmer.farm_name}}</p></a>
+                    <a href="{% url 'farmers:farmer_detail' farmer.id %}"><p class="mb-8 font-medium text-5xl" id="farm_name">{{farmer.farm_name}}</p></a>
                     <!--tag-->
                     <div class="grid grid-cols-4 gap-2 mb-24" id="tag">
                         {% for tag in farmer.farm_tags.all %}

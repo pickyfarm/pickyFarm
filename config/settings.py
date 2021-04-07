@@ -49,6 +49,7 @@ PICKY_APPS = [
     'users.apps.UsersConfig',
     'core.apps.CoreConfig',
     'orders.apps.OrdersConfig',
+    'farmers.apps.FarmersConfig',
     'django_summernote',
     'addresses.apps.AddressesConfig',
     'django_seed',
