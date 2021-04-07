@@ -53,6 +53,7 @@ from math import ceil
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
+from django.views.generic import DetailView
 
 # Exception 선언 SECTION
 

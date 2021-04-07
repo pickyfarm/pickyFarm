@@ -15,39 +15,41 @@ Farmer's Story
     <img src="{% static 'images/farm/leaf.svg' %}" class="mx-auto" alt="">
     <!--title-->
     <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Story </div>
-    <div class="text-center mb-16" style="color: #999999;"> 파머가 직접 전하는 농가 이야기 </div>
+    <div class="text-center mb-16" style="color: #999999; font-size: 15px;"> 파머가 직접 전하는 농가 이야기 </div>
     <!--farmer story content-->
     <div class="relative mb-6" id="story_content">
         <div class="relative mb-11"> 
-            <div class="text-center text-3xl font-light pt-5" style="color:#5e6656;">{{ main_story.create_at|date:"Y.m.d" }}</div>
-            <div class="absolute bottom-0 right-0 flex flex-row">
-                <div class="mr-2" style="color: #999999;">{{ main_story.hits }}</div>
+            <div class="text-center font-light pt-5" style="color:#5e6656; font-size: 25px;">{{ main_story.create_at|date:"Y.m.d" }}</div>
+            <div class="absolute bottom-2 right-0 flex flex-row">
+                <div class="mr-2" style="color: #999999; font-size: 15px;">{{ main_story.hits }}</div>
                 <img class="mr-9" src="{% static 'images/farm/view.svg' %}" alt=""/>
             </div>
         </div>
-        <div class="text-center text-5xl font-medium" style="color:#5e6656;"> {{ main_story.title }} </div>
-        <div class="w-2 h-2 mx-auto mt-6 mb-16" style="border: solid 1px rgba(112, 112, 112, 0.5); border-radius:50%;"></div>
-        <div class="px-5">{{ main_story.content|safe }}</div>
-        <div class="absolute bottom-0 pb-12 w-full text-center font-light text-3xl" style="color:#5e6656;"> {{ farmer.farm_name }} </div>
+        <div class="text-center font-medium" style="color:#5e6656; font-size: 35px;"> {{ main_story.title }} </div>
+        <div class="w-2 h-2 mx-auto mt-10 mb-20" style="border: solid 1px rgba(112, 112, 112, 0.5); border-radius:50%;"></div>
+        <div class="px-32">{{ main_story.content|safe }}</div>
+        <div class="absolute bottom-0 pb-16 w-full text-center font-light" style="color:#5e6656; font-size: 20px;"> {{ farmer.farm_name }} </div>
     </div>
     <!--목록으로 버튼-->
     <div class="content flex flex-row justify-end mb-28" onclick="location.href='{% url 'users:farmers_page' %}'"> 
-        <div class="text-lg" id="back_btn"> 파머스 페이지로 돌아가기 </div>
+        <div class="" id="back_btn" style='font-size: 20px;'> 파머스 페이지로 돌아가기 </div>
         <img src="{% static 'images/farm/arrow.svg' %}" class="cursor-pointer" alt="">
     </div>
     <!--농가 정보-->
     <div class="" id="farm_info">
         <div class="flex flex-row mb-6">
             <img src="{% static 'images/farm/sm_leaf.svg' %}" class="mr-3" alt="">
-            <div class="font_green font-light" id="">농가 정보</div>
+            <div class="font_green font-light" style="font-size: 20px;">농가 정보</div>
         </div>
-        <div class="flex flex-row items-center px-5 py-6 mb-10" id="farmer_info">
-            <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-4" id="farmer_profile">
-            <img src="{{ farmer.farm_profile.url }}" alt="" class="mr-16" id="farm_profile">
+        <div class="flex flex-row items-center justify-center px-5 py-6 mb-10" id="farmer_info">
+            <div class='relative mr-20'>
+                <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-6" id="farmer_profile">
+                <img class="absolute bottom-0 right-0" src="{% static 'images/farm/sub_btn.svg' %}" alt="">
+            </div>
             <div class="w-96">
                 <div class="flex flex-row mb-2" id="tag_wrap">
                     {% for tag in tags %}
-                        <a href="#"><div class="mr-2" id="farm_tag">#{{ tag }}</div></a>
+                        <a href="#"><div class="mr-2" id="farm_tag"># {{ tag }}</div></a>
                     {% endfor %}
                 </div>
                 <div class="flex flex-row items-center mb-3" id="farm_wrap">
@@ -59,21 +61,17 @@ Farmer's Story
                     <div class="font-light text-xl" id="profile_title">"{{ farmer.profile_title }}"</div>
                 </div>
             </div>
-            <div id="sub_wrap">
-                <div class="text-xl" id="sub_btn">구독하기</div>
-            </div>
         </div>
     </div>
     <!--농가 뉴스-->
     <div class="flex flex-row items-center p-2 mb-10" id="farmer_news">
-        <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="mr-4 ml-2" id="">
-        <div class="w-1/5 text-2xl" id="news_text">농가 News</div>
-        <div class="text-xl mx-4" id="bar">|</div>
+        <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="ml-2" id="">
+        <div class="text-2xl" id="news_text">농가 News</div>
         
         {% if farmer.farm_news %}
-        <div class="w-4/5 font-light text-xl text-center" id="farm_news">{{ farmer.farm_news }}</div>
+        <div class="font-light text-xl text-center" id="farm_news">{{ farmer.farm_news }}</div>
         {% else %}
-        <div class="w-4/5 font-light text-xl text-center" id="farm_news">등록된 뉴스가 아직 없습니다.</div>
+        <div class="font-light text-xl text-center" id="farm_news">등록된 뉴스가 아직 없습니다.</div>
         {% endif %}
             
     </div>
@@ -187,6 +185,7 @@ Farmer's Story
 </style>
 
 <script>
+    // 댓글쓰기 toggle
     let comment_form = $('#comment-submit-form')
     let comment_btn = $('#comment-write')
 
