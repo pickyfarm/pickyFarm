@@ -39,8 +39,7 @@
                             <div>답글 N개</div>
                             <div class="flex">
                                 <div class="comment-text-options--edit">수정</div>
-                                <div class="comment-text-options--delete"><a
-                                        href="{% url 'editors_pick:comment_delete' review.pk comment.pk %}">삭제</a></div>
+                                <div class="comment-text-options--delete" onclick=commentDelete({{comment.pk}})>삭제</div>
                             </div>
                         </div>
                     </div>
@@ -95,6 +94,30 @@
 </div>
 
 <script>
+    const commentDelete = (pk) => {
+        $.ajax({
+            url: '/editors_pick/' + "{{ review.pk }}" + `/comment/delete/${pk}`,
+            dataType: 'json',
+            data: {},
+            success: (data) => {
+                const status = data["status"];
+
+                if (status == 'notLogined') {
+                    alert("로그인이 필요합니다.")
+                }
+
+                else if (status == 'notAnAuthor') {
+                    alert("댓글 작성자가 아닙니다.")
+                }
+
+                else {
+                    alert("댓글이 삭제되었습니다.")
+                    location.reload()
+                }
+            }
+        })
+    }
+
     function commentSubmit(pk) {
         let text = $('#id_text').val();
 
@@ -127,8 +150,14 @@
                     </div>
                     <div class="comment-content relative">
                         <div class="comment-text">
-                            <div class="comment-text--text">${data.text}</div>
-                            <div class="comment-text-reply text-right">답글작성</div>
+                            <div class="comment-text--text">${text}</div>
+                            <div class="comment-text-options text-right flex justify-between">
+                                <div>답글 N개</div>
+                                <div class="flex">
+                                    <div class="comment-text-options--edit">수정</div>
+                                    <div class="comment-text-options--delete" onclick=commentDelete({{comment.pk}})>삭제</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="absolute comment-like-button-wrap">
                             <div class="comment-like-button relative"
@@ -140,6 +169,7 @@
                 </div>`
 
                 $('#comments').prepend(comment);
+                $('#id_text').val('')
             },
             error: function () {
                 if ($('id_text').val() == '') {
