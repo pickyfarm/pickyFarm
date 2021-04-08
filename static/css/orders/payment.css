@@ -3,6 +3,10 @@
     padding-top:100px;
 }
 
+#delivery-section{
+  padding-bottom:80px;
+}
+
 
 #title-text{
   font-family: NotoSansKR;
@@ -42,7 +46,7 @@
   letter-spacing: normal;
   text-align: center;
   color: #5c6754;
-  margin-bottom: 33px;
+  margin-bottom: 25px;
 }
 
 #sub-title-line{
@@ -94,15 +98,15 @@
 
 #help-text{
     font-family: NotoSansKR;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.25;
+  line-height: 1.88;
   letter-spacing: normal;
-  text-align: right;
-  color: #5c6754;
-  margin-top:5px;
+  text-align: left;
+  color: #c7c7c7;
+
 }
 
 #dot{
@@ -171,6 +175,7 @@
   letter-spacing: normal;
   text-align: center;
   color: #5c6754;
+  cursor: pointer;
 }
 
 #go-btn{
@@ -362,4 +367,16 @@
   letter-spacing: normal;
   text-align: right;
   color: #5c6754;
+}
+
+#price_text_c{
+  font-family: NotoSansKR;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.88;
+  letter-spacing: normal;
+  text-align: right;
+  color: rgba(92, 103, 84, 0.8);
 }

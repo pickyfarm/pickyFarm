@@ -119,23 +119,23 @@
                     </div>
                     <div class="flex flex-row">
                         <div class="w-5/12" id="text_ab">총 {{total_quantity}}개의 주문금액</div>
-                        <div class="w-6/12" id="price_text_a">{{price_sum}}</div>
+                        <div class="w-6/12 mr-3" id="price_text_a">{{price_sum}}</div>
                         <div class="w-1/12" id="price_text_a">원</div>
                     </div>
                     <div class="flex flex-row">
-                        <div class="w-5/12" id="text_a">-할인금액</div>
-                        <div class="w-6/12">{{discount}}</div>
-                        <div class="w-1/12">원</div>
+                        <div class="w-5/12 pl-5" id="text_a">-할인금액</div>
+                        <div class="w-6/12 mr-6" id="price_text_c">{{discount}}</div>
+                        <div class="w-1/12" id="price_text_c">원</div>
                     </div>
                     <div class="flex flex-row">
                         <div class="w-5/12" id="text_ab">배송비</div>
-                        <div class="w-6/12" id="price_text_a">{{delivery_fee}}</div>
+                        <div class="w-6/12 mr-3" id="price_text_a">{{delivery_fee}}</div>
                         <div class="w-1/12" id="price_text_a">원</div>
                     </div>
                     <div id="div-line1" class="mb-5"></div>
                     <div class="flex flex-row">
                         <div class="w-5/12" id="text-b">최종 주문금액</div>
-                        <div class="w-6/12" id="price_text_b">{{final_price}}</div>
+                        <div class="w-6/12 mr-3" id="price_text_b">{{final_price}}</div>
                         <div class="w-1/12" id="price_text_b">원</div>
                     </div>
                     <div id="div-line2" class="mt-5 mb-5"></div>
@@ -159,14 +159,14 @@
             </div>
         </div>
 
-        <div id="btns-section">
-            <div id="agree-section">
+        <div id="btns-section" class="flex flex-col items-center">
+            <div id="agree-section" class="mb-8">
                 <label id="help-text"><input class="pt-5" type="radio" value="agree">구매할 상품의 결제정보를 확인하였으며, 구매진행에
                     동의합니다</label>
             </div>
             <div id="buttons" class="flex flex-row">
                 <div id="go-back-btn">뒤로가기</div>
-                <button id="go-btn" type="submit">결제하기
+                <button id="go-btn" class="ml-6" type="submit">결제하기
             </div>
         </div>
 </div>
