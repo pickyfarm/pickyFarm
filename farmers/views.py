@@ -1,14 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import DetailView
 from django.views import View
 from django.core.paginator import Paginator
 
+# models
 from .models import *
-from .forms import *
-from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
 from products.models import Product
 
+# forms
+from .forms import *
+from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
+from users.forms import SignUpForm
+from addresses.forms import AddressForm
 
+
+# farmer's page 
 def farmers_page(request):
     # farmer list
     farmer = Farmer.objects.all().order_by("-id")
@@ -181,7 +187,7 @@ class Story_Detail(DetailView):
 
 
 
-# 농가 세부 페이지
+# farmer detail page
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)
     tags = Farm_Tag.objects.all().filter(farmer=farmer)
@@ -197,7 +203,7 @@ def farmer_detail(request, pk):
     return render(request, "farmers/farmer_detail.html", ctx)
 
 
-# 입점 신청
+# 입점 신청 page
 def farm_apply(request):
     if request.method == "POST":
         form = FarmApplyForm(request.POST)
@@ -215,7 +221,7 @@ def farm_apply(request):
         return render(request, "farmers/farm_apply.html", ctx)
 
 
-# 입점 등록
+# 입점 등록 page
 class FarmEnroll(View):
     def get(self, request, step):
         if step == "step_1":
