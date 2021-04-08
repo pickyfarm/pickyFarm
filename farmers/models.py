@@ -42,7 +42,7 @@ class Farmer_Story(models.Model):
 class Farm_Tag(models.Model):
     tag = models.CharField(max_length=30)
     farmer = models.ManyToManyField(
-        Farmer, related_name='farm_tags')
+        "Farmer", related_name='farm_tags')
 
     def __str__(self):
         return self.tag
