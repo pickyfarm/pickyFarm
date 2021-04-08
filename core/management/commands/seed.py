@@ -8,7 +8,9 @@ from editor_reviews import models as review_models
 from comments import models as comment_models
 from farmers import models as farmer_models
 import random
-import os, sys
+import os
+import sys
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -23,18 +25,19 @@ class Command(BaseCommand):
         os.system("python manage.py seed_product")
         self.stdout.write(self.style.SUCCESS("Completely Seed 20 Products!"))
         os.system("python manage.py seed_editor_review")
-        self.stdout.write(self.style.SUCCESS("Completely Seed 5 Editor Reviews!"))
+        self.stdout.write(self.style.SUCCESS(
+            "Completely Seed 5 Editor Reviews!"))
         os.system("python manage.py seed_comment")
         self.stdout.write(self.style.SUCCESS("Completely Seed 10 Comments!"))
         os.system("python manage.py seed_recomment")
         self.stdout.write(self.style.SUCCESS("Completely Seed 10 Recomments!"))
-        
+
 
 def seed_user():
     seeder = Seed.seeder("ko_KR")
-    seeder.add_entity(user_models.User, 20, {"is_staff": False, "is_superuser": False})
+    seeder.add_entity(user_models.User, 20, {
+                      "is_staff": False, "is_superuser": False})
     seeder.execute()
-    
 
 
 def seed_farmer():
@@ -43,14 +46,16 @@ def seed_farmer():
         "sub_count": lambda x: random.randint(100, 1000),
         "farm_name": lambda x: seeder1.faker.bs(),
         "profile_title": lambda x: seeder1.faker.catch_phrase(),
-        "farm_news": lambda x:seeder1.faker.sentence(nb_words=5)
+        "farm_news": lambda x: seeder1.faker.sentence(nb_words=5)
     })
     seeder1.execute()
+
 
 def seed_editor():
     seeder = Seed.seeder()
     seeder.add_entity(user_models.Editor, 5)
     seeder.execute()
+
 
 def seed_address():
     seeder = Seed.seeder(locale="ko_KR")
@@ -64,6 +69,7 @@ def seed_address():
 
     seeder.execute()
 
+
 def seed_product():
     seeder = Seed.seeder()
     seeder.add_entity(product_models.Product, 20, {
@@ -74,10 +80,11 @@ def seed_product():
         "sales_count": lambda x: random.randint(10, 100),
         "weight": lambda x: random.uniform(0.5, 5.0),
         "stock": lambda x: random.randint(1, 100),
-        "farmer": lambda x: random.choice(user_models.Farmer.objects.all()),
-        "category":lambda x:random.choice(product_models.Category.objects.exclude(parent__isnull=True))
+        "farmer": lambda x: random.choice(farmer_models.Farmer.objects.all()),
+        "category": lambda x: random.choice(product_models.Category.objects.exclude(parent__isnull=True))
     })
     seeder.execute()
+
 
 def seed_editor_review():
     seeder = Seed.seeder()
@@ -91,13 +98,14 @@ def seed_editor_review():
     seeder.execute()
 
     reviews = review_models.Editor_Review.objects.all()
-    
+
     for review in reviews:
         review.product.set(product_models.Product.objects.order_by('?')[:3])
 
+
 def seed_comment():
     seeder = Seed.seeder()
-    
+
     seeder.add_entity(comment_models.Editor_Review_Comment, 10, {
         "text": lambda x: seeder.faker.sentence(nb_words=10),
         "editor_review": lambda x: random.choice(review_models.Editor_Review.objects.all()),

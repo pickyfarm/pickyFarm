@@ -5,6 +5,7 @@ from addresses import models as address_models
 from products import models as product_models
 from editor_reviews import models as review_models
 from comments import models as comment_models
+from farmers.models import Farmer as farmer_models 
 import random
 import os
 
@@ -54,7 +55,7 @@ def seed_product():
         "sales_count": lambda x: random.randint(10, 100),
         "weight": lambda x: random.uniform(0.5, 5.0),
         "stock": lambda x: random.randint(1, 100),
-        "farmer": lambda x: random.choice(user_models.Farmer.objects.all()),
+        "farmer": lambda x: random.choice(farmer_models.Farmer.objects.all()),
         "category":lambda x:random.choice(product_models.Category.objects.exclude(parent__isnull=True))
     })
     seeder.execute()
