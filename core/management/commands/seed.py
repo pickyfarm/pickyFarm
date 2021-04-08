@@ -6,6 +6,7 @@ from addresses import models as address_models
 from products import models as product_models
 from editor_reviews import models as review_models
 from comments import models as comment_models
+from farmers import models as farmer_models
 import random
 import os, sys
 
@@ -38,7 +39,7 @@ def seed_user():
 
 def seed_farmer():
     seeder1 = Seed.seeder()
-    seeder1.add_entity(user_models.Farmer, 5, {
+    seeder1.add_entity(farmer_models.Farmer, 5, {
         "sub_count": lambda x: random.randint(100, 1000),
         "farm_name": lambda x: seeder1.faker.bs(),
         "profile_title": lambda x: seeder1.faker.catch_phrase(),
@@ -84,7 +85,7 @@ def seed_editor_review():
         "title": lambda x: seeder.faker.sentence(nb_words=10),
         "sub_title": lambda x: seeder.faker.sentence(nb_words=5),
         "contents": lambda x: seeder.faker.paragraph(nb_sentences=50),
-        "farm": lambda x: random.choice(user_models.Farmer.objects.all()),
+        "farm": lambda x: random.choice(farmer_models.Farmer.objects.all()),
         "author": lambda x: random.choice(user_models.Editor.objects.all())
     })
     seeder.execute()

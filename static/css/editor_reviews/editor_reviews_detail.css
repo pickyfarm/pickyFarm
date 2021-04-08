@@ -310,8 +310,13 @@
     word-break: break-all;
 }
 
-.comment-text-reply{
-    margin-bottom: 10px;
+.comment-text-options{
+    margin: 10px auto;
+}
+
+.comment-text-options--edit,
+.comment-text-options--delete{
+    margin: auto 5px;
     font-size: 15px;
     font-weight: 300;
     color: #707070;
