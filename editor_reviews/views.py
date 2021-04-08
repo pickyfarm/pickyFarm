@@ -133,6 +133,11 @@ def editor_review_comment(request, pk):
 
     return JsonResponse(data)
 
+def editor_review_comment_delete(request, reviewpk, commentpk):
+    comment = get_object_or_404(Editor_Review_Comment, pk=commentpk)
+    comment.delete()
+
+    return redirect('editors_pick:detail', reviewpk)
 
 
 @login_required
