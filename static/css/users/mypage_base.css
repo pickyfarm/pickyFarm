@@ -735,7 +735,7 @@
   margin-bottom:35px;
 }
 
-#pen{
+#modify{
   width:15px;
 }
 
@@ -744,8 +744,9 @@
 
 }
 
-#x{
+#delete{
   width:15px;
+  cursor: pointer;
 }
 
 #top-btn-section>:nth-child(1){

@@ -29,6 +29,7 @@ urlpatterns = [
     path('user/', include("users.urls", namespace='user')),
     path('farmer/', include("farmers.urls", namespace='farmer')),
     path('summernote/', include("django_summernote.urls")),
+    path('address/', include("addresses.urls", namespace='addresses')),
 ]
 
 if settings.DEBUG:

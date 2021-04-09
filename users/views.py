@@ -238,6 +238,7 @@ def profileUpdate(request):
         return JsonResponse(response)
 
 
+
 # 회원 관련 view
 
 
