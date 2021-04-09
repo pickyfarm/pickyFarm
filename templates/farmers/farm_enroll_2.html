@@ -22,7 +22,7 @@
             <div> 계약서 작성 </div>
         </div>
         <div class="relative mx-auto mt-2" id="border">
-            <div class="absolute" id="step" style="width:66%"></div>
+            <div class="absolute" id="step" style="width:50%"></div>
         </div>
         <form method="POST" action="{% url 'farmers:farm_enroll' step='step_1' %}" onkeydown="return event.key != 'Enter';">
             {% csrf_token %}
@@ -35,8 +35,8 @@
             <!--프로필 사진 & 농장 사진-->
             <div class="flex flex-row mb-11">
                 <div class='flex flex-col'>
-                    <div id="img_label">{{farm_form.farmer_profile.label_tag}}</div>
-                    <div class="" id="img_desc">농부님의 사진을 올려주세요</div>
+                    <div id="img_label" style="font-size: 15px;">{{farm_form.farmer_profile.label_tag}}</div>
+                    <div class="" id="img_desc" style="font-size: 15px;">농부님의 사진을 올려주세요</div>
                 </div>
                 <div>
                     <div class="filebox">
@@ -47,8 +47,8 @@
                     </div>
                 </div>
                 <div class='flex flex-col'>
-                    <div id="img_label">{{farm_form.farm_profile.label_tag}}</div>
-                    <div class="" id="img_desc">농장로고나 대표사진을 <br>올려주세요</div>
+                    <div id="img_label" style="font-size: 15px;">{{farm_form.farm_profile.label_tag}}</div>
+                    <div class="" id="img_desc" style="font-size: 15px;">농장로고나 대표사진을 올려주세요</div>
                 </div>
                 <div>
                     <div class="filebox">
@@ -68,16 +68,19 @@
             </div>
             <!--해시 태그-->
             <div class="flex flex-row">
-                <div class="mr-6" id="cat_label">{{farm_form.farm_cat.label_tag}}</div>
+                <div class="flex flex-col">
+                <div class="mr-6" id="cat_label" style="font-size: 15px; margin-bottom: 6px;">{{farm_form.farm_cat.label_tag}}</div>
+                <div class="text-left" style="font-size: 12px; color: #b3b3b3; margin-left: 60.5px;">* 최대 3개 선택 가능합니다</div>
+                </div>
                 {{farm_form.farm_cat}}
             </div>
             <div class="grid grid-flow-row grid-rows-1 grid-cols-4 gap-4 mt-4" id="hashtag_wrap">
                 <input type="text" placeholder="# 직접입력" onKeyDown="onKeyDown()"; id="new_tag"/>
             </div>
             <div class="line mx-auto mb-14" style="margin-top: 35px;"></div>
-            <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px; color:#4d4d4d;">Farmer's Page Sample</div>
+            <div class="font-medium text-2xl text-left mb-5" style="color:#5c6754;">나의 농가페이지 미리보기</div>
             <div class="p-4" id="sample_wrap">
-                {% include 'users/farmer_detail_sample.html' %}
+                {% include 'farmers/farmer_detail_sample.html' %}
             </div>
             <button class="submit" onclick="location.href='{% url 'farmers:farm_enroll' step='step_3' %}'">다음 단계로</button>
         </form>
