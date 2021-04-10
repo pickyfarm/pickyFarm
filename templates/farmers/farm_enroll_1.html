@@ -26,7 +26,7 @@
             <div class="input_forms grid">
                 {{form.username.label_tag}}
                 {{form.username}}
-                <div class="valid-button" id="id-check">중복확인</div>
+                <div class="valid-button" id="id-check" name="{% url 'users:id_validation' %}">중복확인</div>
                 <input type="hidden" id="idValidCheck">
                 {{form.password.label_tag}}
                 {{form.password}}
@@ -42,11 +42,11 @@
                 {{form.first_name}}
                 {{form.nickname.label_tag}}
                 {{form.nickname}}
-                <div class="valid-button" id="nickname-check">중복확인</div>
+                <div class="valid-button" id="nickname-check" name="{% url 'users:nickname_validation' %}">중복확인</div>
                 <input type="hidden" id="nicknameValidCheck">
                 {{form.email.label_tag}}
                 {{form.email}}
-                <div class="valid-button" id="email-check">중복확인</div>
+                <div class="valid-button" id="email-check" name="{% url 'users:email_validation' %}">중복확인</div>
                 <input type="hidden" id="emailValidCheck">
                 {{addressform.full_address.label_tag}}
                 <div>
