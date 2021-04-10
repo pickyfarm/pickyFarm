@@ -104,15 +104,7 @@
             success: (data) => {
                 const status = data["status"];
 
-                if (status == 'notLogined') {
-                    alert("로그인이 필요합니다.")
-                }
-
-                else if (status == 'notAnAuthor') {
-                    alert("댓글 작성자가 아닙니다.")
-                }
-
-                else {
+                if (status) {
                     alert("댓글이 삭제되었습니다.")
                     location.reload()
                 }

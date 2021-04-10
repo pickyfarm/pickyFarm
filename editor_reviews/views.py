@@ -135,22 +135,13 @@ def editor_review_comment(request, pk):
 
 def editor_review_comment_delete(request, reviewpk, commentpk):
     if request.is_ajax():
-        user = request.user
-        auth_status = {"NL": "notLogined", "NA": "notAnAuthor", "OK": "OK"}
         comment = get_object_or_404(Editor_Review_Comment, pk=commentpk)
 
         ctx = {
-            "status": auth_status["OK"]
+            "status": True
         }
 
-        if user == AnonymousUser():
-            ctx["status"] = auth_status["NL"]
-        
-        elif comment.author != user:
-            ctx["status"] = auth_status["NA"]
-
-        else:
-            comment.delete()
+        comment.delete()
 
     return JsonResponse(ctx)
 
