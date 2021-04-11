@@ -138,6 +138,8 @@ def editor_review_comment(request, pk):
 
 
 def editor_review_comment_delete(request, reviewpk, commentpk):
+    # editor's pick 댓글 삭제 - AJAX
+
     if request.is_ajax():
         comment = get_object_or_404(Editor_Review_Comment, pk=commentpk)
 
@@ -146,6 +148,43 @@ def editor_review_comment_delete(request, reviewpk, commentpk):
         comment.delete()
 
     return JsonResponse(ctx)
+
+
+def editor_review_comment_edit(request, reviewpk, commentpk):
+    if request.is_ajax():
+        comment = Editor_Review_Comment.objects.get(pk=commentpk)
+        text = request.POST.get("text")
+
+        comment.text = text
+        comment.save()
+
+        ctx = {
+            "update_at": comment.update_at.strftime(
+                r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+            ),
+        }
+
+        return JsonResponse(ctx)
+
+
+def editor_review_recomment(request, reviewpk, commentpk):
+    comment = get_object_or_404(Editor_Review_Comment, pk=commentpk)
+    author = request.user
+    text = request.POST.get("text")
+
+    recomment = Editor_Review_Recomment(comment=comment, author=author, text=text)
+    recomment.save()
+
+    data = {
+        "text": text,
+        "create_at": comment.create_at.strftime(
+            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+        ),
+        "author": author.nickname,
+        "user_image": author.profile_image.url,
+    }
+
+    return JsonResponse(data)
 
 
 @login_required

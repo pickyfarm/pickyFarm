@@ -76,9 +76,7 @@ def CartInAjax(request):
             cart = Cart.objects.get(consumer=user.consumer, product=product)
             message = "이미 장바구니에 있는 무난이 입니다"
         except ObjectDoesNotExist:
-            cart = Cart.objects.create(
-                consumer=user.consumer, product=product, quantity=quantity
-            )
+            cart = Cart.objects.create(consumer=user.consumer, product=product, quantity=quantity)
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
 
@@ -211,7 +209,7 @@ def infoUpdate(request):
         user.save()
 
         response = {
-            'status': 1,
+            "status": 1,
         }
         return JsonResponse(response)
 
@@ -219,11 +217,11 @@ def infoUpdate(request):
 @login_required
 @require_POST
 def profileUpdate(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         user = request.user
 
-        nickname = request.POST.get('nick_name')
-        profile_image = request.FILES.get('profile_img')
+        nickname = request.POST.get("nick_name")
+        profile_image = request.FILES.get("profile_img")
 
         print(profile_image)
 
@@ -232,7 +230,7 @@ def profileUpdate(request):
         user.save()
 
         response = {
-            'status': 1,
+            "status": 1,
         }
 
         return JsonResponse(response)
@@ -325,8 +323,6 @@ def idValidation(request):
 
 
 # email validation function for AJAX
-
-
 def emailValidation(request):
     target = request.GET.get("target")
     isValid = User.objects.filter(email=target).exists()
@@ -339,8 +335,6 @@ def emailValidation(request):
 
 
 # nickname validation function for AJAX
-
-
 def nicknameValidation(request):
     target = request.GET.get("target")
     isValid = User.objects.filter(nickname=target).exists()
@@ -348,7 +342,6 @@ def nicknameValidation(request):
     ctx = {"target": target, "isValid": isValid}
 
     return JsonResponse(ctx)
-
 
 
 user_email = ""
@@ -363,13 +356,9 @@ class MyPasswordResetView(PasswordResetView):
     def form_valid(self, form):
         global user_email
 
-        if User.objects.filter(
+        if User.objects.filter(email=self.request.POST.get("email")).exists() and User.objects.get(
             email=self.request.POST.get("email")
-        ).exists() and User.objects.get(
-            email=self.request.POST.get("email")
-        ).username == self.request.POST.get(
-            "username"
-        ):
+        ).username == self.request.POST.get("username"):
             user_email = form.cleaned_data.get("email")
             return super().form_valid(form)
 
@@ -395,9 +384,7 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
         form.fields["new_password1"].widget.attrs = {"placeholder": "새 비밀번호를 입력해주세요"}
-        form.fields["new_password2"].widget.attrs = {
-            "placeholder": "새 비밀번호를 한번 더 입력해주세요"
-        }
+        form.fields["new_password2"].widget.attrs = {"placeholder": "새 비밀번호를 한번 더 입력해주세요"}
 
         return form
 
@@ -465,9 +452,7 @@ def mypage(request, cat):
         print(one_month_before)
 
         questions = (
-            consumer.questions.filter(create_at__gt=one_month_before)
-            .order_by("-create_at")
-            .all()
+            consumer.questions.filter(create_at__gt=one_month_before).order_by("-create_at").all()
         )
         print((type)(questions))
 
@@ -542,9 +527,7 @@ def mypage(request, cat):
             ctx.update(ctx_wishes)
             return render(request, "users/mypage_wishes.html", ctx)
         elif cat_name == "cart":
-            carts = (
-                consumer.carts.all().order_by("-create_at").filter(product__open=True)
-            )
+            carts = consumer.carts.all().order_by("-create_at").filter(product__open=True)
             print(carts)
 
             ctx_carts = {
@@ -562,7 +545,7 @@ def mypage(request, cat):
                         "addressform": addressform,
                     }
                     ctx.update(ctx_add_rev_address)
-                    return render(request, 'users/mypage_add_rev_address.html', ctx)
+                    return render(request, "users/mypage_add_rev_address.html", ctx)
 
             else:
                 rev_addresses = request.user.addresses.all().order_by("-create_at")
@@ -584,7 +567,7 @@ def mypage(request, cat):
             }
 
             ctx.update(info)
-            return render(request, 'users/mypage_info.html', ctx)
+            return render(request, "users/mypage_info.html", ctx)
 
     else:
         get_arg = request.GET.get("add", None)
@@ -596,7 +579,7 @@ def mypage(request, cat):
             address.user = user
             address.is_default = False
             address.save()
-            return redirect(reverse('users:mypage', kwargs={'cat': 'rev_address'}))
+            return redirect(reverse("users:mypage", kwargs={"cat": "rev_address"}))
 
 
 # def add_rev_address(request):
@@ -683,9 +666,7 @@ class EditorMyPage_Comments(ListView):
         comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
 
         for review in reviews:
-            comments = comments.union(
-                Editor_Review_Comment.objects.filter(editor_review=review)
-            )
+            comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
 
         return comments.order_by("-create_at")
 
