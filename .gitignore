@@ -117,5 +117,7 @@ media/
 db.sqlite3
 node_modules
 .DS_Store
-.vscode/settings.json
-.vscode/settings.json
+.vscode/
+Pipfile.lock
+Pipfile
+

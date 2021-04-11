@@ -38,8 +38,10 @@
                         <div class="comment-text-options text-right flex justify-between">
                             <div>답글 N개</div>
                             <div class="flex">
+                                {% if comment.author == request.user %}
                                 <div class="comment-text-options--edit">수정</div>
                                 <div class="comment-text-options--delete" onclick=commentDelete({{comment.pk}})>삭제</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -102,15 +104,7 @@
             success: (data) => {
                 const status = data["status"];
 
-                if (status == 'notLogined') {
-                    alert("로그인이 필요합니다.")
-                }
-
-                else if (status == 'notAnAuthor') {
-                    alert("댓글 작성자가 아닙니다.")
-                }
-
-                else {
+                if (status) {
                     alert("댓글이 삭제되었습니다.")
                     location.reload()
                 }
