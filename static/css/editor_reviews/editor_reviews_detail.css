@@ -297,6 +297,35 @@
     margin-top: 30px;
 }
 
+.comment-edit-form-container{
+    width: 850px;
+    font-size: 18px;
+}
+
+.comment-edit-form-input{
+    width: 100%;
+}
+
+.comment-edit-form-input:focus{
+    outline: none;
+    border: 1px solid #5c6754;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+
+.comment-edit-submit-button{
+    width: 90px;
+    height: 22px;
+    border-radius: 11px;
+    border: solid 0.5px #989898;
+    background-color: #f2f2f2;
+    font-size: 15px;
+    font-weight: 500;
+    color: #5c6754;
+    margin: 10px auto;
+}
+
 .comment-text{
     width: 962px;
     background-color: #ffffff;
@@ -315,7 +344,8 @@
 }
 
 .comment-text-options--edit,
-.comment-text-options--delete{
+.comment-text-options--delete,
+.comment-edit-cancel{
     margin: auto 5px;
     font-size: 15px;
     font-weight: 300;
