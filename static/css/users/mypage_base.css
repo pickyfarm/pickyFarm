@@ -179,7 +179,6 @@
 
 
 #product_order_at2{
-  
   font-family: NotoSansKR;
   font-size: 11px;
   text-align: left;
@@ -238,6 +237,20 @@
   color: #b3b3b3;
 }
 
+
+#delivery_status{
+  font-family: NotoSansKR;
+  font-size: 11px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 3;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+
 #product_weight{
     font-family: NotoSansKR;
   font-size: 18px;
@@ -264,6 +277,23 @@
   letter-spacing: normal;
   text-align: center;
   color: #ffffff;
+}
+
+#buttons-section>a>div{
+  width: 70px;
+  height: 22px;
+  margin: 0 0 12px 54px;
+  padding: 3px 9px 4px 8px;
+  border-radius: 11px;
+  border: solid 0.5px #b3b3b3;
+  font-family: NotoSansKR;
+  font-size: 11px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
 }
 
 #cartIn_btn{

@@ -31,10 +31,10 @@
         <div id="product_title">{{detail.product.title}}</div>
       </div>
       <div class="flex flex-row">
-        <div id="product_price">{{detail.total_price}}원</div>
-        <div id="product_quantity">{{detail.quantity}}g</div>
+        <div class="w-2/5" id="product_price">{{detail.total_price}}원</div>
+        <div class="w-3/5" id="product_quantity">{{detail.quantity}}g</div>
       </div>
-      <div class="flex flex-row">
+      <div class="flex flex-row" id="delivery_status">
 
         {% if detail.status == 'preparing' %}
         <div></div>
@@ -53,12 +53,10 @@
       </div>
       <div class="flex flex-row"></div>
     </div>
-    <div id="cart-button-section" class="w-2/12">
-      <a>
-        <div>장바구니 담기</div>
-      </a>
+    <div id="cart-button-section" class="flex justify-end items-center w-2/12">
+        <div id="cartIn_btn">장바구니 담기</div>
     </div>
-    <div class="w-2/12">
+    <div id="buttons-section" class="flex flex-col items-center w-2/12">
       <a href="{% url 'products:product_detail' detail.product.pk %}">
         <div>무난이 보기</div>
       </a>
