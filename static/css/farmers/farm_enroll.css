@@ -29,13 +29,13 @@
     border: 0;
 }
 .filebox label {
-    width: 110px;
-    height: 30px;
-    padding: 4px 34px 4px 35px;
+    width: 70px;
+    height: 25px;
+    padding: 4px 18px 3px 19px;
     border-radius: 15px;
     background-color: #5c6754;
     color: #fff;
-    font-size: 15px;
+    font-size: 12px;
     cursor: pointer;
 }
 
@@ -43,7 +43,7 @@
     border-radius: 50%;
     width: 152px;
     height: 152px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 /* category 관련 */
@@ -60,12 +60,13 @@
 #id_farm_cat li label{
     position: absolute;
     left: 0;
-    width: 110px;
-    height: 40px;
-    padding: 6px 29px 5px;
+    width: 70px;
+    height: 25px;
+    padding: 1.5px 15px;
     cursor: pointer;
     border: 1px solid #b3b3b3;
     border-radius: 20px;
+    color: #5c6754;
 }
 
 /* #id_farm_cat li label:checked{
@@ -82,10 +83,9 @@
     margin-left: 304.5px;
 }
 #new_tag {
-    min-width: 125px;
-    height: 40px;
+    min-width: 100px;
+    height: 25px;
     padding: 0 1.5rem;
-    /* padding: 6px 29px 5px; */
     border-radius: 20px;
     border: solid 1px #b3b3b3;
     overflow-x: auto;
@@ -122,12 +122,12 @@
 }
 
 .input_forms input:not(#id_farmer_profile, #id_farm_profile) {
-    border-radius: 3px;
     border: solid 1px #b3b3b3;
+    border-radius: 20px;
     width: 300px;
-    height: 40px;
+    height: 35px;
     padding-left: 15px;
-    font-size: 16px;
+    font-size: 12px;
     color: #808080;
     font-weight: normal;
 }
@@ -144,17 +144,20 @@
 }
 
 .input_forms textarea {
-    width: 300px;
+    width: 387.5px;
     height: 120px;
     border-radius: 3px;
     border: solid 1px #b3b3b3;
     resize: none;
+    padding: 10px;
+    font-size: 12px;
+    color: #808080;
 }
 
 #img_desc {
+    margin-top: 6px;
     margin-left: 60.5px;
     color: #b3b3b3;
-    font-size: 15px;
     text-align: left;
 }
 
@@ -186,7 +189,7 @@
     grid-column: 1;
     margin-right: auto;
     margin-left: 60.5px;
-    font-size: 25px;
+    font-size: 15px;
     font-weight: normal;
     color: #4d4d4d;
 }
@@ -206,11 +209,11 @@
 
 .valid-button {
     width: 110px;
-    height: 40px;
+    height: 35px;
     border-radius: 20px;
     background-color: #5e6656;
     color: white;
-    line-height: 40px;
+    line-height: 35px;
     margin-left: 33px;
     font-size: 15px;
     font-weight: normal;
@@ -227,42 +230,27 @@
 }
 
 .gender-selection label {
-    font-size: 20px;
+    font-size: 15px;
     color: #808080;
     font-weight: normal;
 }
 
-#id_gender label::before {
-    content: "";
-    display: inline-block;
-    position: relative;
-    top: 3.5px;
-    width: 20px;
-    height: 20px;
-    background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
-    margin-right: 9px;
-}
-
-label.checked::before {
-    content: "";
-    background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
-}
-
 .submit {
-    width: 350px;
-    height: 100px;
+    width: 170px;
+    height: 50px;
     border-radius: 50px;
     background-color: #5c6754;
     color: white;
-    font-size: 35px;
+    font-size: 25px;
     font-weight: bold;
-    margin-top: 54px;
-    margin-bottom: 42px;
+    font-family: NotoSansKR;
+    margin-top: 50.3px;
 }
 
 .line {
     width: 990px;
-    border: solid 1px #5e6656;
+    height: 0px;
+    border: solid 1px rgba(94, 102, 86, 0.5);
 }
 
 .form_term_agree input {
@@ -272,35 +260,14 @@ label.checked::before {
 .form_term_agree label {
     margin-right: auto;
     color: #707070;
-    font-size: 20px;
+    font-size: 15px;
 }
 
-.form_term_agree input+label::before {
-    content: "";
-    display: inline-block;
-    position: relative;
-    top: 3px;
-    width: 20px;
-    height: 20px;
-    background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
-    margin-right: 9px;
-}
-
-#all-agree::before{
-    transform: scale(1.5, 1.5);
-    margin-right: 12px;
-    top: 2px;
-}
-
-.form_term_agree input:checked+label::before {
-    content: "";
-    background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
-}
 
 label.mand::after,
 label.opt::after {
     margin-left: 20px;
-    font-size: 20px;
+    font-size: 15px;
     color: #b3b3b3;
     font-weight: 300;
 }
@@ -318,4 +285,17 @@ label.opt::after {
     font-size: 15px;
     font-weight: 500;
     color: #5c6754;
+}
+
+/* form_enroll step3 page */
+#contract-content {
+    width: 740px;
+}
+
+#contract-desc {
+    width: 740px;
+    height: 468px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
 }

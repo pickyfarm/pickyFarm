@@ -12,15 +12,17 @@ $("input:radio[name=gender]").on('change', function () {
     }
 });
 
-$('#nickname-check').click(function () {
+$('#nickname-check').click(function (e) {
     let target = $('#id_nickname').val();
+    let url = $(this).attr('name')
 
     if (target=="") {
         alert("닉네임을 입력해주세요.");
+        return;
     }
 
     $.ajax({
-        url: 'nickname_validation/',
+        url: url,
         data: { 'target': target },
         success: function (data) {
             if (data['isValid'] == false) {
@@ -36,13 +38,15 @@ $('#nickname-check').click(function () {
 
 $('#id-check').click(function () {
     let target = $('#id_username').val();
+    let url = $(this).attr('name')
 
     if (target=="") {
         alert("아이디를 입력해주세요.");
+        return;
     }
 
     $.ajax({
-        url: 'id_validation/',
+        url: url,
         data: { 'target': target },
         success: function (data) {
             if (data['isValid'] == false) {
@@ -58,13 +62,15 @@ $('#id-check').click(function () {
 
 $('#email-check').click(function () {
     let target = $('#id_email').val();
+    let url = $(this).attr('name')
 
     if (target=="") {
         alert("이메일을 입력해주세요.");
+        return;
     }
 
     $.ajax({
-        url: 'email_validation/',
+        url: url,
         data: { 'target': target },
         success: function (data) {
             if (data['isValid'] == false) {
