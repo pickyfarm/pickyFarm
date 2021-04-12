@@ -149,6 +149,9 @@
     border-radius: 3px;
     border: solid 1px #b3b3b3;
     resize: none;
+    padding: 10px;
+    font-size: 12px;
+    color: #808080;
 }
 
 #img_desc {

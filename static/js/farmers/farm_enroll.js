@@ -79,3 +79,27 @@ $('#id_profile_desc').keyup(function() {
 
 
 // form valid check
+$('.submit').click(function() {
+    console.log($('#id_farm_cat').val())
+
+    if ($('#id_farm_name').val() == "") {
+        alert("농장 이름을 입력해주세요.");
+        return;
+    }
+    if ($('#id_farmer_profile').val() == "") {
+        alert("프로필 사진을 업로드해주세요.");
+        return;
+    }
+    if ($('#id_farm_profile').val() == "") {
+        alert("농장 사진을 업로드해주세요.");
+        return;
+    }
+    if ($('#id_profile_title').val() == "") {
+        alert("농장 한 줄 소개를 입력해주세요.");
+        return;
+    }
+    if ($('#id_profile_desc').val() == "") {
+        alert("농장 상세 소개를 입력해주세요.");
+        return;
+    }
+})
