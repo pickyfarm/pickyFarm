@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/users/farm_enroll.css' %}">
+    <link rel="stylesheet" href="{% static 'css/farmers/farm_enroll.css' %}">
 {% endblock %}
 
 {% block title_name %}
@@ -18,7 +18,11 @@
             <div> 계약서 작성 </div>
         </div>
         <div class="relative mx-auto mt-2" id="border">
-            <div class="absolute" id="step" style="width:100%"></div>
+            <div class="absolute right-0" id="step" style="width:50%"></div>
+        </div>
+        <div class="mx-auto" id="contract-content">
+            <div class="font-medium text-2xl text-left mb-24" style="color:#5c6754">계약서 작성</div>
+            <div id="contract-desc"></div>
         </div>
     </div>
 </div>

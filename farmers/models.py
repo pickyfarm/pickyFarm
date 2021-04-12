@@ -14,6 +14,7 @@ class Farmer(models.Model):
     sub_count = models.IntegerField(default=0) # 구독자 수
     farm_news = models.CharField(max_length=500, null=True, blank=True) # 농가 뉴스
     farm_cat = models.CharField(choices=CAT_CHOICES, max_length=20, default="fruit")
+    contract = models.BooleanField(default=False) # 계약서 동의 여부
     open = models.BooleanField(default=False) # 입점 승인 여부
     user = models.OneToOneField(
         'users.User', related_name='farmer', on_delete=models.CASCADE)
