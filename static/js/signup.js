@@ -12,12 +12,13 @@ $("input:radio[name=gender]").on('change', function () {
     }
 });
 
-$('#nickname-check').click(function () {
+$('#nickname-check').click(function (e) {
     let target = $('#id_nickname').val();
     let url = $(this).attr('name')
 
     if (target=="") {
         alert("닉네임을 입력해주세요.");
+        return;
     }
 
     $.ajax({
@@ -41,6 +42,7 @@ $('#id-check').click(function () {
 
     if (target=="") {
         alert("아이디를 입력해주세요.");
+        return;
     }
 
     $.ajax({
@@ -64,6 +66,7 @@ $('#email-check').click(function () {
 
     if (target=="") {
         alert("이메일을 입력해주세요.");
+        return;
     }
 
     $.ajax({
