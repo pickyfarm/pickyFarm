@@ -151,7 +151,8 @@ def subs(request):
             }
             return JsonResponse(data)
         try:
-            sub = Subscribe.objects.get(farmer__pk=farmer_pk, consumer=consumer)
+            sub = Subscribe.objects.get(
+                farmer__pk=farmer_pk, consumer=consumer)
             data = {
                 "success": 0,
             }
@@ -188,7 +189,8 @@ def wish(request):
             return JsonResponse(response)
         except ObjectDoesNotExist:
             product = Product.objects.get(pk=product_pk)
-            Wish.objects.create(consumer=request.user.consumer, product=product)
+            Wish.objects.create(
+                consumer=request.user.consumer, product=product)
             response = {
                 "status": 1,
             }
@@ -236,7 +238,6 @@ def profileUpdate(request):
         }
 
         return JsonResponse(response)
-
 
 
 # 회원 관련 view
@@ -351,7 +352,6 @@ def nicknameValidation(request):
     return JsonResponse(ctx)
 
 
-
 user_email = ""
 
 
@@ -395,7 +395,8 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
-        form.fields["new_password1"].widget.attrs = {"placeholder": "새 비밀번호를 입력해주세요"}
+        form.fields["new_password1"].widget.attrs = {
+            "placeholder": "새 비밀번호를 입력해주세요"}
         form.fields["new_password2"].widget.attrs = {
             "placeholder": "새 비밀번호를 한번 더 입력해주세요"
         }
@@ -490,9 +491,21 @@ def mypage(request, cat):
 
         if cat_name == "orders":
             page = int(request.GET.get("page", 1))
+            start_date = request.GET.get("s_date", None)
+            end_date = request.GET.get("e_date", None)
             page_size = 5
 
-            order_groups = groups.filter(status="complete").order_by("-create_at")
+            order_groups = groups.filter(
+                status="complete").order_by("-create_at")
+            
+            print(order_groups)
+
+            if (start_date is not None) and (end_date is not None):
+                print("날짜 filtering")
+                for group in order_groups:
+                    if (group.create_at.date() < start_date) or (group.create_at.date() > end_date):
+                        order_groups.remove(group)
+
             print(order_groups)
             if order_groups.exists():
                 order_details = order_groups[0].order_details.all()
@@ -501,10 +514,11 @@ def mypage(request, cat):
                     for group in order_groups[1:]:
                         print(group.order_details.all())
                         order_details = order_details | group.order_details.all()
-                order_details = order_details.order_by("-order_group__create_at")
+                order_details = order_details.order_by(
+                    "-order_group__create_at")
             else:
                 order_details = None
-
+            
             print(order_details)
             if order_details is None:
                 order_details_count = 0
@@ -514,11 +528,15 @@ def mypage(request, cat):
                 order_details_count = order_details.count()
                 total_pages = ceil(order_details_count / page_size)
                 offset = page * page_size - page_size
-                order_details = order_details[offset : page * page_size]
+                order_details = order_details[offset: page * page_size]
 
+            print("진짜")
+            print(order_details)
             ctx_orders = {
                 "total_pages": range(1, total_pages + 1),
                 "order_details": order_details,
+                "start_date": start_date,
+                "end_date": end_date,
             }
             ctx.update(ctx_orders)
             return render(request, "users/mypage_orders.html", ctx)
@@ -526,13 +544,14 @@ def mypage(request, cat):
             page = int(request.GET.get("page", 1))
             page_size = 5
 
-            wishes = consumer.wishes.filter(product__open=True).order_by("-create_at")
+            wishes = consumer.wishes.filter(
+                product__open=True).order_by("-create_at")
             print(wishes)
 
             wishes_count = wishes.count()
             total_pages = ceil(wishes_count / page_size)
             offset = page * page_size - page_size
-            wishes = wishes[offset : page * page_size]
+            wishes = wishes[offset: page * page_size]
             print(wishes)
 
             ctx_wishes = {
@@ -681,7 +700,8 @@ class EditorMyPage_Comments(ListView):
     def get_queryset(self):
         reviews = Editor_Review.objects.filter(author=self.request.user.editor)
 
-        comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
+        comments = Editor_Review_Comment.objects.filter(
+            editor_review=reviews.first())
 
         for review in reviews:
             comments = comments.union(

@@ -3,7 +3,7 @@
 
 {% block content %}
 
-{% if order_detail is None %}
+{% if order_detail.exists is False %}
 <div class="mt-14 flex flex-col justify-center items-center">
   <div>
     아직 구매한 무난이가 없습니다
@@ -20,10 +20,10 @@
 <div id="products-section" class="mt-5">
   {% for detail in order_details %}
   <div id="product" class="flex flex-row mb-5">
-    <div id="product_img" class="w-1/5">
+    <div id="product_img" class="w-3/12">
       <img src="{{detail.product.main_image.url}}">
     </div>
-    <div class="w-2/5">
+    <div class="w-5/12">
       <div id="product_order_at2">{{group.order_at | date}} 주문</div>
       <div class="flex flex-row">
         <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
@@ -53,12 +53,12 @@
       </div>
       <div class="flex flex-row"></div>
     </div>
-    <div id="cart-button-section" class="w-1/5">
+    <div id="cart-button-section" class="w-2/12">
       <a>
         <div>장바구니 담기</div>
       </a>
     </div>
-    <div class="w-1/5">
+    <div class="w-2/12">
       <a href="{% url 'products:product_detail' detail.product.pk %}">
         <div>무난이 보기</div>
       </a>
@@ -74,7 +74,7 @@
 </div>
 <div id="paginator" class="flex flex-row justify-center">
   {% for page in total_pages %}
-  <a href='?page={{page}}'>
+  <a href='?page={{page}}&s_date={{start_date}}&e_date={{end_date}}'>
     <div id="page_btn" value="{{page}}">{{page}}</div>
   </a>
   {% endfor %}
