@@ -286,3 +286,16 @@ label.opt::after {
     font-weight: 500;
     color: #5c6754;
 }
+
+/* form_enroll step3 page */
+#contract-content {
+    width: 740px;
+}
+
+#contract-desc {
+    width: 740px;
+    height: 468px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+}
