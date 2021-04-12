@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import DetailView
 from django.views import View
 from django.core.paginator import Paginator
+from django.contrib.auth import authenticate
+
 
 # models
 from .models import *
 from products.models import Product
+from users.models import Consumer
 
 # forms
 from .forms import *
@@ -225,53 +228,60 @@ def farm_apply(request):
 class FarmEnroll(View):
     def get(self, request, step):
         if step == "step_1":
-            print("step 1")
             form = SignUpForm()
             addressform = AddressForm()
-            print("not form error")
             ctx = {
                 "form": form,
                 "addressform": addressform,
             }
-            print("not ctx error")
             return render(request, "farmers/farm_enroll_1.html", ctx)
-
         elif step == "step_2":
-            print("step2")
             farm_form = FarmEnrollForm()
             ctx = {
                 "farm_form": farm_form,
             }
             return render(request, "farmers/farm_enroll_2.html", ctx)
-
         elif step == "step_3":
-            print("step3")
             return render(request, "farmers/farm_enroll_3.html")
-        print(step)
         return redirect(reverse("core:main"))
 
-    def post(self, request):
+    def post(self, request, step):
+        print('----------farm enroll post-----------')
         form = SignUpForm(request.POST)
         addressform = AddressForm(request.POST)
+        farmer_form = FarmEnrollForm(request.POST)
 
+        # farm enroll step 1
         if form.is_valid():
+            print("farm enroll 1 form valid")
             form.save()
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
-            user = authenticate(request, username=username, password=password)
-            Consumer.objects.create(user=user, grade=1)
+            # user = authenticate(request, username=username, password=password)
+            # Consumer.objects.create(user=user, grade=1)
 
             address = addressform.save(commit=False)
-            address.user = user
-            address.is_default = True
-            address.save()
+            # address.user = user
+            # address.is_default = True
+            # address.save()
+            return render(request, "farmers/farm_enroll_2.html")
 
-            if user is not None:
-                login(request, user=user)
-                return redirect(reverse("core:main"))
+
+        # farm enroll step 2
+        if farmer_form.is_valid():
+            print("farm enroll 2 form valid")
+            farmer_form.save(commit=False)
+            return render(request, "farmers/farm_enroll_3.html")
+
+        if user is not None:
+            login(request, user=user)
+            return redirect(reverse("core:main"))
+
+        # farm enroll step 3
 
         ctx = {
             "form": form,
             "addressform": addressform,
         }
-        return render(request, "users/signup.html", ctx)
+        return redirect(reverse("core:main"))
+
