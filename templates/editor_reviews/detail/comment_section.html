@@ -39,7 +39,8 @@
                             <div>답글 N개</div>
                             <div class="flex">
                                 {% if comment.author == request.user %}
-                                <div class="comment-text-options--edit" onclick=commentEdit({{comment.pk}})>수정</div>
+                                <div class="comment-text-options--edit" onclick=commentEdit(this,{{comment.pk}})>수정
+                                </div>
                                 <div class="comment-text-options--delete" onclick=commentDelete({{comment.pk}})>삭제</div>
                                 {% endif %}
                             </div>
@@ -123,8 +124,7 @@
         })
     }
 
-    const commentEdit = pk => {
-        commentEditForm = `
+    const commentEditForm = `
         <div class="comment-edit-form-container">
             <form class="flex flex-col">
                 <input type="text" class="comment-edit-form-input">
@@ -135,8 +135,20 @@
                 </div>
             </form>
         </div>`
-        $(".comment-text").html(commentEditForm);
+
+    const commentEdit = (targetComment, pk) => {
+        console.log(targetComment);
+
+        targetComment.closest(".comment-text").innerHTML = commentEditForm;
+        document.querySelector(".comment-edit-cancel").addEventListener('click', () => {
+            if (confirm("댓글 수정을 취소하시겠습니까?")) {
+                location.reload();
+            }
+        })
     }
+
+
+
 
     function commentSubmit(pk) {
         let text = $('#id_text').val();
