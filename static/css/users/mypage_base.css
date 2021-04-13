@@ -134,6 +134,89 @@
   margin-left:35px;
 }
 
+#filter{
+  margin-left : 126px;
+    margin-bottom : 45px;
+}
+
+#filter-6month{
+  width: 127px;
+  height: 30px;
+  padding: 4px 30px;
+  border-radius: 15px;
+  border: solid 1px #b3b3b3;
+  background-color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+#filter-6month:hover{
+  color:#ffffff;
+  background-color: #5c6754;
+}
+
+#filter>input{
+  width: 151px;
+  height: 30px;
+  border-radius: 15px;
+  padding: 4px 5px 4px 10px;
+  border: solid 1px #b3b3b3;
+  background-color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  margin-left:9px;
+  margin-right:9px;
+}
+
+#filter-until{
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #5c6754;
+}
+
+#filter-submit{
+  width: 106px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  margin-left:21px;
+}
+
+#filter-submit:hover{
+  color:#5c6754;
+  background-color: #ffffff;
+  border: solid 1px #b3b3b3;
+
+}
+
+
 #redirect_btn{
   width:170px;
   height: 30px;
@@ -172,7 +255,7 @@
 #product_img{
     width: 95px;
     height: 95px;
-    margin: 0 50px 0 0;
+    margin: 0 20px 0 0;
     border-radius: 20px;
 }
 
@@ -464,7 +547,7 @@
 }
 
 #paginator{
-  margin-top:20px;
+  margin-top:70px;
   width:650px;
   margin-left:170px;
 }
@@ -472,13 +555,27 @@
 #page_btn_sel{
   font-family: NotoSansKR;
   font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
   color: #5c6754;
+  margin-right:24px;
 }
 
 #page_btn{
   font-family: NotoSansKR;
   font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
   color: #b3b3b3;
+  margin-right:24px;
 }
 
 #order-section{

@@ -47,6 +47,8 @@ from math import ceil
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.views.generic import DetailView
+import datetime
+
 
 # Exception 선언 SECTION
 
@@ -433,7 +435,7 @@ def mypage(request, cat):
         if questions.exists() is False:
             print("질문은 없다")
         try:
-            groups = consumer.order_groups.all()
+            groups = consumer.order_groups.all().exclude(status="waiting")
             print(groups)
             if groups.exists() is False:
                 print("여기안와?")
@@ -494,17 +496,52 @@ def mypage(request, cat):
             start_date = request.GET.get("s_date", None)
             end_date = request.GET.get("e_date", None)
             page_size = 5
+        
+            if start_date == 'None':
+                start_date = None
+            if end_date == 'None':
+                end_date = None
 
-            order_groups = groups.filter(
-                status="complete").order_by("-create_at")
-            
-            print(order_groups)
+            print("end_date의 정체")
+            print(end_date)
 
-            if (start_date is not None) and (end_date is not None):
-                print("날짜 filtering")
-                for group in order_groups:
-                    if (group.create_at.date() < start_date) or (group.create_at.date() > end_date):
-                        order_groups.remove(group)
+            if (start_date is None) and (end_date is None):
+                # 주문관리 페이지에 처음 들어온 경우 
+                start_date = None
+                end_date = None
+                order_groups = groups.exclude(
+                    status="wait")
+            else:
+                # 날짜 필터링에서 조회 버튼을 누른 경우
+                if start_date == '':
+                    # filter start_date input에 아무런 value가 없을 경우
+                    start_date = datetime.datetime.now().date()
+                else:
+                    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+                
+                if end_date == '':
+                    # filter end_date input에 아무런 value가 없음 경우
+                    end_date = datetime.datetime.now().date()
+                    t = datetime.time(23, 59, 30)
+                    converted_end_date = datetime.datetime.combine(end_date, t)
+
+                else:
+                    # end_date 23:59분까지 filter 해주기 위해서 시간까지 있는 converted_end_date로 변환
+                    # ctx로 넘겨줄 때는 end_date를 넘겨주어야 함
+                    converted_end_date = end_date + " 23:59:30"
+                    print("바꾼 날짜는")
+                    print(end_date)
+                    converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+                
+                print("날짜 필드 알아보기")
+                print(groups[0].order_at)
+
+                order_groups = groups.filter(order_at__lte=converted_end_date, order_at__gte=start_date).exclude(status="wait").order_by("-order_at")
+        
+
+            print(f'start_date : {start_date}')
+            print(f'end_date : {end_date}')
+
 
             print(order_groups)
             if order_groups.exists():
@@ -515,10 +552,10 @@ def mypage(request, cat):
                         print(group.order_details.all())
                         order_details = order_details | group.order_details.all()
                 order_details = order_details.order_by(
-                    "-order_group__create_at")
+                    "-order_group__order_at")
             else:
                 order_details = None
-            
+
             print(order_details)
             if order_details is None:
                 order_details_count = 0
@@ -535,8 +572,8 @@ def mypage(request, cat):
             ctx_orders = {
                 "total_pages": range(1, total_pages + 1),
                 "order_details": order_details,
-                "start_date": start_date,
-                "end_date": end_date,
+                "start_date": str(start_date),
+                "end_date": str(end_date),
             }
             ctx.update(ctx_orders)
             return render(request, "users/mypage_orders.html", ctx)

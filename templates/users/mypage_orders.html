@@ -13,10 +13,16 @@
   </a>
 </div>
 {% else %}
+<form method="GET">
+  <div id="filter" class="flex flex-row">
+    <div id="filter-6month">최근 6개월</div>
+    <input id="filter-start-date" type="date" name="s_date" value="{{start_date}}">
+    <div id="filter-until">~</div>
+    <input id="filter-end-date" type="date" name="e_date" value="{{end_date}}">
+    <button id="filter-submit" type="submit">조회</button>
+  </div>
+</form>
 
-<div id="filter">
-
-</div>
 <div id="products-section" class="mt-5">
   {% for detail in order_details %}
   <div id="product" class="flex flex-row mb-5">
@@ -24,7 +30,7 @@
       <img src="{{detail.product.main_image.url}}">
     </div>
     <div class="w-5/12">
-      <div id="product_order_at2">{{group.order_at | date}} 주문</div>
+      <div id="product_order_at2">{{detail.order_group.order_at | date}} 주문</div>
       <div class="flex flex-row">
         <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
         <div id="slash">|</div>
@@ -73,7 +79,7 @@
 <div id="paginator" class="flex flex-row justify-center">
   {% for page in total_pages %}
   <a href='?page={{page}}&s_date={{start_date}}&e_date={{end_date}}'>
-    <div id="page_btn" value="{{page}}">{{page}}</div>
+    <div id="page_btn" name="{{page}}">{{page}}</div>
   </a>
   {% endfor %}
 </div>
@@ -84,6 +90,7 @@
 {% block script_section %}
 
 <script>
+
 
   let menuBtns = []
   menuBtns.push(document.getElementById('menu_carts'))
@@ -112,6 +119,48 @@
         "color": "#5c6754"
       })
     })
+  })
+
+  let filter6Month = document.getElementById('filter-6month')
+
+  filter6Month.addEventListener('click', function(){
+    let sDateInput = document.getElementById('filter-start-date')
+    let eDateInput = document.getElementById('filter-end-date')
+    let submitBtn = document.getElementById('filter-submit')
+    let now = new Date()
+    console.log(now)
+
+    let nowMonth = now.getMonth() +1
+    console.log(nowMonth)
+    
+    let startMonth = nowMonth - 6
+    let year = now.getFullYear()
+    let startYear = year
+    if(startMonth<=0){
+      startMonth = 12 + startMonth + 1
+      startYear -= 1
+      if(startMonth < 10)
+        startMonth = '0' + startMonth
+    }
+
+    startDate = startYear + '-' + startMonth + '-01'
+    console.log(startDate)
+
+    sDateInput.setAttribute('value', startDate)
+
+    nowDate = now.getDate()
+    if(nowDate < 10)
+      nowDate = '0' + nowDate
+    
+    if(nowMonth < 10)
+      nowMonth = '0' + nowMonth
+
+    endDate = year + '-' + nowMonth + '-' + nowDate
+    console.log(endDate)
+    eDateInput.setAttribute('value', endDate)
+
+    submitBtn.click()
+    
   })
 
 </script>
