@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/farmers/farm_enroll.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/farm_enroll.css' %}">
 {% endblock %}
 
 {% block title_name %}
@@ -20,10 +20,43 @@
         <div class="relative mx-auto mt-2" id="border">
             <div class="absolute right-0" id="step" style="width:50%"></div>
         </div>
-        <div class="mx-auto" id="contract-content">
-            <div class="font-medium text-2xl text-left mb-24" style="color:#5c6754">계약서 작성</div>
-            <div id="contract-desc"></div>
-        </div>
+        <form action="{% url 'farmers:farm_enroll' step='step_3' %}" method="post">
+            <div class="mx-auto" id="contract-content">
+                <div class="font-medium text-2xl text-left mb-24" style="color:#5c6754">계약서 작성</div>
+                <div class="mb-7 text-left p-4" id="contract-desc">
+                    계약서1 내용
+                </div>
+                <div class="text-right mb-20">
+                    <input type="checkbox" name="agree-1" id="" value="">
+                    <label for="agree-1">전체 동의합니다.</label>
+                </div>
+                <div class="mb-7 text-left p-4" id="contract-desc">
+                    계약서2 내용
+                </div>
+                <div class="text-right mb-24">
+                    <input type="checkbox" name="agree-2" id="" value="">
+                    <label for="agree-2">전체 동의합니다.</label>
+                </div>
+            </div>
+            <button type="submit" class="submit">제출하기</button>
+        </form>
     </div>
 </div>
+<style>
+    #contract-content label::before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 3.5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
+    }
+
+    #contract-content input:checked+label::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+</style>
 {% endblock %}
