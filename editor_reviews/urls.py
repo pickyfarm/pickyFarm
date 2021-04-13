@@ -10,6 +10,11 @@ urlpatterns = [
     path("<int:pk>/", views.Editor_review_detail.as_view(), name="detail"),
     path("<int:pk>/comment/", views.editor_review_comment, name="comment"),
     path(
+        "<int:reviewpk>/comment/edit/<int:commentpk>",
+        views.editor_review_comment_edit,
+        name="comment_edit",
+    ),
+    path(
         "<int:reviewpk>/comment/delete/<int:commentpk>",
         views.editor_review_comment_delete,
         name="comment_delete",

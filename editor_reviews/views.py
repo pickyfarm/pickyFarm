@@ -159,9 +159,10 @@ def editor_review_comment_edit(request, reviewpk, commentpk):
         comment.save()
 
         ctx = {
-            "update_at": comment.update_at.strftime(
+            "update_at": comment.updated_at.strftime(
                 r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
             ),
+            "status": True,
         }
 
         return JsonResponse(ctx)
