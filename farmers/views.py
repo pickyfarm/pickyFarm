@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import DetailView
 from django.views import View
 from django.core.paginator import Paginator
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
+from django.db.models import Q
 
 
 # models
@@ -17,7 +19,7 @@ from users.forms import SignUpForm
 from addresses.forms import AddressForm
 
 
-# farmer's page 
+# farmer's page
 def farmers_page(request):
     # farmer list
     farmer = Farmer.objects.all().order_by("-id")
@@ -82,13 +84,9 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(
-                Q(farmer__farm_name__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
         elif select_val == "farmer":
-            search_list = search_list.filter(
-                Q(farmer__user__nickname__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -118,9 +116,7 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(
-                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
-            )
+            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -189,7 +185,6 @@ class Story_Detail(DetailView):
         return response
 
 
-
 # farmer detail page
 def farmer_detail(request, pk):
     farmer = Farmer.objects.get(pk=pk)
@@ -246,42 +241,42 @@ class FarmEnroll(View):
         return redirect(reverse("core:main"))
 
     def post(self, request, step):
-        print('----------farm enroll post-----------')
         form = SignUpForm(request.POST)
         addressform = AddressForm(request.POST)
         farmer_form = FarmEnrollForm(request.POST)
 
         # farm enroll step 1
         if form.is_valid():
-            print("farm enroll 1 form valid")
-            form.save()
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
-            # user = authenticate(request, username=username, password=password)
             # Consumer.objects.create(user=user, grade=1)
-
             address = addressform.save(commit=False)
             # address.user = user
             # address.is_default = True
             # address.save()
-            return render(request, "farmers/farm_enroll_2.html")
-
+            return redirect(reverse("farmers:farm_enroll", kwargs={"step": "step_2"}))
 
         # farm enroll step 2
         if farmer_form.is_valid():
             print("farm enroll 2 form valid")
             farmer_form.save(commit=False)
-            return render(request, "farmers/farm_enroll_3.html")
-
-        if user is not None:
-            login(request, user=user)
-            return redirect(reverse("core:main"))
+            return redirect(reverse("farmers:farm_enroll", kwargs={"step": "step_3"}))
 
         # farm enroll step 3
+        agree_1 = request.POST.get("agree-1")
+        agree_2 = request.POST.get("agree-2")
+        if agree_1 is not None and agree_2 is not None:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                form.save()
+                address.save()
+                farmer_form.save()
+                Consumer.objects.create(user=user, grade=1)
+                login(request, user=user)
+                return redirect(reverse("core:main"))
+        else:
+            print("farm enroll form 3까지 못갔어요,,,")
+            return redirect(reverse("core:main"))
 
-        ctx = {
-            "form": form,
-            "addressform": addressform,
-        }
+        print("redirect to main")
         return redirect(reverse("core:main"))
-
