@@ -522,13 +522,13 @@ def mypage(request, cat):
                 if end_date == '':
                     # filter end_date input에 아무런 value가 없음 경우
                     end_date = datetime.datetime.now().date()
-                    t = datetime.time(23, 59, 30)
+                    t = datetime.time(23, 59, 59)
                     converted_end_date = datetime.datetime.combine(end_date, t)
 
                 else:
                     # end_date 23:59분까지 filter 해주기 위해서 시간까지 있는 converted_end_date로 변환
                     # ctx로 넘겨줄 때는 end_date를 넘겨주어야 함
-                    converted_end_date = end_date + " 23:59:30"
+                    converted_end_date = end_date + " 23:59:59"
                     print("바꾼 날짜는")
                     print(end_date)
                     converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
