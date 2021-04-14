@@ -35,13 +35,16 @@ def payment(request):
             product = Product.objects.get(pk=pk)
             total_quantity += quantity
             price_sum += product.sell_price*quantity
-            total_weight += product.weight*quantity
+            print(f'product_weight : {product.weight}')
+            print(f'product_quantity : {quantity}')
+            total_weight += (product.weight)*quantity
+            print(f'중간 결과 {total_weight}')
             products.append({'product': product, 'order_quantity': quantity,
                              'order_price': product.sell_price*quantity, 'weight': product.weight*quantity})
 
         delivery_fee = 0  # 추후 배송비 관련 전략 생길 시 작성
         discount = 0  # 추후 할인 전략 도입 시 작성
-
+        print(total_weight)
         # 최종 주문 금액
         final_price = price_sum + delivery_fee + discount
 
@@ -54,7 +57,7 @@ def payment(request):
             'discount': discount,
             'delivery_fee': delivery_fee,
             'final_price': final_price,
-            'total_weight': total_weight,
+            'total_weight': round(total_weight,2),
         }
 
         return render(request, 'orders/payment.html', ctx)

@@ -3,7 +3,7 @@
 
 {% block content %}
 
-{% if order_detail is None %}
+{% if order_detail.exists is False %}
 <div class="mt-14 flex flex-col justify-center items-center">
   <div>
     아직 구매한 무난이가 없습니다
@@ -13,28 +13,34 @@
   </a>
 </div>
 {% else %}
+<form method="GET">
+  <div id="filter" class="flex flex-row">
+    <div id="filter-6month">최근 6개월</div>
+    <input id="filter-start-date" type="date" name="s_date" value="{{start_date}}">
+    <div id="filter-until">~</div>
+    <input id="filter-end-date" type="date" name="e_date" value="{{end_date}}">
+    <button id="filter-submit" type="submit">조회</button>
+  </div>
+</form>
 
-<div id="filter">
-
-</div>
 <div id="products-section" class="mt-5">
   {% for detail in order_details %}
   <div id="product" class="flex flex-row mb-5">
-    <div id="product_img" class="w-1/5">
+    <div id="product_img" class="w-3/12">
       <img src="{{detail.product.main_image.url}}">
     </div>
-    <div class="w-2/5">
-      <div id="product_order_at2">{{group.order_at | date}} 주문</div>
+    <div class="w-5/12">
+      <div id="product_order_at2">{{detail.order_group.order_at | date}} 주문</div>
       <div class="flex flex-row">
         <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
         <div id="slash">|</div>
         <div id="product_title">{{detail.product.title}}</div>
       </div>
       <div class="flex flex-row">
-        <div id="product_price">{{detail.total_price}}원</div>
-        <div id="product_quantity">{{detail.quantity}}g</div>
+        <div class="w-2/5" id="product_price">{{detail.total_price}}원</div>
+        <div class="w-3/5" id="product_quantity">{{detail.quantity}}g</div>
       </div>
-      <div class="flex flex-row">
+      <div class="flex flex-row" id="delivery_status">
 
         {% if detail.status == 'preparing' %}
         <div></div>
@@ -53,12 +59,10 @@
       </div>
       <div class="flex flex-row"></div>
     </div>
-    <div id="cart-button-section" class="w-1/5">
-      <a>
-        <div>장바구니 담기</div>
-      </a>
+    <div id="cart-button-section" class="flex justify-end items-center w-2/12">
+        <div id="cartIn_btn">장바구니 담기</div>
     </div>
-    <div class="w-1/5">
+    <div id="buttons-section" class="flex flex-col items-center w-2/12">
       <a href="{% url 'products:product_detail' detail.product.pk %}">
         <div>무난이 보기</div>
       </a>
@@ -74,8 +78,8 @@
 </div>
 <div id="paginator" class="flex flex-row justify-center">
   {% for page in total_pages %}
-  <a href='?page={{page}}'>
-    <div id="page_btn" value="{{page}}">{{page}}</div>
+  <a href='?page={{page}}&s_date={{start_date}}&e_date={{end_date}}'>
+    <div id="page_btn" name="{{page}}">{{page}}</div>
   </a>
   {% endfor %}
 </div>
@@ -86,6 +90,7 @@
 {% block script_section %}
 
 <script>
+
 
   let menuBtns = []
   menuBtns.push(document.getElementById('menu_carts'))
@@ -114,6 +119,48 @@
         "color": "#5c6754"
       })
     })
+  })
+
+  let filter6Month = document.getElementById('filter-6month')
+
+  filter6Month.addEventListener('click', function(){
+    let sDateInput = document.getElementById('filter-start-date')
+    let eDateInput = document.getElementById('filter-end-date')
+    let submitBtn = document.getElementById('filter-submit')
+    const now = new Date()
+    console.log(now)
+
+    let nowMonth = now.getMonth() +1
+    console.log(nowMonth)
+    
+    let startMonth = nowMonth - 6
+    let year = now.getFullYear()
+    let startYear = year
+    if(startMonth<=0){
+      startMonth = 12 + startMonth + 1
+      startYear -= 1
+      if(startMonth < 10)
+        startMonth = '0' + startMonth
+    }
+
+    startDate = startYear + '-' + startMonth + '-01'
+    console.log(startDate)
+
+    sDateInput.setAttribute('value', startDate)
+
+    nowDate = now.getDate()
+    if(nowDate < 10)
+      nowDate = '0' + nowDate
+    
+    if(nowMonth < 10)
+      nowMonth = '0' + nowMonth
+
+    endDate = year + '-' + nowMonth + '-' + nowDate
+    console.log(endDate)
+    eDateInput.setAttribute('value', endDate)
+
+    submitBtn.click()
+    
   })
 
 </script>

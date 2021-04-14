@@ -8,7 +8,8 @@ from editor_reviews import models as review_models
 from comments import models as comment_models
 from farmers import models as farmer_models
 import random
-import os, sys
+import os
+import sys
 
 
 class Command(BaseCommand):
@@ -24,7 +25,8 @@ class Command(BaseCommand):
         os.system("python manage.py seed_product")
         self.stdout.write(self.style.SUCCESS("Completely Seed 20 Products!"))
         os.system("python manage.py seed_editor_review")
-        self.stdout.write(self.style.SUCCESS("Completely Seed 5 Editor Reviews!"))
+        self.stdout.write(self.style.SUCCESS(
+            "Completely Seed 5 Editor Reviews!"))
         os.system("python manage.py seed_comment")
         self.stdout.write(self.style.SUCCESS("Completely Seed 10 Comments!"))
         os.system("python manage.py seed_recomment")
@@ -33,7 +35,8 @@ class Command(BaseCommand):
 
 def seed_user():
     seeder = Seed.seeder("ko_KR")
-    seeder.add_entity(user_models.User, 20, {"is_staff": False, "is_superuser": False})
+    seeder.add_entity(user_models.User, 20, {
+                      "is_staff": False, "is_superuser": False})
     seeder.execute()
 
 

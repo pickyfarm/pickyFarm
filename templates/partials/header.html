@@ -22,8 +22,8 @@
             </a>
             {% endif %}
             <li class=" w-24 text-center">고객센터</li>
-            <li class=" w-24 text-center">my page</li>
-            <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기">
+            <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'orders' %}">my page</a></li>
+            <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'cart' %}"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
             </li>
         </ul>
     </div>
