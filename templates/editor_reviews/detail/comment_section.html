@@ -39,12 +39,24 @@
                             <div>답글 N개</div>
                             <div class="flex">
                                 {% if comment.author == request.user %}
-                                <div class="comment-text-options--edit">수정</div>
+                                <div class="comment-text-options--edit" onclick=commentEdit(this,{{comment.pk}})>수정
+                                </div>
                                 <div class="comment-text-options--delete" onclick=commentDelete({{comment.pk}})>삭제</div>
                                 {% endif %}
                             </div>
                         </div>
+                        <!-- <div class="comment-edit-form-container">
+                            <form class="flex flex-col comment-edit-form">
+                                <input type="text" class="comment-edit-form-input">
+                                <div class="flex items-center justify-between">
+                                    <div></div>
+                                    <button type="submit" class="comment-edit-submit-button">수정하기</button>
+                                    <p class="comment-edit-cancel">취소</p>
+                                </div>
+                            </form>
+                        </div> -->
                     </div>
+
                     <div class="absolute comment-like-button-wrap">
                         <div class="comment-like-button relative"
                             style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
@@ -111,6 +123,54 @@
             }
         })
     }
+
+    const commentEditForm = `
+        <div class="comment-edit-form-container">
+            <form class="flex flex-col comment-edit-form">
+                <input type="text" class="comment-edit-form-input">
+                <div class="flex items-center justify-between">
+                    <div></div>
+                    <button type="submit" class="comment-edit-submit-button">수정하기</button>
+                    <p class="comment-edit-cancel">취소</p>
+                </div>
+            </form>
+        </div>`
+
+    const commentEdit = (targetComment, pk) => {
+        console.log(targetComment);
+
+        targetComment.closest(".comment-text").innerHTML = commentEditForm;
+        document.querySelector(".comment-edit-cancel").addEventListener('click', () => {
+            if (confirm("댓글 수정을 취소하시겠습니까?")) {
+                location.reload();
+            }
+        })
+        document.querySelector(".comment-edit-form").addEventListener('submit', (e) => {
+            e.preventDefault()
+            commentEditSubmit(pk)
+        })
+
+
+    }
+
+    const commentEditSubmit = pk => {
+        const text = document.querySelector(".comment-edit-form-input").value
+
+        $.ajax({
+            type: 'POST',
+            url: `/editors_pick/{{review.pk}}/comment/edit/${pk}`,
+            dataType: 'json',
+            data: {
+                'text': text,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: function (data) {
+                alert("댓글을 수정하였습니다.")
+                location.reload()
+            },
+        });
+    }
+
 
     function commentSubmit(pk) {
         let text = $('#id_text').val();
