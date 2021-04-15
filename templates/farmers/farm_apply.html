@@ -2,28 +2,29 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/farmers/farm_apply.css' %}">
-    <style>
-        #id_farm_cat_0, #id_farm_cat_1, #id_farm_cat_2 {
-            display: none;
-        }
-        #id_farm_cat label::before {
-            content: "";
-            display: inline-block;
-            position: relative;
-            top: 3.5px;
-            width: 20px;
-            height: 20px;
-            background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
-            margin-right: 9px;
-        }
-                
-        #id_farm_cat label.checked::before {
-            content: "";
-            background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
-        }
-    </style>
-    
+<link rel="stylesheet" href="{% static 'css/farmers/farm_apply.css' %}">
+<style>
+    #id_farm_cat_0,
+    #id_farm_cat_1,
+    #id_farm_cat_2 {
+        display: none;
+    }
+
+    #id_farm_cat label::before {
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
+    }
+
+    #id_farm_cat label.checked::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+</style>
+
 {% endblock %}
 
 {% block title_name %}
@@ -32,36 +33,37 @@
 {% block main_content %}
 <div class="main-contents bg-white-400 mx-auto" id="top">
     <div class="mx-auto" id="content">
-        <div class="pt-24 mb-5"><img class="mx-auto" src="{% static 'images/farm/apply.svg' %}" alt=""></div>
-        <div class="text-3xl text-center font-bold mb-7" id="title">입점 신청</div>
+        <div class="pt-24 mb-5"><img class="mx-auto" src="{% static 'images/farm/apply.svg' %}" alt="">
+        </div>
+        <div class="text-3xl text-center font-bold mb-11" id="title">입점 신청</div>
         <form class="mx-auto" action="" method="POST">
-        {% csrf_token %}
+            {% csrf_token %}
             <div class="flex flex-row mb-7">
-                <div class="text-2xl" id="label">이름</div>
+                <div class="text-sm" id="label">이름</div>
                 <div>{{ form.name }}</div>
             </div>
             <div class="flex flex-row mb-7">
-                <div class="text-2xl" id="label">휴대폰 번호</div>
+                <div class="text-sm" id="label">휴대폰 번호</div>
                 <div>{{ form.phone_num }}</div>
             </div>
             <div class="flex flex-row mb-7">
-                <div class="text-2xl" id="label">농장 이름</div>
+                <div class="text-sm" id="label">농장 이름</div>
                 <div>{{ form.farm_name }}</div>
             </div>
             <div class="flex flex-row mb-5">
-                <div class="text-2xl" id="label">품종</div>
-                <div>{{ form.farm_cat }}</div>
-            </div> 
+                <div class="text-sm" id="label">품종</div>
+                <div style="line-height: 35px;">{{ form.farm_cat }}</div>
+            </div>
             <div class="flex flex-row mb-7">
-                <div class="text-2xl" id="label"></div>
+                <div class="text-sm" id="label"></div>
                 <div>{{ form.detail_cat }}</div>
             </div>
-            <div class="flex flex-col mb-14">
-                <div class="text-lg mb-2" id="label">추가 전달 사항</div>
+            <div class="flex flex-col mb-12">
+                <div class="text-sm mb-2" id="label">추가 전달 사항</div>
                 <div>{{ form.desc }}</div>
             </div>
             <div class="text-center">
-                <input type="submit" value="신청하기" id="submit_btn"/>
+                <input type="submit" value="신청하기" id="submit_btn" />
             </div>
         </form>
     </div>
@@ -70,7 +72,7 @@
     $("input:radio[value=fruit]").parent().addClass("checked");
 
     $("input:radio[name=farm_cat]").on('change', function () {
-        if (this.value == "fruit"){
+        if (this.value == "fruit") {
             console.log(this.value)
             $("input:radio[value=fruit]").parent().addClass("checked");
             $("input:radio[value=vege]").parent().removeClass("checked");
