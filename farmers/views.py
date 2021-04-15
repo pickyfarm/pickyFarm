@@ -11,6 +11,7 @@ from django.db.models import Q
 from .models import *
 from products.models import Product
 from users.models import Consumer
+from editor_reviews.models import Editor_Review
 
 # forms
 from .forms import *
@@ -191,12 +192,14 @@ def farmer_detail(request, pk):
     tags = Farm_Tag.objects.all().filter(farmer=farmer)
     products = Product.objects.all().filter(farmer=farmer)
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
+    editor_reviews = Editor_Review.objects.filter(farm=farmer)
 
     ctx = {
         "farmer": farmer,
         "tags": tags,
         "products": products,
         "stories": stories,
+        "editor_reviews": editor_reviews,
     }
     return render(request, "farmers/farmer_detail.html", ctx)
 
