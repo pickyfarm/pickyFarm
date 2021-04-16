@@ -4,43 +4,79 @@
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/farm_enroll.css' %}">
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
-{% endblock %}
+<style>
+    #title-wrap {
+        width: 840px;
+    }
+
+    #title {
+        font-size: 30px;
+        font-weight: 500;
+        color: #5c6754;
+        margin-bottom: 102px;
+    }
+
+    #farm {
+        line-height: 37px;
+        font-size: 18px;
+        font-weight: 500;
+        color: #707070;
+        margin-right: 22.8px;
+    }
+
+    #title-farm-name {
+        font-size: 25px;
+        font-weight: 500;
+        color: #5c6754;
+        margin-right: 14.6px;
+    }
+
+    #title-line {
+        flex-grow: 1;
+        height: 18px;
+        border-bottom: solid 1px rgba(94, 102, 86, 0.5);
+    }
+
+    #update-btn {
+        font-size: 34px;
+        font-weight: 500;
+        color: #5c6754;
+    }
+</style>
+{% endblock stylesheet %}
 
 {% block title_name %}
-입점 등록
+Farmer's page Update
 {% endblock title_name %}
 
 {% block main_content %}
-<div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
-    <div id='signup_form' class="mt-10 flex flex-col">
-        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 63px;">입점 등록</div>
-        <div class="flex flex-row justify-around" id="sub_title">
-            <div> 정보 입력 </div>
-            <div> 계약서 작성 </div>
-        </div>
-        <div class="relative mx-auto mt-2" id="border">
-            <div class="absolute" id="step" style="width:50%"></div>
-        </div>
-        <form method="POST" action="{% url 'farmers:farm_enroll' step='step_1' %}"
-            onkeydown="return event.key != 'Enter';">
+<div class="main-contents bg-white-400 mx-auto" id="top">
+    <div class="text-center" id="title">Farmer's Page 정보 수정</div>
+    <div class="flex flex-row ml-10 mb-20" id="title-wrap">
+        <div id="farm">Farm</div>
+        <div id="title-farm-name">{{ farmer.farm_name }}</div>
+        <div id="title-line"></div>
+    </div>
+    <div id="content">
+        <form method="POST" onkeydown="return event.key != 'Enter';">
             {% csrf_token %}
-            <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px">농장 정보 입력</div>
             <!--농장 이름-->
             <div class="input_forms grid">
-                {{farm_form.farm_name.label_tag}}
-                {{farm_form.farm_name}}
+                {{ farm_form.farm_name.label_tag }}
+                {{ farm_form.farm_name }}
             </div>
             <!--프로필 사진 & 농장 사진-->
             <div class="flex flex-row mb-11">
                 <div class='flex flex-col'>
-                    <div id="img_label" style="font-size: 15px;">{{farm_form.farmer_profile.label_tag}}</div>
+                    <div id="img_label" style="font-size: 15px;">{{ farm_form.farmer_profile.label_tag }}</div>
                     <div class="" id="img_desc" style="font-size: 15px;">농부님의 사진을 올려주세요</div>
                 </div>
                 <div>
                     <div class="filebox">
                         <div class="default_img_1 mb-4"
-                            style="background-image: url('{% static 'images/farm/farmer_default.svg' %}');"></div>
-                        <label for="id_farmer_profile">업로드</label>
+                            style="background-image: url('{{ farmer.farmer_profile.url }}');">
+                        </div>
+                        <label for="id_farmer_profile">사진 변경</label>
                         {{farm_form.farmer_profile}}
                     </div>
                 </div>
@@ -50,9 +86,9 @@
                 </div>
                 <div>
                     <div class="filebox">
-                        <div class="default_img_2 mb-4"
-                            style="background-image: url('{% static 'images/farm/farm_default.svg' %}');"></div>
-                        <label for="id_farm_profile">업로드</label>
+                        <div class="default_img_2 mb-4" style="background-image: url('{{ farmer.farm_profile.url }}');">
+                        </div>
+                        <label for="id_farm_profile">사진 변경</label>
                         {{farm_form.farm_profile}}
                     </div>
                 </div>
@@ -77,15 +113,18 @@
             <div class="grid grid-flow-row grid-rows-1 grid-cols-4 gap-4" id="hashtag_wrap">
                 <input type="text" placeholder="# 직접입력" onKeyDown="onKeyDown()" id="new_tag" />
             </div>
-            <div class="line mx-auto mb-14" style="margin-top: 35px;"></div>
-            <div class="font-medium text-2xl text-left mb-5" style="color:#5c6754;">나의 농가페이지 미리보기</div>
+            <div class="flex flex-row ml-10 mb-20 mt-16" id="title-wrap">
+                <div id="title-farm-name">농가 페이지 미리보기</div>
+                <div id="title-line"></div>
+            </div>
             <div class="p-4" id="sample_wrap">
                 {% include 'farmers/farmer_detail_sample.html' %}
             </div>
-            <button class="submit" id="step2_submit">다음 단계로</button>
+            <div class="text-center mt-28" id="update-btn">
+                <button class="" id="">수정 완료</button>
+            </div>
         </form>
     </div>
 </div>
-
 <script type="text/javascript" src="{% static 'js/farmers/farm_enroll.js' %}"></script>
-{% endblock %}
+{% endblock main_content %}

@@ -32,7 +32,7 @@ function readInputFile_2(input) {
                 {
                     'background': path,
                     'background-size': 'cover',
-                    'background-position': 'center'
+                    'background-position': 'center',
                 }
             );
         }

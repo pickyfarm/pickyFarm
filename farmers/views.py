@@ -283,3 +283,16 @@ class FarmEnroll(View):
 
         print("redirect to main")
         return redirect(reverse("core:main"))
+
+
+# 농가 정보 수정 페이지
+def farm_info_update(request, pk):
+    farmer = Farmer.objects.get(pk=pk)
+    if request.method == "POST":
+        farm_form = FarmEnrollForm(request.POST, request.FILES, instance=farmer)
+    else:
+        # farm_form = FarmEnrollForm(instance=farmer)
+        farm_form = FarmEnrollForm()
+
+    ctx = {"farmer": farmer, "farm_form": farm_form}
+    return render(request, "farmers/farm_info_update.html", ctx)

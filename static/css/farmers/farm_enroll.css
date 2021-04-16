@@ -43,6 +43,7 @@
     border-radius: 50%;
     width: 152px;
     height: 152px;
+    background-size: cover,
 }
 
 /* category 관련 */
@@ -120,7 +121,7 @@
 }
 
 /* ------------------------------------------ */
-#signup_form {
+#signup_form, #content {
     width: 990px;
 }
 
