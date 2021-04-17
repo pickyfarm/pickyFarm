@@ -66,6 +66,21 @@
                 </div>
                 {% if comment.editor_review_recomments.exists %}
                 <div class="recomment-wrap">
+                    {% if request.user.is_authenticated %}
+                    <div class="recomment-input-wrapper flex flex-col">
+                        <div class="flex items-center recomment-info">
+                            <div class="recomment-arrow"></div>
+                            <div class="recomment-author flex items-center">
+                                <img src="{{user.profile_image.url}}" class="comment-author--profile-image">
+                                <div class="comment-author--id">{{request.user.nickname}}</div>
+                            </div>
+                        </div>
+                        <textarea type="text" class="recomment-input-box" name='{{comment.pk}}'></textarea>
+                        <button class="recomment-submit-button mx-auto"
+                            onclick="recommentSubmit({{comment.pk}})">등록하기</button>
+                    </div>
+                    <div class="horizon-bar mx-auto"></div>
+                    {% endif %}
                     {% for recomment in comment.editor_review_recomments.all %}
                     <div class="recomment relative">
                         <div class="flex items-center recomment-info">
@@ -169,6 +184,63 @@
                 location.reload()
             },
         });
+    }
+
+    const recommentSubmit = pk => {
+        const textBox = document.querySelectorAll('.recomment-input-box')
+        const targetComment = [...textBox].filter(elem => parseInt(elem.getAttribute("name")) === pk)
+        console.log(targetComment[0].value);
+
+
+
+        $.ajax({
+            type: 'POST',
+            url: `/editors_pick/{{review.pk}}/comment/${pk}/recomment`,
+            dataType: 'json',
+            data: {
+                'text': targetComment[0].value,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+
+            success: function (data) {
+                const comment = `
+                <div class="recomment relative">
+                        <div class="flex items-center recomment-info">
+                            <div class="recomment-arrow"></div>
+                            <div class="recomment-author flex items-center">
+                                <img src="${data.user_image}" class="comment-author--profile-image">
+                                <div class="comment-author--id">${data.author}</div>
+                            </div>
+                            <div class="bar"></div>
+                            <div class="comment-create text-center recomment-create">
+                                ${data.create_at}
+                            </div>
+                            <div class="bar"></div>
+                            <div class="recomment-report flex items-center ml-auto">
+                                <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
+                                    alt="">
+                                <div class="comment-report--report">신고하기</div>
+                            </div>
+                        </div>
+                        <div class="absolute recomment-like-button-wrap">
+                            <div class="recomment-like-button relative"
+                                style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
+                                <p class="recomment-like-count absolute text-center align-text-bottom">000</p>
+                            </div>
+                        </div>
+                        <div class="recomment-content">
+                            <div class="recomment-text">
+                                <div class="recomment-text--text">${data.text}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="horizon-bar mx-auto"></div>
+                `
+
+                textBox.insertAdjacentHTML('beforeend', comment);
+                textBox.value = ''
+            }
+        })
     }
 
 

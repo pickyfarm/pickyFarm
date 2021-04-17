@@ -7,8 +7,14 @@ app_name = "editors_pick"
 urlpatterns = [
     path("list/", views.index, name="index"),
     path("create/", views.create, name="create"),
+    #
+    # editor's pick 세부 포스팅
+    #
     path("<int:pk>/", views.Editor_review_detail.as_view(), name="detail"),
     path("<int:pk>/comment/", views.editor_review_comment, name="comment"),
+    #
+    # editor's pick comment 관련 AJAX urls
+    #
     path(
         "<int:reviewpk>/comment/edit/<int:commentpk>",
         views.editor_review_comment_edit,

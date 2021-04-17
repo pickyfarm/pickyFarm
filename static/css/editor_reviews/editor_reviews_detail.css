@@ -370,6 +370,35 @@
     right: 0px;
 }
 
+.recomment-input-box{
+    width: 885px;
+    height: 80px;
+    margin: 20px 38px;
+    padding: 10px;
+    border-radius: 7px;
+
+    transition: border 0.2s ease;
+}
+
+.recomment-input-box:focus,
+.recomment-input-box:hover{
+    outline: none;
+    border: 1px solid #5c6754;
+}
+
+.recomment-submit-button{
+    width: 75px;
+    height: 22px;
+    font-size: 12px;
+    color: #ffffff;
+    border-radius: 9999px;
+    background-color: #5c6754;
+}
+
+.recomment-submit-button:focus{
+    outline: none;
+}
+
 .recomment-wrap{
     background-color: #e6e6e6;
     width: 961px;

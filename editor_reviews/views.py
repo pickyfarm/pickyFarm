@@ -172,6 +172,7 @@ def editor_review_recomment(request, reviewpk, commentpk):
     comment = get_object_or_404(Editor_Review_Comment, pk=commentpk)
     author = request.user
     text = request.POST.get("text")
+    print(text)
 
     recomment = Editor_Review_Recomment(comment=comment, author=author, text=text)
     recomment.save()
