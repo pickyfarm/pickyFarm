@@ -132,6 +132,7 @@ def editor_review_comment(request, pk):
         ),
         "author": author.nickname,
         "user_image": author.profile_image.url,
+        "pk": comment.id,
     }
 
     return JsonResponse(data)

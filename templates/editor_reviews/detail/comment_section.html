@@ -16,7 +16,7 @@
 
         <div id="comments">
             {% for comment in comments %}
-            <div class="comment">
+            <div class="comment" name={{comment.pk}}>
                 <div class="comment-info flex items-center">
                     <div class="comment-author flex items-center">
                         <img src="{{comment.author.profile_image.url}}" class="comment-author--profile-image">
@@ -260,7 +260,7 @@
             success: function (data) {
 
                 let comment = `
-                <div class="comment">
+                <div class="comment" name=${data.pk}>
                     <div class="comment-info flex items-center">
                         <div class="comment-author flex items-center">
                             <img src="${data.user_image}" class="comment-author--profile-image">
@@ -278,6 +278,12 @@
                         <div class="comment-text">
                             <div class="comment-text--text">${text}</div>
                             <div class="comment-text-options text-right flex justify-between">
+                                <div>답글 N개</div>
+                                <div class="flex">
+                                    <div class="comment-text-options--edit" onclick=commentEdit(this,${data.pk})>수정
+                                    </div>
+                                    <div class="comment-text-options--delete" onclick=commentDelete(${data.pk})>삭제</div>
+                                </div>
                             </div>
                         </div>
                         <div class="absolute comment-like-button-wrap">
