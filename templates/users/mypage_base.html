@@ -77,11 +77,21 @@
         <div id="middle-section" class="flex flex-row">
 
             <div id="menu">
-                <a href="{% url 'users:mypage' 'orders'%}"><div class="menu_content" id="menu_boughts">구매 내역</div></a>
-                <a href="{% url 'users:mypage' 'wishes'%}"><div class="menu_content" id="menu_likes">찜한 목록</div></a>
-                <a href="{% url 'users:mypage' 'cart'%}"><div class="menu_content" id="menu_carts">장바구니</div></a>
-                <a href="{% url 'users:mypage' 'rev_address'%}"><div class="menu_content" id="menu_deliveries">배송지 관리</div></a>
-                <a href="{% url 'users:mypage' 'info'%}"><div class="menu_content" id="menu_infos">개인 정보 수정</div></a>
+                <a href="{% url 'users:mypage' 'orders'%}">
+                    <div class="menu_content" id="menu_boughts">구매 내역</div>
+                </a>
+                <a href="{% url 'users:mypage' 'wishes'%}">
+                    <div class="menu_content" id="menu_likes">찜한 목록</div>
+                </a>
+                <a href="{% url 'users:mypage' 'cart'%}">
+                    <div class="menu_content" id="menu_carts">장바구니</div>
+                </a>
+                <a href="{% url 'users:mypage' 'rev_address'%}">
+                    <div class="menu_content" id="menu_deliveries">배송지 관리</div>
+                </a>
+                <a href="{% url 'users:mypage' 'info'%}">
+                    <div class="menu_content" id="menu_infos">개인 정보 수정</div>
+                </a>
             </div>
             <div id="content">
                 {% block content %}
@@ -266,7 +276,7 @@
             url: '{% url "users:cancelSubs" %}',
             dataType: "json",
             data: data,
-            success: function(response) {
+            success: function (response) {
                 if (response.success == 0) {
                     alert("다시 시도해주세요");
                 }
@@ -274,16 +284,16 @@
                     console.log(response.success)
                     alert(response.msg);
                     $(`#${pk}-sub-farmer`).remove();
-                    
+
                 }
             },
-            error:function(request,status,error){
-                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            error: function (request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
             }
         })
     })
 
-    
+
 
 </script>
 

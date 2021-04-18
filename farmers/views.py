@@ -4,6 +4,7 @@ from django.views import View
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 
 
@@ -131,7 +132,7 @@ def farmer_story_create(request):
 # farmer's story detail page
 class Story_Detail(DetailView):
     model = Farmer_Story
-    template_name = "users/farmer_story_detail.html"
+    template_name = "farmers/farmer_story_detail.html"
     context_object_name = "main_story"
 
     def get_context_data(self, **kwargs):

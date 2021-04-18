@@ -1,3 +1,7 @@
+input, textarea {
+    outline: none;
+}
+
 #sub_title {
     width: 560px;
     margin: 0 auto;
@@ -69,13 +73,17 @@
     color: #5c6754;
 }
 
-/* #id_farm_cat li label:checked{
+.sel_bk_color {
+    color: #ffffff !important;
     background-color: #5c6754;
-    color: #fff;
-} */
+}
+
 
 #id_farm_cat input[type="radio"] {
     display: none;
+}
+#id_farm_cat input[type="radio"]::after {
+    content: "#";
 }
 
 /* 직접 입력 hashtag */
@@ -318,4 +326,9 @@ label.opt::after {
 
 #contract-content input[type="checkbox"] {
     display: none;
+}
+
+/* farm_info update page */
+#update_btn {
+    cursor: pointer;   
 }

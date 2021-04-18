@@ -44,6 +44,9 @@ $("#id_farm_profile").on('change', function () {
 });
 
 
+// hash tag
+// console.log(document.getElementById('text')) // ?
+
 // hash tag create
 function onKeyDown() {
     if (event.keyCode === 13) {
@@ -62,6 +65,20 @@ function resizeInput() {
 var hashtag_input = document.getElementById('new_tag'); // get the input element
 hashtag_input.addEventListener('input', resizeInput); // bind the "resizeInput" callback on "input" event
 resizeInput.call(hashtag_input); // immediately call the function
+
+
+// hash tag choose -> label background change
+var checked = document.querySelector('input[name="farm_cat"]:checked')
+checked.parent().style.background = '#5c6754'
+$("#id_farm_cat label").on("click", function () {
+    console.log($(this))
+    if ($(this).find('input[type="radio"]').is(':checked')) {
+        $(this).addClass('sel_bk_color');
+    }
+    else {
+        $('#id_farm_cat label').removeClass('sel_bk_color');
+    }
+});
 
 
 // farmer's page sample
@@ -91,7 +108,7 @@ $('#step2_submit').click(function () {
     for (var i = 0; i < categories; i++) {
         if (document.getElementsByName("farm_cat")[i].checked == true) {
             let farm_cat = document.getElementsByName("farm_cat")[i].value;
-            console.log(farm_cat)
+            // console.log(farm_cat)
         }
     }
 

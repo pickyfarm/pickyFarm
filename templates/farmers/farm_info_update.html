@@ -76,7 +76,7 @@ Farmer's page Update
                         <div class="default_img_1 mb-4"
                             style="background-image: url('{{ farmer.farmer_profile.url }}');">
                         </div>
-                        <label for="id_farmer_profile">사진 변경</label>
+                        <div class="text-center"><label for="id_farmer_profile">사진 변경</label></div>
                         {{farm_form.farmer_profile}}
                     </div>
                 </div>
@@ -88,7 +88,7 @@ Farmer's page Update
                     <div class="filebox">
                         <div class="default_img_2 mb-4" style="background-image: url('{{ farmer.farm_profile.url }}');">
                         </div>
-                        <label for="id_farm_profile">사진 변경</label>
+                        <div class="text-center"><label for="id_farm_profile">사진 변경</label></div>
                         {{farm_form.farm_profile}}
                     </div>
                 </div>
@@ -110,7 +110,7 @@ Farmer's page Update
                 </div>
                 {{farm_form.farm_cat}}
             </div>
-            <div class="grid grid-flow-row grid-rows-1 grid-cols-4 gap-4" id="hashtag_wrap">
+            <div class="grid grid-flow-row grid-rows-1 grid-cols-3 gap-4" id="hashtag_wrap">
                 <input type="text" placeholder="# 직접입력" onKeyDown="onKeyDown()" id="new_tag" />
             </div>
             <div class="flex flex-row ml-10 mb-20 mt-16" id="title-wrap">
@@ -120,11 +120,22 @@ Farmer's page Update
             <div class="p-4" id="sample_wrap">
                 {% include 'farmers/farmer_detail_sample.html' %}
             </div>
-            <div class="text-center mt-28" id="update-btn">
-                <button class="" id="">수정 완료</button>
+            <div class="text-center mt-28">
+                <img class="mx-auto" id="update_btn" src="{% static 'images/farm/update_btn.svg' %}" alt="">
             </div>
         </form>
     </div>
 </div>
 <script type="text/javascript" src="{% static 'js/farmers/farm_enroll.js' %}"></script>
+<script>
+    // 수정 완료 버튼 hover: 색상 변경
+    const update_btn = document.getElementById('update_btn');
+    update_btn.addEventListener('mouseover', function () {
+        update_btn.setAttribute('src', "{% static 'images/farm/update_btn_2.svg' %}");
+    })
+    update_btn.addEventListener('mouseout', function () {
+        update_btn.setAttribute('src', "{% static 'images/farm/update_btn.svg' %}");
+    })
+
+</script>
 {% endblock main_content %}
