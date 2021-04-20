@@ -226,14 +226,12 @@ def profileUpdate(request):
 
         nickname = request.POST.get("nick_name")
         profile_image = request.FILES.get("profile_img")
-        print("이미지")
-        print(profile_image)
-
-        print(profile_image)
-
+        
+        # 유져가 프로필 사진 수정하지 않고 완료 버튼을 눌렀을 경우
         if profile_image is None:
             user.nickname = nickname
             user.save()
+        # 유져가 프로필 사진 수정 후 완료 버튼 누른 경우
         else:
             user.nickname = nickname
             user.profile_image = profile_image
