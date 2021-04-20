@@ -226,12 +226,18 @@ def profileUpdate(request):
 
         nickname = request.POST.get("nick_name")
         profile_image = request.FILES.get("profile_img")
+        print("이미지")
+        print(profile_image)
 
         print(profile_image)
 
-        user.nickname = nickname
-        user.profile_image = profile_image
-        user.save()
+        if profile_image is None:
+            user.nickname = nickname
+            user.save()
+        else:
+            user.nickname = nickname
+            user.profile_image = profile_image
+            user.save()
 
         response = {
             "status": 1,
