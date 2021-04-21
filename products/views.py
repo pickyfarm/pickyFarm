@@ -131,6 +131,10 @@ def product_detail(request, pk):
 
         recomment_form = ProductRecommentForm()
 
+        questions_total_pages = ceil(questions.count() / 5)
+        print(questions_total_pages)
+        
+
         ctx = {
             'product': product,
             'farmer': farmer,
@@ -140,6 +144,7 @@ def product_detail(request, pk):
             'remainder_score': range(5-int(total_score)),
             'total_percent': total_percent,
             'recomment_form': recomment_form,
+            'question_total_pages' : range(1, questions_total_pages+1),
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:

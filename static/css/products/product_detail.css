@@ -569,12 +569,16 @@ cursor:pointer;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  text-align: left;
+  text-align: center;
   color: #ffffff;
-  padding: 7px 27.6px 7px 27px;
   border-radius: 24px;
   background-color: #5c6754;
-  margin-left:90%;
+  padding:7px 0;
+}
+
+#q_write>img{
+  width:15px;
+  margin-left:3px;
 }
 
 div{
