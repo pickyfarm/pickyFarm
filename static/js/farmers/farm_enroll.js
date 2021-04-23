@@ -44,34 +44,30 @@ $("#id_farm_profile").on('change', function () {
 });
 
 
-// hash tag
-// console.log(document.getElementById('text')) // ?
+// 해시 태그
 
-// hash tag create
-function onKeyDown() {
-    if (event.keyCode === 13) {
-        var input = document.createElement("input");
-        input.setAttribute('type', 'text');
-        input.setAttribute('onKeyDown', 'onKeyDown()')
-        input.setAttribute('id', 'new_tag')
-        var parent = document.getElementById('hashtag_wrap');
-        parent.appendChild(input);
-    }
+// 해시태그 생성
+
+
+function deleteHashtag(id) {
+    var targetTag = id.parentNode;
+    targetTag.remove();
+    tagNum--;
 }
 
-function resizeInput() {
-    this.style.width = this.value.length + "ch";
-}
-var hashtag_input = document.getElementById('new_tag'); // get the input element
-hashtag_input.addEventListener('input', resizeInput); // bind the "resizeInput" callback on "input" event
-resizeInput.call(hashtag_input); // immediately call the function
+// function createHashtag() {
+//     if (event.keyCode === 13) {
+//         var div = document.createElement("div");
+//         
+//         parent.appendChild(div);
+//     }
+// }
 
 
-// hash tag choose -> label background change
+// 선택한 카테고리 해시태그 색상 변경
 var checked = document.querySelector('input[name="farm_cat"]:checked')
-checked.parent().style.background = '#5c6754'
+checked.parentNode.setAttribute('class', 'sel_bk_color')
 $("#id_farm_cat label").on("click", function () {
-    console.log($(this))
     if ($(this).find('input[type="radio"]').is(':checked')) {
         $(this).addClass('sel_bk_color');
     }

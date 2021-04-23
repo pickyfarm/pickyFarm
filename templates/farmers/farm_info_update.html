@@ -42,6 +42,15 @@
         font-weight: 500;
         color: #5c6754;
     }
+
+    [contenteditable] {
+        padding: 12px;
+    }
+
+    [data-placeholder]:empty:before {
+        content: attr(data-placeholder);
+        color: rgba(92, 103, 84, 0.5);
+    }
 </style>
 {% endblock stylesheet %}
 
@@ -73,8 +82,8 @@ Farmer's page Update
                 </div>
                 <div>
                     <div class="filebox">
-                        <div class="default_img_1 mb-4"
-                            style="background-image: url('{{ farmer.farmer_profile.url }}');">
+                        <div class="default_img_1 mb-4" style="background-size:cover; background-position: center;
+                            background-image: url('{{ farmer.farmer_profile.url }}');">
                         </div>
                         <div class="text-center"><label for="id_farmer_profile">사진 변경</label></div>
                         {{farm_form.farmer_profile}}
@@ -86,7 +95,8 @@ Farmer's page Update
                 </div>
                 <div>
                     <div class="filebox">
-                        <div class="default_img_2 mb-4" style="background-image: url('{{ farmer.farm_profile.url }}');">
+                        <div class="default_img_2 mb-4" style="background-size:cover; background-position:center; 
+                            background-image: url('{{ farmer.farm_profile.url }}');">
                         </div>
                         <div class="text-center"><label for="id_farm_profile">사진 변경</label></div>
                         {{farm_form.farm_profile}}
@@ -110,8 +120,11 @@ Farmer's page Update
                 </div>
                 {{farm_form.farm_cat}}
             </div>
-            <div class="grid grid-flow-row grid-rows-1 grid-cols-3 gap-4" id="hashtag_wrap">
-                <input type="text" placeholder="# 직접입력" onKeyDown="onKeyDown()" id="new_tag" />
+            <div class="flex flex-row" id="hashtag_wrap">
+                <div class="flex flex-row items-center mr-5">
+                    <div class="input" role="textbox" contenteditable data-placeholder="# 직접입력" id="new_tag"
+                        onKeyDown="createHashtag()"></div>
+                </div>
             </div>
             <div class="flex flex-row ml-10 mb-20 mt-16" id="title-wrap">
                 <div id="title-farm-name">농가 페이지 미리보기</div>
@@ -136,6 +149,26 @@ Farmer's page Update
     update_btn.addEventListener('mouseout', function () {
         update_btn.setAttribute('src', "{% static 'images/farm/update_btn.svg' %}");
     })
+
+    var tagNum = 1;
+    var maxField = 3;
+    // var wrapper = document.getElementById('hashtag_wrap');
+    var wrapper = $('#hashtag_wrap');
+
+    function createHashtag() {
+        // var newTag = document.createElement("div");
+        if (event.keyCode === 13 && tagNum < maxField) {
+            tagNum++;
+            var newTag = `<div class="flex flex-row items-center mr-5"><div class="input mr-1" role="textbox" contenteditable data-placeholder="# 직접입력" id="new_tag"onKeyDown="createHashtag()"></div><img class="w-2 h-2" src="{% static 'images/farm/cancel.svg' %}" onClick="deleteHashtag(this)"></div >`
+            // newTag.setAttribute('class', 'input');
+            // newTag.setAttribute('role', 'textbox');
+            // newTag.setAttribute('contenteditable', 'true');
+            // newTag.setAttribute('data-placeholder', '# 직접입력');
+            // newTag.setAttribute('id', 'new_tag');
+            // newTag.setAttribute('onKeyDown', 'createHashtag()');
+            wrapper.append(newTag);
+        }
+    }
 
 </script>
 {% endblock main_content %}

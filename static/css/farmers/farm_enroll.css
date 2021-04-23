@@ -91,9 +91,8 @@ input, textarea {
     margin-left: 304.5px;
 }
 #new_tag {
-    min-width: 100px;
     height: 25px;
-    padding: 0 1.5rem;
+    padding: 3px 15px 1px 15px;
     border-radius: 20px;
     border: solid 1px #b3b3b3;
     overflow-x: auto;
