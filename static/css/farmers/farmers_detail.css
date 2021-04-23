@@ -29,11 +29,21 @@
     height: 200px;
     background-color: #f2f2f2;
 }
-#farmer_info img:first-child {
+#farmer_profile, #farm_profile {
     width: 148px;
     height: 148px;
     border-radius: 50%;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+#farm_name {
+    max-width: 230px;
+    padding-right: 13px;
+    margin-right: 18px;
+    border-right: solid 0.5px rgba(112, 112, 112, 0.5);
+}
+#profile_title {
+    max-width: 320px;
 }
 
 #tag_wrap {
@@ -51,7 +61,7 @@
 #sub_wrap {
     width: 147px;
     height: 40px;
-    padding: 6px 37px 6px 36px;
+    padding: 6px 37px 5px 36px;
     border-radius: 20px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
@@ -73,6 +83,9 @@
     padding-top:6px;
     margin: 0 27.5px;
     border-right: solid 1px rgba(112, 112, 112, 0.6);
+}
+#farm_news {
+    max-width: 409px;
 }
 
 /* farmer_nav */
@@ -131,3 +144,32 @@
 }
 
 /* farmer editor */
+#editor_review {
+    width: 432.7px;
+    height: 313.4px;
+    padding: 20.5px 14.3px 31.7px 18px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+}
+#editor{
+    font-size: 9px;
+    font-weight: 300;
+    color: #5e6656;
+    margin-right: 8px;
+}
+#review_img img{
+    width: 396px;
+    height: 169px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+#review_date {
+    color: #5e6656;
+    font-size: 9px;
+    font-weight: 300;
+}
+#review_title {
+    font-size: 11px;
+    font-weight: 500;
+}
