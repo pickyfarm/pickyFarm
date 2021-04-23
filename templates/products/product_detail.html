@@ -390,11 +390,18 @@
                 </a>
             {% endfor %}
         {% endif %}
-        <div>
-            <div id="q_write" class="flex flex-rows justify-end mt-10">
+        <div class="flex flex-row justify-end" >
+            <div id="q_write" class="flex flex-rows justify-center mt-10 w-2/12">
                 <div>글쓰기</div>
-                <img src="{% static 'images/product_detail/pen.svg' %}" class="mb-1">
+                <img src="{% static 'images/product_detail/pen.svg' %}">
             </div>
+        </div>
+        <div id="paginator" class="flex flex-row mt-10 justify-center">
+            <div class="mr-10"><</div>
+            {% for p in question_total_pages %}
+              <div class="mr-10">{{p}}</div>
+            {% endfor %}
+            <div>></div>
         </div>
     </div>
 </div>
