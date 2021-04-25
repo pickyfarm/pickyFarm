@@ -36,7 +36,8 @@
                     <div class="comment-text">
                         <div class="comment-text--text">{{comment.text}}</div>
                         <div class="comment-text-options text-right flex justify-between">
-                            <div>답글 N개</div>
+                            <div class="comment-text-options--recomment" onclick="expandRecommentSection(this)">답글
+                                {{comment.recomment_count}}개</div>
                             <div class="flex">
                                 {% if comment.author == request.user %}
                                 <div class="comment-text-options--edit" onclick=commentEdit(this,{{comment.pk}})>수정
@@ -64,7 +65,6 @@
                         </div>
                     </div>
                 </div>
-                {% if comment.editor_review_recomments.exists %}
                 <div class="recomment-wrap">
                     {% if request.user.is_authenticated %}
                     <div class="recomment-input-wrapper flex flex-col">
@@ -109,13 +109,20 @@
                         <div class="recomment-content">
                             <div class="recomment-text">
                                 <div class="recomment-text--text">{{recomment.text}}</div>
+                                <div class="recomment-text-options-wrap flex justify-between">
+                                    <div></div>
+                                    <div class="recomment-text-options flex">
+                                        <div class="recomment-text-options--edit">수정</div>
+                                        <div class="recomment-text-options--delete"
+                                            onclick="recommentDelete({{recomment.pk}})">삭제</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="horizon-bar mx-auto"></div>
                     {% endfor %}
                 </div>
-                {% endif %}
             </div>
             {% endfor %}
         </div>
@@ -139,6 +146,24 @@
         })
     }
 
+    const recommentDelete = pk => {
+        $.ajax({
+            type: 'POST',
+            url: '{% url "editors_pick:recomment_delete" %}',
+            dataType: 'json',
+            data: {
+                'pk': pk,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: (data) => {
+                if (data.status) {
+                    alert("답글이 삭제되었습니다.")
+                    location.reload()
+                }
+            }
+        })
+    }
+
     const commentEditForm = `
         <div class="comment-edit-form-container">
             <form class="flex flex-col comment-edit-form">
@@ -152,14 +177,22 @@
         </div>`
 
     const commentEdit = (targetComment, pk) => {
-        console.log(targetComment);
+        comment = targetComment.closest(".comment-text-options").previousElementSibling.innerHTML
 
-        targetComment.closest(".comment-text").innerHTML = commentEditForm;
+        targetForm = targetComment.closest(".comment-text")
+        targetForm.innerHTML = commentEditForm
+
+        targetInput = targetForm.querySelector(".comment-edit-form-input")
+        targetInput.value = comment
+        targetInput.focus()
+
+
         document.querySelector(".comment-edit-cancel").addEventListener('click', () => {
             if (confirm("댓글 수정을 취소하시겠습니까?")) {
                 location.reload();
             }
         })
+
         document.querySelector(".comment-edit-form").addEventListener('submit', (e) => {
             e.preventDefault()
             commentEditSubmit(pk)
@@ -231,14 +264,21 @@
                         <div class="recomment-content">
                             <div class="recomment-text">
                                 <div class="recomment-text--text">${data.text}</div>
+                                <div class="recomment-text-options-wrap flex justify-between">
+                                    <div></div>
+                                    <div class="recomment-text-options flex">
+                                        <div class="recomment-text-options--edit">수정</div>
+                                        <div class="recomment-text-options--delete">삭제</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="horizon-bar mx-auto"></div>
                 `
 
-                targetComment.insertAdjacentHTML('beforeend', comment);
-                textBox.value = ''
+                targetComment[0].parentNode.parentNode.insertAdjacentHTML('beforeend', comment);
+                targetComment[0].value = ''
             }
         })
     }
@@ -305,4 +345,8 @@
             }
         })
     };
+
+    const expandRecommentSection = e => {
+        e.closest(".comment-content").nextElementSibling.style.display = "inherit"
+    }
 </script>

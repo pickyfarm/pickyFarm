@@ -211,6 +211,7 @@ def editor_review_recomment_edit(request):
 
 def editor_review_recomment_delete(request):
     pk = request.POST.get("pk")
+    print(pk)
 
     comment = get_object_or_404(Editor_Review_Recomment, pk=pk)
     comment.delete()

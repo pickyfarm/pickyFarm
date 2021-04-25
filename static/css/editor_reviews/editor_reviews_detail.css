@@ -345,7 +345,10 @@
 
 .comment-text-options--edit,
 .comment-text-options--delete,
-.comment-edit-cancel{
+.comment-edit-cancel,
+.recomment-text-options--edit,
+.recomment-text-options--delete,
+.recomment-edit-cancel{
     margin: auto 5px;
     font-size: 15px;
     font-weight: 300;
@@ -400,6 +403,7 @@
 }
 
 .recomment-wrap{
+    display: none;
     background-color: #e6e6e6;
     width: 961px;
     border-radius: 7px;
@@ -442,7 +446,7 @@
 
 .recomment-text{
     width: 961px;
-    padding: 30px 62px 22px 55px
+    padding: 30px 62px 0 55px
 }
 
 .recomment-like-button-wrap{

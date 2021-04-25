@@ -30,6 +30,8 @@ urlpatterns = [
         views.editor_review_recomment,
         name="recomment",
     ),
+    path("recomment/edit/", views.editor_review_recomment_edit, name="recomment_edit"),
+    path("recomment/delete/", views.editor_review_recomment_delete, name="recomment_delete"),
     path("<int:pk>/update/", views.update, name="update"),
     path("delete/", views.delete, name="delete"),
 ]
