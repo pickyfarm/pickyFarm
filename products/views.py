@@ -156,7 +156,7 @@ def product_detail(request, pk):
 
 def question_paging(request):
     product_pk = request.POST.get('product_pk', None)
-    page_num = request.POST.get('pageNum', None)
+    page_num = (int)(request.POST.get('page_num', None))
 
     try:
         product = Product.objects.get(pk = product_pk)
@@ -171,13 +171,16 @@ def question_paging(request):
     questions_limit = page_num * offset
     questions = questions[questions_limit-5 : questions_limit]
     questions_list = serializers.serialize('json', questions)
-
+    print(questions_list)
     data = {
         'status':1,
         'questions':questions_list
     }
 
     return JsonResponse(data)
+
+
+
 
 
     
