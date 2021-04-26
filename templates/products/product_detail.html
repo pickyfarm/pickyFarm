@@ -637,7 +637,12 @@
                     "csrfmiddlewaretoken":"{{csrf_token}}",
                 },
                 success : function(data){
-
+                    data.questions.forEach(item=>{
+                        let status = item.status
+                        let title = item.title
+                        let consumer = item.consumer
+                        let create_at = item.create_at
+                    })
                 },
                 error: function(){
                     alert("error")

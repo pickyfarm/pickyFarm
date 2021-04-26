@@ -7,6 +7,8 @@ from django.utils import timezone
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
 from django import template
+from datetime import date
+import locale
 import json
 
 # Create your views here.
@@ -170,7 +172,20 @@ def question_paging(request):
     offset = 5
     questions_limit = page_num * offset
     questions = questions[questions_limit-5 : questions_limit]
-    questions_list = serializers.serialize('json', questions)
+    questions_list = []
+    locale.setlocale(locale.LC_TIME, 'ko_KR.UTF-8')
+    for q in questions:
+        q_dict = { 'status':q.status }
+        print(q_dict)
+        q_dict['title']=q.title
+        print(q_dict)
+        q_dict['consumer'] = q.consumer.user.nickname
+        print(q_dict)
+        q_dict['create_at'] = q.create_at.strftime("%Y년%m월%d일")
+        print(q_dict)
+        questions_list.append(q_dict)
+        del q_dict
+
     print(questions_list)
     data = {
         'status':1,
