@@ -1,0 +1,123 @@
+input {
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+}
+
+textarea {
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+}
+
+input::placeholder {
+    font-size: 12px;
+}
+
+#content {
+    margin-top: 110px;
+    width: 820px;
+    height: 943px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+}
+
+#content_2 {
+    margin-top: 110px;
+    width: 820px;
+    height: 754px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+}
+
+#title {
+    color: #5c6754;
+}
+
+#desc {
+    color: #b3b3b3;
+    width: 436px;
+}
+
+form {
+    width: 473px;
+}
+
+#label {
+    /* font-family: NotoSansKR; */
+    color: #4d4d4d;
+    width: 175.5px; 
+    line-height: 35px;
+}
+
+#id_name, #id_phone_num, #id_farm_name, #id_detail_cat {
+    width: 340px;
+    height: 35px;
+    border-radius: 20px;
+    border: solid 1px #b3b3b3;
+}
+
+#id_farm_cat {
+    display: flex;
+    flex-direction: row;
+}
+
+#id_farm_cat li label {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    margin-right: 28px;
+    color: #808080;
+}
+
+/* #id_farm_cat li label input {
+    width: 20px; 
+    height: 20px;
+    display: inline-block;
+    margin-right: 12px;
+} */
+
+
+#id_desc {
+    width: 473px;
+    height: 109px;
+    border-radius: 3px;
+    border: solid 1px #b3b3b3;
+    background-color: #ffffff;
+    resize: none;
+}
+
+#submit_btn {
+    width: 340px;
+    height: 40px;
+    padding: 6px 133px 5px;
+    border-radius: 10px;
+    background-color: #5c6754;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    outline: none;
+}
+
+#check_btn {
+    width: 350px;
+    height: 40px;
+    padding: 6px 151px 5px 152px;
+    border-radius: 10px;
+    background-color: #5c6754;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    outline: none;
+}
+
+#check_btn:hover, #submit_btn:hover {
+    cursor: pointer;
+}
+
+
+::-webkit-input-placeholder {
+    text-align: center;
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="57.051" height="22" viewBox="0 0 57.051 22">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke:#636363;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.5px}
+        </style>
+    </defs>
+    <g id="그룹_351" transform="translate(-1382.949 -321)">
+        <g id="그룹_333" transform="translate(-336.801 57.5)">
+            <path id="선_27" d="M0 0L18 0" class="cls-1" transform="translate(1720.5 270.5)"/>
+            <path id="선_28" d="M0 0L14 0" class="cls-1" transform="translate(1724.5 273.5)"/>
+            <path id="선_29" d="M0 0L10 0" class="cls-1" transform="translate(1728.5 276.5)"/>
+            <path id="선_30" d="M0 0L6 0" class="cls-1" transform="translate(1732.5 279.5)"/>
+        </g>
+        <text id="정렬" font-family="NotoSansKR-Regular, Noto Sans KR" font-size="15px" transform="translate(1412 338)">
+            <tspan x="0" y="0">정렬</tspan>
+        </text>
+    </g>
+</svg>
