@@ -304,13 +304,14 @@
 
 .comment-edit-form-input{
     width: 100%;
+    border-radius: 7px;
+    padding: 10px;
 }
 
 .comment-edit-form-input:focus{
     outline: none;
     border: 1px solid #5c6754;
-    border-radius: 7px;
-    padding: 10px;
+    
 }
 
 
@@ -396,6 +397,7 @@
     color: #ffffff;
     border-radius: 9999px;
     background-color: #5c6754;
+    margin-bottom: 20px;
 }
 
 .recomment-submit-button:focus{
@@ -446,7 +448,7 @@
 
 .recomment-text{
     width: 961px;
-    padding: 30px 62px 0 55px
+    padding: 30px 62px 22px 55px
 }
 
 .recomment-like-button-wrap{
@@ -474,11 +476,12 @@
 .horizon-bar{
     width: 885px;
     border-top: 0.5px solid #5e6656;
-    margin-bottom: 20px;
-    margin-top: 20px;
 }
 
 .horizon-bar:last-child{
     display: none;
 }
 
+.recomment-edit-form-container{
+    margin-top: 20px;
+}
