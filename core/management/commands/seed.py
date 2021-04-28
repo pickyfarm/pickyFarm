@@ -25,8 +25,7 @@ class Command(BaseCommand):
         os.system("python manage.py seed_product")
         self.stdout.write(self.style.SUCCESS("Completely Seed 20 Products!"))
         os.system("python manage.py seed_editor_review")
-        self.stdout.write(self.style.SUCCESS(
-            "Completely Seed 5 Editor Reviews!"))
+        self.stdout.write(self.style.SUCCESS("Completely Seed 5 Editor Reviews!"))
         os.system("python manage.py seed_comment")
         self.stdout.write(self.style.SUCCESS("Completely Seed 10 Comments!"))
         os.system("python manage.py seed_recomment")
@@ -35,8 +34,7 @@ class Command(BaseCommand):
 
 def seed_user():
     seeder = Seed.seeder("ko_KR")
-    seeder.add_entity(user_models.User, 20, {
-                      "is_staff": False, "is_superuser": False})
+    seeder.add_entity(user_models.User, 20, {"is_staff": False, "is_superuser": False})
     seeder.execute()
 
 
@@ -91,7 +89,7 @@ def seed_product():
             "sales_count": lambda x: random.randint(10, 100),
             "weight": lambda x: random.uniform(0.5, 5.0),
             "stock": lambda x: random.randint(1, 100),
-            "farmer": lambda x: random.choice(user_models.Farmer.objects.all()),
+            "farmer": lambda x: random.choice(farmer_models.Farmer.objects.all()),
             "category": lambda x: random.choice(
                 product_models.Category.objects.exclude(parent__isnull=True)
             ),
