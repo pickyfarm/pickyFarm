@@ -121,3 +121,4 @@ node_modules
 Pipfile.lock
 Pipfile
 
+package-lock.json
