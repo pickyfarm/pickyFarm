@@ -372,6 +372,7 @@
             <div id="q_letter_gray" class="w-2/12">작성자</div>
             <div id="q_letter_gray" class="w-2/12">작성일</div>
         </div>
+        <div id="qnas-section">
         {% if questions.exists is False %}
             <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
         {% else %}
@@ -390,6 +391,7 @@
                 </a>
             {% endfor %}
         {% endif %}
+        </div>
         <div class="flex flex-row justify-end" >
             <div id="q_write" class="flex flex-rows justify-center mt-10 w-2/12">
                 <div>글쓰기</div>
@@ -637,11 +639,35 @@
                     "csrfmiddlewaretoken":"{{csrf_token}}",
                 },
                 success : function(data){
+                    let qnaSection = document.getElementById('qnas-section')
+                    qnaSection.innerHTML = ''
                     data.questions.forEach(item=>{
                         let status = item.status
                         let title = item.title
                         let consumer = item.consumer
                         let create_at = item.create_at
+                        console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
+                        let qnaLine = `<a href='#'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+                        
+                        if(status == true){
+                            qnaLine += `
+                            <div id="q_letter_answered" class="w-2/12">답변완료</div>
+                    <div id="q_letter_black" class="w-6/12">${title}</div>
+                    <div id="q_letter_black" class="w-2/12">${consumer}</div>
+                    <div id="q_letter_gray" class="w-2/12">${create_at.date}</div>
+                </div>
+                </a>`
+                        }
+                        else{
+                            qnaLine += `
+                            <div id="q_letter_answered" class="w-2/12">답변대기</div>
+                    <div id="q_letter_black" class="w-6/12">${title}</div>
+                    <div id="q_letter_black" class="w-2/12">${consumer}</div>
+                    <div id="q_letter_gray" class="w-2/12">${create_at.date}</div>
+                </div>
+                </a>`
+                        }
+                        qnaSection.insertAdjacentHTML('beforeend', qnaLine)
                     })
                 },
                 error: function(){
