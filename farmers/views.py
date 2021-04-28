@@ -4,6 +4,7 @@ from django.views import View
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 
 
@@ -11,6 +12,7 @@ from django.db.models import Q
 from .models import *
 from products.models import Product
 from users.models import Consumer
+from editor_reviews.models import Editor_Review
 
 # forms
 from .forms import *
@@ -130,7 +132,7 @@ def farmer_story_create(request):
 # farmer's story detail page
 class Story_Detail(DetailView):
     model = Farmer_Story
-    template_name = "users/farmer_story_detail.html"
+    template_name = "farmers/farmer_story_detail.html"
     context_object_name = "main_story"
 
     def get_context_data(self, **kwargs):
@@ -142,7 +144,7 @@ class Story_Detail(DetailView):
         page = self.request.GET.get("page")
         stories = paginator.get_page(page)
 
-        comments = self.get_object().farmer_story_comments.order_by("-id")
+        comments = self.get_object().farmer_story_comments.all()
         form = FarmerStoryCommentForm()
 
         ctx["farmer"] = farmer
@@ -191,12 +193,14 @@ def farmer_detail(request, pk):
     tags = Farm_Tag.objects.all().filter(farmer=farmer)
     products = Product.objects.all().filter(farmer=farmer)
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
+    editor_reviews = Editor_Review.objects.filter(farm=farmer)
 
     ctx = {
         "farmer": farmer,
         "tags": tags,
         "products": products,
         "stories": stories,
+        "editor_reviews": editor_reviews,
     }
     return render(request, "farmers/farmer_detail.html", ctx)
 
@@ -280,3 +284,16 @@ class FarmEnroll(View):
 
         print("redirect to main")
         return redirect(reverse("core:main"))
+
+
+# 농가 정보 수정 페이지
+def farm_info_update(request, pk):
+    farmer = Farmer.objects.get(pk=pk)
+    if request.method == "POST":
+        farm_form = FarmEnrollForm(request.POST, request.FILES, instance=farmer)
+    else:
+        # farm_form = FarmEnrollForm(instance=farmer)
+        farm_form = FarmEnrollForm()
+
+    ctx = {"farmer": farmer, "farm_form": farm_form}
+    return render(request, "farmers/farm_info_update.html", ctx)

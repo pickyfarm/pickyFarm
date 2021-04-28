@@ -1,0 +1,144 @@
+.zero-item{
+    height: 444px;
+    width:500px;
+}
+
+.first-item{
+    width: 560px;
+    height: 444px;
+    background-color: #0dfddd;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.first-item-text{
+  width: 328px;
+  height: auto;
+  margin: 75px 18px auto auto;
+  font-size: 30px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+}
+
+.first-item-editor{
+  margin: auto 18px 48px 212px !important;
+}
+
+
+.items-text {
+    width: 328px;
+    height: auto;
+    padding-top: 75px;
+    font-size: 30px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+  }
+
+  .slick-slide{
+    height: 444px !important;
+  }
+
+
+  .remain-items{
+    display: flex !important;
+    flex-direction: column !important;
+    width: 360px;
+    height: 444px;
+    background-color: #ffffff;
+}
+
+.review-lists-vertical{
+    background-color: #f2f2f2;
+}
+
+.article{
+    width: 775px;
+    height: 230px;
+    padding: 25px 20px;
+    box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.info{
+  width: 530px;
+}
+
+  .article-img {
+    width: 180px;
+    height: 180px;
+    background-color: #5c6754;
+  }
+
+  .editor-list {
+    width: 145px;
+    padding: 38px 21px 34px 23px;
+    border-radius: 73px;
+    background-color: #ffffff;
+  }
+
+  .editor-img {
+    width: 25px;
+    height: 25px;
+    background-color: #d8d8d8;
+  }
+
+  .editor-name {
+      font-size: 12px;
+  }
+
+  .article-count, .view-count{
+      font-size: 4px !important;
+      font-weight: 100;
+  }
+
+  .title{
+    font-size: 20px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+  }
+
+  .article-info div{
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.4;
+    letter-spacing: normal;
+    text-align: left;
+    color: #808080;  
+  }
+
+  .preview{
+    width: 359px;
+    font-family: NotoSansKR;
+    font-size: 10px;
+    font-weight: 100;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+  }
+
+  .category-in{
+    width: 330px;
+    height: 95px;
+    text-align: center;
+    line-height: 95px;
+    color: #808080;
+    font-size: 20px;
+}

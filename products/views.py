@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
-from django.http import request
+from django.http import request, JsonResponse
+from django.core import serializers
 from .models import Product, Category
 from comments.forms import ProductRecommentForm
 from django.utils import timezone
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
 from django import template
+from datetime import date
+import locale
+import json
 
 # Create your views here.
 
@@ -125,12 +129,17 @@ def product_detail(request, pk):
         product.calculate_total_rating_avg()
         farmer = product.farmer
         comments = product.product_comments.all().order_by('-create_at')
-        questions = product.questions.all()
+        questions = product.questions.all().order_by('-create_at')
         total_score = product.calculate_total_rating_avg()
         total_percent = total_score/5 * 100
 
         recomment_form = ProductRecommentForm()
 
+        questions_total_pages = ceil(questions.count() / 5)
+        print(questions_total_pages)
+
+        questions = questions[0:5]
+        
         ctx = {
             'product': product,
             'farmer': farmer,
@@ -140,7 +149,55 @@ def product_detail(request, pk):
             'remainder_score': range(5-int(total_score)),
             'total_percent': total_percent,
             'recomment_form': recomment_form,
+            'question_total_pages' : range(1, questions_total_pages+1),
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:
         return redirect("/")
+
+
+def question_paging(request):
+    product_pk = request.POST.get('product_pk', None)
+    page_num = (int)(request.POST.get('page_num', None))
+
+    try:
+        product = Product.objects.get(pk = product_pk)
+        questions = product.questions.all().order_by('-create_at')
+    except ObjectDoesNotExist:
+        data = {
+            'status' : 0,
+        }
+        return JsonResponse(data)
+    
+    offset = 5
+    questions_limit = page_num * offset
+    questions = questions[questions_limit-5 : questions_limit]
+    questions_list = []
+    locale.setlocale(locale.LC_TIME, 'ko_KR.UTF-8')
+    for q in questions:
+        q_dict = { 'status':q.status }
+        print(q_dict)
+        q_dict['title']=q.title
+        print(q_dict)
+        q_dict['consumer'] = q.consumer.user.nickname
+        print(q_dict)
+        q_dict['create_at'] = q.create_at.strftime("%Y년%m월%d일")
+        print(q_dict)
+        questions_list.append(q_dict)
+        del q_dict
+
+    print(questions_list)
+    data = {
+        'status':1,
+        'questions':questions_list
+    }
+
+    return JsonResponse(data)
+
+
+
+
+
+    
+        
+

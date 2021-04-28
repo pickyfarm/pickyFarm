@@ -1,0 +1,209 @@
+#content {
+    width:990px;
+}
+
+#big-content {
+    width: 1240px;
+}
+/* -------------------------------------- */
+
+/* weekly hot */
+#best-farmer-img {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border: solid 1px #707070;
+    border-radius: 50%;
+}
+#farmer-img {
+    width: 248px;
+    height: 248px;
+    border-radius: 9999px;
+    object-fit: cover;
+}
+#pick-img {
+    position:absolute;
+    bottom:0;
+    right:0;
+    z-index: 1;
+}
+
+#best-farmer-desc {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 250px;
+    width:60%;
+}
+/* --------------------------------------- */
+
+#input-box {
+    width: 740px;
+}
+#search_key, #search_key_2 {
+    width: 680px;
+}
+
+/* sort(정렬) */
+#sort{
+    margin-right: 0;
+}
+#sort_list{
+    width: 63px;
+    height: 93px;
+    padding: 14px 0px;
+    border-radius: 30px;
+    border: solid 1px #5e6656;
+    background-color: #ffffff;
+    display:none;
+}
+#sort:hover #sort_list{
+    display: inline-flex;
+}
+#sort_list > a{
+    font-family: NotoSansKR;
+    font-size: 11px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #5c6754;
+}
+/* ---------------------------------------- */
+
+/* tag(채소, 과일, E.T.C) */
+#tag_table {
+    width: 100%;
+    border: 1px solid #707070;
+  }
+#tag_table td {
+    cursor: pointer;
+    padding: 33px 142px;
+    width: 33%;
+    border: 1px solid #707070;
+    color: #808080;
+}
+#tag_table td:hover {
+    background-color: #5e665628;
+    transition-duration: 0.8s;
+}
+/* -------------------------------------- */
+
+/* farm list */
+#farm_content {
+    background-color: rgba(250, 250, 250, 0.93);
+}
+
+.row {
+    margin:178px 0px;
+}
+.row:nth-child(odd) {
+    justify-content: flex-start;
+}
+.row:nth-child(even) {
+    justify-content: flex-end;
+}
+.row:nth-child(even) #wrapper{
+    justify-content: flex-end;
+}
+.row:nth-child(even) #wrapper > div:first-child {
+    order: 1;
+}
+
+#wrapper {
+    width:736px
+}
+
+/* farm list image */
+#farm_pic {
+    position: relative;
+    width: 325px;
+    height: 472px;
+    box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
+    z-index: 1;
+}
+
+#farmer_profile {
+    width: 325px;
+    height: 472px;
+    object-fit: cover;
+}
+
+#pick_img {
+    position: absolute;
+    bottom:-27.5px; right:-27.5px;
+    width:55px; height: 55px;
+    background-color: #ffffff;
+    border-radius: 9999px;
+    border:1px solid black;
+}
+
+#farm_desc_block {
+    width:330px;
+}
+.row:nth-child(odd) #farm_desc_block{
+    margin-left: 81px;
+}
+.row:nth-child(even) #farm_desc_block{
+    margin-right: 81px;
+}
+
+/* font color */
+#farm_profile, #farm_loc, #farm_name, #tag, #product_desc, #row_farm {
+    color:#5e6656;
+}
+#hot_farm_loc {
+    color: #4d4d4d;
+}
+#story_title {
+    color: #808080;
+}
+#story_subtitle, #table_header, #row_views, #row_create_at {
+    color: #999999;
+}
+
+/* --------------------------------------------------- */
+#farm_tag {
+    background-color: #ffffff;
+}
+
+#product_img_wrapper {
+    box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
+    width: 90px; height: 130px;
+}
+
+#product_img {
+    width: 90px; height: 130px;
+    object-fit: cover;
+}
+/* ------------------------------------------- */
+
+/* farmer's story */
+select {
+    background-color: #f2f2f2;
+    padding: 5px 17px;
+    border-radius: 18px;
+}
+
+#farmer_story_content{
+    height: 640px;
+    margin-bottom: 30px;
+}
+
+#farmer_story_table tr:first-child {
+    border-top: solid 3px #5e6656;
+    border-bottom: solid 1px #5e6656;
+}
+
+#farmer_story_table tr:not(:first-child) {
+    border-bottom: solid 1px #5e665680;
+}
+
+#farmer_story_table #table_row {
+    cursor: pointer;
+}
+#farmer_story_table #table_row:hover {
+    background-color: #5e66561c;
+    transition-duration: 0.5s;
+}

@@ -390,11 +390,18 @@
                 </a>
             {% endfor %}
         {% endif %}
-        <div>
-            <div id="q_write" class="flex flex-rows justify-end mt-10">
+        <div class="flex flex-row justify-end" >
+            <div id="q_write" class="flex flex-rows justify-center mt-10 w-2/12">
                 <div>글쓰기</div>
-                <img src="{% static 'images/product_detail/pen.svg' %}" class="mb-1">
+                <img src="{% static 'images/product_detail/pen.svg' %}">
             </div>
+        </div>
+        <div id="paginator" class="flex flex-row mt-10 justify-center">
+            <div class="mr-10"><</div>
+            {% for p in question_total_pages %}
+              <div id="qna_paginator" class="mr-10" name="{{p}}">{{p}}</div>
+            {% endfor %}
+            <div>></div>
         </div>
     </div>
 </div>
@@ -573,7 +580,7 @@
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
             },
             success: function(data) {
-                if (text === '') {ㅎ
+                if (text === '') {
                     alert('댓글을 입력해주세요');
                     return;
                 }
@@ -614,6 +621,36 @@
             }
         });
     }
+
+    let qna_page = document.querySelectorAll('#qna_paginator')
+    qna_page.forEach(item=>{
+        item.addEventListener('click', function(){
+            let page_num = item.getAttribute('name')
+            
+            $.ajax({
+                type:'POST',
+                url : "{% url 'products:qna_paginator' %}",
+                dataType : 'json',
+                data : {
+                    'product_pk' : product_pk,
+                    'page_num' : page_num,
+                    "csrfmiddlewaretoken":"{{csrf_token}}",
+                },
+                success : function(data){
+                    data.questions.forEach(item=>{
+                        let status = item.status
+                        let title = item.title
+                        let consumer = item.consumer
+                        let create_at = item.create_at
+                    })
+                },
+                error: function(){
+                    alert("error")
+                }
+
+            })
+        })
+    })
 </script>
 
 {% endblock main_content %}

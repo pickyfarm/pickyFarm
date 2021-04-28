@@ -6,8 +6,8 @@ Farmer's Story
 {% endblock title_name %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
-    <link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_detail.css' %}">
 {% endblock %}
 
 {% block main_content %}
@@ -18,20 +18,23 @@ Farmer's Story
     <div class="text-center mb-16" style="color: #999999; font-size: 15px;"> 파머가 직접 전하는 농가 이야기 </div>
     <!--farmer story content-->
     <div class="relative mb-6" id="story_content">
-        <div class="relative mb-11"> 
-            <div class="text-center font-light pt-5" style="color:#5e6656; font-size: 25px;">{{ main_story.create_at|date:"Y.m.d" }}</div>
+        <div class="relative mb-11">
+            <div class="text-center font-light pt-5" style="color:#5e6656; font-size: 25px;">
+                {{ main_story.create_at|date:"Y.m.d" }}</div>
             <div class="absolute bottom-2 right-0 flex flex-row">
                 <div class="mr-2" style="color: #999999; font-size: 15px;">{{ main_story.hits }}</div>
-                <img class="mr-9" src="{% static 'images/farm/view.svg' %}" alt=""/>
+                <img class="mr-9" src="{% static 'images/farm/view.svg' %}" alt="" />
             </div>
         </div>
         <div class="text-center font-medium" style="color:#5e6656; font-size: 35px;"> {{ main_story.title }} </div>
-        <div class="w-2 h-2 mx-auto mt-10 mb-20" style="border: solid 1px rgba(112, 112, 112, 0.5); border-radius:50%;"></div>
+        <div class="w-2 h-2 mx-auto mt-10 mb-20" style="border: solid 1px rgba(112, 112, 112, 0.5); border-radius:50%;">
+        </div>
         <div class="px-32">{{ main_story.content|safe }}</div>
-        <div class="absolute bottom-0 pb-16 w-full text-center font-light" style="color:#5e6656; font-size: 20px;"> {{ farmer.farm_name }} </div>
+        <div class="absolute bottom-0 pb-16 w-full text-center font-light" style="color:#5e6656; font-size: 20px;">
+            {{ farmer.farm_name }} </div>
     </div>
     <!--목록으로 버튼-->
-    <div class="content flex flex-row justify-end mb-28" onclick="location.href='{% url 'farmers:farmers_page' %}'"> 
+    <div class="content flex flex-row justify-end mb-28" onclick="location.href='{% url 'farmers:farmers_page' %}'">
         <div class="" id="back_btn" style='font-size: 20px;'> 파머스 페이지로 돌아가기 </div>
         <img src="{% static 'images/farm/arrow.svg' %}" class="cursor-pointer" alt="">
     </div>
@@ -49,7 +52,9 @@ Farmer's Story
             <div class="w-96">
                 <div class="flex flex-row mb-2" id="tag_wrap">
                     {% for tag in tags %}
-                        <a href="#"><div class="mr-2" id="farm_tag"># {{ tag }}</div></a>
+                    <a href="#">
+                        <div class="mr-2" id="farm_tag"># {{ tag }}</div>
+                    </a>
                     {% endfor %}
                 </div>
                 <div class="flex flex-row items-center mb-3" id="farm_wrap">
@@ -67,79 +72,84 @@ Farmer's Story
     <div class="flex flex-row items-center p-2 mb-10" id="farmer_news">
         <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="ml-2" id="">
         <div class="text-2xl" id="news_text">농가 News</div>
-        
+
         {% if farmer.farm_news %}
         <div class="font-light text-xl text-center" id="farm_news">{{ farmer.farm_news }}</div>
         {% else %}
         <div class="font-light text-xl text-center" id="farm_news">등록된 뉴스가 아직 없습니다.</div>
         {% endif %}
-            
     </div>
+    <!--farmer's story list-->
+    <!-- <div class="text-3xl text-center mb-24" style="color: #808080;"> Farmer's Story </div> -->
+    <div class="flex flex-row justify-center my-28">
+        {% for story in stories %}
+        <div class="p-5 mx-1" id="story_wrap">
+            <img src="" alt="" class="" id="story_img">
+            <div class="flex flex-row justify-between text-xs mt-2 mb-1">
+                <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+                <div id="views" class="flex flex-row items-center">
+                    <div class="mr-1">{{ story.hits }}</div>
+                    <img src="{% static 'images/farm/view.svg' %}" alt="">
+                </div>
+            </div>
+            <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- paginator -->
+    <div class="h-10 mb-56 text-center flex flex-row justify-center items-center" id="paginator">
+        <div class="mr-20">
+            {% if stories.has_previous %}
+            <a href='?page={{stories.previous_page_number}}'><img id="prev"
+                    src="{% static 'images/farm/prev.svg' %}"></a>
+            {% else %}
+            <a href="?page=1"><img src="{% static 'images/farm/prev.svg' %}" alt=""></a>
+            {% endif %}
+        </div>
+
+        <!--임시 paginator-->
+        {% if stories.number <= 4 %} <div class="flex flex-row text-xl w-40 justify-between">
+            <div onclick="location.href='?page=1'" style="cursor: pointer;">1</div>
+            <div onclick="location.href='?page=2'" style="cursor: pointer;">2</div>
+            <div onclick="location.href='?page=3'" style="cursor: pointer;">3</div>
+            <div onclick="location.href='?page=4'" style="cursor: pointer;">4</div>
+            {% endif %}
+    </div>
+
+    <div class="ml-20">
+        {% if stories.has_next %}
+        <a href='?page={{stories.next_page_number}}'><img id="next" src="{% static 'images/farm/next.svg' %}"></a>
+        {% else %}
+        <a href="?page={{stories.paginator.num_pages"><img src="{% static 'images/farm/next.svg' %}" alt=""></a>
+        {% endif %}
+    </div>
+</div>
 </div>
 <div class="mx-auto w-screen bg_gray pt-16 mt-10">
     <div class="content mx-auto">
         <!-- comment -->
         <div class="flex justify-end">
-            <div class="cursor-pointer" id="comment-write"><img src="{% static 'images/farm/write.svg' %}" alt="댓글쓰기"></div>
-        </div>
-        {% include 'users/story_comments.html' %}
-        <img class="mx-auto mb-40 mt-16" src="{% static 'images/farm/more_comment.svg' %}" alt="">
-
-        <!--farmer's story list-->
-        <div class="text-3xl text-center mb-24" style="color: #808080;"> Farmer's Story </div>
-        <div class="flex flex-row justify-center mb-28">
-            {% for story in stories %}
-                <div class="p-5 mx-1" id="story_wrap">
-                    <img src="" alt="" class="" id="story_img">
-                    <div class="flex flex-row justify-between text-xs mt-2 mb-1">
-                        <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
-                        <div id="views" class="flex flex-row items-center">
-                            <div class="mr-1">{{ story.hits }}</div>
-                            <img src="{% static 'images/farm/view.svg' %}" alt="">
-                        </div>
-                    </div>
-                    <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+            <a href="#comment-submit-form">
+                <div class="cursor-pointer" id="comment-write">
+                    <img src="{% static 'images/farm/write.svg' %}" alt="댓글쓰기">
                 </div>
-            {% endfor %}
+            </a>
         </div>
-        <!-- paginator -->
-        <div class="h-10 mb-56 text-center flex flex-row justify-center items-center" id="paginator">
-            <div class="mr-20">
-            {% if stories.has_previous %}
-            <a href='?page={{stories.previous_page_number}}'><img id="prev" src="{% static 'images/farm/prev.svg' %}"></a>
-            {% else %}
-            <a href="?page=1"><img src="{% static 'images/farm/prev.svg' %}" alt=""></a>
-            {% endif %}
-            </div>
-
-            <!--임시 paginator-->
-            {% if stories.number <= 4  %}
-            <div class="flex flex-row text-xl w-40 justify-between">
-                <div onclick="location.href='?page=1'" style="cursor: pointer;">1</div>
-                <div onclick="location.href='?page=2'" style="cursor: pointer;">2</div>
-                <div onclick="location.href='?page=3'" style="cursor: pointer;">3</div>
-                <div onclick="location.href='?page=4'" style="cursor: pointer;">4</div>
-            </div>
-            {% endif %}
-            
-            <div class="ml-20">
-            {% if stories.has_next %}
-            <a href='?page={{stories.next_page_number}}'><img id="next" src="{% static 'images/farm/next.svg' %}"></a>
-            {% else %}
-                <a href="?page={{stories.paginator.num_pages"><img src="{% static 'images/farm/next.svg' %}" alt=""></a>
-            {% endif %}
-            </div>
-        </div>
+        {% include 'farmers/story_comments.html' %}
+        <!-- <img class="mx-auto mb-40 mt-16" src="{% static 'images/farm/more_comment.svg' %}" alt=""> -->
     </div>
+</div>
 </div>
 
 <style>
-    .content{
+    .content {
         width: 990px;
     }
+
     .font_green {
         color: #5e6656;
     }
+
     .bg_gray {
         background-color: #f2f2f2;
     }
@@ -157,19 +167,21 @@ Farmer's Story
         cursor: pointer;
         margin-right: 10px;
     }
+
     #back_btn:hover {
         font-size: 1.127rem;
         transition-duration: 0.8s;
     }
 
-    #comment-submit-btn{
+    #comment-submit-btn {
         width: 99px;
         margin-top: 30px;
     }
 
     #farmer_story {
-    text-align: center;
+        text-align: center;
     }
+
     #story_wrap {
         width: 259px;
         height: 331px;
@@ -177,21 +189,11 @@ Farmer's Story
         box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
         background-color: #ffffff;
     }
+
     #story_img {
         margin: 0 auto;
         width: 215px;
         height: 215px;
     }
 </style>
-
-<script>
-    // 댓글쓰기 toggle
-    let comment_form = $('#comment-submit-form')
-    let comment_btn = $('#comment-write')
-
-    comment_form.hide()
-    comment_btn.click(function(){
-        comment_form.toggle()
-    })
-</script>
 {% endblock main_content %}

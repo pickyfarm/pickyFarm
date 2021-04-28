@@ -23,7 +23,8 @@
             {% endif %}
             <li class=" w-24 text-center">고객센터</li>
             <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'orders' %}">my page</a></li>
-            <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'cart' %}"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
+            <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'cart' %}"><img
+                        src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
             </li>
         </ul>
     </div>
@@ -31,7 +32,8 @@
 <header class="flex flex-col mx-auto w-header">
 
     <div class="mx-auto my-12">
-        <a href="{% url 'core:main' %}"><img src="{% static 'images/mainlogo.svg' %}" class="w-28" alt="PICKY PICK"></a>
+        <a href="{% url 'core:main' %}"><img src="{% static 'images/index/mainlogo.svg' %}" class="w-28"
+                alt="PICKY PICK"></a>
     </div>
 
 </header>

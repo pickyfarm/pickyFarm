@@ -8,8 +8,8 @@ class Order_Group_Form(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['rev_loc_detail'].widget.attrs['placeholder'] = '예)공동현관 앞에 놓아주세요'
-        self.fields['rev_message'].widget.attrs['placeholder'] = '예)공동현관 비밀번호는 1234*입니다'
+        self.fields['rev_loc_detail'].widget.attrs={'placeholder':'예)공동현관 앞에 놓아주세요','rows':3}
+        self.fields['rev_message'].widget.attrs={'placeholder':'예)공동현관 비밀번호는 1234*입니다', 'rows':3}
         self.fields['to_farm_message'].widget.attrs['placeholder'] = '예)수고 많으세요! 예쁘게 포장 부탁드려요~'
 
     PAYMENT_TYPES = (
