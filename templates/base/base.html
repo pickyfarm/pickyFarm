@@ -17,6 +17,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+    <link rel="stylesheet" href="{% static 'css/base/base_style.css' %}">
 
     {% block auth_stylesheet %}
     {% endblock auth_stylesheet %}
@@ -26,7 +27,7 @@
 <body>
 
 
-    <div class="base-wrap font-sans-kr flex flex-col">
+    <div class="base-wrap flex flex-col">
 
         {% include "partials/header_.html" %}
         {% block main_content %}
