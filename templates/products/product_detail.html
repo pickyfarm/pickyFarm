@@ -66,9 +66,11 @@
                 <div id="farmer_name" class="ml-2">
                     {{farmer.user.nickname}}
                 </div>
+                <a href = "{% url 'farmers:farmer_detail' farmer.pk %}">
                 <div id="visit" class="ml-4">
                     방문하기
                 </div>
+                </a>
                 <div id="sub" name="{{farmer.pk}}" class="ml-2">
                     구독하기
                 </div>
