@@ -516,7 +516,7 @@
         })
     })
 
-    let subBtn = document.getElementById('sub')
+    const subBtn = document.getElementById('sub')
     console.log(subBtn)
     subBtn.addEventListener('click', function(){
         let farmerPk = subBtn.getAttribute('name')
@@ -531,9 +531,9 @@
             dataType:'json',
             data : data,
             success: function(response){
-                if(response.success == -1)
+                if(response.status == -1)
                     alert("구독하지 못했습니다. 다시 시도해주세요")
-                else if(response.success == 0)
+                else if(response.status == 0)
                     alert("이미 구독한 농가입니다!")
                 else
                     alert("농가를 구독하였습니다!")
@@ -679,6 +679,8 @@
             })
         })
     })
+
+    
 </script>
 
 {% endblock main_content %}
