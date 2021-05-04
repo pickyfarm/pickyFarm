@@ -3,7 +3,7 @@
 
 {% block content %}
 
-{% if order_detail.exists is False %}
+{% if order_details.exists is None %}
 <div class="mt-14 flex flex-col justify-center items-center">
   <div>
     아직 구매한 무난이가 없습니다
@@ -12,7 +12,8 @@
     <div id="redirect_btn">무난이 구매하러 가기</div>
   </a>
 </div>
-{% else %}
+{% endif %}
+{% if order_details.exists is True %}
 <form method="GET">
   <div id="filter" class="flex flex-row">
     <div id="filter-6month">최근 6개월</div>
