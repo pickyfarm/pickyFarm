@@ -304,14 +304,13 @@
 
 .comment-edit-form-input{
     width: 100%;
-    border-radius: 7px;
-    padding: 10px;
 }
 
 .comment-edit-form-input:focus{
     outline: none;
     border: 1px solid #5c6754;
-    
+    border-radius: 7px;
+    padding: 10px;
 }
 
 
@@ -346,10 +345,7 @@
 
 .comment-text-options--edit,
 .comment-text-options--delete,
-.comment-edit-cancel,
-.recomment-text-options--edit,
-.recomment-text-options--delete,
-.recomment-edit-cancel{
+.comment-edit-cancel{
     margin: auto 5px;
     font-size: 15px;
     font-weight: 300;
@@ -374,43 +370,13 @@
     right: 0px;
 }
 
-.recomment-input-box{
-    width: 885px;
-    height: 80px;
-    margin: 20px 38px;
-    padding: 10px;
-    border-radius: 7px;
-
-    transition: border 0.2s ease;
-}
-
-.recomment-input-box:focus,
-.recomment-input-box:hover{
-    outline: none;
-    border: 1px solid #5c6754;
-}
-
-.recomment-submit-button{
-    width: 75px;
-    height: 22px;
-    font-size: 12px;
-    color: #ffffff;
-    border-radius: 9999px;
-    background-color: #5c6754;
-    margin-bottom: 20px;
-}
-
-.recomment-submit-button:focus{
-    outline: none;
-}
-
 .recomment-wrap{
-    display: none;
     background-color: #e6e6e6;
     width: 961px;
     border-radius: 7px;
     margin-top: 20px;
     margin-bottom: 85px;
+    display: none;
 }
 .recomment{
     width: 961px;
@@ -438,6 +404,35 @@
 .recomment-info{
     margin: 0 25px 0 25px;
     padding-top: 20px;
+}
+
+.recomment-input-box{
+    width: 885px;
+    height: 80px;
+    margin: 20px 38px;
+    padding: 10px;
+    border-radius: 7px;
+
+    transition: border 0.2s ease;
+}
+
+.recomment-input-box:focus,
+.recomment-input-box:hover{
+    outline: none;
+    border: 1px solid #5c6754;
+}
+
+.recomment-submit-button{
+    width: 75px;
+    height: 22px;
+    font-size: 12px;
+    color: #ffffff;
+    border-radius: 9999px;
+    background-color: #5c6754;
+}
+
+.recomment-submit-button:focus{
+    outline: none;
 }
 
 .recomment-text--text{
@@ -476,6 +471,8 @@
 .horizon-bar{
     width: 885px;
     border-top: 0.5px solid #5e6656;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .horizon-bar:last-child{
@@ -485,3 +482,4 @@
 .recomment-edit-form-container{
     margin-top: 20px;
 }
+

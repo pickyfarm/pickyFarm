@@ -24,8 +24,7 @@
                     </div>
                     <div class="bar"></div>
                     <div class="comment-create text-center">
-                        {{comment.create_at|date:"Y. m.
-                        d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.create_at|date:"H : i"}}
+                        {{comment.create_at|date:"Y. m. d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.create_at|date:"H : i"}}
                     </div>
                     <div class="bar"></div>
                     <div class="comment-report flex items-center ml-auto">
@@ -92,8 +91,7 @@
                             </div>
                             <div class="bar"></div>
                             <div class="comment-create text-center recomment-create">
-                                {{recomment.create_at|date:"Y. m.
-                                d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recomment.create_at|date:"H : i"}}
+                                {{recomment.create_at|date:"Y. m.d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recomment.create_at|date:"H : i"}}
                             </div>
                             <div class="bar"></div>
                             <div class="recomment-report flex items-center ml-auto">
@@ -109,27 +107,28 @@
                             </div>
                         </div>
                         <div class="recomment-content flex flex-col">
-                            <!-- <div class="recomment-text">
+                            <div class="recomment-text">
                                 <div class="recomment-text--text">{{recomment.text}}</div>
                                 <div class="recomment-text-options-wrap flex justify-between">
                                     <div></div>
                                     <div class="recomment-text-options flex">
-                                        <div class="recomment-text-options--edit">수정</div>
-                                        <div class="recomment-text-options--delete"
+                                        <div class="comment-text-options--edit recomment-text-options--edit"
+                                            onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
+                                        <div class="comment-text-options--delete recomment-text-options--delete"
                                             onclick="recommentDelete({{recomment.pk}})">삭제</div>
                                     </div>
                                 </div>
-                            </div> -->
-                            <div class="comment-edit-form-container recomment-edit-form-container mx-auto">
-                                <form class="flex flex-col comment-edit-form w-full">
+                            </div>
+                            <!-- <div class="comment-edit-form-container recomment-edit-form-container mx-auto">
+                                <form class="flex flex-col comment-edit-form recomment-edit-form w-full">
                                     <input type="text" class="comment-edit-form-input">
                                     <div class="flex items-center justify-between">
                                         <div></div>
                                         <button type="submit" class="comment-edit-submit-button">수정하기</button>
-                                        <p class="comment-edit-cancel">취소</p>
+                                        <p class="comment-edit-cancel recomment-edit-cancel">취소</p>
                                     </div>
                                 </form>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="horizon-bar mx-auto"></div>
@@ -183,7 +182,7 @@
                 <div class="flex items-center justify-between">
                     <div></div>
                     <button type="submit" class="comment-edit-submit-button">수정하기</button>
-                    <p class="comment-edit-cancel">취소</p>
+                    <p class="comment-edit-cancel recomment-edit-cancel">취소</p>
                 </div>
             </form>
         </div>`
@@ -230,9 +229,63 @@
     }
 
     const recommentEditForm = `
-    <textarea type="text" class="recomment-input-box" name='{{comment.pk}}'></textarea>
-    <button class="recomment-submit-button mx-auto" onclick="recommentSubmit({{comment.pk}})">수정하기</button>
+    <div class="comment-edit-form-container recomment-edit-form-container mx-auto">
+        <form class="flex flex-col comment-edit-form recomment-edit-form w-full">
+            <input type="text" class="comment-edit-form-input recomment-edit-form-input">
+            <div class="flex items-center justify-between">
+                <div></div>
+                <button type="submit" class="comment-edit-submit-button">수정하기</button>
+                <p class="comment-edit-cancel recomment-edit-cancel">취소</p>
+            </div>
+        </form>
+    </div>
     `
+
+    const recommentEdit = (targetComment, pk) => {
+        const comment = targetComment.closest(".recomment-text-options-wrap").previousElementSibling.innerHTML
+
+        targetForm = targetComment.closest(".recomment-text")
+        targetForm.innerHTML = recommentEditForm
+
+        targetInput = targetForm.querySelector(".recomment-edit-form-input")
+        targetInput.value = comment
+        targetInput.focus()
+
+
+        document.querySelector(".recomment-edit-cancel").addEventListener('click', () => {
+            if (confirm("댓글 수정을 취소하시겠습니까?")) {
+                location.reload();
+            }
+        })
+
+        document.querySelector(".recomment-edit-form").addEventListener('submit', (e) => {
+            e.preventDefault()
+            recommentEditSubmit(pk)
+        })
+    }
+
+    const recommentEditSubmit = pk => {
+        const text = document.querySelector(".recomment-edit-form-input").value
+
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'editors_pick:recomment_edit' %}",
+            dataType: 'json',
+            data: {
+                'pk': pk,
+                'text': text,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: (data) => {
+                if (data.status) {
+                    alert("답글을 수정하였습니다.")
+                    location.reload()
+                }
+            }
+        })
+    }
+
 
     const recommentSubmit = pk => {
         const textBox = document.querySelectorAll('.recomment-input-box')
