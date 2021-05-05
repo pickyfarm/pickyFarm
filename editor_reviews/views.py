@@ -73,6 +73,21 @@ class Editor_review_detail(DetailView):
     def render_to_response(self, context, **response_kwargs):
         response = super().render_to_response(context, **response_kwargs)
 
+        try:
+            user = Editor.objects.get(user=self.request.user)
+
+            if self.get_object().author == user:
+                new_comments = Editor_Review_Comment.objects.filter(
+                    editor_review=self.get_object(), is_read=False
+                )
+
+                for comment in new_comments:
+                    comment.is_read = True
+                    comment.save()
+
+        except ObjectDoesNotExist:
+            pass
+
         if self.request.session.get("_auth_user_id") is None:
             cookie_name = "editor_review_hit"
 

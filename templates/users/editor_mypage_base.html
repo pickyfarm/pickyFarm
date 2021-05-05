@@ -47,7 +47,7 @@
                         새 댓글
                     </div>
                     <div id="status_number" class="mx-auto">
-                        {{complete_num}}
+                        {{editor.unread_comment_count}}
                     </div>
                 </div>
             </div>
@@ -55,9 +55,12 @@
         <div id="middle-section" class="flex flex-row">
 
             <div id="menu">
-                <a href="{% url 'users:editor_mypage' %}"><div class="menu_content" id="menu-articles">전체 글</div></a>
-                <a href="{% url 'users:editor_mypage_comments' %}"><div class="menu_content" id="menu-comments">댓글 관리</div></a>
-                <div class="menu_content" id="menu-notifications">알림</div>
+                <a href="{% url 'users:editor_mypage' %}">
+                    <div class="menu_content" id="menu-articles">전체 글</div>
+                </a>
+                <a href="{% url 'users:editor_mypage_comments' %}">
+                    <div class="menu_content" id="menu-comments">댓글 관리</div>
+                </a>
                 <div class="menu_content" id="menu-editor-info">에디터 정보 관리</div>
             </div>
             <div id="content">

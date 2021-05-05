@@ -1,12 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ObjectDoesNotExist
 from editor_reviews.models import Editor_Review
 from config import settings
+import comments
 import os
 import shutil
+
 # Create your models here.
 
-#image default 파일 생성하기 <- 배포전
+# image default 파일 생성하기 <- 배포전
 # def default_profile_image():
 
 #     if not os.path.exists(os.path.join(settings.BASE_DIR, 'media/default/profile_default.png')):
@@ -22,8 +25,7 @@ class User(AbstractUser):
         ("female", "여자"),
     )
 
-    profile_image = models.ImageField(
-        upload_to='profile_image/%Y/%m/%d/', null=True, blank=True)
+    profile_image = models.ImageField(upload_to="profile_image/%Y/%m/%d/", null=True, blank=True)
     nickname = models.CharField(max_length=100)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=20)
     birth = models.DateField(null=True)
@@ -31,7 +33,7 @@ class User(AbstractUser):
     #                              related_name="consumers", on_delete=models.SET_NULL)
     # number = models.CharField(max_length=20)
     superhost = models.BooleanField(default=False)
-    
+
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
@@ -42,7 +44,7 @@ class User(AbstractUser):
         return src
 
     def get_full_name(self):
-        full_name = '%s%s' % (self.last_name, self.first_name)
+        full_name = "%s%s" % (self.last_name, self.first_name)
         return full_name.strip()
 
     # def __str__(self):
@@ -65,8 +67,7 @@ class Consumer(models.Model):
         (5, 5),
     )
 
-    user = models.OneToOneField(
-        User, related_name='consumer', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name="consumer", on_delete=models.CASCADE)
 
     grade = models.IntegerField(choices=grade, default=1)
 
@@ -76,7 +77,8 @@ class Consumer(models.Model):
 
 class Editor(models.Model):
     user = models.OneToOneField(
-        User, default=None, null=True, blank=True, related_name='editor', on_delete=models.CASCADE)
+        User, default=None, null=True, blank=True, related_name="editor", on_delete=models.CASCADE
+    )
 
     def review_count(self):
         return Editor_Review.objects.filter(author=self).count()
@@ -84,10 +86,31 @@ class Editor(models.Model):
     def review_hit_count(self):
         reviews = Editor_Review.objects.filter(author=self)
         count = 0
-        
+
         for review in reviews:
             count += review.hits
-        
+
+        return count
+
+    def unread_comment_count(self):
+        count = 0
+
+        try:
+            reviews = Editor_Review.objects.filter(author=self)
+
+            for review in reviews:
+                try:
+                    unread_comments = comments.models.Editor_Review_Comment.objects.filter(
+                        editor_review=review, is_read=False
+                    ).count()
+
+                    count += unread_comments
+                except ObjectDoesNotExist:
+                    pass
+
+        except ObjectDoesNotExist:
+            pass
+
         return count
 
     def __str__(self):
@@ -95,28 +118,25 @@ class Editor(models.Model):
 
 
 class Wish(models.Model):
-    consumer = models.ForeignKey(
-        'Consumer', related_name="wishes", on_delete=models.CASCADE)
-    product = models.ForeignKey(
-        "products.Product", related_name='wishes', on_delete=models.CASCADE)
-    
+    consumer = models.ForeignKey("Consumer", related_name="wishes", on_delete=models.CASCADE)
+    product = models.ForeignKey("products.Product", related_name="wishes", on_delete=models.CASCADE)
+
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.consumer.user.nickname} -> {self.product.title}'
+        return f"{self.consumer.user.nickname} -> {self.product.title}"
 
 
 class Cart(models.Model):
-    consumer = models.ForeignKey(
-        'Consumer', related_name="carts", on_delete=models.CASCADE)
-    product = models.ForeignKey(
-        "products.Product", related_name='carts', on_delete=models.CASCADE)
+    consumer = models.ForeignKey("Consumer", related_name="carts", on_delete=models.CASCADE)
+    product = models.ForeignKey("products.Product", related_name="carts", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1, blank=True)
 
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.consumer.user.nickname} -> {self.product.title}'
+        return f"{self.consumer.user.nickname} -> {self.product.title}"
+
 
 # class Staffs_Image(models.Model):
 #     image = models.ImageField(upload_to='/staffs_images')
@@ -126,13 +146,11 @@ class Cart(models.Model):
 
 
 class Subscribe(models.Model):
-    farmer = models.ForeignKey(
-        'farmers.Farmer', related_name="subs", on_delete=models.CASCADE)
-    consumer = models.ForeignKey(
-        'users.Consumer', related_name="subs", on_delete=models.CASCADE)
+    farmer = models.ForeignKey("farmers.Farmer", related_name="subs", on_delete=models.CASCADE)
+    consumer = models.ForeignKey("users.Consumer", related_name="subs", on_delete=models.CASCADE)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.consumer.user.nickname} -> {self.farmer.farm_name}'
+        return f"{self.consumer.user.nickname} -> {self.farmer.farm_name}"

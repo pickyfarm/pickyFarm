@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your models here.
@@ -12,6 +13,9 @@ class Comment(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # author = models.ForeignKey("users.User", on_delete=CASCADE)
+
+    # editor's pick 새 댓글 구분 여부 -- 안 읽은 경우 False
+    is_read = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
@@ -94,6 +98,7 @@ class Editor_Review_Comment(Comment):
     def recomment_count(self):
         try:
             return Editor_Review_Recomment.objects.filter(comment=self).count()
+
         except:
             return 0
 
