@@ -21,13 +21,15 @@
         <div id="comment-list-section" class="flex flex-col">
             {% for comment in comments %}
             <div class="comment-item flex items-center">
-                <div class="new-comment-sign">N</div>
+                <div class="new-comment-sign">{% if comment.is_read == False %}N{% endif %}</div>
                 <div class="comment-submit-datetime">{{comment.create_at.date|date:"Y-m-d"}}</div>
                 <div class="comment-contents">{{comment.text}}</div>
                 <div class="comment-author">{{comment.author}}</div>
-                <div class="comment-report flex items-center"><img src="{% static 'images/users/editor_mypage/report.svg' %}" class="mx-auto"></div>
+                <div class="comment-report flex items-center"><img
+                        src="{% static 'images/users/editor_mypage/report.svg' %}" class="mx-auto"></div>
                 <div class="comment-item-divider"></div>
-                <div class="comment-reply">답변하기</div>
+                <div class="comment-reply"><a href="{% url 'editors_pick:detail' comment.editor_review.pk %}">답변하기</a>
+                </div>
             </div>
             <div class="comment-divider"></div>
             {% endfor %}

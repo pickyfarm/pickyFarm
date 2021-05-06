@@ -151,8 +151,7 @@ def subs(request):
             }
             return JsonResponse(data)
         try:
-            sub = Subscribe.objects.get(
-                farmer__pk=farmer_pk, consumer=consumer)
+            sub = Subscribe.objects.get(farmer__pk=farmer_pk, consumer=consumer)
             data = {
                 "success": 0,
             }
@@ -189,8 +188,7 @@ def wish(request):
             return JsonResponse(response)
         except ObjectDoesNotExist:
             product = Product.objects.get(pk=product_pk)
-            Wish.objects.create(
-                consumer=request.user.consumer, product=product)
+            Wish.objects.create(consumer=request.user.consumer, product=product)
             response = {
                 "status": 1,
             }
@@ -226,7 +224,7 @@ def profileUpdate(request):
 
         nickname = request.POST.get("nick_name")
         profile_image = request.FILES.get("profile_img")
-        
+
         # 유져가 프로필 사진 수정하지 않고 완료 버튼을 눌렀을 경우
         if profile_image is None:
             user.nickname = nickname
@@ -485,30 +483,29 @@ def mypage(request, cat):
             start_date = request.GET.get("s_date", None)
             end_date = request.GET.get("e_date", None)
             page_size = 5
-        
-            if start_date == 'None':
+
+            if start_date == "None":
                 start_date = None
-            if end_date == 'None':
+            if end_date == "None":
                 end_date = None
 
             print("end_date의 정체")
             print(end_date)
 
             if (start_date is None) and (end_date is None):
-                # 주문관리 페이지에 처음 들어온 경우 
+                # 주문관리 페이지에 처음 들어온 경우
                 start_date = None
                 end_date = None
-                order_groups = groups.exclude(
-                    status="wait")
+                order_groups = groups.exclude(status="wait")
             else:
                 # 날짜 필터링에서 조회 버튼을 누른 경우
-                if start_date == '':
+                if start_date == "":
                     # filter start_date input에 아무런 value가 없을 경우
                     start_date = datetime.datetime.now().date()
                 else:
                     start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
-                
-                if end_date == '':
+
+                if end_date == "":
                     # filter end_date input에 아무런 value가 없음 경우
                     end_date = datetime.datetime.now().date()
                     t = datetime.time(23, 59, 59)
@@ -520,17 +517,21 @@ def mypage(request, cat):
                     converted_end_date = end_date + " 23:59:59"
                     print("바꾼 날짜는")
                     print(end_date)
-                    converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
-                
+                    converted_end_date = datetime.datetime.strptime(
+                        converted_end_date, "%Y-%m-%d %H:%M:%S"
+                    )
+
                 print("날짜 필드 알아보기")
                 print(groups[0].order_at)
 
-                order_groups = groups.filter(order_at__lte=converted_end_date, order_at__gte=start_date).exclude(status="wait").order_by("-order_at")
-        
+                order_groups = (
+                    groups.filter(order_at__lte=converted_end_date, order_at__gte=start_date)
+                    .exclude(status="wait")
+                    .order_by("-order_at")
+                )
 
-            print(f'start_date : {start_date}')
-            print(f'end_date : {end_date}')
-
+            print(f"start_date : {start_date}")
+            print(f"end_date : {end_date}")
 
             print(order_groups)
             if order_groups.exists():
@@ -540,8 +541,7 @@ def mypage(request, cat):
                     for group in order_groups[1:]:
                         print(group.order_details.all())
                         order_details = order_details | group.order_details.all()
-                order_details = order_details.order_by(
-                    "-order_group__order_at")
+                order_details = order_details.order_by("-order_group__order_at")
             else:
                 order_details = None
 
@@ -554,7 +554,7 @@ def mypage(request, cat):
                 order_details_count = order_details.count()
                 total_pages = ceil(order_details_count / page_size)
                 offset = page * page_size - page_size
-                order_details = order_details[offset: page * page_size]
+                order_details = order_details[offset : page * page_size]
 
             print("진짜")
             print(order_details)
@@ -570,14 +570,13 @@ def mypage(request, cat):
             page = int(request.GET.get("page", 1))
             page_size = 5
 
-            wishes = consumer.wishes.filter(
-                product__open=True).order_by("-create_at")
+            wishes = consumer.wishes.filter(product__open=True).order_by("-create_at")
             print(wishes)
 
             wishes_count = wishes.count()
             total_pages = ceil(wishes_count / page_size)
             offset = page * page_size - page_size
-            wishes = wishes[offset: page * page_size]
+            wishes = wishes[offset : page * page_size]
             print(wishes)
 
             ctx_wishes = {
@@ -724,13 +723,12 @@ class EditorMyPage_Comments(ListView):
     def get_queryset(self):
         reviews = Editor_Review.objects.filter(author=self.request.user.editor)
 
-        comments = Editor_Review_Comment.objects.filter(
-            editor_review=reviews.first())
+        comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
 
         for review in reviews:
             comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
 
-        return comments.order_by("-create_at")
+        return comments.order_by("is_read")
 
     def render_to_response(self, context, **response_kwargs):
         if not Editor.objects.filter(user=self.request.user).exists():
