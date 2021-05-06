@@ -17,23 +17,35 @@
             {% csrf_token %}
             <div class="input_forms grid">
                 {{form.username.label_tag}}
-                {{form.username}}
+                <div class="validation-input-form">
+                    {{form.username}}
+                    <div class="form-validation-message" id="id-valid"></div>
+                </div>
                 <div class="valid-button" id="id-check" name="{% url 'users:id_validation' %}">중복확인</div>
                 <input type="hidden" id="idValidCheck">
                 {{form.password.label_tag}}
                 {{form.password}}
                 {{form.password_re.label_tag}}
-                {{form.password_re}}
+                <div class="validation-input-form">
+                    {{form.password_re}}
+                    <div class="form-validation-message" id="password-valid"></div>
+                </div>
                 {{form.last_name.label_tag}}
                 {{form.last_name}}
                 {{form.first_name.label_tag}}
                 {{form.first_name}}
                 {{form.nickname.label_tag}}
-                {{form.nickname}}
+                <div class="validation-input-form">
+                    {{form.nickname}}
+                    <div class="form-validation-message" id="nickname-valid"></div>
+                </div>
                 <div class="valid-button" id="nickname-check" name="{% url 'users:nickname_validation' %}">중복확인</div>
                 <input type="hidden" id="nicknameValidCheck">
                 {{form.email.label_tag}}
-                {{form.email}}
+                <div class="validation-input-form">
+                    {{form.email}}
+                    <div class="form-validation-message" id="email-valid"></div>
+                </div>
                 <div class="valid-button" id="email-check" name="{% url 'users:email_validation' %}">중복확인</div>
                 <input type="hidden" id="emailValidCheck">
                 {{addressform.full_address.label_tag}}
@@ -59,7 +71,8 @@
             <div class="form_term_agree grid">
                 <div class="mr-auto" id='term-agree' style="margin-left: 60.5px; ">이용약관 동의</div>
                 <input type="checkbox" name="agree-all" id="agree-all">
-                <label id="all-agree" for="agree-all" style="font-size: 25px !important; margin-bottom: 45px;">전체 동의합니다</label>
+                <label id="all-agree" for="agree-all" style="font-size: 25px !important; margin-bottom: 45px;">전체
+                    동의합니다</label>
                 <div class="flex justify-between items-center">
                     <input type="checkbox" name="terms_of_services" id="terms_of_services">
                     <label class="mand" for="terms_of_services">이용약관 동의</label>
@@ -114,19 +127,24 @@
     }
 
     .input_forms input,
-    .errorlist,
+    .form-validation-message,
     .form_term_agree label,
     .form_term_agree div:not(#term-agree) {
         grid-column: 2;
     }
 
-    .errorlist li {
+    .form-validation-message {
         font-size: 12px;
-        color: red;
         text-align: start;
         margin-top: 5px;
-        padding-left: 15px;
+        padding-left: 3px;
+        color: #5c6754;
     }
+
+    .invalid-form {
+        color: red;
+    }
+
 
     .input_forms input::placeholder {
         position: relative;
@@ -241,7 +259,7 @@
         margin-right: 9px;
     }
 
-    #all-agree::before{
+    #all-agree::before {
         transform: scale(1.5, 1.5);
         margin-right: 12px;
         top: 2px;

@@ -15,9 +15,10 @@ $("input:radio[name=gender]").on('change', function () {
 $('#nickname-check').click(function (e) {
     let target = $('#id_nickname').val();
     let url = $(this).attr('name')
+    const messageContainer = document.querySelector('#nickname-valid');
 
     if (target=="") {
-        alert("닉네임을 입력해주세요.");
+        messageContainer.innerHTML="✖ 닉네임을 입력해주세요."
         return;
     }
 
@@ -26,12 +27,15 @@ $('#nickname-check').click(function (e) {
         data: { 'target': target },
         success: function (data) {
             if (data['isValid'] == false) {
-                alert("사용 가능한 닉네임입니다.");
+                messageContainer.innerHTML = "✔ 사용 가능한 닉네임입니다."
+                messageContainer.classList.toggle("invalid-form", messageContainer.classList.contains('invallid-form'))
                 $('#nicknameValidCheck').attr("valid", "true");
             } else {
-                alert("이미 사용중인 닉네임입니다.");
+                messageContainer.innerHTML = '✖ 이미 사용중인 닉네임입니다.'
+                messageContainer.classList.toggle("invalid-form", !messageContainer.classList.contains('invallid-form'))
                 $('#nicknameValidCheck').attr("valid", "false");
             }
+            
         }
     });
 });
@@ -148,5 +152,6 @@ $('#agree-all').change(function () {
         $('input[type=checkbox]').prop("checked", false);
     }
 })
+
 
 
