@@ -97,7 +97,7 @@
 
     let emailSection = document.getElementById('email')
     let email = emailSection.innerHTML
-
+    editInfoBtn.remove()
 
     console.log(lastName)
     console.log(firstName)
@@ -128,7 +128,9 @@
   editProfileBtn.addEventListener('click', function () {
     let nickNameSection = document.getElementById('nickname')
     let nickName = nickNameSection.innerHTML
-    nickNameSection.innerHTML = ''
+    nickNameSection.innerHTML = ' '
+    console.log(nickName)
+    editProfileBtn.remove()
 
     console.log(nickName)
 
@@ -226,7 +228,7 @@
     //   'profile_image':imageFile,
     //   "csrfmiddlewaretoken": "{{csrf_token}}",
     // }
-    console.log(formData)
+    // console.log(formData)
     /*이미지를 보내려면 ajax가 아닌 http post를 써야 하는가 */
     // axios.post("{% url 'users:profileUpdate'%}", formData,{
     //   headers:{
