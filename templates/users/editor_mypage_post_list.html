@@ -119,11 +119,11 @@
             type: "POST",
             url: "{% url 'editors_pick:delete' %}",
             data: {
-                'select':deleteReviews,
+                'select': deleteReviews,
             },
             dataType: "json",
-            success: function(data){
-                if(data['success']){
+            success: function (data) {
+                if (data['success']) {
                     alert(`${deleteReviews.length}개의 리뷰를 삭제하였습니다.`);
                     location.reload();
                 }
