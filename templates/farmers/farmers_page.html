@@ -25,7 +25,7 @@ Farmer's page
                 <div class="" id="best-farmer-img">
                     <img id="farmer-img" src="{{best.farmer_profile.url}}" alt="">
                     <div id='pick-img'>
-                        <a href=""><img src="{% static 'images/farm/sub_btn.svg' %}" alt=""></a>
+                        <img src="{% static 'images/farm/sub_btn.svg' %}" name={{best.pk}} id="sub_btn" alt="">
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@ Farmer's page
                     <div class="block" id="farm_pic">
                         <img id="farmer_profile" class="object-cover" src="{{farmer.farmer_profile.url}}" alt="">
                         <div id='pick_img'>
-                            <a href=""><img src="" alt=""></a>
+                            <img src="{% static 'images/farm/sub_btn.svg' %}" id="sub_btn" name={{farmer.pk}} alt="">
                         </div>
                     </div>
                     <!--farmer's desc-->
@@ -316,11 +316,36 @@ Farmer's page
                 },
                 success: function (data) {
                     $('.search_block_1').html(data);
-                    console.log($(this))
                     $(this).css('background-color', 'black');
                 }
             })
         });
     });
+
+    let subBtns = document.querySelectorAll('#sub_btn');
+    subBtns.forEach(btn => btn.addEventListener('click', function () {
+        let farmer_pk = btn.getAttribute('name');
+        data = {
+            'farmer_pk': farmer_pk,
+            "csrfmiddlewaretoken": "{{csrf_token}}",
+        }
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'users:subs' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                if (response.success == 0) {
+                    alert('이미 구독중인 농가입니다!')
+                }
+                else if (response.success == 1) {
+                    alert('농가 구독이 완료되었습니다.');
+                }
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
+    }));
 </script>
 {% endblock main_content %}

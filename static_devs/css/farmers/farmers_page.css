@@ -26,6 +26,7 @@
     bottom:0;
     right:0;
     z-index: 1;
+    cursor: pointer;
 }
 
 #best-farmer-desc {
@@ -136,10 +137,7 @@
 #pick_img {
     position: absolute;
     bottom:-27.5px; right:-27.5px;
-    width:55px; height: 55px;
-    background-color: #ffffff;
-    border-radius: 9999px;
-    border:1px solid black;
+    cursor: pointer;
 }
 
 #farm_desc_block {
