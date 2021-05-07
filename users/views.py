@@ -12,6 +12,7 @@ from .models import (
 from products.models import Category, Product
 from editor_reviews.models import Editor_Review
 from comments.models import Editor_Review_Comment
+from farmers.models import Farmer
 from django.db.models import Count
 from math import ceil
 from datetime import timedelta

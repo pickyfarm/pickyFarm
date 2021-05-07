@@ -25,13 +25,12 @@ Farmer's page
                 <div class="" id="best-farmer-img">
                     <img id="farmer-img" src="{{best.farmer_profile.url}}" alt="">
                     <div id='pick-img'>
-                        <a href=""><img src="{% static 'images/farmers_page/pick.svg' %}" alt=""></a>
+                        <img src="{% static 'images/farm/sub_btn.svg' %}" name={{best.pk}} id="sub_btn" alt="">
                     </div>
                 </div>
             </div>
-            <div class="ml-auto rounded-l-full flex flex-row justify-around" id="best-farmer-desc"
-                style="border:1px solid black">
-                <div class="flex flex-row my-auto">
+            <div class="ml-auto rounded-l-full flex flex-row justify-around" id="best-farmer-desc">
+                <div class=" flex flex-row my-auto">
                     <div class="text-4xl font-light">“ </div>
                     <div class="text-4xl font-light mx-10">{{best.profile_title}}</div>
                     <div class="text-4xl font-light"> ”</div>
@@ -93,7 +92,7 @@ Farmer's page
                     <div class="block" id="farm_pic">
                         <img id="farmer_profile" class="object-cover" src="{{farmer.farmer_profile.url}}" alt="">
                         <div id='pick_img'>
-                            <a href=""><img src="" alt=""></a>
+                            <img src="{% static 'images/farm/sub_btn.svg' %}" id="sub_btn" name={{farmer.pk}} alt="">
                         </div>
                     </div>
                     <!--farmer's desc-->
@@ -105,7 +104,7 @@ Farmer's page
                             <p class="mb-8 font-medium text-5xl" id="farm_name">{{farmer.farm_name}}</p>
                         </a>
                         <!--tag-->
-                        <div class="grid grid-cols-4 gap-2 mb-24 h-7" id="tag">
+                        <div class="grid grid-cols-3 gap-2 mb-24 h-7" id="tag">
                             {% for tag in farmer.farm_tags.all %}
                             <a href="">
                                 <div class="text-center align-middle py-1 px-2 font-light text-sm transform hover:scale-105 transition duration-300 ease-in-out"
@@ -116,13 +115,15 @@ Farmer's page
                         <!--farmer's products-->
                         <div class="grid grid-cols-3 gap-2 justify-around" id="farm_product_wrapper">
                             {% for product in farmer.products.all|slice:":3" %}
-                            <a href="#">
+                            <a href="{% url 'products:product_detail' product.pk %}">
                                 <div id="farm_product">
-                                    <div class="mb-3" id="product_img_wrapper">
+                                    <div class="mb-3 w-full" id="product_img_wrapper">
                                         <img class="object-cover" id="product_img" src="{{product.main_image.url}}"
                                             alt="">
                                     </div>
-                                    <div class="text-xs font-light" id="product_desc">{{product.title}} |
+                                    <div class="text-xs font-light text-center" id="product_desc">{{product.title}}
+                                    </div>
+                                    <div class="text-xs font-light text-center" id="product_desc">
                                         {{product.sell_price}}원</div>
                                 </div>
                             </a>
@@ -137,15 +138,15 @@ Farmer's page
         <div class="flex flex-row mx-auto justify-center pb-56" id='content'>
             <div class='flex flex-row'>
                 {% if farmers.has_previous %}
-                <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page=1'"
+                <img src="{% static 'images/farm/prev.svg' %}" onclick="location.href='?page=1'"
                     style="cursor: pointer">
-                <img src="{% static 'images/farmers_page/prev.png' %}"
+                <img src="{% static 'images/farm/prev.svg' %}"
                     onclick="location.href='?page={{farmers.previous_page_number}}'" style="cursor: pointer">
                 {% else %}
-                <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page=1'"
-                    style="cursor: pointer">
-                <img src="{% static 'images/farmers_page/prev.png' %}" onclick="location.href='?page=1'"
-                    style="cursor: pointer">
+                <img src="{% static 'images/farm/prev.svg' %}" onclick=" location.href='?page=1'"
+                    style=" cursor: pointer">
+                <img src="{% static 'images/farm/prev.svg' %}" onclick=" location.href='?page=1'"
+                    style=" cursor: pointer">
                 {% endif %}
             </div>
             <div class='flex flex-row'>
@@ -155,14 +156,14 @@ Farmer's page
             </div>
             <div class='flex flex-row'>
                 {% if farmers.has_next %}
-                <img src="{% static 'images/farmers_page/next.png' %}"
+                <img src="{% static 'images/farm/next.svg' %}"
                     onclick="location.href='?page={{farmers.next_page_number}}'" style="cursor: pointer">
-                <img src="{% static 'images/farmers_page/nexter.png' %}"
+                <img src="{% static 'images/farm/next.svg' %}"
                     onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
                 {% else %}
-                <img src="{% static 'images/farmers_page/next.png' %}"
+                <img src="{% static 'images/farm/next.svg' %}"
                     onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
-                <img src="{% static 'images/farmers_page/nexter.png' %}"
+                <img src="{% static 'images/farm/next.svg' %}"
                     onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
                 {% endif %}
             </div>
@@ -221,10 +222,13 @@ Farmer's page
                 </table>
             </div>
             <!--글쓰기 버튼(farmer login 시에만 보이게)-->
+            {% if request.user == farmer %}
             <div class="flex flex-row justify-end mb-20">
                 <a href="{% url 'farmers:farmer_story_create' %}"><img
                         src="{% static 'images/farmers_page/story_write_btn.svg' %}" alt=""></a>
             </div>
+            {% endif %}
+
             <!--paginator-->
             <div class="flex flex-row mx-auto justify-center pb-56">
                 <div class='flex flex-row'>
@@ -311,10 +315,37 @@ Farmer's page
                     'search_cat': search_cat,
                 },
                 success: function (data) {
-                    $('.search_block_1').html(data)
+                    $('.search_block_1').html(data);
+                    $(this).css('background-color', 'black');
                 }
             })
         });
     });
+
+    let subBtns = document.querySelectorAll('#sub_btn');
+    subBtns.forEach(btn => btn.addEventListener('click', function () {
+        let farmer_pk = btn.getAttribute('name');
+        data = {
+            'farmer_pk': farmer_pk,
+            "csrfmiddlewaretoken": "{{csrf_token}}",
+        }
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'users:subs' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                if (response.success == 0) {
+                    alert('이미 구독중인 농가입니다!')
+                }
+                else if (response.success == 1) {
+                    alert('농가 구독이 완료되었습니다.');
+                }
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
+    }));
 </script>
 {% endblock main_content %}

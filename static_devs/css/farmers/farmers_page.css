@@ -26,6 +26,7 @@
     bottom:0;
     right:0;
     z-index: 1;
+    cursor: pointer;
 }
 
 #best-farmer-desc {
@@ -33,7 +34,10 @@
     top: 0;
     right: 0;
     height: 250px;
-    width:60%;
+    width:68%;
+    border-left:1px solid black;
+    border-top:1px solid black;
+    border-bottom:1px solid black;
 }
 /* --------------------------------------- */
 
@@ -133,10 +137,7 @@
 #pick_img {
     position: absolute;
     bottom:-27.5px; right:-27.5px;
-    width:55px; height: 55px;
-    background-color: #ffffff;
-    border-radius: 9999px;
-    border:1px solid black;
+    cursor: pointer;
 }
 
 #farm_desc_block {
@@ -167,7 +168,9 @@
 #farm_tag {
     background-color: #ffffff;
 }
-
+#farm_product {
+    width: 90px;
+}
 #product_img_wrapper {
     box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
     width: 90px; height: 130px;

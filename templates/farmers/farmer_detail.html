@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div id="sub_wrap">
-                <div class="text-xl" id="sub_btn">구독하기</div>
+                <div class="text-xl" id="sub_btn" name={{farmer.pk}}>구독하기</div>
             </div>
         </div>
 
@@ -168,4 +168,34 @@
     </div>
 </div>
 </div>
+
+<script>
+    let subBtn = document.getElementById('sub_btn')
+
+    subBtn.addEventListener('click', function () {
+        let farmer_pk = subBtn.getAttribute('name');
+        data = {
+            'farmer_pk': farmer_pk,
+            "csrfmiddlewaretoken": "{{csrf_token}}",
+        }
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'users:subs' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                console.log(response.success)
+                if (response.success == 0) {
+                    alert('이미 구독중인 농가입니다!')
+                }
+                else if (response.success == 1) {
+                    alert('농가 구독이 완료되었습니다.');
+                }
+            },
+            error: function (request, status, error) {
+                alert('로그인이 필요합니다.')
+            }
+        })
+    })
+</script>
 {% endblock %}
