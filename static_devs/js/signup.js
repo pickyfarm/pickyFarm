@@ -163,7 +163,7 @@ $('#agree-all').change(function () {
     }
 })
 
-document.querySelector('#id_password_re').addEventListener('change', e => {
+document.querySelector('#id_password_re').addEventListener('input', e => {
     const targetValue = document.querySelector('#id_password').value;
     const messageContainer = document.querySelector('#password-valid');
 
