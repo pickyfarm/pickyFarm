@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+
 # Create your models here.
 
 
@@ -21,25 +22,34 @@ class Product(models.Model):
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
     weight = models.FloatField()
     stock = models.IntegerField(default=0, help_text="총 재고 수량")
-    sales_count = models.IntegerField(
-        default=0, help_text="총 판매 수량", blank=True)
+    sales_count = models.IntegerField(default=0, help_text="총 판매 수량", blank=True)
     sales_rate = models.FloatField(default=0, blank=True)
 
     instruction = models.TextField(blank=True)
 
-    desc_image = models.ImageField(
-        upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True)
+    desc_image = models.ImageField(upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True)
     desc = models.TextField(blank=True)
 
+    # 평점 관련
+    reviews = models.IntegerField(default=0)
+
     total_rating_avg = models.FloatField(default=0)
+    total_rating_sum = models.FloatField(default=0)
+
+    freshness_rating_avg = models.FloatField(default=0)
+    freshness_rating_sum = models.FloatField(default=0)
+
+    flavor_rating_avg = models.FloatField(default=0)
+    flavor_rating_sum = models.FloatField(default=0)
+
+    cost_performance_rating_avg = models.FloatField(default=0)
+    cost_performance_rating_sum = models.FloatField(default=0)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
-    farmer = models.ForeignKey(
-        "farmers.Farmer", related_name="products", on_delete=models.CASCADE)
-    category = models.ForeignKey(
-        'Category', related_name='products', on_delete=models.CASCADE)
+    farmer = models.ForeignKey("farmers.Farmer", related_name="products", on_delete=models.CASCADE)
+    category = models.ForeignKey("Category", related_name="products", on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         self.weight = round(self.weight, 1)
@@ -74,12 +84,11 @@ class Product(models.Model):
             for comment in comments:
                 sum += comment.avg
             print(sum)
-            self.total_rating_avg = round(sum/comments_num, 1)
+            self.total_rating_avg = round(sum / comments_num, 1)
             self.save()
             return self.total_rating_avg
         except ObjectDoesNotExist:
             return 0
-        
 
     def calculate_specific_rating(self):
         freshness_array = [0, 0, 0]
@@ -90,18 +99,16 @@ class Product(models.Model):
             comments = self.product_comments.all()
             if comments.exists() is False:
                 raise ObjectDoesNotExist
-            ratio = 100/comments.count()
+            ratio = 100 / comments.count()
             for comment in comments:
                 freshness_array[check_rate(comment.freshness)] += 1
                 flavor_array[check_rate(comment.flavor)] += 1
-                cost_performance_array[check_rate(
-                    comment.cost_performance)] += 1
+                cost_performance_array[check_rate(comment.cost_performance)] += 1
 
             for i in range(0, 3):
                 freshness_array[i] = round(freshness_array[i] * ratio)
                 flavor_array[i] = round(flavor_array[i] * ratio)
-                cost_performance_array[i] = round(
-                    cost_performance_array[i] * ratio)
+                cost_performance_array[i] = round(cost_performance_array[i] * ratio)
             print(freshness_array)
             print(flavor_array)
             print(cost_performance_array)
@@ -120,11 +127,9 @@ class Product(models.Model):
 
 
 class Product_Image(models.Model):
-    product = models.ForeignKey(
-        Product, related_name='product_images', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name="product_images", on_delete=models.CASCADE)
 
-    image = models.ImageField(
-        upload_to="product_images/%Y/%m/%d/")
+    image = models.ImageField(upload_to="product_images/%Y/%m/%d/")
 
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -134,7 +139,8 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField()
     parent = models.ForeignKey(
-        'self', blank=True, null=True, related_name="children", on_delete=models.CASCADE)
+        "self", blank=True, null=True, related_name="children", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         full_path = [self.name]
@@ -142,13 +148,13 @@ class Category(models.Model):
         while k is not None:
             full_path.append(k.name)
             k = k.parent
-        return '->'.join(full_path[::-1])
+        return "->".join(full_path[::-1])
 
 
 class Question(models.Model):
     status = (
-        (True, '답변 완료'),
-        (False, '답변 대기'),
+        (True, "답변 완료"),
+        (False, "답변 대기"),
     )
     title = models.CharField(max_length=50)
     content = models.TextField()
@@ -160,10 +166,9 @@ class Question(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     consumer = models.ForeignKey(
-        'users.Consumer', related_name='questions', on_delete=models.CASCADE)
-    product = models.ForeignKey(
-        Product, related_name='questions', on_delete=models.CASCADE)
-    
+        "users.Consumer", related_name="questions", on_delete=models.CASCADE
+    )
+    product = models.ForeignKey(Product, related_name="questions", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -172,15 +177,15 @@ class Question(models.Model):
 class Answer(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
-    question = models.OneToOneField(Question, related_name = "answer", on_delete=models.CASCADE)
+    question = models.OneToOneField(Question, related_name="answer", on_delete=models.CASCADE)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
-    farmer = models.ForeignKey('farmers.Farmer', on_delete=models.CASCADE)
+    farmer = models.ForeignKey("farmers.Farmer", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.question.__str__().join('에 대한 답변')
+        return self.question.__str__().join("에 대한 답변")
 
 
 def get_delete_product():
