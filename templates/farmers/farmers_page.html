@@ -117,11 +117,13 @@ Farmer's page
                             {% for product in farmer.products.all|slice:":3" %}
                             <a href="{% url 'products:product_detail' product.pk %}">
                                 <div id="farm_product">
-                                    <div class="mb-3" id="product_img_wrapper">
+                                    <div class="mb-3 w-full" id="product_img_wrapper">
                                         <img class="object-cover" id="product_img" src="{{product.main_image.url}}"
                                             alt="">
                                     </div>
-                                    <div class="text-xs font-light" id="product_desc">{{product.title}} |
+                                    <div class="text-xs font-light text-center" id="product_desc">{{product.title}}
+                                    </div>
+                                    <div class="text-xs font-light text-center" id="product_desc">
                                         {{product.sell_price}}원</div>
                                 </div>
                             </a>

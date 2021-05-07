@@ -33,7 +33,7 @@
     top: 0;
     right: 0;
     height: 250px;
-    width:60%;
+    width:68%;
     border-left:1px solid black;
     border-top:1px solid black;
     border-bottom:1px solid black;
@@ -170,7 +170,9 @@
 #farm_tag {
     background-color: #ffffff;
 }
-
+#farm_product {
+    width: 90px;
+}
 #product_img_wrapper {
     box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
     width: 90px; height: 130px;
