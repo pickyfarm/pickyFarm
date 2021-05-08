@@ -7,37 +7,48 @@ from .models import Product_Recomment, Editor_Review_Recomment, Farmer_Story_Rec
 #         model = Comment
 #         fields = ['text',]
 
+
 class ProductCommentForm(forms.ModelForm):
     class Meta:
         model = Product_Comment
-        fields = ['text']
+        fields = (
+            "text",
+            "freshness",
+            "flavor",
+            "cost_performance",
+        )
+
 
 class ProductRecommentForm(forms.ModelForm):
     class Meta:
         model = Product_Recomment
-        fields = ['text', ]
-        labels = {
-            'text' : ''
-        }
+        fields = [
+            "text",
+        ]
+        labels = {"text": ""}
 
 
 class EditorReviewCommentForm(forms.ModelForm):
     class Meta:
         model = Editor_Review_Comment
-        fields = ['text']
+        fields = ["text"]
+
 
 class EditorReviewRecommentForm(forms.ModelForm):
     class Meta:
         model = Editor_Review_Recomment
-        fields = ['text',]
+        fields = [
+            "text",
+        ]
 
 
 class FarmerStoryCommentForm(forms.ModelForm):
     class Meta:
         model = Farmer_Story_Comment
-        fields = ['text']
+        fields = ["text"]
+
 
 class FarmerStoryRecommentForm(forms.ModelForm):
     class Meta:
         model = Farmer_Story_Recomment
-        fields = ['text']
+        fields = ["text"]
