@@ -34,12 +34,20 @@ def product_comment_create(request, pk):
     product_recomment_form = ProductRecommentForm(request.POST)
 
     if product_comment_form.is_valid():
+        # product comment save
         product_comment = product_comment_form.save(commit=False)
         consumer = Consumer.objects.get(user=request.user)
         product_comment.consumer = consumer
         product_comment.product = product
         product_comment.get_rating_avg()
         product_comment.save()
+        product.reviews += 1
+
+        # product sum calculate
+        product.calculate_total_rating_sum(product_comment.avg)
+
+        # product avg calculate
+        product.calculate_total_rating_avg()
 
     return redirect(reverse("comments:product_comment_detail", args=[pk]))
 

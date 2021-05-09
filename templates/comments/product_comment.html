@@ -15,9 +15,9 @@
     <div id="content">
         상품: {{product}}
 
-        {% for comment in product_comments %}
+        <!-- {% for comment in product_comments %}
         {{comment}}
-        {% endfor %}
+        {% endfor %} -->
         <form action="{% url 'comments:product_comment_create' product.pk %}" method="post">
             {% csrf_token %}
             <div>{{product_comment_form.text}}</div>

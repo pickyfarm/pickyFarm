@@ -73,22 +73,38 @@ class Product(models.Model):
         print("판매율 계산")
         return self.sales_rate
 
-    def calculate_total_rating_avg(self):
-        sum = 0
+    # 리뷰 생성 시 평점 총합 계산을 위한 함수
+    def calculate_total_rating_sum(self, new_rating):
         try:
-            comments = self.product_comments.all()
-            if comments.exists() is False:
-                raise ObjectDoesNotExist
-            comments_num = comments.count()
-            print(comments_num)
-            for comment in comments:
-                sum += comment.avg
-            print(sum)
-            self.total_rating_avg = round(sum / comments_num, 1)
+            self.total_rating_sum += new_rating
             self.save()
-            return self.total_rating_avg
+            return self.total_rating_sum
+
         except ObjectDoesNotExist:
             return 0
+
+    # 리뷰 생성 시 평점 평균 계산을 위한 함수
+    def calculate_total_rating_avg(self):
+        try:
+            self.total_rating_avg = self.total_rating_sum / self.reviews
+            self.save()
+            return self.total_rating_avg
+
+        except ObjectDoesNotExist:
+            return 0
+        # sum = 0
+        # try:
+        #     comments = self.product_comments.all()
+        #     if comments.exists() is False:
+        #         raise ObjectDoesNotExist
+        #     comments_num = comments.count()
+        #     for comment in comments:
+        #         sum += comment.avg
+        #     self.total_rating_avg = round(sum / comments_num, 1)
+        #     self.save()
+        #     return self.total_rating_avg
+        # except ObjectDoesNotExist:
+        #     return 0
 
     def calculate_specific_rating(self):
         freshness_array = [0, 0, 0]
@@ -109,9 +125,7 @@ class Product(models.Model):
                 freshness_array[i] = round(freshness_array[i] * ratio)
                 flavor_array[i] = round(flavor_array[i] * ratio)
                 cost_performance_array[i] = round(cost_performance_array[i] * ratio)
-            print(freshness_array)
-            print(flavor_array)
-            print(cost_performance_array)
+
             result.append(freshness_array)
             result.append(flavor_array)
             result.append(cost_performance_array)
