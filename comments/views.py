@@ -43,11 +43,14 @@ def product_comment_create(request, pk):
         product_comment.save()
         product.reviews += 1
 
-        # product sum calculate
+        # total rating calculate
         product.calculate_total_rating_sum(product_comment.avg)
-
-        # product avg calculate
         product.calculate_total_rating_avg()
+
+        # specific rating calculate
+        product.calculate_specific_rating(
+            product_comment.freshness, product_comment.flavor, product_comment.cost_performance
+        )
 
     return redirect(reverse("comments:product_comment_detail", args=[pk]))
 

@@ -92,49 +92,50 @@ class Product(models.Model):
 
         except ObjectDoesNotExist:
             return 0
-        # sum = 0
+
+    # 리뷰 생성 시 항목별 평점(총합, 평균) 계산을 위한 함수
+    def calculate_specific_rating(self, fresh, flavor, cost):
+        try:
+            self.freshness_rating_sum += fresh
+            self.flavor_rating_sum += flavor
+            self.cost_performance_rating_sum += cost
+
+            self.freshness_rating_avg = self.freshness_rating_sum / self.reviews
+            self.flavor_rating_avg = self.flavor_rating_sum / self.reviews
+            self.cost_performance_rating_avg = self.cost_performance_rating_sum / self.reviews
+
+            self.save()
+
+        except ObjectDoesNotExist:
+            return 0
+        # freshness_array = [0, 0, 0]
+        # flavor_array = [0, 0, 0]
+        # cost_performance_array = [0, 0, 0]
+        # result = []
         # try:
         #     comments = self.product_comments.all()
         #     if comments.exists() is False:
         #         raise ObjectDoesNotExist
-        #     comments_num = comments.count()
+        #     ratio = 100 / comments.count()
         #     for comment in comments:
-        #         sum += comment.avg
-        #     self.total_rating_avg = round(sum / comments_num, 1)
-        #     self.save()
-        #     return self.total_rating_avg
+        #         freshness_array[check_rate(comment.freshness)] += 1
+        #         flavor_array[check_rate(comment.flavor)] += 1
+        #         cost_performance_array[check_rate(comment.cost_performance)] += 1
+
+        #     for i in range(0, 3):
+        #         freshness_array[i] = round(freshness_array[i] * ratio)
+        #         flavor_array[i] = round(flavor_array[i] * ratio)
+        #         cost_performance_array[i] = round(cost_performance_array[i] * ratio)
+
+        #     result.append(freshness_array)
+        #     result.append(flavor_array)
+        #     result.append(cost_performance_array)
+        #     return result
         # except ObjectDoesNotExist:
-        #     return 0
-
-    def calculate_specific_rating(self):
-        freshness_array = [0, 0, 0]
-        flavor_array = [0, 0, 0]
-        cost_performance_array = [0, 0, 0]
-        result = []
-        try:
-            comments = self.product_comments.all()
-            if comments.exists() is False:
-                raise ObjectDoesNotExist
-            ratio = 100 / comments.count()
-            for comment in comments:
-                freshness_array[check_rate(comment.freshness)] += 1
-                flavor_array[check_rate(comment.flavor)] += 1
-                cost_performance_array[check_rate(comment.cost_performance)] += 1
-
-            for i in range(0, 3):
-                freshness_array[i] = round(freshness_array[i] * ratio)
-                flavor_array[i] = round(flavor_array[i] * ratio)
-                cost_performance_array[i] = round(cost_performance_array[i] * ratio)
-
-            result.append(freshness_array)
-            result.append(flavor_array)
-            result.append(cost_performance_array)
-            return result
-        except ObjectDoesNotExist:
-            result.append(freshness_array)
-            result.append(flavor_array)
-            result.append(cost_performance_array)
-            return result
+        #     result.append(freshness_array)
+        #     result.append(flavor_array)
+        #     result.append(cost_performance_array)
+        #     return result
 
     def __str__(self):
         return self.title
