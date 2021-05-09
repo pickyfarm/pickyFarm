@@ -216,3 +216,9 @@ document.querySelector('#id_password_re').addEventListener('input', (e) => {
     );
   }
 });
+
+document.querySelector('form').addEventListener('keydown', (e) => {
+  if (e.keyCode === 13) {
+    e.preventDefault();
+  }
+});
