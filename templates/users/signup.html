@@ -11,29 +11,42 @@
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
     <div id='signup_form' class="mt-10 flex flex-col">
-        <img src="{% static 'images/user/login.svg' %}" class="mx-auto mt-12" alt="">
-        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 100px;">회원가입</div>
+        <!-- <img src="{% static 'images/user/login.svg' %}" class="mx-auto mt-12" alt=""> -->
+        <div class="mx-auto" id="signup-title">회원가입</div>
+        <div class="horizon-bar"></div>
         <form method="POST" action="{% url 'users:signup' %}">
             {% csrf_token %}
             <div class="input_forms grid">
                 {{form.username.label_tag}}
-                {{form.username}}
+                <div class="validation-input-form">
+                    {{form.username}}
+                    <div class="form-validation-message" id="id-valid"></div>
+                </div>
                 <div class="valid-button" id="id-check" name="{% url 'users:id_validation' %}">중복확인</div>
                 <input type="hidden" id="idValidCheck">
                 {{form.password.label_tag}}
                 {{form.password}}
                 {{form.password_re.label_tag}}
-                {{form.password_re}}
+                <div class="validation-input-form">
+                    {{form.password_re}}
+                    <div class="form-validation-message" id="password-valid"></div>
+                </div>
                 {{form.last_name.label_tag}}
                 {{form.last_name}}
                 {{form.first_name.label_tag}}
                 {{form.first_name}}
                 {{form.nickname.label_tag}}
-                {{form.nickname}}
+                <div class="validation-input-form">
+                    {{form.nickname}}
+                    <div class="form-validation-message" id="nickname-valid"></div>
+                </div>
                 <div class="valid-button" id="nickname-check" name="{% url 'users:nickname_validation' %}">중복확인</div>
                 <input type="hidden" id="nicknameValidCheck">
                 {{form.email.label_tag}}
-                {{form.email}}
+                <div class="validation-input-form">
+                    {{form.email}}
+                    <div class="form-validation-message" id="email-valid"></div>
+                </div>
                 <div class="valid-button" id="email-check" name="{% url 'users:email_validation' %}">중복확인</div>
                 <input type="hidden" id="emailValidCheck">
                 {{addressform.full_address.label_tag}}
@@ -55,27 +68,28 @@
                     {{form.birth}}
                 </div>
             </div>
-            <div class="line mx-auto" style="margin-bottom: 35px;"></div>
+            <div class="horizon-bar" style="margin-bottom: 35px;"></div>
             <div class="form_term_agree grid">
-                <div class="mr-auto" id='term-agree' style="margin-left: 60.5px; ">이용약관 동의</div>
+                <div class="mr-auto" id='term-agree'>이용약관 동의</div>
                 <input type="checkbox" name="agree-all" id="agree-all">
-                <label id="all-agree" for="agree-all" style="font-size: 25px !important; margin-bottom: 45px;">전체 동의합니다</label>
+                <label id="all-agree" for="agree-all" style="font-size: 20px !important; margin-bottom: 45px;">전체
+                    동의합니다</label>
                 <div class="flex justify-between items-center">
-                    <input type="checkbox" name="terms_of_services" id="terms_of_services">
+                    <input type="checkbox" name="terms_of_services" id="terms_of_services" class="signup-terms">
                     <label class="mand" for="terms_of_services">이용약관 동의</label>
                     <a href="#">약관보기</a>
                 </div>
                 <div class="flex justify-between items-center">
-                    <input type="checkbox" name="personal_info" id="personal_info">
+                    <input type="checkbox" name="personal_info" id="personal_info" class="signup-terms">
                     <label class="mand" for="personal_info">개인정보처리방침 동의</label>
                     <a href="#">약관보기</a>
                 </div>
-                <input type="checkbox" name="push-agree" id="push-agree">
+                <input type="checkbox" name="push-agree" id="push-agree" class="signup-terms">
                 <label class="opt" for="push-agree">무료배송, 할인쿠폰 등 혜택/정보 수신동의</label>
-                <input type="checkbox" name="over14" id="over14">
+                <input type="checkbox" name="over14" id="over14" class="signup-terms">
                 <label for="over14">본인은 만 14세 이상입니다</label>
             </div>
-            <div class="line mx-auto" style="margin-top: 35px;"></div>
+            <div class="horizon-bar" style="margin-top: 35px;"></div>
             <button class="submit">가입하기</button>
             <!-- 이 부분은 <input type="submit" value="">으로 바꿔서 차후 JS에서 submit event를 감지하는 방법으로 코드를 변경할 예정임. -->
         </form>
@@ -83,50 +97,74 @@
 </div>
 
 <style>
-    #signup_form {
-        width: 820px;
-        height: auto;
-        border-radius: 10px;
-        box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    input:focus {
+        outline: none;
+    }
 
+    #signup_form {
+        width: 740px;
+        height: auto;
+
+    }
+
+    #signup-title {
+        font-family: NotoSansKR;
+        font-size: 30px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        color: #5c6754;
+        margin-bottom: 60px;
+    }
+
+    .horizon-bar {
+        border-top: solid 1px #5e6656;
     }
 
     .input_forms {
-        grid-template-columns: 302.5px 300px 217.5px;
+        grid-template-columns: 200px 300px auto;
         row-gap: 40px;
-        margin-bottom: 38px;
+        margin-bottom: 50px;
+        margin-top: 50px;
     }
 
     .form_term_agree {
-        grid-template-columns: 302.5px auto;
+        grid-template-columns: 200px auto;
         row-gap: 20px;
     }
 
     .input_forms input {
-        border-radius: 3px;
-        border: solid 1px #808080;
+        border-radius: 20px;
+        border: solid 1px #b3b3b3;
         width: 300px;
-        height: 40px;
+        height: 35px;
         padding-left: 15px;
-        font-size: 16px;
+        font-size: 12px;
         color: #808080;
         font-weight: normal;
     }
 
     .input_forms input,
-    .errorlist,
+    .form-validation-message,
     .form_term_agree label,
     .form_term_agree div:not(#term-agree) {
         grid-column: 2;
     }
 
-    .errorlist li {
+    .form-validation-message {
         font-size: 12px;
-        color: red;
         text-align: start;
         margin-top: 5px;
-        padding-left: 15px;
+        padding-left: 3px;
+        color: #5c6754;
     }
+
+    .invalid-form {
+        color: red;
+    }
+
 
     .input_forms input::placeholder {
         position: relative;
@@ -139,11 +177,15 @@
     .input_forms label,
     #term-agree {
         grid-column: 1;
-        margin-right: auto;
-        margin-left: 60.5px;
-        font-size: 25px;
-        font-weight: normal;
+        font-size: 15px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
         color: #4d4d4d;
+        text-align: start;
+        margin-top: 7.5px;
+        padding-left: 20px;
     }
 
     .birth-selection ul,
@@ -160,15 +202,16 @@
     }
 
     .valid-button {
-        width: 110px;
-        height: 40px;
+        width: 65px;
+        height: 25px;
         border-radius: 20px;
         background-color: #5e6656;
         color: white;
-        line-height: 40px;
-        margin-left: 33px;
-        font-size: 15px;
-        font-weight: normal;
+        line-height: 25px;
+        margin-left: 40px;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 5px;
     }
 
     #id_detail_address {
@@ -181,7 +224,7 @@
     }
 
     .gender-selection label {
-        font-size: 20px;
+        font-size: 15px;
         color: #808080;
         font-weight: normal;
     }
@@ -197,18 +240,29 @@
         margin-right: 9px;
     }
 
+    .birth-selection select {
+        width: 88px;
+        height: 35px;
+        border-radius: 20px;
+        border: solid 1px #b3b3b3;
+        text-align-last: center;
+        font-size: 15px;
+        color: #808080;
+        font-weight: 300;
+    }
+
     label.checked::before {
         content: "";
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
 
     .submit {
-        width: 350px;
-        height: 100px;
+        width: 140px;
+        height: 40px;
         border-radius: 50px;
         background-color: #5c6754;
         color: white;
-        font-size: 35px;
+        font-size: 20px;
         font-weight: bold;
         margin-top: 54px;
         margin-bottom: 42px;
@@ -227,22 +281,21 @@
     .form_term_agree label {
         margin-right: auto;
         color: #707070;
-        font-size: 20px;
+        font-size: 15px;
     }
 
     .form_term_agree input+label::before {
         content: "";
         display: inline-block;
         position: relative;
-        top: 3px;
+        top: 5px;
         width: 20px;
         height: 20px;
         background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
         margin-right: 9px;
     }
 
-    #all-agree::before{
-        transform: scale(1.5, 1.5);
+    #all-agree::before {
         margin-right: 12px;
         top: 2px;
     }
@@ -254,8 +307,8 @@
 
     label.mand::after,
     label.opt::after {
-        margin-left: 20px;
-        font-size: 20px;
+        margin-left: 12px;
+        font-size: 15px;
         color: #b3b3b3;
         font-weight: 300;
     }
@@ -269,7 +322,7 @@
     }
 
     .form_term_agree a {
-        margin-right: 67.5px;
+        margin-right: 126.5px;
         font-size: 15px;
         font-weight: 500;
         color: #5c6754;
@@ -278,5 +331,8 @@
 
 <script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
+<script>
+
+</script>
 
 {% endblock %}

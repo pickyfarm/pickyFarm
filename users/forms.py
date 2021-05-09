@@ -1,17 +1,22 @@
 from django import forms
 from . import models
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.forms.widgets import NumberInput
 from django.contrib.auth.forms import PasswordResetForm
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
+
 class LoginForm(forms.Form):
-    username = forms.CharField(label="아이디", max_length=100,
-        widget=forms.TextInput(attrs={'placeholder': '아이디를 입력해주세요'}))
-    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(attrs={'placeholder': '비밀번호를 입력해주세요'}))
+    username = forms.CharField(
+        label="아이디", max_length=100, widget=forms.TextInput(attrs={"placeholder": "아이디를 입력해주세요"})
+    )
+    password = forms.CharField(
+        label="비밀번호", widget=forms.PasswordInput(attrs={"placeholder": "비밀번호를 입력해주세요"})
+    )
 
     def clean(self):
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
+        username = self.cleaned_data.get("username")
+        password = self.cleaned_data.get("password")
         try:
             user = models.User.objects.get(username=username)
             if user.check_password(password):
@@ -29,18 +34,40 @@ GENDER_CHOICES = {
 
 
 class SignUpForm(forms.Form):
-    username = forms.CharField(label="아이디", max_length=100, label_suffix='', widget=forms.TextInput(attrs={'placeholder': '6자 이상의 영문 혹은 영문과 숫자를 조합'}))
-    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput(attrs={'placeholder': '비밀번호를 입력하세요'}), label_suffix='')
-    password_re = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput(attrs={'placeholder': '비밀번호를 한번 더 입력하세요'}), label_suffix='')
+    username = forms.CharField(
+        label="아이디",
+        max_length=100,
+        label_suffix="",
+        widget=forms.TextInput(attrs={"placeholder": "6자 이상의 영문 혹은 영문과 숫자를 조합"}),
+    )
+    password = forms.CharField(
+        label="비밀번호",
+        widget=forms.PasswordInput(attrs={"placeholder": "비밀번호를 입력하세요"}),
+        label_suffix="",
+    )
+    password_re = forms.CharField(
+        label="비밀번호 확인",
+        widget=forms.PasswordInput(attrs={"placeholder": "비밀번호를 한번 더 입력하세요"}),
+        label_suffix="",
+    )
 
-    last_name = forms.CharField(label="성", max_length=25, label_suffix='')
-    first_name = forms.CharField(label="이름", max_length=50, label_suffix='')
+    last_name = forms.CharField(label="성", max_length=25, label_suffix="")
+    first_name = forms.CharField(label="이름", max_length=50, label_suffix="")
 
-    nickname = forms.CharField(label="닉네임", max_length=100, label_suffix='', widget=forms.TextInput(attrs={'placeholder': '부적절한 닉네임은 제재를 받을 수 있습니다'}))
-    email = forms.EmailField(label="이메일", label_suffix='')
+    nickname = forms.CharField(
+        label="닉네임",
+        max_length=100,
+        label_suffix="",
+        widget=forms.TextInput(attrs={"placeholder": "부적절한 닉네임은 제재를 받을 수 있습니다"}),
+    )
+    email = forms.EmailField(label="이메일", label_suffix="")
 
-    gender = forms.ChoiceField(label="성별", choices=GENDER_CHOICES, widget=forms.RadioSelect, label_suffix='')
-    birth = forms.DateField(label="생년월일", widget=forms.SelectDateWidget, label_suffix='')
+    gender = forms.ChoiceField(
+        label="성별", choices=GENDER_CHOICES, widget=forms.RadioSelect, label_suffix=""
+    )
+    birth = forms.DateField(
+        label="생년월일", widget=NumberInput(attrs={"type": "date"}), label_suffix=""
+    )
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
@@ -70,29 +97,29 @@ class SignUpForm(forms.Form):
 
         user = models.User.objects.create_user(username, email=email, password=password_re)
 
-        user.first_name=first_name
-        user.last_name=last_name
-        user.nickname=nickname
-        user.gender=gender
-        user.birth=birth
+        user.first_name = first_name
+        user.last_name = last_name
+        user.nickname = nickname
+        user.gender = gender
+        user.birth = birth
 
         user.save()
 
 
 class FindMyIdForm(forms.Form):
-    name = forms.CharField(label='이름', widget=forms.TextInput(attrs={'placeholder': '이름을 입력해주세요'}))
-    email = forms.EmailField(label="이메일", widget=forms.TextInput(attrs={'placeholder': '이메일을 입력해주세요'}))
-    
+    name = forms.CharField(label="이름", widget=forms.TextInput(attrs={"placeholder": "이름을 입력해주세요"}))
+    email = forms.EmailField(
+        label="이메일", widget=forms.TextInput(attrs={"placeholder": "이메일을 입력해주세요"})
+    )
+
 
 class MyPasswordResetForm(PasswordResetForm):
     username = forms.CharField(
-        label="아이디",
-        widget=forms.TextInput(attrs={'placeholder': '아이디를 입력해주세요'})
+        label="아이디", widget=forms.TextInput(attrs={"placeholder": "아이디를 입력해주세요"})
     )
 
     email = forms.EmailField(
         label="Email",
         max_length=254,
-        widget=forms.EmailInput(attrs={'autocomplete': 'email', 'placeholder': '이메일을 입력해주세요'})
+        widget=forms.EmailInput(attrs={"autocomplete": "email", "placeholder": "이메일을 입력해주세요"}),
     )
-
