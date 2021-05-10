@@ -41,8 +41,9 @@ Farmer's page
                         {{best.user.addresses.sigungu}}</div>
                     <div class="text-center font-medium text-2xl" id="farm_name"> {{best.farm_name}} </div>
                 </div>
-                <img class="w-12" src="{% static 'images/farmers_page/hot_detail.svg' %}" alt="">
-
+                <a href="{% url 'farmers:farmer_detail' best.pk %}" class="flex items-center">
+                    <img class="w-12" src="{% static 'images/farmers_page/hot_detail.svg' %}" alt="">
+                </a>
             </div>
         </div>
         {% endfor %}
@@ -271,63 +272,14 @@ Farmer's page
     </div>
 </div>
 
+<script src="{% static 'js/farmers/farmers_page.js' %}"></script>
 <script>
-    $(function () {
-        // farmer search
-        $("img[name=search_button_1]").click(function () {
-            var search_key = $('#search_key').val();
-            event.preventDefault()
-            $.ajax({
-                url: 'farmer_search/',
-                data: {
-                    'search_key': search_key,
-                },
-                success: function (data) {
-                    $('.search_block_1').html(data)
-                }
-            })
-        });
-
-        // farmer's story search ajax
-        $("img[name=search_button_2]").click(function () {
-            var select_val = $("#story-search-select option:selected").val()
-            var search_key_2 = $('#search_key_2').val();
-            event.preventDefault()
-            $.ajax({
-                url: 'farmer_story_search/',
-                data: {
-                    'select_val': select_val,
-                    'search_key_2': search_key_2,
-                },
-                success: function (data) {
-                    $('.search_block_2').html(data)
-                }
-            })
-        });
-
-        // tag search ajax
-        $("td").click(function () {
-            var search_cat = $(this).attr("id")
-            event.preventDefault()
-            $.ajax({
-                url: 'farm_cat_search/',
-                data: {
-                    'search_cat': search_cat,
-                },
-                success: function (data) {
-                    $('.search_block_1').html(data);
-                    $(this).css('background-color', 'black');
-                }
-            })
-        });
-    });
-
     let subBtns = document.querySelectorAll('#sub_btn');
     subBtns.forEach(btn => btn.addEventListener('click', function () {
         let farmer_pk = btn.getAttribute('name');
         data = {
             'farmer_pk': farmer_pk,
-            "csrfmiddlewaretoken": "{{csrf_token}}",
+            "csrfmiddlewaretoken": "{{ csrf_token }}",
         }
         $.ajax({
             type: 'POST',
