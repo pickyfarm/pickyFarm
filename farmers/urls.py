@@ -13,8 +13,9 @@ urlpatterns = [
         "farmer_story/create/", views.farmer_story_create, name="farmer_story_create"
     ),  # 추후 url 경로 수정하기
     path("farm_cat_search/", views.farm_cat_search, name="farm_cat_search"),
+    path("farm_tag_search/", views.farm_tag_search, name="farm_tag_search"),
     path("farmer_detail/<int:pk>/", views.farmer_detail, name="farmer_detail"),
-    path("farm_apply/", views.farm_apply, name="farm_apply"),
-    path("farm_enroll/<str:step>/", views.FarmEnroll.as_view(), name="farm_enroll"),
+    path("apply/", views.farm_apply, name="farm_apply"),
+    path("enroll/step/<int:step>/", views.FarmEnroll.as_view(), name="farm_enroll"),
     path("info/update/<int:pk>/", views.farm_info_update, name="farm_info_update"),
 ]

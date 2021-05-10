@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block main_content %}
+<style>
+    #id_text {
+        border: 1px solid #5c6754;
+        resize: none;
+    }
+</style>
+<div class="main-contents bg-white-400 mx-auto" id="top">
+    <div id="content">
+        상품: {{product}}
+
+        <!-- {% for comment in product_comments %}
+        {{comment}}
+        {% endfor %} -->
+        <form action="{% url 'comments:product_comment_create' product.pk %}" method="post">
+            {% csrf_token %}
+            <div>{{product_comment_form.text}}</div>
+            <div>{{product_comment_form.freshness}}</div>
+            <div>{{product_comment_form.flavor}}</div>
+            <div>{{product_comment_form.cost_performance}}</div>
+            <input type="submit" value="리뷰등록">
+        </form>
+    </div>
+</div>
+{% endblock %}

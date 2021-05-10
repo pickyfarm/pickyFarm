@@ -77,6 +77,19 @@ def farm_cat_search(request):
     return render(request, "farmers/farmer_search.html", ctx)
 
 
+# farmer tag 검색 view - for AJAX
+def farm_tag_search(request):
+    search_tag = request.GET.get("search_tag")
+    farmer = Farm_Tag.objects.get(tag=search_tag).farmer.all().order_by("-id")
+    paginator = Paginator(farmer, 3)
+    page = request.GET.get("page")
+    farmers = paginator.get_page(page)
+    ctx = {
+        "farmers": farmers,
+    }
+    return render(request, "farmers/farmer_search.html", ctx)
+
+
 # farmer story 검색 view - for AJAX
 def farmer_story_search(request):
     select_val = request.GET.get("select_val")
@@ -226,7 +239,7 @@ def farm_apply(request):
 # 입점 등록 page
 class FarmEnroll(View):
     def get(self, request, step):
-        if step == "step_1":
+        if step == 1:
             form = SignUpForm()
             addressform = AddressForm()
             ctx = {
@@ -234,13 +247,13 @@ class FarmEnroll(View):
                 "addressform": addressform,
             }
             return render(request, "farmers/farm_enroll_1.html", ctx)
-        elif step == "step_2":
+        elif step == 2:
             farm_form = FarmEnrollForm()
             ctx = {
                 "farm_form": farm_form,
             }
             return render(request, "farmers/farm_enroll_2.html", ctx)
-        elif step == "step_3":
+        elif step == 3:
             return render(request, "farmers/farm_enroll_3.html")
         return redirect(reverse("core:main"))
 

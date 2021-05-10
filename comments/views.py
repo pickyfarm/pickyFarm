@@ -3,6 +3,7 @@ from django.urls import reverse
 from .models import Product_Comment, Product_Recomment, Farmer_Story_Comment
 from .forms import ProductCommentForm, ProductRecommentForm
 from products.models import Product
+from users.models import Consumer
 from farmers.models import Farmer_Story
 from django.template.loader import render_to_string
 from django.http import JsonResponse
@@ -33,10 +34,23 @@ def product_comment_create(request, pk):
     product_recomment_form = ProductRecommentForm(request.POST)
 
     if product_comment_form.is_valid():
+        # product comment save
         product_comment = product_comment_form.save(commit=False)
-        product_comment.author = request.user
+        consumer = Consumer.objects.get(user=request.user)
+        product_comment.consumer = consumer
         product_comment.product = product
+        product_comment.get_rating_avg()
         product_comment.save()
+        product.reviews += 1
+
+        # total rating calculate
+        product.calculate_total_rating_sum(product_comment.avg)
+        product.calculate_total_rating_avg()
+
+        # specific rating calculate
+        product.calculate_specific_rating(
+            product_comment.freshness, product_comment.flavor, product_comment.cost_performance
+        )
 
     return redirect(reverse("comments:product_comment_detail", args=[pk]))
 
