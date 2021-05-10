@@ -19,10 +19,10 @@
         <form method="POST" action="{% url 'users:login' %}">
             {% csrf_token %}
             <div class="input_forms flex flex-col">
-
                 {% for field in form %}
                 {{field}}
                 {% endfor %}
+                {{form.non_field_errors}}
                 <div class="mr-auto" id="auto-login-section">
                     <input type="checkbox" name="auto_login" id="auto_login">
                     <label for="auto_login" style="line-height: 20px;">자동로그인</label>
@@ -47,6 +47,10 @@
 </div>
 
 <style>
+    button {
+        cursor: pointer;
+    }
+
     *::selection {
         background: none;
     }
@@ -102,6 +106,13 @@
 
     .bar {
         border: 1px solid #b3b3b3;
+    }
+
+    .errorlist {
+        margin-top: 10px;
+        font-size: 13px;
+        color: red;
+        font-weight: 300;
     }
 </style>
 

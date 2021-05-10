@@ -22,9 +22,9 @@ class LoginForm(forms.Form):
             if user.check_password(password):
                 return self.cleaned_data
             else:
-                raise ValidationError("비밀번호가 틀렸습니다")
+                raise models.User.DoesNotExist
         except models.User.DoesNotExist:
-            raise ValidationError("존재하지 않는 아이디입니다")
+            raise ValidationError("가입하지 않은 ID거나 비밀번호가 틀렸습니다.")
 
 
 GENDER_CHOICES = {
