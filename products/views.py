@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import request, JsonResponse
 from django.core import serializers
 from .models import Product, Category
+from .forms import Question_Form
 from comments.forms import ProductRecommentForm
 from django.utils import timezone
 from math import ceil
@@ -193,6 +194,19 @@ def question_paging(request):
     }
 
     return JsonResponse(data)
+
+
+def create_question(request):
+    product_pk = None
+
+    if request.method == 'GET':
+        product_pk = int(request.GET.get('product'))
+        form = Question_Form()
+        ctx = {
+            'form' : form,
+        }
+        return render(request, 'products/create_question.html', ctx)
+ 
 
 
 
