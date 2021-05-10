@@ -1,0 +1,57 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.button {
+  cursor: pointer;
+}
+
+@keyframes toast {
+  0% {
+    top: -50px;
+  }
+  20% {
+    top: 80px;
+  }
+  80% {
+    top: 80px;
+  }
+  to {
+    top: -50px;
+  }
+}
+
+#toast-section {
+  position: fixed;
+  z-index: 100;
+  top: -80px;
+}
+
+.toast-animation {
+  position: fixed !important;
+  right: calc(50% - 150px);
+  width: auto;
+  height: 50px;
+  border-radius: 25px;
+  box-shadow: 3px 3px 10px 3px rgba(0, 0, 0, 0.2);
+  padding: 0 7.5px;
+  background-color: white;
+  animation-name: toast;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(1, 1.01, 0.42, 0.77);
+}
+
+#toast-status {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: chartreuse;
+}
+
+#toast-message {
+  margin: 0 10px;
+  font-size: 15px;
+  font-weight: 300;
+}

@@ -29,20 +29,23 @@
                     <div class="bar"></div>
                     <div class="comment-report flex items-center ml-auto">
                         <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
-                        <div class="comment-report--report">신고하기</div>
+                        <div class="comment-report--report button" onclick="shootToastMessage()">신고하기</div>
                     </div>
                 </div>
-                <div class="comment-content relative">
+                <div class=" comment-content relative">
                     <div class="comment-text">
                         <div class="comment-text--text">{{comment.text}}</div>
                         <div class="comment-text-options text-right flex justify-between">
-                            <div class="comment-text-options--recomment" onclick="expandRecommentSection(this)">답글
+                            <div class="comment-text-options--recomment button" onclick="expandRecommentSection(this)">
+                                답글
                                 {{comment.recomment_count}}개</div>
                             <div class="flex">
                                 {% if comment.author == request.user %}
-                                <div class="comment-text-options--edit" onclick=commentEdit(this,{{comment.pk}})>수정
+                                <div class="comment-text-options--edit button" onclick=commentEdit(this,{{comment.pk}})>
+                                    수정
                                 </div>
-                                <div class="comment-text-options--delete" onclick=commentDelete({{comment.pk}})>삭제</div>
+                                <div class="comment-text-options--delete button" onclick=commentDelete({{comment.pk}})>
+                                    삭제</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -97,7 +100,7 @@
                             <div class="recomment-report flex items-center ml-auto">
                                 <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
                                     alt="">
-                                <div class="comment-report--report">신고하기</div>
+                                <div class="comment-report--report button">신고하기</div>
                             </div>
                         </div>
                         <div class="absolute recomment-like-button-wrap">
@@ -112,9 +115,9 @@
                                 <div class="recomment-text-options-wrap flex justify-between">
                                     <div></div>
                                     <div class="recomment-text-options flex">
-                                        <div class="comment-text-options--edit recomment-text-options--edit"
+                                        <div class="comment-text-options--edit recomment-text-options--edit button"
                                             onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
-                                        <div class="comment-text-options--delete recomment-text-options--delete"
+                                        <div class="comment-text-options--delete recomment-text-options--delete button"
                                             onclick="recommentDelete({{recomment.pk}})">삭제</div>
                                     </div>
                                 </div>
@@ -125,7 +128,7 @@
                                     <div class="flex items-center justify-between">
                                         <div></div>
                                         <button type="submit" class="comment-edit-submit-button">수정하기</button>
-                                        <p class="comment-edit-cancel recomment-edit-cancel">취소</p>
+                                        <p class="comment-edit-cancel recomment-edit-cancel button">취소</p>
                                     </div>
                                 </form>
                             </div> -->
@@ -182,7 +185,7 @@
                 <div class="flex items-center justify-between">
                     <div></div>
                     <button type="submit" class="comment-edit-submit-button">수정하기</button>
-                    <p class="comment-edit-cancel recomment-edit-cancel">취소</p>
+                    <p class="comment-edit-cancel recomment-edit-cancel button">취소</p>
                 </div>
             </form>
         </div>`
@@ -235,7 +238,7 @@
             <div class="flex items-center justify-between">
                 <div></div>
                 <button type="submit" class="comment-edit-submit-button">수정하기</button>
-                <p class="comment-edit-cancel recomment-edit-cancel">취소</p>
+                <p class="comment-edit-cancel recomment-edit-cancel button">취소</p>
             </div>
         </form>
     </div>
@@ -320,7 +323,7 @@
                             <div class="recomment-report flex items-center ml-auto">
                                 <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
                                     alt="">
-                                <div class="comment-report--report">신고하기</div>
+                                <div class="comment-report--report button">신고하기</div>
                             </div>
                         </div>
                         <div class="absolute recomment-like-button-wrap">
@@ -335,8 +338,8 @@
                                 <div class="recomment-text-options-wrap flex justify-between">
                                     <div></div>
                                     <div class="recomment-text-options flex">
-                                        <div class="recomment-text-options--edit">수정</div>
-                                        <div class="recomment-text-options--delete">삭제</div>
+                                        <div class="recomment-text-options--edit button">수정</div>
+                                        <div class="recomment-text-options--delete button">삭제</div>
                                     </div>
                                 </div>
                             </div>
@@ -379,18 +382,18 @@
                         <div class="bar"></div>
                         <div class="comment-report flex items-center ml-auto">
                             <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
-                            <div class="comment-report--report">신고하기</div>
+                            <div class="comment-report--report button">신고하기</div>
                         </div>
                     </div>
                     <div class="comment-content relative">
                         <div class="comment-text">
                             <div class="comment-text--text">${text}</div>
                             <div class="comment-text-options text-right flex justify-between">
-                                <div onclick="expandRecommentSection(this)">답글 0개</div>
+                                <div onclick="expandRecommentSection(this)" class="button">답글 0개</div>
                                 <div class="flex">
-                                    <div class="comment-text-options--edit" onclick=commentEdit(this,${data.pk})>수정
+                                    <div class="comment-text-options--edit button" onclick=commentEdit(this,${data.pk})>수정
                                     </div>
-                                    <div class="comment-text-options--delete" onclick=commentDelete(${data.pk})>삭제</div>
+                                    <div class="comment-text-options--delete button" onclick=commentDelete(${data.pk})>삭제</div>
                                 </div>
                             </div>
                         </div>
