@@ -107,14 +107,12 @@ Farmer's page
                         <!--tag-->
                         <div class="grid grid-cols-3 gap-2 mb-24 h-7" id="tag">
                             {% for tag in farmer.farm_tags.all %}
-                            <a href="">
-                                <div class="text-center align-middle py-1 px-2 font-light text-sm transform hover:scale-105 transition duration-300 ease-in-out"
-                                    id="farm_tag">#{{tag}}</div>
-                            </a>
+                            <div class="text-center align-middle py-1 px-2 font-light text-sm transform hover:scale-105 transition duration-300 ease-in-out"
+                                id="farm_tag" name="{{tag}}">#{{tag}}</div>
                             {% endfor %}
                         </div>
                         <!--farmer's products-->
-                        <div class="grid grid-cols-3 gap-2 justify-around" id="farm_product_wrapper">
+                        <div class=" grid grid-cols-3 gap-2 justify-around" id="farm_product_wrapper">
                             {% for product in farmer.products.all|slice:":3" %}
                             <a href="{% url 'products:product_detail' product.pk %}">
                                 <div id="farm_product">

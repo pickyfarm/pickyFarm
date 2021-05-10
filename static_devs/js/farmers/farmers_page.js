@@ -31,7 +31,7 @@ $(function () {
         })
     });
 
-    // tag search ajax
+    // category search ajax
     $("td").click(function () {
         var search_cat = $(this).attr("id")
         event.preventDefault()
@@ -42,9 +42,26 @@ $(function () {
             },
             success: function (data) {
                 $('.search_block_1').html(data);
-                $(this).css('background-color', 'black');
             }
         })
     });
-});
 
+    // hashtag search ajax
+    var farm_tags = document.querySelectorAll('#farm_tag');
+    farm_tags.forEach(tag => {
+        tag.addEventListener('click', function () {
+            var search_tag = tag.getAttribute('name')
+            console.log(search_tag)
+            event.preventDefault()
+            $.ajax({
+                url: 'farm_tag_search/',
+                data: {
+                    'search_tag': search_tag,
+                },
+                success: function (data) {
+                    $('.search_block_1').html(data)
+                }
+            })
+        })
+    });
+})

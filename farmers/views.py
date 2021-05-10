@@ -77,6 +77,19 @@ def farm_cat_search(request):
     return render(request, "farmers/farmer_search.html", ctx)
 
 
+# farmer tag 검색 view - for AJAX
+def farm_tag_search(request):
+    search_tag = request.GET.get("search_tag")
+    farmer = Farm_Tag.objects.get(tag=search_tag).farmer.all().order_by("-id")
+    paginator = Paginator(farmer, 3)
+    page = request.GET.get("page")
+    farmers = paginator.get_page(page)
+    ctx = {
+        "farmers": farmers,
+    }
+    return render(request, "farmers/farmer_search.html", ctx)
+
+
 # farmer story 검색 view - for AJAX
 def farmer_story_search(request):
     select_val = request.GET.get("select_val")
