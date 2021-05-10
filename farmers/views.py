@@ -226,7 +226,7 @@ def farm_apply(request):
 # 입점 등록 page
 class FarmEnroll(View):
     def get(self, request, step):
-        if step == "step_1":
+        if step == 1:
             form = SignUpForm()
             addressform = AddressForm()
             ctx = {
@@ -234,13 +234,13 @@ class FarmEnroll(View):
                 "addressform": addressform,
             }
             return render(request, "farmers/farm_enroll_1.html", ctx)
-        elif step == "step_2":
+        elif step == 2:
             farm_form = FarmEnrollForm()
             ctx = {
                 "farm_form": farm_form,
             }
             return render(request, "farmers/farm_enroll_2.html", ctx)
-        elif step == "step_3":
+        elif step == 3:
             return render(request, "farmers/farm_enroll_3.html")
         return redirect(reverse("core:main"))
 

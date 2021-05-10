@@ -21,8 +21,7 @@
         <div class="relative mx-auto mt-2" id="border">
             <div class="absolute" id="step" style="width:50%"></div>
         </div>
-        <form method="POST" action="{% url 'farmers:farm_enroll' step='step_1' %}"
-            onkeydown="return event.key != 'Enter';">
+        <form method="POST" action="{% url 'farmers:farm_enroll' step=1 %}" onkeydown="return event.key != 'Enter';">
             {% csrf_token %}
             <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px">농장 정보 입력</div>
             <!--농장 이름-->

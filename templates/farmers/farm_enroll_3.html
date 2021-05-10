@@ -20,7 +20,7 @@
         <div class="relative mx-auto mt-2" id="border">
             <div class="absolute right-0" id="step" style="width:50%"></div>
         </div>
-        <form action="{% url 'farmers:farm_enroll' step='step_3' %}" method="post">
+        <form action="{% url 'farmers:farm_enroll' step=3 %}" method="post">
             {% csrf_token %}
             <div class="mx-auto" id="contract-content">
                 <div class="font-medium text-2xl text-left mb-24" style="color:#5c6754">계약서 작성</div>
