@@ -198,7 +198,7 @@ def question_paging(request):
 
 def create_question(request):
     product_pk = None
-
+    consumer = request.user
     if request.method == 'GET':
         product_pk = int(request.GET.get('product'))
         form = Question_Form()
