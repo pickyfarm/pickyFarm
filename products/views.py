@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import request, JsonResponse
 from django.core import serializers
-from .models import Product, Category
+from django.contrib.auth.decorators import login_required
+from .models import Product, Category, Question
 from .forms import Question_Form
 from comments.forms import ProductRecommentForm
 from django.utils import timezone
@@ -195,18 +196,37 @@ def question_paging(request):
 
     return JsonResponse(data)
 
-
+@login_required
 def create_question(request):
     product_pk = None
-    consumer = request.user
+    consumer = request.user.consumer
+    product_pk = int(request.GET.get('product'))
+    print(f'싱품 pk : {product_pk}')
     if request.method == 'GET':
-        product_pk = int(request.GET.get('product'))
         form = Question_Form()
         ctx = {
             'form' : form,
         }
         return render(request, 'products/create_question.html', ctx)
- 
+    else :
+        form = Question_Form(request.POST, request.FILES)
+        if form.is_valid():
+            title = form.cleaned_data.get('title')
+            content = form.cleaned_data.get('content')
+            image = form.cleaned_data.get('image')
+            status = False
+            try:
+                product = Product.objects.get(pk = product_pk)
+            except ObjectDoesNotExist:
+                print("존재하지 않는 상품 pk")
+                return redirect(reverse('core:main'))
+            new_question = Question(title=title, content=content, image=image, status=status, consumer=consumer, product=product)
+            new_question.save()
+            return redirect(reverse("products:product_detail", args=[product_pk]))
+        else:
+            print("상품 question create form validation 오류")
+            return redirect(reverse('core:main'))
+
 
 
 

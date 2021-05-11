@@ -12,7 +12,7 @@
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
     <div class="flex flex-col justify-center items-center">
         
-        <form class="mx-auto" action="{% url 'editor_reviews:create' %}" method='POST' enctype="multipart/form-data">
+        <form class="mx-auto" method='POST' enctype="multipart/form-data">
             {% csrf_token %}
            
             <div class="flex flex-col items-center">
@@ -37,13 +37,13 @@
 </div>
 
 <script type="text/javascript">
-    var checkUnload = true;
-    $(window).on('beforeunload', function () {
-        if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-    });
-    $("#write").on("click", function () {
-        checkUnload = false;
-        $("submit").submit();
-    });
+    // var checkUnload = true;
+    // $(window).on('beforeunload', function () {
+    //     if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+    // });
+    // $("#write").on("click", function () {
+    //     checkUnload = false;
+    //     $("submit").submit();
+    // });
 </script>
 {% endblock main_content %}
