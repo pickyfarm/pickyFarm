@@ -627,6 +627,12 @@ div{
   width:990px;
 }
 
+#score_range_wrap {
+  border:1px solid #5e6656; 
+  border-radius: 4px;
+  width: 190px;
+}
+
 #score_range {
   width: 95px;
   height: 7px;

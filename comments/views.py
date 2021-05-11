@@ -43,9 +43,33 @@ def product_comment_create(request, pk):
         product_comment.save()
         product.reviews += 1
 
+        # freshness
+        if product_comment.freshness == 1:
+            product.freshness_1 += 1
+        elif product_comment.freshness == 3:
+            product.freshness_3 += 1
+        else:
+            product.freshness_5 += 1
+
+        # flavor
+        if product_comment.flavor == 1:
+            product.flavor_1 += 1
+        elif product_comment.flavor == 3:
+            product.flavor_3 += 1
+        else:
+            product.flavor_5 += 1
+
+        # cost_performance
+        if product_comment.cost_performance == 1:
+            product.cost_performance_1 += 1
+        elif product_comment.cost_performance == 3:
+            product.cost_performance_3 += 1
+        else:
+            product.cost_performance_5 += 1
+
         # total rating calculate
         product.calculate_total_rating_sum(product_comment.avg)
-        product.calculate_total_rating_avg()
+        result = product.calculate_total_rating_avg()
 
         # specific rating calculate
         product.calculate_specific_rating(

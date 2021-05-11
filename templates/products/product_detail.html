@@ -1,16 +1,16 @@
 {% extends "base/base.html" %}
 
-{% load static %}   
+{% load static %}
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
-    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+<link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 {% endblock stylesheet %}
-{% block main_content %}   
+{% block main_content %}
 
 <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
-    
+
     <div id="product_content" name="{{product.pk}}" class="flex flex-row mx-auto z-0">
         <div id="left" class="w=2/5">
             <div>
@@ -18,11 +18,11 @@
             </div>
             <div id="images" class="w-full flex flex-rows mt-3">
                 {% if product.product_images is not None %}
-                    {% for image in product.product_images.all %}
-                        
-                    <img id="images" class="mr-3" src="{{image.image.url}}">
-                        
-                    {% endfor %}
+                {% for image in product.product_images.all %}
+
+                <img id="images" class="mr-3" src="{{image.image.url}}">
+
+                {% endfor %}
                 {% endif %}
             </div>
             <div class="ml-7 mt-10 text-left" id="farm_news_letter">
@@ -30,7 +30,7 @@
             </div>
             <div id="farm_news" class="relative mt-1 py-2 pl-8">
                 <img class="absolute -top-6 -left-2" src="{% static 'images/product_detail/bell.svg' %}">
-                    {{farmer.farm_news}}
+                {{farmer.farm_news}}
             </div>
         </div>
         <div id="right" class="w-3/5 pr-10 pl-12">
@@ -55,7 +55,7 @@
             <div id="cost" class="pt-8 pb-6 mb-2">
                 {{product.sell_price}}원
             </div>
-    
+
             <div id="farmer_section" class="flex flex-row items-center mt-3">
                 <div id="farmer_image">
                     <img src="{{farmer.user.profile_image.url}}" id="farmer_img" alt="농장주사진">
@@ -106,7 +106,7 @@
             </div>
             <div id="buttons" class="flex flex-rows">
                 <div id="wish">찜하기</div>
-                    
+
                 <div id="cart" class="mr-12 ml-3">장바구니 담기</div>
                 <div id="purchase">바로 구매하기</div>
             </div>
@@ -114,10 +114,18 @@
     </div>
 
     <div id="product_desc" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
-        <a href="#product_desc" class="w-1/6"><div id="sel" class="py-3 border-t border-r border-l">상품설명</div></a>
-        <a href="#product_info" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div></a>
-        <a href="#product_review" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div></a>
-        <a href="#product_qna" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div></a>
+        <a href="#product_desc" class="w-1/6">
+            <div id="sel" class="py-3 border-t border-r border-l">상품설명</div>
+        </a>
+        <a href="#product_info" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div>
+        </a>
+        <a href="#product_review" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div>
+        </a>
+        <a href="#product_qna" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div>
+        </a>
         <div class="w-2/6 border-b"></div>
     </div>
     <div id="desc_img_box">
@@ -126,10 +134,18 @@
 
     <!-- 상세정보 -->
     <div id="product_info" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
-        <a href="#product_desc" class="w-1/6"><div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div></a>
-        <a href="#product_info" class="w-1/6"><div id="sel" class="py-3 border-t border-r">상세정보</div></a>
-        <a href="#product_review" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div></a>
-        <a href="#product_qna" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div></a>
+        <a href="#product_desc" class="w-1/6">
+            <div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div>
+        </a>
+        <a href="#product_info" class="w-1/6">
+            <div id="sel" class="py-3 border-t border-r">상세정보</div>
+        </a>
+        <a href="#product_review" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div>
+        </a>
+        <a href="#product_qna" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div>
+        </a>
         <div class="w-2/6 border-b"></div>
     </div>
     <div id="info_detail" class="grid grid-cols-4 mx-auto">
@@ -147,10 +163,18 @@
         <div>홈페이지 고객문의센터</div>
     </div>
     <div id="product_review" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
-        <a href="#product_desc" class="w-1/6"><div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div></a>
-        <a href="#product_info" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div></a>
-        <a href="#product_review" class="w-1/6"><div id="sel" class="py-3 border-t border-r">리뷰 ({{comments.count}})</div></a>
-        <a href="#product_qna" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div></a>
+        <a href="#product_desc" class="w-1/6">
+            <div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div>
+        </a>
+        <a href="#product_info" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div>
+        </a>
+        <a href="#product_review" class="w-1/6">
+            <div id="sel" class="py-3 border-t border-r">리뷰 ({{comments.count}})</div>
+        </a>
+        <a href="#product_qna" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div>
+        </a>
         <div class="w-2/6 border-b"></div>
     </div>
 </div>
@@ -162,58 +186,76 @@
         <div id="total_stars" class="mx-auto">
             <div id="total_stars" class='flex flex-row justify-center'>
                 {% for i in total_score %}
-                    <img class='mr-3' src="{% static 'images/product_detail/big_yellow_star.svg' %}" alt="big_yellow_star">
+                <img class='mr-3' src="{% static 'images/product_detail/big_yellow_star.svg' %}" alt="big_yellow_star">
                 {% endfor %}
                 {% for i in remainder_score %}
-                    <img class='mr-3' src="{% static 'images/product_detail/big_star.svg' %}" alt="star">
+                <img class='mr-3' src="{% static 'images/product_detail/big_star.svg' %}" alt="star">
                 {% endfor %}
             </div>
             <p class="mt-3 text-center mb-16" id="percent">{{ total_percent }}% 만족</p>
         </div>
         <div class='flex flex-row justify-between mx-auto' style="width: 990px;">
-            <div id="fresh" style="width: 265px;">
-                <p class ="mb-5 text-center" id='score_title'>신선도</p>
+            <div id="fresh" style="width: 266px;">
+                <p class="mb-5 text-center" id='score_title'>신선도</p>
                 <div class="flex flex-row items-center">
                     <div class="text-right mr-4" style="width: 60px;">신선해요</div>
-                    <div class="" id="score_range"></div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{freshness_5}}%;"></div>
+                    </div>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="mr-4" style="width: 60px;">보통이에요</div>
-                    <div class="" id="score_range"></div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{freshness_3}}%;"></div>
+                    </div>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="text-right mr-4" style="width: 60px;">아쉬워요</div>
-                    <div class="" id="score_range"></div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{freshness_1}}%;"></div>
+                    </div>
                 </div>
             </div>
-            <div id="taste" style="width: 265px;">
-                <p class ="mb-5 text-center" id='score_title'>맛</p>
+            <div id="taste" style="width: 266px;">
+                <p class="mb-5 text-center" id='score_title'>맛</p>
                 <div class="flex flex-row items-center">
                     <div class="text-right mr-4" style="width: 60px;">맛있어요</div>
-                    <div class="" id="score_range"></div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{flavor_5}}%;"></div>
+                    </div>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="mr-4" style="width: 60px;">보통이에요</div>
-                    <div class="" id="score_range"></div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{flavor_3}}%;"></div>
+                    </div>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="text-right mr-4" style="width: 60px;">아쉬워요</div>
-                    <div class="" id="score_range"></div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{flavor_1}}%;"></div>
+                    </div>
                 </div>
             </div>
-            <div id="price" style="width: 265px;">
-                <p class ="mb-5 text-center" id='score_title'>가성비</p>
+            <div id="price" style="width: 266px;">
+                <p class="mb-5 text-center" id='score_title'>가성비</p>
                 <div class="flex flex-row items-center">
-                    <div class="text-right mr-4" style="width: 60px;">맛있어요</div>
-                    <div class="" id="score_range"></div>
+                    <div class="text-right mr-4" style="width: 60px;">좋아요</div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{cost_5}}%;"></div>
+                    </div>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="mr-4" style="width: 60px;">보통이에요</div>
-                    <div class="" id="score_range"></div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{cost_3}}%;"></div>
+                    </div>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="text-right mr-4" style="width: 60px;">아쉬워요</div>
-                    <div class="" id="score_range"></div>
+                    <div id="score_range_wrap">
+                        <div class="" id="score_range" style="width: {{cost_1}}%;"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -222,123 +264,130 @@
 
 <div id="comment_list" class="flex flex-col mx-auto z-0">
     {% if comments.exists is False %}
-        <div class='text-center h-28'> 아직 작성된 리뷰가 없습니다. </div>
+    <div class='text-center h-28'> 아직 작성된 리뷰가 없습니다. </div>
     {% else %}
-        {% for comment in comments %}
-        <div class='mb-16'>
-            <div class="flex flex-row mb-9" id="comment">
-                <div class="">
-                    <img id="reviewer_img" src="{{comment.consumer.user.profile_image.url}}" alt="">
-                </div>
-                <div class="flex flex-col ml-6 border-b-2" style="width: 880px; font-size: 15px;">
-                    <div class="flex flex-row mb-3">
-                        <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">{{ comment.consumer.user.nickname }}</div>
-                        <div class="text-center" style="width: 340px; border-right: solid 3px #999999; color:#989898;">{{ comment.create_at|date:"Y. m. d h:i" }}</div>
-                        <div class="flex flex-row" id="report" style="margin-left:87.8px">
-                            <img src="{% static 'images/report.svg' %}" alt="">
-                            <div class="text-black text-opacity-40 pl-2">신고하기</div>
-                        </div>
-                    </div>
-                    <div class="flex flex-row pb-5 items-center">
-                        <div class="text-black text-opacity-40 mr-16">{{ product.title }} 구매</div>
-                        <div id="stars" class='flex flex-row items-center'>
-                            {% for i in comment.avg|rjust:comment.avg %}
-                                <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}" alt="yellow_star">
-                            {% endfor %}
-                            {% for i in 5|rjust:4 %}
-                                <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/star.svg' %}" alt="yellow_star">
-                            {% endfor %}
-                        </div>
+    {% for comment in comments %}
+    <div class='mb-16'>
+        <div class="flex flex-row mb-9" id="comment">
+            <div class="">
+                <img id="reviewer_img" src="{{comment.consumer.user.profile_image.url}}" alt="">
+            </div>
+            <div class="flex flex-col ml-6 border-b-2" style="width: 880px; font-size: 15px;">
+                <div class="flex flex-row mb-3">
+                    <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">
+                        {{ comment.consumer.user.nickname }}</div>
+                    <div class="text-center" style="width: 340px; border-right: solid 3px #999999; color:#989898;">
+                        {{ comment.create_at|date:"Y. m. d h:i" }}</div>
+                    <div class="flex flex-row" id="report" style="margin-left:87.8px">
+                        <img src="{% static 'images/report.svg' %}" alt="">
+                        <div class="text-black text-opacity-40 pl-2">신고하기</div>
                     </div>
                 </div>
-            </div>
-            <div class="mb-12" id="score_table_wrap">
-                <table id="score_table">
-                    <tr>
-                        <td class="py-2 text-center"> 신선도 </td>
-                        <td class="py-2 text-center"> 맛 </td>
-                        <td class="py-2 text-center"> 가성비 </td>
-                    </tr>
-                    <tr>
-                        <td class="py-4">
-                            {% if comment.freshness == 1 %}
-                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
-                            {% elif comment.freshness == 3 %}
-                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
-                            {% else %}
-                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
-                            {% endif %}
-                        </td>
-                        <td class="py-4">
-                            {% if comment.flavor == 1 %}
-                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
-                            {% elif comment.flavor == 3 %}
-                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
-                            {% else %}
-                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
-                            {% endif %}
-                        </td>
-                        <td class="py-4">
-                            {% if comment.cost_performance == 1 %}
-                                <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
-                            {% elif comment.cost_performance == 3 %}
-                                <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
-                            {% else %}
-                                <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div id="review_txt" class="text-left">{{ comment.text }}</div>
-            <div id="review_imgs" class="flex flex-row text-left mt-5">
-                {% for img in comment.product_comment_images.all %}
-                    <div id="review_img" class="mb-9"><img src="{{img.image.url}}" alt="사진없음" style="width:241px; height:241px; object-fit: cover;"></div>
-                {% endfor %}
-            </div>
-            <div id="review_comment">
-                <div class="flex flex-row justify-center mb-4">
-                    <button id="more_btn" class="rec_more" style="outline: none;">
-                        댓글보기 &nbsp; <i id="show_icon" class='fas fa-caret-down'></i> <i class="fas fa-caret-up" style="display: none;"></i>
-                    </button>
+                <div class="flex flex-row pb-5 items-center">
+                    <div class="text-black text-opacity-40 mr-16">{{ product.title }} 구매</div>
+                    <div id="stars" class='flex flex-row items-center'>
+                        {% for i in comment.avg|rjust:comment.avg %}
+                        <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}"
+                            alt="yellow_star">
+                        {% endfor %}
+                        {% for i in 5|rjust:4 %}
+                        <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/star.svg' %}" alt="yellow_star">
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="recomments hide">
-                    <div class='flex flex-col recomment_form' id='recomment_form_{{ comment.id }}' name='{{comment.id}}'>
-                        {% for recomment in comment.product_recomments.all %}
-                        <div class="recomment_list text-center m-4 p-4" id="recomment_list_{{ comment.id }}">
-                            <div class="flex flex-row" id="recomment">
-                                <div class="mr-4" style="width: 10px; height: 10px; 
+            </div>
+        </div>
+        <div class="mb-12" id="score_table_wrap">
+            <table id="score_table">
+                <tr>
+                    <td class="py-2 text-center"> 신선도 </td>
+                    <td class="py-2 text-center"> 맛 </td>
+                    <td class="py-2 text-center"> 가성비 </td>
+                </tr>
+                <tr>
+                    <td class="py-4">
+                        {% if comment.freshness == 1 %}
+                        <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                        {% elif comment.freshness == 3 %}
+                        <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                        {% else %}
+                        <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                        {% endif %}
+                    </td>
+                    <td class="py-4">
+                        {% if comment.flavor == 1 %}
+                        <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                        {% elif comment.flavor == 3 %}
+                        <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                        {% else %}
+                        <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                        {% endif %}
+                    </td>
+                    <td class="py-4">
+                        {% if comment.cost_performance == 1 %}
+                        <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                        {% elif comment.cost_performance == 3 %}
+                        <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                        {% else %}
+                        <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="review_txt" class="text-left">{{ comment.text }}</div>
+        <div id="review_imgs" class="flex flex-row text-left mt-5">
+            {% for img in comment.product_comment_images.all %}
+            <div id="review_img" class="mb-9"><img src="{{img.image.url}}" alt="사진없음"
+                    style="width:241px; height:241px; object-fit: cover;"></div>
+            {% endfor %}
+        </div>
+        <div id="review_comment">
+            <div class="flex flex-row justify-center mb-4">
+                <button id="more_btn" class="rec_more" style="outline: none;">
+                    댓글보기 &nbsp; <i id="show_icon" class='fas fa-caret-down'></i> <i class="fas fa-caret-up"
+                        style="display: none;"></i>
+                </button>
+            </div>
+            <div class="recomments hide">
+                <div class='flex flex-col recomment_form' id='recomment_form_{{ comment.id }}' name='{{comment.id}}'>
+                    {% for recomment in comment.product_recomments.all %}
+                    <div class="recomment_list text-center m-4 p-4" id="recomment_list_{{ comment.id }}">
+                        <div class="flex flex-row" id="recomment">
+                            <div class="mr-4" style="width: 10px; height: 10px; 
                                                     border-left: 2px solid #5c6754; 
                                                     border-bottom: 2px solid #5c6754;"></div>
-                                <div class="">
-                                    <img id="consumer_img" src="{{ recomment.author.profile_image.url }}" alt="">
-                                </div>
-                                <div class="flex items-center ml-6">
-                                    <div class="flex flex-row" style="font-size: 15px;">
-                                        <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">{{ recomment.author.nickname }}</div>
-                                        <div class="" style="width: 340px; border-right: solid 3px #999999; color:#989898;">{{ recomment.create_at|date:"Y. m. d h:i" }}</div>
-                                        <div class="flex flex-row" id="report" style="margin-left:87.8px">
-                                            <img src="{% static 'images/report.svg' %}" alt="">
-                                            <div class="text-black text-opacity-40 pl-2">신고하기</div>
-                                        </div>
+                            <div class="">
+                                <img id="consumer_img" src="{{ recomment.author.profile_image.url }}" alt="">
+                            </div>
+                            <div class="flex items-center ml-6">
+                                <div class="flex flex-row" style="font-size: 15px;">
+                                    <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">
+                                        {{ recomment.author.nickname }}</div>
+                                    <div class="" style="width: 340px; border-right: solid 3px #999999; color:#989898;">
+                                        {{ recomment.create_at|date:"Y. m. d h:i" }}</div>
+                                    <div class="flex flex-row" id="report" style="margin-left:87.8px">
+                                        <img src="{% static 'images/report.svg' %}" alt="">
+                                        <div class="text-black text-opacity-40 pl-2">신고하기</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-6 mb-6 text-left pl-8" style="font-size: 17px;">
-                                {{ recomment.text }}
-                            </div>
                         </div>
-                        {% endfor %}
+                        <div class="mt-6 mb-6 text-left pl-8" style="font-size: 17px;">
+                            {{ recomment.text }}
+                        </div>
                     </div>
-                    <div class="flex flex-row mt-4 justify-between" id="recommentform_{{comment.pk}}">
-                        {% csrf_token %}
-                        {{ recomment_form.text }}
-                        <button id="rec_submit" name="{{comment.id}}">댓글작성</button>
-                    </div>
+                    {% endfor %}
+                </div>
+                <div class="flex flex-row mt-4 justify-between" id="recommentform_{{comment.pk}}">
+                    {% csrf_token %}
+                    {{ recomment_form.text }}
+                    <button id="rec_submit" name="{{comment.id}}">댓글작성</button>
                 </div>
             </div>
-        </div>    
-        {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
     {% endif %}
 </div>
 
@@ -346,10 +395,18 @@
 <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
 
     <div id="product_qna" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
-        <a href="#product_desc" class="w-1/6"><div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div></a>
-        <a href="#product_info" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div></a>
-        <a href="#product_review" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div></a>
-        <a href="#product_qna" class="w-1/6"><div id="sel" class="py-3 border-t border-r">상품문의 ({{questions.count}})</div></a>
+        <a href="#product_desc" class="w-1/6">
+            <div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div>
+        </a>
+        <a href="#product_info" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div>
+        </a>
+        <a href="#product_review" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div>
+        </a>
+        <a href="#product_qna" class="w-1/6">
+            <div id="sel" class="py-3 border-t border-r">상품문의 ({{questions.count}})</div>
+        </a>
         <div class="w-2/6 border-b"></div>
     </div>
 
@@ -373,220 +430,221 @@
             <div id="q_letter_gray" class="w-2/12">작성일</div>
         </div>
         <div id="qnas-section">
-        {% if questions.exists is False %}
+            {% if questions.exists is False %}
             <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
-        {% else %}
+            {% else %}
             {% for q in questions %}
-                <a href='#'>
+            <a href='#'>
                 <div id="q_table_bottom" class="flex flex-rows py-1">
-                        {% if q.status is True %}
-                            <div id="q_letter_answered" class="w-2/12">답변완료</div>
-                        {% else %}
-                            <div id="q_letter_gray" class="w-2/12">답변대기</div>
-                        {% endif %}
+                    {% if q.status is True %}
+                    <div id="q_letter_answered" class="w-2/12">답변완료</div>
+                    {% else %}
+                    <div id="q_letter_gray" class="w-2/12">답변대기</div>
+                    {% endif %}
                     <div id="q_letter_black" class="w-6/12">{{q.title}}</div>
                     <div id="q_letter_black" class="w-2/12">{{q.consumer.user.nickname}}</div>
                     <div id="q_letter_gray" class="w-2/12">{{q.create_at.date}}</div>
                 </div>
-                </a>
+            </a>
             {% endfor %}
-        {% endif %}
+            {% endif %}
         </div>
-        <div class="flex flex-row justify-end" >
+        <div class="flex flex-row justify-end">
             <div id="q_write" class="flex flex-rows justify-center mt-10 w-2/12">
                 <div>글쓰기</div>
                 <img src="{% static 'images/product_detail/pen.svg' %}">
             </div>
         </div>
         <div id="paginator" class="flex flex-row mt-10 justify-center">
-            <div class="mr-10"><</div>
-            {% for p in question_total_pages %}
-              <div id="qna_paginator" class="mr-10" name="{{p}}">{{p}}</div>
-            {% endfor %}
-            <div>></div>
+            <div class="mr-10">
+                << /div>
+                    {% for p in question_total_pages %}
+                    <div id="qna_paginator" class="mr-10" name="{{p}}">{{p}}</div>
+                    {% endfor %}
+                    <div>></div>
+            </div>
         </div>
     </div>
-</div>
 
 
-<script>
-    
-    
-    let plusBtn = document.getElementById('plus_btn')
-    let minusBtn = document.getElementById('minus_btn')
-    let totalPrice = document.getElementById('total_price')
-    let quantityNum = document.getElementById('quantity_number')
-    console.log(quantityNum)
-    
-    let pricePerOne = parseInt(totalPrice.innerHTML)
+    <script>
 
-    console.log(pricePerOne)
-    console.log(plusBtn)
-    console.log(minusBtn)
-    console.log(totalPrice)
 
-    function addCalTotalPrice(price, quantity){
-        let nowTotalPrice = totalPrice.innerHTML
-        nowTotalPrice = parseInt(nowTotalPrice)
+        let plusBtn = document.getElementById('plus_btn')
+        let minusBtn = document.getElementById('minus_btn')
+        let totalPrice = document.getElementById('total_price')
+        let quantityNum = document.getElementById('quantity_number')
+        console.log(quantityNum)
 
-        let newTotalOrderPrice = nowTotalPrice + price*quantity
-        totalPrice.innerHTML = String(newTotalOrderPrice)
-    }
+        let pricePerOne = parseInt(totalPrice.innerHTML)
 
-    function subCalTotalPrice(price, quantity){
-        let nowTotalPrice = totalPrice.innerHTML
-        nowTotalPrice = parseInt(nowTotalPrice)
+        console.log(pricePerOne)
+        console.log(plusBtn)
+        console.log(minusBtn)
+        console.log(totalPrice)
 
-        let newTotalOrderPrice = nowTotalPrice - price*quantity
-        if(newTotalOrderPrice < 0)
-            newTotalOrderPrice = 0
-        totalPrice.innerHTML = String(newTotalOrderPrice)
-    }
+        function addCalTotalPrice(price, quantity) {
+            let nowTotalPrice = totalPrice.innerHTML
+            nowTotalPrice = parseInt(nowTotalPrice)
 
-    plusBtn.addEventListener('click', function(){
-        let num = parseInt(quantityNum.innerHTML)
-        num += 1
-        quantityNum.innerHTML = num
-        addCalTotalPrice(pricePerOne, 1)
-    })
+            let newTotalOrderPrice = nowTotalPrice + price * quantity
+            totalPrice.innerHTML = String(newTotalOrderPrice)
+        }
 
-    minusBtn.addEventListener('click', function(){
-        let num = parseInt(quantityNum.innerHTML)
-        if(num <= 1)
-            num = 1
-        else{
-            num -= 1
+        function subCalTotalPrice(price, quantity) {
+            let nowTotalPrice = totalPrice.innerHTML
+            nowTotalPrice = parseInt(nowTotalPrice)
+
+            let newTotalOrderPrice = nowTotalPrice - price * quantity
+            if (newTotalOrderPrice < 0)
+                newTotalOrderPrice = 0
+            totalPrice.innerHTML = String(newTotalOrderPrice)
+        }
+
+        plusBtn.addEventListener('click', function () {
+            let num = parseInt(quantityNum.innerHTML)
+            num += 1
             quantityNum.innerHTML = num
-            subCalTotalPrice(pricePerOne, 1)
-        }
-        
-    })
+            addCalTotalPrice(pricePerOne, 1)
+        })
 
-    let wishBtn = document.getElementById('wish')
-    let product_pk = document.getElementById('product_content').getAttribute('name')
+        minusBtn.addEventListener('click', function () {
+            let num = parseInt(quantityNum.innerHTML)
+            if (num <= 1)
+                num = 1
+            else {
+                num -= 1
+                quantityNum.innerHTML = num
+                subCalTotalPrice(pricePerOne, 1)
+            }
 
-    wishBtn.addEventListener('click', function(){
-        
-        data = {
-            'pk':product_pk,
-            "csrfmiddlewaretoken":"{{csrf_token}}",
-        }
-        $.ajax({
-            type : 'POST',
-            url : "{% url 'users:wish' %}",
-            dataType : 'json',
-            data : data,
-            success : function(response){
-                if(response.status == 0){
-                    alert('이미 찜한 무난이 입니다!')
+        })
+
+        let wishBtn = document.getElementById('wish')
+        let product_pk = document.getElementById('product_content').getAttribute('name')
+
+        wishBtn.addEventListener('click', function () {
+
+            data = {
+                'pk': product_pk,
+                "csrfmiddlewaretoken": "{{csrf_token}}",
+            }
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'users:wish' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    if (response.status == 0) {
+                        alert('이미 찜한 무난이 입니다!')
+                    }
+                    else if (response.status == 1) {
+                        alert('무난이를 찜했습니다')
+                    }
+                },
+                error: function (request, status, error) {
+                    alert('로그인이 필요합니다.')
                 }
-                else if(response.status == 1){
-                    alert('무난이를 찜했습니다')
+            })
+        })
+
+        let cartBtn = document.getElementById('cart')
+        console.log(cartBtn)
+        cartBtn.addEventListener('click', function () {
+            let quantityNumber = parseInt(quantityNum.innerHTML)
+            console.log(quantityNumber)
+            data = {
+                'pk': product_pk,
+                'quantity': quantityNumber,
+                "csrfmiddlewaretoken": "{{csrf_token}}",
+            }
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'users:cartInAjax' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    alert(response.message)
+                },
+                error: function (request, status, error) {
+                    alert('로그인이 필요합니다.')
                 }
-            },
-            error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
-            }
+            })
         })
-    })
 
-    let cartBtn = document.getElementById('cart')
-    console.log(cartBtn)
-    cartBtn.addEventListener('click', function(){
-        let quantityNumber = parseInt(quantityNum.innerHTML)
-        console.log(quantityNumber)
-        data = {
-            'pk':product_pk,
-            'quantity':quantityNumber,
-            "csrfmiddlewaretoken":"{{csrf_token}}",
-        }
-        $.ajax({
-            type:'POST',
-            url : "{% url 'users:cartInAjax' %}",
-            dataType : 'json',
-            data : data,
-            success : function(response){
-                alert(response.message)
-            },
-            error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
+        let subBtn = document.getElementById('sub')
+        console.log(subBtn)
+        subBtn.addEventListener('click', function () {
+            let farmerPk = subBtn.getAttribute('name')
+            console.log(farmerPk)
+            data = {
+                'farmer_pk': farmerPk,
+                "csrfmiddlewaretoken": "{{csrf_token}}",
             }
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'users:subs' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    if (response.success == -1)
+                        alert("구독하지 못했습니다. 다시 시도해주세요")
+                    else if (response.success == 0)
+                        alert("이미 구독한 농가입니다!")
+                    else
+                        alert("농가를 구독하였습니다!")
+                },
+                error: function (request, status, error) {
+                    alert('로그인이 필요합니다.')
+                }
+            })
         })
-    })
-
-    let subBtn = document.getElementById('sub')
-    console.log(subBtn)
-    subBtn.addEventListener('click', function(){
-        let farmerPk = subBtn.getAttribute('name')
-        console.log(farmerPk)
-        data = {
-            'farmer_pk' : farmerPk,
-            "csrfmiddlewaretoken":"{{csrf_token}}",
-        }
-        $.ajax({
-            type:'POST',
-            url : "{% url 'users:subs' %}",
-            dataType:'json',
-            data : data,
-            success: function(response){
-                if(response.success == -1)
-                    alert("구독하지 못했습니다. 다시 시도해주세요")
-                else if(response.success == 0)
-                    alert("이미 구독한 농가입니다!")
-                else
-                    alert("농가를 구독하였습니다!")
-            },
-            error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
-            }
-        })
-    })
 
 
-</script>
+    </script>
 
-<script>
-    // 댓글 작성 버튼 toggle
-    let recomments = document.querySelectorAll('.recomments')
-    recomments.forEach(recomment => recomment.classList.add("hide"))
-    $(document).on('click', '#more_btn' , function(){ 
-        $(this).parent().siblings('.recomments').toggle();
-        $(this).children('.fa-caret-down').toggle();
-        $(this).children('.fa-caret-up').toggle();
-        const [...recomment_forms] = document.querySelectorAll('.recomment_form')
-        recomment_forms.forEach((form) => {
-            form.scrollBy(0, 10000)
+    <script>
+        // 댓글 작성 버튼 toggle
+        let recomments = document.querySelectorAll('.recomments')
+        recomments.forEach(recomment => recomment.classList.add("hide"))
+        $(document).on('click', '#more_btn', function () {
+            $(this).parent().siblings('.recomments').toggle();
+            $(this).children('.fa-caret-down').toggle();
+            $(this).children('.fa-caret-up').toggle();
+            const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+            recomment_forms.forEach((form) => {
+                form.scrollBy(0, 10000)
+            });
         });
-    });
 
-    // 스크롤 하단 고정 (수정 필요)
-    
+        // 스크롤 하단 고정 (수정 필요)
 
-    // 리뷰 댓글 작성
-    const btns = document.querySelectorAll('#rec_submit')
-    btns.forEach(btn => btn.addEventListener('click', recommentSubmit));
-    function recommentSubmit() {
-        let comment_id = $(this).attr('name') // {{comment.id}}
-        let parent = $(this).parent(); // recommentform_{{comment.id}}
-        let text = parent.children('#id_text').val() // recomment text value
-        console.log(text);
 
-        $.ajax({
-            type:'POST',
-            url: `/comment/${comment_id}/recomment/create/`,
-            dataType: 'json',
-            data: {
-                'text': text,
-                'pk': comment_id,
-                'user': '{{ request.user.pk }}',
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-            },
-            success: function(data) {
-                if (text === '') {
-                    alert('댓글을 입력해주세요');
-                    return;
-                }
-                let recomment = `
+        // 리뷰 댓글 작성
+        const btns = document.querySelectorAll('#rec_submit')
+        btns.forEach(btn => btn.addEventListener('click', recommentSubmit));
+        function recommentSubmit() {
+            let comment_id = $(this).attr('name') // {{comment.id}}
+            let parent = $(this).parent(); // recommentform_{{comment.id}}
+            let text = parent.children('#id_text').val() // recomment text value
+            console.log(text);
+
+            $.ajax({
+                type: 'POST',
+                url: `/comment/${comment_id}/recomment/create/`,
+                dataType: 'json',
+                data: {
+                    'text': text,
+                    'pk': comment_id,
+                    'user': '{{ request.user.pk }}',
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    if (text === '') {
+                        alert('댓글을 입력해주세요');
+                        return;
+                    }
+                    let recomment = `
                 <div class="recomment_list text-center m-4 p-4" id="recomment_list_${comment_id}">
                     <div class="flex flex-row" id="recomment">
                         <div class="mr-4" style="width: 10px; height: 10px; 
@@ -610,73 +668,73 @@
                         ${data.text}
                     </div>
                 </div>`
-                let list = parent.parent().children(`div[name=${comment_id}]`);
-                list.append(recomment);
-                parent.children('#id_text').val('')
-                const [...recomment_forms] = document.querySelectorAll('.recomment_form')
-                recomment_forms.forEach((form) => {
-                    form.scrollBy(0, 10000)
-                });
-            },
-            error: function() {
-                alert('error');
-            }
-        });
-    }
-
-    let qna_page = document.querySelectorAll('#qna_paginator')
-    qna_page.forEach(item=>{
-        item.addEventListener('click', function(){
-            let page_num = item.getAttribute('name')
-            
-            $.ajax({
-                type:'POST',
-                url : "{% url 'products:qna_paginator' %}",
-                dataType : 'json',
-                data : {
-                    'product_pk' : product_pk,
-                    'page_num' : page_num,
-                    "csrfmiddlewaretoken":"{{csrf_token}}",
+                    let list = parent.parent().children(`div[name=${comment_id}]`);
+                    list.append(recomment);
+                    parent.children('#id_text').val('')
+                    const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+                    recomment_forms.forEach((form) => {
+                        form.scrollBy(0, 10000)
+                    });
                 },
-                success : function(data){
-                    let qnaSection = document.getElementById('qnas-section')
-                    qnaSection.innerHTML = ''
-                    data.questions.forEach(item=>{
-                        let status = item.status
-                        let title = item.title
-                        let consumer = item.consumer
-                        let create_at = item.create_at
-                        console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
-                        let qnaLine = `<a href='#'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
-                        
-                        if(status == true){
-                            qnaLine += `
+                error: function () {
+                    alert('error');
+                }
+            });
+        }
+
+        let qna_page = document.querySelectorAll('#qna_paginator')
+        qna_page.forEach(item => {
+            item.addEventListener('click', function () {
+                let page_num = item.getAttribute('name')
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'products:qna_paginator' %}",
+                    dataType: 'json',
+                    data: {
+                        'product_pk': product_pk,
+                        'page_num': page_num,
+                        "csrfmiddlewaretoken": "{{csrf_token}}",
+                    },
+                    success: function (data) {
+                        let qnaSection = document.getElementById('qnas-section')
+                        qnaSection.innerHTML = ''
+                        data.questions.forEach(item => {
+                            let status = item.status
+                            let title = item.title
+                            let consumer = item.consumer
+                            let create_at = item.create_at
+                            console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
+                            let qnaLine = `<a href='#'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+
+                            if (status == true) {
+                                qnaLine += `
                             <div id="q_letter_answered" class="w-2/12">답변완료</div>
                     <div id="q_letter_black" class="w-6/12">${title}</div>
                     <div id="q_letter_black" class="w-2/12">${consumer}</div>
                     <div id="q_letter_gray" class="w-2/12">${create_at.date}</div>
                 </div>
                 </a>`
-                        }
-                        else{
-                            qnaLine += `
+                            }
+                            else {
+                                qnaLine += `
                             <div id="q_letter_answered" class="w-2/12">답변대기</div>
                     <div id="q_letter_black" class="w-6/12">${title}</div>
                     <div id="q_letter_black" class="w-2/12">${consumer}</div>
                     <div id="q_letter_gray" class="w-2/12">${create_at.date}</div>
                 </div>
                 </a>`
-                        }
-                        qnaSection.insertAdjacentHTML('beforeend', qnaLine)
-                    })
-                },
-                error: function(){
-                    alert("error")
-                }
+                            }
+                            qnaSection.insertAdjacentHTML('beforeend', qnaLine)
+                        })
+                    },
+                    error: function () {
+                        alert("error")
+                    }
 
+                })
             })
         })
-    })
-</script>
+    </script>
 
-{% endblock main_content %}
+    {% endblock main_content %}
