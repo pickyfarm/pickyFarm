@@ -12,38 +12,48 @@
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
     <div class="flex flex-col justify-center items-center">
         
-        <form class="mx-auto" method='POST' enctype="multipart/form-data">
-            {% csrf_token %}
-           
             <div class="flex flex-col items-center">
                 <div id="title-section" class="flex flex-row">
-                    <div></div>
-                    <div></div>
+                    <div>제목</div>
+                    <div>{{question.title}}</div>
                 </div>
-
+                {% if question.image.exist %}
                 <div id="image-section" class="flex flex-row items-start">
-                    <div></div>
-                    <div></div>
+                    <div>사진</div>
+                    <img src="{{question.image.url}}">
                 </div>
+                {% endif %}
 
                 <div id="contents-section">
-                   
+                   <div>질문 내용</div>
+                   <div>{{question.content}}</div>
                 </div>
             </div>
-            <button id="submit_btn" type="submit">등록하기</button>
-        </form>
+
     </div>
+
+    {% if answer != 0 %}
+    <div class="flex flex-col justify-center items-center">
+           
+        <div class="flex flex-col items-center">
+            <div id="title-section" class="flex flex-row">
+                <div>답변 제목</div>
+                <div>{{answer.title}}</div>
+            </div>
+
+            <div id="image-section" class="flex flex-row items-start">
+                <div>답변 내용</div>
+                <div>{{answer.content}}</div>
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
 
 </div>
 
 <script type="text/javascript">
-    var checkUnload = true;
-    $(window).on('beforeunload', function () {
-        if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-    });
-    $("#submit_btn").on("click", function () {
-        checkUnload = false;
-        $("submit").submit();
-    });
+    
 </script>
 {% endblock main_content %}
