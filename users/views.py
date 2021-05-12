@@ -9,6 +9,7 @@ from .models import (
     User,
     Editor,
 )
+from farmers.models import Farmer
 from products.models import Category, Product
 from editor_reviews.models import Editor_Review
 from comments.models import Editor_Review_Comment
@@ -148,13 +149,13 @@ def subs(request):
         consumer = request.user.consumer
         if farmer_pk is None:
             data = {
-                "success": -1,
+                "status": -1,
             }
             return JsonResponse(data)
         try:
             sub = Subscribe.objects.get(farmer__pk=farmer_pk, consumer=consumer)
             data = {
-                "success": 0,
+                "status": 0,
             }
             return JsonResponse(data)
         except ObjectDoesNotExist:
@@ -162,12 +163,12 @@ def subs(request):
                 farmer = Farmer.objects.get(pk=farmer_pk)
             except ObjectDoesNotExist:
                 data = {
-                    "success": -1,
+                    "status": -1,
                 }
                 return JsonResponse(data)
             Subscribe.objects.create(farmer=farmer, consumer=consumer)
             data = {
-                "success": 1,
+                "status": 1,
             }
             return JsonResponse(data)
 
