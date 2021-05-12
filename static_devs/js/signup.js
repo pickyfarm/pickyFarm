@@ -222,3 +222,32 @@ document.querySelector('form').addEventListener('keydown', (e) => {
     e.preventDefault();
   }
 });
+
+document.querySelector('#id_password').addEventListener('input', (e) => {
+  const isSameToID =
+    e.target.value === document.querySelector('#id_username').value;
+  const passwordLength = e.target.value.length;
+  const isOnlyAlphabet = !/[!@#$%^*()\-_=+\\\|\[\]{};:\'",.<>\/?]/.test(
+    e.target.value
+  );
+
+  const sameToID = document.querySelector('#password-valid-overlap-id');
+  const lengthCheck = document.querySelector('#password-valid-length');
+  const characterCheck = document.querySelector('#password-valid-character');
+
+  sameToID.innerHTML = '';
+  lengthCheck.innerHTML = '';
+  characterCheck.innerHTML = '';
+
+  if (isSameToID) {
+    sameToID.innerHTML = '✕ 비밀번호는 아이디와 같을 수 없습니다.';
+  }
+
+  if (passwordLength < 8) {
+    lengthCheck.innerHTML = '✕ 비밀번호는 최소 8자리 이상이여야 합니다.';
+  }
+
+  if (isOnlyAlphabet) {
+    characterCheck.innerHTML = '✕ 비밀번호는 특수문자를 포함하여야 합니다.';
+  }
+});

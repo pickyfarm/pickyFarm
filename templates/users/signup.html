@@ -25,7 +25,12 @@
                 <div class="valid-button" id="id-check" name="{% url 'users:id_validation' %}">중복확인</div>
                 <input type="hidden" id="idValidCheck">
                 {{form.password.label_tag}}
-                {{form.password}}
+                <div class="validation-input-form">
+                    {{form.password}}
+                    <div class="form-validation-message invalid-form" id="password-valid-overlap-id"></div>
+                    <div class="form-validation-message invalid-form" id="password-valid-length"></div>
+                    <div class="form-validation-message invalid-form" id="password-valid-character"></div>
+                </div>
                 {{form.password_re.label_tag}}
                 <div class="validation-input-form">
                     {{form.password_re}}
