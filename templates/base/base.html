@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="{% static 'js/base/toastMessage.js' %}"></script>
     <link rel="stylesheet" type="text/css" charset="UTF-8"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
     <link rel="stylesheet" type="text/css"
@@ -25,17 +26,19 @@
 </head>
 
 <body>
-
-
+    <div id="toast-section">
+        <div id="toast-container" class="flex items-center">
+            <div id="toast-status"></div>
+            <div id="toast-message"></div>
+        </div>
+    </div>
     <div class="base-wrap font-sans-kr flex flex-col">
-
         {% include "partials/header_.html" %}
         {% block main_content %}
 
         {% endblock main_content %}
 
         {% include "partials/footer.html" %}
-
 
     </div>
 

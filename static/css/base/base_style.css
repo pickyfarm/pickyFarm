@@ -1,4 +1,25 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 * {
-    font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.button {
+  cursor: pointer;
+}
+
+#toast-section {
+  position: fixed;
+}
+
+#toast-container {
+  position: fixed !important;
+  top: 80px !important;
+  width: 300px;
+  height: 50px;
+  border-radius: 25px;
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+#toast-container > * {
+  position: fixed;
 }
