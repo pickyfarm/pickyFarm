@@ -17,41 +17,17 @@
            
             <div class="flex flex-col items-center">
                 <div id="title-section" class="flex flex-row">
-                    <div>{{form.title.label_tag}}</div>
-                    <div>{{form.title}}</div>
+                    <div></div>
+                    <div></div>
                 </div>
 
                 <div id="image-section" class="flex flex-row items-start">
-                    <div>{{form.image.label_tag}}</div>
-                    <div>{{form.image}}</div>
+                    <div></div>
+                    <div></div>
                 </div>
 
                 <div id="contents-section">
-                    {{form.content}}
-                </div>
-            </div>
-            <button id="submit_btn" type="submit">등록하기</button>
-        </form>
-    </div>
-
-    <div class="flex flex-col justify-center items-center">
-        
-        <form class="mx-auto" method='POST' enctype="multipart/form-data">
-            {% csrf_token %}
-           
-            <div class="flex flex-col items-center">
-                <div id="title-section" class="flex flex-row">
-                    <div>{{form.title.label_tag}}</div>
-                    <div>{{form.title}}</div>
-                </div>
-
-                <div id="image-section" class="flex flex-row items-start">
-                    <div>{{form.image.label_tag}}</div>
-                    <div>{{form.image}}</div>
-                </div>
-
-                <div id="contents-section">
-                    {{form.content}}
+                   
                 </div>
             </div>
             <button id="submit_btn" type="submit">등록하기</button>

@@ -12,4 +12,5 @@ urlpatterns = [
     #path('delete/<int:pk>/', views.product_delete, name="product_delete"),
     #path('update/<int:pk>/', views.product_update, name="product_update"),
     path('question/create', views.create_question, name="question_create"),
+    path('question/<int:pk>', views.read_qna, name="question_read"),
 ]

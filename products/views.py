@@ -200,8 +200,12 @@ def question_paging(request):
 def create_question(request):
     product_pk = None
     consumer = request.user.consumer
+
+    # GET 방식을 통해 product의 pk 값을 전달
     product_pk = int(request.GET.get('product'))
     print(f'싱품 pk : {product_pk}')
+
+    # 문의 작성 GET - 문의 작성 가능한 form render
     if request.method == 'GET':
         form = Question_Form()
         ctx = {
@@ -209,6 +213,7 @@ def create_question(request):
         }
         return render(request, 'products/create_question.html', ctx)
     else :
+        # 문의 작성 POST - 제목, 글, 이미지 전달 받음
         form = Question_Form(request.POST, request.FILES)
         if form.is_valid():
             title = form.cleaned_data.get('title')
@@ -220,12 +225,35 @@ def create_question(request):
             except ObjectDoesNotExist:
                 print("존재하지 않는 상품 pk")
                 return redirect(reverse('core:main'))
+            # 상품 문의 등록
             new_question = Question(title=title, content=content, image=image, status=status, consumer=consumer, product=product)
             new_question.save()
             return redirect(reverse("products:product_detail", args=[product_pk]))
         else:
+            # 상품 question create form validation 오류
             print("상품 question create form validation 오류")
             return redirect(reverse('core:main'))
+
+@login_required
+def read_qna(request, pk):
+
+    # url pattern으로 전달 받은 Question pk 값으로 Question record 가져오기
+    question = Question.objects.get(pk = pk)
+
+    ctx = {
+        'question': question,
+        'answer': 0,
+    }
+    
+    # 답변 완료된 문의라면 ctx의 answer에 answer record 넣기
+    if(question.status is True):
+        print("상품 문의에 답변 있음")
+        ctx['answer'] = question.answer
+
+    # 답변 대기 중인 상태면 ctx의 answer에는 0이 전달됨
+    return render(request, "products/read_question.html", ctx)
+
+
 
 
 

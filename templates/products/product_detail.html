@@ -379,7 +379,7 @@
             <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
         {% else %}
             {% for q in questions %}
-                <a href='#'>
+                <a href="{% url 'products:question_read' q.pk %}">
                 <div id="q_table_bottom" class="flex flex-rows py-1">
                         {% if q.status is True %}
                             <div id="q_letter_answered" class="w-2/12">답변완료</div>
