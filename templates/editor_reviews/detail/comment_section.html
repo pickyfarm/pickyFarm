@@ -29,7 +29,8 @@
                     <div class="bar"></div>
                     <div class="comment-report flex items-center ml-auto">
                         <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
-                        <div class="comment-report--report button" onclick="shootToastMessage()">신고하기</div>
+                        <div class="comment-report--report button" onclick="shootToastMessage('신고를 완료하였습니다.')">신고하기
+                        </div>
                     </div>
                 </div>
                 <div class=" comment-content relative">
@@ -191,6 +192,7 @@
         </div>`
 
     const commentEdit = (targetComment, pk) => {
+        shootToastMessage("답글을 수정합니다.")
         comment = targetComment.closest(".comment-text-options").previousElementSibling.innerHTML
 
         targetForm = targetComment.closest(".comment-text")

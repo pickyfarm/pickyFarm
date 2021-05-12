@@ -10,15 +10,48 @@
 @keyframes toast {
   0% {
     top: -50px;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    right: calc(50% - 25px);
   }
-  20% {
+  25% {
     top: 80px;
   }
-  80% {
+  30% {
     top: 80px;
+    right: calc(50% - 25px);
+  }
+  60% {
+    top: 80px;
+    right: calc(50% - 120px);
+  }
+  85% {
+    top: 80px;
+    right: calc(50% - 120px);
+    animation-timing-function: ease-in;
   }
   to {
     top: -50px;
+  }
+}
+
+@keyframes toast-message-expand {
+  from {
+    width: 0;
+  }
+  30% {
+    width: 0;
+    margin: 0px;
+  }
+
+  60% {
+    width: 200px;
+    margin: 0 10px;
+    animation-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  to {
+    width: 200px;
+    margin: 0 10px;
   }
 }
 
@@ -30,17 +63,21 @@
 
 .toast-animation {
   position: fixed !important;
-  right: calc(50% - 150px);
-  width: auto;
+  right: calc(50% - 120px);
   height: 50px;
-  border-radius: 25px;
+  border-radius: 9999px;
   box-shadow: 3px 3px 10px 3px rgba(0, 0, 0, 0.2);
-  padding: 0 7.5px;
+  padding: 5px;
   background-color: white;
   animation-name: toast;
   animation-duration: 2s;
   animation-iteration-count: 1;
-  animation-timing-function: cubic-bezier(1, 1.01, 0.42, 0.77);
+}
+
+.toast-message-animation {
+  animation-name: toast-message-expand;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
 }
 
 #toast-status {
@@ -51,7 +88,12 @@
 }
 
 #toast-message {
-  margin: 0 10px;
+  width: 0;
+  height: 40px;
+  line-height: 40px;
   font-size: 15px;
   font-weight: 300;
+  overflow: hidden;
+  word-break: break-all;
+  text-align: center;
 }
