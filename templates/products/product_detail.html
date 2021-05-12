@@ -642,14 +642,16 @@
                 },
                 success : function(data){
                     let qnaSection = document.getElementById('qnas-section')
+                    console.log(data)
                     qnaSection.innerHTML = ''
                     data.questions.forEach(item=>{
                         let status = item.status
                         let title = item.title
                         let consumer = item.consumer
                         let create_at = item.create_at
+                        let q_pk = item.pk
                         console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
-                        let qnaLine = `<a href='#'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+                        let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
                         
                         if(status == true){
                             qnaLine += `

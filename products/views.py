@@ -179,6 +179,7 @@ def question_paging(request):
     for q in questions:
         q_dict = { 'status':q.status }
         print(q_dict)
+        q_dict['pk'] = q.pk
         q_dict['title']=q.title
         print(q_dict)
         q_dict['consumer'] = q.consumer.user.nickname
