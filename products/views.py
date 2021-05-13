@@ -133,7 +133,7 @@ def product_detail(request, pk):
         comments = product.product_comments.all().order_by("-create_at")
         questions = product.questions.all().order_by("-create_at")
         total_score = product.calculate_total_rating_avg()
-        total_percent = total_score / 5 * 100
+        total_percent = format(total_score / 5 * 100, ".1f")
         # freshness
         freshness_per = [
             int(100 * product.freshness_1 / product.reviews),

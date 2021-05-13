@@ -619,7 +619,7 @@ div{
 #fresh div, #taste div, #price div{
   font-size: 13px;
   font-weight: 500;
-  color: #5c6754;
+  color:#5c6754;
 }
 
 #comment_list {
@@ -634,9 +634,19 @@ div{
 }
 
 #score_range {
+  position:relative;
   width: 95px;
-  height: 7px;
+  height: 5px;
   border-radius: 4px;
+  background-color: #5c6754;
+}
+#end_point {
+  position: absolute;
+  right: -5px;
+  top: -2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
   background-color: #5c6754;
 }
 
