@@ -66,9 +66,11 @@
                 <div id="farmer_name" class="ml-2">
                     {{farmer.user.nickname}}
                 </div>
+                <a href = "{% url 'farmers:farmer_detail' farmer.pk %}">
                 <div id="visit" class="ml-4">
                     방문하기
                 </div>
+                </a>
                 <div id="sub" name="{{farmer.pk}}" class="ml-2">
                     구독하기
                 </div>
@@ -377,7 +379,7 @@
             <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
         {% else %}
             {% for q in questions %}
-                <a href='#'>
+                <a href="{% url 'products:question_read' q.pk %}">
                 <div id="q_table_bottom" class="flex flex-rows py-1">
                         {% if q.status is True %}
                             <div id="q_letter_answered" class="w-2/12">답변완료</div>
@@ -394,7 +396,7 @@
         </div>
         <div class="flex flex-row justify-end" >
             <div id="q_write" class="flex flex-rows justify-center mt-10 w-2/12">
-                <div>글쓰기</div>
+                <a href="/product/question/create?product={{product.pk}}"><div>글쓰기</div></a>
                 <img src="{% static 'images/product_detail/pen.svg' %}">
             </div>
         </div>
@@ -514,7 +516,7 @@
         })
     })
 
-    let subBtn = document.getElementById('sub')
+    const subBtn = document.getElementById('sub')
     console.log(subBtn)
     subBtn.addEventListener('click', function(){
         let farmerPk = subBtn.getAttribute('name')
@@ -529,9 +531,9 @@
             dataType:'json',
             data : data,
             success: function(response){
-                if(response.success == -1)
+                if(response.status == -1)
                     alert("구독하지 못했습니다. 다시 시도해주세요")
-                else if(response.success == 0)
+                else if(response.status == 0)
                     alert("이미 구독한 농가입니다!")
                 else
                     alert("농가를 구독하였습니다!")
@@ -640,14 +642,16 @@
                 },
                 success : function(data){
                     let qnaSection = document.getElementById('qnas-section')
+                    console.log(data)
                     qnaSection.innerHTML = ''
                     data.questions.forEach(item=>{
                         let status = item.status
                         let title = item.title
                         let consumer = item.consumer
                         let create_at = item.create_at
+                        let q_pk = item.pk
                         console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
-                        let qnaLine = `<a href='#'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+                        let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
                         
                         if(status == true){
                             qnaLine += `
@@ -677,6 +681,8 @@
             })
         })
     })
+
+    
 </script>
 
 {% endblock main_content %}

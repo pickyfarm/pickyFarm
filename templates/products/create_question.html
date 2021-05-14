@@ -1,0 +1,49 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/products/create_question.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+</script>
+{% endblock stylesheet %}
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
+    <div class="flex flex-col justify-center items-center">
+        
+        <form class="mx-auto" method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+           
+            <div class="flex flex-col items-center">
+                <div id="title-section" class="flex flex-row">
+                    <div>{{form.title.label_tag}}</div>
+                    <div>{{form.title}}</div>
+                </div>
+
+                <div id="image-section" class="flex flex-row items-start">
+                    <div>{{form.image.label_tag}}</div>
+                    <div>{{form.image}}</div>
+                </div>
+
+                <div id="contents-section">
+                    {{form.content}}
+                </div>
+            </div>
+            <button id="submit_btn" type="submit">등록하기</button>
+        </form>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var checkUnload = true;
+    $(window).on('beforeunload', function () {
+        if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+    });
+    $("#submit_btn").on("click", function () {
+        checkUnload = false;
+        $("submit").submit();
+    });
+</script>
+{% endblock main_content %}

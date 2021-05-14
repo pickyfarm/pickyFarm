@@ -2,6 +2,19 @@
 {% load static %}
 
 {% block content %}
+
+{% if wishes.exists is False %}
+<div class="mt-14 flex flex-col justify-center items-center">
+    <div>
+      아직 찜한 무난이가 없습니다
+    </div>
+    <a id="redirect_a" href="{% url 'products:store_list' %}">
+      <div id="redirect_btn">무난이 구매하러 가기</div>
+    </a>
+  </div>
+{% else %}
+
+    
 <div id="filter-section" class="flex flex-row">
     <div>
         <input type="radio">
@@ -69,6 +82,8 @@
     </div>
 </div>
 
+{% endif %}
+
 {% endblock content %}
 
 
@@ -81,7 +96,7 @@
     menuBtns.push(document.getElementById('menu_boughts'))
     menuBtns.push(document.getElementById('menu_deliveries'))
     menuBtns.push(document.getElementById('menu_infos'))
-    console.l
+ 
 
     $('#menu_likes').css({
         "background-color": "#5c6754",
@@ -147,6 +162,6 @@
             }
         });
       })
-    });
+  
 </script>
 {% endblock script_section %}
