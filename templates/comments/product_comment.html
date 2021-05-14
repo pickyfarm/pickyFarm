@@ -18,12 +18,14 @@
         <!-- {% for comment in product_comments %}
         {{comment}}
         {% endfor %} -->
-        <form action="{% url 'comments:product_comment_create' product.pk %}" method="post">
+        <form action="{% url 'comments:product_comment_create' product.pk %}" method="post"
+            enctype="multipart/form-data">
             {% csrf_token %}
             <div>{{product_comment_form.text}}</div>
             <div>{{product_comment_form.freshness}}</div>
             <div>{{product_comment_form.flavor}}</div>
             <div>{{product_comment_form.cost_performance}}</div>
+            <div><input type="file" name="file" id="file" multiple="multiple" class="form-control"></div>
             <input type="submit" value="리뷰등록">
         </form>
     </div>
