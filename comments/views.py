@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import Product_Comment, Product_Recomment, Farmer_Story_Comment
+from .models import Product_Comment, Product_Comment_Image, Product_Recomment, Farmer_Story_Comment
 from .forms import ProductCommentForm, ProductRecommentForm
 from products.models import Product
 from users.models import Consumer
@@ -32,6 +32,7 @@ def product_comment_create(request, pk):
     product = Product.objects.get(pk=pk)
     product_comment_form = ProductCommentForm(request.POST, request.FILES)
     product_recomment_form = ProductRecommentForm(request.POST)
+    product_comment_imgs = request.FILES.getlist("file")
 
     if product_comment_form.is_valid():
         # product comment save
@@ -43,9 +44,40 @@ def product_comment_create(request, pk):
         product_comment.save()
         product.reviews += 1
 
+        # Product_Comment_Image
+        for img in product_comment_imgs:
+            images = Product_Comment_Image.objects.create(
+                product_comment=product_comment, image=img
+            )
+            images.save()
+
+        # freshness
+        if product_comment.freshness == 1:
+            product.freshness_1 += 1
+        elif product_comment.freshness == 3:
+            product.freshness_3 += 1
+        else:
+            product.freshness_5 += 1
+
+        # flavor
+        if product_comment.flavor == 1:
+            product.flavor_1 += 1
+        elif product_comment.flavor == 3:
+            product.flavor_3 += 1
+        else:
+            product.flavor_5 += 1
+
+        # cost_performance
+        if product_comment.cost_performance == 1:
+            product.cost_performance_1 += 1
+        elif product_comment.cost_performance == 3:
+            product.cost_performance_3 += 1
+        else:
+            product.cost_performance_5 += 1
+
         # total rating calculate
         product.calculate_total_rating_sum(product_comment.avg)
-        product.calculate_total_rating_avg()
+        result = product.calculate_total_rating_avg()
 
         # specific rating calculate
         product.calculate_specific_rating(

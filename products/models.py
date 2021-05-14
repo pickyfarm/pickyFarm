@@ -38,12 +38,21 @@ class Product(models.Model):
 
     freshness_rating_avg = models.FloatField(default=0)
     freshness_rating_sum = models.FloatField(default=0)
+    freshness_1 = models.IntegerField(default=0)
+    freshness_3 = models.IntegerField(default=0)
+    freshness_5 = models.IntegerField(default=0)
 
     flavor_rating_avg = models.FloatField(default=0)
     flavor_rating_sum = models.FloatField(default=0)
+    flavor_1 = models.IntegerField(default=0)
+    flavor_3 = models.IntegerField(default=0)
+    flavor_5 = models.IntegerField(default=0)
 
     cost_performance_rating_avg = models.FloatField(default=0)
     cost_performance_rating_sum = models.FloatField(default=0)
+    cost_performance_1 = models.IntegerField(default=0)
+    cost_performance_3 = models.IntegerField(default=0)
+    cost_performance_5 = models.IntegerField(default=0)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -92,6 +101,8 @@ class Product(models.Model):
 
         except ObjectDoesNotExist:
             return 0
+        except ZeroDivisionError:
+            return 0
 
     # 리뷰 생성 시 항목별 평점(총합, 평균) 계산을 위한 함수
     def calculate_specific_rating(self, fresh, flavor, cost):
@@ -107,6 +118,8 @@ class Product(models.Model):
             self.save()
 
         except ObjectDoesNotExist:
+            return 0
+        except ZeroDivisionError:
             return 0
         # freshness_array = [0, 0, 0]
         # flavor_array = [0, 0, 0]
