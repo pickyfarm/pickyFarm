@@ -154,3 +154,16 @@ class Subscribe(models.Model):
 
     def __str__(self):
         return f"{self.consumer.user.nickname} -> {self.farmer.farm_name}"
+
+class FarmerNotice(models.Model):
+    title = models.CharField(max_length=100)
+    contents = models.TextField()
+    attachments = models.FileField(upload_to="notice/%Y/%m/%d/", null=True)
+
+    important = models.BooleanField(default=False)
+
+    update_at = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.title}'

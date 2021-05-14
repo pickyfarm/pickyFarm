@@ -26,3 +26,7 @@ class CustomCartAdmin(admin.ModelAdmin):
 @admin.register(models.Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):
 	pass
+
+@admin.register(models.FarmerNotice)
+class FarmerNoticeAdmin(admin.ModelAdmin):
+	pass
