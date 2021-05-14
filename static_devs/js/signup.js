@@ -137,14 +137,28 @@ $('#id_nickname').change(function () {
 $('.submit').click(function () {
   if ($('#idValidCheck').attr('valid') == 'false') {
     alert('ID 중복확인을 해주시기 바랍니다');
-    $('id_username').focus();
+    $('#id_username').focus();
     event.preventDefault();
     return;
   }
 
   if ($('#nicknameValidCheck').attr('valid') == 'false') {
     alert('닉네임 중복확인을 해주시기 바랍니다');
-    $('id_nickname').focus();
+    $('#id_nickname').focus();
+    event.preventDefault();
+    return;
+  }
+
+  if ($('#password-valid-check').attr('valid') === 'false') {
+    alert('비밀번호를 확인하여 주시기 바랍니다.');
+    $('#id_password').focus();
+    event.preventDefault();
+    return;
+  }
+
+  if ($('#password-re-valid-check').attr('valid') === 'false') {
+    alert('입력된 비밀번호가 서로 다릅니다.');
+    $('#id_password_re').focus();
     event.preventDefault();
     return;
   }
@@ -152,7 +166,7 @@ $('.submit').click(function () {
   if ($('#emailValidCheck').attr('valid') == 'false') {
     alert('이메일 중복확인을 해주시기 바랍니다');
     event.preventDefault();
-    $('id_email').focus();
+    $('#id_email').focus();
   }
 
   if ($('#terms_of_services').is(':checked') == false) {
@@ -172,8 +186,6 @@ $('.submit').click(function () {
     event.preventDefault();
     return;
   }
-
-  console.log($('#terms_of_services').checked);
 });
 
 const selectAllButton = document.querySelector('#agree-all');
@@ -201,6 +213,7 @@ checkedTerms.forEach((item) => {
 document.querySelector('#id_password_re').addEventListener('input', (e) => {
   const targetValue = document.querySelector('#id_password').value;
   const messageContainer = document.querySelector('#password-valid');
+  const validCheck = document.querySelector('#password-re-valid-check');
 
   if (targetValue === e.target.value) {
     messageContainer.innerHTML = '✓ 비밀번호가 일치합니다';
@@ -208,12 +221,16 @@ document.querySelector('#id_password_re').addEventListener('input', (e) => {
       'invalid-form',
       messageContainer.classList.contains('invallid-form')
     );
+
+    validCheck.setAttribute('valid', true);
   } else {
     messageContainer.innerHTML = '✕ 비밀번호가 일치하지 않습니다';
     messageContainer.classList.toggle(
       'invalid-form',
       !messageContainer.classList.contains('invallid-form')
     );
+
+    validCheck.setAttribute('valid', false);
   }
 });
 
@@ -234,10 +251,18 @@ document.querySelector('#id_password').addEventListener('input', (e) => {
   const sameToID = document.querySelector('#password-valid-overlap-id');
   const lengthCheck = document.querySelector('#password-valid-length');
   const characterCheck = document.querySelector('#password-valid-character');
+  const messageContainer = document.querySelector('#password-valid');
+  const password2Check = document.querySelector('#password-re-valid-check');
 
   sameToID.innerHTML = '';
   lengthCheck.innerHTML = '';
   characterCheck.innerHTML = '';
+  messageContainer.innerHTML = '';
+
+  document.querySelector('#password-valid-check').setAttribute('valid', false);
+  document
+    .querySelector('#password-re-valid-check')
+    .setAttribute('valid', false);
 
   if (isSameToID) {
     sameToID.innerHTML = '✕ 비밀번호는 아이디와 같을 수 없습니다.';
@@ -249,5 +274,9 @@ document.querySelector('#id_password').addEventListener('input', (e) => {
 
   if (isOnlyAlphabet) {
     characterCheck.innerHTML = '✕ 비밀번호는 특수문자를 포함하여야 합니다.';
+  }
+
+  if (!(isSameToID || passwordLength < 8 || isOnlyAlphabet)) {
+    document.querySelector('#password-valid-check').setAttribute('valid', true);
   }
 });
