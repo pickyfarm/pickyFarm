@@ -18,4 +18,8 @@ urlpatterns = [
     path("apply/", views.farm_apply, name="farm_apply"),
     path("enroll/step/<int:step>/", views.FarmEnroll.as_view(), name="farm_enroll"),
     path("info/update/<int:pk>/", views.farm_info_update, name="farm_info_update"),
+    # farmer mypage
+    path(
+        "mypage/products/", views.FarmerMyPageProductManage.as_view(), name="farmer_mypage_product"
+    ),
 ]

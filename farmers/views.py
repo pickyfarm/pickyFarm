@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.views import View
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
@@ -310,3 +310,51 @@ def farm_info_update(request, pk):
 
     ctx = {"farmer": farmer, "farm_form": farm_form}
     return render(request, "farmers/farm_info_update.html", ctx)
+
+
+"""
+Farmer mypage section
+"""
+
+
+class FarmerMyPageBase(ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["farmer"] = Farmer.objects.get(user=self.request.user)
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if not Farmer.objects.filter(user=self.request.user).exists():
+            return redirect(reverse("core:main"))
+
+        return super().render_to_response(context, **response_kwargs)
+
+
+class FarmerMyPageOrderManage(FarmerMyPageBase):
+    """ 농가 주문관리 페이지 """
+
+    pass
+
+
+class FarmerMyPageProductManage(FarmerMyPageBase):
+    """ 농가 상품관리 페이지 """
+
+    model = Product
+    template_name = "farmers/mypage/farmer_mypage_product.html"
+
+    def get_queryset(self):
+        products = Product.objects.filter(farmer=self.request.user.farmer)
+
+        return products
+
+
+class FarmerMyPagePaymentManage(FarmerMyPageBase):
+    """ 농가 정산관리 페이지 """
+
+    pass
+
+
+class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
+    """ 농가 문의/리뷰관리 페이지 """
+
+    pass
