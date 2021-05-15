@@ -252,7 +252,6 @@ document.querySelector('#id_password').addEventListener('input', (e) => {
   const lengthCheck = document.querySelector('#password-valid-length');
   const characterCheck = document.querySelector('#password-valid-character');
   const messageContainer = document.querySelector('#password-valid');
-  const password2Check = document.querySelector('#password-re-valid-check');
 
   sameToID.innerHTML = '';
   lengthCheck.innerHTML = '';
