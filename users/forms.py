@@ -1,6 +1,7 @@
 from django import forms
 from . import models
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.contrib.auth.password_validation import validate_password
 from django.forms.widgets import NumberInput
 from django.contrib.auth.forms import PasswordResetForm
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
@@ -76,6 +77,15 @@ class SignUpForm(forms.Form):
             raise ValidationError("중복된 아이디 입니다. 사용하실 수 없습니다")
         except ObjectDoesNotExist:
             return username
+
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+
+        if validate_password(password) == None:
+            return password
+
+        else:
+            raise ValidationError("사용할 수 없는 비밀번호입니다.")
 
     def clean_password_re(self):
         password = self.cleaned_data.get("password")
