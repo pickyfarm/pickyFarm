@@ -52,4 +52,3 @@ def index(request):
     return render(request, "base/index.html", ctx)
 
 
-# Create your views here.

@@ -154,3 +154,5 @@ class Subscribe(models.Model):
 
     def __str__(self):
         return f"{self.consumer.user.nickname} -> {self.farmer.farm_name}"
+
+

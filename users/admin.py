@@ -26,3 +26,4 @@ class CustomCartAdmin(admin.ModelAdmin):
 @admin.register(models.Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):
 	pass
+
