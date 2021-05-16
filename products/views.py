@@ -313,7 +313,7 @@ def create_answer(request, pk):
             'form': form,
         }
         return render(request, "farmers/mypage_create_answer.html", ctx)
-    # POST : 답변 등록 
+    # POST : 답변 등록 완료 예정
     else:
         form = Answer_Form(request.POST)
         if form.is_valid():
