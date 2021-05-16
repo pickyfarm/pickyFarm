@@ -190,7 +190,6 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    title = models.CharField(max_length=50)
     content = models.TextField()
     question = models.OneToOneField(Question, related_name="answer", on_delete=models.CASCADE)
 

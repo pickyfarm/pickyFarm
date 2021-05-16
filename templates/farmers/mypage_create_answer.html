@@ -1,0 +1,55 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/farmers/create_answer.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+</script>
+{% endblock stylesheet %}
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
+    <div class="flex flex-col justify-center items-center">
+        
+            <div class="flex flex-col items-center">
+                <div id="title-section" class="flex flex-row">
+                    <div>제목</div>
+                    <div>{{question.title}}</div>
+                </div>
+                {% if question.image.exist %}
+                <div id="image-section" class="flex flex-row items-start">
+                    <div>사진</div>
+                    <img src="{{question.image.url}}">
+                </div>
+                {% endif %}
+
+                <div id="contents-section">
+                   <div>질문 내용</div>
+                   <div>{{question.content}}</div>
+                </div>
+            </div>
+
+    </div>
+
+    {% if answer != 0 %}
+    <div class="flex flex-col justify-center items-center">
+           
+        <div class="flex flex-col items-center">
+
+            <div id="image-section" class="flex flex-row items-start">
+                <div>답변 내용</div>
+                <div>{{form.content}}</div>
+            </div>
+
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+<script type="text/javascript">
+    
+</script>
+{% endblock main_content %}

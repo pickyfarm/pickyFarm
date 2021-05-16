@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, reverse
 from django.http import request, JsonResponse
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
-from .models import Product, Category, Question
-from .forms import Question_Form
+from .models import Product, Category, Question, Answer
+from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
 from django.utils import timezone
 from math import ceil
@@ -13,8 +13,12 @@ from datetime import date
 import locale
 import json
 
-# Create your views here.
 
+# ajax 이용시, http Fail status 장착한 response 생성
+class FailedJsonResponse(JsonResponse):
+    def __init__(self, data):
+        super().__init__(data)
+        data.status_code = 400
 
 def store_list_all(request):
     cat_name = "all"
@@ -255,6 +259,47 @@ def read_qna(request, pk):
     return render(request, "products/read_question.html", ctx)
 
 
+
+
+#농가 마이페이지 - 문의/리뷰 관리 > 답변하기/답변수정 누를 시 
+@login_required
+def create_answer(request, pk):
+
+    question = Question.objects.get(pk=pk)
+    product = question.product
+
+    # 접근하는 유져가 농가 계정임을 확인
+    try:
+        farmer = request.user.farmer
+    except:
+        return redirect(reverse("core:main"))
+    
+    # 접근하는 농가 계정이 문의와 관련있는 농가 계정임을 확인
+    if farmer is not product.farmer:
+        return redirect(reverse("core:main"))
+
+    # GET : 문의 내용과 답변 입력 form 반환
+    if request.method == 'GET':
+        form = Answer_Form()
+        ctx = {
+            'question': question,
+            'form': form,
+        }
+        return render(request, "farmers/mypage_create_answer.html", ctx)
+    # POST : 답변 등록 
+    else:
+        form = Answer_Form(request.POST)
+        if form.is_valid():
+            answer = Answer(content = form.cleaned_data.get('content'), question = question, farmer = farmer)
+            answer.save()
+        else:
+            return redirect(reverse("core:main"))
+        return redirect(reverse("core:main")) # 추후 파머스 마이페이지 리뷰/문의 관리로 이동 하도록 수정
+
+
+
+# @login_required
+# def update_answer(request, pk):
 
 
 
