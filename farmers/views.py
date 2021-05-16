@@ -319,11 +319,15 @@ Farmer mypage section
 
 class FarmerMyPageBase(ListView):
     def get_context_data(self, **kwargs):
+        """ context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
+
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
         return context
 
     def render_to_response(self, context, **response_kwargs):
+        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
+
         if not Farmer.objects.filter(user=self.request.user).exists():
             return redirect(reverse("core:main"))
 
