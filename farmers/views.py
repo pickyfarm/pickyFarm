@@ -13,6 +13,7 @@ from .models import *
 from products.models import Product
 from users.models import Consumer
 from editor_reviews.models import Editor_Review
+from orders.models import Order_Detail, Order_Group
 
 # forms
 from .forms import *
@@ -337,7 +338,30 @@ class FarmerMyPageBase(ListView):
 class FarmerMyPageOrderManage(FarmerMyPageBase):
     """ 농가 주문관리 페이지 """
 
-    pass
+    model = Order_Detail
+    template_name = "farmers/mypage/farmer_mypage_order.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["orders"] = []
+        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "order_group"
+        )
+
+        order_list = []
+        order_list.append(orders.first())
+
+        for i in range(1, len(orders)):
+            if orders[i].order_group != orders[i - 1].order_group:
+                context["orders"].append(order_list)
+                order_list = [orders[i]]
+
+            else:
+                order_list.append(orders[i])
+
+        context["orders"].append(order_list)
+
+        return context
 
 
 class FarmerMyPageProductManage(FarmerMyPageBase):
