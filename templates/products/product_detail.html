@@ -16,7 +16,7 @@
             <div>
                 <img id="main_image" src="{{product.main_image.url}}">
             </div>
-            <div id="images" class="w-full flex flex-rows mt-3">
+            <div class="w-full flex flex-rows mt-3">
                 {% if product.product_images is not None %}
                 {% for image in product.product_images.all %}
 
@@ -543,7 +543,16 @@
         })
 
         //상품 사진 조정 
-        
+        let main_image = document.getElementById('main_image')
+        let sub_images = document.querySelectorAll('#images')
+
+        sub_images.forEach(item=>{
+            item.addEventListener('click', function(){
+                let tmp_url = main_image.getAttribute('src')
+                main_image.setAttribute('src', item.getAttribute('src'))
+                item.setAttribute('src', tmp_url)
+            })
+        })
 
         let wishBtn = document.getElementById('wish')
         let product_pk = document.getElementById('product_content').getAttribute('name')
