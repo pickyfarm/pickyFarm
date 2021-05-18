@@ -97,3 +97,7 @@
   word-break: break-all;
   text-align: center;
 }
+
+.transition_element {
+  transition: all 0.15s ease-in;
+}
