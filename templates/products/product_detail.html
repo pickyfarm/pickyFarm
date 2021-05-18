@@ -3,7 +3,7 @@
 {% load static %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
-<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 {% endblock stylesheet %}
@@ -66,10 +66,10 @@
                 <div id="farmer_name" class="ml-2">
                     {{farmer.user.nickname}}
                 </div>
-                <a href = "{% url 'farmers:farmer_detail' farmer.pk %}">
-                <div id="visit" class="ml-4">
-                    방문하기
-                </div>
+                <a href="{% url 'farmers:farmer_detail' farmer.pk %}">
+                    <div id="visit" class="ml-4">
+                        방문하기
+                    </div>
                 </a>
                 <div id="sub" name="{{farmer.pk}}" class="ml-2">
                     구독하기
@@ -454,7 +454,7 @@
             <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
             {% else %}
             {% for q in questions %}
-                <a href="{% url 'products:question_read' q.pk %}">
+            <a href="{% url 'products:question_read' q.pk %}">
                 <div id="q_table_bottom" class="flex flex-rows py-1">
                     {% if q.status is True %}
                     <div id="q_letter_answered" class="w-2/12">답변완료</div>
@@ -471,7 +471,9 @@
         </div>
         <div class="flex flex-row justify-end">
             <div id="q_write" class="flex flex-rows justify-center mt-10 w-2/12">
-                <a href="/product/question/create?product={{product.pk}}"><div>글쓰기</div></a>
+                <a href="/product/question/create?product={{product.pk}}">
+                    <div>글쓰기</div>
+                </a>
                 <img src="{% static 'images/product_detail/pen.svg' %}">
             </div>
         </div>
@@ -488,8 +490,6 @@
 
 
     <script>
-
-
         let plusBtn = document.getElementById('plus_btn')
         let minusBtn = document.getElementById('minus_btn')
         let totalPrice = document.getElementById('total_price')
@@ -568,46 +568,7 @@
             })
         })
 
-    const subBtn = document.getElementById('sub')
-    console.log(subBtn)
-    subBtn.addEventListener('click', function(){
-        let farmerPk = subBtn.getAttribute('name')
-        console.log(farmerPk)
-        data = {
-            'farmer_pk' : farmerPk,
-            "csrfmiddlewaretoken":"{{csrf_token}}",
-        }
-        $.ajax({
-            type:'POST',
-            url : "{% url 'users:subs' %}",
-            dataType:'json',
-            data : data,
-            success: function(response){
-                if(response.status == -1)
-                    alert("구독하지 못했습니다. 다시 시도해주세요")
-                else if(response.status == 0)
-                    alert("이미 구독한 농가입니다!")
-                else
-                    alert("농가를 구독하였습니다!")
-            },
-            error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
-            }
-            $.ajax({
-                type: 'POST',
-                url: "{% url 'users:cartInAjax' %}",
-                dataType: 'json',
-                data: data,
-                success: function (response) {
-                    alert(response.message)
-                },
-                error: function (request, status, error) {
-                    alert('로그인이 필요합니다.')
-                }
-            })
-        })
-
-        let subBtn = document.getElementById('sub')
+        const subBtn = document.getElementById('sub')
         console.log(subBtn)
         subBtn.addEventListener('click', function () {
             let farmerPk = subBtn.getAttribute('name')
@@ -622,9 +583,9 @@
                 dataType: 'json',
                 data: data,
                 success: function (response) {
-                    if (response.success == -1)
+                    if (response.status == -1)
                         alert("구독하지 못했습니다. 다시 시도해주세요")
-                    else if (response.success == 0)
+                    else if (response.status == 0)
                         alert("이미 구독한 농가입니다!")
                     else
                         alert("농가를 구독하였습니다!")
@@ -632,54 +593,93 @@
                 error: function (request, status, error) {
                     alert('로그인이 필요합니다.')
                 }
+            $.ajax({
+                    type: 'POST',
+                    url: "{% url 'users:cartInAjax' %}",
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+                        alert(response.message)
+                    },
+                    error: function (request, status, error) {
+                        alert('로그인이 필요합니다.')
+                    }
+                })
             })
-        })
+
+            let subBtn = document.getElementById('sub')
+            console.log(subBtn)
+            subBtn.addEventListener('click', function () {
+                let farmerPk = subBtn.getAttribute('name')
+                console.log(farmerPk)
+                data = {
+                    'farmer_pk': farmerPk,
+                    "csrfmiddlewaretoken": "{{csrf_token}}",
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'users:subs' %}",
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+                        if (response.success == -1)
+                            alert("구독하지 못했습니다. 다시 시도해주세요")
+                        else if (response.success == 0)
+                            alert("이미 구독한 농가입니다!")
+                        else
+                            alert("농가를 구독하였습니다!")
+                    },
+                    error: function (request, status, error) {
+                        alert('로그인이 필요합니다.')
+                    }
+                })
+            })
 
 
     </script>
 
     <script>
-        // 댓글 작성 버튼 toggle
-        let recomments = document.querySelectorAll('.recomments')
-        recomments.forEach(recomment => recomment.classList.add("hide"))
-        $(document).on('click', '#more_btn', function () {
-            $(this).parent().siblings('.recomments').toggle();
-            $(this).children('.fa-caret-down').toggle();
-            $(this).children('.fa-caret-up').toggle();
-            const [...recomment_forms] = document.querySelectorAll('.recomment_form')
-            recomment_forms.forEach((form) => {
-                form.scrollBy(0, 10000)
+            // 댓글 작성 버튼 toggle
+            let recomments = document.querySelectorAll('.recomments')
+            recomments.forEach(recomment => recomment.classList.add("hide"))
+            $(document).on('click', '#more_btn', function () {
+                $(this).parent().siblings('.recomments').toggle();
+                $(this).children('.fa-caret-down').toggle();
+                $(this).children('.fa-caret-up').toggle();
+                const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+                recomment_forms.forEach((form) => {
+                    form.scrollBy(0, 10000)
+                });
             });
-        });
 
-        // 스크롤 하단 고정 (수정 필요)
+            // 스크롤 하단 고정 (수정 필요)
 
 
-        // 리뷰 댓글 작성
-        const btns = document.querySelectorAll('#rec_submit')
-        btns.forEach(btn => btn.addEventListener('click', recommentSubmit));
-        function recommentSubmit() {
-            let comment_id = $(this).attr('name') // {{comment.id}}
-            let parent = $(this).parent(); // recommentform_{{comment.id}}
-            let text = parent.children('#id_text').val() // recomment text value
-            console.log(text);
+            // 리뷰 댓글 작성
+            const btns = document.querySelectorAll('#rec_submit')
+            btns.forEach(btn => btn.addEventListener('click', recommentSubmit));
+            function recommentSubmit() {
+                let comment_id = $(this).attr('name') // {{comment.id}}
+                let parent = $(this).parent(); // recommentform_{{comment.id}}
+                let text = parent.children('#id_text').val() // recomment text value
+                console.log(text);
 
-            $.ajax({
-                type: 'POST',
-                url: `/comment/${comment_id}/recomment/create/`,
-                dataType: 'json',
-                data: {
-                    'text': text,
-                    'pk': comment_id,
-                    'user': '{{ request.user.pk }}',
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                },
-                success: function (data) {
-                    if (text === '') {
-                        alert('댓글을 입력해주세요');
-                        return;
-                    }
-                    let recomment = `
+                $.ajax({
+                    type: 'POST',
+                    url: `/comment/${comment_id}/recomment/create/`,
+                    dataType: 'json',
+                    data: {
+                        'text': text,
+                        'pk': comment_id,
+                        'user': '{{ request.user.pk }}',
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function (data) {
+                        if (text === '') {
+                            alert('댓글을 입력해주세요');
+                            return;
+                        }
+                        let recomment = `
                 <div class="recomment_list text-center m-4 p-4" id="recomment_list_${comment_id}">
                     <div class="flex flex-row" id="recomment">
                         <div class="mr-4" style="width: 10px; height: 10px; 
@@ -703,78 +703,89 @@
                         ${data.text}
                     </div>
                 </div>`
-                    let list = parent.parent().children(`div[name=${comment_id}]`);
-                    list.append(recomment);
-                    parent.children('#id_text').val('')
-                    const [...recomment_forms] = document.querySelectorAll('.recomment_form')
-                    recomment_forms.forEach((form) => {
-                        form.scrollBy(0, 10000)
-                    });
-                },
-                error: function () {
-                    alert('error');
-                }
-            });
-        }
+                        let list = parent.parent().children(`div[name=${comment_id}]`);
+                        list.append(recomment);
+                        parent.children('#id_text').val('')
+                        const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+                        recomment_forms.forEach((form) => {
+                            form.scrollBy(0, 10000)
+                        });
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                });
+            }
 
-    let qna_page = document.querySelectorAll('#qna_paginator')
-    qna_page.forEach(item=>{
-        item.addEventListener('click', function(){
-            let page_num = item.getAttribute('name')
-            
-            $.ajax({
-                type:'POST',
-                url : "{% url 'products:qna_paginator' %}",
-                dataType : 'json',
-                data : {
-                    'product_pk' : product_pk,
-                    'page_num' : page_num,
-                    "csrfmiddlewaretoken":"{{csrf_token}}",
-                },
-                success : function(data){
-                    let qnaSection = document.getElementById('qnas-section')
-                    console.log(data)
-                    qnaSection.innerHTML = ''
-                    data.questions.forEach(item=>{
-                        let status = item.status
-                        let title = item.title
-                        let consumer = item.consumer
-                        let create_at = item.create_at
-                        let q_pk = item.pk
-                        console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
-                        let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
-                        
-                        if(status == true){
-                            qnaLine += `
+            let qna_page = document.querySelectorAll('#qna_paginator')
+            qna_page.forEach(item => {
+                item.addEventListener('click', function () {
+                    let page_num = item.getAttribute('name')
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{% url 'products:qna_paginator' %}",
+                        dataType: 'json',
+                        data: {
+                            'product_pk': product_pk,
+                            'page_num': page_num,
+                            "csrfmiddlewaretoken": "{{csrf_token}}",
+                        },
+                        success: function (data) {
+                            let qnaSection = document.getElementById('qnas-section')
+                            console.log(data)
+                            qnaSection.innerHTML = ''
+                            data.questions.forEach(item => {
+                                let status = item.status
+                                let title = item.title
+                                let consumer = item.consumer
+                                let create_at = item.create_at
+                                let q_pk = item.pk
+                                console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
+                                let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+
+                                if (status == true) {
+                                    qnaLine += `
                             <div id="q_letter_answered" class="w-2/12">답변완료</div>
                     <div id="q_letter_black" class="w-6/12">${title}</div>
                     <div id="q_letter_black" class="w-2/12">${consumer}</div>
                     <div id="q_letter_gray" class="w-2/12">${create_at.date}</div>
                 </div>
                 </a>`
-                            }
-                            else {
-                                qnaLine += `
+                                }
+                                else {
+                                    qnaLine += `
                             <div id="q_letter_answered" class="w-2/12">답변대기</div>
                     <div id="q_letter_black" class="w-6/12">${title}</div>
                     <div id="q_letter_black" class="w-2/12">${consumer}</div>
                     <div id="q_letter_gray" class="w-2/12">${create_at.date}</div>
                 </div>
                 </a>`
-                            }
-                            qnaSection.insertAdjacentHTML('beforeend', qnaLine)
-                        })
-                    },
-                    error: function () {
-                        alert("error")
-                    }
+                                }
+                                qnaSection.insertAdjacentHTML('beforeend', qnaLine)
+                            })
+                        },
+                        error: function () {
+                            alert("error")
+                        }
 
+                    })
                 })
             })
         })
-    })
 
-    
-</script>
+
+    </script>
+    <script>
+        // product review image slider
+        let review_imgs = document.querySelectorAll('#review_imgs');
+        review_imgs.forEach(img => img.classList.add('review_img_slick'))
+
+        $('.review_img_slick').slick({
+            infinite: false,
+            slidesToShow: 3,
+            slidesToScroll: 3
+        });
+    </script>
 
     {% endblock main_content %}
