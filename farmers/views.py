@@ -1,3 +1,4 @@
+from django.core import exceptions
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import DetailView, ListView
 from django.views import View
@@ -300,19 +301,6 @@ class FarmEnroll(View):
         return redirect(reverse("core:main"))
 
 
-# 농가 정보 수정 페이지
-def farm_info_update(request, pk):
-    farmer = Farmer.objects.get(pk=pk)
-    if request.method == "POST":
-        farm_form = FarmEnrollForm(request.POST, request.FILES, instance=farmer)
-    else:
-        # farm_form = FarmEnrollForm(instance=farmer)
-        farm_form = FarmEnrollForm()
-
-    ctx = {"farmer": farmer, "farm_form": farm_form}
-    return render(request, "farmers/farm_info_update.html", ctx)
-
-
 """
 Farmer mypage section
 """
@@ -320,7 +308,7 @@ Farmer mypage section
 
 class FarmerMyPageBase(ListView):
     def get_context_data(self, **kwargs):
-        """ context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
+        """context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
 
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
@@ -336,7 +324,7 @@ class FarmerMyPageBase(ListView):
 
 
 class FarmerMyPageOrderManage(FarmerMyPageBase):
-    """ 농가 주문관리 페이지 """
+    """농가 주문관리 페이지"""
 
     model = Order_Detail
     template_name = "farmers/mypage/farmer_mypage_order.html"
@@ -365,7 +353,7 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
 
 
 class FarmerMyPageProductManage(FarmerMyPageBase):
-    """ 농가 상품관리 페이지 """
+    """농가 상품관리 페이지"""
 
     model = Product
     template_name = "farmers/mypage/farmer_mypage_product.html"
@@ -377,12 +365,37 @@ class FarmerMyPageProductManage(FarmerMyPageBase):
 
 
 class FarmerMyPagePaymentManage(FarmerMyPageBase):
-    """ 농가 정산관리 페이지 """
+    """농가 정산관리 페이지"""
 
     pass
 
 
 class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
-    """ 농가 문의/리뷰관리 페이지 """
+    """농가 문의/리뷰관리 페이지"""
 
     pass
+
+
+class FarmerMyPageInfoManage(FarmerMyPageBase):
+    """농가 정보관리 페이지"""
+
+    model = Farmer
+    template_name = "farmers/mypage/farmer_mypage_info_update.html"
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        if self.request.user != AnonymousUser():
+            try:
+                farmer = self.request.user.farmer
+                if self.request.method == "POST":
+                    farm_form = FarmEnrollForm(
+                        self.request.POST, self.request.FILES, instance=farmer
+                    )
+                elif self.request.method == "GET":
+                    farm_form = FarmEnrollForm(instance=farmer)
+            except ObjectDoesNotExist:
+                return redirect(reverse("core:main"))
+        else:
+            return redirect(reverse("core:main"))
+
+        return response

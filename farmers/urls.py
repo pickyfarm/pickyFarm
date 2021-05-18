@@ -17,10 +17,15 @@ urlpatterns = [
     path("farmer_detail/<int:pk>/", views.farmer_detail, name="farmer_detail"),
     path("apply/", views.farm_apply, name="farm_apply"),
     path("enroll/step/<int:step>/", views.FarmEnroll.as_view(), name="farm_enroll"),
-    path("info/update/<int:pk>/", views.farm_info_update, name="farm_info_update"),
+    # path("info/update/<int:pk>/", views.farm_info_update, name="farm_info_update"),
     # farmer mypage
     path(
         "mypage/products/", views.FarmerMyPageProductManage.as_view(), name="farmer_mypage_product"
     ),
     path("mypage/orders", views.FarmerMyPageOrderManage.as_view(), name="farmer_mypage_order"),
+    path(
+        "mypage/info/update/",
+        views.FarmerMyPageInfoManage.as_view(),
+        name="farmer_mypage_info_update",
+    ),
 ]
