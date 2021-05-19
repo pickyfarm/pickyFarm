@@ -386,3 +386,8 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
     """ 농가 문의/리뷰관리 페이지 """
 
     pass
+
+class FarmerMyPageNotice(FarmerMyPageBase):
+    """ 농가 공지사항 페이지 """
+
+    pass
