@@ -376,6 +376,18 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
     pass
 
 
+class FarmerMyPageNotificationManage(FarmerMyPageBase):
+    """농가 알림 페이지"""
+
+    model = Farmer
+    template_name = "farmers/mypage/farmer_mypage_notification.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
+
+
 class FarmerMyPageInfoManage(FarmerMyPageBase):
     """농가 정보관리 페이지"""
 

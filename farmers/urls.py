@@ -28,4 +28,9 @@ urlpatterns = [
         views.FarmerMyPageInfoManage.as_view(),
         name="farmer_mypage_info_update",
     ),
+    path(
+        "mypage/notifications/",
+        views.FarmerMyPageNotificationManage.as_view(),
+        name="farmer_mypage_notification",
+    ),
 ]
