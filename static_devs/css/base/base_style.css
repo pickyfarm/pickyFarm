@@ -107,7 +107,7 @@ button:focus {
 }
 
 #modal-section {
-  display: flex;
+  display: none;
   position: fixed;
   left: 0;
   top: 0;
