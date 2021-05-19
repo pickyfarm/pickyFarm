@@ -16,7 +16,7 @@
             <div>
                 <img id="main_image" src="{{product.main_image.url}}">
             </div>
-            <div id="images" class="w-full flex flex-rows mt-3">
+            <div class="w-full flex flex-rows mt-3">
                 {% if product.product_images is not None %}
                 {% for image in product.product_images.all %}
 
@@ -540,6 +540,18 @@
 
         })
 
+        //상품 사진 조정 
+        let main_image = document.getElementById('main_image')
+        let sub_images = document.querySelectorAll('#images')
+
+        sub_images.forEach(item=>{
+            item.addEventListener('click', function(){
+                let tmp_url = main_image.getAttribute('src')
+                main_image.setAttribute('src', item.getAttribute('src'))
+                item.setAttribute('src', tmp_url)
+            })
+        })
+
         let wishBtn = document.getElementById('wish')
         let product_pk = document.getElementById('product_content').getAttribute('name')
 
@@ -593,63 +605,37 @@
                 error: function (request, status, error) {
                     alert('로그인이 필요합니다.')
                 }
-            $.ajax({
-                    type: 'POST',
-                    url: "{% url 'users:cartInAjax' %}",
-                    dataType: 'json',
-                    data: data,
-                    success: function (response) {
-                        alert(response.message)
-                    },
-                    error: function (request, status, error) {
-                        alert('로그인이 필요합니다.')
-                    }
-                })
+            
             })
 
-            let subBtn = document.getElementById('sub')
-            console.log(subBtn)
-            subBtn.addEventListener('click', function () {
-                let farmerPk = subBtn.getAttribute('name')
-                console.log(farmerPk)
-                data = {
-                    'farmer_pk': farmerPk,
-                    "csrfmiddlewaretoken": "{{csrf_token}}",
-                }
-                $.ajax({
-                    type: 'POST',
-                    url: "{% url 'users:subs' %}",
-                    dataType: 'json',
-                    data: data,
-                    success: function (response) {
-                        if (response.success == -1)
-                            alert("구독하지 못했습니다. 다시 시도해주세요")
                         else if (response.success == 0)
-                            alert("이미 구독한 농가입니다!")
-                        else
-                            alert("농가를 구독하였습니다!")
-                    },
-                    error: function (request, status, error) {
-                        alert('로그인이 필요합니다.')
-                    }
-                })
-            })
+            
+
+            // $.ajax({
+            //         type: 'POST',
+            //         url: "{% url 'users:cartInAjax' %}",
+            //         dataType: 'json',
+            //         data: data,
+            //         success: function (response) {
+            //             alert(response.message)
+            //         },
+            //         error: function (request, status, error) {
+            //             alert('로그인이 필요합니다.')
+            //         }
+            //     })
 
 
-    </script>
 
-    <script>
-            // 댓글 작성 버튼 toggle
-            let recomments = document.querySelectorAll('.recomments')
-            recomments.forEach(recomment => recomment.classList.add("hide"))
-            $(document).on('click', '#more_btn', function () {
-                $(this).parent().siblings('.recomments').toggle();
-                $(this).children('.fa-caret-down').toggle();
-                $(this).children('.fa-caret-up').toggle();
-                const [...recomment_forms] = document.querySelectorAll('.recomment_form')
-                recomment_forms.forEach((form) => {
-                    form.scrollBy(0, 10000)
-                });
+        // 댓글 작성 버튼 toggle
+        let recomments = document.querySelectorAll('.recomments')
+        recomments.forEach(recomment => recomment.classList.add("hide"))
+        $(document).on('click', '#more_btn', function () {
+            $(this).parent().siblings('.recomments').toggle();
+            $(this).children('.fa-caret-down').toggle();
+            $(this).children('.fa-caret-up').toggle();
+            const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+            recomment_forms.forEach((form) => {
+                form.scrollBy(0, 10000)
             });
 
             // 스크롤 하단 고정 (수정 필요)
@@ -717,35 +703,35 @@
                 });
             }
 
-            let qna_page = document.querySelectorAll('#qna_paginator')
-            qna_page.forEach(item => {
-                item.addEventListener('click', function () {
-                    let page_num = item.getAttribute('name')
+        let qna_page = document.querySelectorAll('#qna_paginator')
+        qna_page.forEach(item => {
+            item.addEventListener('click', function () {
+                let page_num = item.getAttribute('name')
 
-                    $.ajax({
-                        type: 'POST',
-                        url: "{% url 'products:qna_paginator' %}",
-                        dataType: 'json',
-                        data: {
-                            'product_pk': product_pk,
-                            'page_num': page_num,
-                            "csrfmiddlewaretoken": "{{csrf_token}}",
-                        },
-                        success: function (data) {
-                            let qnaSection = document.getElementById('qnas-section')
-                            console.log(data)
-                            qnaSection.innerHTML = ''
-                            data.questions.forEach(item => {
-                                let status = item.status
-                                let title = item.title
-                                let consumer = item.consumer
-                                let create_at = item.create_at
-                                let q_pk = item.pk
-                                console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
-                                let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'products:qna_paginator' %}",
+                    dataType: 'json',
+                    data: {
+                        'product_pk': product_pk,
+                        'page_num': page_num,
+                        "csrfmiddlewaretoken": "{{csrf_token}}",
+                    },
+                    success: function (data) {
+                        let qnaSection = document.getElementById('qnas-section')
+                        console.log(data)
+                        qnaSection.innerHTML = ''
+                        data.questions.forEach(item => {
+                            let status = item.status
+                            let title = item.title
+                            let consumer = item.consumer
+                            let create_at = item.create_at
+                            let q_pk = item.pk
+                            console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
+                            let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
 
-                                if (status == true) {
-                                    qnaLine += `
+                            if (status == true) {
+                                qnaLine += `
                             <div id="q_letter_answered" class="w-2/12">답변완료</div>
                     <div id="q_letter_black" class="w-6/12">${title}</div>
                     <div id="q_letter_black" class="w-2/12">${consumer}</div>
@@ -773,6 +759,7 @@
                 })
             })
         })
+   
 
 
     </script>
