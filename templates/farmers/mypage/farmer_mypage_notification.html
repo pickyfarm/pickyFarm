@@ -65,11 +65,30 @@
                 <th>알림 날짜</th>
                 <th></th>
             </tr>
+
+            {% for story_comment in story_comments %}
             <tr id="notification-table-rows">
-                <td id="table-row-title">빠른 답변 부탁드립니다~</td>
-                <td id="table-row-date">2021-01-01</td>
+                <td id="table-row-title">{{ story_comment.text }}</td>
+                <td id="table-row-date">{{ story_comment.create_at|date:"Y-m-d" }}</td>
                 <td id="table-row-new">N</td>
             </tr>
+            {% endfor %}
+
+            {% for product_comment in product_comments %}
+            <tr id="notification-table-rows">
+                <td id="table-row-title">{{ product_comment.text }}</td>
+                <td id="table-row-date">{{ product_comment.create_at|date:"Y-m-d" }}</td>
+                <td id="table-row-new">N</td>
+            </tr>
+            {% endfor %}
+
+            {% for question in questions %}
+            <tr id="notification-table-rows">
+                <td id="table-row-title">{{ question.title }}</td>
+                <td id="table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
+                <td id="table-row-new">N</td>
+            </tr>
+            {% endfor %}
         </table>
     </div>
 </div>

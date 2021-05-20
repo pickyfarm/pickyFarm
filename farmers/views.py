@@ -11,10 +11,11 @@ from django.db.models import Q
 
 # models
 from .models import *
-from products.models import Product
+from products.models import Product, Question
 from users.models import Consumer
 from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group
+from comments.models import Farmer_Story_Comment, Product_Comment
 
 # forms
 from .forms import *
@@ -384,7 +385,16 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        context["story_comments"] = Farmer_Story_Comment.objects.filter(
+            story__farmer=self.request.user.farmer
+        )  # 파머 스토리 댓글
+        context["questions"] = Question.objects.filter(
+            product__farmer=self.request.user.farmer
+        )  # 상품 문의
+        context["product_comments"] = Product_Comment.objects.filter(
+            product__farmer=self.request.user.farmer
+        )  # 상품 리뷰
+        # context["refund_req"] = ... # 반품 요청
         return context
 
 
