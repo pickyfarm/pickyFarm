@@ -204,9 +204,9 @@
 
 
         document.querySelector(".comment-edit-cancel").addEventListener('click', () => {
-            if (confirm("댓글 수정을 취소하시겠습니까?")) {
-                location.reload();
-            }
+            showModalMessage('수정을 취소하시겠습니까?', () => {
+                location.reload()
+            })
         })
 
         document.querySelector(".comment-edit-form").addEventListener('submit', (e) => {
