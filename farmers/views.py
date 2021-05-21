@@ -374,7 +374,17 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
 class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
     """농가 문의/리뷰관리 페이지"""
 
-    pass
+    model = Farmer
+    template_name = "farmers/mypage/farmer_mypage_review_qna.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = Product.objects.filter(farmer=self.request.user.farmer)
+        context["questions"] = Question.objects.filter(product__farmer=self.request.user.farmer)
+        context["reviews"] = Product_Comment.objects.filter(
+            product__farmer=self.request.user.farmer
+        )
+        return context
 
 
 class FarmerMyPageNotificationManage(FarmerMyPageBase):
@@ -413,7 +423,7 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):
-    """농가 정보관리 페이지"""
+    """농가 정보 수정 페이지"""
 
     model = Farmer
     template_name = "farmers/mypage/farmer_mypage_info_update.html"

@@ -1,0 +1,123 @@
+{% extends 'farmers/mypage/farmer_mypage_base.html' %}
+{% load static %}
+
+{% block stylesheet_farmer_mypage %}
+<style>
+    #content {
+        width: 800px;
+    }
+
+    #content-title {
+        margin-top: 106.9px;
+        margin-bottom: 36px;
+    }
+
+    #title-notification span {
+        font-size: 23px;
+        font-weight: bold;
+        color: #5c6754;
+    }
+
+    #title-notification-count-unit span {
+        font-size: 12px;
+        color: #70845d;
+    }
+
+    #notification-table tr {
+        height: 78px;
+        border-bottom: 1px solid #5e665681;
+    }
+
+    #notification-table-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: #999999;
+    }
+
+    #notification-table-rows {
+        font-weight: 500;
+        font-size: 12px;
+    }
+
+    #notification-table-rows:hover {
+        background-color: #f3f4f3;
+    }
+
+    #notification-table-rows td:not(:first-child) {
+        color: #999999;
+    }
+</style>
+{% endblock stylesheet_farmer_mypage %}
+
+{% block content %}
+<div class="mx-auto" id="content">
+    <div id="content-title" class="flex flex-row">
+        <div id="title-notification" class="mr-3">
+            <span>문의/리뷰관리</span>
+        </div>
+    </div>
+    <div>
+        <div>문의 관리</div>
+        <table id="notification-table" class="w-full mb-40">
+            <tr id="notification-table-title">
+                <th>답변여부</th>
+                <th>상품명</th>
+                <th>제목</th>
+                <th>알림 날짜</th>
+                <th>신고하기</th>
+                <th>답변</th>
+            </tr>
+            {% for question in questions %}
+            <tr class="transition_element text-center" id="notification-table-rows"
+                onclick="location.href='{% url 'core:main' %}'">
+                {% if question.status == False %}
+                <td id="table-row-answer">미답변</td>
+                {% else %}
+                <td id="table-row-answer">답변 완료</td>
+                {% endif %}
+                <td id="table-row-product">{{question.product}}</td>
+                <td id="table-row-title">{{ question.title }}</td>
+                <td id="table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
+                <td>신고하기</td>
+                {% if question.status == False %}
+                <td>답변하기 -></td>
+                {% else %}
+                <td>답변수정 -></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+        <div>리뷰 관리</div>
+        <table id="notification-table" class="w-full">
+            <tr id="notification-table-title">
+                <th>상품명</th>
+                <th>구매자 평점</th>
+                <th>제목</th>
+                <th>알림 날짜</th>
+                <th>신고하기</th>
+                <th>답변</th>
+            </tr>
+
+            {% for review in reviews %}
+            <tr class="transition_element text-center" id="notification-table-rows"
+                onclick="location.href='{% url 'core:main' %}'">
+                <td id="table-row-product">{{ review.product }}</td>
+                <td id="table-row-score">**구매자 평점 이미지**</td>
+                <td id="table-row-title">{{ review.text }}</td>
+                <td id="table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
+                <td>신고하기</td>
+                {% if review.status == False %}
+                <td>답변하기 -></td>
+                {% else %}
+                <td>답변수정 -></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<script>
+    document.querySelector('#button-review-qna-manage').classList.add('active')
+</script>
+{% endblock content %}
