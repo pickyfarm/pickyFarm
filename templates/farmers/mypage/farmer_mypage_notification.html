@@ -39,6 +39,10 @@
         font-size: 12px;
     }
 
+    #notification-table-rows:hover {
+        background-color: #f3f4f3;
+    }
+
     #notification-table-rows td:not(:first-child) {
         color: #999999;
     }
@@ -55,7 +59,7 @@
             <img src="{% static 'images/farmer_mypage/notification.svg' %}" alt="">
         </div>
         <div id="title-notification-count-unit" class="flex items-center">
-            <span>새 알림 n개</span>
+            <span>새 알림 {{ new_notifications }}개</span>
         </div>
     </div>
     <div>
@@ -67,26 +71,38 @@
             </tr>
 
             {% for story_comment in story_comments %}
-            <tr id="notification-table-rows">
+            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
                 <td id="table-row-title">{{ story_comment.text }}</td>
                 <td id="table-row-date">{{ story_comment.create_at|date:"Y-m-d" }}</td>
+                {% if story_comment.is_read == False %}
                 <td id="table-row-new">N</td>
+                {% else %}
+                <td id="table-row-new"> </td>
+                {% endif %}
             </tr>
             {% endfor %}
 
             {% for product_comment in product_comments %}
-            <tr id="notification-table-rows">
+            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
                 <td id="table-row-title">{{ product_comment.text }}</td>
                 <td id="table-row-date">{{ product_comment.create_at|date:"Y-m-d" }}</td>
+                {% if product_comment.is_read == False %}
                 <td id="table-row-new">N</td>
+                {% else %}
+                <td id="table-row-new"> </td>
+                {% endif %}
             </tr>
             {% endfor %}
 
             {% for question in questions %}
-            <tr id="notification-table-rows">
+            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
                 <td id="table-row-title">{{ question.title }}</td>
                 <td id="table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
+                {% if question.is_read == False %}
                 <td id="table-row-new">N</td>
+                {% else %}
+                <td id="table-row-new"> </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>

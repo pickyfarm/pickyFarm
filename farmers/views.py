@@ -385,16 +385,30 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["story_comments"] = Farmer_Story_Comment.objects.filter(
-            story__farmer=self.request.user.farmer
-        )  # 파머 스토리 댓글
-        context["questions"] = Question.objects.filter(
-            product__farmer=self.request.user.farmer
-        )  # 상품 문의
-        context["product_comments"] = Product_Comment.objects.filter(
-            product__farmer=self.request.user.farmer
-        )  # 상품 리뷰
+        story_comments = Farmer_Story_Comment.objects.filter(story__farmer=self.request.user.farmer)
+        product_comments = Product_Comment.objects.filter(product__farmer=self.request.user.farmer)
+        questions = Question.objects.filter(product__farmer=self.request.user.farmer)
+        new_notifications = []
+        for story_comment in story_comments:
+            if story_comment.is_read == False:
+                new_notifications.append(story_comment)
+        for product_comment in product_comments:
+            if product_comment.is_read == False:
+                new_notifications.append(product_comment)
+        for question in questions:
+            if question.is_read == False:
+                new_notifications.append(question)
+        context = {
+            "story_comments": story_comments,
+            "product_comments": product_comments,
+            "questions": questions,
+            "new_notifications": len(new_notifications),
+        }
+        # context["story_comments"] = story_comments  # 파머 스토리 댓글
+        # context["questions"] = questions  # 상품 문의
+        # context["product_comments"] = product_comments  # 상품 리뷰
         # context["refund_req"] = ... # 반품 요청
+
         return context
 
 
