@@ -6,6 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
+from admins.models import FarmerNotice
+from math import ceil
 
 
 # models
@@ -390,4 +392,32 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
 class FarmerMyPageNotice(FarmerMyPageBase):
     """ 농가 공지사항 페이지 """
 
-    pass
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['notice'] = []
+        notice = FarmerNotice.objects.all()
+        notice_cnt = notice.count()
+
+        page_num = self.request.GET.get('page')
+        page_size = 5
+        
+        total_pages = (ceil)(notice_cnt/page_size)
+
+        # page_num이 이상한 값이 전달되면 첫번째 페이지로 초기화
+        if(page_num>total_pages or page_num<=0):
+            page_num = 1
+        
+        offset = page_num*page_size
+        notice = notice[offset-5:offset]
+
+        ctx = {
+            'notice':notice,
+            'total_pages' : total_pages,
+            'page':page,
+        }
+
+        context["notice"].append(ctx)
+
+        return context
+
+
