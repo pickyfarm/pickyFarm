@@ -743,3 +743,20 @@ class EditorMyPage_Comments(ListView):
         context["editor"] = self.request.user.editor
 
         return context
+
+
+@method_decorator(login_required, name="dispatch")
+class EditorMypage_Info(TemplateView):
+    template_name = "users/editor_mypage_update.html"
+
+    def render_to_response(self, context, **response_kwargs):
+        if not Editor.objects.filter(user=self.request.user).exists():
+            return redirect(reverse("core:main"))
+
+        else:
+            return super().render_to_response(context, **response_kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["editor"] = Editor.objects.get(user=self.request.user)
+        return context
