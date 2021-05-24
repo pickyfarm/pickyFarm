@@ -23,4 +23,5 @@ urlpatterns = [
         "mypage/products/", views.FarmerMyPageProductManage.as_view(), name="farmer_mypage_product"
     ),
     path("mypage/orders", views.FarmerMyPageOrderManage.as_view(), name="farmer_mypage_order"),
+    path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
 ]

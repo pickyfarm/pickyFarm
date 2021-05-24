@@ -391,14 +391,16 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
 
 class FarmerMyPageNotice(FarmerMyPageBase):
     """ 농가 공지사항 페이지 """
+    
+    model = FarmerNotice
+    template_name = "farmers/mypage/farmer_mypage_notice.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['notice'] = []
         notice = FarmerNotice.objects.all()
         notice_cnt = notice.count()
 
-        page_num = self.request.GET.get('page')
+        page_num = self.request.GET.get('page', 1)
         page_size = 5
         
         total_pages = (ceil)(notice_cnt/page_size)
@@ -408,15 +410,16 @@ class FarmerMyPageNotice(FarmerMyPageBase):
             page_num = 1
         
         offset = page_num*page_size
-        notice = notice[offset-5:offset]
+        # notice = notice[offset-5:offset]
 
-        ctx = {
-            'notice':notice,
-            'total_pages' : total_pages,
-            'page':page,
-        }
+        context["object_list"] = context["object_list"][offset-5:offset]
 
-        context["notice"].append(ctx)
+        
+        context['total_pages'] = range(1, total_pages+1)
+        context['page_num'] = page_num
+        
+
+        print(context)
 
         return context
 

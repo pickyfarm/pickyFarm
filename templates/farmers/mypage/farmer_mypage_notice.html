@@ -1,0 +1,40 @@
+{% extends 'farmers/mypage/farmer_mypage_base.html' %}
+{% load static %}
+
+{% block stylesheet_farmer_mypage %}
+{% endblock stylesheet_farmer_mypage %}
+
+{% block content %}
+<div class="main-content w-content mx-auto">
+    <div>
+
+    </div>
+    <section class="flex flex-col">
+        <div id="index-section" class="flex flex-row">
+            <div>제목</div>
+            <div>작성일</div>
+        </div>
+        
+        {% for list in object_list %}
+          <div id="content-section" class="flex flex-row">
+            <div>{{list.title}}</div>
+            <div>{{list.create_at}}</div>
+          </div>
+        {% endfor %}
+    </section>
+    <section id="paginator" class="flex flex-row">
+        {% for p in total_pages %}
+          <div {% if p is page_num %}
+            id="now_page"
+            {% else %}
+            id="page"
+          {% endif %}>{{p}}</div>
+        {% endfor %}
+    </section>
+
+</div>
+
+
+<script>
+</script>
+{% endblock content %}
