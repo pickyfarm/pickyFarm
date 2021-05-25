@@ -1,0 +1,79 @@
+#content-section{
+    width:880px;
+    padding-top:100px;
+}
+
+#big-title{
+    font-size: 23px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.52;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+  margin-bottom: 36px;
+}
+
+#index-section{
+    width:100%;
+    font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 4.43;
+  letter-spacing: normal;
+  text-align: center;
+  color: #999999;
+  border-bottom :solid 1px #5e6656;
+}
+
+#notice-section{
+    border-bottom: solid 1px #5e6656;
+    height : 85px;
+}
+
+#title{
+    font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000000;
+  padding-left : 25px;
+  padding-right: 25px;
+}
+
+
+#create-at{
+    font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #999999;
+}
+
+#new{
+    font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #70845d;
+}
+
+#paginator{
+    margin-top:38px;
+}
+
+#now-page, #page{
+    margin-right:31px;
+}
+
+#paginator>:nth-child(1){
+    margin-left:31px;
+}

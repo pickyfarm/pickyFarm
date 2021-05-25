@@ -2,35 +2,34 @@
 {% load static %}
 
 {% block stylesheet_farmer_mypage %}
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_notice.css' %}" />
 {% endblock stylesheet_farmer_mypage %}
 
 {% block content %}
-<div class="main-content w-content mx-auto">
-    <div>
+<div id="content-section" class=" mx-auto">
+  <div id="big-title">
+    공지사항
+  </div>
 
-    </div>
-    <section class="flex flex-col">
-        <div id="index-section" class="flex flex-row">
-            <div>제목</div>
-            <div>작성일</div>
-        </div>
-        
-        {% for list in object_list %}
-          <div id="content-section" class="flex flex-row">
-            <div>{{list.title}}</div>
-            <div>{{list.create_at}}</div>
-          </div>
-        {% endfor %}
-    </section>
-    <section id="paginator" class="flex flex-row">
-        {% for p in total_pages %}
-          <div {% if p is page_num %}
-            id="now_page"
-            {% else %}
-            id="page"
-          {% endif %}>{{p}}</div>
-        {% endfor %}
-    </section>
+  <div id="index-section" class="flex flex-row items-center">
+    <div id="title-index" class="w-9/12">제목</div>
+    <div id="create-at-index" class="w-2/12">작성일</div>
+    <div id="new-index" class="w-1/12"></div>
+  </div>
+
+  {% for list in object_list %}
+  <div id="notice-section" class="flex flex-row items-center">
+    <div id="title" class="w-9/12">{{list.title}}</div>
+    <div id="create-at" class="w-2/12">{{list.create_at|date}}</div>
+    <div id="new" class="w-1/12">N</div>
+  </div>
+  {% endfor %}
+
+  <section id="paginator" class="flex flex-row justify-center">
+    {% for p in total_pages %}
+    <div {% if p is page_num %} id="now-page" {% else %} id="page" {% endif %}>{{p}}</div>
+    {% endfor %}
+  </section>
 
 </div>
 
