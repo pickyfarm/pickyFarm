@@ -1,0 +1,11 @@
+{% extends 'farmers/mypage/farmer_mypage_base.html' %} {% load static %}
+{% block stylesheet_farmer_mypage %}
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_order.css' %}" />
+{% endblock stylesheet_farmer_mypage %}
+{% block content %}
+{% include 'farmers/mypage/order/info_section.html' %}
+{% include 'farmers/mypage/order/order_list_section.html' %}
+<script>
+    document.querySelector('#button-order-manage').classList.add('active');
+</script>
+{% endblock content %}
