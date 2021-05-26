@@ -416,9 +416,16 @@ cursor:pointer;
   cursor:pointer
 }
 
+#logo{
+  margin-bottom:30px;
+}
+
 #desc_img_box{
-  margin-top:170px;
-  margin-bottom:170px;
+  
+}
+
+#desc_img{
+  width:990px;
 }
 
 #sel{

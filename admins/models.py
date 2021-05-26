@@ -4,7 +4,7 @@ from django.db import models
 class FarmerNotice(models.Model):
     title = models.CharField(max_length=100)
     contents = models.TextField()
-    attachments = models.FileField(upload_to="notice/%Y/%m/%d/", null=True)
+    attachments = models.FileField(upload_to="notice/%Y/%m/%d/", null=True, blank=True)
 
     important = models.BooleanField(default=False)
 
@@ -13,3 +13,6 @@ class FarmerNotice(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+
+

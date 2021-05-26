@@ -17,6 +17,7 @@ class Product(models.Model):
     title = models.CharField(max_length=50)
     sub_title = models.CharField(max_length=100)
     main_image = models.ImageField(upload_to="product_main_image/%Y/%m/%d/")
+
     open = models.BooleanField(default=False)
 
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
@@ -28,6 +29,7 @@ class Product(models.Model):
     instruction = models.TextField(blank=True)
 
     desc_image = models.ImageField(upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True)
+    desc_image2 = models.ImageField(upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True)
     desc = models.TextField(blank=True)
 
     # 평점 관련
