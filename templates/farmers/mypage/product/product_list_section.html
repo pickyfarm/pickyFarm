@@ -23,7 +23,7 @@
             <div class="sell-price">{{product.sell_price | intcomma}}</div>
             <div class="event">{{product.is_event | yesno:'○,✕'}}</div>
             <div class="selling-rate">{% widthratio product.sales_rate 1 100 %}%</div>
-            <button class="update-info">수정</button>
+            <button class="update-info transition-colors">수정</button>
         </div>
         {% endfor %}
     </div>
