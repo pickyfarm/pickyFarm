@@ -1,4 +1,6 @@
-{% extends 'base/base.html' %} {% load static %} {% block stylesheet %}
+{% extends 'base/base.html' %}
+{% load static %}
+{% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_base.css' %}" />
 {% block stylesheet_farmer_mypage %} {% endblock stylesheet_farmer_mypage %}
 {%endblock stylesheet %}
@@ -128,6 +130,7 @@
             </a>
         </nav>
     </section>
+    {% block content %} {% endblock content %}
 </div>
-{% block content %} {% endblock content %}
+
 {% endblock main_content %}
