@@ -192,6 +192,7 @@ class Question(models.Model):
     image = models.ImageField(upload_to="question_image/%Y/%m/%d/", null=True, blank=True)
 
     status = models.BooleanField(default=False, choices=status)
+    is_read = models.BooleanField(default=False)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)

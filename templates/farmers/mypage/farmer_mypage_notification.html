@@ -1,0 +1,114 @@
+{% extends 'farmers/mypage/farmer_mypage_base.html' %}
+{% load static %}
+
+{% block stylesheet_farmer_mypage %}
+<style>
+    #content {
+        width: 800px;
+    }
+
+    #content-title {
+        margin-top: 106.9px;
+        margin-bottom: 36px;
+    }
+
+    #title-notification span {
+        font-size: 23px;
+        font-weight: bold;
+        color: #5c6754;
+    }
+
+    #title-notification-count-unit span {
+        font-size: 12px;
+        color: #70845d;
+    }
+
+    #notification-table tr {
+        height: 78px;
+        border-bottom: 1px solid #5e665681;
+    }
+
+    #notification-table-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: #999999;
+    }
+
+    #notification-table-rows {
+        font-weight: 500;
+        font-size: 12px;
+    }
+
+    #notification-table-rows:hover {
+        background-color: #f3f4f3;
+    }
+
+    #notification-table-rows td:not(:first-child) {
+        color: #999999;
+    }
+</style>
+{% endblock stylesheet_farmer_mypage %}
+
+{% block content %}
+<div class="mx-auto" id="content">
+    <div id="content-title" class="flex flex-row">
+        <div id="title-notification" class="mr-3">
+            <span>알림</span>
+        </div>
+        <div id="title-notification-img" class="flex items-center mr-7">
+            <img src="{% static 'images/farmer_mypage/notification.svg' %}" alt="">
+        </div>
+        <div id="title-notification-count-unit" class="flex items-center">
+            <span>새 알림 {{ new_notifications }}개</span>
+        </div>
+    </div>
+    <div>
+        <table id="notification-table" class="w-full">
+            <tr id="notification-table-title">
+                <th>제목</th>
+                <th>알림 날짜</th>
+                <th></th>
+            </tr>
+
+            {% for story_comment in story_comments %}
+            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
+                <td id="table-row-title">{{ story_comment.text }}</td>
+                <td id="table-row-date">{{ story_comment.create_at|date:"Y-m-d" }}</td>
+                {% if story_comment.is_read == False %}
+                <td id="table-row-new">N</td>
+                {% else %}
+                <td id="table-row-new"> </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+            {% for product_comment in product_comments %}
+            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
+                <td id="table-row-title">{{ product_comment.text }}</td>
+                <td id="table-row-date">{{ product_comment.create_at|date:"Y-m-d" }}</td>
+                {% if product_comment.is_read == False %}
+                <td id="table-row-new">N</td>
+                {% else %}
+                <td id="table-row-new"> </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+            {% for question in questions %}
+            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
+                <td id="table-row-title">{{ question.title }}</td>
+                <td id="table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
+                {% if question.is_read == False %}
+                <td id="table-row-new">N</td>
+                {% else %}
+                <td id="table-row-new"> </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<script>
+    document.querySelector('#button-notifications').classList.add('active')
+</script>
+{% endblock %}

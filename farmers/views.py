@@ -1,3 +1,4 @@
+from django.core import exceptions
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import DetailView, ListView
 from django.views import View
@@ -12,10 +13,11 @@ from math import ceil
 
 # models
 from .models import *
-from products.models import Product
+from products.models import Product, Question
 from users.models import Consumer
 from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group
+from comments.models import Farmer_Story_Comment, Product_Comment
 
 # forms
 from .forms import *
@@ -302,19 +304,6 @@ class FarmEnroll(View):
         return redirect(reverse("core:main"))
 
 
-# 농가 정보 수정 페이지
-def farm_info_update(request, pk):
-    farmer = Farmer.objects.get(pk=pk)
-    if request.method == "POST":
-        farm_form = FarmEnrollForm(request.POST, request.FILES, instance=farmer)
-    else:
-        # farm_form = FarmEnrollForm(instance=farmer)
-        farm_form = FarmEnrollForm()
-
-    ctx = {"farmer": farmer, "farm_form": farm_form}
-    return render(request, "farmers/farm_info_update.html", ctx)
-
-
 """
 Farmer mypage section
 """
@@ -322,7 +311,7 @@ Farmer mypage section
 
 class FarmerMyPageBase(ListView):
     def get_context_data(self, **kwargs):
-        """ context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
+        """context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
 
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
@@ -338,7 +327,7 @@ class FarmerMyPageBase(ListView):
 
 
 class FarmerMyPageOrderManage(FarmerMyPageBase):
-    """ 농가 주문관리 페이지 """
+    """농가 주문관리 페이지"""
 
     model = Order_Detail
     template_name = "farmers/mypage/farmer_mypage_order.html"
@@ -367,7 +356,7 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
 
 
 class FarmerMyPageProductManage(FarmerMyPageBase):
-    """ 농가 상품관리 페이지 """
+    """농가 상품관리 페이지"""
 
     model = Product
     context_object_name = "products"
@@ -380,15 +369,85 @@ class FarmerMyPageProductManage(FarmerMyPageBase):
 
 
 class FarmerMyPagePaymentManage(FarmerMyPageBase):
-    """ 농가 정산관리 페이지 """
+    """농가 정산관리 페이지"""
 
     pass
 
 
 class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
-    """ 농가 문의/리뷰관리 페이지 """
+    """농가 문의/리뷰관리 페이지"""
 
-    pass
+    model = Farmer
+    template_name = "farmers/mypage/farmer_mypage_review_qna.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = Product.objects.filter(farmer=self.request.user.farmer)
+        context["questions"] = Question.objects.filter(product__farmer=self.request.user.farmer)
+        context["reviews"] = Product_Comment.objects.filter(
+            product__farmer=self.request.user.farmer
+        )
+        return context
+
+
+class FarmerMyPageNotificationManage(FarmerMyPageBase):
+    """농가 알림 페이지"""
+
+    model = Farmer
+    template_name = "farmers/mypage/farmer_mypage_notification.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        story_comments = Farmer_Story_Comment.objects.filter(story__farmer=self.request.user.farmer)
+        product_comments = Product_Comment.objects.filter(product__farmer=self.request.user.farmer)
+        questions = Question.objects.filter(product__farmer=self.request.user.farmer)
+        new_notifications = []
+        for story_comment in story_comments:
+            if story_comment.is_read == False:
+                new_notifications.append(story_comment)
+        for product_comment in product_comments:
+            if product_comment.is_read == False:
+                new_notifications.append(product_comment)
+        for question in questions:
+            if question.is_read == False:
+                new_notifications.append(question)
+        context = {
+            "story_comments": story_comments,
+            "product_comments": product_comments,
+            "questions": questions,
+            "new_notifications": len(new_notifications),
+        }
+        # context["story_comments"] = story_comments  # 파머 스토리 댓글
+        # context["questions"] = questions  # 상품 문의
+        # context["product_comments"] = product_comments  # 상품 리뷰
+        # context["refund_req"] = ... # 반품 요청
+
+        return context
+
+
+class FarmerMyPageInfoManage(FarmerMyPageBase):
+    """농가 정보 수정 페이지"""
+
+    model = Farmer
+    template_name = "farmers/mypage/farmer_mypage_info_update.html"
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        if self.request.user != AnonymousUser():
+            try:
+                farmer = self.request.user.farmer
+                if self.request.method == "POST":
+                    farm_form = FarmEnrollForm(
+                        self.request.POST, self.request.FILES, instance=farmer
+                    )
+                elif self.request.method == "GET":
+                    farm_form = FarmEnrollForm(instance=farmer)
+            except ObjectDoesNotExist:
+                return redirect(reverse("core:main"))
+        else:
+            return redirect(reverse("core:main"))
+
+        return response
 
 class FarmerMyPageNotice(FarmerMyPageBase):
     """ 농가 공지사항 페이지 """

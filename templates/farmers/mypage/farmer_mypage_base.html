@@ -18,11 +18,13 @@
                     <span id="farmer-nickname">{{farmer.user.nickname}}</span>님
                 </div>
                 <div id="farmer-links-section">
-                    <a href="#" id="farmer-info-update" class="farmer-link flex justify-between">
+                    <a href="{% url 'farmers:farmer_mypage_info_update' %}" id="farmer-info-update"
+                        class="farmer-link flex justify-between">
                         내 농가 페이지 수정하기
                         <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
                     </a>
-                    <a href="#" id="farmer-info-update" class="farmer-link flex justify-between">
+                    <a href="{% url 'farmers:farmer_story_create' %}" id="farmer-info-update"
+                        class="farmer-link flex justify-between">
                         농가일기 쓰러 가기
                         <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
                     </a>
@@ -119,10 +121,10 @@
             <a href="#">
                 <div class="farmer-mypage-link-button text-center" id="button-payment-manage">정산관리</div>
             </a>
-            <a href="#">
+            <a href="{% url 'farmers:farmer_mypage_review_qna' %}">
                 <div class="farmer-mypage-link-button text-center" id="button-review-qna-manage">문의/리뷰 관리</div>
             </a>
-            <a href="#">
+            <a href="{% url 'farmers:farmer_mypage_notification' %}">
                 <div class="farmer-mypage-link-button text-center" id="button-notifications">알림</div>
             </a>
             <a href="#">
