@@ -1,0 +1,39 @@
+{% load static %}
+<div class="info-section-wrapper flex flex-col">
+    <div class="section-title" id="product-list-title">상품 조회 / 수정</div>
+    <div class="product-status-info-section flex mx-auto">
+        <div class="product-status-circle flex flex-col items-center justify-center">
+            <div class="product-status-title">전체 상품</div>
+            <div class="product-status-count">5</div>
+        </div>
+        <div class="product-status-circle flex flex-col items-center justify-center">
+            <div class="product-status-title">승인 대기</div>
+            <div class="product-status-count">2</div>
+        </div>
+        <div class="product-status-circle flex flex-col items-center justify-center">
+            <div class="product-status-title">판매 중</div>
+            <div class="product-status-count">2</div>
+        </div>
+        <div class="product-status-circle flex flex-col items-center justify-center">
+            <div class="product-status-title">판매 중지</div>
+            <div class="product-status-count">1</div>
+        </div>
+        <div class="product-status-circle flex flex-col items-center justify-center">
+            <div class="product-status-title">품절 상품</div>
+            <div class="product-status-count">0</div>
+        </div>
+    </div>
+    <div class="search-bar-section flex items-center">
+        <div class="search-bar-wrapper flex items-center">
+            <div class="search-bar-title">상품명</div>
+            <div class="bar"></div>
+            <input type="text" id="product-search">
+            <img src="{% static 'images/farmer_mypage/product/searchicon.svg' %}" alt="검색" id="search-button"
+                class="button">
+        </div>
+        <div class="search-sort flex items-center">
+            <img src="{% static 'images/farmer_mypage/product/sorticon.svg' %}" alt="정렬하기" id="search-icon">
+            정렬
+        </div>
+    </div>
+</div>

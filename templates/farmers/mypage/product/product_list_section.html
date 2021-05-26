@@ -1,0 +1,30 @@
+{% load humanize %}
+<div class="product_section_wrapper flex">
+    <div class="product-list-sheet">
+        <div class="product-list-sheet-index grid justify-items-center">
+            <div class="product-list-sheet-index-title">상품명</div>
+            <div class="product-list-sheet-index-title">판매상태</div>
+            <div class="product-list-sheet-index-title">재고수량</div>
+            <div class="product-list-sheet-index-title">포장단위</div>
+            <div class="product-list-sheet-index-title">판매가격</div>
+            <div class="product-list-sheet-index-title">이벤트 투용여부</div>
+            <div class="product-list-sheet-index-title justify-self-start">판매율</div>
+        </div>
+        {% for product in products %}
+        <div class="product-list-sheet-rows grid">
+            <div class="product-title-section flex items-center">
+                <div class="product-title">{{product.title}}</div>
+                <div class="product-sheet-bar"></div>
+                <div class="product-subtitle">{{product.sub_title}}</div>
+            </div>
+            <div class="open-status">{{product.open | yesno:'판매중,판매중지'}}</div>
+            <div class="stocks">{{product.stock}}</div>
+            <div class="package-unit">{{product.weight}}kg</div>
+            <div class="sell-price">{{product.sell_price | intcomma}}</div>
+            <div class="event">{{product.is_event | yesno:'○,✕'}}</div>
+            <div class="selling-rate">{% widthratio product.sales_rate 1 100 %}%</div>
+            <button class="update-info transition-colors">수정</button>
+        </div>
+        {% endfor %}
+    </div>
+</div>

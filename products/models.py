@@ -19,6 +19,7 @@ class Product(models.Model):
     main_image = models.ImageField(upload_to="product_main_image/%Y/%m/%d/")
 
     open = models.BooleanField(default=False)
+    is_event = models.BooleanField(default=False)
 
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
     weight = models.FloatField()

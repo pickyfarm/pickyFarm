@@ -370,7 +370,8 @@ class FarmerMyPageProductManage(FarmerMyPageBase):
     """ 농가 상품관리 페이지 """
 
     model = Product
-    template_name = "farmers/mypage/farmer_mypage_product.html"
+    context_object_name = "products"
+    template_name = "farmers/mypage/product/farmer_mypage_product.html"
 
     def get_queryset(self):
         products = Product.objects.filter(farmer=self.request.user.farmer)
