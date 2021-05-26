@@ -39,33 +39,27 @@ Farmer's Story
         <img src="{% static 'images/farm/arrow.svg' %}" class="cursor-pointer" alt="">
     </div>
     <!--농가 정보-->
-    <div class="" id="farm_info">
-        <div class="flex flex-row mb-6">
-            <img src="{% static 'images/farm/sm_leaf.svg' %}" class="mr-3" alt="">
-            <div class="font_green font-light" style="font-size: 20px;">농가 정보</div>
+    <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
+        <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-4" id="farmer_profile">
+        <img src="{{ farmer.farm_profile.url }}" alt="" class="mr-16" id="farm_profile">
+        <div class="" style="width: 418px;">
+            <div class="flex flex-row mb-3" id="tag_wrap">
+                {% for tag in tags %}
+                <a href="#">
+                    <div class="mr-2" id="farm_tag">#{{ tag }}</div>
+                </a>
+                {% endfor %}
+            </div>
+            <div class="flex flex-row items-center mb-3" id="farm_wrap">
+                <div class="font-medium text-3xl" id="farm_name">{{ farmer.farm_name }}</div>
+                <div class="font-light text-lg" id="farmer_name">{{ farmer.user.nickname }}</div>
+            </div>
+            <div id="profile_title_wrap">
+                <div class="font-light text-lg" id="profile_title">"{{ farmer.profile_title }}"</div>
+            </div>
         </div>
-        <div class="flex flex-row items-center justify-center px-5 py-6 mb-10" id="farmer_info">
-            <div class='relative mr-20'>
-                <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-6" id="farmer_profile">
-                <img class="absolute bottom-0 right-0" src="{% static 'images/farm/sub_btn.svg' %}" alt="">
-            </div>
-            <div class="w-96">
-                <div class="flex flex-row mb-2" id="tag_wrap">
-                    {% for tag in tags %}
-                    <a href="#">
-                        <div class="mr-2" id="farm_tag"># {{ tag }}</div>
-                    </a>
-                    {% endfor %}
-                </div>
-                <div class="flex flex-row items-center mb-3" id="farm_wrap">
-                    <div class="font-medium text-3xl" id="farm_name">{{ farmer.farm_name }}</div>
-                    <div class="font-thin text-2xl mx-4" id="bar">|</div>
-                    <div class="font-light text-xl" id="farmer_name">{{ farmer.user.nickname }}</div>
-                </div>
-                <div id="profile_title_wrap">
-                    <div class="font-light text-xl" id="profile_title">"{{ farmer.profile_title }}"</div>
-                </div>
-            </div>
+        <div id="sub_wrap">
+            <div class="text-xl" id="sub_btn" name={{farmer.pk}}>구독하기</div>
         </div>
     </div>
     <!--농가 뉴스-->
@@ -83,17 +77,19 @@ Farmer's Story
     <!-- <div class="text-3xl text-center mb-24" style="color: #808080;"> Farmer's Story </div> -->
     <div class="flex flex-row justify-center my-28">
         {% for story in stories %}
-        <div class="p-5 mx-1" id="story_wrap">
-            <img src="" alt="" class="" id="story_img">
-            <div class="flex flex-row justify-between text-xs mt-2 mb-1">
-                <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
-                <div id="views" class="flex flex-row items-center">
-                    <div class="mr-1">{{ story.hits }}</div>
-                    <img src="{% static 'images/farm/view.svg' %}" alt="">
+        <a href="{% url 'farmers:farmer_story_detail' story.pk %}">
+            <div class="p-5 mx-1" id="story_wrap">
+                <img src="{{ story.thumbnail.url }}" alt="" class="" id="story_img">
+                <div class="flex flex-row justify-between text-xs mt-2 mb-1">
+                    <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+                    <div id="views" class="flex flex-row items-center">
+                        <div class="mr-1">{{ story.hits }}</div>
+                        <img src="{% static 'images/farm/view.svg' %}" alt="">
+                    </div>
                 </div>
+                <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
             </div>
-            <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
-        </div>
+        </a>
         {% endfor %}
     </div>
     <!-- paginator -->
@@ -125,7 +121,7 @@ Farmer's Story
     </div>
 </div>
 </div>
-<div class="mx-auto w-screen bg_gray pt-16 mt-10">
+<div class="mx-auto w-screen bg_gray pt-16 mt-10 pb-20">
     <div class="content mx-auto">
         <!-- comment -->
         <div class="flex justify-end">
