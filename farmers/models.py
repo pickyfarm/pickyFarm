@@ -13,7 +13,9 @@ class Farmer(models.Model):
     )  # 농장주 사진 default icon 설정
     farm_profile = models.ImageField(upload_to="farm_profile/%Y/%m/%d/")  # 농장 대표사진 or 로고
     profile_title = models.CharField(max_length=200)  # 농가 한 줄 소개
-    profile_desc = models.TextField()  # 농가 상세 소개
+    farm_desc = models.ImageField(
+        upload_to="farm_desc/%Y/%m/%d/", null=True, blank=True
+    )  # 농가 상세 소개
     sub_count = models.IntegerField(default=0)  # 구독자 수
     farm_news = models.CharField(max_length=500, null=True, blank=True)  # 농가 뉴스
     farm_cat = models.CharField(choices=CAT_CHOICES, max_length=20, default="fruit")

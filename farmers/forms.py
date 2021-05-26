@@ -15,7 +15,7 @@ class FarmEnrollForm(forms.ModelForm):
             "farmer_profile",
             "farm_profile",
             "profile_title",
-            "profile_desc",
+            "farm_desc",
             "farm_cat",
         )
         widgets = {
@@ -27,7 +27,7 @@ class FarmEnrollForm(forms.ModelForm):
             "farmer_profile": "프로필 사진",
             "farm_profile": "농장 사진",
             "profile_title": "농장 한 줄 소개",
-            "profile_desc": "농장 상세 소개",
+            "farm_desc": "농장 상세 소개",
             "farm_cat": "해시 태그 선택",
         }
 
