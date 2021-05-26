@@ -20,6 +20,7 @@ class FailedJsonResponse(JsonResponse):
         super().__init__(data)
         data.status_code = 400
 
+
 def store_list_all(request):
     cat_name = "all"
     page = int(request.GET.get("page", 1))
@@ -140,32 +141,39 @@ def product_detail(request, pk):
         questions = product.questions.all().order_by("-create_at")
         total_score = product.calculate_total_rating_avg()
         total_percent = format(total_score / 5 * 100, ".1f")
+        recomment_form = ProductRecommentForm()
+        questions_total_pages = ceil(questions.count() / 5)
+        questions = questions[0:5]
+
         # freshness
-        freshness_per = [
-            int(100 * product.freshness_1 / product.reviews),
-            int(100 * product.freshness_3 / product.reviews),
-            int(100 * product.freshness_5 / product.reviews),
-        ]
+        if product.reviews != 0:
+            freshness_per = [
+                int(100 * product.freshness_1 / product.reviews),
+                int(100 * product.freshness_3 / product.reviews),
+                int(100 * product.freshness_5 / product.reviews),
+            ]
+        else:
+            freshness_per = [0, 0, 0]
 
         # flavor
-        flavor_per = [
-            100 * product.flavor_1 / product.reviews,
-            100 * product.flavor_3 / product.reviews,
-            100 * product.flavor_5 / product.reviews,
-        ]
+        if product.reviews != 0:
+            flavor_per = [
+                100 * product.flavor_1 / product.reviews,
+                100 * product.flavor_3 / product.reviews,
+                100 * product.flavor_5 / product.reviews,
+            ]
+        else:
+            flavor_per = [0, 0, 0]
+
         # cost_performance
-        cost_performance_per = [
-            100 * product.cost_performance_1 / product.reviews,
-            100 * product.cost_performance_3 / product.reviews,
-            100 * product.cost_performance_5 / product.reviews,
-        ]
-
-        recomment_form = ProductRecommentForm()
-
-        questions_total_pages = ceil(questions.count() / 5)
-        print(questions_total_pages)
-
-        questions = questions[0:5]
+        if product.reviews != 0:
+            cost_performance_per = [
+                100 * product.cost_performance_1 / product.reviews,
+                100 * product.cost_performance_3 / product.reviews,
+                100 * product.cost_performance_5 / product.reviews,
+            ]
+        else:
+            cost_performance_per = [0, 0, 0]
 
         ctx = {
             "product": product,
@@ -213,8 +221,8 @@ def question_paging(request):
     for q in questions:
         q_dict = {"status": q.status}
         print(q_dict)
-        q_dict['pk'] = q.pk
-        q_dict['title']=q.title
+        q_dict["pk"] = q.pk
+        q_dict["title"] = q.title
         print(q_dict)
         q_dict["consumer"] = q.consumer.user.nickname
         print(q_dict)
@@ -228,67 +236,74 @@ def question_paging(request):
 
     return JsonResponse(data)
 
+
 @login_required
 def create_question(request):
     product_pk = None
     consumer = request.user.consumer
 
     # GET 방식을 통해 product의 pk 값을 전달
-    product_pk = int(request.GET.get('product'))
-    print(f'싱품 pk : {product_pk}')
+    product_pk = int(request.GET.get("product"))
+    print(f"싱품 pk : {product_pk}")
 
     # 문의 작성 GET - 문의 작성 가능한 form render
-    if request.method == 'GET':
+    if request.method == "GET":
         form = Question_Form()
         ctx = {
-            'form' : form,
+            "form": form,
         }
-        return render(request, 'products/create_question.html', ctx)
-    else :
+        return render(request, "products/create_question.html", ctx)
+    else:
         # 문의 작성 POST - 제목, 글, 이미지 전달 받음
         form = Question_Form(request.POST, request.FILES)
         if form.is_valid():
-            title = form.cleaned_data.get('title')
-            content = form.cleaned_data.get('content')
-            image = form.cleaned_data.get('image')
+            title = form.cleaned_data.get("title")
+            content = form.cleaned_data.get("content")
+            image = form.cleaned_data.get("image")
             status = False
             try:
-                product = Product.objects.get(pk = product_pk)
+                product = Product.objects.get(pk=product_pk)
             except ObjectDoesNotExist:
                 print("존재하지 않는 상품 pk")
-                return redirect(reverse('core:main'))
+                return redirect(reverse("core:main"))
             # 상품 문의 등록
-            new_question = Question(title=title, content=content, image=image, status=status, consumer=consumer, product=product)
+            new_question = Question(
+                title=title,
+                content=content,
+                image=image,
+                status=status,
+                consumer=consumer,
+                product=product,
+            )
             new_question.save()
             return redirect(reverse("products:product_detail", args=[product_pk]))
         else:
             # 상품 question create form validation 오류
             print("상품 question create form validation 오류")
-            return redirect(reverse('core:main'))
+            return redirect(reverse("core:main"))
+
 
 @login_required
 def read_qna(request, pk):
 
     # url pattern으로 전달 받은 Question pk 값으로 Question record 가져오기
-    question = Question.objects.get(pk = pk)
+    question = Question.objects.get(pk=pk)
 
     ctx = {
-        'question': question,
-        'answer': 0,
+        "question": question,
+        "answer": 0,
     }
-    
+
     # 답변 완료된 문의라면 ctx의 answer에 answer record 넣기
-    if(question.status is True):
+    if question.status is True:
         print("상품 문의에 답변 있음")
-        ctx['answer'] = question.answer
+        ctx["answer"] = question.answer
 
     # 답변 대기 중인 상태면 ctx의 answer에는 0이 전달됨
     return render(request, "products/read_question.html", ctx)
 
 
-
-
-#농가 마이페이지 - 문의/리뷰 관리 > 답변하기/답변수정 누를 시 
+# 농가 마이페이지 - 문의/리뷰 관리 > 답변하기/답변수정 누를 시
 @login_required
 def create_answer(request, pk):
 
@@ -300,39 +315,31 @@ def create_answer(request, pk):
         farmer = request.user.farmer
     except:
         return redirect(reverse("core:main"))
-    
+
     # 접근하는 농가 계정이 문의와 관련있는 농가 계정임을 확인
     if farmer is not product.farmer:
         return redirect(reverse("core:main"))
 
     # GET : 문의 내용과 답변 입력 form 반환
-    if request.method == 'GET':
+    if request.method == "GET":
         form = Answer_Form()
         ctx = {
-            'question': question,
-            'form': form,
+            "question": question,
+            "form": form,
         }
         return render(request, "farmers/mypage_create_answer.html", ctx)
     # POST : 답변 등록 완료 예정
     else:
         form = Answer_Form(request.POST)
         if form.is_valid():
-            answer = Answer(content = form.cleaned_data.get('content'), question = question, farmer = farmer)
+            answer = Answer(
+                content=form.cleaned_data.get("content"), question=question, farmer=farmer
+            )
             answer.save()
         else:
             return redirect(reverse("core:main"))
-        return redirect(reverse("core:main")) # 추후 파머스 마이페이지 리뷰/문의 관리로 이동 하도록 수정
-
+        return redirect(reverse("core:main"))  # 추후 파머스 마이페이지 리뷰/문의 관리로 이동 하도록 수정
 
 
 # @login_required
 # def update_answer(request, pk):
-
-
-
-
-
-
-    
-        
-

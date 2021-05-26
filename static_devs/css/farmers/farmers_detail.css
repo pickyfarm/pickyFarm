@@ -15,9 +15,10 @@
 #main_title {
     color: #808080;
 }
-#views {
+#views, #hits {
     color: #999999;
 }
+
 
 /* farmer title */
 #title_text {
@@ -34,6 +35,7 @@
     height: 148px;
     border-radius: 50%;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    object-fit: cover;
 }
 
 #farm_name {
@@ -108,15 +110,21 @@
 #farmer_intro {
     text-align: center;
 }
+#farm_desc {
+    width: 990px;
+}
 
 /* farmer product */
 #farmer_product {
     text-align: center;
 }
 #product_img {
-    width: 133px;
-    height: 192px;
+    /* width: 133px; */
+    /* height: 192px; */
+    width: 220px;
+    height: 288px;
     box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
+    object-fit: cover;
 }
 
 /* farmer story */
@@ -134,8 +142,12 @@
     margin: 0 auto;
     width: 215px;
     height: 215px;
+    object-fit: cover;
 }
-
+#story_subtitle {
+    color: #999999;
+    font-size: 15px;
+}
 #comment-write {
     width: 127px;
     height: 36px;
@@ -158,6 +170,10 @@
     font-weight: 300;
     color: #5e6656;
     margin-right: 8px;
+}
+#editor_name {
+    color: #5c6754;
+    font-weight: 500;
 }
 #review_img img{
     width: 396px;
