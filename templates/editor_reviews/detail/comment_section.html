@@ -406,6 +406,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="recomment-wrap">
+                    <div class="recomment-input-wrapper flex flex-col">
+                        <div class="flex items-center recomment-info">
+                            <div class="recomment-arrow"></div>
+                            <div class="recomment-author flex items-center">
+                                <img src="{{user.profile_image.url}}" class="comment-author--profile-image">
+                                <div class="comment-author--id">{{request.user.nickname}}</div>
+                            </div>
+                        </div>
+                        <textarea type="text" class="recomment-input-box" name='${data.pk}'></textarea>
+                        <button class="recomment-submit-button mx-auto"
+                            onclick="recommentSubmit(${data.pk})">등록하기</button>
+                        </div>
+                    </div>
                 </div>`
 
                 $('#comments').prepend(comment);
