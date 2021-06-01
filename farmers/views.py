@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
-from admins.models import FarmerNotice
+from admins.models import FarmerNotice, FarmerNotification
 from math import ceil
 
 
@@ -398,29 +398,17 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        story_comments = Farmer_Story_Comment.objects.filter(story__farmer=self.request.user.farmer)
-        product_comments = Product_Comment.objects.filter(product__farmer=self.request.user.farmer)
-        questions = Question.objects.filter(product__farmer=self.request.user.farmer)
+        notifications = FarmerNotification.objects.all()
         new_notifications = []
-        for story_comment in story_comments:
-            if story_comment.is_read == False:
-                new_notifications.append(story_comment)
-        for product_comment in product_comments:
-            if product_comment.is_read == False:
-                new_notifications.append(product_comment)
-        for question in questions:
-            if question.is_read == False:
-                new_notifications.append(question)
-        context = {
-            "story_comments": story_comments,
-            "product_comments": product_comments,
-            "questions": questions,
-            "new_notifications": len(new_notifications),
-        }
-        # context["story_comments"] = story_comments  # 파머 스토리 댓글
-        # context["questions"] = questions  # 상품 문의
-        # context["product_comments"] = product_comments  # 상품 리뷰
+        for noti in notifications:
+            if noti.is_read == False:
+                new_notifications.append(noti)
+
+        context["product_comments"] = notifications.filter(notitype="review_noti")
+        context["product_questions"] = notifications.filter(notitype="qna_noti")
+        context["story_comments"] = notifications.filter(notitype="story_comment_noti")
         # context["refund_req"] = ... # 반품 요청
+        context["new_notifications"] = len(new_notifications)
 
         return context
 
@@ -451,7 +439,7 @@ class FarmerMyPageInfoManage(FarmerMyPageBase):
 
 
 class FarmerMyPageNotice(FarmerMyPageBase):
-    """ 농가 공지사항 페이지 """
+    """농가 공지사항 페이지"""
 
     model = FarmerNotice
     template_name = "farmers/mypage/farmer_mypage_notice.html"
