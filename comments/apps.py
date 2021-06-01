@@ -2,4 +2,8 @@ from django.apps import AppConfig
 
 
 class CommentsConfig(AppConfig):
-    name = 'comments'
+    name = "comments"
+
+    # django signal
+    def ready(self):
+        import comments.signals
