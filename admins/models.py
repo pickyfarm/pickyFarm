@@ -31,3 +31,6 @@ class FarmerNotification(models.Model):
     notitype = models.CharField(max_length=50, choices=TYPE)
     is_read = models.BooleanField(default=False)
     obj_pk = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.message}"
