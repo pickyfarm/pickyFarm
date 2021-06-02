@@ -398,16 +398,12 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        notifications = FarmerNotification.objects.all()
+        notifications = FarmerNotification.objects.all().order_by("-id")
         new_notifications = []
         for noti in notifications:
             if noti.is_read == False:
                 new_notifications.append(noti)
-
-        context["product_comments"] = notifications.filter(notitype="review_noti")
-        context["product_questions"] = notifications.filter(notitype="qna_noti")
-        context["story_comments"] = notifications.filter(notitype="story_comment_noti")
-        # context["refund_req"] = ... # 반품 요청
+        context["notifications"] = notifications
         context["new_notifications"] = len(new_notifications)
 
         return context
