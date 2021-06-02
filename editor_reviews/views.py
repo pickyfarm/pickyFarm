@@ -167,7 +167,7 @@ def editor_review_comment_delete(request, reviewpk, commentpk):
 
 
 def editor_review_comment_edit(request, reviewpk, commentpk):
-    """ Editor's pick 댓글 수정 - AJAX """
+    """Editor's pick 댓글 수정 - AJAX"""
     if request.is_ajax():
         comment = Editor_Review_Comment.objects.get(pk=commentpk)
         text = request.POST.get("text")
@@ -189,7 +189,6 @@ def editor_review_recomment(request, reviewpk, commentpk):
     comment = get_object_or_404(Editor_Review_Comment, pk=commentpk)
     author = request.user
     text = request.POST.get("text")
-    print(text)
 
     recomment = Editor_Review_Recomment(comment=comment, author=author, text=text)
     recomment.save()
@@ -201,6 +200,7 @@ def editor_review_recomment(request, reviewpk, commentpk):
         ),
         "author": author.nickname,
         "user_image": author.profile_image.url,
+        "pk": recomment.pk,
     }
 
     return JsonResponse(data)

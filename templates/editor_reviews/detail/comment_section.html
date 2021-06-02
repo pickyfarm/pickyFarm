@@ -340,8 +340,8 @@
                                 <div class="recomment-text-options-wrap flex justify-between">
                                     <div></div>
                                     <div class="recomment-text-options flex">
-                                        <div class="recomment-text-options--edit button">수정</div>
-                                        <div class="recomment-text-options--delete button">삭제</div>
+                                        <div class="recomment-text-options--edit button comment-text-options--edit button"  onclick="recommentEdit(this, ${data.pk})">수정</div>
+                                        <div class="recomment-text-options--delete button comment-text-options--delete" onclick="recommentDelete(${data.pk})">삭제</div>
                                     </div>
                                 </div>
                             </div>
@@ -404,6 +404,20 @@
                                 style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
                                 <p class="comment-like-count absolute text-center align-text-bottom">000</p>
                             </div>
+                        </div>
+                    </div>
+                    <div class="recomment-wrap">
+                    <div class="recomment-input-wrapper flex flex-col">
+                        <div class="flex items-center recomment-info">
+                            <div class="recomment-arrow"></div>
+                            <div class="recomment-author flex items-center">
+                                <img src="{{user.profile_image.url}}" class="comment-author--profile-image">
+                                <div class="comment-author--id">{{request.user.nickname}}</div>
+                            </div>
+                        </div>
+                        <textarea type="text" class="recomment-input-box" name='${data.pk}'></textarea>
+                        <button class="recomment-submit-button mx-auto"
+                            onclick="recommentSubmit(${data.pk})">등록하기</button>
                         </div>
                     </div>
                 </div>`
