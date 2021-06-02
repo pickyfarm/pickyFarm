@@ -411,8 +411,11 @@
   margin: 20px 38px;
   padding: 10px;
   border-radius: 7px;
-
   transition: border 0.2s ease;
+}
+
+.recomment-input-wrapper {
+  padding-top: 25px;
 }
 
 .recomment-input-box:focus,
