@@ -9,6 +9,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 from admins.models import FarmerNotice, FarmerNotification
 from math import ceil
+from django.http import JsonResponse
 
 
 # models
@@ -403,10 +404,30 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
         for noti in notifications:
             if noti.is_read == False:
                 new_notifications.append(noti)
+        notifications = Paginator(notifications, 5)
         context["notifications"] = notifications
         context["new_notifications"] = len(new_notifications)
 
+        # query_set for first page
+        first_page = notifications.page(1).object_list
+        context["first_page"] = first_page
+        # range of page ex range(1, 3)
+        page_range = notifications.page_range
+        context["page_range"] = page_range
+
         return context
+
+
+def paginate(request):
+    # pagination
+    if request.method == "POST":
+        notifications = FarmerNotification.objects.all().order_by("-id")
+        notifications = Paginator(notifications, 5)
+        page_n = request.POST.get("page_n", None)  # getting page number
+        results = list(
+            notifications.page(page_n).object_list.values("id", "message", "notitype", "create_at")
+        )
+        return JsonResponse({"results": results})
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):

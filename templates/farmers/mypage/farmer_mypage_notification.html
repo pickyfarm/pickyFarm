@@ -18,30 +18,73 @@
             <span>새 알림 {{ new_notifications }}개</span>
         </div>
     </div>
-    <div>
-        <table id="notification-table" class="w-full">
-            <tr id="notification-table-title">
-                <th>알림 종류</th>
-                <th>제목</th>
-                <th>알림 날짜</th>
-                <th></th>
-            </tr>
-            {% for notification in notifications %}
-            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
-                <td id="table-row-type">{{ notification.get_notitype_display }}</td>
-                <td id="table-row-title">{{ notification.message }}</td>
-                <td id="table-row-date">{{ notification.create_at|date:"Y-m-d" }}</td>
+    <!-- table section -->
+    <!-- <div id="notifications">
+        {% for i in first_page %}
+        <h2>{{i.message}}</h2>
+        {% endfor %}
+    </div> -->
+    <div id="notification-table" class="w-full">
+        <div class="flex flex-row text-center" id="notification-table-title">
+            <div class="w-2/12">알림 종류</div>
+            <div class="w-6/12">제목</div>
+            <div class="w-3/12">알림 날짜</div>
+            <div class="w-1/12"></div>
+        </div>
+        <div class="" id="notifications">
+            {% for notification in first_page %}
+            <div class="flex flex-row" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
+                <div class="w-2/12" id="table-row-type">{{ notification.get_notitype_display }}</div>
+                <div class="w-6/12" id="table-row-title">{{ notification.message }}</div>
+                <div class="w-3/12" id="table-row-date">{{ notification.create_at|date:"Y-m-d" }}</div>
                 {% if notification.is_read == False %}
-                <td id="table-row-new">N</td>
+                <div class="1/12" id="table-row-new">N</div>
                 {% else %}
-                <td id="table-row-new"> </td>
+                <div id="table-row-new"> </div>
                 {% endif %}
-            </tr>
+            </div>
             {% endfor %}
-        </table>
+        </div>
     </div>
+    <!-- paginattion section -->
+    {% for i in page_range %}
+    <a style="margin-left: 5px; font-size: 20px;" href="{{i}}">{{i}}</a>
+    {% endfor %}
+
 </div>
 <script>
-    document.querySelector('#button-notifications').classList.add('active')
+    document.querySelector('#button-notifications').classList.add('active');
+    $('a').click(function (event) {
+        event.preventDefault();
+        var page_n = $(this).attr('href');
+        // ajax
+        $.ajax({
+            type: "POST",
+            url: "{% url 'farmers:paginate' %}", // name of url
+            data: {
+                page_n: page_n, //page_number
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function (resp) {
+                //loop
+                $('#notifications').html('')
+                $.each(resp.results, function (i, val) {
+                    //apending notifications
+                    // $('#notifications').append('<h2>' + val.message + '</h2>')
+                    $('#notifications').append(`
+                        <div class="flex flex-row" id="notification-table-rows"
+                        onclick="location.href='{% url 'core:main' %}'">
+                        <div class="w-2/12" id="table-row-type">${val.notitype}</div>
+                        <div class="w-6/12" id="table-row-title">${val.message}</div>
+                        <div class="w-3/12" id="table-row-date">${val.create_at}</div>
+                        <div class="w-1/12"> </div>
+                    </div>
+                    `)
+                });
+            },
+            error: function () { }
+        }); // 
+
+    });
 </script>
 {% endblock %}
