@@ -55,7 +55,7 @@ PICKY_APPS = [
     "orders.apps.OrdersConfig",
     "farmers.apps.FarmersConfig",
     "admins.apps.AdminsConfig",
-    "django_summernote",
+    "likes.apps.LikeConfig" "django_summernote",
     "addresses.apps.AddressesConfig",
     "django_seed",
 ]
