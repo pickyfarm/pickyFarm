@@ -55,7 +55,8 @@ PICKY_APPS = [
     "orders.apps.OrdersConfig",
     "farmers.apps.FarmersConfig",
     "admins.apps.AdminsConfig",
-    "likes.apps.LikeConfig" "django_summernote",
+    "likes.apps.LikesConfig",
+    "django_summernote",
     "addresses.apps.AddressesConfig",
     "django_seed",
 ]
@@ -87,7 +88,15 @@ SUMMERNOTE_CONFIG = {
         # ['style', ['style']],
         [
             "font",
-            ["bold", "italic", "underline", "superscript", "subscript", "strikethrough", "clear"],
+            [
+                "bold",
+                "italic",
+                "underline",
+                "superscript",
+                "subscript",
+                "strikethrough",
+                "clear",
+            ],
         ],
         # ['fontname', ['fontname']],
         ["fontsize", ["fontsize"]],

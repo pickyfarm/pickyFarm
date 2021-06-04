@@ -63,9 +63,9 @@
                     </div>
 
                     <div class="absolute comment-like-button-wrap">
-                        <div class="comment-like-button relative"
+                        <div class="comment-like-button relative button"
                             style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
-                            <p class="comment-like-count absolute text-center align-text-bottom">000</p>
+                            <p class="comment-like-count absolute text-center align-text-bottom">{{comment.like_count}}</p>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <div class="absolute recomment-like-button-wrap">
-                            <div class="recomment-like-button relative"
+                            <div class="recomment-like-button relative button"
                                 style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
                                 <p class="recomment-like-count absolute text-center align-text-bottom">000</p>
                             </div>

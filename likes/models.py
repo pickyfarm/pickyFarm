@@ -1,13 +1,14 @@
 from django.db import models
 from users.models import User
 from editor_reviews.models import Editor_Review
-from comments.models import Editor_Review_Comment, Editor_Review_Recomment
 
 # Create your models here.
 
 
 class AbstractLike(models.Model):
-    user = models.ForeignKey("users.User", related_name="Likes", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        "users.User", related_name="Likes", on_delete=models.CASCADE
+    )
 
     class meta:
         abstract = True
