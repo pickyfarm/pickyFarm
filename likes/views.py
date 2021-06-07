@@ -1,38 +1,67 @@
-from django.shortcuts import render
-from django.http import JsonResponse
+from django.shortcuts import render, reverse, redirect
+from django.http import JsonResponse, HttpResponse
 from comments.models import Editor_Review_Comment, Editor_Review_Recomment
 from .models import EditorReviewCommentLike, EditorReviewRecommentLike
+from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # Create your views here.
 def EditorReviewCommentLikeView(request):
     if request.is_ajax():
-        pk = request.POST.get("pk")
-        comment = Editor_Review_Comment.objects.get(pk=pk)
+        if request.user == AnonymousUser():
+            return HttpResponse("로그인 후 좋아요 할 수 있습니다.", status=403)
 
-        new_like = EditorReviewCommentLike(user=request.user, comment=comment)
-        new_like.save()
+        else:
+            pk = request.POST.get("pk")
+            comment = Editor_Review_Comment.objects.get(pk=pk)
 
-        like_count = EditorReviewCommentLike.objects.filter(comment=comment).count()
+            try:
+                like = EditorReviewCommentLike.objects.get(
+                    user=request.user, comment=comment
+                )
 
-        ctx = {
-            "likes": like_count,
-        }
+                like.delete()
 
-        return JsonResponse(ctx)
+            except ObjectDoesNotExist:
+                new_like = EditorReviewCommentLike(user=request.user, comment=comment)
+                new_like.save()
+
+            ctx = {
+                "likes": EditorReviewCommentLike.objects.filter(comment=comment).count()
+            }
+
+            return JsonResponse(ctx)
+
+    return redirect(reverse("core:home"))
 
 
 def EditorReviewRecommentLikeView(request):
     if request.is_ajax():
-        pk = request.POST.get("pk")
-        comment = Editor_Review_Recomment.objects.get(pk=pk)
+        if request.user == AnonymousUser():
+            return HttpResponse("로그인 후 좋아요 할 수 있습니다.", status=403)
 
-        new_like = EditorReviewRecommentLike(user=request.user, comment=comment)
-        new_like.save()
+        else:
+            pk = request.POST.get("pk")
+            comment = Editor_Review_Recomment.objects.get(pk=pk)
 
-        like_count = EditorReviewRecommentLike.objects.filter(comment=comment).count()
+            try:
+                like = EditorReviewRecommentLike.objects.get(
+                    user=request.user, comment=comment
+                )
 
-        ctx = {
-            "likes": like_count,
-        }
+                like.delete()
 
-        return JsonResponse(ctx)
+            except ObjectDoesNotExist:
+                new_like = EditorReviewRecommentLike(user=request.user, comment=comment)
+                new_like.save()
+
+            ctx = {
+                "likes": EditorReviewRecommentLike.objects.filter(
+                    comment=comment
+                ).count()
+            }
+
+            return JsonResponse(ctx)
+
+    return redirect(reverse("core:home"))
