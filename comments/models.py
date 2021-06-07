@@ -111,7 +111,7 @@ class Editor_Review_Comment(Comment):
         try:
             return Editor_Review_Recomment.objects.filter(comment=self).count()
 
-        except:
+        except ObjectDoesNotExist:
             return 0
 
 
@@ -126,6 +126,13 @@ class Editor_Review_Recomment(Comment):
     author = models.ForeignKey(
         User, related_name="editor_review_recomment", on_delete=models.CASCADE
     )
+
+    def like_count(self):
+        try:
+            return EditorReviewRecommentLike.objects.filter(recomment=self).count()
+
+        except ObjectDoesNotExist:
+            return 0
 
 
 class Farmer_Story_Comment(Comment):

@@ -15,6 +15,7 @@ def EditorReviewCommentLikeView(request):
         else:
             pk = request.POST.get("pk")
             comment = Editor_Review_Comment.objects.get(pk=pk)
+            is_like = True
 
             try:
                 like = EditorReviewCommentLike.objects.get(
@@ -22,13 +23,17 @@ def EditorReviewCommentLikeView(request):
                 )
 
                 like.delete()
+                is_like = False
 
             except ObjectDoesNotExist:
                 new_like = EditorReviewCommentLike(user=request.user, comment=comment)
                 new_like.save()
 
             ctx = {
-                "likes": EditorReviewCommentLike.objects.filter(comment=comment).count()
+                "likes": EditorReviewCommentLike.objects.filter(
+                    comment=comment
+                ).count(),
+                "status": is_like,
             }
 
             return JsonResponse(ctx)
@@ -44,22 +49,27 @@ def EditorReviewRecommentLikeView(request):
         else:
             pk = request.POST.get("pk")
             comment = Editor_Review_Recomment.objects.get(pk=pk)
+            is_like = True
 
             try:
                 like = EditorReviewRecommentLike.objects.get(
-                    user=request.user, comment=comment
+                    user=request.user, recomment=comment
                 )
 
                 like.delete()
+                is_like = False
 
             except ObjectDoesNotExist:
-                new_like = EditorReviewRecommentLike(user=request.user, comment=comment)
+                new_like = EditorReviewRecommentLike(
+                    user=request.user, recomment=comment
+                )
                 new_like.save()
 
             ctx = {
                 "likes": EditorReviewRecommentLike.objects.filter(
-                    comment=comment
-                ).count()
+                    recomment=comment
+                ).count(),
+                "status": is_like,
             }
 
             return JsonResponse(ctx)

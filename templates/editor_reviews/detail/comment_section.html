@@ -62,8 +62,8 @@
                         </div> -->
                     </div>
 
-                    <div class="absolute comment-like-button-wrap">
-                        <div class="comment-like-button relative button"
+                    <div class="absolute comment-like-button-wrap button">
+                        <div class="comment-like-button relative"
                             style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
                             <p class="comment-like-count absolute text-center align-text-bottom">{{comment.like_count}}</p>
                         </div>
@@ -86,7 +86,7 @@
                     <div class="horizon-bar mx-auto"></div>
                     {% endif %}
                     {% for recomment in comment.editor_review_recomments.all %}
-                    <div class="recomment relative">
+                    <div class="recomment relative" name={{recomment.pk}}>
                         <div class="flex items-center recomment-info">
                             <div class="recomment-arrow"></div>
                             <div class="recomment-author flex items-center">
@@ -104,10 +104,10 @@
                                 <div class="comment-report--report button">신고하기</div>
                             </div>
                         </div>
-                        <div class="absolute recomment-like-button-wrap">
-                            <div class="recomment-like-button relative button"
+                        <div class="absolute recomment-like-button-wrap button">
+                            <div class="recomment-like-button relative"
                                 style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
-                                <p class="recomment-like-count absolute text-center align-text-bottom">000</p>
+                                <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
                             </div>
                         </div>
                         <div class="recomment-content flex flex-col">
@@ -437,3 +437,9 @@
         e.closest(".comment-content").nextElementSibling.style.display = "inherit"
     }
 </script>
+<script type="text/javascript">
+    const CSRFToken = "{{csrf_token}}"
+    const commentLikeURL = '{% url "likes:editor_review_comment_like"%}'
+    const recommentLikeURL = '{% url "likes:editor_review_recomment_like"%}'
+</script>
+<script src="{% static 'js/editor_reviews/comment_like.js'%}"></script>
