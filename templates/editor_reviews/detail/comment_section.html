@@ -292,154 +292,92 @@
     }
 
 
-    const recommentSubmit = pk => {
-        const textBox = document.querySelectorAll('.recomment-input-box')
-        const targetComment = [...textBox].filter(elem => parseInt(elem.getAttribute("name")) === pk)
-        console.log(targetComment[0].value);
+    // const recommentSubmit = pk => {
+    //     const textBox = document.querySelectorAll('.recomment-input-box')
+    //     const targetComment = [...textBox].filter(elem => parseInt(elem.getAttribute("name")) === pk)
+    //     console.log(targetComment[0].value);
 
 
 
-        $.ajax({
-            type: 'POST',
-            url: `/editors_pick/{{review.pk}}/comment/${pk}/recomment`,
-            dataType: 'json',
-            data: {
-                'text': targetComment[0].value,
-                'csrfmiddlewaretoken': '{{csrf_token}}'
-            },
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: `/editors_pick/{{review.pk}}/comment/${pk}/recomment`,
+    //         dataType: 'json',
+    //         data: {
+    //             'text': targetComment[0].value,
+    //             'csrfmiddlewaretoken': '{{csrf_token}}'
+    //         },
 
-            success: function (data) {
-                const comment = `
-                <div class="recomment relative">
-                        <div class="flex items-center recomment-info">
-                            <div class="recomment-arrow"></div>
-                            <div class="recomment-author flex items-center">
-                                <img src="${data.user_image}" class="comment-author--profile-image">
-                                <div class="comment-author--id">${data.author}</div>
-                            </div>
-                            <div class="bar"></div>
-                            <div class="comment-create text-center recomment-create">
-                                ${data.create_at}
-                            </div>
-                            <div class="bar"></div>
-                            <div class="recomment-report flex items-center ml-auto">
-                                <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
-                                    alt="">
-                                <div class="comment-report--report button">신고하기</div>
-                            </div>
-                        </div>
-                        <div class="absolute recomment-like-button-wrap">
-                            <div class="recomment-like-button relative"
-                                style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
-                                <p class="recomment-like-count absolute text-center align-text-bottom">000</p>
-                            </div>
-                        </div>
-                        <div class="recomment-content">
-                            <div class="recomment-text">
-                                <div class="recomment-text--text">${data.text}</div>
-                                <div class="recomment-text-options-wrap flex justify-between">
-                                    <div></div>
-                                    <div class="recomment-text-options flex">
-                                        <div class="recomment-text-options--edit button comment-text-options--edit button"  onclick="recommentEdit(this, ${data.pk})">수정</div>
-                                        <div class="recomment-text-options--delete button comment-text-options--delete" onclick="recommentDelete(${data.pk})">삭제</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="horizon-bar mx-auto"></div>
-                `
+    //         success: function (data) {
+    //             const comment = `
+    //             <div class="recomment relative">
+    //                     <div class="flex items-center recomment-info">
+    //                         <div class="recomment-arrow"></div>
+    //                         <div class="recomment-author flex items-center">
+    //                             <img src="${data.user_image}" class="comment-author--profile-image">
+    //                             <div class="comment-author--id">${data.author}</div>
+    //                         </div>
+    //                         <div class="bar"></div>
+    //                         <div class="comment-create text-center recomment-create">
+    //                             ${data.create_at}
+    //                         </div>
+    //                         <div class="bar"></div>
+    //                         <div class="recomment-report flex items-center ml-auto">
+    //                             <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
+    //                                 alt="">
+    //                             <div class="comment-report--report button">신고하기</div>
+    //                         </div>
+    //                     </div>
+    //                     <div class="absolute recomment-like-button-wrap">
+    //                         <div class="recomment-like-button relative"
+    //                             style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
+    //                             <p class="recomment-like-count absolute text-center align-text-bottom">000</p>
+    //                         </div>
+    //                     </div>
+    //                     <div class="recomment-content">
+    //                         <div class="recomment-text">
+    //                             <div class="recomment-text--text">${data.text}</div>
+    //                             <div class="recomment-text-options-wrap flex justify-between">
+    //                                 <div></div>
+    //                                 <div class="recomment-text-options flex">
+    //                                     <div class="recomment-text-options--edit button comment-text-options--edit button"  onclick="recommentEdit(this, ${data.pk})">수정</div>
+    //                                     <div class="recomment-text-options--delete button comment-text-options--delete" onclick="recommentDelete(${data.pk})">삭제</div>
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //                 <div class="horizon-bar mx-auto"></div>
+    //             `
 
-                targetComment[0].parentNode.parentNode.insertAdjacentHTML('beforeend', comment);
-                targetComment[0].value = ''
-            }
-        })
-    }
-
-
-    function commentSubmit() {
-        let text = $('#id_text').val();
-
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'editors_pick:comment' review.pk %}",
-            dataType: 'json',
-            data: {
-                'text': text,
-                'pk': '{{review.pk}}',
-                'user': '{{request.user.pk}}',
-                'csrfmiddlewaretoken': '{{csrf_token}}'
-            },
-            success: function (data) {
-
-                let comment = `
-                <div class="comment" name=${data.pk}>
-                    <div class="comment-info flex items-center">
-                        <div class="comment-author flex items-center">
-                            <img src="${data.user_image}" class="comment-author--profile-image">
-                            <div class="comment-author--id">${data.author}</div>
-                        </div>
-                        <div class="bar"></div>
-                        <div class="comment-create text-center">${data.create_at}</div>
-                        <div class="bar"></div>
-                        <div class="comment-report flex items-center ml-auto">
-                            <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
-                            <div class="comment-report--report button">신고하기</div>
-                        </div>
-                    </div>
-                    <div class="comment-content relative">
-                        <div class="comment-text">
-                            <div class="comment-text--text">${text}</div>
-                            <div class="comment-text-options text-right flex justify-between">
-                                <div onclick="expandRecommentSection(this)" class="button">답글 0개</div>
-                                <div class="flex">
-                                    <div class="comment-text-options--edit button" onclick=commentEdit(this,${data.pk})>수정
-                                    </div>
-                                    <div class="comment-text-options--delete button" onclick=commentDelete(${data.pk})>삭제</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="absolute comment-like-button-wrap">
-                            <div class="comment-like-button relative"
-                                style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
-                                <p class="comment-like-count absolute text-center align-text-bottom">000</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="recomment-wrap">
-                    <div class="recomment-input-wrapper flex flex-col">
-                        <div class="flex items-center recomment-info">
-                            <div class="recomment-arrow"></div>
-                            <div class="recomment-author flex items-center">
-                                <img src="{{user.profile_image.url}}" class="comment-author--profile-image">
-                                <div class="comment-author--id">{{request.user.nickname}}</div>
-                            </div>
-                        </div>
-                        <textarea type="text" class="recomment-input-box" name='${data.pk}'></textarea>
-                        <button class="recomment-submit-button mx-auto"
-                            onclick="recommentSubmit(${data.pk})">등록하기</button>
-                        </div>
-                    </div>
-                </div>`
-
-                $('#comments').prepend(comment);
-                $('#id_text').val('')
-            },
-            error: function () {
-                if ($('id_text').val() == '') {
-                    alert("댓글을 입력하세요");
-                }
-            }
-        })
-    };
+    //             targetComment[0].parentNode.parentNode.insertAdjacentHTML('beforeend', comment);
+    //             targetComment[0].value = ''
+    //         }
+    //     })
+    // }
 
     const expandRecommentSection = e => {
         e.closest(".comment-content").nextElementSibling.style.display = "inherit"
     }
 </script>
 <script type="text/javascript">
-    const CSRFToken = "{{csrf_token}}"
+    // urls for AJAX request
+    const commentSubmitURL = '{% url "editors_pick:comment" review.pk %}'
     const commentLikeURL = '{% url "likes:editor_review_comment_like"%}'
     const recommentLikeURL = '{% url "likes:editor_review_recomment_like"%}'
+
+
+    // constants for AJAX request's argument
+    const reviewPK = "{{review.pk}}"
+    const userPK = "{{request.user.pk}}"
+    const CSRFToken = "{{csrf_token}}"
+
+    // constants for AJAX callback
+    const likeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_like.svg' %}"
+    const recommentLikeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_recomment_like.svg' %}"
+    const reportButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
+    const currentUserProfileImageURL = "{{user.profile_image.url}}"
+    const currentUserNickname = "{{request.user.nickname}}"
 </script>
 <script src="{% static 'js/editor_reviews/comment_like.js'%}"></script>
+<script src="{% static 'js/editor_reviews/comment_submit.js' %}"></script>
