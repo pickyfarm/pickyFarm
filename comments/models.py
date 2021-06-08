@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from likes.models import EditorReviewCommentLike, EditorReviewRecommentLike
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -76,7 +77,9 @@ class Product_Recomment(Comment):
     comment = models.ForeignKey(
         "Product_Comment", related_name="product_recomments", on_delete=models.CASCADE
     )
-    author = models.ForeignKey(User, related_name="product_recomment", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User, related_name="product_recomment", on_delete=models.CASCADE
+    )
 
 
 # class Qna_Comment(Comment):
@@ -93,13 +96,22 @@ class Editor_Review_Comment(Comment):
         related_name="editor_review_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(User, related_name="editor_review_comment", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User, related_name="editor_review_comment", on_delete=models.CASCADE
+    )
+
+    def like_count(self):
+        try:
+            return EditorReviewCommentLike.objects.filter(comment=self).count()
+
+        except ObjectDoesNotExist:
+            return 0
 
     def recomment_count(self):
         try:
             return Editor_Review_Recomment.objects.filter(comment=self).count()
 
-        except:
+        except ObjectDoesNotExist:
             return 0
 
 
@@ -107,27 +119,42 @@ class Editor_Review_Recomment(Comment):
     """Editor_Review_Recomment Model Definition"""
 
     comment = models.ForeignKey(
-        "Editor_Review_Comment", related_name="editor_review_recomments", on_delete=models.CASCADE
+        "Editor_Review_Comment",
+        related_name="editor_review_recomments",
+        on_delete=models.CASCADE,
     )
     author = models.ForeignKey(
         User, related_name="editor_review_recomment", on_delete=models.CASCADE
     )
+
+    def like_count(self):
+        try:
+            return EditorReviewRecommentLike.objects.filter(recomment=self).count()
+
+        except ObjectDoesNotExist:
+            return 0
 
 
 class Farmer_Story_Comment(Comment):
     """Farmer_Story_Comment Model Defiition"""
 
     story = models.ForeignKey(
-        "farmers.Farmer_Story", related_name="farmer_story_comments", on_delete=models.CASCADE
+        "farmers.Farmer_Story",
+        related_name="farmer_story_comments",
+        on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(User, related_name="farmer_story_comment", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User, related_name="farmer_story_comment", on_delete=models.CASCADE
+    )
 
 
 class Farmer_Story_Recomment(Comment):
     """Farmer_Story_Recomment Model Defiition"""
 
     comment = models.ForeignKey(
-        "Farmer_Story_Comment", related_name="farmer_story_recomments", on_delete=models.CASCADE
+        "Farmer_Story_Comment",
+        related_name="farmer_story_recomments",
+        on_delete=models.CASCADE,
     )
     author = models.ForeignKey(
         User, related_name="farmer_story_recomment", on_delete=models.CASCADE

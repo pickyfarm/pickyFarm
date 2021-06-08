@@ -59,7 +59,9 @@ class Editor_review_detail(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(DetailView, self).get_context_data(**kwargs)
-        ctx["comments"] = self.get_object().editor_review_comments.order_by("-create_at")
+        ctx["comments"] = self.get_object().editor_review_comments.order_by(
+            "-create_at"
+        )
         ctx["form"] = EditorReviewCommentForm()
 
         if self.request.user != AnonymousUser():
@@ -74,6 +76,9 @@ class Editor_review_detail(DetailView):
         response = super().render_to_response(context, **response_kwargs)
 
         try:
+            if self.request.user == AnonymousUser():
+                raise ObjectDoesNotExist
+
             user = Editor.objects.get(user=self.request.user)
 
             if self.get_object().author == user:
