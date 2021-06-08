@@ -179,179 +179,114 @@
         })
     }
 
-    const commentEditForm = `
-        <div class="comment-edit-form-container">
-            <form class="flex flex-col comment-edit-form">
-                <input type="text" class="comment-edit-form-input">
-                <div class="flex items-center justify-between">
-                    <div></div>
-                    <button type="submit" class="comment-edit-submit-button">수정하기</button>
-                    <p class="comment-edit-cancel recomment-edit-cancel button">취소</p>
-                </div>
-            </form>
-        </div>`
+    // const commentEditForm = `
+    //     <div class="comment-edit-form-container">
+    //         <form class="flex flex-col comment-edit-form">
+    //             <input type="text" class="comment-edit-form-input">
+    //             <div class="flex items-center justify-between">
+    //                 <div></div>
+    //                 <button type="submit" class="comment-edit-submit-button">수정하기</button>
+    //                 <p class="comment-edit-cancel recomment-edit-cancel button">취소</p>
+    //             </div>
+    //         </form>
+    //     </div>`
 
-    const commentEdit = (targetComment, pk) => {
-        shootToastMessage("답글을 수정합니다.")
-        comment = targetComment.closest(".comment-text-options").previousElementSibling.innerHTML
+    // const commentEdit = (targetComment, pk) => {
+    //     shootToastMessage("답글을 수정합니다.")
+    //     comment = targetComment.closest(".comment-text-options").previousElementSibling.innerHTML
 
-        targetForm = targetComment.closest(".comment-text")
-        targetForm.innerHTML = commentEditForm
+    //     targetForm = targetComment.closest(".comment-text")
+    //     targetForm.innerHTML = commentEditForm
 
-        targetInput = targetForm.querySelector(".comment-edit-form-input")
-        targetInput.value = comment
-        targetInput.focus()
-
-
-        document.querySelector(".comment-edit-cancel").addEventListener('click', () => {
-            showModalMessage('수정을 취소하시겠습니까?', () => {
-                location.reload()
-            })
-        })
-
-        document.querySelector(".comment-edit-form").addEventListener('submit', (e) => {
-            e.preventDefault()
-            commentEditSubmit(pk)
-        })
-    }
-
-    const commentEditSubmit = pk => {
-        const text = document.querySelector(".comment-edit-form-input").value
-
-        $.ajax({
-            type: 'POST',
-            url: `/editors_pick/{{review.pk}}/comment/edit/${pk}`,
-            dataType: 'json',
-            data: {
-                'text': text,
-                'csrfmiddlewaretoken': '{{csrf_token}}'
-            },
-            success: function (data) {
-                alert("댓글을 수정하였습니다.")
-                location.reload()
-            },
-        });
-    }
-
-    const recommentEditForm = `
-    <div class="comment-edit-form-container recomment-edit-form-container mx-auto">
-        <form class="flex flex-col comment-edit-form recomment-edit-form w-full">
-            <input type="text" class="comment-edit-form-input recomment-edit-form-input">
-            <div class="flex items-center justify-between">
-                <div></div>
-                <button type="submit" class="comment-edit-submit-button">수정하기</button>
-                <p class="comment-edit-cancel recomment-edit-cancel button">취소</p>
-            </div>
-        </form>
-    </div>
-    `
-
-    const recommentEdit = (targetComment, pk) => {
-        const comment = targetComment.closest(".recomment-text-options-wrap").previousElementSibling.innerHTML
-
-        targetForm = targetComment.closest(".recomment-text")
-        targetForm.innerHTML = recommentEditForm
-
-        targetInput = targetForm.querySelector(".recomment-edit-form-input")
-        targetInput.value = comment
-        targetInput.focus()
+    //     targetInput = targetForm.querySelector(".comment-edit-form-input")
+    //     targetInput.value = comment
+    //     targetInput.focus()
 
 
-        document.querySelector(".recomment-edit-cancel").addEventListener('click', () => {
-            if (confirm("댓글 수정을 취소하시겠습니까?")) {
-                location.reload();
-            }
-        })
+    //     document.querySelector(".comment-edit-cancel").addEventListener('click', () => {
+    //         showModalMessage('수정을 취소하시겠습니까?', () => {
+    //             location.reload()
+    //         })
+    //     })
 
-        document.querySelector(".recomment-edit-form").addEventListener('submit', (e) => {
-            e.preventDefault()
-            recommentEditSubmit(pk)
-        })
-    }
+    //     document.querySelector(".comment-edit-form").addEventListener('submit', (e) => {
+    //         e.preventDefault()
+    //         commentEditSubmit(pk)
+    //     })
+    // }
 
-    const recommentEditSubmit = pk => {
-        const text = document.querySelector(".recomment-edit-form-input").value
+    // const commentEditSubmit = pk => {
+    //     const text = document.querySelector(".comment-edit-form-input").value
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: `/editors_pick/{{review.pk}}/comment/edit/${pk}`,
+    //         dataType: 'json',
+    //         data: {
+    //             'text': text,
+    //             'csrfmiddlewaretoken': '{{csrf_token}}'
+    //         },
+    //         success: function (data) {
+    //             alert("댓글을 수정하였습니다.")
+    //             location.reload()
+    //         },
+    //     });
+    // }
+
+    // const recommentEditForm = `
+    // <div class="comment-edit-form-container recomment-edit-form-container mx-auto">
+    //     <form class="flex flex-col comment-edit-form recomment-edit-form w-full">
+    //         <input type="text" class="comment-edit-form-input recomment-edit-form-input">
+    //         <div class="flex items-center justify-between">
+    //             <div></div>
+    //             <button type="submit" class="comment-edit-submit-button">수정하기</button>
+    //             <p class="comment-edit-cancel recomment-edit-cancel button">취소</p>
+    //         </div>
+    //     </form>
+    // </div>
+    // `
+
+    // const recommentEdit = (targetComment, pk) => {
+    //     const comment = targetComment.closest(".recomment-text-options-wrap").previousElementSibling.innerHTML
+
+    //     targetForm = targetComment.closest(".recomment-text")
+    //     targetForm.innerHTML = recommentEditForm
+
+    //     targetInput = targetForm.querySelector(".recomment-edit-form-input")
+    //     targetInput.value = comment
+    //     targetInput.focus()
 
 
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'editors_pick:recomment_edit' %}",
-            dataType: 'json',
-            data: {
-                'pk': pk,
-                'text': text,
-                'csrfmiddlewaretoken': '{{csrf_token}}'
-            },
-            success: (data) => {
-                if (data.status) {
-                    alert("답글을 수정하였습니다.")
-                    location.reload()
-                }
-            }
-        })
-    }
+    //     document.querySelector(".recomment-edit-cancel").addEventListener('click', () => {
+    //         if (confirm("댓글 수정을 취소하시겠습니까?")) {
+    //             location.reload();
+    //         }
+    //     })
 
+    //     document.querySelector(".recomment-edit-form").addEventListener('submit', (e) => {
+    //         e.preventDefault()
+    //         recommentEditSubmit(pk)
+    //     })
+    // }
 
-    // const recommentSubmit = pk => {
-    //     const textBox = document.querySelectorAll('.recomment-input-box')
-    //     const targetComment = [...textBox].filter(elem => parseInt(elem.getAttribute("name")) === pk)
-    //     console.log(targetComment[0].value);
-
+    // const recommentEditSubmit = pk => {
+    //     const text = document.querySelector(".recomment-edit-form-input").value
 
 
     //     $.ajax({
     //         type: 'POST',
-    //         url: `/editors_pick/{{review.pk}}/comment/${pk}/recomment`,
+    //         url: "{% url 'editors_pick:recomment_edit' %}",
     //         dataType: 'json',
     //         data: {
-    //             'text': targetComment[0].value,
+    //             'pk': pk,
+    //             'text': text,
     //             'csrfmiddlewaretoken': '{{csrf_token}}'
     //         },
-
-    //         success: function (data) {
-    //             const comment = `
-    //             <div class="recomment relative">
-    //                     <div class="flex items-center recomment-info">
-    //                         <div class="recomment-arrow"></div>
-    //                         <div class="recomment-author flex items-center">
-    //                             <img src="${data.user_image}" class="comment-author--profile-image">
-    //                             <div class="comment-author--id">${data.author}</div>
-    //                         </div>
-    //                         <div class="bar"></div>
-    //                         <div class="comment-create text-center recomment-create">
-    //                             ${data.create_at}
-    //                         </div>
-    //                         <div class="bar"></div>
-    //                         <div class="recomment-report flex items-center ml-auto">
-    //                             <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
-    //                                 alt="">
-    //                             <div class="comment-report--report button">신고하기</div>
-    //                         </div>
-    //                     </div>
-    //                     <div class="absolute recomment-like-button-wrap">
-    //                         <div class="recomment-like-button relative"
-    //                             style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
-    //                             <p class="recomment-like-count absolute text-center align-text-bottom">000</p>
-    //                         </div>
-    //                     </div>
-    //                     <div class="recomment-content">
-    //                         <div class="recomment-text">
-    //                             <div class="recomment-text--text">${data.text}</div>
-    //                             <div class="recomment-text-options-wrap flex justify-between">
-    //                                 <div></div>
-    //                                 <div class="recomment-text-options flex">
-    //                                     <div class="recomment-text-options--edit button comment-text-options--edit button"  onclick="recommentEdit(this, ${data.pk})">수정</div>
-    //                                     <div class="recomment-text-options--delete button comment-text-options--delete" onclick="recommentDelete(${data.pk})">삭제</div>
-    //                                 </div>
-    //                             </div>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //                 <div class="horizon-bar mx-auto"></div>
-    //             `
-
-    //             targetComment[0].parentNode.parentNode.insertAdjacentHTML('beforeend', comment);
-    //             targetComment[0].value = ''
+    //         success: (data) => {
+    //             if (data.status) {
+    //                 alert("답글을 수정하였습니다.")
+    //                 location.reload()
+    //             }
     //         }
     //     })
     // }
@@ -365,6 +300,7 @@
     const commentSubmitURL = '{% url "editors_pick:comment" review.pk %}'
     const commentLikeURL = '{% url "likes:editor_review_comment_like"%}'
     const recommentLikeURL = '{% url "likes:editor_review_recomment_like"%}'
+    const recommentEditURL = "{% url 'editors_pick:recomment_edit' %}"
 
 
     // constants for AJAX request's argument
@@ -380,4 +316,5 @@
     const currentUserNickname = "{{request.user.nickname}}"
 </script>
 <script src="{% static 'js/editor_reviews/comment_like.js'%}"></script>
+<script src="{% static 'js/editor_reviews/comment_edit.js' %}"></script>
 <script src="{% static 'js/editor_reviews/comment_submit.js' %}"></script>
