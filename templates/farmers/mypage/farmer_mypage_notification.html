@@ -33,15 +33,20 @@
         </div>
         <div class="" id="notifications">
             {% for notification in first_page %}
-            <div class="flex flex-row" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
-                <div class="w-2/12" id="table-row-type">{{ notification.get_notitype_display }}</div>
-                <div class="w-6/12" id="table-row-title">{{ notification.message }}</div>
-                <div class="w-3/12" id="table-row-date">{{ notification.create_at|date:"Y-m-d" }}</div>
-                {% if notification.is_read == False %}
-                <div class="1/12" id="table-row-new">N</div>
-                {% else %}
-                <div id="table-row-new"> </div>
-                {% endif %}
+            <div class="collapsible">
+                <div class="flex flex-row" id="notification-table-rows">
+                    <div class="w-2/12" id="table-row-type">{{ notification.get_notitype_display }}</div>
+                    <div class="w-6/12" id="table-row-title">{{ notification.message }}</div>
+                    <div class="w-3/12" id="table-row-date">{{ notification.create_at|date:"Y-m-d" }}</div>
+                    {% if notification.is_read == False %}
+                    <div class="1/12" id="table-row-new">N</div>
+                    {% else %}
+                    <div id="table-row-new"> </div>
+                    {% endif %}
+                </div>
+                <div class="text-center" id="noti-content">
+                    content accordion test
+                </div>
             </div>
             {% endfor %}
         </div>
@@ -85,6 +90,29 @@
             error: function () { }
         }); // 
 
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $(".collapsible").find("#noti-content").hide(); // noti-content 숨기기
+        // 클릭 이벤트 처리
+        $(".collapsible #notification-table-rows").click(function () {
+            $(this).toggleClass("selected");
+            //클릭된 나 자신을 제외한 나머지 => slected 클래스를 무조건 제거
+            $(".collapsible #notification-table-rows").not(this).removeClass("selected");
+
+            // 펼칠 내용 영역 선택
+            var target = $(this).parents(".collapsible").find("#noti-content");
+
+            // 나머지 내용 영역을 선택
+            var other = $(".collapsible #notification-table-rows").not(this)
+                .parents(".collapsible").find("#noti-content");
+
+            // 열고 닫기 처리
+            target.slideToggle(300);
+            other.slideUp(300);
+        });
     });
 </script>
 {% endblock %}
