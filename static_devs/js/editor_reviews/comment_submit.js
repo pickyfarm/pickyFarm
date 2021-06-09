@@ -98,7 +98,7 @@ const recommentSubmit = (pk) => {
 
         success: function (data) {
             const comment = `
-            <div class="recomment relative">
+            <div class="recomment relative" name="${data.pk}">
                     <div class="flex items-center recomment-info">
                         <div class="recomment-arrow"></div>
                         <div class="recomment-author flex items-center">
@@ -144,10 +144,11 @@ const recommentSubmit = (pk) => {
             );
             targetComment.value = '';
 
-            const recomments = targetComment.querySelectorAll('.recomment');
-            recomments[recomments.length - 1].addEventListener('click', (e) => {
-                recommentLike(e);
-            });
+            const t = document
+                .querySelector(
+                    `div[class="recomment relative"][name="${data.pk}"]`
+                )
+                .addEventListener('click', (e) => recommentLike(e));
 
             shootToastMessage('답글이 등록되었습니다.');
         },
