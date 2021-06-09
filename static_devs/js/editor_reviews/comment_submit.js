@@ -70,6 +70,8 @@ const commentSubmit = () => {
                     commentLike(e);
                 });
             $('#id_text').val('');
+
+            shootToastMessage('댓글이 등록되었습니다.');
         },
         error: function () {
             if ($('id_text').val() == '') {
@@ -146,6 +148,8 @@ const recommentSubmit = (pk) => {
             recomments[recomments.length - 1].addEventListener('click', (e) => {
                 recommentLike(e);
             });
+
+            shootToastMessage('답글이 등록되었습니다.');
         },
     });
 };
