@@ -83,9 +83,9 @@ const recommentEdit = (targetComment, pk) => {
     document
         .querySelector('.recomment-edit-cancel')
         .addEventListener('click', () => {
-            if (confirm('답글 수정을 취소하시겠습니까?')) {
+            showModalMessage('수정을 취소하시겠습니까?', () => {
                 location.reload();
-            }
+            });
         });
 
     document
