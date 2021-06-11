@@ -46,3 +46,7 @@
 /* #notification-table-rows div:not(:first-child) {
     color: #999999;
 } */
+
+.hide {
+    display: none;
+}

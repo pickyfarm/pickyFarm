@@ -53,13 +53,14 @@
     </div>
     <!-- paginattion section -->
     {% for i in page_range %}
-    <a style="margin-left: 5px; font-size: 20px;" href="{{i}}">{{i}}</a>
+    <a style="margin-left: 5px; font-size: 20px;" class="page" href="{{i}}">{{i}}</a>
     {% endfor %}
 
 </div>
 <script>
     document.querySelector('#button-notifications').classList.add('active');
-    $('a').click(function (event) {
+
+    $('.page').click(function (event) {
         event.preventDefault();
         var page_n = $(this).attr('href');
         // ajax
@@ -77,12 +78,16 @@
                     //apending notifications
                     // $('#notifications').append('<h2>' + val.message + '</h2>')
                     $('#notifications').append(`
-                        <div class="flex flex-row" id="notification-table-rows"
-                        onclick="location.href='{% url 'core:main' %}'">
-                        <div class="w-2/12" id="table-row-type">${val.notitype}</div>
-                        <div class="w-6/12" id="table-row-title">${val.message}</div>
-                        <div class="w-3/12" id="table-row-date">${val.create_at}</div>
-                        <div class="w-1/12"> </div>
+                    <div class="collapsible">
+                        <div class="flex flex-row" id="notification-table-rows">
+                            <div class="w-2/12" id="table-row-type">${val.notitype}</div>
+                            <div class="w-6/12" id="table-row-title">${val.message}</div>
+                            <div class="w-3/12" id="table-row-date">${val.create_at}</div>
+                            <div class="w-1/12"> </div>
+                        </div>
+                        <div class="text-center hide" id="noti-content">
+                            content accordion test
+                        </div>
                     </div>
                     `)
                 });
@@ -98,6 +103,7 @@
         $(".collapsible").find("#noti-content").hide(); // noti-content 숨기기
         // 클릭 이벤트 처리
         $(".collapsible #notification-table-rows").click(function () {
+            $(this).siblings().removeClass('hide')
             $(this).toggleClass("selected");
             //클릭된 나 자신을 제외한 나머지 => slected 클래스를 무조건 제거
             $(".collapsible #notification-table-rows").not(this).removeClass("selected");
