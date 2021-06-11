@@ -17,6 +17,7 @@ urlpatterns = [
     path("farmer_detail/<int:pk>/", views.farmer_detail, name="farmer_detail"),
     path("apply/", views.farm_apply, name="farm_apply"),
     path("enroll/step/<int:step>/", views.FarmEnroll.as_view(), name="farm_enroll"),
+    path("pagination/", views.paginate, name="paginate"),
     # farmer mypage
     path(
         "mypage/info/update/",

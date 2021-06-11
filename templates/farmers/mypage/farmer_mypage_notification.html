@@ -2,51 +2,7 @@
 {% load static %}
 
 {% block stylesheet_farmer_mypage %}
-<style>
-    #content {
-        width: 800px;
-    }
-
-    #content-title {
-        margin-top: 106.9px;
-        margin-bottom: 36px;
-    }
-
-    #title-notification span {
-        font-size: 23px;
-        font-weight: bold;
-        color: #5c6754;
-    }
-
-    #title-notification-count-unit span {
-        font-size: 12px;
-        color: #70845d;
-    }
-
-    #notification-table tr {
-        height: 78px;
-        border-bottom: 1px solid #5e665681;
-    }
-
-    #notification-table-title {
-        font-size: 12px;
-        font-weight: 500;
-        color: #999999;
-    }
-
-    #notification-table-rows {
-        font-weight: 500;
-        font-size: 12px;
-    }
-
-    #notification-table-rows:hover {
-        background-color: #f3f4f3;
-    }
-
-    #notification-table-rows td:not(:first-child) {
-        color: #999999;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_notification.css' %}" />
 {% endblock stylesheet_farmer_mypage %}
 
 {% block content %}
@@ -62,53 +18,101 @@
             <span>새 알림 {{ new_notifications }}개</span>
         </div>
     </div>
-    <div>
-        <table id="notification-table" class="w-full">
-            <tr id="notification-table-title">
-                <th>제목</th>
-                <th>알림 날짜</th>
-                <th></th>
-            </tr>
-
-            {% for story_comment in story_comments %}
-            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
-                <td id="table-row-title">{{ story_comment.text }}</td>
-                <td id="table-row-date">{{ story_comment.create_at|date:"Y-m-d" }}</td>
-                {% if story_comment.is_read == False %}
-                <td id="table-row-new">N</td>
-                {% else %}
-                <td id="table-row-new"> </td>
-                {% endif %}
-            </tr>
+    <!-- table section -->
+    <!-- <div id="notifications">
+        {% for i in first_page %}
+        <h2>{{i.message}}</h2>
+        {% endfor %}
+    </div> -->
+    <div id="notification-table" class="w-full">
+        <div class="flex flex-row text-center" id="notification-table-title">
+            <div class="w-2/12">알림 종류</div>
+            <div class="w-6/12">제목</div>
+            <div class="w-3/12">알림 날짜</div>
+            <div class="w-1/12"></div>
+        </div>
+        <div class="" id="notifications">
+            {% for notification in first_page %}
+            <div class="collapsible">
+                <div class="flex flex-row" id="notification-table-rows">
+                    <div class="w-2/12" id="table-row-type">{{ notification.get_notitype_display }}</div>
+                    <div class="w-6/12" id="table-row-title">{{ notification.message }}</div>
+                    <div class="w-3/12" id="table-row-date">{{ notification.create_at|date:"Y-m-d" }}</div>
+                    {% if notification.is_read == False %}
+                    <div class="1/12" id="table-row-new">N</div>
+                    {% else %}
+                    <div id="table-row-new"> </div>
+                    {% endif %}
+                </div>
+                <div class="text-center" id="noti-content">
+                    content accordion test
+                </div>
+            </div>
             {% endfor %}
-
-            {% for product_comment in product_comments %}
-            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
-                <td id="table-row-title">{{ product_comment.text }}</td>
-                <td id="table-row-date">{{ product_comment.create_at|date:"Y-m-d" }}</td>
-                {% if product_comment.is_read == False %}
-                <td id="table-row-new">N</td>
-                {% else %}
-                <td id="table-row-new"> </td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-
-            {% for question in questions %}
-            <tr class="transition_element" id="notification-table-rows" onclick="location.href='{% url 'core:main' %}'">
-                <td id="table-row-title">{{ question.title }}</td>
-                <td id="table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
-                {% if question.is_read == False %}
-                <td id="table-row-new">N</td>
-                {% else %}
-                <td id="table-row-new"> </td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </table>
+        </div>
     </div>
+    <!-- paginattion section -->
+    {% for i in page_range %}
+    <a style="margin-left: 5px; font-size: 20px;" href="{{i}}">{{i}}</a>
+    {% endfor %}
+
 </div>
 <script>
-    document.querySelector('#button-notifications').classList.add('active')
+    document.querySelector('#button-notifications').classList.add('active');
+    $('a').click(function (event) {
+        event.preventDefault();
+        var page_n = $(this).attr('href');
+        // ajax
+        $.ajax({
+            type: "POST",
+            url: "{% url 'farmers:paginate' %}", // name of url
+            data: {
+                page_n: page_n, //page_number
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function (resp) {
+                //loop
+                $('#notifications').html('')
+                $.each(resp.results, function (i, val) {
+                    //apending notifications
+                    // $('#notifications').append('<h2>' + val.message + '</h2>')
+                    $('#notifications').append(`
+                        <div class="flex flex-row" id="notification-table-rows"
+                        onclick="location.href='{% url 'core:main' %}'">
+                        <div class="w-2/12" id="table-row-type">${val.notitype}</div>
+                        <div class="w-6/12" id="table-row-title">${val.message}</div>
+                        <div class="w-3/12" id="table-row-date">${val.create_at}</div>
+                        <div class="w-1/12"> </div>
+                    </div>
+                    `)
+                });
+            },
+            error: function () { }
+        }); // 
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $(".collapsible").find("#noti-content").hide(); // noti-content 숨기기
+        // 클릭 이벤트 처리
+        $(".collapsible #notification-table-rows").click(function () {
+            $(this).toggleClass("selected");
+            //클릭된 나 자신을 제외한 나머지 => slected 클래스를 무조건 제거
+            $(".collapsible #notification-table-rows").not(this).removeClass("selected");
+
+            // 펼칠 내용 영역 선택
+            var target = $(this).parents(".collapsible").find("#noti-content");
+
+            // 나머지 내용 영역을 선택
+            var other = $(".collapsible #notification-table-rows").not(this)
+                .parents(".collapsible").find("#noti-content");
+
+            // 열고 닫기 처리
+            target.slideToggle(300);
+            other.slideUp(300);
+        });
+    });
 </script>
 {% endblock %}

@@ -7,8 +7,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
-from admins.models import FarmerNotice
+from admins.models import FarmerNotice, FarmerNotification
 from math import ceil
+from django.http import JsonResponse
 
 
 # models
@@ -398,31 +399,35 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        story_comments = Farmer_Story_Comment.objects.filter(story__farmer=self.request.user.farmer)
-        product_comments = Product_Comment.objects.filter(product__farmer=self.request.user.farmer)
-        questions = Question.objects.filter(product__farmer=self.request.user.farmer)
+        notifications = FarmerNotification.objects.all().order_by("-id")
         new_notifications = []
-        for story_comment in story_comments:
-            if story_comment.is_read == False:
-                new_notifications.append(story_comment)
-        for product_comment in product_comments:
-            if product_comment.is_read == False:
-                new_notifications.append(product_comment)
-        for question in questions:
-            if question.is_read == False:
-                new_notifications.append(question)
-        context = {
-            "story_comments": story_comments,
-            "product_comments": product_comments,
-            "questions": questions,
-            "new_notifications": len(new_notifications),
-        }
-        # context["story_comments"] = story_comments  # 파머 스토리 댓글
-        # context["questions"] = questions  # 상품 문의
-        # context["product_comments"] = product_comments  # 상품 리뷰
-        # context["refund_req"] = ... # 반품 요청
+        for noti in notifications:
+            if noti.is_read == False:
+                new_notifications.append(noti)
+        notifications = Paginator(notifications, 5)
+        context["notifications"] = notifications
+        context["new_notifications"] = len(new_notifications)
+
+        # query_set for first page
+        first_page = notifications.page(1).object_list
+        context["first_page"] = first_page
+        # range of page ex range(1, 3)
+        page_range = notifications.page_range
+        context["page_range"] = page_range
 
         return context
+
+
+def paginate(request):
+    # pagination
+    if request.method == "POST":
+        notifications = FarmerNotification.objects.all().order_by("-id")
+        notifications = Paginator(notifications, 5)
+        page_n = request.POST.get("page_n", None)  # getting page number
+        results = list(
+            notifications.page(page_n).object_list.values("id", "message", "notitype", "create_at")
+        )
+        return JsonResponse({"results": results})
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):
@@ -451,7 +456,7 @@ class FarmerMyPageInfoManage(FarmerMyPageBase):
 
 
 class FarmerMyPageNotice(FarmerMyPageBase):
-    """ 농가 공지사항 페이지 """
+    """농가 공지사항 페이지"""
 
     model = FarmerNotice
     template_name = "farmers/mypage/farmer_mypage_notice.html"
