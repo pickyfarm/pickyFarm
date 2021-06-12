@@ -50,9 +50,15 @@ from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.views.generic import DetailView
 import datetime
-
+import os
+import requests
+import pprint
 
 # Exception 선언 SECTION
+
+
+class KakaoException(Exception):
+    pass
 
 
 class NoRelatedInstance(Exception):
@@ -80,7 +86,9 @@ def CartInAjax(request):
             cart = Cart.objects.get(consumer=user.consumer, product=product)
             message = "이미 장바구니에 있는 무난이 입니다"
         except ObjectDoesNotExist:
-            cart = Cart.objects.create(consumer=user.consumer, product=product, quantity=quantity)
+            cart = Cart.objects.create(
+                consumer=user.consumer, product=product, quantity=quantity
+            )
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
 
@@ -280,9 +288,62 @@ def log_out(request):
     return redirect(reverse("core:main"))
 
 
+def kakao_login(request):
+    REST_API_KEY = os.environ.get("KAKAO_KEY")
+    REDIRECT_URI = "http://127.0.0.1:8000/user/login/kakao/callback"
+
+    return redirect(
+        f"https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code"
+    )
+
+
+def kakao_callback(request):
+    REST_API_KEY = os.environ.get("KAKAO_KEY")
+    print()
+    REDIRECT_URI = "http://127.0.0.1:8000/user/login/kakao/callback"
+
+    try:
+        code = request.GET.get("code")
+        token_request = requests.get(
+            f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&code={code}"
+        )
+
+        token_json = token_request.json()
+        print(token_json)
+        error = token_json.get("error", None)
+
+        if error is not None:
+            raise KakaoException
+
+        access_token = token_json.get("access_token")
+        profile_request = requests.get(
+            "https://kapi.kakao.com/v2/user/me",
+            headers={"Authorization": f"Bearer {access_token}"},
+        )
+
+        profile_json = profile_request.json()
+        pprint.pprint(profile_json)
+
+        profile = profile_json.get("kakao_account")
+        email = profile.get("email")
+        nickname = profile.get("profile").get("nickname")
+
+        info = {"email": email, "nickname": nickname}
+
+        return SignUp.as_view()(request, info)
+
+    except KakaoException:
+        return redirect("core:main")
+
+
 class SignUp(View):
-    def get(self, request):
-        form = SignUpForm()
+    def get(self, request, info=None):
+
+        if info is not None:
+            form = SignUpForm({"email": info["email"], "nickname": info["nickname"]})
+        else:
+            form = SignUpForm()
+
         addressform = AddressForm()
 
         ctx = {
@@ -364,9 +425,13 @@ class MyPasswordResetView(PasswordResetView):
     def form_valid(self, form):
         global user_email
 
-        if User.objects.filter(email=self.request.POST.get("email")).exists() and User.objects.get(
+        if User.objects.filter(
             email=self.request.POST.get("email")
-        ).username == self.request.POST.get("username"):
+        ).exists() and User.objects.get(
+            email=self.request.POST.get("email")
+        ).username == self.request.POST.get(
+            "username"
+        ):
             user_email = form.cleaned_data.get("email")
             return super().form_valid(form)
 
@@ -392,7 +457,9 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
         form.fields["new_password1"].widget.attrs = {"placeholder": "새 비밀번호를 입력해주세요"}
-        form.fields["new_password2"].widget.attrs = {"placeholder": "새 비밀번호를 한번 더 입력해주세요"}
+        form.fields["new_password2"].widget.attrs = {
+            "placeholder": "새 비밀번호를 한번 더 입력해주세요"
+        }
 
         return form
 
@@ -460,7 +527,9 @@ def mypage(request, cat):
         print(one_month_before)
 
         questions = (
-            consumer.questions.filter(create_at__gt=one_month_before).order_by("-create_at").all()
+            consumer.questions.filter(create_at__gt=one_month_before)
+            .order_by("-create_at")
+            .all()
         )
         print((type)(questions))
 
@@ -505,7 +574,9 @@ def mypage(request, cat):
                     # filter start_date input에 아무런 value가 없을 경우
                     start_date = datetime.datetime.now().date()
                 else:
-                    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+                    start_date = datetime.datetime.strptime(
+                        start_date, "%Y-%m-%d"
+                    ).date()
 
                 if end_date == "":
                     # filter end_date input에 아무런 value가 없음 경우
@@ -527,7 +598,9 @@ def mypage(request, cat):
                 print(groups[0].order_at)
 
                 order_groups = (
-                    groups.filter(order_at__lte=converted_end_date, order_at__gte=start_date)
+                    groups.filter(
+                        order_at__lte=converted_end_date, order_at__gte=start_date
+                    )
                     .exclude(status="wait")
                     .order_by("-order_at")
                 )
@@ -589,7 +662,9 @@ def mypage(request, cat):
             ctx.update(ctx_wishes)
             return render(request, "users/mypage_wishes.html", ctx)
         elif cat_name == "cart":
-            carts = consumer.carts.all().order_by("-create_at").filter(product__open=True)
+            carts = (
+                consumer.carts.all().order_by("-create_at").filter(product__open=True)
+            )
             print(carts)
 
             ctx_carts = {
@@ -728,7 +803,9 @@ class EditorMyPage_Comments(ListView):
         comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
 
         for review in reviews:
-            comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
+            comments = comments.union(
+                Editor_Review_Comment.objects.filter(editor_review=review)
+            )
 
         return comments.order_by("is_read")
 
