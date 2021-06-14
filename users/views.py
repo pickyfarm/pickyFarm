@@ -309,7 +309,6 @@ def kakao_callback(request):
         )
 
         token_json = token_request.json()
-        print(token_json)
         error = token_json.get("error", None)
 
         if error is not None:
@@ -322,11 +321,18 @@ def kakao_callback(request):
         )
 
         profile_json = profile_request.json()
-        pprint.pprint(profile_json)
 
         profile = profile_json.get("kakao_account")
         email = profile.get("email")
         nickname = profile.get("profile").get("nickname")
+
+        try:
+            user = User.objects.get(email=email)
+            login(request, user=user)
+            return redirect(reverse("core:main"))
+
+        except ObjectDoesNotExist:
+            pass
 
         info = {"email": email, "nickname": nickname}
 
