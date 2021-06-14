@@ -42,6 +42,11 @@ urlpatterns = [
         views.EditorMyPage_Comments.as_view(),
         name="editor_mypage_comments",
     ),
+    path(
+        "editor_mypage/info",
+        views.EditorMypage_Info.as_view(),
+        name="editor_mypage_info",
+    ),
     path("find_my_id/", views.FindMyIdView.as_view(), name="find_my_id"),
     path(
         "find_my_id/complete", views.FindMyIdView.as_view(), name="find_my_id_complete"

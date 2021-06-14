@@ -775,7 +775,7 @@ class FindMyIdFailView(TemplateView):
 class EditorMyPage(ListView):
     model = Editor_Review
     context_object_name = "reviews"
-    template_name = "users/editor_mypage_post_list.html"
+    template_name = "users/mypage/editor/editor_mypage_post_list.html"
 
     def get_queryset(self):
         user = self.request.user
@@ -801,7 +801,7 @@ class EditorMyPage(ListView):
 class EditorMyPage_Comments(ListView):
     model = Editor_Review_Comment
     context_object_name = "comments"
-    template_name = "users/editor_mypage_comments.html"
+    template_name = "users/mypage/editor/editor_mypage_comments.html"
 
     def get_queryset(self):
         reviews = Editor_Review.objects.filter(author=self.request.user.editor)
@@ -830,7 +830,7 @@ class EditorMyPage_Comments(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class EditorMypage_Info(TemplateView):
-    template_name = "users/editor_mypage_update.html"
+    template_name = "users/mypage/editor/editor_mypage_update.html"
 
     def render_to_response(self, context, **response_kwargs):
         if not Editor.objects.filter(user=self.request.user).exists():
