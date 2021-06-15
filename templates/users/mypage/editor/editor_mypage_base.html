@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/users/editor_mypage_base.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/editor/editor_mypage_base.css' %}">
 {% block stylesheet_editor_mypage %}
 {% endblock stylesheet_editor_mypage %}
 {% endblock stylesheet %}
@@ -61,7 +61,9 @@
                 <a href="{% url 'users:editor_mypage_comments' %}">
                     <div class="menu_content" id="menu-comments">댓글 관리</div>
                 </a>
-                <div class="menu_content" id="menu-editor-info">에디터 정보 관리</div>
+                <a href="{% url 'users:editor_mypage_info' %}">
+                    <div class="menu_content" id="menu-editor-info">에디터 정보 관리</div>
+                </a>
             </div>
             <div id="content">
                 {% block content %}
