@@ -16,12 +16,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         os.system("python manage.py seed_user")
         self.stdout.write(self.style.SUCCESS("Completely Seed 20 Users!"))
+        os.system("python manage.py seed_address")
+        self.stdout.write(self.style.SUCCESS("Completely Seed 20 Addresses!"))
         os.system("python manage.py seed_farmer")
         self.stdout.write(self.style.SUCCESS("Completely Seed 5 Farmers!"))
         os.system("python manage.py seed_editors")
         self.stdout.write(self.style.SUCCESS("Completely Seed 5 Editors!"))
-        os.system("python manage.py seed_address")
-        self.stdout.write(self.style.SUCCESS("Completely Seed 5 Addresses!"))
+        os.system("python manage.py seed_category")
+        self.stdout.write(self.style.SUCCESS("Completely Seed Categories!"))
         os.system("python manage.py seed_product")
         self.stdout.write(self.style.SUCCESS("Completely Seed 20 Products!"))
         os.system("python manage.py seed_editor_review")
@@ -127,7 +129,9 @@ def seed_comment():
         10,
         {
             "text": lambda x: seeder.faker.sentence(nb_words=10),
-            "editor_review": lambda x: random.choice(review_models.Editor_Review.objects.all()),
+            "editor_review": lambda x: random.choice(
+                review_models.Editor_Review.objects.all()
+            ),
             "author": lambda x: random.choice(user_models.User.objects.all()),
         },
     )
@@ -141,7 +145,9 @@ def seed_recomment():
         10,
         {
             "text": lambda x: seeder2.faker.sentence(nb_words=4),
-            "comment": lambda x: random.choice(comment_models.Editor_Review_Comment.objects.all()),
+            "comment": lambda x: random.choice(
+                comment_models.Editor_Review_Comment.objects.all()
+            ),
             "author": lambda x: random.choice(user_models.User.objects.all()),
         },
     )

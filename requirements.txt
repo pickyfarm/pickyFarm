@@ -15,7 +15,7 @@ django-environ==0.4.5
 django-js-asset==1.2.2
 django-seed==0.2.2
 django-summernote==0.8.11.6
-Faker==6.4.1
+Faker==8.8.0
 filelock==3.0.12
 
 idna==2.10
