@@ -386,7 +386,6 @@
     padding: 5px 13px 5px;
     border-radius: 11px;
     background-color: #5c6754;
-    font-family: NotoSansKR;
     font-size: 12px;
     font-stretch: normal;
     font-style: normal;
@@ -398,13 +397,12 @@
 #bottom_section{
   width: 100%;
   height:658px;
-  background-color: #5c6754;
+  background-color: #f2f2f2;
   opacity: 0.55;
 }
 
 #bottom_contents{
   width:990px;
-  
 }
 
 #subscribe_section{

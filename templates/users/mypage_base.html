@@ -129,10 +129,11 @@
                 {% for sub in subs %}
                 <div class="flex flex-row w-100" id="{{sub.pk}}-sub-farmer">
                     <a href="{% url 'farmers:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
-                        <div class="">
+                        <div class="" id="sub-left-section">
                             <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
                         </div>
-                        <div class="">
+                        <div class="" id="sub-right-section">
+                           
                             <div id="farm_infos" class="flex flex-row">
                                 <div id="farm_loc">서울시 임시구</div>
                                 <div id="farm_name">{{sub.farmer.farm_name}}</div>
