@@ -316,9 +316,12 @@
   color: #b3b3b3;
 }
 
+#delivery-status-icon{
+  width:16.5px;
+  margin-right:13.8px;
+}
 
 #delivery_status{
-  font-family: NotoSansKR;
   font-size: 11px;
   font-weight: bold;
   font-stretch: normal;

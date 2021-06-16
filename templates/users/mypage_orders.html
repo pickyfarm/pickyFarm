@@ -44,16 +44,16 @@
       <div class="flex flex-row" id="delivery_status">
 
         {% if detail.status == 'preparing' %}
-        <div></div>
+        <img id="delivery-status-icon" src="{% static 'images/users/preparing.svg' %}" alt="배송 준비 중 아이콘">
         <div>배송 준비 중</div>
         {% elif detail.status == 'shipping' %}
-        <div></div>
+        <img id="delivery-status-icon" src="{% static 'images/users/delivering.svg' %}" alt="배송중 아이콘">
         <div>배송중</div>
         {% elif detail.status == 'complete' %}
-        <div></div>
+        <img id="delivery-status-icon" src="{% static 'images/users/complete.svg' %}" alt="배송 완료 아이콘">
         <div>배송 완료</div>
         {% elif detail.status == 'cancel' %}
-        <div></div>
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
         <div>주문 취소</div>
         {% endif %}
 
