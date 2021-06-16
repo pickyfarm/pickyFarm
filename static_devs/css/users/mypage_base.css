@@ -5,14 +5,14 @@
 
 
 #left{
-    width:240px;
+    width:400px;
 }
 
 #title_text1{
-  font-family: NotoSansKR;
+
   font-size: 30px;
   font-weight: 500;
-  font-stretch: normal;
+
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
@@ -21,10 +21,10 @@
 }
 
 #title_text2{
-  font-family: NotoSansKR;
+
   font-size: 40px;
   font-weight: 500;
-  font-stretch: normal;
+
   font-style: normal;
   line-height: 0.75;
   letter-spacing: normal;
@@ -59,7 +59,7 @@
 
 
 #right{
-    width:750px;
+    width:100%;
     padding-left:50px;
 }
 
