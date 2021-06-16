@@ -16,7 +16,7 @@
 {% if order_details.exists is True %}
 <form method="GET">
   <div id="filter" class="flex flex-row">
-    <div id="filter-6month">최근 6개월</div>
+    <div id="filter-6month" class="transition_element">최근 6개월</div>
     <input id="filter-start-date" type="date" name="s_date" value="{{start_date}}">
     <div id="filter-until">~</div>
     <input id="filter-end-date" type="date" name="e_date" value="{{end_date}}">
@@ -30,7 +30,7 @@
     <div id="product_img" class="w-3/12">
       <img src="{{detail.product.main_image.url}}">
     </div>
-    <div class="w-5/12">
+    <div class="w-6/12">
       <div id="product_order_at2">{{detail.order_group.order_at | date}} 주문</div>
       <div class="flex flex-row">
         <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
@@ -63,16 +63,26 @@
     <div id="cart-button-section" class="flex justify-end items-center w-2/12">
         <div id="cartIn_btn" class="transition_element">장바구니 담기</div>
     </div>
-    <div id="buttons-section" class="flex flex-col items-center w-2/12">
-      <a href="{% url 'products:product_detail' detail.product.pk %}">
-        <div class="transition_element">무난이 보기</div>
-      </a>
-      <a>
-        <div class="transition_element">리뷰 쓰기</div>
-      </a>
-      <a>
-        <div class="transition_element">주문 취소</div>
-      </a>
+    <div id="buttons-section" class="flex flex-col items-center w-1/12">
+      
+        <div id="see-product-btn"class="transition_element">
+          <a href="{% url 'products:product_detail' detail.product.pk %}">
+            무난이 보기
+          </a>
+        </div>
+      
+      
+        <div id="reg-review-btn" class="transition_element">
+          <a>
+            리뷰 쓰기
+          </a>
+        </div>
+      
+        <div id="cancel-order-btn" class="transition_element">
+          <a>
+            주문 취소
+          </a>
+        </div>
     </div>
   </div>
   {% endfor %}

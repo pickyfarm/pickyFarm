@@ -142,11 +142,11 @@
 #filter-6month{
   width: 127px;
   height: 30px;
-  padding: 4px 30px;
+  padding: 4px 20px;
   border-radius: 15px;
   border: solid 1px #b3b3b3;
   background-color: #ffffff;
-  font-family: NotoSansKR;
+
   font-size: 15px;
   font-weight: 500;
   font-stretch: normal;
@@ -197,7 +197,7 @@
   height: 30px;
   border-radius: 15px;
   background-color: #5c6754;
-  font-family: NotoSansKR;
+
   font-size: 15px;
   font-weight: 500;
   font-stretch: normal;
@@ -209,12 +209,7 @@
   margin-left:21px;
 }
 
-#filter-submit:hover{
-  color:#5c6754;
-  background-color: #ffffff;
-  border: solid 1px #b3b3b3;
 
-}
 
 
 #redirect_btn{
@@ -348,53 +343,72 @@
 
 
 
-#product_btn{
-    width: 95px;
-  height: 25px;
-  padding: 5px 13px 5px;
-  border-radius: 11px;
-  background-color: #5c6754;
-  font-family: NotoSansKR;
-  font-size: 12px;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-}
-
-#buttons-section>a>div{
-  width: 70px;
+#see-product-btn{
+  width: 75px;
   height: 22px;
   margin: 0 0 12px 54px;
-  padding: 3px 9px 4px 8px;
+  padding: 1px 9px 4px 8px;
   border-radius: 11px;
   border: solid 0.5px #b3b3b3;
   font-size: 11px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
   text-align: center;
   color: #5c6754;
   cursor: pointer;
 }
 
-#buttons-section>a>div:hover{
+#see-product-btn:hover{
   color: #FFFFFF;
   background-color: #5c6754;
 }
 
+#reg-review-btn{
+  width: 75px;
+  height: 22px;
+  margin: 0 0 12px 54px;
+  padding: 1px 9px 4px 8px;
+  border-radius: 11px;
+  border: solid 0.5px #b3b3b3;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+#reg-review-btn:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
+}
+
+#cancel-order-btn{
+  width: 75px;
+  height: 22px;
+  margin: 0 0 12px 54px;
+  padding: 1px 9px 4px 8px;
+  border-radius: 11px;
+  border: solid 0.5px #b3b3b3;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+#cancel-order-btn:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
+}
+
+
+
 #cartIn_btn{
-    width: 95px;
+    width: 98px;
     height: 25px;
-    padding: 5px 13px 5px;
     border-radius: 11px;
     background-color: #5c6754;
-    font-family: NotoSansKR;
     font-size: 12px;
-    font-stretch: normal;
-    font-style: normal;
+    padding: 3px 14px 4px 12px;
     letter-spacing: normal;
     text-align: center;
     color: #ffffff;
@@ -404,7 +418,6 @@
 #cartIn_btn:hover{
   background-color: #ffffff;
   color: #5c6754;
-  padding: 5px 13px 5px;
   box-sizing: border-box;
   border: solid 0.5px #b3b3b3;
 }
