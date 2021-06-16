@@ -399,7 +399,7 @@
   width: 100%;
   height:658px;
   background-color: #f2f2f2;
-  opacity: 0.55;
+
 }
 
 #bottom_contents{
@@ -530,7 +530,7 @@
   letter-spacing: normal;
   text-align: left;
   color: #5c6754;
-  padding: 6px 7px;
+  padding: 4px 7px;
   opacity: 1;
   border-radius: 11px;
   background-color: #f2f2f2;
@@ -688,7 +688,7 @@
   height: 400px;
   padding: 30px;
   border-radius: 20px;
-  background-color: #ccdad3;
+  background-color: #ffffff;
 }
 
 #qnas_title_box{
@@ -696,7 +696,7 @@
 }
 
 #qnas_title_text1{
-  font-family: NotoSansKR;
+ 
   font-size: 61px;
   font-weight: 500;
   font-stretch: normal;
@@ -704,11 +704,11 @@
   line-height: 1.51;
   letter-spacing: normal;
   text-align: center;
-  color: #ffffff;
+  color: #5c6754;
 }
 
 #qnas_title_text2{
-  font-family: NotoSansKR;
+
   font-size: 15px;
   font-weight: 300;
   font-stretch: normal;
@@ -716,7 +716,7 @@
   line-height: 2.16;
   letter-spacing: normal;
   text-align: center;
-  color: #ffffff;
+  color: #5c6754;
 }
 
 #qnas_not_exist_box{
@@ -738,7 +738,7 @@
   padding-top:5px;
   border-radius: 11px;
   background-color: #5c6754;
-  font-family: NotoSansKR;
+
   font-size: 15px;
   font-stretch: normal;
   letter-spacing: normal;
@@ -747,7 +747,7 @@
 }
 
 #qna_date{
-  font-family: NotoSansKR;
+
   font-size: 20px;
   font-weight: bold;
   font-stretch: normal;
@@ -755,29 +755,32 @@
   line-height: 1.5;
   letter-spacing: normal;
   text-align: left;
-  color: #ffffff;
+  color: #5c6754;
+}
+
+#q_box{
+  color: #b3b3b3;
 }
 
 #q_box>div:nth-child(1){
-  font-family: NotoSansKR;
+ 
   font-size: 20px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #ffffff;
+  color: #b3b3b3;
   margin-top:8px;
 }
 
 #q_detail{
   width: 315px;
   margin: 10px 43px 3px 15px;
-  padding: 14px 11px;
-  opacity: 0.6;
+  padding: 7px 19px;
   border-radius: 20px;
-  background-color: #ffffff;
-  font-family: NotoSansKR;
+  background-color: #f2f2f2;
+
   font-size: 15px;
   font-weight: normal;
   font-stretch: normal;
@@ -785,7 +788,7 @@
   line-height: 2;
   letter-spacing: normal;
   text-align: left;
-  color: #283023;
+  color: #707070;
 }
 
 #see_more_a{
@@ -796,22 +799,22 @@
   width: 48px;
   border-radius: 10px;
   background-color: #5c6754;
-  font-family: NotoSansKR;
+
   font-size: 11px;
   opacity: 1;
-  font-weight: bold;
+ 
   text-align: center;
   color: #ffffff;
+  cursor:pointer;
 }
 
 #a_detail{
   width: 315px;
   padding: 14px 11px;
-  opacity: 0.6;
+ 
   border-radius: 20px;
   margin-top:7px;
-  background-color: #ffffff;
-  font-family: NotoSansKR;
+  background-color: #f2f2f2;
   font-size: 15px;
   font-weight: bold;
   font-stretch: normal;
@@ -819,13 +822,16 @@
   line-height: 2;
   letter-spacing: normal;
   text-align: right;
-  color: #283023;
+  color: #3b4236;
+}
+
+#a_box{
+  color: #b3b3b3;
 }
 
 #a_box>div:nth-child(2){
   margin-left:14px;
   margin-top:5px;
-  font-family: NotoSansKR;
   font-size: 20px;
   font-weight: bold;
   font-stretch: normal;
@@ -833,11 +839,11 @@
   line-height: 1.5;
   letter-spacing: normal;
   text-align: left;
-  color: #ffffff;
+
 }
 
 
-/* 배송지 정보 수정 */
+/* ***********배송지 정보 수정************ */
 
 #contents-container{
   margin-left:130px;

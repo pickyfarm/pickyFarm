@@ -197,7 +197,7 @@
                                 {% if q.answer.title != "" %}
                                 {% else %}
 
-                                <a id="see_more_a" href="" class="items-end">
+                                <a id="see_more_a" href="{% url 'products:question_read' q.pk %}" class="items-end">
                                     <div id="see_more" class="items-end">더보기</div>
                                 </a>
 
@@ -210,7 +210,7 @@
                         <div id="a_box" class="flex flex-row justify-end">
                             <div id="a_detail">
                                 <div>{{q.answer.content|slice:":"}}</div>
-                                <a id="see_more_a" href="">
+                                <a id="see_more_a" href="{% url 'products:question_read' q.pk %}">
                                     <div id="see_more">더보기</div>
                                 </a>
                             </div>
