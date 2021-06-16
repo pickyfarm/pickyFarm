@@ -370,7 +370,6 @@
   padding: 3px 9px 4px 8px;
   border-radius: 11px;
   border: solid 0.5px #b3b3b3;
-  font-family: NotoSansKR;
   font-size: 11px;
   font-weight: bold;
   font-stretch: normal;
@@ -378,6 +377,12 @@
   letter-spacing: normal;
   text-align: center;
   color: #5c6754;
+  cursor: pointer;
+}
+
+#buttons-section>a>div:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
 }
 
 #cartIn_btn{
@@ -393,6 +398,15 @@
     letter-spacing: normal;
     text-align: center;
     color: #ffffff;
+    cursor: pointer;
+}
+
+#cartIn_btn:hover{
+  background-color: #ffffff;
+  color: #5c6754;
+  padding: 5px 13px 5px;
+  box-sizing: border-box;
+  border: solid 0.5px #b3b3b3;
 }
 
 #bottom_section{
@@ -401,6 +415,7 @@
   background-color: #f2f2f2;
 
 }
+
 
 #bottom_contents{
   width:990px;

@@ -61,17 +61,17 @@
       <div class="flex flex-row"></div>
     </div>
     <div id="cart-button-section" class="flex justify-end items-center w-2/12">
-        <div id="cartIn_btn">장바구니 담기</div>
+        <div id="cartIn_btn" class="transition_element">장바구니 담기</div>
     </div>
     <div id="buttons-section" class="flex flex-col items-center w-2/12">
       <a href="{% url 'products:product_detail' detail.product.pk %}">
-        <div>무난이 보기</div>
+        <div class="transition_element">무난이 보기</div>
       </a>
       <a>
-        <div>리뷰 쓰기</div>
+        <div class="transition_element">리뷰 쓰기</div>
       </a>
       <a>
-        <div>주문 취소</div>
+        <div class="transition_element">주문 취소</div>
       </a>
     </div>
   </div>
