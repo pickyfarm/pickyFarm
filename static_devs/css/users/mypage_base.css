@@ -843,6 +843,11 @@
   cursor:pointer;
 }
 
+#see_more:hover{
+  color: #5c6754;
+  background-color: #ffffff;
+}
+
 #a_detail{
   width: 315px;
   padding: 14px 11px;

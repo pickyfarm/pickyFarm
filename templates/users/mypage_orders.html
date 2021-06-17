@@ -148,11 +148,17 @@
     let year = now.getFullYear()
     let startYear = year
     if(startMonth<=0){
-      startMonth = 12 + startMonth + 1
-      startYear -= 1
-      if(startMonth < 10)
-        startMonth = '0' + startMonth
+      if(startMonth == 0){
+        startMonth = 12
+        startYear -= 1
+      }
+      else{
+        startMonth = 12 + startMonth + 1
+        startYear -= 1
+      }
     }
+    if(startMonth < 10)
+        startMonth = '0' + startMonth
 
     startDate = startYear + '-' + startMonth + '-01'
     console.log(startDate)
