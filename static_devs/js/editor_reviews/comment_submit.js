@@ -116,7 +116,7 @@ const recommentSubmit = (pk) => {
                             <div class="comment-report--report button">신고하기</div>
                         </div>
                     </div>
-                    <div class="absolute recomment-like-button-wrap">
+                    <div class="absolute recomment-like-button-wrap button">
                         <div class="recomment-like-button relative"
                             style="background-image: url(${recommentLikeButtonImageURL});">
                             <p class="recomment-like-count absolute text-center align-text-bottom">0</p>
@@ -128,7 +128,7 @@ const recommentSubmit = (pk) => {
                             <div class="recomment-text-options-wrap flex justify-between">
                                 <div></div>
                                 <div class="recomment-text-options flex">
-                                    <div class="recomment-text-options--edit button comment-text-options--edit button"  onclick="recommentEdit(this, ${data.pk})">수정</div>
+                                    <div class="recomment-text-options--edit button comment-text-options--edit"  onclick="recommentEdit(this, ${data.pk})">수정</div>
                                     <div class="recomment-text-options--delete button comment-text-options--delete" onclick="recommentDelete(${data.pk})">삭제</div>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@ const recommentSubmit = (pk) => {
 
             const t = document
                 .querySelector(
-                    `div[class="recomment relative"][name="${data.pk}"]`
+                    `div[class="recomment relative"][name="${data.pk}"] .recomment-like-button-wrap`
                 )
                 .addEventListener('click', (e) => recommentLike(e));
 
