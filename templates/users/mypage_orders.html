@@ -33,9 +33,16 @@
     <div class="w-6/12">
       <div id="product_order_at2">{{detail.order_group.order_at | date}} 주문</div>
       <div class="flex flex-row">
-        <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
+        <div id="product_title">
+          {% if detail.product.title|length > 16 %}
+            {{detail.product.title|slice:"16"}}..
+          {% else %}
+            {{detail.product.title}}
+          {% endif %}
+        </div>
         <div id="slash">|</div>
-        <div id="product_title">{{detail.product.title}}</div>
+        <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
+        
       </div>
       <div class="flex flex-row">
         <div class="w-2/5" id="product_price">{{detail.total_price}}원</div>

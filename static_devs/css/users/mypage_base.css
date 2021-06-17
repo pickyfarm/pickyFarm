@@ -265,7 +265,7 @@
   color: #5c6754;
 }
 
-#product_farm_name{
+#product_title{
     font-family: NotoSansKR;
   font-size: 18px;
   font-weight: bold;
@@ -281,7 +281,7 @@
   color : #5e6656;
 }
 
-#product_title{
+#product_farm_name{
     font-family: NotoSansKR;
   font-size: 18px;
   font-weight: 500;
