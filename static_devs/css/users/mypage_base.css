@@ -523,11 +523,15 @@
   border-radius: 99%;
 }
 
-#tag{
-  padding: 0 22px 0 7px;
+#farm_tag{
+  padding: 0 7px 0 7px;
   opacity: 0.6;
   border-radius: 8px;
   background-color: #f2f2f2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+  font-size: 10px;
 }
 
 #farm_loc{
