@@ -75,7 +75,9 @@
                         </div>
                     </div>
                 </div>
-                <img src="{% static 'images/editors_review/editor_review_detail_visit_farm.svg'%}" id="visit">
+                <a href="{% url 'farmers:farmer_detail' review.farm.pk %}">
+                    <img src="{% static 'images/editors_review/editor_review_detail_visit_farm.svg'%}" id="visit">
+                </a>
             </div>
         </div>
     </div>
