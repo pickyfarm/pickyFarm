@@ -116,10 +116,12 @@
                                 <div class="recomment-text-options-wrap flex justify-between">
                                     <div></div>
                                     <div class="recomment-text-options flex">
+                                        {% if request.user == recomment.author %}
                                         <div class="comment-text-options--edit recomment-text-options--edit button"
                                             onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
                                         <div class="comment-text-options--delete recomment-text-options--delete button"
                                             onclick="recommentDelete({{recomment.pk}})">삭제</div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
