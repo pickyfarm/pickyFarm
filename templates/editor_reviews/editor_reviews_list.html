@@ -46,9 +46,9 @@
 
         <div class="my-12 text-3xl mx-auto text-center">Keyword</div>
         <div class="flex categories">
-            <div class="category-in border-l border-b border-t">농가 취재기</div>
-            <div class="category-in  border">못난이 작물</div>
-            <div class="category-in border-t border-r border-b">요리 / 레시피</div>
+            <div class="category-in transition_element border-l border-b border-t" id="farm_cover">농가 취재기</div>
+            <div class="category-in transition_element  border" id="products">못난이 작물</div>
+            <div class="category-in transition_element border-t border-r border-b" id="recipe">요리 / 레시피</div>
         </div>
     </div>
 
@@ -57,7 +57,7 @@
 
             <div class="lists flex flex-col ">
             {% for review in review_list %}
-                <div class="article flex justify-between my-8">
+                <div class="article flex justify-between my-8" category='{{review.post_category}}'>
                     <div class="info flex flex-col">
                         <a href="{% url 'editors_pick:detail' review.pk %}"><div class="title">{{review.title}}</div></a>
                         <div class="article-info flex">
@@ -108,4 +108,5 @@
         });
     });
 </script>
+<script src="{% static 'js/editor_reviews/review_list.js' %}"></script>
 {% endblock main_content %}
