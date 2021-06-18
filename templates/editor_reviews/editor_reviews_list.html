@@ -67,7 +67,7 @@
                             <div class="views mr-6">조회수 {{review.hits}}</div>
                             <div class="likes">좋아요 9</div>
                         </div>
-                        <div class="preview break-words mt-7">{{review.get_preview}}</div>
+                        <div class="preview break-words mt-7">{{review.get_preview|striptags}}</div>
                     </div>
                     <div class="article-img bg-cover" style="background-image:url('{{review.main_image.url}}');"></div>
                 </div>
