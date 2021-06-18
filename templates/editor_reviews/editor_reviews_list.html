@@ -80,11 +80,11 @@
                     <div class=" self-center mb-8">에디터 리스트</div>
                     <div class="editor-lists flex flex-col">
                         {% for editor in editors %}
-                        <div class="editor-profile flex justify-between items-center">
+                        <div class="editor-profile flex items-center">
                             <div class="editor-img rounded-full"></div>
                             <div class="editor-info flex flex-col">
-                                <div class="editor-name">{{editor.user.nickname}}</div> 
-                                <div class="editor-article-info flex justify-between">
+                                <div class="editor-name">{{editor.user.nickname|slice:'10'}}</div> 
+                                <div class="editor-article-info flex">
                                     <div class="article-count">글 {{editor.review_count}}</div>
                                     <div class="view-count">조회수 {{editor.review_hits_count}}</div>
                                 </div>
