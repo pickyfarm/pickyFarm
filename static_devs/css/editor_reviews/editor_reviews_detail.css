@@ -306,13 +306,12 @@
 
 .comment-edit-form-input {
     width: 100%;
+    border-radius: 7px;
+    padding: 10px;
 }
 
 .comment-edit-form-input:focus {
     outline: none;
-    border: 1px solid #5c6754;
-    border-radius: 7px;
-    padding: 10px;
 }
 
 .comment-edit-submit-button {
@@ -478,6 +477,7 @@
 .horizon-bar {
     width: 885px;
     border-top: 0.5px solid #5e6656;
+    opacity: 0.5;
 }
 
 .horizon-bar:last-child {
