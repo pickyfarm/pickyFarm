@@ -27,7 +27,7 @@
                     <div id="nickname_text2">님</div>
                 </div>
             </div>
-            <div id="right" class="flex flex-row">
+            <div id="right" class="flex flex-row justify-center">
                 <div id="preparing" class="mx-10">
                     <div id="status_text" class="mx-auto">
                         배송 준비중
@@ -78,19 +78,19 @@
 
             <div id="menu">
                 <a href="{% url 'users:mypage' 'orders'%}">
-                    <div class="menu_content" id="menu_boughts">구매 내역</div>
+                    <div class="menu_content transition_element" id="menu_boughts">구매 내역</div>
                 </a>
                 <a href="{% url 'users:mypage' 'wishes'%}">
-                    <div class="menu_content" id="menu_likes">찜한 목록</div>
+                    <div class="menu_content transition_element" id="menu_likes">찜한 목록</div>
                 </a>
                 <a href="{% url 'users:mypage' 'cart'%}">
-                    <div class="menu_content" id="menu_carts">장바구니</div>
+                    <div class="menu_content transition_element" id="menu_carts">장바구니</div>
                 </a>
                 <a href="{% url 'users:mypage' 'rev_address'%}">
-                    <div class="menu_content" id="menu_deliveries">배송지 관리</div>
+                    <div class="menu_content transition_element" id="menu_deliveries">배송지 관리</div>
                 </a>
                 <a href="{% url 'users:mypage' 'info'%}">
-                    <div class="menu_content" id="menu_infos">개인 정보 수정</div>
+                    <div class="menu_content transition_element" id="menu_infos">개인 정보 수정</div>
                 </a>
             </div>
             <div id="content">
@@ -129,10 +129,21 @@
                 {% for sub in subs %}
                 <div class="flex flex-row w-100" id="{{sub.pk}}-sub-farmer">
                     <a href="{% url 'farmers:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
-                        <div class="">
+                        <div class="" id="sub-left-section">
                             <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
                         </div>
-                        <div class="">
+                        <div class="" id="sub-right-section">
+                            <div id="farm_tags" class="flex flex-row">
+                                {% for t in sub.farmer.farm_tags.all %}
+                                <div id="farm_tag">
+                                    {% if t.tag|length > 4 %}
+                                        #{{t.tag|slice:"5"}}...
+                                    {% else %}
+                                        #{{t.tag}}
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
                             <div id="farm_infos" class="flex flex-row">
                                 <div id="farm_loc">서울시 임시구</div>
                                 <div id="farm_name">{{sub.farmer.farm_name}}</div>
@@ -154,7 +165,7 @@
 
                     <div class="w-1/5">
 
-                        <div id="sub_cancel_btn" class="mt-4 mx-auto" name="{{sub.pk}}">구독 취소</div>
+                        <div id="sub_cancel_btn" class="mt-4 mx-auto transition_element" name="{{sub.pk}}">구독 취소</div>
 
                     </div>
                 </div>
@@ -196,8 +207,8 @@
                                 {% if q.answer.title != "" %}
                                 {% else %}
 
-                                <a id="see_more_a" href="" class="items-end">
-                                    <div id="see_more" class="items-end">더보기</div>
+                                <a id="see_more_a" href="{% url 'products:question_read' q.pk %}" class="items-end">
+                                    <div id="see_more" class="items-end transition_element">더보기</div>
                                 </a>
 
                                 {% endif %}
@@ -209,7 +220,7 @@
                         <div id="a_box" class="flex flex-row justify-end">
                             <div id="a_detail">
                                 <div>{{q.answer.content|slice:":"}}</div>
-                                <a id="see_more_a" href="">
+                                <a id="see_more_a" href="{% url 'products:question_read' q.pk %}">
                                     <div id="see_more">더보기</div>
                                 </a>
                             </div>
@@ -234,6 +245,15 @@
 </div>
 </div>
 
+
+
+
+{% block script_section %}
+
+{% endblock script_section %}
+{% endblock main_content %}
+
+{% block mypage_base_script_section %}
 <script>
 
     function getCookie(name) {
@@ -266,38 +286,65 @@
         }
     });
 
-    $('[id^=sub_cancel_btn]').click(function () {
-        let pk = $(this).attr('name');
-        console.log(pk)
-        let data = { 'pk': pk };
-        console.log("data 확인 완료");
-        $.ajax({
-            type: 'POST',
-            url: '{% url "users:cancelSubs" %}',
-            dataType: "json",
-            data: data,
-            success: function (response) {
-                if (response.success == 0) {
-                    alert("다시 시도해주세요");
-                }
-                else {
-                    console.log(response.success)
-                    alert(response.msg);
-                    $(`#${pk}-sub-farmer`).remove();
+    let subCancelBtn = document.getElementById("sub_cancel_btn")
+    console.log(subCancelBtn)
+    subCancelBtn.addEventListener('click', 
+        showModalMessage("구독을 취소하시겠습니까", ()=>{
+            let pk = subCancelBtn.getAttribute('name')
+            console.log(pk)
+            let data = { 'pk': pk };
+            console.log("data 확인 완료");
+            $.ajax({
+                type: 'POST',
+                url: '{% url "users:cancelSubs" %}',
+                dataType: "json",
+                data: data,
+                success: function (response) {
+                    if (response.success == 0) {
+                        alert("다시 시도해주세요");
+                    }
+                    else {
+                        console.log(response.success)
+                        alert(response.msg);
+                        $(`#${pk}-sub-farmer`).remove();
 
+                    }
+                },
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
-            },
-            error: function (request, status, error) {
-                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-            }
+            })
         })
-    })
+    )
+
+    // $('[id^=sub_cancel_btn]').click(function () {
+    //     let pk = $(this).attr('name');
+    //     console.log(pk)
+    //     let data = { 'pk': pk };
+    //     console.log("data 확인 완료");
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '{% url "users:cancelSubs" %}',
+    //         dataType: "json",
+    //         data: data,
+    //         success: function (response) {
+    //             if (response.success == 0) {
+    //                 alert("다시 시도해주세요");
+    //             }
+    //             else {
+    //                 console.log(response.success)
+    //                 alert(response.msg);
+    //                 $(`#${pk}-sub-farmer`).remove();
+
+    //             }
+    //         },
+    //         error: function (request, status, error) {
+    //             alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+    //         }
+    //     })
+    // })
 
 
 
 </script>
-
-{% block script_section %}
-
-{% endblock script_section %}
-{% endblock main_content %}
+{% endblock %}

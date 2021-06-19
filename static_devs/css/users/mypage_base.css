@@ -5,14 +5,14 @@
 
 
 #left{
-    width:240px;
+    width:400px;
 }
 
 #title_text1{
-  font-family: NotoSansKR;
+
   font-size: 30px;
   font-weight: 500;
-  font-stretch: normal;
+
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
@@ -21,10 +21,10 @@
 }
 
 #title_text2{
-  font-family: NotoSansKR;
+
   font-size: 40px;
   font-weight: 500;
-  font-stretch: normal;
+
   font-style: normal;
   line-height: 0.75;
   letter-spacing: normal;
@@ -59,7 +59,7 @@
 
 
 #right{
-    width:750px;
+    width:100%;
     padding-left:50px;
 }
 
@@ -142,11 +142,11 @@
 #filter-6month{
   width: 127px;
   height: 30px;
-  padding: 4px 30px;
+  padding: 4px 20px;
   border-radius: 15px;
   border: solid 1px #b3b3b3;
   background-color: #ffffff;
-  font-family: NotoSansKR;
+
   font-size: 15px;
   font-weight: 500;
   font-stretch: normal;
@@ -197,7 +197,7 @@
   height: 30px;
   border-radius: 15px;
   background-color: #5c6754;
-  font-family: NotoSansKR;
+
   font-size: 15px;
   font-weight: 500;
   font-stretch: normal;
@@ -209,12 +209,7 @@
   margin-left:21px;
 }
 
-#filter-submit:hover{
-  color:#5c6754;
-  background-color: #ffffff;
-  border: solid 1px #b3b3b3;
 
-}
 
 
 #redirect_btn{
@@ -270,7 +265,7 @@
   color: #5c6754;
 }
 
-#product_farm_name{
+#product_title{
     font-family: NotoSansKR;
   font-size: 18px;
   font-weight: bold;
@@ -286,7 +281,7 @@
   color : #5e6656;
 }
 
-#product_title{
+#product_farm_name{
     font-family: NotoSansKR;
   font-size: 18px;
   font-weight: 500;
@@ -321,9 +316,12 @@
   color: #b3b3b3;
 }
 
+#delivery-status-icon{
+  width:16.5px;
+  margin-right:13.8px;
+}
 
 #delivery_status{
-  font-family: NotoSansKR;
   font-size: 11px;
   font-weight: bold;
   font-stretch: normal;
@@ -348,64 +346,99 @@
 
 
 
-#product_btn{
-    width: 95px;
-  height: 25px;
-  padding: 5px 13px 5px;
-  border-radius: 11px;
-  background-color: #5c6754;
-  font-family: NotoSansKR;
-  font-size: 12px;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-}
-
-#buttons-section>a>div{
-  width: 70px;
+#see-product-btn{
+  width: 75px;
   height: 22px;
-  margin: 0 0 12px 54px;
-  padding: 3px 9px 4px 8px;
+  margin: 0 0 12px 0;
+  padding: 1px 9px 4px 8px;
   border-radius: 11px;
   border: solid 0.5px #b3b3b3;
-  font-family: NotoSansKR;
   font-size: 11px;
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
   text-align: center;
   color: #5c6754;
+  cursor: pointer;
 }
 
+#see-product-btn:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
+}
+
+#reg-review-btn{
+  width: 75px;
+  height: 22px;
+  margin: 0 0 12px 0;
+  padding: 1px 9px 4px 8px;
+  border-radius: 11px;
+  border: solid 0.5px #b3b3b3;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+#reg-review-btn:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
+}
+
+#cancel-order-btn{
+  width: 75px;
+  height: 22px;
+  margin: 0 0 12px 0;
+  padding: 1px 9px 4px 8px;
+  border-radius: 11px;
+  border: solid 0.5px #b3b3b3;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+#cancel-order-btn:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
+}
+
+
+
 #cartIn_btn{
-    width: 95px;
+    width: 98px;
     height: 25px;
-    padding: 5px 13px 5px;
     border-radius: 11px;
     background-color: #5c6754;
-    font-family: NotoSansKR;
     font-size: 12px;
-    font-stretch: normal;
-    font-style: normal;
+    padding: 3px 14px 4px 12px;
     letter-spacing: normal;
     text-align: center;
     color: #ffffff;
+    cursor: pointer;
+}
+
+#cartIn_btn:hover{
+  background-color: #ffffff;
+  color: #5c6754;
+  box-sizing: border-box;
+  border: solid 0.5px #b3b3b3;
 }
 
 #bottom_section{
   width: 100%;
   height:658px;
-  background-color: #5c6754;
-  opacity: 0.55;
+  background-color: #f2f2f2;
+
 }
+
 
 #bottom_contents{
   width:990px;
   
 }
+
+/* ******농가 구독 섹션******* */
 
 #subscribe_section{
   width:440px;
@@ -417,8 +450,38 @@
   height: 400px;
   padding: 30px;
   border-radius: 20px;
-  background-color: #ccdad3;
+  background-color: #ffffff;
 }
+
+#subs_title_box{
+  width:105px;
+}
+
+#subs_title_text1{
+
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+}
+
+#subs_title_text2{
+  font-size: 25px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  margin-left:8px;
+}
+
+/* [구독한 농가 없는 경우] */
 
 #subs_not_exist_box{
   width:80%;
@@ -439,7 +502,6 @@
   padding-top:5px;
   border-radius: 11px;
   background-color: #5c6754;
-  font-family: NotoSansKR;
   font-size: 15px;
   font-stretch: normal;
   letter-spacing: normal;
@@ -447,34 +509,10 @@
   color: #ffffff;
 }
 
+/* [구독한 농가 있는 경우] */
 
-#subs_title_box{
-  width:105px;
-}
-
-#subs_title_text1{
-  font-family: NotoSansKR;
-  font-size: 20px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.5;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-}
-
-#subs_title_text2{
-  font-family: NotoSansKR;
-  font-size: 25px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.2;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-  margin-left:8px;
+#sub-right-section{
+  margin-left : 20px;
 }
 
 #farm_image{
@@ -485,11 +523,23 @@
   border-radius: 99%;
 }
 
+#farm_tag{
+  padding: 0 7px 0 7px;
+  opacity: 0.6;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+  font-size: 10px;
+}
+
 #farm_loc{
   font-family: NotoSansKR;
   font-size: 12px;
   padding-top:6px;
-  margin-right:5px;
+  
+  margin-right:10px;
   text-align: left;
   color: #5c6754;
 }
@@ -504,6 +554,47 @@
   text-align: left;
   color: #5c6754;
 }
+
+#sub_farm_news{
+  font-family: NotoSansKR;
+  width:180px;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+  padding: 4px 7px;
+  opacity: 1;
+  border-radius: 11px;
+  background-color: #f2f2f2;
+}
+
+#sub_cancel_btn{
+  width: 57px;
+  height: 20px;
+  opacity: 0.6;
+  border-radius: 13px;
+  background-color: #b3b3b3;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #020202;
+  cursor: pointer;
+  margin-left: 18px;
+}
+
+#sub_cancel_btn:hover{
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border: solid 1px #020202;
+}
+
+/* *****구매 내역 섹션***** */
 
 #quantity{
   width:100px;
@@ -529,23 +620,6 @@
   margin-left:171px;
 }
 
-#sub_cancel_btn{
-  width: 53px;
-  height: 25px;
-  font-family: NotoSansKR;
-  font-size: 11px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #5c6754;
-  padding: 4px;
-  padding-top:5px;
-  opacity: 0.6;
-  border-radius: 13px;
-  background-color: #ffffff;
-}
 
 #paginator{
   margin-top:70px;
@@ -640,21 +714,7 @@
   color: #5c6754;
 }
 
-#sub_farm_news{
-  font-family: NotoSansKR;
-  width:180px;
-  font-size: 12px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #5c6754;
-  padding: 6px 7px;
-  opacity: 1;
-  border-radius: 11px;
-  background-color: #ffffff;
-}
+/* **********qna 확인 섹션********* */
 
 #qnas_section{
   width:550px;
@@ -669,7 +729,7 @@
   height: 400px;
   padding: 30px;
   border-radius: 20px;
-  background-color: #ccdad3;
+  background-color: #ffffff;
 }
 
 #qnas_title_box{
@@ -677,7 +737,7 @@
 }
 
 #qnas_title_text1{
-  font-family: NotoSansKR;
+ 
   font-size: 61px;
   font-weight: 500;
   font-stretch: normal;
@@ -685,11 +745,11 @@
   line-height: 1.51;
   letter-spacing: normal;
   text-align: center;
-  color: #ffffff;
+  color: #5c6754;
 }
 
 #qnas_title_text2{
-  font-family: NotoSansKR;
+
   font-size: 15px;
   font-weight: 300;
   font-stretch: normal;
@@ -697,7 +757,7 @@
   line-height: 2.16;
   letter-spacing: normal;
   text-align: center;
-  color: #ffffff;
+  color: #5c6754;
 }
 
 #qnas_not_exist_box{
@@ -719,7 +779,7 @@
   padding-top:5px;
   border-radius: 11px;
   background-color: #5c6754;
-  font-family: NotoSansKR;
+
   font-size: 15px;
   font-stretch: normal;
   letter-spacing: normal;
@@ -728,7 +788,7 @@
 }
 
 #qna_date{
-  font-family: NotoSansKR;
+
   font-size: 20px;
   font-weight: bold;
   font-stretch: normal;
@@ -736,29 +796,32 @@
   line-height: 1.5;
   letter-spacing: normal;
   text-align: left;
-  color: #ffffff;
+  color: #5c6754;
+}
+
+#q_box{
+  color: #b3b3b3;
 }
 
 #q_box>div:nth-child(1){
-  font-family: NotoSansKR;
+ 
   font-size: 20px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #ffffff;
+  color: #b3b3b3;
   margin-top:8px;
 }
 
 #q_detail{
   width: 315px;
   margin: 10px 43px 3px 15px;
-  padding: 14px 11px;
-  opacity: 0.6;
+  padding: 7px 19px;
   border-radius: 20px;
-  background-color: #ffffff;
-  font-family: NotoSansKR;
+  background-color: #f2f2f2;
+
   font-size: 15px;
   font-weight: normal;
   font-stretch: normal;
@@ -766,7 +829,7 @@
   line-height: 2;
   letter-spacing: normal;
   text-align: left;
-  color: #283023;
+  color: #707070;
 }
 
 #see_more_a{
@@ -777,22 +840,27 @@
   width: 48px;
   border-radius: 10px;
   background-color: #5c6754;
-  font-family: NotoSansKR;
+
   font-size: 11px;
   opacity: 1;
-  font-weight: bold;
+ 
   text-align: center;
   color: #ffffff;
+  cursor:pointer;
+}
+
+#see_more:hover{
+  color: #5c6754;
+  background-color: #ffffff;
 }
 
 #a_detail{
   width: 315px;
   padding: 14px 11px;
-  opacity: 0.6;
+ 
   border-radius: 20px;
   margin-top:7px;
-  background-color: #ffffff;
-  font-family: NotoSansKR;
+  background-color: #f2f2f2;
   font-size: 15px;
   font-weight: bold;
   font-stretch: normal;
@@ -800,13 +868,16 @@
   line-height: 2;
   letter-spacing: normal;
   text-align: right;
-  color: #283023;
+  color: #3b4236;
+}
+
+#a_box{
+  color: #b3b3b3;
 }
 
 #a_box>div:nth-child(2){
   margin-left:14px;
   margin-top:5px;
-  font-family: NotoSansKR;
   font-size: 20px;
   font-weight: bold;
   font-stretch: normal;
@@ -814,11 +885,11 @@
   line-height: 1.5;
   letter-spacing: normal;
   text-align: left;
-  color: #ffffff;
+
 }
 
 
-/* 배송지 정보 수정 */
+/* ***********배송지 정보 수정************ */
 
 #contents-container{
   margin-left:130px;
