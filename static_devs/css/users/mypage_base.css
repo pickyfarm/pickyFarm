@@ -349,7 +349,7 @@
 #see-product-btn{
   width: 75px;
   height: 22px;
-  margin: 0 0 12px 54px;
+  margin: 0 0 12px 0;
   padding: 1px 9px 4px 8px;
   border-radius: 11px;
   border: solid 0.5px #b3b3b3;
@@ -368,7 +368,7 @@
 #reg-review-btn{
   width: 75px;
   height: 22px;
-  margin: 0 0 12px 54px;
+  margin: 0 0 12px 0;
   padding: 1px 9px 4px 8px;
   border-radius: 11px;
   border: solid 0.5px #b3b3b3;
@@ -387,7 +387,7 @@
 #cancel-order-btn{
   width: 75px;
   height: 22px;
-  margin: 0 0 12px 54px;
+  margin: 0 0 12px 0;
   padding: 1px 9px 4px 8px;
   border-radius: 11px;
   border: solid 0.5px #b3b3b3;

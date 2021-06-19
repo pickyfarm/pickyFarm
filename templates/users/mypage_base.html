@@ -245,6 +245,15 @@
 </div>
 </div>
 
+
+
+
+{% block script_section %}
+
+{% endblock script_section %}
+{% endblock main_content %}
+
+{% block mypage_base_script_section %}
 <script>
 
     function getCookie(name) {
@@ -277,38 +286,65 @@
         }
     });
 
-    $('[id^=sub_cancel_btn]').click(function () {
-        let pk = $(this).attr('name');
-        console.log(pk)
-        let data = { 'pk': pk };
-        console.log("data 확인 완료");
-        $.ajax({
-            type: 'POST',
-            url: '{% url "users:cancelSubs" %}',
-            dataType: "json",
-            data: data,
-            success: function (response) {
-                if (response.success == 0) {
-                    alert("다시 시도해주세요");
-                }
-                else {
-                    console.log(response.success)
-                    alert(response.msg);
-                    $(`#${pk}-sub-farmer`).remove();
+    let subCancelBtn = document.getElementById("sub_cancel_btn")
+    console.log(subCancelBtn)
+    subCancelBtn.addEventListener('click', 
+        showModalMessage("구독을 취소하시겠습니까", ()=>{
+            let pk = subCancelBtn.getAttribute('name')
+            console.log(pk)
+            let data = { 'pk': pk };
+            console.log("data 확인 완료");
+            $.ajax({
+                type: 'POST',
+                url: '{% url "users:cancelSubs" %}',
+                dataType: "json",
+                data: data,
+                success: function (response) {
+                    if (response.success == 0) {
+                        alert("다시 시도해주세요");
+                    }
+                    else {
+                        console.log(response.success)
+                        alert(response.msg);
+                        $(`#${pk}-sub-farmer`).remove();
 
+                    }
+                },
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                 }
-            },
-            error: function (request, status, error) {
-                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-            }
+            })
         })
-    })
+    )
+
+    // $('[id^=sub_cancel_btn]').click(function () {
+    //     let pk = $(this).attr('name');
+    //     console.log(pk)
+    //     let data = { 'pk': pk };
+    //     console.log("data 확인 완료");
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '{% url "users:cancelSubs" %}',
+    //         dataType: "json",
+    //         data: data,
+    //         success: function (response) {
+    //             if (response.success == 0) {
+    //                 alert("다시 시도해주세요");
+    //             }
+    //             else {
+    //                 console.log(response.success)
+    //                 alert(response.msg);
+    //                 $(`#${pk}-sub-farmer`).remove();
+
+    //             }
+    //         },
+    //         error: function (request, status, error) {
+    //             alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+    //         }
+    //     })
+    // })
 
 
 
 </script>
-
-{% block script_section %}
-
-{% endblock script_section %}
-{% endblock main_content %}
+{% endblock %}
