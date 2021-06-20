@@ -87,9 +87,7 @@ def CartInAjax(request):
             cart = Cart.objects.get(consumer=user.consumer, product=product)
             message = "이미 장바구니에 있는 무난이 입니다"
         except ObjectDoesNotExist:
-            cart = Cart.objects.create(
-                consumer=user.consumer, product=product, quantity=quantity
-            )
+            cart = Cart.objects.create(consumer=user.consumer, product=product, quantity=quantity)
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
 
@@ -432,13 +430,9 @@ class MyPasswordResetView(PasswordResetView):
     def form_valid(self, form):
         global user_email
 
-        if User.objects.filter(
+        if User.objects.filter(email=self.request.POST.get("email")).exists() and User.objects.get(
             email=self.request.POST.get("email")
-        ).exists() and User.objects.get(
-            email=self.request.POST.get("email")
-        ).username == self.request.POST.get(
-            "username"
-        ):
+        ).username == self.request.POST.get("username"):
             user_email = form.cleaned_data.get("email")
             return super().form_valid(form)
 
@@ -464,9 +458,7 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
         form.fields["new_password1"].widget.attrs = {"placeholder": "새 비밀번호를 입력해주세요"}
-        form.fields["new_password2"].widget.attrs = {
-            "placeholder": "새 비밀번호를 한번 더 입력해주세요"
-        }
+        form.fields["new_password2"].widget.attrs = {"placeholder": "새 비밀번호를 한번 더 입력해주세요"}
 
         return form
 
@@ -534,9 +526,7 @@ def mypage(request, cat):
         print(one_month_before)
 
         questions = (
-            consumer.questions.filter(create_at__gt=one_month_before)
-            .order_by("-create_at")
-            .all()
+            consumer.questions.filter(create_at__gt=one_month_before).order_by("-create_at").all()
         )
         print((type)(questions))
 
@@ -583,9 +573,7 @@ def mypage(request, cat):
                     # filter start_date input에 아무런 value가 없을 경우
                     start_date = datetime.datetime.now(tz=get_current_timezone()).date()
                 else:
-                    start_date = datetime.datetime.strptime(
-                        start_date, "%Y-%m-%d"
-                    ).date()
+                    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
 
                 if end_date == "":
                     # filter end_date input에 아무런 value가 없음 경우
@@ -605,9 +593,7 @@ def mypage(request, cat):
 
 
                 order_groups = (
-                    groups.filter(
-                        order_at__lte=converted_end_date, order_at__gte=start_date
-                    )
+                    groups.filter(order_at__lte=converted_end_date, order_at__gte=start_date)
                     .exclude(status="wait")
                     .order_by("-order_at")
                 )
@@ -669,9 +655,7 @@ def mypage(request, cat):
             ctx.update(ctx_wishes)
             return render(request, "users/mypage_wishes.html", ctx)
         elif cat_name == "cart":
-            carts = (
-                consumer.carts.all().order_by("-create_at").filter(product__open=True)
-            )
+            carts = consumer.carts.all().order_by("-create_at").filter(product__open=True)
             print(carts)
 
             ctx_carts = {
@@ -810,9 +794,7 @@ class EditorMyPage_Comments(ListView):
         comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
 
         for review in reviews:
-            comments = comments.union(
-                Editor_Review_Comment.objects.filter(editor_review=review)
-            )
+            comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
 
         return comments.order_by("is_read")
 

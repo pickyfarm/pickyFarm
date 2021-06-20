@@ -15,7 +15,7 @@ from django.http import JsonResponse
 # models
 from .models import *
 from products.models import Product, Question
-from users.models import Consumer
+from users.models import Consumer, Subscribe
 from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group
 from comments.models import Farmer_Story_Comment, Product_Comment
@@ -213,13 +213,17 @@ def farmer_detail(request, pk):
     products = Product.objects.all().filter(farmer=farmer)
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
-
+    try:
+        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
+    except:
+        sub = False
     ctx = {
         "farmer": farmer,
         "tags": tags,
         "products": products,
         "stories": stories,
         "editor_reviews": editor_reviews,
+        "sub": sub,
     }
     return render(request, "farmers/farmer_detail.html", ctx)
 

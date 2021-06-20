@@ -35,9 +35,12 @@
                     <div class="font-light text-lg" id="profile_title">"{{ farmer.profile_title }}"</div>
                 </div>
             </div>
-            <div id="sub_wrap">
-                <div class="text-xl" id="sub_btn" name={{farmer.pk}}>구독하기</div>
-            </div>
+            {% if sub == False %}
+            <div class="text-lg text-center sub_wrap" id="sub_btn" name={{farmer.pk}}>구독하기</div>
+            {% else %}
+            <div class="text-lg text-center subed_wrap subscribing" id="sub_btn" name={{farmer.pk}}>구독중</div>
+            {% endif %}
+                    
         </div>
 
         <div class="flex flex-row items-center p-2" id="farmer_news">
@@ -209,16 +212,18 @@
             dataType: 'json',
             data: data,
             success: function (response) {
-                console.log(response.success)
-                if (response.success == 0) {
-                    alert('이미 구독중인 농가입니다!')
+                if (response.status == 0) {
+                    shootToastMessage('이미 구독중인 농가입니다!');
                 }
-                else if (response.success == 1) {
-                    alert('농가 구독이 완료되었습니다.');
+                else if (response.status == 1) {
+                    shootToastMessage('농가 구독이 완료되었습니다.');
+                    subBtn.classList.remove('sub_wrap');
+                    subBtn.classList.add('subed_wrap');
+                    subBtn.innerHTML = "구독중"
                 }
             },
             error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
+                shootToastMessage('로그인이 필요합니다.')
             }
         })
     })
