@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
+from django.utils.timezone import get_current_timezone
 import json
 from .models import (
     Subscribe,
@@ -566,6 +567,8 @@ def mypage(request, cat):
             if end_date == "None":
                 end_date = None
 
+            print("start_date의 정체")
+            print(start_date)
             print("end_date의 정체")
             print(end_date)
 
@@ -578,7 +581,7 @@ def mypage(request, cat):
                 # 날짜 필터링에서 조회 버튼을 누른 경우
                 if start_date == "":
                     # filter start_date input에 아무런 value가 없을 경우
-                    start_date = datetime.datetime.now().date()
+                    start_date = datetime.datetime.now(tz=get_current_timezone()).date()
                 else:
                     start_date = datetime.datetime.strptime(
                         start_date, "%Y-%m-%d"
@@ -586,7 +589,7 @@ def mypage(request, cat):
 
                 if end_date == "":
                     # filter end_date input에 아무런 value가 없음 경우
-                    end_date = datetime.datetime.now().date()
+                    end_date = datetime.datetime.now(tz=get_current_timezone()).date()
                     t = datetime.time(23, 59, 59)
                     converted_end_date = datetime.datetime.combine(end_date, t)
 
@@ -600,8 +603,6 @@ def mypage(request, cat):
                         converted_end_date, "%Y-%m-%d %H:%M:%S"
                     )
 
-                print("날짜 필드 알아보기")
-                print(groups[0].order_at)
 
                 order_groups = (
                     groups.filter(
