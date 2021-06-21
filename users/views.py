@@ -90,7 +90,8 @@ def CartInAjax(request):
             cart = Cart.objects.create(consumer=user.consumer, product=product, quantity=quantity)
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
-
+        
+        message = str(message)
         data = {
             "message": message,
         }
