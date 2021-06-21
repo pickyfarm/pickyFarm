@@ -288,7 +288,7 @@
 
     let subCancelBtn = document.getElementById("sub_cancel_btn")
     console.log(subCancelBtn)
-    subCancelBtn.addEventListener('click', 
+    subCancelBtn.addEventListener('click', ()=>{
         showModalMessage("구독을 취소하시겠습니까", ()=>{
             let pk = subCancelBtn.getAttribute('name')
             console.log(pk)
@@ -301,11 +301,11 @@
                 data: data,
                 success: function (response) {
                     if (response.success == 0) {
-                        alert("다시 시도해주세요");
+                        shootToastMessage("다시 시도해주세요", 3, alert);
                     }
                     else {
                         console.log(response.success)
-                        alert(response.msg);
+                        shootToastMessage(response.msg, 3);
                         $(`#${pk}-sub-farmer`).remove();
 
                     }
@@ -315,6 +315,7 @@
                 }
             })
         })
+    }
     )
 
     // $('[id^=sub_cancel_btn]').click(function () {
