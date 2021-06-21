@@ -26,8 +26,13 @@ urlpatterns = [
     # path('editors_review_comment/<int:pk>/recomment/', views.editors_review_recomment, name="editors_review_recomment"),
     # farmer_story
     path(
-        "farmer_story_comment/<int:pk>/create/",
-        views.story_comment_create,
-        name="story_comment_create",
+        "farmer_story/comment/<int:pk>/create/",
+        views.farmer_story_comment,
+        name="farmer_story_comment",
+    ),
+    path(
+        "farmer_story/<int:storypk>/comment/<int:commentpk>/recomment/",
+        views.farmer_story_recomment,
+        name="farmer_story_recomment",
     ),
 ]

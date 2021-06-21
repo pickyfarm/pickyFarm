@@ -15,4 +15,14 @@ urlpatterns = [
         views.EditorReviewRecommentLikeView,
         name="editor_review_recomment_like",
     ),
+    # path(
+    #     "farmer_story_comment/",
+    #      views.FarmerStoryCommentLikeView,
+    #      name="farmer_story_comment_like",
+    # ),
+    # path(
+    #     "farmer_story_recomment/",
+    #     views.FarmerStoryRecommentLikeView,
+    #     name="farmer_story_recomment_like",
+    # ),
 ]
