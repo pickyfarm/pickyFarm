@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from .forms import Order_Group_Form
-from .models import Order_Group
+from .models import Order_Group, Order_Detail
 from django.utils import timezone
 from products.models import Product
 import requests
@@ -29,7 +29,8 @@ def payment(request):
         # 총 주문 상품 가격의 합
         price_sum = 0
 
-        order_group = Order_Group(status='wait')
+        order_group = Order_Group(status='wait', consumer=consumer)
+        order_group.save()
 
         for order in orders:
             pk = (int)(order['pk'])

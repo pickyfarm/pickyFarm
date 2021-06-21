@@ -169,29 +169,25 @@
                 <button id="go-btn" class="ml-6" type="submit">결제하기
             </div>
         </div>
+
+    </form>
+    <div id="gotmpbtn" class="ml-6">결제하기</div>
+
 </div>
-</form>
 
-
-</div>
-
-
-
-{% endblock main_content %}
-
-{% block script_section %}
 <script src="https://js.tosspayments.com/v1"></script>
 <script>
     var clientKey = 'test_ck_MGjLJoQ1aVZREgzG4ogVw6KYe2RN';
     var tossPayments = TossPayments(clientKey);
     let totalPrice = document.getElementById('price_text_b').innerHTML
-    totalPrice = toString(totalPrice)
+    totalPrice = Number.parseInt(totalPrice)
     console.log(totalPrice)
 
-    let goBtn = document.getElementById('go-btn')
-    console.log(goBtn)
+    let gotmpBtn = document.getElementById('gotmpbtn')
+    console.log(gotmpBtn)
+    console.log(window.location.origin)
 
-    goBtn.addEventListener('click', ()=>{
+    gotmpBtn.addEventListener('click', ()=>{
         tossPayments.requestPayment('카드', {
             amount: totalPrice,
             orderId: 'eN4Pv_y8K6RC3WtBdFP-s',
@@ -204,4 +200,6 @@
 
     
 </script>
-{% endblock script_section %}
+
+
+{% endblock main_content %}
