@@ -88,6 +88,7 @@
 
 
 {% block script_section %}
+<script src="{% static 'js/base/cartIn.js' %}"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
 
@@ -119,49 +120,18 @@
             })
         })
     })
-    // $(function(){
-    let hey = document.querySelectorAll('#cartIn_btn')
-    hey.forEach(item => {
+
+    let cartInbtns = document.querySelectorAll('#cartIn_btn')
+    console.log(cartInbtns)
+    cartInbtns.forEach(item => {
         item.addEventListener('click', function () {
-            let pk = $(this).attr('name')
+            let pk = item.getAttribute('name')
             console.log(pk);
-            $.ajax({
-                type: "POST",
-                url: "{% url 'users:cartInAjax' %}",
-                data: {
-                    "pk": pk,
-                    "csrfmiddlewaretoken": "{{csrf_token}}",
-                },
-                dataType: "json",
-                success: function (response) {
-                    alert(response.message);
-                },
-                error: function (request, status, error) {
-                    alert('로그인이 필요합니다.')
-                }
-            });
+            cartIn(pk)
         })
     })
 
-      $("#cartIn_btn").click(function(){
-        let pk = $(this).attr('name')
-        console.log(pk);
-        $.ajax({
-            type : "POST",
-            url:"{% url 'users:cartInAjax' %}",
-            data : {
-                "pk":pk,
-                "csrfmiddlewaretoken":"{{csrf_token}}",
-            },
-            dataType:"json",
-            success: function(response){
-                alert(response.message);
-            },
-            error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
-            }
-        });
-      })
+    
   
 </script>
 {% endblock script_section %}
