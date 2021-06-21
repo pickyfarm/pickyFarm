@@ -4,6 +4,7 @@ from .forms import Order_Group_Form
 from .models import Order_Group
 from django.utils import timezone
 from products.models import Product
+import requests
 import json
 # Create your views here.
 
@@ -28,13 +29,26 @@ def payment(request):
         # 총 주문 상품 가격의 합
         price_sum = 0
 
+        order_group = Order_Group(status='wait')
+
         for order in orders:
             pk = (int)(order['pk'])
             quantity = (int)(order['quantity'])
             print(f'{pk}:{quantity}')
+            
             product = Product.objects.get(pk=pk)
+            # order_detail 구매 수량
             total_quantity += quantity
-            price_sum += product.sell_price*quantity
+            # order_detail 구매 총액
+            total_price = product.sell_price*quantity
+
+            # 결제 대기 상태의 order_detail 생성
+            # order_group으로 묶어줌
+            # (수정 사항) order_detail 주문 관리 번호 들어가야 함
+            order_detail = Order_Detail(status='wait', quantity=quantity, total_price=total_price, product=product, order_group=order_group)
+            order_detail.save()
+            price_sum += total_price
+
             print(f'product_weight : {product.weight}')
             print(f'product_quantity : {quantity}')
             total_weight += (product.weight)*quantity
@@ -42,11 +56,16 @@ def payment(request):
             products.append({'product': product, 'order_quantity': quantity,
                              'order_price': product.sell_price*quantity, 'weight': product.weight*quantity})
 
+        
         delivery_fee = 0  # 추후 배송비 관련 전략 생길 시 작성
         discount = 0  # 추후 할인 전략 도입 시 작성
         print(total_weight)
         # 최종 주문 금액
         final_price = price_sum + delivery_fee + discount
+
+        order_group.total_price = final_price
+        order_group.total_quantity = total_quantity
+        order_group.save()
 
         ctx = {
             'form': form,
@@ -98,4 +117,20 @@ def payment_create(request):
         new_Order_Group.save()
         return redirect(reverse("users:mypage", kwargs={'cat': 'orders'}))
 
+    pass
+
+def payment_success(request):
+    # 결제 승인을 위해 사용되는 키값 
+    # 이 키를 http header에 넣어서 결제 승인 api를 요청
+    payment_key = request.GET.get('paymentKey', None)
+    # 주문 고유 id
+    order_id = request.GET.get('orderId', None)
+    # 실제 결제한 금액
+    amount = request.GET.get('amount')
+    if (payment_key is not None) and (order_id is not None):
+        pass
+    pass
+    
+
+def payment_fail(request):
     pass

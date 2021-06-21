@@ -175,14 +175,33 @@
 
 </div>
 
-<script>
 
 
-
-
-</script>
+{% endblock main_content %}
 
 {% block script_section %}
+<script src="https://js.tosspayments.com/v1"></script>
+<script>
+    var clientKey = 'test_ck_MGjLJoQ1aVZREgzG4ogVw6KYe2RN';
+    var tossPayments = TossPayments(clientKey);
+    let totalPrice = document.getElementById('price_text_b').innerHTML
+    totalPrice = toString(totalPrice)
+    console.log(totalPrice)
 
+    let goBtn = document.getElementById('go-btn')
+    console.log(goBtn)
+
+    goBtn.addEventListener('click', ()=>{
+        tossPayments.requestPayment('카드', {
+            amount: totalPrice,
+            orderId: 'eN4Pv_y8K6RC3WtBdFP-s',
+            orderName: '토스 티셔츠 외 2건',
+            customerName: '박토스',
+            successUrl: window.location.origin + '/success',
+            failUrl: window.location.origin + '/fail',
+        })
+    })
+
+    
+</script>
 {% endblock script_section %}
-{% endblock main_content %}
