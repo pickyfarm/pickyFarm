@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail
 from django.utils import timezone
@@ -14,7 +16,7 @@ def orderingCart(request):
 
 
 @login_required
-def payment(request):
+def payment_create(request):
     consumer = request.user.consumer
     if request.method == 'POST':
         form = Order_Group_Form()
@@ -67,7 +69,7 @@ def payment(request):
         order_group.total_price = final_price
         order_group.total_quantity = total_quantity
         order_group.save()
-
+        print(order_group.pk)
         ctx = {
             'form': form,
             'consumer': consumer,
@@ -78,45 +80,73 @@ def payment(request):
             'delivery_fee': delivery_fee,
             'final_price': final_price,
             'total_weight': round(total_weight,2),
+            'order_group_pk' : int(order_group.pk),
         }
 
         return render(request, 'orders/payment.html', ctx)
 
 
 @login_required
-def payment_create(request):
+@require_POST
+# 배송 정보가 입력된 후 oreder_group에 update
+def payment_update(request):
     consumer = request.user.consumer
 
-    if request.method == 'GET':
-        form = Order_Group_Form()
-        order_products = json.loads(request.GET.get('orders'))
-        print("왔다")
-        print(order_products)
-        ctx = {
-            'form': form,
-            'consumer': consumer,
-        }
-        print("여기까지 오니?")
-        return render(request, 'orders/payment.html', ctx)
-    else:
-        form = Order_Group_Form(request.POST)
-        if form.is_valid():
-            rev_name = form.cleaned_data.get('rev_name')
-            rev_phone_number = form.cleaned_data.get('rev_phone_number')
-            rev_loc_at = form.cleaned_data.get('rev_loc_at')
-            rev_loc_detail = form.cleaned_data.get('rev_loc_detail')
-            rev_message = form.cleaned_data.get('rev_message')
-            to_farm_message = form.cleaned_data.get('to_farm_message')
-            payment_type = form.cleaned_data.get('payment_type')
+    # if request.method == 'GET':
+    #     form = Order_Group_Form()
+    #     order_products = json.loads(request.GET.get('orders'))
+    #     print("왔다")
+    #     print(order_products)
+    #     ctx = {
+    #         'form': form,
+    #         'consumer': consumer,
+    #     }
+    #     print("여기까지 오니?")
+    #     return render(request, 'orders/payment.html', ctx)
+    if request.method == 'POST':
+        # form = Order_Group_Form(request.POST)
+        # GET Parameter에 있는 order_group pk를 가져옴
+        order_group_pk = pk
+
+        # Order_Group DB에서 찾아서 가져옴
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+
+        # !!!rev_address 추가 필요
+        # rev_loc_detail 지우기
+        # payment type은 잠시 보류
+        # if form.is_valid():
+        #     rev_name = form.cleaned_data.get('rev_name')
+        #     rev_phone_number = form.cleaned_data.get('rev_phone_number')
+        #     rev_loc_at = form.cleaned_data.get('rev_loc_at')
+        #     # rev_loc_detail = form.cleaned_data.get('rev_loc_detail')
+        #     rev_message = form.cleaned_data.get('rev_message')
+        #     to_farm_message = form.cleaned_data.get('to_farm_message')
+        #     # payment_type = form.cleaned_data.get('payment_type')
+
+        rev_name = request.POST.get('rev_name')
+        rev_phone_number = request.POST.get('rev_phone_number')
+        rev_loc_at = request.POST.get('rev_loc_at')
+        rev_message = request.POST.get('rev_message')
+        to_farm_message = request.POST.get('to_farm_message')
+
+        print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
 
         order_at = timezone.now()
-        consumer = request.user.consumer
-
+        print(order_group)
+        # 배송 정보 order_group에 업데이트
         # rev address, total_price, total_quantity 추후 작업
-        new_Order_Group = Order_Group(status='waiting', rev_address="추후작업", rev_name=rev_name,
-                                      rev_phone_number=rev_phone_number, rev_loc_at=rev_loc_at, rev_loc_detail=rev_loc_detail, rev_message=rev_message, to_farm_message=to_farm_message, payment_type=payment_type, total_price=10, total_quantity=10, order_at=order_at, consumer=consumer)
-        new_Order_Group.save()
-        return redirect(reverse("users:mypage", kwargs={'cat': 'orders'}))
+        order_group.rev_name=rev_name
+        order_group.rev_address="추후작업"
+        order_group.rev_phone_number=rev_phone_number
+        order_group.rev_loc_at=rev_loc_at
+        order_group.rev_loc_detail=rev_loc_detail
+        order_group.rev_message=rev_message
+        order_group.to_farm_message=to_farm_message
+        order_group.payment_type=payment_type
+        order_group.save()
+
+        # return redirect(reverse("users:mypage", kwargs={'cat': 'orders'}))
+        return HttpResponse(status=201)
 
     pass
 

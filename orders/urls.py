@@ -6,8 +6,8 @@ app_name = 'orders'
 
 urlpatterns = [
    path('orderingCart/', views.orderingCart, name="ordering_cart"),
-   path('payment/create', views.payment_create, name="payment_create"),
-   path('payment/', views.payment, name="payment"),
+   path('payment/update/<int:pk>/', views.payment_update, name="payment_update"),
+   path('payment/', views.payment_create, name="payment_create"),
    path('payment/success', views.payment_success, name="payment_success"),
    path('payemnt/fail', views.payment_fail, name="payment_fail")
 ]
