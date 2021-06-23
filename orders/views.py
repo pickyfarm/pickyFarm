@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from .forms import Order_Group_Form
@@ -139,14 +139,14 @@ def payment_update(request, pk):
         order_group.rev_address="추후작업"
         order_group.rev_phone_number=rev_phone_number
         order_group.rev_loc_at=rev_loc_at
-        order_group.rev_loc_detail=rev_loc_detail
+        # order_group.rev_loc_detail=rev_loc_detail
         order_group.rev_message=rev_message
         order_group.to_farm_message=to_farm_message
-        order_group.payment_type=payment_type
+        # order_group.payment_type=payment_type
         order_group.save()
 
         # return redirect(reverse("users:mypage", kwargs={'cat': 'orders'}))
-        return HttpResponse(status=201)
+        return JsonResponse({"orderId" : 'temp', "orderName":'temp', 'customerName':'nameTemp'})
 
     pass
 

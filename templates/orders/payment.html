@@ -196,12 +196,10 @@
         revLocAtInputs.forEach(element => {
             if(element.checked == true){
                 revLocAt = element.getAttribute('value')
-                break
             }
         });
         let revMessage = document.getElementById('id_rev_message').value
         let toFarmMessage = document.getElementById('id_to_farm_message').value
-        console.log(revLocDetail)
         console.log(toFarmMessage)
         console.log(revName)
         console.log(revLocAt)
@@ -222,17 +220,19 @@
             data : data,
             dataType : "json",
             success : function(response){
+                
+                tossPayments.requestPayment('카드', {
+                amount: totalPrice,
+                orderId: 'eN4Pv_y8K6RC3WtBdFP-s',
+                orderName: response.orderName,
+                customerName: response.customerName,
+                successUrl: window.location.origin + '/success',
+                failUrl: window.location.origin + '/fail',
+                })
             }
         })
 
-        tossPayments.requestPayment('카드', {
-            amount: totalPrice,
-            orderId: 'eN4Pv_y8K6RC3WtBdFP-s',
-            orderName: '토스 티셔츠 외 2건',
-            customerName: '박토스',
-            successUrl: window.location.origin + '/success',
-            failUrl: window.location.origin + '/fail',
-        })
+        
     })
 
     
