@@ -196,6 +196,7 @@
         revLocAtInputs.forEach(element => {
             if(element.checked == true){
                 revLocAt = element.getAttribute('value')
+                break
             }
         });
         let revMessage = document.getElementById('id_rev_message').value
@@ -205,6 +206,8 @@
         console.log(revName)
         console.log(revLocAt)
 
+        
+
         data = {
             'rev_name' : revName,
             'rev_phone_number' : revPhoneNumber,
@@ -213,8 +216,14 @@
             'to_farm_message' : toFarmMessage,
         }
 
-        
-
+        $.ajax({
+            type : "POST",
+            url : "{% url 'orders:payment_update' order_group_pk %}",
+            data : data,
+            dataType : "json",
+            success : function(response){
+            }
+        })
 
         tossPayments.requestPayment('카드', {
             amount: totalPrice,

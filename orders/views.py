@@ -89,7 +89,7 @@ def payment_create(request):
 @login_required
 @require_POST
 # 배송 정보가 입력된 후 oreder_group에 update
-def payment_update(request):
+def payment_update(request, pk):
     consumer = request.user.consumer
 
     # if request.method == 'GET':
