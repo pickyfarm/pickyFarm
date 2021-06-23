@@ -17,10 +17,10 @@
     
 <div id="filter-section" class="flex flex-row">
     <div>
-        <input type="radio">
+        <input id="total-select" type="checkbox">
     </div>
     <div>
-        선택 상품 삭제
+        전체 상품 선택
     </div>
 </div>
 <div id="products-section" class="mt-5">
@@ -28,7 +28,7 @@
     {% for wish in wishes %}
     <div class="flex flex-row">
         <div id="select-section" class="mt-12 pr-8">
-            <input type="radio">
+            <input id="select-checkbox-{{wish.product.pk}}" name="{{cart.product.pk}}" type="checkbox">
         </div>
         <div id="product" class="flex flex-row mb-5">
             <div id="product_img_section" class="w-1/5">
@@ -84,10 +84,6 @@
 
 {% endif %}
 
-{% endblock content %}
-
-
-{% block script_section %}
 <script src="{% static 'js/base/cartIn.js' %}"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
@@ -131,7 +127,29 @@
         })
     })
 
+    let totalSelector = document.getElementById('total-select')
+    let selectors = document.querySelectorAll('[id^="select-checkbox"]')
+
+    totalSelector.addEventListener('click', function () {
+        if (totalSelector.checked == true) {
+            selectors.forEach(item => {
+                if (item.checked == false) {
+                    item.checked = true
+                }
+            })
+        }
+        else{
+            selectors.forEach(item=>{
+                if(item.checked == true){
+                    item.checked = false
+                }
+            })
+        }
+    })
+
     
   
 </script>
-{% endblock script_section %}
+
+{% endblock content %}
+
