@@ -618,6 +618,12 @@
   text-align: center;
   color: #5c6754;
   margin-left:171px;
+  cursor: pointer;
+}
+
+#delete_btn:hover {
+  background-color: #5c6754;
+  color : #ffffff;
 }
 
 

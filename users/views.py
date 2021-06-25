@@ -122,7 +122,7 @@ def cartOutAjax(request):
 
 @login_required
 @require_POST
-def CancelSubs(request):
+def cancelSubs(request):
     if request.method == "POST":
         print("진입")
         pk = request.POST.get("pk", None)
@@ -203,6 +203,27 @@ def wish(request):
                 "status": 1,
             }
             return JsonResponse(response)
+
+@login_required
+@require_POST
+def cancelWish(request):
+    if request.method == "POST":
+        product_pk = request.POST.getlist("pkList[]", None)
+        print(product_pk)
+        # print(request.POST)
+        consumer = request.user.consumer
+
+        for pk in product_pk:
+            try:
+                wish = Wish.objects.get(product__pk=pk, consumer=consumer)
+            except ObjectDoesNotExist:
+                print("없음")
+
+            wish.delete()
+        response = {
+            "success": True,
+        }
+        return JsonResponse(response)
 
 
 @login_required
