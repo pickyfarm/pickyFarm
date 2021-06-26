@@ -83,7 +83,7 @@
                             <div class="absolute recomment-like-button-wrap button">
                                 <div class="recomment-like-button relative"
                                     style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
-                                    <p class="recomment-like-count absolute text-center align-text-bottom">0</p>
+                                    <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
                                 </div>
                             </div>
                             <div class="recomment-content flex flex-col">
@@ -153,6 +153,9 @@
 
     // urls for AJAX request
     const commentSubmitURL = '{% url "comments:farmer_story_comment" main_story.pk %}'
+    const commentLikeURL = '{% url "likes:farmer_story_comment_like" %}'
+    const recommentLikeURL = '{% url "likes:farmer_story_recomment_like" %}'
+
 
     // constants for AJAX request's argument
     const storyPK = "{{main_story.pk}}"
@@ -168,4 +171,5 @@
     const currentUserProfileImageURL = "{{user.profile_image.url}}"
     const currentUserNickname = "{{request.user.nickname}}"
 </script>
-<script src="{% static 'js/farmers/story/comment_submit.js' %}"></script>
+<script src="{% static 'js/farmers/story/story_comment_submit.js' %}"></script>
+<script src="{% static 'js/farmers/story/story_comment_like.js' %}"></script>

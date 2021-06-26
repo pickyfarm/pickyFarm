@@ -40,7 +40,7 @@ class FarmerStoryCommentLike(AbstractLike):
 
 
 class FarmerStoryRecommentLike(AbstractLike):
-    comment = models.ForeignKey(
+    recomment = models.ForeignKey(
         "comments.Farmer_Story_Recomment",
         verbose_name="Farmer_Story_Recomment_Likes",
         related_name="Farmer_Story_Recomment_Likes",
