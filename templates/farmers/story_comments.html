@@ -31,9 +31,9 @@
                                 </div>
                                 <div class="flex">
                                     {% if comment.author == request.user %}
-                                    <div class="comment-text-options--edit button" onclick=commentEdit(this,{{comment.pk}})>수정
+                                    <div class="comment-text-options--edit button" onclick=storyCommentEdit(this,{{comment.pk}})>수정
                                     </div>
-                                    <div class="comment-text-options--delete button" onclick=commentDelete({{comment.pk}})>삭제</div>
+                                    <div class="comment-text-options--delete button" onclick=storyCommentDelete({{comment.pk}})>삭제</div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -94,9 +94,9 @@
                                         <div class="recomment-text-options flex">
                                             {% if request.user == recomment.author %}
                                             <div class="comment-text-options--edit recomment-text-options--edit button"
-                                                onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
+                                                onclick="storyRecommentEdit(this, {{recomment.pk}})">수정</div>
                                             <div class="comment-text-options--delete recomment-text-options--delete button"
-                                                onclick="recommentDelete({{recomment.pk}})">삭제</div>
+                                                onclick="storyRecommentDelete({{recomment.pk}})">삭제</div>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -155,6 +155,7 @@
     const commentSubmitURL = '{% url "comments:farmer_story_comment" main_story.pk %}'
     const commentLikeURL = '{% url "likes:farmer_story_comment_like" %}'
     const recommentLikeURL = '{% url "likes:farmer_story_recomment_like" %}'
+    const recommentDeleteURL = '{% url "comments:farmer_story_recomment_delete" %}'
 
 
     // constants for AJAX request's argument
@@ -171,5 +172,9 @@
     const currentUserProfileImageURL = "{{user.profile_image.url}}"
     const currentUserNickname = "{{request.user.nickname}}"
 </script>
+
+<!-- comment -->
 <script src="{% static 'js/farmers/story/story_comment_submit.js' %}"></script>
+<script src="{% static 'js/farmers/story/story_comment_delete.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_like.js' %}"></script>
+<!-- recomment -->
