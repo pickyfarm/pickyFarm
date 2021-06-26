@@ -6,7 +6,7 @@ from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail
 from django.utils import timezone
 from products.models import Product
-import requests
+import requests, base64
 import json
 # Create your views here.
 
