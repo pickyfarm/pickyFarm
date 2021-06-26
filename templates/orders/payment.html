@@ -12,7 +12,8 @@
 {% block main_content %}
 <div class="main-contents flex flex-col items-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
 
-    <form action="{% url 'orders:payment_create' %}" method='POST' enctype="multipart/form-data">
+    <!-- <form action="{% url 'orders:payment_update' order_group_pk %}" method='POST' enctype="multipart/form-data"> -->
+        
         {% csrf_token %}
         <div id="title-section">
             <p id="title-text">주문서 작성 / 결제</p>
@@ -169,20 +170,72 @@
                 <button id="go-btn" class="ml-6" type="submit">결제하기
             </div>
         </div>
+
+    <!-- </form> -->
+    <div id="gotmpbtn" class="ml-6">결제하기</div>
+
 </div>
-</form>
 
-
-</div>
-
+<script src="https://js.tosspayments.com/v1"></script>
 <script>
+    var clientKey = 'test_ck_MGjLJoQ1aVZREgzG4ogVw6KYe2RN';
+    var tossPayments = TossPayments(clientKey);
+    let totalPrice = document.getElementById('price_text_b').innerHTML
+    totalPrice = Number.parseInt(totalPrice)
+    console.log(totalPrice)
 
+    let goBtn = document.getElementById('go-btn')
+    console.log(goBtn)
+    console.log(window.location.origin)
 
+    goBtn.addEventListener('click', ()=>{
+        let revName = document.getElementById('id_rev_name').value
+        let revPhoneNumber = document.getElementById('id_rev_phone_number').value
+        let revLocAtInputs = document.getElementsByName('rev_loc_at')
+        let revLocAt = " "
+        revLocAtInputs.forEach(element => {
+            if(element.checked == true){
+                revLocAt = element.getAttribute('value')
+            }
+        });
+        let revMessage = document.getElementById('id_rev_message').value
+        let toFarmMessage = document.getElementById('id_to_farm_message').value
+        console.log(toFarmMessage)
+        console.log(revName)
+        console.log(revLocAt)
 
+        
 
+        data = {
+            'rev_name' : revName,
+            'rev_phone_number' : revPhoneNumber,
+            'rev_loc_at' : revLocAt,
+            'rev_message' : revMessage,
+            'to_farm_message' : toFarmMessage,
+        }
+
+        $.ajax({
+            type : "POST",
+            url : "{% url 'orders:payment_update' order_group_pk %}",
+            data : data,
+            dataType : "json",
+            success : function(response){
+                tossPayments.requestPayment('카드', {
+                amount: totalPrice,
+                orderId: 'eN4Pv_y8K6RC3WtBdFP-s',
+                orderName: response.orderName,
+                customerName: response.customerName,
+                successUrl: window.location.origin + `/order/payment/success?amount_ready=${totalPrice}`,
+                failUrl: window.location.origin + '/order/payment/fail',
+                })
+            }
+        })
+
+        
+    })
+
+    
 </script>
 
-{% block script_section %}
 
-{% endblock script_section %}
 {% endblock main_content %}

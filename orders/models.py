@@ -6,23 +6,23 @@ from django.db import models
 class Order_Group(models.Model):
 
     STATUS = (
-        ('wating', '결제대기'),
+        ('wait', '결제대기'),
         ('complete', '결제완료'),
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default='wait')
-    rev_address = models.TextField()
-    rev_name = models.CharField(max_length=50)
-    rev_phone_number = models.CharField(max_length=30)
-    rev_loc_at = models.CharField(max_length=20)
+    rev_address = models.TextField(null=True, blank=True)
+    rev_name = models.CharField(max_length=50, null=True, blank=True)
+    rev_phone_number = models.CharField(max_length=30, null=True, blank=True)
+    rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
     rev_loc_detail = models.TextField(null=True, blank=True)
     rev_message = models.TextField(null=True, blank=True)
     to_farm_message = models.TextField(null=True, blank=True)
 
-    payment_type = models.CharField(max_length=20)
+    payment_type = models.CharField(max_length=20, null=True, blank=True)
 
-    total_price = models.IntegerField()
-    total_quantity = models.IntegerField()
+    total_price = models.IntegerField(null=True, blank=True)
+    total_quantity = models.IntegerField(null=True, blank=True)
     order_at = models.DateTimeField(null=True, blank=True)
 
     update_at = models.DateTimeField(auto_now=True)
