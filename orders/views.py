@@ -6,7 +6,7 @@ from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail
 from django.utils import timezone
 from products.models import Product
-import requests
+import requests, base64
 import json
 # Create your views here.
 
@@ -170,10 +170,14 @@ def payment_success(request):
                     'orderId':order_id,
                     'amount':amount_paid,
                 }
+                # PG사에서 제공해주는 client ID and Client Password
+                usr_pass = "test_ck_MGjLJoQ1aVZREgzG4ogVw6KYe2RN:test_sk_BE92LAa5PVb64R41qaPV7YmpXyJj"
+                # b64로 암호화
+                b64_val = base64.b64encode(usr_pass)
                 auth_request = requests.post(f"https://api.tosspayments.com/v1/payments/{payment_key}", 
                     headers={
                         # 추후 authorization token이 들어가야 함
-                        "Authorization" : 'Basic dGVzdF9ha19aT1J6ZE1hcU4zd1FkNWs2eWdyNUFrWVhRR3d5Og==',
+                        "Authorization" : f'Basic {b64_val}',
                         "Accept" : 'application/json'
                     }, json=data)
                 print(auth_request.json())
