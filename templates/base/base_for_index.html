@@ -9,15 +9,33 @@
     {% block stylesheet %}{% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="{% static 'js/base/toastMessage.js' %}"></script>
+    <script src="{% static 'js/base/cartIn.js' %}"></script>
+    <script src="{% static 'js/base/csrfToken.js' %}"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+    <link rel="stylesheet" href="{% static 'css/base/base_style.css' %}">
 
     
     <title>{% block title_name %}{% endblock %}</title>
 </head>
 <body>
-     
+    <div id="toast-section">
+        <div id="toast-container" class="flex items-center">
+            <div id="toast-status"></div>
+            <div id="toast-message"></div>
+        </div>
+    </div>
+    <div id="modal-section">
+        <div id="modal-container" class="mx-auto my-auto">
+            <div id="modal-message">Modal Test</div>
+            <div id="modal-buttons" class="flex justify-end">
+                <button class="modal-button transition_element" id="modal-accept">확인</button>
+                <button class="modal-button transition_element" id="modal-cancel">취소</button>
+            </div>
+        </div>
+    </div>
 
     <div class="base-wrap font-sans-kr flex flex-col">
         

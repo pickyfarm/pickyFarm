@@ -6,27 +6,28 @@
     <div class="w-header mx-auto flex justify-center">
         <ul class="mt-16" id="products"> 
             {% for product in best_product_list %}
-            <a href="{% url 'products:product_detail' product.pk %}">
             <li class="float-left" id="product_item">
                 <div class="relative">
-                    <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
+                    <a href="{% url 'products:product_detail' product.pk %}">
+                        <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
+                    </a>
                     <div id="like_cart_in" class="flex flex-row z-10">
                         <img class="w-10 " id="like", src="{% static 'images/products_list/like.svg' %}">
-                        <img class="w-10 ml-1"id="cart_in", src="{% static 'images/products_list/cart_in.svg' %}">
+                        <img class="w-10 ml-1 button" id="cart_in" src="{% static 'images/products_list/cart_in.svg' %}" onclick='cartIn({{product.pk}})'>
                     </div>
                     <img class="absolute -top-12 -left-6 {%if product.stock > 3 %} invisible {% endif %}" id="like", src="{% static 'images/products_list/almost_sold_out.svg' %}">
                 </div>
-
-                <div class="mt-2 ml-6 flex flex-col">
-                    <div class="flex items-center">
-                        <div class="px-2 text-base font-light " id="title">{{product.farmer.user.nickname}}</div>
-                        <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
-                        <div class="pl-2" id="sub_title">{{product.category.name}}  {{product.weight}}kg</div>
+                <a href="{% url 'products:product_detail' product.pk %}">
+                    <div class="mt-2 ml-6 flex flex-col">
+                        <div class="flex items-center">
+                            <div class="px-2 text-base font-light " id="title">{{product.farmer.user.nickname}}</div>
+                            <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
+                            <div class="pl-2" id="sub_title">{{product.category.name}}  {{product.weight}}kg</div>
+                        </div>
+                        <p class="pl-2" id="sell_price">{{product.sell_price}}원</p>
                     </div>
-                    <p class="pl-2" id="sell_price">{{product.sell_price}}원</p>
-                </div>
+                </a>
             </li>
-            </a>
             {% endfor %}
         </ul>
     </div>

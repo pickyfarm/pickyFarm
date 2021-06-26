@@ -14,15 +14,16 @@
         </div>
         <div id="products" class="">
             {% for p in review.product.all %}
-            <a href="{% url 'products:product_detail' p.pk %}">
-                <div class="inline-block" id="product_item">
-                    <div class="relative mt-5">
+            <div class="inline-block" id="product_item">
+                <div class="relative mt-5">
+                    <a href="{% url 'products:product_detail' p.pk %}">
                         <img class="z-0" id="product_img" src="{{p.main_image.url}}" width="50"><br>
+                    </a>
                         <div id="like_cart_in" class="flex flex-row z-10">
-                            <a href=""><img class="" id="like" ,
-                                    src="{% static 'images/products_list/like.svg' %}"></a>
-                            <a href=""><img class="" id="cart_in" ,
-                                    src="{% static 'images/products_list/cart_in.svg' %}"></a>
+                            <img class="" id="like" ,
+                                    src="{% static 'images/products_list/like.svg' %}">
+                            <img class="button" id="cart_in"
+                                    src="{% static 'images/products_list/cart_in.svg' %}" onclick="cartIn({{p.pk}})">
                         </div>
 
 
@@ -30,16 +31,18 @@
                         <img class="absolute top-1 left-4 {%if p.stock > 3 %} invisible {% endif %}" id="almost_sold_out" src="{% static 'images/products_list/almost_sold_out.svg' %}">
                     </div>
 
-                    <div class="mt-2 flex flex-col">
-                        <div class="flex items-center">
-                            <div class="pr-2 text-base  " id="title">{{p.farmer.user.nickname}}</div>
-                            <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
-                            <div class="pl-2 font-light" id="sub_title">{{p.category.name}} {{p.weight}}kg</div>
+                    <a href="{% url 'products:product_detail' p.pk %}">
+                        <div class="mt-2 flex flex-col">
+                            <div class="flex items-center">
+                                <div class="pr-2 text-base  " id="title">{{p.farmer.user.nickname}}</div>
+                                <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
+                                <div class="pl-2 font-light" id="sub_title">{{p.category.name}} {{p.weight}}kg</div>
+                            </div>
+                            <p class="" id="sell_price">{{p.sell_price}}원</p>
                         </div>
-                        <p class="" id="sell_price">{{p.sell_price}}원</p>
-                    </div>
+                    </a>
                 </div>
-            </a>
+            
             {% endfor %}
         </div>
     </div>
