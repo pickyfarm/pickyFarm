@@ -175,7 +175,7 @@ def payment_success(request):
                         # 추후 authorization token이 들어가야 함
                         "Authorization" : 'Basic dGVzdF9ha19aT1J6ZE1hcU4zd1FkNWs2eWdyNUFrWVhRR3d5Og==',
                         "Content-Type" : 'application/json'
-                    }, data=data)
+                    }, json=data)
                 print(auth_request.json())
                 if auth_request:
                     # 여기서 order group 과 order detail의 결제 상태를 완료로 변경해주어야함
