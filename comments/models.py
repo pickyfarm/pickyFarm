@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-from likes.models import EditorReviewCommentLike, EditorReviewRecommentLike
+from likes.models import *
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -141,6 +141,20 @@ class Farmer_Story_Comment(Comment):
     )
     author = models.ForeignKey(User, related_name="farmer_story_comment", on_delete=models.CASCADE)
 
+    def like_count(self):
+        try:
+            return FarmerStoryCommentLike.objects.filter(comment=self).count()
+
+        except ObjectDoesNotExist:
+            return 0
+
+    def recomment_count(self):
+        try:
+            return Farmer_Story_Recomment.objects.filter(comment=self).count()
+
+        except ObjectDoesNotExist:
+            return 0
+
 
 class Farmer_Story_Recomment(Comment):
     """Farmer_Story_Recomment Model Defiition"""
@@ -153,3 +167,10 @@ class Farmer_Story_Recomment(Comment):
     author = models.ForeignKey(
         User, related_name="farmer_story_recomment", on_delete=models.CASCADE
     )
+
+    def like_count(self):
+        try:
+            return FarmerStoryRecommentLike.objects.filter(recomment=self).count()
+
+        except ObjectDoesNotExist:
+            return 0
