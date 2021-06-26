@@ -1,12 +1,40 @@
 from django.shortcuts import render, reverse, redirect
 from django.http import JsonResponse, HttpResponse
 from comments.models import Editor_Review_Comment, Editor_Review_Recomment
-from .models import EditorReviewCommentLike, EditorReviewRecommentLike
+from editor_reviews.models import Editor_Review
+from .models import EditorReviewCommentLike, EditorReviewRecommentLike, EditorReviewLike
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 
 # Create your views here.
+@require_POST
+@login_required
+def EditorReviewLike(request):
+    if request.is_ajax():
+        pk = request.POST.get("pk")
+        post = Editor_Review.objects.get(pk=pk)
+        is_like = True
+
+        try:
+            like = EditorReviewLike.objects.get(user=request.user, review=post)
+            like.delete()
+            is_like = False
+
+        except ObjectDoesNotExist:
+            new_like = EditorReviewLike(user=request.user, review=post)
+            new_like.save()
+
+        ctx = {
+            "likes": EditorReviewLike.objects.filter(review=post).count(),
+            "status": is_like,
+        }
+
+        return JsonResponse(ctx)
+
+
 def EditorReviewCommentLikeView(request):
     if request.is_ajax():
         if request.user == AnonymousUser():

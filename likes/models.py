@@ -14,6 +14,15 @@ class AbstractLike(models.Model):
         abstract = True
 
 
+class EditorReviewLike(AbstractLike):
+    review = models.ForeignKey(
+        "editor_reviews.Editor_Review",
+        verbose_name="Editor_Review_Likes",
+        related_name="Editor_Review_Likes",
+        on_delete=models.CASCADE,
+    )
+
+
 class EditorReviewCommentLike(AbstractLike):
     comment = models.ForeignKey(
         "comments.Editor_Review_Comment",
