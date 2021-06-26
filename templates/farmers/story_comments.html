@@ -26,7 +26,7 @@
                         <div class="comment-text">
                             <div class="comment-text--text">{{comment.text}}</div>
                             <div class="comment-text-options text-right flex justify-between">
-                                <div id="comment-text-options--recomment button" onclick="expandRecommentSection(this)">
+                                <div class="comment-text-options--recomment button" onclick="expandRecommentSection(this)">
                                     답글 {{comment.farmer_story_recomments.all|length}}개
                                 </div>
                                 <div class="flex">
@@ -157,6 +157,7 @@
     // constants for AJAX request's argument
     const storyPK = "{{main_story.pk}}"
     const userPK = "{{request.user.pk}}"
+    const like_count = "{{comment.like_count}}"
     const CSRFToken = "{{csrf_token}}"
 
     // constants for AJAX callback

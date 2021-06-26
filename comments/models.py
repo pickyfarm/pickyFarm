@@ -77,9 +77,7 @@ class Product_Recomment(Comment):
     comment = models.ForeignKey(
         "Product_Comment", related_name="product_recomments", on_delete=models.CASCADE
     )
-    author = models.ForeignKey(
-        User, related_name="product_recomment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="product_recomment", on_delete=models.CASCADE)
 
 
 # class Qna_Comment(Comment):
@@ -96,9 +94,7 @@ class Editor_Review_Comment(Comment):
         related_name="editor_review_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(
-        User, related_name="editor_review_comment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="editor_review_comment", on_delete=models.CASCADE)
 
     def like_count(self):
         try:
@@ -143,9 +139,7 @@ class Farmer_Story_Comment(Comment):
         related_name="farmer_story_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(
-        User, related_name="farmer_story_comment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="farmer_story_comment", on_delete=models.CASCADE)
 
 
 class Farmer_Story_Recomment(Comment):

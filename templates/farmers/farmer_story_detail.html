@@ -7,7 +7,7 @@ Farmer's Story
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
-<link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/story/farmer_story_detail.css' %}">
 {% endblock %}
 
 {% block main_content %}
@@ -135,61 +135,5 @@ Farmer's Story
         <!-- <img class="mx-auto mb-40 mt-16" src="{% static 'images/farm/more_comment.svg' %}" alt=""> -->
     </div>
 </div>
-</div>
 
-<style>
-    .content {
-        width: 990px;
-    }
-
-    .font_green {
-        color: #5e6656;
-    }
-
-    .bg_gray {
-        background-color: #f2f2f2;
-    }
-
-    #story_content {
-        width: 990px;
-        min-height: 1000px;
-        border-radius: 10px;
-        box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
-    }
-
-    #back_btn {
-        height: 29px;
-        color: #5e6656;
-        cursor: pointer;
-        margin-right: 10px;
-    }
-
-    #back_btn:hover {
-        font-size: 1.127rem;
-        transition-duration: 0.8s;
-    }
-
-    #comment-submit-btn {
-        width: 99px;
-        margin-top: 30px;
-    }
-
-    #farmer_story {
-        text-align: center;
-    }
-
-    #story_wrap {
-        width: 259px;
-        height: 331px;
-        border-radius: 10px;
-        box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
-        background-color: #ffffff;
-    }
-
-    #story_img {
-        margin: 0 auto;
-        width: 215px;
-        height: 215px;
-    }
-</style>
 {% endblock main_content %}
