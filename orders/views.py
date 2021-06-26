@@ -157,7 +157,7 @@ def payment_success(request):
         # 결제 승인을 위해 사용되는 키값 
         # 이 키를 http header에 넣어서 결제 승인 api를 요청
         payment_key = request.GET.get('paymentKey', None)
-        print()
+        print(f'페이먼트 키 : {payment_key}')
         # 주문 고유 id
         order_id = request.GET.get('orderId', None)
         # 결제할 금액 (비교 금액)
