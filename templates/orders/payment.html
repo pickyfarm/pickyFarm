@@ -220,14 +220,13 @@
             data : data,
             dataType : "json",
             success : function(response){
-                
                 tossPayments.requestPayment('카드', {
                 amount: totalPrice,
                 orderId: 'eN4Pv_y8K6RC3WtBdFP-s',
                 orderName: response.orderName,
                 customerName: response.customerName,
-                successUrl: window.location.origin + '/success',
-                failUrl: window.location.origin + '/fail',
+                successUrl: window.location.origin + `/order/payment/success?amount_ready=${totalPrice}`,
+                failUrl: window.location.origin + '/order/payment/fail',
                 })
             }
         })
