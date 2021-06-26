@@ -157,6 +157,7 @@ def payment_success(request):
         # 결제 승인을 위해 사용되는 키값 
         # 이 키를 http header에 넣어서 결제 승인 api를 요청
         payment_key = request.GET.get('paymentKey', None)
+        print()
         # 주문 고유 id
         order_id = request.GET.get('orderId', None)
         # 결제할 금액 (비교 금액)
@@ -172,10 +173,10 @@ def payment_success(request):
                 auth_request = requests.get(f"https://api.tosspayments.com/v1/payments/{payment_key}", 
                     headers={
                         # 추후 authorization token이 들어가야 함
-                        "Authorization" : f'Basic dGVzdF9ha19aT1J6ZE1hcU4zd1FkNWs2eWdyNUFrWVhRR3d5Og==',
+                        "Authorization" : 'Basic dGVzdF9ha19aT1J6ZE1hcU4zd1FkNWs2eWdyNUFrWVhRR3d5Og==',
                         "Content-Type" : 'application/json'
                     }, data=data)
-                print(auth_request)
+                print(auth_request.json())
                 if auth_request:
                     # 여기서 order group 과 order detail의 결제 상태를 완료로 변경해주어야함
                     ctx = {
