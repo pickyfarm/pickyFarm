@@ -269,12 +269,13 @@
 }
 
 .recomment-input-box {
-    width: 885px;
-    height: 80px;
+    width: 850px;
+    height: 79px;
     margin: 20px 38px;
     padding: 10px;
     border-radius: 7px;
     transition: border 0.2s ease;
+    resize: none;
 }
 
 .recomment-input-wrapper {
@@ -317,8 +318,8 @@
 }
 
 .recomment-like-button-wrap {
-    top: 12.5px;
-    right: -23.5px;
+    top: 35.5px;
+    right: 11.5px;
 }
 
 .recomment-like-button {

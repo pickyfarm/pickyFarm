@@ -207,7 +207,7 @@ def farmer_story_comment(request, pk):
 
 
 # farmer's story 대댓글 create
-def farmer_story_recomment(request, reviewpk, commentpk):
+def farmer_story_recomment(request, storypk, commentpk):
     comment = get_object_or_404(Farmer_Story_Comment, pk=commentpk)
     author = request.user
     text = request.POST.get("text")
@@ -217,7 +217,7 @@ def farmer_story_recomment(request, reviewpk, commentpk):
 
     data = {
         "text": text,
-        "create_at": comment.create_at.strftime(
+        "create_at": recomment.create_at.strftime(
             r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
         ),
         "author": author.nickname,

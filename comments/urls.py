@@ -26,7 +26,7 @@ urlpatterns = [
     # path('editors_review_comment/<int:pk>/recomment/', views.editors_review_recomment, name="editors_review_recomment"),
     # farmer_story
     path(
-        "farmer_story/comment/<int:pk>/create/",
+        "farmer_story/<int:pk>/comment/create/",
         views.farmer_story_comment,
         name="farmer_story_comment",
     ),

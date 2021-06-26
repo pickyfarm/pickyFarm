@@ -83,7 +83,7 @@
                             <div class="absolute recomment-like-button-wrap button">
                                 <div class="recomment-like-button relative"
                                     style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
-                                    <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
+                                    <p class="recomment-like-count absolute text-center align-text-bottom">0</p>
                                 </div>
                             </div>
                             <div class="recomment-content flex flex-col">
@@ -157,7 +157,8 @@
     // constants for AJAX request's argument
     const storyPK = "{{main_story.pk}}"
     const userPK = "{{request.user.pk}}"
-    const like_count = "{{comment.like_count}}"
+    const comment_like_count = "{{comment.like_count}}"
+    const recomment_like_count = "{{comment.like_count}}"
     const CSRFToken = "{{csrf_token}}"
 
     // constants for AJAX callback

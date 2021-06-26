@@ -9,7 +9,7 @@ const commentSubmit = () => {
             text: text,
             pk: storyPK,
             user: userPK,
-            like_count: like_count,
+            like_count: comment_like_count,
             csrfmiddlewaretoken: CSRFToken,
         },
         success: function (data) {
@@ -90,10 +90,11 @@ const recommentSubmit = (pk) => {
 
     $.ajax({
         type: 'POST',
-        url: `/comment/farmer_story/${storyPK}/comment/${pk}/recomment`,
+        url: `../../../../comment/farmer_story/${storyPK}/comment/${pk}/recomment/`,
         dataType: 'json',
         data: {
             text: targetComment.value,
+            like_count: recomment_like_count,
             csrfmiddlewaretoken: CSRFToken,
         },
 
