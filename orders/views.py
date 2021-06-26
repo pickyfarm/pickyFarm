@@ -170,7 +170,7 @@ def payment_success(request):
                     'orderId':order_id,
                     'amount':amount_paid,
                 }
-                auth_request = requests.get(f"https://api.tosspayments.com/v1/payments/{payment_key}", 
+                auth_request = requests.post(f"https://api.tosspayments.com/v1/payments/{payment_key}", 
                     headers={
                         # 추후 authorization token이 들어가야 함
                         "Authorization" : 'Basic dGVzdF9ha19aT1J6ZE1hcU4zd1FkNWs2eWdyNUFrWVhRR3d5Og==',
