@@ -174,7 +174,7 @@ def payment_success(request):
                     headers={
                         # 추후 authorization token이 들어가야 함
                         "Authorization" : 'Basic dGVzdF9ha19aT1J6ZE1hcU4zd1FkNWs2eWdyNUFrWVhRR3d5Og==',
-                        "Content-Type" : 'application/json'
+                        "Accept" : 'application/json'
                     }, json=data)
                 print(auth_request.json())
                 if auth_request:
