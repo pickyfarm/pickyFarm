@@ -10,6 +10,8 @@ from django.views.decorators.http import require_POST
 
 
 # Create your views here.
+
+
 @require_POST
 @login_required
 def EditorReviewLike(request):
@@ -66,7 +68,7 @@ def EditorReviewCommentLikeView(request):
 
             return JsonResponse(ctx)
 
-    return redirect(reverse("core:home"))
+    return redirect(reverse("core:main"))
 
 
 def EditorReviewRecommentLikeView(request):
@@ -102,4 +104,4 @@ def EditorReviewRecommentLikeView(request):
 
             return JsonResponse(ctx)
 
-    return redirect(reverse("core:home"))
+    return redirect(reverse("core:main"))
