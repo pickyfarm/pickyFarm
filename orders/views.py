@@ -176,7 +176,7 @@ def payment_success(request):
                         "Content-Type" : 'application/json'
                     }, data=data)
                 print(auth_request)
-                if auth_request.status == "DONE":
+                if auth_request:
                     # 여기서 order group 과 order detail의 결제 상태를 완료로 변경해주어야함
                     ctx = {
                         'order_id':order_id,
