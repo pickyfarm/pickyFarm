@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from .models import Product_Comment, Product_Comment_Image, Product_Recomment, Farmer_Story_Comment
+from .models import (
+    Product_Comment,
+    Product_Comment_Image,
+    Product_Recomment,
+    Farmer_Story_Comment,
+    Farmer_Story_Recomment,
+)
 from .forms import ProductCommentForm, ProductRecommentForm
 from products.models import Product
 from users.models import Consumer
@@ -178,13 +184,18 @@ def product_recomment_update(request, pk):
     )
 
 
-# farmer's story 댓글 create
-def story_comment_create(request, pk):
-    story = get_object_or_404(Farmer_Story, pk=pk)
+"""
+farmer's story comments
+"""
+
+
+def farmer_story_comment(request, pk):
+    """Farmer's story 댓글 작성 - AJAX"""
+    post = get_object_or_404(Farmer_Story, pk=pk)
     author = request.user
     text = request.POST.get("text")
 
-    comment = Farmer_Story_Comment(story=story, author=author, text=text)
+    comment = Farmer_Story_Comment(story=post, author=author, text=text)
     comment.save()
 
     data = {
@@ -194,6 +205,104 @@ def story_comment_create(request, pk):
         ),
         "author": author.nickname,
         "user_image": author.profile_image.url,
+        "pk": comment.id,
     }
 
     return JsonResponse(data)
+
+
+def farmer_story_comment_edit(request, storypk, commentpk):
+    """Farmer's story 댓글 수정 - AJAX"""
+
+    if request.is_ajax():
+        comment = Farmer_Story_Comment.objects.get(pk=commentpk)
+        text = request.POST.get("text")
+
+        comment.text = text
+        comment.save()
+
+        ctx = {
+            "update_at": comment.updated_at.strftime(
+                r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+            ),
+            "status": True,
+        }
+
+        return JsonResponse(ctx)
+
+
+def farmer_story_comment_delete(request, storypk, commentpk):
+    """Farmer's story 댓글 삭제 - AJAX"""
+    if request.is_ajax():
+        comment = get_object_or_404(Farmer_Story_Comment, pk=commentpk)
+
+        ctx = {"status": True}
+
+        comment.delete()
+
+    return JsonResponse(ctx)
+
+
+"""
+farmer's story recomments
+"""
+
+
+def farmer_story_recomment(request, storypk, commentpk):
+    """Farmer's story 대댓글 작성 - AJAX"""
+
+    comment = get_object_or_404(Farmer_Story_Comment, pk=commentpk)
+    author = request.user
+    text = request.POST.get("text")
+
+    recomment = Farmer_Story_Recomment(comment=comment, author=author, text=text)
+    recomment.save()
+
+    data = {
+        "text": text,
+        "create_at": recomment.create_at.strftime(
+            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+        ),
+        "author": author.nickname,
+        "user_image": author.profile_image.url,
+        "pk": recomment.pk,
+    }
+
+    return JsonResponse(data)
+
+
+# farmer's story 대댓글 update
+def farmer_story_recomment_edit(request):
+    """Farmer's story 대댓글 수정 - AJAX"""
+
+    pk = request.POST.get("pk")
+    text = request.POST.get("text")
+
+    comment = get_object_or_404(Farmer_Story_Recomment, pk=pk)
+    comment.text = text
+    comment.save()
+
+    ctx = {
+        "update_at": comment.updated_at.strftime(
+            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+        ),
+        "status": True,
+    }
+
+    return JsonResponse(ctx)
+
+
+# farmer's story 대댓글 delete
+def farmer_story_recomment_delete(request):
+    """Farmer's story 대댓글 삭제 - AJAX"""
+
+    pk = request.POST.get("pk")
+
+    comment = get_object_or_404(Farmer_Story_Recomment, pk=pk)
+    comment.delete()
+
+    ctx = {
+        "status": True,
+    }
+
+    return JsonResponse(ctx)

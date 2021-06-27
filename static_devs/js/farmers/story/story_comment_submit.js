@@ -7,8 +7,9 @@ const commentSubmit = () => {
         dataType: 'json',
         data: {
             text: text,
-            pk: reviewPK,
+            pk: storyPK,
             user: userPK,
+            like_count: comment_like_count,
             csrfmiddlewaretoken: CSRFToken,
         },
         success: function (data) {
@@ -42,7 +43,7 @@ const commentSubmit = () => {
                     <div class="absolute comment-like-button-wrap button">
                         <div class="comment-like-button relative"
                             style="background-image: url(${likeButtonImageURL});">
-                            <p class="comment-like-count absolute text-center align-text-bottom">0</p>
+                            <p class="comment-like-count absolute text-center align-text-bottom">${like_count}</p>
                         </div>
                     </div>
                 </div>
@@ -89,10 +90,11 @@ const recommentSubmit = (pk) => {
 
     $.ajax({
         type: 'POST',
-        url: `/editors_pick/${reviewPK}/comment/${pk}/recomment`,
+        url: `../../../../comment/farmer_story/${storyPK}/comment/${pk}/recomment/`,
         dataType: 'json',
         data: {
             text: targetComment.value,
+            like_count: recomment_like_count,
             csrfmiddlewaretoken: CSRFToken,
         },
 
