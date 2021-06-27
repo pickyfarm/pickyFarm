@@ -10,6 +10,7 @@ from comments.models import (
 from .models import (
     EditorReviewCommentLike,
     EditorReviewRecommentLike,
+    EditorReviewLike,
     FarmerStoryCommentLike,
     FarmerStoryRecommentLike,
 )
