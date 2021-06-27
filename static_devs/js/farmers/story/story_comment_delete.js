@@ -1,7 +1,7 @@
 const storyCommentDelete = (pk) => {
     showModalMessage('댓글을 삭제하시겠습니까?', () => {
         $.ajax({
-            url: '../../../../comment/farmer_story/' + storyPK + `/comment/delete/${pk}/`,
+            url: `../../../../comment/farmer_story/${storyPK}/comment/delete/${pk}/`,
             dataType: 'json',
             data: {},
             success: (data) => {

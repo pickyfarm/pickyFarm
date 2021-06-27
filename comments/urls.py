@@ -31,6 +31,11 @@ urlpatterns = [
         name="farmer_story_comment",
     ),
     path(
+        "farmer_story/<int:storypk>/comment/edit/<int:commentpk>/",
+        views.farmer_story_comment_edit,
+        name="farmer_story_comment_edit",
+    ),
+    path(
         "farmer_story/<int:storypk>/comment/delete/<int:commentpk>/",
         views.farmer_story_comment_delete,
         name="farmer_story_comment_delete",
@@ -40,6 +45,11 @@ urlpatterns = [
         "farmer_story/<int:storypk>/comment/<int:commentpk>/recomment/",
         views.farmer_story_recomment,
         name="farmer_story_recomment",
+    ),
+    path(
+        "farmer_story/recomment/edit/",
+        views.farmer_story_recomment_edit,
+        name="farmer_story_recomment_edit",
     ),
     path(
         "farmer_story/recomment/delete/",

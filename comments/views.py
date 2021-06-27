@@ -211,6 +211,26 @@ def farmer_story_comment(request, pk):
     return JsonResponse(data)
 
 
+def farmer_story_comment_edit(request, storypk, commentpk):
+    """Farmer's story 댓글 수정 - AJAX"""
+
+    if request.is_ajax():
+        comment = Farmer_Story_Comment.objects.get(pk=commentpk)
+        text = request.POST.get("text")
+
+        comment.text = text
+        comment.save()
+
+        ctx = {
+            "update_at": comment.updated_at.strftime(
+                r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+            ),
+            "status": True,
+        }
+
+        return JsonResponse(ctx)
+
+
 def farmer_story_comment_delete(request, storypk, commentpk):
     """Farmer's story 댓글 삭제 - AJAX"""
     if request.is_ajax():
@@ -249,6 +269,27 @@ def farmer_story_recomment(request, storypk, commentpk):
     }
 
     return JsonResponse(data)
+
+
+# farmer's story 대댓글 update
+def farmer_story_recomment_edit(request):
+    """Farmer's story 대댓글 수정 - AJAX"""
+
+    pk = request.POST.get("pk")
+    text = request.POST.get("text")
+
+    comment = get_object_or_404(Farmer_Story_Recomment, pk=pk)
+    comment.text = text
+    comment.save()
+
+    ctx = {
+        "update_at": comment.updated_at.strftime(
+            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+        ),
+        "status": True,
+    }
+
+    return JsonResponse(ctx)
 
 
 # farmer's story 대댓글 delete

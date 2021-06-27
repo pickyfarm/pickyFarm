@@ -155,8 +155,8 @@
     const commentSubmitURL = '{% url "comments:farmer_story_comment" main_story.pk %}'
     const commentLikeURL = '{% url "likes:farmer_story_comment_like" %}'
     const recommentLikeURL = '{% url "likes:farmer_story_recomment_like" %}'
+    const recommentEditURL = "{% url 'comments:farmer_story_recomment_edit' %}"
     const recommentDeleteURL = '{% url "comments:farmer_story_recomment_delete" %}'
-
 
     // constants for AJAX request's argument
     const storyPK = "{{main_story.pk}}"
@@ -176,5 +176,6 @@
 <!-- comment -->
 <script src="{% static 'js/farmers/story/story_comment_submit.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_delete.js' %}"></script>
+<script src="{% static 'js/farmers/story/story_comment_edit.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_like.js' %}"></script>
 <!-- recomment -->
