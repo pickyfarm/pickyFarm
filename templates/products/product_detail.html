@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
 <!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{% static 'js/base/wish.js &}"></script>
+
 {% endblock stylesheet %}
 {% block main_content %}
 
@@ -481,7 +481,7 @@
         </div>
         <div id="paginator" class="flex flex-row mt-10 justify-center">
             <div class="mr-10">
-                << /div>
+                <</div>
                     {% for p in question_total_pages %}
                     <div id="qna_paginator" class="mr-10" name="{{p}}">{{p}}</div>
                     {% endfor %}
@@ -588,8 +588,7 @@
                 }
             
             })
-
-                        else if (response.success == 0)
+        })
             
 
             // $.ajax({

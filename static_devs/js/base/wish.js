@@ -19,5 +19,5 @@ const wish = (pk) => {
         error: function (request, status, error) {
             alert('로그인이 필요합니다.')
         }
-})
-}
+    })
+};
