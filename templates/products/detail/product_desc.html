@@ -1,0 +1,24 @@
+{% load static %}
+
+<div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id="product_desc" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
+        <a href="#product_desc" class="w-1/6">
+            <div id="sel" class="py-3 border-t border-r border-l">상품설명</div>
+        </a>
+        <a href="#product_info" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div>
+        </a>
+        <a href="#product_review" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div>
+        </a>
+        <a href="#product_qna" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div>
+        </a>
+        <div class="w-2/6 border-b"></div>
+    </div>
+    <div id="desc_img_box">
+        <img id="logo" class="mx-auto" src="{% static 'images/mainlogo_small.svg' %}">
+        <img id="desc_img" class="mx-auto" src="{{product.desc_image.url}}" alt="상품설명">
+        <img id="desc_img" class="mx-auto" src="{{product.desc_image2.url}}" alt="상품설명">
+    </div>
+</div>
