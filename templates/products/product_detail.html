@@ -481,7 +481,7 @@
         </div>
         <div id="paginator" class="flex flex-row mt-10 justify-center">
             <div class="mr-10">
-                << /div>
+                <</div>
                     {% for p in question_total_pages %}
                     <div id="qna_paginator" class="mr-10" name="{{p}}">{{p}}</div>
                     {% endfor %}
@@ -490,7 +490,7 @@
         </div>
     </div>
 
-
+    
     <script>
         let plusBtn = document.getElementById('plus_btn')
         let minusBtn = document.getElementById('minus_btn')
@@ -558,28 +558,7 @@
         let product_pk = document.getElementById('product_content').getAttribute('name')
 
         wishBtn.addEventListener('click', function () {
-
-            data = {
-                'pk': product_pk,
-                "csrfmiddlewaretoken": "{{csrf_token}}",
-            }
-            $.ajax({
-                type: 'POST',
-                url: "{% url 'users:wish' %}",
-                dataType: 'json',
-                data: data,
-                success: function (response) {
-                    if (response.status == 0) {
-                        alert('이미 찜한 무난이 입니다!')
-                    }
-                    else if (response.status == 1) {
-                        alert('무난이를 찜했습니다')
-                    }
-                },
-                error: function (request, status, error) {
-                    alert('로그인이 필요합니다.')
-                }
-            })
+            wish(product_pk)
         })
 
         const subBtn = document.getElementById('sub')
@@ -609,8 +588,7 @@
                 }
             
             })
-
-                        else if (response.success == 0)
+        })
             
 
             // $.ajax({
