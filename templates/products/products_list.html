@@ -151,27 +151,7 @@
     wishBtn.forEach(item => {
         item.addEventListener('click', function () {
             let product_pk=item.getAttribute('name')
-            data = {
-                'pk': product_pk,
-                "csrfmiddlewaretoken": "{{csrf_token}}",
-            }
-            $.ajax({
-                type: 'POST',
-                url: "{% url 'users:wish' %}",
-                dataType: 'json',
-                data: data,
-                success: function (response) {
-                    if (response.status == 0) {
-                        alert('이미 찜한 무난이 입니다!')
-                    }
-                    else if (response.status == 1) {
-                        alert('무난이를 찜했습니다')
-                    }
-                },
-                error: function (request, status, error) {
-                    alert('로그인이 필요합니다.')
-                }
-            })
+            wish(product_pk)
         })
     })
 
@@ -180,10 +160,7 @@
     cartBtn.forEach(item=>{
         item.addEventListener('click', function(){
         let product_pk = item.getAttribute('name')
-        data = {
-            'pk':product_pk,
-            "csrfmiddlewaretoken":"{{csrf_token}}",
-        }
+        
         $.ajax({
             type:'POST',
             url : "{% url 'users:cartInAjax' %}",
