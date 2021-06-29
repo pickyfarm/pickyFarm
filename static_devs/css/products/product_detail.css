@@ -738,3 +738,16 @@ div {
 .hide {
     display: none;
 }
+
+.recomment-text-options {
+    height: 22px;
+}
+
+.comment-text-options--edit,
+.comment-text-options--delete,
+.comment-edit-cancel {
+    margin: auto 5px;
+    font-size: 15px;
+    font-weight: 300;
+    color: #707070;
+}

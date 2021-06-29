@@ -212,8 +212,9 @@
                 <div class="flex flex-row mt-4 mb-12" id="recommentform_{{comment.pk}}">
                     {% csrf_token %}
                     {{ recomment_form.text }}
-                    <button class="ml-3" id="rec_submit" name="{{comment.id}}">댓글작성</button>
+                    <button class="ml-3" id="rec_submit" name="{{comment.id}}" onclick="recommentSubmit({{comment.pk}})">댓글작성</button>
                 </div>
+
                 <div class='flex flex-col recomment_form' id='recomment_form_{{ comment.id }}' name='{{comment.id}}'>
                     {% for recomment in comment.product_recomments.all %}
                     <div class="recomment_list text-center m-4 p-4" id="recomment_list_{{ comment.id }}">
@@ -237,13 +238,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-6 mb-6 text-left pl-8" style="font-size: 17px;">
+                        <div class="mt-6 text-left pl-8" style="font-size: 17px;">
                             {{ recomment.text }}
+                            <div class="recomment-text-options-wrap flex justify-between">
+                                <div></div>
+                                <div class="recomment-text-options flex">
+                                    {% if request.user == recomment.author %}
+                                    <div class="comment-text-options--edit recomment-text-options--edit button"
+                                        onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
+                                    <div class="comment-text-options--delete recomment-text-options--delete button"
+                                        onclick="recommentDelete({{recomment.pk}})">삭제</div>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-                
             </div>
         </div>
     </div>
