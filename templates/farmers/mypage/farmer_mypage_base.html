@@ -18,6 +18,18 @@
                     <span id="farmer-nickname">{{farmer.user.nickname}}</span>님
                 </div>
                 <div id="farmer-links-section">
+                    <div id="farm-news-update" class="flex items-center">
+                        <img src="{% static '/images/farmers_detail/news.svg' %}" id="farm-news-icon" alt="news">
+                        <div id="" class="flex flex-col">
+                            <div id="farm-news-update-header" class="inline-flex items-center">
+                                농가 News
+                                <div id="farm-news-update-button" class="button">수정</div>
+                            </div>
+                            <div id="farm-news-content">
+                                이번주 갓 수확한 무난이 어쩌구 저쩌구,,
+                            </div>
+                        </div>
+                    </div>
                     <a href="{% url 'farmers:farmer_mypage_info_update' %}" id="farmer-info-update"
                         class="farmer-link flex justify-between">
                         내 농가 페이지 수정하기
@@ -28,6 +40,13 @@
                         농가일기 쓰러 가기
                         <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
                     </a>
+                    <div class="inline-flex items-center" id="deliver-message-update">
+                        <div class="tooltip-box">?</div>
+                        <a href=# class="farmer-link flex justify-between">
+                            배송 감사 메세지 수정하기
+                            <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
+                        </a>
+                    </div>
                 </div>
             </div>
             <div id="farmer-order-info-section" class="info-section-box">
@@ -112,10 +131,10 @@
             </div>
         </div>
         <nav class="flex justify-between">
-            <a href="#">
+            <a href="{% url 'farmers:farmer_mypage_order' %}">
                 <div class="farmer-mypage-link-button text-center" id="button-order-manage">주문관리</div>
             </a>
-            <a href="#">
+            <a href="{% url 'farmers:farmer_mypage_product' %}">
                 <div class="farmer-mypage-link-button text-center" id="button-product-manage">상품관리</div>
             </a>
             <a href="#">
