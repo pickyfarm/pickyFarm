@@ -33,9 +33,9 @@ const commentSubmit = () => {
                         <div class="comment-text-options text-right flex justify-between">
                             <div onclick="expandRecommentSection(this)" class="button comment-text-options--recomment">답글 0개</div>
                             <div class="flex">
-                                <div class="comment-text-options--edit button" onclick=storyCommentEdit(this,${data.pk})>수정
+                                <div class="comment-text-options--edit button" onclick=CommentEdit(this,${data.pk})>수정
                                 </div>
-                                <div class="comment-text-options--delete button" onclick=storyCommentDelete(${data.pk})>삭제</div>
+                                <div class="comment-text-options--delete button" onclick=CommentDelete(${data.pk})>삭제</div>
                             </div>
                         </div>
                     </div>
@@ -128,8 +128,8 @@ const recommentSubmit = (pk) => {
                             <div class="recomment-text-options-wrap flex justify-between">
                                 <div></div>
                                 <div class="recomment-text-options flex">
-                                    <div class="recomment-text-options--edit button comment-text-options--edit"  onclick="storyRecommentEdit(this, ${data.pk})">수정</div>
-                                    <div class="recomment-text-options--delete button comment-text-options--delete" onclick="storyRecommentDelete(${data.pk})">삭제</div>
+                                    <div class="recomment-text-options--edit button comment-text-options--edit"  onclick="RecommentEdit(this, ${data.pk})">수정</div>
+                                    <div class="recomment-text-options--delete button comment-text-options--delete" onclick="RecommentDelete(${data.pk})">삭제</div>
                                 </div>
                             </div>
                         </div>
