@@ -20,8 +20,8 @@
                         <img class="z-0" id="product_img" src="{{p.main_image.url}}" width="50"><br>
                     </a>
                         <div id="like_cart_in" class="flex flex-row z-10">
-                            <img class="" id="like" ,
-                                    src="{% static 'images/products_list/like.svg' %}">
+                            <img class="" id="like" 
+                                    src="{% static 'images/products_list/like.svg' %}", onclick="wish({{p.pk}})">
                             <img class="button" id="cart_in"
                                     src="{% static 'images/products_list/cart_in.svg' %}" onclick="cartIn({{p.pk}})">
                         </div>

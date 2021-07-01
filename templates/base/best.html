@@ -12,7 +12,7 @@
                         <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
                     </a>
                     <div id="like_cart_in" class="flex flex-row z-10">
-                        <img class="w-10 " id="like", src="{% static 'images/products_list/like.svg' %}">
+                        <img class="w-10 " id="like" src="{% static 'images/products_list/like.svg' %}" onclick='wish({{product.pk}})'>
                         <img class="w-10 ml-1 button" id="cart_in" src="{% static 'images/products_list/cart_in.svg' %}" onclick='cartIn({{product.pk}})'>
                     </div>
                     <img class="absolute -top-12 -left-6 {%if product.stock > 3 %} invisible {% endif %}" id="like", src="{% static 'images/products_list/almost_sold_out.svg' %}">
