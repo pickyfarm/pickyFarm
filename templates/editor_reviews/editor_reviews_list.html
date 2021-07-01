@@ -63,7 +63,7 @@
                         <div class="article-info flex">
                             <div class="editor mr-10">editor {{review.author.user.nickname}}</div>
                             <div class="upload mr-6">{{review.create_at.date}}</div>
-                            <div class="comments mr-6">댓글 3</div>
+                            <div class="comments mr-6">댓글 {{review.editor_review_comments.count}}</div>
                             <div class="views mr-6">조회수 {{review.hits}}</div>
                             <div class="likes">좋아요 9</div>
                         </div>
