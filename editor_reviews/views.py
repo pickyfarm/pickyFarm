@@ -59,9 +59,9 @@ class Editor_review_detail(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(DetailView, self).get_context_data(**kwargs)
-        ctx["comments"] = self.get_object().editor_review_comments.order_by(
-            "-create_at"
-        )
+        comments = Editor_Review_Comment.objects.filter(editor_review=self.get_object())
+
+        ctx["comments"] = comments.order_by("-create_at")[: min(10, len(comments))]
         ctx["form"] = EditorReviewCommentForm()
 
         if self.request.user != AnonymousUser():
