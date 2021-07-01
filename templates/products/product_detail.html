@@ -256,10 +256,8 @@
         });
 
         // 스크롤 하단 고정 (수정 필요)
-
-
-        // 리뷰 댓글 작성
-        const btns = document.querySelectorAll('#rec_submit')
+// 리뷰 댓글 작성
+const btns = document.querySelectorAll('#rec_submit')
         btns.forEach(btn => btn.addEventListener('click', recommentSubmit));
         function recommentSubmit() {
             let comment_id = $(this).attr('name') // {{comment.id}}
@@ -320,6 +318,8 @@
             });
         }
 
+
+        
     let qna_page = document.querySelectorAll('#qna_paginator')
     qna_page.forEach(item => {
         item.addEventListener('click', function () {

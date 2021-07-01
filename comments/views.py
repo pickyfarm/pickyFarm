@@ -306,3 +306,43 @@ def farmer_story_recomment_delete(request):
     }
 
     return JsonResponse(ctx)
+
+
+"""
+product recomments
+"""
+
+
+def product_recomment_edit(request):
+    """Product 대댓글 수정 - AJAX"""
+
+    pk = request.POST.get("pk")
+    text = request.POST.get("text")
+
+    comment = get_object_or_404(Product_Recomment, pk=pk)
+    comment.text = text
+    comment.save()
+
+    ctx = {
+        "update_at": comment.updated_at.strftime(
+            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+        ),
+        "status": True,
+    }
+
+    return JsonResponse(ctx)
+
+
+def product_recomment_delete(request):
+    """Product 대댓글 삭제 - AJAX"""
+
+    pk = request.POST.get("pk")
+
+    comment = get_object_or_404(Product_Recomment, pk=pk)
+    comment.delete()
+
+    ctx = {
+        "status": True,
+    }
+
+    return JsonResponse(ctx)

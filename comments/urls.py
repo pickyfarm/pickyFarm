@@ -56,4 +56,15 @@ urlpatterns = [
         views.farmer_story_recomment_delete,
         name="farmer_story_recomment_delete",
     ),
+    # product recomment
+    path(
+        "product/recomment/edit/",
+        views.product_recomment_edit,
+        name="product_recomment_edit",
+    ),
+    path(
+        "product/recomment/delete/",
+        views.product_recomment_delete,
+        name="product_recomment_delete",
+    ),
 ]

@@ -261,3 +261,15 @@
     {% endfor %}
     {% endif %}
 </div>
+<script type="text/javascript">
+    // urls for AJAX request
+    const recommentEditURL = '{% url "comments:product_recomment_edit" %}'
+    const recommentDeleteURL = '{% url "comments:product_recomment_delete" %}'
+
+    // constants for AJAX request's argument
+    const productPK = "{{product.pk}}"
+    const userPK = "{{request.user.pk}}"
+    const CSRFToken = "{{csrf_token}}"
+</script>
+<script src="{% static 'js/products/comment_edit.js' %}"></script>
+<script src="{% static 'js/proudcts/comment_delete.js' %}"></script>
