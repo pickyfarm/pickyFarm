@@ -416,9 +416,16 @@ cursor:pointer;
   cursor:pointer
 }
 
+#logo{
+  margin-bottom:30px;
+}
+
 #desc_img_box{
-  margin-top:170px;
-  margin-bottom:170px;
+  
+}
+
+#desc_img{
+  width:990px;
 }
 
 #sel{
@@ -619,7 +626,7 @@ div{
 #fresh div, #taste div, #price div{
   font-size: 13px;
   font-weight: 500;
-  color: #5c6754;
+  color:#5c6754;
 }
 
 #comment_list {
@@ -627,10 +634,26 @@ div{
   width:990px;
 }
 
-#score_range {
-  width: 95px;
-  height: 7px;
+#score_range_wrap {
+  border:1px solid #5e6656; 
   border-radius: 4px;
+  width: 190px;
+}
+
+#score_range {
+  position:relative;
+  width: 95px;
+  height: 5px;
+  border-radius: 4px;
+  background-color: #5c6754;
+}
+#end_point {
+  position: absolute;
+  right: -5px;
+  top: -2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
   background-color: #5c6754;
 }
 

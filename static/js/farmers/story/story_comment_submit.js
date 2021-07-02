@@ -7,8 +7,9 @@ const commentSubmit = () => {
         dataType: 'json',
         data: {
             text: text,
-            pk: reviewPK,
+            pk: storyPK,
             user: userPK,
+            like_count: comment_like_count,
             csrfmiddlewaretoken: CSRFToken,
         },
         success: function (data) {
@@ -33,16 +34,16 @@ const commentSubmit = () => {
                         <div class="comment-text-options text-right flex justify-between">
                             <div onclick="expandRecommentSection(this)" class="button comment-text-options--recomment">답글 0개</div>
                             <div class="flex">
-                                <div class="comment-text-options--edit button" onclick=commentEdit(this,${data.pk})>수정
+                                <div class="comment-text-options--edit button" onclick=storyCommentEdit(this,${data.pk})>수정
                                 </div>
-                                <div class="comment-text-options--delete button" onclick=commentDelete(${data.pk})>삭제</div>
+                                <div class="comment-text-options--delete button" onclick=storyCommentDelete(${data.pk})>삭제</div>
                             </div>
                         </div>
                     </div>
                     <div class="absolute comment-like-button-wrap button">
                         <div class="comment-like-button relative"
                             style="background-image: url(${likeButtonImageURL});">
-                            <p class="comment-like-count absolute text-center align-text-bottom">0</p>
+                            <p class="comment-like-count absolute text-center align-text-bottom">${like_count}</p>
                         </div>
                     </div>
                 </div>
@@ -89,10 +90,11 @@ const recommentSubmit = (pk) => {
 
     $.ajax({
         type: 'POST',
-        url: `/editors_pick/${reviewPK}/comment/${pk}/recomment`,
+        url: `../../../../comment/farmer_story/${storyPK}/comment/${pk}/recomment/`,
         dataType: 'json',
         data: {
             text: targetComment.value,
+            like_count: recomment_like_count,
             csrfmiddlewaretoken: CSRFToken,
         },
 
@@ -128,8 +130,8 @@ const recommentSubmit = (pk) => {
                             <div class="recomment-text-options-wrap flex justify-between">
                                 <div></div>
                                 <div class="recomment-text-options flex">
-                                    <div class="recomment-text-options--edit button comment-text-options--edit"  onclick="recommentEdit(this, ${data.pk})">수정</div>
-                                    <div class="recomment-text-options--delete button comment-text-options--delete" onclick="recommentDelete(${data.pk})">삭제</div>
+                                    <div class="recomment-text-options--edit button comment-text-options--edit"  onclick="storyRecommentEdit(this, ${data.pk})">수정</div>
+                                    <div class="recomment-text-options--delete button comment-text-options--delete" onclick="storyRecommentDelete(${data.pk})">삭제</div>
                                 </div>
                             </div>
                         </div>

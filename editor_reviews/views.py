@@ -163,8 +163,8 @@ def editor_review_comment_load(request):
 
     # AJAX 요청인 경우에만 실행 한다.
     if request.is_ajax():
-        current_comment_count = request.POST.get(
-            "numberOfComments"
+        current_comment_count = int(
+            request.POST.get("numberOfComments")
         )  # Front-end 에서 현재 로딩된 댓글의 개수를 요청에 포함한다.
         pk = request.POST.get("pk")
         review = Editor_Review.objects.get(pk=pk)
@@ -181,15 +181,19 @@ def editor_review_comment_load(request):
             ]
 
             # Front-end에서 동적으로 엘리먼트를 생성할 때 사용 가능한 방식으로 데이터를 분리한다.
-            comment_list = map(
-                lambda u: {
-                    "author": u.author.nickname,
-                    "profile_image": u.author.profile_image,
-                    "text": u.text,
-                    "create_at": u.create_at,
-                    "pk": u.id,
-                },
-                unloaded_comments,
+            comment_list = list(
+                map(
+                    lambda u: {
+                        "author": u.author.nickname,
+                        "profile_image": u.author.profile_image.url,
+                        "text": u.text,
+                        "create_at": u.create_at.strftime(
+                            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+                        ),
+                        "pk": u.id,
+                    },
+                    unloaded_comments,
+                )
             )
 
             ctx = {"comment_list": comment_list}
@@ -201,7 +205,7 @@ def editor_review_comment_load(request):
             return HttpResponse("이미 모든 댓글을 불러왔습니다.", status=204)
 
     # AJAX에 의한 접근이 아닌 경우 HTTP 400 (Bad Request)를 리턴한다.
-    return HttpResponse('잘못된 접근입니다.' status=400)
+    return HttpResponse("잘못된 접근입니다.", status=400)
 
 
 def editor_review_comment_delete(request, reviewpk, commentpk):

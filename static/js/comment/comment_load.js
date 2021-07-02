@@ -1,3 +1,5 @@
+import comment from './Components/Comment';
+
 const commentLoad = (pk) => {
     const numberOfComments = document.querySelectorAll('.comment').length;
 
@@ -28,3 +30,5 @@ const commentLoad = (pk) => {
         },
     });
 };
+
+export default commentLoad;
