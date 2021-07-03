@@ -12,6 +12,7 @@ const recommentEditForm = `
     `;
 
 const recommentEdit = (targetComment, pk) => {
+    console.log(targetComment.closest('.recomment-text-options-wrap').previousElementSibling)
     const comment = targetComment.closest('.recomment-text-options-wrap')
         .previousElementSibling.innerHTML;
 
@@ -48,7 +49,7 @@ const recommentEditSubmit = (pk) => {
         data: {
             pk: pk,
             text: text,
-            csrfmiddlewaretoken: CSRFToken,
+            csrfmiddlewaretoken: csrftoken,
         },
         success: (data) => {
             if (data.status) {

@@ -6,7 +6,7 @@ const recommentDelete = (pk) => {
             dataType: 'json',
             data: {
                 pk: pk,
-                csrfmiddlewaretoken: CSRFToken,
+                csrfmiddlewaretoken: csrftoken,
             },
             success: (data) => {
                 if (data.status) {

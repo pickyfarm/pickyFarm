@@ -209,50 +209,81 @@
                 </button>
             </div>
             <div class="recomments hide">
-                <div class="flex flex-row mt-4 mb-12" id="recommentform_{{comment.pk}}">
+                <div class="flex flex-row mt-12 mb-12" id="recommentform_{{comment.pk}}">
                     {% csrf_token %}
                     {{ recomment_form.text }}
                     <button class="ml-3" id="rec_submit" name="{{comment.id}}" onclick="recommentSubmit({{comment.pk}})">댓글작성</button>
                 </div>
 
-                <div class='flex flex-col recomment_form' id='recomment_form_{{ comment.id }}' name='{{comment.id}}'>
-                    {% for recomment in comment.product_recomments.all %}
-                    <div class="recomment_list text-center m-4 p-4" id="recomment_list_{{ comment.id }}">
-                        <div class="flex flex-row" id="recomment">
-                            <div class="mr-4" style="width: 10px; height: 10px; 
-                                                    border-left: 2px solid #5c6754; 
-                                                    border-bottom: 2px solid #5c6754;"></div>
-                            <div class="">
-                                <img id="consumer_img" src="{{ recomment.author.profile_image.url }}" alt="">
+                <div class="recomment-wrap" name="{{comment.pk}}">
+                    {% if request.user.is_authenticated %}
+                    <div class="recomment-input-wrapper flex flex-col">
+                        <div class="flex items-center recomment-info">
+                            <div class="recomment-arrow"></div>
+                            <div class="recomment-author flex items-center">
+                                <img src="{{user.profile_image.url}}" class="comment-author--profile-image">
+                                <div class="comment-author--id">{{request.user.nickname}}</div>
                             </div>
-                            <div class="flex items-center ml-6">
-                                <div class="flex flex-row" style="font-size: 15px;">
-                                    <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">
-                                        {{ recomment.author.nickname }}</div>
-                                    <div class="" style="width: 340px; border-right: solid 3px #999999; color:#989898;">
-                                        {{ recomment.create_at|date:"Y. m. d h:i" }}</div>
-                                    <div class="flex flex-row" id="report" style="margin-left:87.8px">
-                                        <img src="{% static 'images/report.svg' %}" alt="">
-                                        <div class="text-black text-opacity-40 pl-2">신고하기</div>
+                        </div>
+                        <textarea type="text" class="recomment-input-box" name='{{comment.pk}}'></textarea>
+                        <button class="recomment-submit-button mx-auto"
+                            onclick="recommentSubmit({{comment.pk}})">등록하기</button>
+                    </div>
+                    <div class="horizon-bar mx-auto"></div>
+                    {% endif %}
+                    {% for recomment in comment.product_recomments.all %}
+                    <div class="recomment relative" name={{recomment.pk}}>
+                        <div class="flex items-center recomment-info">
+                            <div class="recomment-arrow"></div>
+                            <div class="recomment-author flex items-center">
+                                <img src="{{recomment.author.profile_image.url}}" class="comment-author--profile-image">
+                                <div class="comment-author--id">{{recomment.author.nickname}}</div>
+                            </div>
+                            <div class="bar"></div>
+                            <div class="comment-create text-center recomment-create">
+                                {{recomment.create_at|date:"Y. m.d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recomment.create_at|date:"H : i"}}
+                            </div>
+                            <div class="bar"></div>
+                            <div class="recomment-report flex items-center ml-auto">
+                                <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
+                                    alt="">
+                                <div class="comment-report--report button">신고하기</div>
+                            </div>
+                        </div>
+                        <div class="absolute recomment-like-button-wrap button">
+                            <div class="recomment-like-button relative"
+                                style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
+                                <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
+                            </div>
+                        </div>
+                        <div class="recomment-content flex flex-col">
+                            <div class="recomment-text">
+                                <div class="recomment-text--text">{{recomment.text}}</div>
+                                <div class="recomment-text-options-wrap flex justify-between">
+                                    <div></div>
+                                    <div class="recomment-text-options flex">
+                                        {% if request.user == recomment.author %}
+                                        <div class="comment-text-options--edit recomment-text-options--edit button"
+                                            onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
+                                        <div class="comment-text-options--delete recomment-text-options--delete button"
+                                            onclick="recommentDelete({{recomment.pk}})">삭제</div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mt-6 text-left pl-8" style="font-size: 17px;">
-                            {{ recomment.text }}
-                            <div class="recomment-text-options-wrap flex justify-between">
-                                <div></div>
-                                <div class="recomment-text-options flex">
-                                    {% if request.user == recomment.author %}
-                                    <div class="comment-text-options--edit recomment-text-options--edit button"
-                                        onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
-                                    <div class="comment-text-options--delete recomment-text-options--delete button"
-                                        onclick="recommentDelete({{recomment.pk}})">삭제</div>
-                                    {% endif %}
-                                </div>
-                            </div>
+                            <!-- <div class="comment-edit-form-container recomment-edit-form-container mx-auto">
+                                <form class="flex flex-col comment-edit-form recomment-edit-form w-full">
+                                    <input type="text" class="comment-edit-form-input">
+                                    <div class="flex items-center justify-between">
+                                        <div></div>
+                                        <button type="submit" class="comment-edit-submit-button">수정하기</button>
+                                        <p class="comment-edit-cancel recomment-edit-cancel button">취소</p>
+                                    </div>
+                                </form>
+                            </div> -->
                         </div>
                     </div>
+                    <div class="horizon-bar mx-auto"></div>
                     {% endfor %}
                 </div>
             </div>
@@ -269,7 +300,8 @@
     // constants for AJAX request's argument
     const productPK = "{{product.pk}}"
     const userPK = "{{request.user.pk}}"
-    const CSRFToken = "{{csrf_token}}"
+
 </script>
+<script src="{% static 'js/products/comment_submit.js' %}"></script>
 <script src="{% static 'js/products/comment_edit.js' %}"></script>
 <script src="{% static 'js/proudcts/comment_delete.js' %}"></script>

@@ -1,0 +1,234 @@
+#comment-submit-btn {
+    width: 99px;
+    margin-top: 30px;
+}
+
+#comment-section-wrap {
+    background-color: #f2f2f2;
+    margin-top: 110px;
+}
+
+#comment-section {
+    width: 990px;
+}
+
+#comment-submit-form {
+    margin-top: 57px;
+}
+
+#comment-submit-my-info--profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+#comment-submit-my-info--id {
+    font-size: 20px;
+    font-weight: normal;
+    margin-left: 23px;
+}
+
+#id_text {
+    resize: none;
+    outline: none;
+    width: 610px;
+    height: 35px;
+    padding: 4px 10.5px;
+    border-radius: 38px;
+    border: solid 1px #b3b3b3;
+    background-color: #ffffff;
+}
+
+.comment-button {
+    height: 36px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    background-color: #5c6754;
+    color: #ffffff;
+    border-radius: 24px;
+}
+
+#comment-submit {
+    width: 99px;
+    margin-top: 60px;
+}
+
+#comments {
+    margin-top: 160px;
+}
+
+.comment {
+    margin-bottom: 30px;
+}
+
+.comment-info {
+    width: 961px;
+}
+
+.bar {
+    height: 20px;
+    width: 1px;
+    border: 1px solid #999999;
+}
+
+.comment-author {
+    width: 288px;
+}
+
+.comment-author--profile-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.comment-author--id {
+    font-size: 15px;
+    font-weight: normal;
+    margin-left: 23px;
+}
+
+.comment-report--report {
+    font-size: 15px;
+    font-weight: normal;
+    color: #999999;
+    margin-left: 13.2px;
+}
+
+/* .comment-like-button {
+    width: 55px;
+    height: 55px;
+} */
+
+/* .comment-like-count {
+    width: 55px;
+    top: 32px;
+    font-size: 12px;
+    color: #ffffff;
+    font-weight: 300;
+}
+
+.comment-like-button-wrap {
+    top: 21px;
+    right: -22.5px;
+} */
+
+.recomment-wrap {
+    background-color: #e6e6e6;
+    width: 880px;
+    border-radius: 7px;
+    margin-top: 20px;
+    margin-bottom: 85px;
+}
+.recomment {
+    border-radius: 7px;
+    margin-top: 25px;
+}
+
+.recomment-arrow {
+    width: 10px;
+    height: 10px;
+    border-bottom: 3px solid #5c6754;
+    border-left: 3px solid #5c6754;
+    margin-right: 20px;
+}
+
+.recomment-author {
+    width: 175px;
+}
+
+.recomment-create {
+    width: 328.3px;
+    font-size: 15px;
+    font-weight: normal;
+    color: #999999;
+}
+
+.recomment-info {
+    margin: 0 25px 0 25px;
+}
+
+.recomment-input-box {
+    height: 79px;
+    margin: 20px 38px;
+    padding: 10px;
+    border-radius: 7px;
+    transition: border 0.2s ease;
+    resize: none;
+}
+
+.recomment-input-wrapper {
+    padding-top: 25px;
+}
+
+.recomment-input-box:focus,
+.recomment-input-box:hover {
+    outline: none;
+    border: 1px solid #5c6754;
+}
+
+.recomment-submit-button {
+    width: 75px;
+    height: 22px;
+    font-size: 12px;
+    color: #ffffff;
+    border-radius: 9999px;
+    background-color: #5c6754;
+    margin-bottom: 18px;
+}
+
+.recomment-submit-button:focus {
+    outline: none;
+}
+
+.recomment-text--text {
+    font-size: 18px;
+    width: 830px;
+    word-break: break-all;
+}
+
+.recomment-text {
+    padding: 30px 62px 22px 55px;
+}
+
+.recomment-text-options {
+    height: 22px;
+}
+
+.recomment-like-button-wrap {
+    top: 35.5px;
+    right: -22.5px;
+}
+
+.recomment-like-button {
+    width: 47px;
+    height: 47px;
+}
+
+.recomment-like-count {
+    width: 47px;
+    top: 27px;
+    font-size: 10px;
+    color: #ffffff;
+    font-weight: 300;
+}
+
+.recomment-report {
+    margin-right: 79px;
+}
+
+.horizon-bar {
+    width: 803px;
+    border-top: 0.5px solid #5e6656;
+    opacity: 0.5;
+}
+
+.horizon-bar:last-child {
+    display: none;
+}
+
+.recomment-edit-form-container {
+    margin-top: 20px;
+}

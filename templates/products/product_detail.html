@@ -3,6 +3,7 @@
 {% load static %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_review.css' %}">
 <!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -205,7 +206,7 @@
         console.log(farmerPk)
         data = {
             'farmer_pk': farmerPk,
-            "csrfmiddlewaretoken": "{{csrf_token}}",
+            "csrfmiddlewaretoken": csrftoken,
         }
         $.ajax({
             type: 'POST',
@@ -273,7 +274,7 @@ const btns = document.querySelectorAll('#rec_submit')
                     'text': text,
                     'pk': comment_id,
                     'user': '{{ request.user.pk }}',
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'csrfmiddlewaretoken': csrftoken,
                 },
                 success: function (data) {
                     if (text === '') {
@@ -302,6 +303,17 @@ const btns = document.querySelectorAll('#rec_submit')
                 </div>
                 <div class="mt-6 mb-6 text-left pl-8" style="font-size: 17px;">
                     ${data.text}
+                    <div class="recomment-text-options-wrap flex justify-between">
+                        <div></div>
+                        <div class="recomment-text-options flex">
+                            {% if request.user == recomment.author %}
+                            <div class="comment-text-options--edit recomment-text-options--edit button"
+                                onclick="recommentEdit(this, ${data.pk})">수정</div>
+                            <div class="comment-text-options--delete recomment-text-options--delete button"
+                                onclick="recommentDelete(${data.pk})">삭제</div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>`
                     let list = parent.parent().children(`div[name=${comment_id}]`);
@@ -332,7 +344,7 @@ const btns = document.querySelectorAll('#rec_submit')
                 data: {
                     'product_pk': product_pk,
                     'page_num': page_num,
-                    "csrfmiddlewaretoken": "{{csrf_token}}",
+                    "csrfmiddlewaretoken": csrftoken,
                 },
                 success: function (data) {
                     let qnaSection = document.getElementById('qnas-section')
