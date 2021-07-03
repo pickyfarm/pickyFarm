@@ -301,7 +301,14 @@
     const productPK = "{{product.pk}}"
     const userPK = "{{request.user.pk}}"
 
+    // constants for AJAX callback
+    const likeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_like.svg' %}"
+    const recommentLikeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_recomment_like.svg' %}"
+    const reportButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
+    const currentUserProfileImageURL = "{{user.profile_image.url}}"
+    const currentUserNickname = "{{request.user.nickname}}"
+
 </script>
 <script src="{% static 'js/products/comment_submit.js' %}"></script>
 <script src="{% static 'js/products/comment_edit.js' %}"></script>
-<script src="{% static 'js/proudcts/comment_delete.js' %}"></script>
+<script src="{% static 'js/products/comment_delete.js' %}"></script>

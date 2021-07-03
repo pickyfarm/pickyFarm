@@ -1,61 +1,73 @@
-const btns = document.querySelectorAll('#rec_submit')
-btns.forEach(btn => btn.addEventListener('click', recommentSubmit));
-
-const recommentSubmit = () => {
-    let comment_id = $(this).attr('name') // {{comment.id}}
-    let parent = $(this).parent(); // recommentform_{{comment.id}}
-    let text = parent.children('#id_text').val() // recomment text value
-    console.log(text);
+const recommentSubmit = (pk) => {
+    const textBox = document.querySelectorAll('.recomment-input-box');
+    const targetComment = [...textBox].find(
+        (elem) => parseInt(elem.getAttribute('name')) === pk
+    );
 
     $.ajax({
         type: 'POST',
-        url: `/comment/${productPK}/recomment/create/`,
+        url: `/comment/product/${productPK}/comment/${pk}/recomment/`,
         dataType: 'json',
         data: {
-            'text': text,
-            'pk': productPK,
-            'user': userPK,
-            'csrfmiddlewaretoken': csrftoken,
+            text: targetComment.value,
+            csrfmiddlewaretoken: csrftoken,
         },
+
         success: function (data) {
-            if (text === '') {
-                alert('댓글을 입력해주세요');
-                return;
-            }
-            let recomment = `
-            <div class="recomment_list text-center m-4 p-4" id="recomment_list_${comment_id}">
-                <div class="flex flex-row" id="recomment">
-                    <div class="mr-4" style="width: 10px; height: 10px; 
-                                        border-left: 2px solid #5c6754; 
-                                        border-bottom: 2px solid #5c6754;"></div>
-                    <div class="">
-                        <img id="consumer_img" src="${data.user_image}" alt="">
+            const comment = `
+            <div class="recomment relative" name="${data.pk}">
+                    <div class="flex items-center recomment-info">
+                        <div class="recomment-arrow"></div>
+                        <div class="recomment-author flex items-center">
+                            <img src="${data.user_image}" class="comment-author--profile-image">
+                            <div class="comment-author--id">${data.author}</div>
+                        </div>
+                        <div class="bar"></div>
+                        <div class="comment-create text-center recomment-create">
+                            ${data.create_at}
+                        </div>
+                        <div class="bar"></div>
+                        <div class="recomment-report flex items-center ml-auto">
+                            <img src="${reportButtonImageURL}"
+                                alt="">
+                            <div class="comment-report--report button">신고하기</div>
+                        </div>
                     </div>
-                    <div class="flex items-center ml-6">
-                        <div class="flex flex-row" style="font-size: 15px;">
-                            <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">${data.author}</div>
-                            <div class="" style="width: 340px; border-right: solid 3px #999999; color:#989898;">${data.create_at}</div>
-                            <div class="flex flex-row" id="report" style="margin-left:87.8px">
-                                <img src="{% static 'images/report.svg' %}" alt="">
-                                <div class="text-black text-opacity-40 pl-2">신고하기</div>
+                    <div class="absolute recomment-like-button-wrap button">
+                        <div class="recomment-like-button relative"
+                            style="background-image: url(${recommentLikeButtonImageURL});">
+                            <p class="recomment-like-count absolute text-center align-text-bottom">0</p>
+                        </div>
+                    </div>
+                    <div class="recomment-content">
+                        <div class="recomment-text">
+                            <div class="recomment-text--text">${data.text}</div>
+                            <div class="recomment-text-options-wrap flex justify-between">
+                                <div></div>
+                                <div class="recomment-text-options flex">
+                                    <div class="recomment-text-options--edit button comment-text-options--edit"  onclick="RecommentEdit(this, ${data.pk})">수정</div>
+                                    <div class="recomment-text-options--delete button comment-text-options--delete" onclick="RecommentDelete(${data.pk})">삭제</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-6 mb-6 text-left pl-8" style="font-size: 17px;">
-                    ${data.text}
-                </div>
-            </div>`
-            let list = parent.parent().children(`div[name=${comment_id}]`);
-            list.append(recomment);
-            parent.children('#id_text').val('')
-            const [...recomment_forms] = document.querySelectorAll('.recomment_form')
-            recomment_forms.forEach((form) => {
-                form.scrollBy(0, 10000)
-            });
+                <div class="horizon-bar mx-auto"></div>
+            `;
+
+            targetComment.parentNode.parentNode.insertAdjacentHTML(
+                'beforeend',
+                comment
+            );
+            targetComment.value = '';
+
+            const t = document
+                .querySelector(
+                    `div[class="recomment relative"][name="${data.pk}"] .recomment-like-button-wrap`
+                )
+                .addEventListener('click', (e) => recommentLike(e));
+
+            shootToastMessage('답글이 등록되었습니다.');
         },
-        error: function () {
-            alert('error');
-        }
     });
-}
+};

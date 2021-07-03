@@ -16,8 +16,13 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 
-# 상품 댓글 Read
+"""
+product comments(reviews)
+"""
+
+
 def product_comment_detail(request, pk):
+    """Product 댓글 보기"""
     product = Product.objects.get(pk=pk)
     product_comments = product.product_comments.all()
     product_comment_form = ProductCommentForm()
@@ -33,8 +38,9 @@ def product_comment_detail(request, pk):
     return render(request, "comments/product_comment.html", ctx)
 
 
-# 상품 댓글 create
 def product_comment_create(request, pk):
+    """Product 댓글 작성"""
+
     product = Product.objects.get(pk=pk)
     product_comment_form = ProductCommentForm(request.POST, request.FILES)
     product_recomment_form = ProductRecommentForm(request.POST)
@@ -93,8 +99,9 @@ def product_comment_create(request, pk):
     return redirect(reverse("comments:product_comment_detail", args=[pk]))
 
 
-# 상품 댓글 update
 def product_comment_update(request, pk):
+    """Product 댓글 수정"""
+
     product_comment = Product_Comment.objects.get(pk=pk)
     product = product_comment.product
 
@@ -115,8 +122,8 @@ def product_comment_update(request, pk):
     )
 
 
-# 상품 댓글 delete(request)
 def product_comment_delete(request, pk):
+    """Product 댓글 삭제"""
     product_comment = Product_Comment.objects.get(pk=pk)
     product = product_comment.product
 
@@ -127,8 +134,13 @@ def product_comment_delete(request, pk):
         return render(request, "coments/product_comment.html")
 
 
-# 상품 대댓글 Read
+"""
+product recomments
+"""
+
+
 def product_recomment_detail(request, pk):
+    """Product 대댓글 보기"""
     product_comment = Product_Comment.objects.get(pk=pk)
     product = product_comment.product
     product_recomment_form = ProductRecommentForm()
@@ -142,13 +154,16 @@ def product_recomment_detail(request, pk):
     return render(request, "comments/product_comment.html", ctx)
 
 
-# 상품 대댓글 create
-def product_recomment_create(request, comment_id):
-    product_comment = Product_Comment.objects.get(pk=comment_id)
+def product_recomment(request, productpk, commentpk):
+    """Product 대댓글 작성 - AJAX"""
+
+    comment = get_object_or_404(Product_Comment, pk=commentpk)
     author = request.user
     text = request.POST.get("text")
-    recomment = Product_Recomment(comment=product_comment, author=author, text=text)
+
+    recomment = Product_Recomment(comment=comment, author=author, text=text)
     recomment.save()
+
     data = {
         "text": text,
         "create_at": recomment.create_at.strftime(
@@ -156,32 +171,45 @@ def product_recomment_create(request, comment_id):
         ),
         "author": author.nickname,
         "user_image": author.profile_image.url,
+        "pk": recomment.pk,
     }
+
     return JsonResponse(data)
 
 
-# 상품 대댓글 update
-def product_recomment_update(request, pk):
-    product_comment = Product.objects.get(pk=pk)
-    product = product_comment.product
-    product_recomment = product_comment__set()
-    product_recomment_form = ProductRecommentForm(request.POST)
+def product_recomment_edit(request):
+    """Product 대댓글 수정 - AJAX"""
 
-    if request.method == "POST":
-        product_recomment_form = ProductRecommentForm(request.POST, instance=product_recomment)
-        if product_recomment_form.is_valid():
-            product_recomment = product_recomment_form.save(commit=False)
-            product_recomment.author = request.user
-            product_recomment.product = product
-            return redirect(reverse("commens:product_reomment_detail", kwargs={"pk": pk}))
-    else:
-        product_recomment_form = ProductRecommentForm(instance=product_recomment)
+    pk = request.POST.get("pk")
+    text = request.POST.get("text")
 
-    return render(
-        request,
-        "comments/product_recomment.html",
-        {"product_recomment_form": product_recomment_form},
-    )
+    comment = get_object_or_404(Product_Recomment, pk=pk)
+    comment.text = text
+    comment.save()
+
+    ctx = {
+        "update_at": comment.updated_at.strftime(
+            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+        ),
+        "status": True,
+    }
+
+    return JsonResponse(ctx)
+
+
+def product_recomment_delete(request):
+    """Product 대댓글 삭제 - AJAX"""
+
+    pk = request.POST.get("pk")
+
+    comment = get_object_or_404(Product_Recomment, pk=pk)
+    comment.delete()
+
+    ctx = {
+        "status": True,
+    }
+
+    return JsonResponse(ctx)
 
 
 """
@@ -299,46 +327,6 @@ def farmer_story_recomment_delete(request):
     pk = request.POST.get("pk")
 
     comment = get_object_or_404(Farmer_Story_Recomment, pk=pk)
-    comment.delete()
-
-    ctx = {
-        "status": True,
-    }
-
-    return JsonResponse(ctx)
-
-
-"""
-product recomments
-"""
-
-
-def product_recomment_edit(request):
-    """Product 대댓글 수정 - AJAX"""
-
-    pk = request.POST.get("pk")
-    text = request.POST.get("text")
-
-    comment = get_object_or_404(Product_Recomment, pk=pk)
-    comment.text = text
-    comment.save()
-
-    ctx = {
-        "update_at": comment.updated_at.strftime(
-            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
-        ),
-        "status": True,
-    }
-
-    return JsonResponse(ctx)
-
-
-def product_recomment_delete(request):
-    """Product 대댓글 삭제 - AJAX"""
-
-    pk = request.POST.get("pk")
-
-    comment = get_object_or_404(Product_Recomment, pk=pk)
     comment.delete()
 
     ctx = {

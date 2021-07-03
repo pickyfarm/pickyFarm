@@ -12,7 +12,6 @@ const recommentEditForm = `
     `;
 
 const recommentEdit = (targetComment, pk) => {
-    console.log(targetComment.closest('.recomment-text-options-wrap').previousElementSibling)
     const comment = targetComment.closest('.recomment-text-options-wrap')
         .previousElementSibling.innerHTML;
 
