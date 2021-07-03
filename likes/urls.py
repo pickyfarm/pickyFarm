@@ -25,4 +25,9 @@ urlpatterns = [
         views.FarmerStoryRecommentLikeView,
         name="farmer_story_recomment_like",
     ),
+    path(
+        "product_recomment/",
+        views.ProductRecommentLikeView,
+        name="product_recomment_like",
+    ),
 ]

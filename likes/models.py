@@ -55,3 +55,12 @@ class FarmerStoryRecommentLike(AbstractLike):
         related_name="Farmer_Story_Recomment_Likes",
         on_delete=models.CASCADE,
     )
+
+
+class ProductRecommentLike(AbstractLike):
+    recomment = models.ForeignKey(
+        "comments.Product_Recomment",
+        verbose_name="Product_Recomment_Likes",
+        related_name="Product_Recomment_Likes",
+        on_delete=models.CASCADE,
+    )
