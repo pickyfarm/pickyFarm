@@ -59,6 +59,13 @@ class Product_Comment(Comment):
         print(self.avg)
         super(Product_Comment, self).save(*args, **kwargs)
 
+    def recomment_count(self):
+        try:
+            return Product_Recomment.objects.filter(comment=self).count()
+
+        except ObjectDoesNotExist:
+            return 0
+
 
 class Product_Comment_Image(models.Model):
 
@@ -78,6 +85,13 @@ class Product_Recomment(Comment):
         "Product_Comment", related_name="product_recomments", on_delete=models.CASCADE
     )
     author = models.ForeignKey(User, related_name="product_recomment", on_delete=models.CASCADE)
+
+    def like_count(self):
+        try:
+            return ProductRecommentLike.objects.filter(recomment=self).count()
+
+        except ObjectDoesNotExist:
+            return 0
 
 
 # class Qna_Comment(Comment):

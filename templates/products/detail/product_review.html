@@ -209,12 +209,6 @@
                 </button>
             </div>
             <div class="recomments hide">
-                <div class="flex flex-row mt-12 mb-12" id="recommentform_{{comment.pk}}">
-                    {% csrf_token %}
-                    {{ recomment_form.text }}
-                    <button class="ml-3" id="rec_submit" name="{{comment.id}}" onclick="recommentSubmit({{comment.pk}})">댓글작성</button>
-                </div>
-
                 <div class="recomment-wrap" name="{{comment.pk}}">
                     {% if request.user.is_authenticated %}
                     <div class="recomment-input-wrapper flex flex-col">
@@ -296,6 +290,8 @@
     // urls for AJAX request
     const recommentEditURL = '{% url "comments:product_recomment_edit" %}'
     const recommentDeleteURL = '{% url "comments:product_recomment_delete" %}'
+    const recommentLikeURL = '{% url "likes:product_recomment_like" %}'
+
 
     // constants for AJAX request's argument
     const productPK = "{{product.pk}}"
@@ -312,3 +308,5 @@
 <script src="{% static 'js/products/comment_submit.js' %}"></script>
 <script src="{% static 'js/products/comment_edit.js' %}"></script>
 <script src="{% static 'js/products/comment_delete.js' %}"></script>
+<script src="{% static 'js/products/comment_like.js' %}"></script>
+

@@ -6,6 +6,7 @@ from comments.models import (
     Editor_Review_Recomment,
     Farmer_Story_Comment,
     Farmer_Story_Recomment,
+    Product_Recomment,
 )
 from .models import (
     EditorReviewCommentLike,
@@ -13,6 +14,7 @@ from .models import (
     EditorReviewLike,
     FarmerStoryCommentLike,
     FarmerStoryRecommentLike,
+    ProductRecommentLike,
 )
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ObjectDoesNotExist
@@ -161,6 +163,36 @@ def FarmerStoryRecommentLikeView(request):
 
             ctx = {
                 "likes": FarmerStoryRecommentLike.objects.filter(recomment=comment).count(),
+                "status": is_like,
+            }
+
+            return JsonResponse(ctx)
+
+    return redirect(reverse("core:home"))
+
+
+def ProductRecommentLikeView(request):
+    if request.is_ajax():
+        if request.user == AnonymousUser():
+            return HttpResponse("로그인 후 좋아요 할 수 있습니다.", status=403)
+
+        else:
+            pk = request.POST.get("pk")
+            comment = Product_Recomment.objects.get(pk=pk)
+            is_like = True
+
+            try:
+                like = ProductRecommentLike.objects.get(user=request.user, recomment=comment)
+
+                like.delete()
+                is_like = False
+
+            except ObjectDoesNotExist:
+                new_like = ProductRecommentLike(user=request.user, recomment=comment)
+                new_like.save()
+
+            ctx = {
+                "likes": ProductRecommentLike.objects.filter(recomment=comment).count(),
                 "status": is_like,
             }
 
