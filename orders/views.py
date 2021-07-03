@@ -247,33 +247,38 @@ def payment_valid(request):
 
                     return render(request, "orders/payment_success.html", ctx)
 
-        return redirect(reverse("orders:payment_fail"))
+        while True:
+            cancel_result = bootpay.cancel(
+                receipt_id, total_price, request.user.nickname, "결제검증 실패로 인한 결제 취소"
+            )
+
+            if cancel_result["status"] == 200:
+                ctx = {"cancel_result": cancel_result}
+                return render(request, "orders/payment_fail.html", ctx)
 
     return HttpResponse("잘못된 접근입니다", status=400)
 
 
-@login_required
-def payment_cancel(request, receiptID=None, price=None):
-    if request.is_ajax():
-        REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
-        PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
+# @login_required
+# def payment_cancel_by_verification_fail(receiptID, price):
+#     REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
+#     PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
 
-        if receiptID or price:
-            receiptID = request.POST.get("receiptID")
-            price = request.POST.get("price")
+#     cancel_reason = "결제 검증 실패로 인한 결제 취소"
 
-        cancel_reason = request.POST.get("cancel_reason")
+#     bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY)
 
-        bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY)
-        result = bootpay.get_access_token()
+#     while True:
+#         result = bootpay.get_access_token()
+#         if result["status"] == 200:
+#             while True:
+#                 cancel_result = bootpay.cancel(
+#                     receiptID, price, request.user.nickname, cancel_reason
+#                 )
 
-        if result["status"] == 200:
-            cancel_result = bootpay.cancel(
-                receiptID, price, request.user.nickname, cancel_reason
-            )
-
-            if cancel_result["status"] == 200:
-                # 결제 취소후 필요한 logic 작성 -> order_detail 부분 보고 해야할듯
-                ctx = {"status": True}
-
-                return JsonResponse(ctx)
+#     if result["status"] == 200:
+#         cancel_result = bootpay.cancel(
+#             receiptID, price, request.user.nickname, cancel_reason
+#         )
+#         if cancel_result["status"] == 200:
+#             return
