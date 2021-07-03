@@ -15,7 +15,7 @@ from django.utils import timezone
 from django.contrib.auth.models import AnonymousUser
 from comments.forms import EditorReviewCommentForm, EditorReviewRecommentForm
 from comments.models import Editor_Review_Comment, Editor_Review_Recomment
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from users.models import User
 
 
@@ -59,9 +59,9 @@ class Editor_review_detail(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(DetailView, self).get_context_data(**kwargs)
-        ctx["comments"] = self.get_object().editor_review_comments.order_by(
-            "-create_at"
-        )
+        comments = Editor_Review_Comment.objects.filter(editor_review=self.get_object())
+
+        ctx["comments"] = comments.order_by("-create_at")[: min(10, len(comments))]
         ctx["form"] = EditorReviewCommentForm()
 
         if self.request.user != AnonymousUser():
@@ -156,6 +156,56 @@ def editor_review_comment(request, pk):
     }
 
     return JsonResponse(data)
+
+
+def editor_review_comment_load(request):
+    """Editor's Pick 댓글 불러오기 - AJAX"""
+
+    # AJAX 요청인 경우에만 실행 한다.
+    if request.is_ajax():
+        current_comment_count = int(
+            request.POST.get("numberOfComments")
+        )  # Front-end 에서 현재 로딩된 댓글의 개수를 요청에 포함한다.
+        pk = request.POST.get("pk")
+        review = Editor_Review.objects.get(pk=pk)
+        comments = Editor_Review_Comment.objects.filter(editor_review=review).order_by(
+            "-create_at"
+        )
+
+        try:
+            # Posting의 전체 댓글 중에서 아직 불러오지 않은 것들을 가져온다. (10개 혹은 그 이하)
+            unloaded_comments = comments[
+                current_comment_count : min(
+                    current_comment_count + 10, comments.count()
+                )
+            ]
+
+            # Front-end에서 동적으로 엘리먼트를 생성할 때 사용 가능한 방식으로 데이터를 분리한다.
+            comment_list = list(
+                map(
+                    lambda u: {
+                        "author": u.author.nickname,
+                        "profile_image": u.author.profile_image.url,
+                        "text": u.text,
+                        "create_at": u.create_at.strftime(
+                            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+                        ),
+                        "pk": u.id,
+                    },
+                    unloaded_comments,
+                )
+            )
+
+            ctx = {"comment_list": comment_list}
+
+            return JsonResponse(ctx)
+
+        except ObjectDoesNotExist:
+            # 더 이상 불러올 댓글이 없으면 HTTP 204 (No Content)를 리턴한다.
+            return HttpResponse("이미 모든 댓글을 불러왔습니다.", status=204)
+
+    # AJAX에 의한 접근이 아닌 경우 HTTP 400 (Bad Request)를 리턴한다.
+    return HttpResponse("잘못된 접근입니다.", status=400)
 
 
 def editor_review_comment_delete(request, reviewpk, commentpk):

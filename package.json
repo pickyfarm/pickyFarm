@@ -27,5 +27,6 @@
   },
   "dependencies": {
     "autoprefixer": "^10.1.0"
-  }
+  },
+  "type": "module"
 }

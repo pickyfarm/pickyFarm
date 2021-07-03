@@ -3,19 +3,27 @@
 }
 
 #content {
-    width:990px;
+    width: 990px;
 }
 /* font color */
-#farm_name, #farmer_name, #profile_title, #sub_btn, #farmer_news, #intro_title, #product_title, #create {
+#farm_name,
+#farmer_name,
+#profile_title,
+#farmer_news,
+#intro_title,
+#product_title,
+#create {
     color: #5e6656;
 }
+
 #bar {
     color: rgba(112, 112, 112, 0.5);
 }
 #main_title {
     color: #808080;
 }
-#views {
+#views,
+#hits {
     color: #999999;
 }
 
@@ -29,11 +37,13 @@
     height: 200px;
     background-color: #f2f2f2;
 }
-#farmer_profile, #farm_profile {
+#farmer_profile,
+#farm_profile {
     width: 148px;
     height: 148px;
     border-radius: 50%;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    object-fit: cover;
 }
 
 #farm_name {
@@ -58,20 +68,31 @@
     color: #ffffff;
     text-align: left;
 }
-#sub_wrap {
+.sub_wrap {
     width: 147px;
     height: 40px;
     padding: 6px 37px 5px 36px;
     border-radius: 20px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
+    cursor: pointer;
+}
+.subed_wrap {
+    width: 147px;
+    height: 40px;
+    padding: 6px 37px 5px 36px;
+    border-radius: 20px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #5e6656;
+    color: #fff;
+    cursor: pointer;
 }
 
 /* farmer news */
 #farmer_news {
     width: 700px;
     height: 80px;
-    margin:0 auto;
+    margin: 0 auto;
     border-radius: 50px;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
@@ -80,7 +101,7 @@
     max-width: 500px;
     height: 40px;
     padding-right: 26.5px;
-    padding-top:6px;
+    padding-top: 6px;
     margin: 0 27.5px;
     border-right: solid 1px rgba(112, 112, 112, 0.6);
 }
@@ -107,15 +128,21 @@
 #farmer_intro {
     text-align: center;
 }
+#farm_desc {
+    width: 990px;
+}
 
 /* farmer product */
 #farmer_product {
     text-align: center;
 }
 #product_img {
-    width: 133px;
-    height: 192px;
+    /* width: 133px; */
+    /* height: 192px; */
+    width: 220px;
+    height: 288px;
     box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
+    object-fit: cover;
 }
 
 /* farmer story */
@@ -133,8 +160,12 @@
     margin: 0 auto;
     width: 215px;
     height: 215px;
+    object-fit: cover;
 }
-
+#story_subtitle {
+    color: #999999;
+    font-size: 15px;
+}
 #comment-write {
     width: 127px;
     height: 36px;
@@ -152,13 +183,17 @@
     box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
 }
-#editor{
+#editor {
     font-size: 9px;
     font-weight: 300;
     color: #5e6656;
     margin-right: 8px;
 }
-#review_img img{
+#editor_name {
+    color: #5c6754;
+    font-weight: 500;
+}
+#review_img img {
     width: 396px;
     height: 169px;
     object-fit: cover;

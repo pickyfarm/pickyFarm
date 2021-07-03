@@ -2,9 +2,9 @@
     width: 340px;
 }
 
-input[type="password"],
-input[type="text"],
-input[type='email']{
+input[type='password'],
+input[type='text']:not(#header-searchbar),
+input[type='email'] {
     width: 340px;
     height: 35px;
     font-size: 12px;
@@ -15,26 +15,26 @@ input[type='email']{
     transition: border 0.3s ease-in;
 }
 
-input[type="password"]:focus,
-input[type="text"]:focus,
-input[type='email']:focus{
+input[type='password']:focus,
+input[type='text']:focus:not(#header-searchbar),
+input[type='email']:focus {
     border: 1px solid #707070;
     outline: none;
 }
 
-input[type="password"]:hover,
-input[type="text"]:hover,
-input[type='email']:hover{
+input[type='password']:hover,
+input[type='text']:hover:not(#header-searchbar),
+input[type='email']:hover {
     border: 1px solid #707070;
 }
 
-input:placeholder{
+input:placeholder {
     text-align: center;
     font-size: 12px;
     color: #b3b3b3;
 }
 
-button{
+button {
     width: 340px;
     height: 40px;
     border-radius: 10px;
@@ -45,11 +45,11 @@ button{
     text-align: center;
 }
 
-.input_forms input:first-child{
+.input_forms input:first-child {
     margin-bottom: 14px;
 }
 
-.input_forms + button{
+.input_forms + button {
     margin-top: 44px;
 }
 
