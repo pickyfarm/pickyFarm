@@ -1,9 +1,4 @@
-const comment = (props, currentUserNickname, currentUserProfileImageURL) => {
-    const reportButtonImageURL =
-        'static_devs/images/editors_review/editor_review_detail_comment_report.svg';
-    const likeButtonImageURL =
-        'static_devs/images/editors_review/editor_review_detail_comment_like.svg';
-
+const comment = (props) => {
     return `
     <div class="comment" name=${props.pk}>
         <div class="comment-info flex items-center">
