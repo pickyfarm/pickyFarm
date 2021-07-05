@@ -1,4 +1,4 @@
-const comment = (props) => {
+const commentComponent = (props) => {
     return `
     <div class="comment" name=${props.pk}>
         <div class="comment-info flex items-center">

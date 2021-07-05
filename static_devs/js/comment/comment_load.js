@@ -16,15 +16,23 @@ const commentLoad = (pk) => {
                     .querySelector('#comments')
                     .insertAdjacentHTML(
                         'beforeend',
-                        comment(
+                        commentComponent(
                             element,
                             currentUserNickname,
                             currentUserProfileImageURL
                         )
                     );
-
-                shootToastMessage('댓글을 불러왔습니다.');
             });
+        },
+        complete: () => {
+            Array.from(document.querySelectorAll('.comment'))
+                .slice(numberOfComments)
+                .forEach((elem) => {
+                    elem.addEventListener('click', (e) => {
+                        commentLike(e);
+                    });
+                });
+            shootToastMessage('댓글을 불러왔습니다.');
         },
     });
 };
