@@ -190,6 +190,7 @@ def editor_review_comment_load(request):
                         "create_at": u.create_at.strftime(
                             r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
                         ),
+                        "like_count": u.like_count(),
                         "pk": u.id,
                     },
                     unloaded_comments,

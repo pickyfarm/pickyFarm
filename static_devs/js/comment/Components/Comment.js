@@ -29,7 +29,7 @@ const commentComponent = (props) => {
             <div class="absolute comment-like-button-wrap button">
                 <div class="comment-like-button relative"
                     style="background-image: url(${likeButtonImageURL});">
-                    <p class="comment-like-count absolute text-center align-text-bottom">0</p>
+                    <p class="comment-like-count absolute text-center align-text-bottom">${props.like_count}</p>
                 </div>
             </div>
         </div>
