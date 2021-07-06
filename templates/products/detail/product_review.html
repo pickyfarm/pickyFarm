@@ -195,6 +195,7 @@
             </table>
         </div>
         <div id="review_txt" class="text-left">{{ comment.text }}</div>
+        <!-- if reported => hide -->
         <div id="review_imgs" class="flex flex-row text-left mt-5">
             {% for img in comment.product_comment_images.all %}
             <div id="review_img" class="mb-9"><img src="{{img.image.url}}" alt="사진없음"

@@ -160,9 +160,7 @@ def payment_update(request, pk):
         order_group.save()
 
         # return redirect(reverse("users:mypage", kwargs={'cat': 'orders'}))
-        return JsonResponse(
-            {"orderId": "temp", "orderName": "temp", "customerName": "nameTemp"}
-        )
+        return JsonResponse({"orderId": "temp", "orderName": "temp", "customerName": "nameTemp"})
 
     pass
 
