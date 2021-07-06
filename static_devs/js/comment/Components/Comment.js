@@ -73,7 +73,7 @@ const recommentComponent = (props) => {
         <div class="absolute recomment-like-button-wrap button">
             <div class="recomment-like-button relative"
                 style="background-image: url(${recommentLikeButtonImageURL});">
-                <p class="recomment-like-count absolute text-center align-text-bottom">0</p>
+                <p class="recomment-like-count absolute text-center align-text-bottom">${props.like_count}</p>
             </div>
         </div>
         <div class="recomment-content">

@@ -88,8 +88,8 @@ const recommentSubmit = (pk) => {
                 <div class="horizon-bar mx-auto"></div>
             `;
 
-            targetComment.parentNode.parentNode.insertAdjacentHTML(
-                'beforeend',
+            targetComment.parentElement.nextElementSibling.insertAdjacentHTML(
+                'afterend',
                 comment
             );
             targetComment.value = '';
