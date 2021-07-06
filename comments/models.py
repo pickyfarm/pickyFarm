@@ -17,6 +17,7 @@ class Comment(models.Model):
 
     # editor's pick 새 댓글 구분 여부 -- 안 읽은 경우 False
     is_read = models.BooleanField(default=False)
+    is_reported = models.BooleanField(default=False)
 
     class Meta:
         abstract = True

@@ -35,3 +35,47 @@ class FarmerNotification(models.Model):
 
     def __str__(self):
         return f"{self.message}"
+
+
+class Report(models.Model):
+    TYPE = (
+        ("editor's pick comment", "editor's pick 댓글"),
+        ("editor's pick recomment", "editor's pick 대댓글"),
+        ("farmer's story comment", "farmer's story 댓글"),
+        ("farmer's story recomment", "farmer's story 대댓글"),
+        ("product comment", "상품 리뷰"),
+        ("product recomment", "상품 리뷰 댓글"),
+    )
+
+    STATUS = (
+        ("recept", "신고 접수"),
+        ("resolve", "처리 완료"),
+    )
+
+    report_type = models.CharField(max_length=30, choices=TYPE)
+
+    editors_pick_comment = models.ForeignKey(
+        "comments.Editor_Review_Comment", on_delete=models.PROTECT, null=True
+    )
+    editors_pick_recomment = models.ForeignKey(
+        "comments.Editor_Review_Recomment", on_delete=models.PROTECT, null=True
+    )
+    farmers_story_comment = models.ForeignKey(
+        "comments.Farmer_Story_Comment", on_delete=models.PROTECT, null=True
+    )
+    farmers_story_recomment = models.ForeignKey(
+        "comments.Farmer_Story_Recomment", on_delete=models.PROTECT, null=True
+    )
+    product_comment = models.ForeignKey(
+        "comments.Product_Comment", on_delete=models.PROTECT, null=True
+    )
+    product_recomment = models.ForeignKey(
+        "comments.Product_Recomment", on_delete=models.PROTECT, null=True
+    )
+
+    reporter = models.ForeignKey("users.Consumer", on_delete=models.CASCADE, related_name="reports")
+    reason = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS)
+    result = models.TextField(null=True)
+
+    create_at = models.DateTimeField(auto_now_add=True)
