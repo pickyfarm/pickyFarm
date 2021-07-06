@@ -49,3 +49,45 @@ const commentComponent = (props) => {
         </div>
     </div>`;
 };
+
+const recommentComponent = (props) => {
+    return `
+    <div class="recomment relative" name="${props.pk}">
+        <div class="flex items-center recomment-info">
+            <div class="recomment-arrow"></div>
+            <div class="recomment-author flex items-center">
+                <img src="${props.profile_image}" class="comment-author--profile-image">
+                <div class="comment-author--id">${props.author}</div>
+            </div>
+            <div class="bar"></div>
+            <div class="comment-create text-center recomment-create">
+                ${props.create_at}
+            </div>
+            <div class="bar"></div>
+            <div class="recomment-report flex items-center ml-auto">
+                <img src="${reportButtonImageURL}"
+                    alt="">
+                <div class="comment-report--report button">신고하기</div>
+            </div>
+        </div>
+        <div class="absolute recomment-like-button-wrap button">
+            <div class="recomment-like-button relative"
+                style="background-image: url(${recommentLikeButtonImageURL});">
+                <p class="recomment-like-count absolute text-center align-text-bottom">0</p>
+            </div>
+        </div>
+        <div class="recomment-content">
+            <div class="recomment-text">
+                <div class="recomment-text--text">${props.text}</div>
+                <div class="recomment-text-options-wrap flex justify-between">
+                    <div></div>
+                    <div class="recomment-text-options flex">
+                        <div class="recomment-text-options--edit button comment-text-options--edit"  onclick="recommentEdit(this, ${props.pk})">수정</div>
+                        <div class="recomment-text-options--delete button comment-text-options--delete" onclick="recommentDelete(${props.pk})">삭제</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="horizon-bar mx-auto"></div>`;
+};
