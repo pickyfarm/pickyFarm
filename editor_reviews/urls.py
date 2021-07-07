@@ -16,6 +16,7 @@ urlpatterns = [
     # editor's pick comment 관련 AJAX urls
     #
     path("comment/more/", views.editor_review_comment_load, name="comment_load"),
+    path("recomment/more/", views.editor_review_recomment_load, name="recomment_load"),
     path(
         "<int:reviewpk>/comment/edit/<int:commentpk>",
         views.editor_review_comment_edit,

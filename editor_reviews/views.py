@@ -151,7 +151,7 @@ def editor_review_comment(request, pk):
             r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
         ),
         "author": author.nickname,
-        "user_image": author.profile_image.url,
+        "profile_image": author.profile_image.url,
         "pk": comment.id,
     }
 
@@ -190,6 +190,58 @@ def editor_review_comment_load(request):
                         "create_at": u.create_at.strftime(
                             r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
                         ),
+                        "like_count": u.like_count(),
+                        "recomment_count": u.recomment_count(),
+                        "pk": u.id,
+                    },
+                    unloaded_comments,
+                )
+            )
+
+            ctx = {"comment_list": comment_list}
+
+            return JsonResponse(ctx)
+
+        except ObjectDoesNotExist:
+            # 더 이상 불러올 댓글이 없으면 HTTP 204 (No Content)를 리턴한다.
+            return HttpResponse("이미 모든 댓글을 불러왔습니다.", status=204)
+
+    # AJAX에 의한 접근이 아닌 경우 HTTP 400 (Bad Request)를 리턴한다.
+    return HttpResponse("잘못된 접근입니다.", status=400)
+
+
+def editor_review_recomment_load(request):
+    """Editor's Pick 대댓글 불러오기 - AJAX"""
+
+    if request.is_ajax():
+        current_comment_count = int(
+            request.POST.get("numberOfComments")
+        )  # Front-end 에서 현재 로딩된 댓글의 개수를 요청에 포함한다.
+        pk = request.POST.get("pk")
+        comment = Editor_Review_Comment.objects.get(pk=pk)
+        recomments = Editor_Review_Recomment.objects.filter(comment=comment).order_by(
+            "-create_at"
+        )
+
+        try:
+            # Posting의 전체 댓글 중에서 아직 불러오지 않은 것들을 가져온다. (10개 혹은 그 이하)
+            unloaded_comments = recomments[
+                current_comment_count : min(
+                    current_comment_count + 5, recomments.count()
+                )
+            ]
+
+            # Front-end에서 동적으로 엘리먼트를 생성할 때 사용 가능한 방식으로 데이터를 분리한다.
+            comment_list = list(
+                map(
+                    lambda u: {
+                        "author": u.author.nickname,
+                        "profile_image": u.author.profile_image.url,
+                        "text": u.text,
+                        "create_at": u.create_at.strftime(
+                            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+                        ),
+                        "like_count": u.like_count(),
                         "pk": u.id,
                     },
                     unloaded_comments,
@@ -254,7 +306,7 @@ def editor_review_recomment(request, reviewpk, commentpk):
             r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
         ),
         "author": author.nickname,
-        "user_image": author.profile_image.url,
+        "profile_image": author.profile_image.url,
         "pk": recomment.pk,
     }
 

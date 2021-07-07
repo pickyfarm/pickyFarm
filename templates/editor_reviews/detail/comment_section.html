@@ -85,7 +85,7 @@
                     </div>
                     <div class="horizon-bar mx-auto"></div>
                     {% endif %}
-                    {% for recomment in comment.editor_review_recomments.all %}
+                    {% for recomment in comment.editor_review_recomments.all|dictsortreversed:'create_at'|slice:':5' %}
                     <div class="recomment relative" name={{recomment.pk}}>
                         <div class="flex items-center recomment-info">
                             <div class="recomment-arrow"></div>
@@ -139,6 +139,7 @@
                     </div>
                     <div class="horizon-bar mx-auto"></div>
                     {% endfor %}
+                    <button onclick="recommentLoad({{comment.pk}})" class="recomment-load-button">불러오기</button>
                 </div>
             </div>
             {% endfor %}
@@ -159,6 +160,7 @@
     const recommentLikeURL = '{% url "likes:editor_review_recomment_like"%}'
     const recommentEditURL = "{% url 'editors_pick:recomment_edit' %}"
     const recommentDeleteURL = '{% url "editors_pick:recomment_delete" %}'
+    const recommentLoadURL = '{% url "editors_pick:recomment_load" %}'
 
     // constants for AJAX request's argument
     const reviewPK = "{{review.pk}}"
