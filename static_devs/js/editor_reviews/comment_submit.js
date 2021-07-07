@@ -48,7 +48,7 @@ const recommentSubmit = (pk) => {
 
         success: function (data) {
             targetComment.parentElement.nextElementSibling.insertAdjacentHTML(
-                'afterend', // 이 부분 수정 필요함 -> 대댓글 0개일 때 달면 위치 못찾아서 대댓글 등록이 안되는 문제 있음
+                'afterend',
                 recommentComponent(data)
             );
             targetComment.value = '';
