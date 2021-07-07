@@ -22,6 +22,7 @@ const commentLoad = (pk) => {
                             currentUserProfileImageURL
                         )
                     );
+                recommentLoad(element.pk);
             });
         },
         complete: () => {

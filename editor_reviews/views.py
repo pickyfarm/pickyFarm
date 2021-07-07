@@ -191,6 +191,7 @@ def editor_review_comment_load(request):
                             r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
                         ),
                         "like_count": u.like_count(),
+                        "recomment_count": u.recomment_count(),
                         "pk": u.id,
                     },
                     unloaded_comments,

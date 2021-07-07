@@ -480,7 +480,7 @@
     opacity: 0.5;
 }
 
-.recomment-wrap > .horizon-bar:last-child {
+.recomment-wrap > .horizon-bar:last-of-type {
     display: none;
 }
 
