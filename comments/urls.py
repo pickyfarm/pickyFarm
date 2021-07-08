@@ -51,6 +51,7 @@ urlpatterns = [
         views.farmer_story_comment_delete,
         name="farmer_story_comment_delete",
     ),
+    path("farmer_story/comment/more/", views.farmer_story_comment_load, name="story_comment_load"),
     # farmer's story recomment
     path(
         "farmer_story/<int:storypk>/comment/<int:commentpk>/recomment/",
@@ -66,5 +67,10 @@ urlpatterns = [
         "farmer_story/recomment/delete/",
         views.farmer_story_recomment_delete,
         name="farmer_story_recomment_delete",
+    ),
+    path(
+        "farmer_story/recomment/more/",
+        views.farmer_story_recomment_load,
+        name="story_recomment_load",
     ),
 ]

@@ -110,6 +110,8 @@
             </div>
             {% endfor %}
         </div>
+        <img onclick="commentLoad({{main_story.pk}})" class="mx-auto mb-40 mt-16" src="{% static 'images/farm/more_comment.svg' %}" alt="">
+
         <!-- 스토리 댓글 작성 폼 -->
         {% if request.user.is_authenticated %}
         <div id="comment-submit-form">
@@ -154,11 +156,16 @@
     // urls for AJAX request
     const commentSubmitURL = '{% url "comments:farmer_story_comment" main_story.pk %}'
     const commentLikeURL = '{% url "likes:farmer_story_comment_like" %}'
+    const commentLoadURL = '{% url "comments:story_comment_load" %}'
+
     const recommentLikeURL = '{% url "likes:farmer_story_recomment_like" %}'
     const recommentEditURL = "{% url 'comments:farmer_story_recomment_edit' %}"
     const recommentDeleteURL = '{% url "comments:farmer_story_recomment_delete" %}'
+    const recommentLoadURL = '{% url "comments:story_recomment_load" %}'
+
 
     // constants for AJAX request's argument
+    const reviewPK = "{{main_story.pk}}"
     const storyPK = "{{main_story.pk}}"
     const userPK = "{{request.user.pk}}"
     const comment_like_count = "{{comment.like_count}}"
@@ -178,4 +185,6 @@
 <script src="{% static 'js/farmers/story/story_comment_delete.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_edit.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_like.js' %}"></script>
+<script src="{% static 'js/comment/comment_load.js' %}"></script>
+
 <!-- recomment -->

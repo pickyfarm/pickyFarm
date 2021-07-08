@@ -12,8 +12,9 @@ from products.models import Product
 from users.models import Consumer
 from farmers.models import Farmer_Story
 from django.template.loader import render_to_string
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 
 
 """
@@ -217,6 +218,47 @@ farmer's story comments
 """
 
 
+def farmer_story_comment_load(request):
+    """Farmer's story 댓글 불러오기 - AJAX"""
+
+    if request.is_ajax():
+        current_comment_count = int(request.POST.get("numberOfComments"))
+        pk = request.POST.get("pk")
+        review = Farmer_Story.objects.get(pk=pk)
+        comments = Farmer_Story_Comment.objects.filter(story=review).order_by("-create_at")
+
+        try:
+            unloaded_comments = comments[
+                current_comment_count : min(current_comment_count + 10, comments.count())
+            ]
+
+            comment_list = list(
+                map(
+                    lambda u: {
+                        "author": u.author.nickname,
+                        "profile_image": u.author.profile_image.url,
+                        "text": u.text,
+                        "create_at": u.create_at.strftime(
+                            r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
+                        ),
+                        "like_count": u.like_count(),
+                        "recomment_count": u.recomment_count(),
+                        "pk": u.id,
+                    },
+                    unloaded_comments,
+                )
+            )
+
+            ctx = {"comment_list": comment_list}
+
+            return JsonResponse(ctx)
+
+        except ObjectDoesNotExist:
+            return HttpResponse("이미 모든 댓글을 불러왔습니다.", status=204)
+
+    return HttpResponse("잘못된 접근입니다.", status=400)
+
+
 def farmer_story_comment(request, pk):
     """Farmer's story 댓글 작성 - AJAX"""
     post = get_object_or_404(Farmer_Story, pk=pk)
@@ -274,6 +316,10 @@ def farmer_story_comment_delete(request, storypk, commentpk):
 """
 farmer's story recomments
 """
+
+
+def farmer_story_recomment_load(request):
+    pass
 
 
 def farmer_story_recomment(request, storypk, commentpk):

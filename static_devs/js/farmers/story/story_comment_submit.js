@@ -43,7 +43,7 @@ const commentSubmit = () => {
                     <div class="absolute comment-like-button-wrap button">
                         <div class="comment-like-button relative"
                             style="background-image: url(${likeButtonImageURL});">
-                            <p class="comment-like-count absolute text-center align-text-bottom">${like_count}</p>
+                            <p class="comment-like-count absolute text-center align-text-bottom">${data.like_count}</p>
                         </div>
                     </div>
                 </div>

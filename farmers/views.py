@@ -105,13 +105,9 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(
-                Q(farmer__farm_name__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
         elif select_val == "farmer":
-            search_list = search_list.filter(
-                Q(farmer__user__nickname__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -141,9 +137,7 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(
-                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
-            )
+            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -175,7 +169,7 @@ class Story_Detail(DetailView):
         ctx["farmer"] = farmer
         ctx["stories"] = stories
         ctx["tags"] = Farm_Tag.objects.all().filter(farmer=farmer)
-        ctx["comments"] = comments
+        ctx["comments"] = comments.order_by("-create_at")[: min(10, len(comments))]
         ctx["form"] = form
 
         if self.request.user != AnonymousUser():
@@ -220,9 +214,7 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
     try:
-        sub = Subscribe.objects.get(
-            farmer__pk=farmer.pk, consumer=request.user.consumer
-        )
+        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
     except:
         sub = False
     ctx = {
@@ -348,9 +340,9 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["orders"] = []
-        orders = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("order_group")
+        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "order_group"
+        )
 
         order_list = []
         order_list.append(orders.first())
@@ -396,9 +388,7 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = Product.objects.filter(farmer=self.request.user.farmer)
-        context["questions"] = Question.objects.filter(
-            product__farmer=self.request.user.farmer
-        )
+        context["questions"] = Question.objects.filter(product__farmer=self.request.user.farmer)
         context["reviews"] = Product_Comment.objects.filter(
             product__farmer=self.request.user.farmer
         )
@@ -439,9 +429,7 @@ def paginate(request):
         notifications = Paginator(notifications, 5)
         page_n = request.POST.get("page_n", None)  # getting page number
         results = list(
-            notifications.page(page_n).object_list.values(
-                "id", "message", "notitype", "create_at"
-            )
+            notifications.page(page_n).object_list.values("id", "message", "notitype", "create_at")
         )
         return JsonResponse({"results": results})
 
