@@ -178,8 +178,7 @@
 
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
 <script>
-    var clientKey = 'test_ck_MGjLJoQ1aVZREgzG4ogVw6KYe2RN';
-    var tossPayments = TossPayments(clientKey);
+  
     let totalPrice = document.getElementById('price_text_b').innerHTML
     totalPrice = Number.parseInt(totalPrice)
     console.log(totalPrice)
@@ -217,20 +216,20 @@
         BootPay.request({
 	        price: totalPrice, //실제 결제되는 가격
 	        application_id: "60dad0c05b29480021dc523d",
-	        name: {{order_group_name}}, //결제창에서 보여질 이름
-	        pg: '[[ pg ]]',
-	        method: '[[ method ]]', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+	        name: '{{order_group_name}}', //결제창에서 보여질 이름
+	        pg: '',
+	        method: '', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 	        show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
 	        items: [
-                {% for p in products %}
+            
 		        {
-			        item_name: {{p.product.title}}, //상품명
-			        qty: {{p.order_quantity}}, //수량
+			        item_name: p.product.title, //상품명
+			        qty: p.order_quantity, //수량
 			        unique: '123', //해당 상품을 구분짓는 primary key
-			        price: {{p.product.sell_price}}, //상품 단가
-			        cat1: {{p.product.category.name}}, // 대표 상품의 카테고리 상, 50글자 이내
+			        price: p.product.sell_price, //상품 단가
+			        cat1: p.product.category.name, // 대표 상품의 카테고리 상, 50글자 이내
 		        },
-                {% endfor %}
+                
 	        ],
 	        user_info: {
 		        username: revName,
