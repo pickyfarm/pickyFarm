@@ -41,3 +41,6 @@ def delete(request):
     }
     return JsonResponse(data)
 
+
+
+

@@ -14,7 +14,7 @@
 
 
 <div id="rev-address-section">
-    <form action="?add=go", method="POST">
+    <form method="POST">
         {% csrf_token %}
     <div id="full-address-section" class="flex flex-row">
         {{addressform.full_address}}
@@ -34,12 +34,37 @@
     </form>
 </div>
 </div>
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
+<script>
+let menuBtns = []
+    menuBtns.push(document.getElementById('menu_carts'))
+    menuBtns.push(document.getElementById('menu_boughts'))
+    menuBtns.push(document.getElementById('menu_infos'))
+    menuBtns.push(document.getElementById('menu_likes'))
+ 
+
+    $('#menu_deliveries').css({
+        "background-color": "#5c6754",
+        "color": "white",
+    })
+
+
+    menuBtns.forEach(item => {
+        item.addEventListener('mouseover', function () {
+            $(this).css({
+                "background-color": "#5c6754",
+                "color": "white",
+
+            })
+        })
+        item.addEventListener('mouseout', function () {
+            $(this).css({
+                "background-color": "white",
+                "color": "#5c6754"
+            })
+        })
+    })
+
+</script>
 
 {% endblock content %}
-
-{% block script_section %}
-
-<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
-
-
-{% endblock script_section %}

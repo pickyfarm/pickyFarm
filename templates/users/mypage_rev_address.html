@@ -5,7 +5,7 @@
 <div id="contents-container">
 <div id="top-btn-section" class="flex flex-row">
   <div>배송지에 따라 배송비가 달라질 수 있습니다</div>
-  <a href="?add=go"><div id="add-rev-address-btn"class="justify-self-end">+ 배송지 추가</div></a>
+  <a href="?type=add"><div id="add-rev-address-btn"class="justify-self-end">+ 배송지 추가</div></a>
 </div>
 
 <div id="index-section" class="flex flex-row">
@@ -26,7 +26,7 @@
   
     <div id="addr" class="flex flex-row">
       <div class="w-10/12 text-center">{{addr.full_address}} {{addr.detail_address}}</div>
-      <div class="flex w-1/12 justify-center"><img id="modify" name="{{addr.pk}}" src="{% static 'images/users/pen.svg' %}"></div>
+      <div class="flex w-1/12 justify-center"><a href="?type=update&pk={{addr.pk}}"><img id="modify" name="{{addr.pk}}" src="{% static 'images/users/pen.svg' %}"></a></div>
       <div class="flex w-1/12 justify-center"><img id="delete" name="{{addr.pk}}" src="{% static 'images/users/delete_x.svg' %}"></div>
     </div>
   
@@ -36,13 +36,37 @@
     
 </div>
 </div>
-
-{% endblock content %}
-
-{% block script_section %}
-
 <script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 <script>
+
+let menuBtns = []
+    menuBtns.push(document.getElementById('menu_carts'))
+    menuBtns.push(document.getElementById('menu_boughts'))
+    menuBtns.push(document.getElementById('menu_infos'))
+    menuBtns.push(document.getElementById('menu_likes'))
+ 
+
+    $('#menu_deliveries').css({
+        "background-color": "#5c6754",
+        "color": "white",
+    })
+
+
+    menuBtns.forEach(item => {
+        item.addEventListener('mouseover', function () {
+            $(this).css({
+                "background-color": "#5c6754",
+                "color": "white",
+
+            })
+        })
+        item.addEventListener('mouseout', function () {
+            $(this).css({
+                "background-color": "white",
+                "color": "#5c6754"
+            })
+        })
+    })
 
   let deleteBtn = document.querySelectorAll('#delete')
 
@@ -73,4 +97,5 @@
 
 </script>
 
-{% endblock script_section %}
+{% endblock content %}
+
