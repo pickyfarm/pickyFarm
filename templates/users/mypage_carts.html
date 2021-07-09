@@ -234,6 +234,9 @@
 
     selectors.forEach(item => {
         item.addEventListener('click', function () {
+            if(totalSelector.checked == true && item.checked == false){
+                totalSelector.checked = false
+            }
             let pk = $(this).attr('name')
             console.log(pk)
 
@@ -255,6 +258,8 @@
             }
         })
     })
+
+
 
     quantityUp.forEach(item => {
         item.addEventListener('click', function () {

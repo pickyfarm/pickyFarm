@@ -146,6 +146,14 @@
         }
     })
 
+    selectors.forEach(item=>{
+        item.addEventListener('click', function(){
+            if(totalSelector.checked == true && item.checked == false){
+            totalSelector.checked = false
+            }
+        })
+    })
+
     let deleteBtn = document.getElementById('delete_btn')
     console.log(deleteBtn)
 
