@@ -984,7 +984,14 @@
   margin-left:300px;
 }
 
+#top-btn-section>:nth-child(2):hover{
+  background-color: #ffffff;
+  color: #5c6754;
+  border: solid 1px #5c6754;
+}
+
 /* 배송지 추가 */
+
 
 #add-rev-address-title-section{
   width:100%;
@@ -1079,6 +1086,11 @@
   text-align: center;
   color: #5c6754;
   margin-top:67px;
+}
+
+#submit-rev-address-btn:hover{
+  color: #ffffff;
+  background-color: #5c6754;
 }
 
 
