@@ -15,6 +15,15 @@ def orderingCart(request):
     pass
 
 
+
+
+def order_group_number(pk):
+    pass
+
+def order_detail_number(pk):
+    pass
+
+
 @login_required
 def payment_create(request):
     consumer = request.user.consumer

@@ -47,9 +47,13 @@ class Order_Detail(models.Model):
         ('shipping', '배송 중'),
         ('complete', '배송완료'),
         ('cancel', '주문취소'),
+        ('re_ex_recept', '환불/교환 접수'),
+        ('re_ex_approve', '환불/교환 승인'),
+        ('re_ex_deny', '환불/교환 거절'),
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default='wait')
+    order_management_number = models.CharField(max_length=20, null=True, blank=True)
     invoice_number = models.CharField(max_length=30, null=True, blank=True)
     quantity = models.IntegerField()
     total_price = models.IntegerField()
