@@ -168,16 +168,12 @@ def editor_review_comment_load(request):
         )  # Front-end 에서 현재 로딩된 댓글의 개수를 요청에 포함한다.
         pk = request.POST.get("pk")
         review = Editor_Review.objects.get(pk=pk)
-        comments = Editor_Review_Comment.objects.filter(editor_review=review).order_by(
-            "-create_at"
-        )
+        comments = Editor_Review_Comment.objects.filter(editor_review=review).order_by("-create_at")
 
         try:
             # Posting의 전체 댓글 중에서 아직 불러오지 않은 것들을 가져온다. (10개 혹은 그 이하)
             unloaded_comments = comments[
-                current_comment_count : min(
-                    current_comment_count + 10, comments.count()
-                )
+                current_comment_count : min(current_comment_count + 10, comments.count())
             ]
 
             # Front-end에서 동적으로 엘리먼트를 생성할 때 사용 가능한 방식으로 데이터를 분리한다.
@@ -219,16 +215,12 @@ def editor_review_recomment_load(request):
         )  # Front-end 에서 현재 로딩된 댓글의 개수를 요청에 포함한다.
         pk = request.POST.get("pk")
         comment = Editor_Review_Comment.objects.get(pk=pk)
-        recomments = Editor_Review_Recomment.objects.filter(comment=comment).order_by(
-            "-create_at"
-        )
+        recomments = Editor_Review_Recomment.objects.filter(comment=comment).order_by("-create_at")
 
         try:
             # Posting의 전체 댓글 중에서 아직 불러오지 않은 것들을 가져온다. (10개 혹은 그 이하)
             unloaded_comments = recomments[
-                current_comment_count : min(
-                    current_comment_count + 5, recomments.count()
-                )
+                current_comment_count : min(current_comment_count + 5, recomments.count())
             ]
 
             # Front-end에서 동적으로 엘리먼트를 생성할 때 사용 가능한 방식으로 데이터를 분리한다.
@@ -302,7 +294,7 @@ def editor_review_recomment(request, reviewpk, commentpk):
 
     data = {
         "text": text,
-        "create_at": comment.create_at.strftime(
+        "create_at": recomment.create_at.strftime(
             r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
         ),
         "author": author.nickname,
