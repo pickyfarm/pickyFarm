@@ -234,6 +234,9 @@
 
     selectors.forEach(item => {
         item.addEventListener('click', function () {
+            if(totalSelector.checked == true && item.checked == false){
+                totalSelector.checked = false
+            }
             let pk = $(this).attr('name')
             console.log(pk)
 
@@ -255,6 +258,8 @@
             }
         })
     })
+
+
 
     quantityUp.forEach(item => {
         item.addEventListener('click', function () {
@@ -366,7 +371,7 @@
         })
 
         if (products.length == 0) {
-            alert("삭제할 무난이를 선택해주세요!")
+            shootToastMessage("삭제할 무난이를 선택해주세요!", '2', "alert")
             return
         }
         data = {
@@ -380,10 +385,10 @@
             data: data,
             dataType: "json",
             success: function (response) {
+                //삭제 toast msg reload시의 문제
                 if (response.success == true)
                     window.location.reload()
-                alert("무난이를 삭제하였습니다")
-
+                shootToastMessage("무난이를 삭제하였습니다")
             }
         })
 

@@ -1002,6 +1002,11 @@
   margin-top:67px;
 }
 
+#submit-rev-address-btn:hover{
+  color: #ffffff;
+  background-color: #5c6754;
+}
+
 
 /* 개인정보 수정 */
 

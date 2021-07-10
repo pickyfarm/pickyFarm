@@ -82,7 +82,7 @@
 
 {% endif %}
 
-<script src="{% static 'js/base/cartIn.js' %}"></script>
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
 
@@ -146,6 +146,14 @@
         }
     })
 
+    selectors.forEach(item=>{
+        item.addEventListener('click', function(){
+            if(totalSelector.checked == true && item.checked == false){
+            totalSelector.checked = false
+            }
+        })
+    })
+
     let deleteBtn = document.getElementById('delete_btn')
     console.log(deleteBtn)
 
@@ -159,8 +167,9 @@
             }
         })
 
+        // 삭제할 상품 checkbox를 아무것도 선택하지 않았을 경우
         if (products.length == 0) {
-            alert("삭제할 무난이를 선택해주세요!")
+            shootToastMessage("삭제할 무난이를 선택해주세요!", '2', "alert")
             return
         }
         data = {
@@ -174,10 +183,12 @@
             data: data,
             dataType: "json",
             success: function (response) {
-                if (response.success == true)
+                //Toast Msg 노출의 문제 있음
+                if (response.success == true){
+                    shootToastMessage("무난이를 삭제하였습니다")
                     window.location.reload()
-                alert("무난이를 삭제하였습니다")
-
+                }
+                    
             }
         })
     })

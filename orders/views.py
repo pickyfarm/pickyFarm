@@ -18,6 +18,15 @@ def orderingCart(request):
     pass
 
 
+
+
+def order_group_number(pk):
+    pass
+
+def order_detail_number(pk):
+    pass
+
+
 @login_required
 def payment_create(request):
     consumer = request.user.consumer
@@ -37,11 +46,19 @@ def payment_create(request):
         order_group = Order_Group(status="wait", consumer=consumer)
         order_group.save()
 
-        for order in orders:
-            pk = (int)(order["pk"])
-            quantity = (int)(order["quantity"])
-            print(f"{pk}:{quantity}")
+         # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개 
+        order_detail_cnt = 0
+         # 부트페이 API로 보내기 위한 name parameter 
+        order_group_name = ''
 
+        for order in orders:
+
+            order_detail_cnt += 1
+
+            pk = (int)(order['pk'])
+            quantity = (int)(order['quantity'])
+            print(f'{pk}:{quantity}')
+            
             product = Product.objects.get(pk=pk)
             # order_detail 구매 수량
             total_quantity += quantity
@@ -61,18 +78,23 @@ def payment_create(request):
             order_detail.save()
             price_sum += total_price
 
-            print(f"product_weight : {product.weight}")
-            print(f"product_quantity : {quantity}")
-            total_weight += (product.weight) * quantity
-            print(f"중간 결과 {total_weight}")
-            products.append(
-                {
-                    "product": product,
-                    "order_quantity": quantity,
-                    "order_price": product.sell_price * quantity,
-                    "weight": product.weight * quantity,
-                }
-            )
+            # 구매하는 첫번째 상품인 경우 order_group name으로 추가 ex) 맛있는 딸기 외 2개
+            if order_detail_cnt == 1:
+                order_group_name = product.title
+
+            print(f'product_weight : {product.weight}')
+            print(f'product_quantity : {quantity}')
+            total_weight += (product.weight)*quantity
+            print(f'중간 결과 {total_weight}')
+            products.append({'product': product, 'order_quantity': quantity,
+                             'order_price': product.sell_price*quantity, 'weight': product.weight*quantity})
+
+        # 구매하는 상품 개수가 1을 초과 시, **외 2개** 식으로 표기하기 위함
+        if order_detail_cnt > 1:
+            rest_cnt = order_detail_cnt - 1
+            order_group_name = order_group_name + ' 외 ' + str(rest_cnt) + '개'
+
+        print(order_group_name)
 
         delivery_fee = 0  # 추후 배송비 관련 전략 생길 시 작성
         discount = 0  # 추후 할인 전략 도입 시 작성
@@ -85,16 +107,17 @@ def payment_create(request):
         order_group.save()
         print(order_group.pk)
         ctx = {
-            "form": form,
-            "consumer": consumer,
-            "products": products,
-            "total_quantity": total_quantity,
-            "price_sum": price_sum,
-            "discount": discount,
-            "delivery_fee": delivery_fee,
-            "final_price": final_price,
-            "total_weight": round(total_weight, 2),
-            "order_group_pk": int(order_group.pk),
+            'order_group_name' : order_group_name,
+            'form': form,
+            'consumer': consumer,
+            'products': products,
+            'total_quantity': total_quantity,
+            'price_sum': price_sum,
+            'discount': discount,
+            'delivery_fee': delivery_fee,
+            'final_price': final_price,
+            'total_weight': round(total_weight,2),
+            'order_group_pk' : int(order_group.pk),
         }
 
         return render(request, "orders/payment.html", ctx)

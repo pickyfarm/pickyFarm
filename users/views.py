@@ -702,8 +702,9 @@ def mypage(request, cat):
             return render(request, "users/mypage_carts.html", ctx)
         elif cat_name == "rev_address":
             print("왔댜")
-            get_arg = request.GET.get("add", None)
-            if get_arg == "go":
+            get_arg = request.GET.get("type", None)
+            update_pk = request.GET.get("pk", None)
+            if get_arg == "add":
                 if request.method == "GET":
                     addressform = AddressForm()
                     ctx_add_rev_address = {
@@ -711,7 +712,14 @@ def mypage(request, cat):
                     }
                     ctx.update(ctx_add_rev_address)
                     return render(request, "users/mypage_add_rev_address.html", ctx)
-
+            elif get_arg == "update":
+                address = Address.objects.get(pk=update_pk)
+                addressform = AddressForm(instance=address)
+                ctx_add_rev_address = {
+                    "addressform": addressform,
+                }
+                ctx.update(ctx_add_rev_address)
+                return render(request, "users/mypage_add_rev_address.html", ctx)
             else:
                 rev_addresses = request.user.addresses.all().order_by("-create_at")
                 ctx_rev_address = {
@@ -735,16 +743,37 @@ def mypage(request, cat):
             return render(request, "users/mypage_info.html", ctx)
 
     else:
-        get_arg = request.GET.get("add", None)
+        address_type = request.GET.get('type', None)
         print("post에 왔다")
         addressform = AddressForm(request.POST)
+        user = request.user
         if addressform.is_valid():
-            user = request.user
-            address = addressform.save(commit=False)
-            address.user = user
-            address.is_default = False
-            address.save()
+           # [address UPDATE POST] 배송지 추가 페이지에서 새로운 배송지 등록 시, backend logic
+            if address_type == 'add':
+                address = addressform.save(commit=False)
+                address.user = user
+                address.is_default = False
+                address.save()
+            # [address UPDATE POST] 기존에 등록된 배송지 수정 시, backend logic
+            elif address_type == 'update':
+                update_pk = request.GET.get('pk', None)
+                address = Address.objects.get(pk=update_pk)
+                print(address)
+                address.full_address = addressform.cleaned_data['full_address']
+                address.detail_address = addressform.cleaned_data['detail_address']
+                address.extra_address = addressform.cleaned_data['extra_address']
+                address.sido = addressform.cleaned_data['sido']
+                address.fsigungu = addressform.cleaned_data['sigungu']
+                address.save()
+                print(address)
+
             return redirect(reverse("users:mypage", kwargs={"cat": "rev_address"}))
+        else :
+            #404 페이지 제작 후 여기에 넣어야함
+            return redirect(reverse("core:main"))
+        
+
+        
 
 
 # def add_rev_address(request):
