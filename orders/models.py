@@ -1,16 +1,17 @@
 from django.db import models
 
+
 # Create your models here.
 
 
 class Order_Group(models.Model):
 
     STATUS = (
-        ('wait', '결제대기'),
-        ('complete', '결제완료'),
+        ("wait", "결제대기"),
+        ("complete", "결제완료"),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS, default='wait')
+    status = models.CharField(max_length=20, choices=STATUS, default="wait")
     rev_address = models.TextField(null=True, blank=True)
     rev_name = models.CharField(max_length=50, null=True, blank=True)
     rev_phone_number = models.CharField(max_length=30, null=True, blank=True)
@@ -27,29 +28,30 @@ class Order_Group(models.Model):
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
-    
+
     consumer = models.ForeignKey(
-        'users.Consumer', related_name='order_groups', on_delete=models.CASCADE)
+        "users.Consumer", related_name="order_groups", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         name = []
         name.append(self.consumer.user.nickname)
-        name.append(str(self.create_at) + ' 주문')
-        return '-'.join(name)
+        name.append(str(self.create_at) + " 주문")
+        return "-".join(name)
 
 
 class Order_Detail(models.Model):
 
     STATUS = (
-        ('wait', '결제대기'),
-        ('complete', '결제완료'),
-        ('preparing', '배송 준비 중'),
-        ('shipping', '배송 중'),
-        ('complete', '배송완료'),
-        ('cancel', '주문취소'),
+        ("wait", "결제대기"),
+        ("complete", "결제완료"),
+        ("preparing", "배송 준비 중"),
+        ("shipping", "배송 중"),
+        ("complete", "배송완료"),
+        ("cancel", "주문취소"),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS, default='wait')
+    status = models.CharField(max_length=20, choices=STATUS, default="wait")
     invoice_number = models.CharField(max_length=30, null=True, blank=True)
     quantity = models.IntegerField()
     total_price = models.IntegerField()
@@ -59,13 +61,37 @@ class Order_Detail(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     product = models.ForeignKey(
-        'products.Product', related_name='order_details', on_delete=models.CASCADE)
+        "products.Product", related_name="order_details", on_delete=models.CASCADE
+    )
     order_group = models.ForeignKey(
-        Order_Group, related_name='order_details', on_delete=models.SET_NULL, null=True)
+        Order_Group, related_name="order_details", on_delete=models.SET_NULL, null=True
+    )
 
     def __str__(self):
         name = []
         name.append(str(self.product.title))
         name.append(str(self.quantity))
         name.append(str(self.status))
-        return '-'.join(name)
+        return "-".join(name)
+
+
+class RefundExchange(models.Model):
+    TYPE = (
+        ("refund", "환불"),
+        ("exchange", "교환"),
+    )
+    STATUS = (
+        ("recept", "환불/교환 접수"),
+        ("approve", "환불/교환 승인"),
+        ("deny", "환불/교환 거절"),
+    )
+    claim_type = models.CharField(max_length=20, choices=TYPE)
+    claim_status = models.CharField(max_length=20, choices=STATUS)
+
+    order_detail = models.ForeignKey("Order_Detail", on_delete=models.PROTECT)
+    reason = models.TextField()
+
+    rev_address = models.TextField(null=True, blank=True)
+    rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
+    rev_loc_detail = models.TextField(null=True, blank=True)
+    rev_message = models.TextField(null=True, blank=True)
