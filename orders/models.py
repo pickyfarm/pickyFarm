@@ -12,6 +12,7 @@ class Order_Group(models.Model):
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
+    order_management_number = models.CharField(max_length=20, null=True, blank=True)
     rev_address = models.TextField(null=True, blank=True)
     rev_name = models.CharField(max_length=50, null=True, blank=True)
     rev_phone_number = models.CharField(max_length=30, null=True, blank=True)

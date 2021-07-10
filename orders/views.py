@@ -18,12 +18,51 @@ def orderingCart(request):
     pass
 
 
+# order_group 주문 관리 번호 생성 function
+def create_order_group_management_number(pk):
+    month_dic = {
+        1 : 'Jan',
+        2 : 'Feb',
+        3 : 'Mar',
+        4 : 'Apr',
+        5 : 'May',
+        6 : 'Jun',
+        7 : 'Jul',
+        9 : 'Sept',
+        10 : 'Oct',
+        11 : 'Nov',
+        12 : 'Dec',
+    }
 
+    now = timezone.localtime()
+    year = now.year %100
+    print(year)
 
-def order_group_number(pk):
-    pass
+    month = now.month
+    print(month)
+    print(month_dic[month])
+    if month < 10:
+        month = '0' + str(month)
+    else:
+        month = str(month)
 
-def order_detail_number(pk):
+    print(month)
+    day = now.day
+    print(day)
+
+    if day < 10:
+        day = '0' + str(day)
+    else:
+        day = str(day)
+
+    print(day)
+
+    order_group_management_number = str(year) + '_' + month + '_' + day + '_PF' + str(pk)
+
+    print(order_group_management_number)
+    return order_group_management_number
+
+def order_detail_management_number(pk):
     pass
 
 
@@ -45,8 +84,14 @@ def payment_create(request):
 
         order_group = Order_Group(status="wait", consumer=consumer)
         order_group.save()
+        order_group_pk = order_group.pk
 
-         # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개 
+        # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
+        management_number = create_order_group_management_number(order_group_pk)
+        order_group.order_management_number = management_number
+        order_group.save()
+
+        # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개 
         order_detail_cnt = 0
          # 부트페이 API로 보내기 위한 name parameter 
         order_group_name = ''
