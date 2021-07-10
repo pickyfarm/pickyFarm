@@ -4,7 +4,7 @@
     <div id="comment-section" class="mx-auto">
         <div id="comments">
             {% for comment in comments %}
-            <div class="comment">
+            <div class="comments">
                 <div class="comment" name={{comment.pk}}>
                     <div class="comment-info flex items-center">
                         <div class="comment-author flex items-center">
@@ -185,6 +185,7 @@
 <script src="{% static 'js/farmers/story/story_comment_delete.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_edit.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_like.js' %}"></script>
+<script src="{% static 'js/comment/Components/Comment.js' %}"></script>
 <script src="{% static 'js/comment/comment_load.js' %}"></script>
 
 <!-- recomment -->
