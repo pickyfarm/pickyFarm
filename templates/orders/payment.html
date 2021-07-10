@@ -102,7 +102,7 @@
                 <div id="products-section">
                     
                     {% for p in products %}
-                    <div id="product" class="flex flex-row items-center">
+                    <div id="product" name="{{p.order_number}}" class="flex flex-row items-center">
                         <div class="w-2/12"><img id="product-img" src="{{product.main_image.url}}"></div>
                         <div class="w-3/12" id="farm_name">{{p.product.farmer.farm_name}}</div>
                         <div class="w-3/12" id="title">{{p.product.title}}</div>
@@ -199,6 +199,8 @@
         });
         let revMessage = document.getElementById('id_rev_message').value
         let toFarmMessage = document.getElementById('id_to_farm_message').value
+        let items = document.querySelectorAll('#product')
+        console.log(items)
         console.log(toFarmMessage)
         console.log(revName)
         console.log(revLocAt)
@@ -213,6 +215,26 @@
             'to_farm_message' : toFarmMessage,
         }
 
+        itemsList = []
+
+        items.forEach(item=>{
+            const unique = item.getAttribute('name')
+            const itemName = item.getElementById('title').innerHTML
+            const qty = item.getElementById('orders-num').innerHTML
+            const price = item.getElementById('sell-price').innerHTML
+            const cat1 = "과일 임시"
+
+            itemsList.append({
+                item_name: itemName, //상품명
+			    qty: qty, //수량
+			    unique: unique, //해당 상품을 구분짓는 primary key
+			    price: price, //상품 단가
+			    cat1: cat1, // 대표 상품의 카테고리 상, 50글자 이내
+            })    
+        })
+
+        console.log(itemsList)
+
         BootPay.request({
 	        price: totalPrice, //실제 결제되는 가격
 	        application_id: "60dad0c05b29480021dc523d",
@@ -220,17 +242,7 @@
 	        pg: '',
 	        method: '', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 	        show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
-	        items: [
-            
-		        {
-			        item_name: p.product.title, //상품명
-			        qty: p.order_quantity, //수량
-			        unique: '123', //해당 상품을 구분짓는 primary key
-			        price: p.product.sell_price, //상품 단가
-			        cat1: p.product.category.name, // 대표 상품의 카테고리 상, 50글자 이내
-		        },
-                
-	        ],
+	        items: itemsList,
 	        user_info: {
 		        username: revName,
 		        email: '사용자 이메일', // 빼는 것을 고려

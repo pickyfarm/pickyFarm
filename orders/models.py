@@ -45,10 +45,10 @@ class Order_Detail(models.Model):
 
     STATUS = (
         ('wait', '결제대기'),
-        ('complete', '결제완료'),
+        ('payment_complete', '결제완료'),
         ('preparing', '배송 준비 중'),
         ('shipping', '배송 중'),
-        ('complete', '배송완료'),
+        ('delivery_complete', '배송완료'),
         ('cancel', '주문취소'),
         ('re_ex_recept', '환불/교환 접수'),
         ('re_ex_approve', '환불/교환 승인'),

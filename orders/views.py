@@ -160,7 +160,7 @@ def payment_create(request):
             print(f'product_quantity : {quantity}')
             total_weight += (product.weight)*quantity
             print(f'중간 결과 {total_weight}')
-            products.append({'product': product, 'order_quantity': quantity,
+            products.append({'order_number':order_detail_management_number, 'product': product, 'order_quantity': quantity,
                              'order_price': product.sell_price*quantity, 'weight': product.weight*quantity})
 
         # 구매하는 상품 개수가 1을 초과 시, **외 2개** 식으로 표기하기 위함
