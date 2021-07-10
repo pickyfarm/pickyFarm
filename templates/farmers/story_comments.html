@@ -45,7 +45,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="recomment-wrap flex" style="width: 927px; margin-left: 34px;">
+                    <div class="recomment-wrap" name="{{comment.pk}}">
                         {% if request.user.is_authenticated %}
                         <div class="recomment-input-wrapper flex flex-col">
                             <div class="flex items-center recomment-info">
@@ -61,7 +61,7 @@
                         </div>
                         <div class="horizon-bar mx-auto"></div>
                         {% endif %}
-                        {% for recomment in comment.farmer_story_recomments.all %}
+                        {% for recomment in comment.farmer_story_recomments.all|dictsortreversed:'create_at'|slice:':5' %}
                         <div class="recomment relative" name={{recomment.pk}}>
                             <div class="flex items-center recomment-info">
                                 <div class="recomment-arrow"></div>
@@ -105,6 +105,7 @@
                         </div>
                         <div class="horizon-bar mx-auto"></div>
                         {% endfor %}
+                        <button onclick="recommentLoad({{comment.pk}})" class="recomment-load-button">불러오기</button>
                     </div>
                 </div>
             </div>
@@ -181,11 +182,11 @@
 </script>
 
 <!-- comment -->
+<script src="{% static 'js/comment/Components/Comment.js' %}"></script>
+<script src="{% static 'js/farmers/story/story_comment_like.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_submit.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_delete.js' %}"></script>
 <script src="{% static 'js/farmers/story/story_comment_edit.js' %}"></script>
-<script src="{% static 'js/farmers/story/story_comment_like.js' %}"></script>
-<script src="{% static 'js/comment/Components/Comment.js' %}"></script>
 <script src="{% static 'js/comment/comment_load.js' %}"></script>
 
 <!-- recomment -->
