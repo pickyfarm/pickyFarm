@@ -38,7 +38,7 @@ const commentComponent = (props) => {
                 <div class="comment-like-button relative"
                     style="background-image: url(${likeButtonImageURL});">
                     <p class="comment-like-count absolute text-center align-text-bottom">${
-                        props.like_count
+                        props.like_count? props.like_count : 0
                     }</p>
                 </div>
             </div>
@@ -67,6 +67,7 @@ const commentComponent = (props) => {
 };
 
 const recommentComponent = (props) => {
+    console.log(props)
     return `
     <div class="recomment relative" name="${props.pk}">
         <div class="flex items-center recomment-info">
@@ -89,7 +90,7 @@ const recommentComponent = (props) => {
         <div class="absolute recomment-like-button-wrap button">
             <div class="recomment-like-button relative"
                 style="background-image: url(${recommentLikeButtonImageURL});">
-                <p class="recomment-like-count absolute text-center align-text-bottom">${props.like_count}</p>
+                <p class="recomment-like-count absolute text-center align-text-bottom">${props.like_count?props.like_count:0}</p>
             </div>
         </div>
         <div class="recomment-content">

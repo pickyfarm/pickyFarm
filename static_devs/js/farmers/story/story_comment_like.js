@@ -1,4 +1,4 @@
-const storyCommentLike = (e) => {
+const CommentLike = (e) => {
     comment = e.target.closest('.comment')
     pk = parseInt(comment.getAttribute('name'))
 
@@ -23,7 +23,7 @@ const storyCommentLike = (e) => {
     })
 }
 
-const storyRecommentLike = e => {
+const RecommentLike = e => {
     comment = e.target.closest('.recomment')
     pk = parseInt(comment.getAttribute('name'))
 
@@ -49,9 +49,9 @@ const storyRecommentLike = e => {
 }
 
 document.querySelectorAll('.comment-like-button-wrap').forEach((elem) => {
-    elem.addEventListener('click', e => storyCommentLike(e))
+    elem.addEventListener('click', e => CommentLike(e))
 })
 
 document.querySelectorAll('.recomment-like-button-wrap').forEach((elem) => {
-    elem.addEventListener('click', e => storyRecommentLike(e))
+    elem.addEventListener('click', e => RecommentLike(e))
 })

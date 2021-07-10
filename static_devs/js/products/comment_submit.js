@@ -19,7 +19,7 @@ const recommentSubmit = (pk) => {
                     <div class="flex items-center recomment-info">
                         <div class="recomment-arrow"></div>
                         <div class="recomment-author flex items-center">
-                            <img src="${data.user_image}" class="comment-author--profile-image">
+                            <img src="${data.profile_image}" class="comment-author--profile-image">
                             <div class="comment-author--id">${data.author}</div>
                         </div>
                         <div class="bar"></div>
