@@ -18,13 +18,72 @@ def orderingCart(request):
     pass
 
 
+# order_group 주문 관리 번호 생성 function
+def create_order_group_management_number(pk):
+    month_dic = {
+        1 : 'Jan',
+        2 : 'Feb',
+        3 : 'Mar',
+        4 : 'Apr',
+        5 : 'May',
+        6 : 'Jun',
+        7 : 'Jul',
+        9 : 'Sept',
+        10 : 'Oct',
+        11 : 'Nov',
+        12 : 'Dec',
+    }
 
+    now = timezone.localtime()
+    year = now.year %100
+    print(year)
 
-def order_group_number(pk):
-    pass
+    month = now.month
+    print(month)
+    print(month_dic[month])
+    if month < 10:
+        month = '0' + str(month)
+    else:
+        month = str(month)
 
-def order_detail_number(pk):
-    pass
+    print(month)
+    day = now.day
+    print(day)
+
+    if day < 10:
+        day = '0' + str(day)
+    else:
+        day = str(day)
+
+    print(day)
+
+    order_group_management_number = str(year) + '_' + month + '_' + day + '_PF' + str(pk)
+
+    print(order_group_management_number)
+    return order_group_management_number
+
+def create_order_detail_management_number(pk, farmer_id):
+    now = timezone.localtime()
+    year = now.year %100
+    print(year)
+
+    month = now.month
+    if month < 10:
+        month = '0' + str(month)
+    else:
+        month = str(month)
+
+    print(month)
+    day = now.day
+    print(day)
+
+    if day < 10:
+        day = '0' + str(day)
+    else:
+        day = str(day)
+
+    order_detail_management_number = str(year) + month + day + str(pk) + '_' + farmer_id
+    return order_detail_management_number
 
 
 @login_required
@@ -45,8 +104,14 @@ def payment_create(request):
 
         order_group = Order_Group(status="wait", consumer=consumer)
         order_group.save()
+        order_group_pk = order_group.pk
 
-         # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개 
+        # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
+        order_group_management_number = create_order_group_management_number(order_group_pk)
+        order_group.order_management_number = order_group_management_number
+        order_group.save()
+
+        # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개 
         order_detail_cnt = 0
          # 부트페이 API로 보내기 위한 name parameter 
         order_group_name = ''
@@ -76,6 +141,15 @@ def payment_create(request):
                 order_group=order_group,
             )
             order_detail.save()
+            order_detail_pk = order_detail.pk
+            farmer_id = product.farmer.user.username
+            
+            # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
+            order_detail_management_number = create_order_detail_management_number(order_group_pk, farmer_id)
+            order_detail.order_management_number = order_detail_management_number
+            order_detail.save()
+
+
             price_sum += total_price
 
             # 구매하는 첫번째 상품인 경우 order_group name으로 추가 ex) 맛있는 딸기 외 2개
@@ -86,7 +160,7 @@ def payment_create(request):
             print(f'product_quantity : {quantity}')
             total_weight += (product.weight)*quantity
             print(f'중간 결과 {total_weight}')
-            products.append({'product': product, 'order_quantity': quantity,
+            products.append({'order_number':order_detail_management_number, 'product': product, 'order_quantity': quantity,
                              'order_price': product.sell_price*quantity, 'weight': product.weight*quantity})
 
         # 구매하는 상품 개수가 1을 초과 시, **외 2개** 식으로 표기하기 위함
