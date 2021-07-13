@@ -323,6 +323,17 @@ Farmer mypage section
 
 
 class FarmerMyPageBase(ListView):
+    def dispatch(self, request, *args, **kwargs):
+        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
+
+        if (
+            self.request.user == AnonymousUser()
+            or not Farmer.objects.filter(user=self.request.user).exists()
+        ):
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         """context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
 
@@ -330,13 +341,12 @@ class FarmerMyPageBase(ListView):
         context["farmer"] = Farmer.objects.get(user=self.request.user)
         return context
 
-    def render_to_response(self, context, **response_kwargs):
-        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
+    # def render_to_response(self, context, **response_kwargs):
 
-        if not Farmer.objects.filter(user=self.request.user).exists():
-            return redirect(reverse("core:main"))
+    #     if not Farmer.objects.filter(user=self.request.user).exists():
+    #         return redirect(reverse("core:main"))
 
-        return super().render_to_response(context, **response_kwargs)
+    #     return super().render_to_response(context, **response_kwargs)
 
 
 class FarmerMyPageOrderManage(FarmerMyPageBase):

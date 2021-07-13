@@ -91,3 +91,99 @@
     width: 22.5px;
     margin-right: 7px;
 }
+
+#order-list-sheet-index-section {
+    grid-template-columns: 145px 180px 90px 70px 380px 125px;
+    padding-bottom: 21px;
+    border-bottom: 1px solid #707070;
+}
+
+.order-status {
+    font-size: 16px;
+    font-weight: bold;
+    color: #5c6754;
+}
+
+.deactivate {
+    color: #b3b3b3;
+}
+
+.order-list-sheet-index {
+    font-size: 12px;
+    font-weight: 300;
+    color: #5e6656;
+}
+
+.order-list-sheet-data-section {
+    grid-template-columns: 145px 180px 90px 70px 380px 125px;
+    padding: 23.5px 0;
+    border-bottom: 1px solid rgba(94, 102, 86, 0.5);
+    background-origin: border-box;
+}
+
+.order-list-sheet-data-section div:not(.order-status, .order-info-data) {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.order-confirm-overlay {
+    width: 505px;
+    height: 100%;
+    background-color: rgba(243, 244, 243, 0.9);
+    grid-column: 5 / 7;
+}
+
+.order-confirm-button {
+    width: 88px;
+    height: 88px;
+    border-radius: 100%;
+    background-color: #5c6754;
+}
+
+.order-info-data {
+    font-size: 14px;
+    font-weight: 300;
+    color: #5e6656;
+}
+
+.order-info {
+    grid-template-columns: 74px 260px;
+    column-gap: 24px;
+    row-gap: 6px;
+}
+
+.order-info-index {
+    grid-column: 1;
+}
+
+.order-info-data {
+    grid-column: 2;
+}
+
+.consumer-info {
+    grid-row: 1;
+}
+
+.shipping-address {
+    grid-row: 2;
+}
+
+.order-memo {
+    grid-row: 4;
+}
+
+.order-status-action-button {
+    width: 70px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #707070;
+    font-size: 12px !important;
+    font-weight: 300 !important;
+    color: #707070;
+    text-align: center;
+}
+
+.order-status-action-button:hover {
+    background-color: #707070;
+    color: white;
+}
