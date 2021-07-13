@@ -9,7 +9,7 @@ from products.models import Product
 import requests, base64
 import json
 import os
-from BootpayApi import BootpayApi
+from .BootpayApi import BootpayApi
 
 # Create your views here.
 
