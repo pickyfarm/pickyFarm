@@ -1,9 +1,8 @@
-import requests
-import base64
+import requests, base64
 
 # import config
 from config import settings
-from . import auth
+from .auth import *
 
 
 def uploadImage(path):
