@@ -320,7 +320,7 @@ def payment_fail(request):
 
 @login_required
 def payment_valid(request):
-    if request.is_ajax():
+    if request.method == "POST":
         REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
         receipt_id = request.POST.get("receipt_id")
