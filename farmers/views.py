@@ -315,6 +315,17 @@ Farmer mypage section
 
 
 class FarmerMyPageBase(ListView):
+    def dispatch(self, request, *args, **kwargs):
+        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
+
+        if (
+            self.request.user == AnonymousUser()
+            or not Farmer.objects.filter(user=self.request.user).exists()
+        ):
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         """context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
 
@@ -322,42 +333,29 @@ class FarmerMyPageBase(ListView):
         context["farmer"] = Farmer.objects.get(user=self.request.user)
         return context
 
-    def render_to_response(self, context, **response_kwargs):
-        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
-
-        if not Farmer.objects.filter(user=self.request.user).exists():
-            return redirect(reverse("core:main"))
-
-        return super().render_to_response(context, **response_kwargs)
-
 
 class FarmerMyPageOrderManage(FarmerMyPageBase):
     """농가 주문관리 페이지"""
 
     model = Order_Detail
+    context_object_name = "orders"
     template_name = "farmers/mypage/order/farmer_mypage_order.html"
+    paginate_by = 6
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["orders"] = []
-        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
-            "order_group"
-        )
+    def get_queryset(self):
+        status = self.request.GET.get("status", None)
+        q = self.request.GET.get("q", None)
+        qs = Order_Detail.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).order_by("order_group")
 
-        order_list = []
-        order_list.append(orders.first())
+        for q in qs:
+            print(q.status)
 
-        for i in range(1, len(orders)):
-            if orders[i].order_group != orders[i - 1].order_group:
-                context["orders"].append(order_list)
-                order_list = [orders[i]]
+        if status:
+            return qs.filter(status=status)
 
-            else:
-                order_list.append(orders[i])
-
-        context["orders"].append(order_list)
-
-        return context
+        return qs
 
 
 class FarmerMyPageProductManage(FarmerMyPageBase):
