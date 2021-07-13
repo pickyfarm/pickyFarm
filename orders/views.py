@@ -325,9 +325,9 @@ def payment_valid(request):
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
         receipt_id = request.POST.get("receipt_id")
         total_price = int(request.POST.get("price"))
-
+        
         bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY)
-
+        print(receipt_id)
         result = bootpay.get_access_token()
 
         if result["status"] == 200:
