@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 from django.conf import settings
 import os
 import dotenv
+import configparser
 
 # dotenv_path = os.path.join('~/pickypick', '.env')
 # dotenv.read_dotenv(dotenv_path)
@@ -59,6 +60,7 @@ PICKY_APPS = [
     "django_summernote",
     "addresses.apps.AddressesConfig",
     "django_seed",
+    "kakaomessages",
 ]
 
 INSTALLED_APPS = PICKY_APPS + DJANGO_APPS
@@ -212,3 +214,19 @@ EMAIL_USE_TLS = True
 
 # 사이트와 관련한 자동응답을 받을 이메일 주소
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+# kakao 알림톡 SDK
+apiKey = os.environ.get("api_key")
+apiSecret = os.environ.get("api_secret")
+protocol = os.environ.get("protocol")
+domain = os.environ.get("domain")
+prefix = os.environ.get("prefix") and os.environ.get("prefix") or ""
+
+
+def getUrl(path):
+    url = "%s://%s" % (protocol, domain)
+    if prefix != "":
+        url = url + prefix
+    url = url + path
+    return url
