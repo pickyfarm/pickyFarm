@@ -58,14 +58,23 @@
             {% else %}
             {% endif %}
         </div>
-        <div class="absolute order-confirm-overlay flex justify-center">
-            <div class="button order-confirm-button flex flex-col">
+        <div class="absolute order-confirm-overlay flex justify-center items-center" name="{{order.pk}}">
+            {% if order.status == 'cancel' %}
+            <div class="order-cancelled">취소한 주문건 입니다.</div>
+            {% else %}
+            <div class="button order-confirm-button order-confirm flex flex-col items-center justify-center transition_element">
                 <img src="{% static 'images/farmer_mypage/order/accept.svg' %}" alt="accept">
                 <span>주문확인</span>
             </div>
+            <div class="button order-confirm-button order-cancel flex flex-col items-center justify-center transition_element">
+                <img src="{% static 'images/farmer_mypage/order/decline.svg' %}" alt="decline">
+                <span>주문취소</span>
+            </div>
+            {% endif %}
         </div>
     </div>
 
     {% endfor %}
 
 </section>
+<script src="{% static 'js/farmers/mypage/farmer_mypage_order.js'%}"></script>

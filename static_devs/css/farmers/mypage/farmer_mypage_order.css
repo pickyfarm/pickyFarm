@@ -121,7 +121,8 @@
     background-origin: border-box;
 }
 
-.order-list-sheet-data-section div:not(.order-status, .order-info-data) {
+.order-list-sheet-data-section
+    div:not(.order-status, .order-info-data, .order-cancelled) {
     font-size: 15px;
     font-weight: bold;
 }
@@ -133,11 +134,29 @@
     grid-column: 5 / 7;
 }
 
+.order-cancelled {
+    font-size: 15px;
+    font-weight: normal;
+    color: #5c6754;
+}
+
 .order-confirm-button {
     width: 88px;
     height: 88px;
     border-radius: 100%;
     background-color: #5c6754;
+    margin: auto 12px;
+}
+
+.order-confirm-button:hover {
+    background-color: #a6aca2;
+}
+
+.order-confirm-button span {
+    font-size: 13px;
+    color: white;
+    margin-top: 3px;
+    font-weight: normal;
 }
 
 .order-info-data {
