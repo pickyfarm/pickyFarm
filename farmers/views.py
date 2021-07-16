@@ -348,7 +348,7 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
     model = Order_Detail
     context_object_name = "orders"
     template_name = "farmers/mypage/order/farmer_mypage_order.html"
-    paginate_by = 6
+    paginate_by = 1
 
     def get_queryset(self):
         status = self.request.GET.get("status", None)
@@ -356,6 +356,8 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
         qs = Order_Detail.objects.filter(
             product__farmer=self.request.user.farmer
         ).order_by("order_group")
+
+        print(qs)
 
         if status:
             qs = qs.filter(status=status)

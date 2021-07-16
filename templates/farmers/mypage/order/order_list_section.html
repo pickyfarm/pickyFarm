@@ -76,5 +76,13 @@
 
     {% endfor %}
 
+
 </section>
+
+<div id="paginator-wrapper" class="flex justify-center">
+    {% for page_num in paginator.page_range %}
+    <a href="?page={{page_num}}" class="page-num {% if page_obj.number == page_num %} current-page {% endif %}">{{page_num}}</a>
+    {% endfor %}
+</div>
+
 <script src="{% static 'js/farmers/mypage/farmer_mypage_order.js'%}"></script>
