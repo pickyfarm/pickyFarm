@@ -357,17 +357,18 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
             product__farmer=self.request.user.farmer
         ).order_by("order_group")
 
-        for q in qs:
-            print(q.status)
-
         if status:
-            return qs.filter(status=status)
+            qs = qs.filter(status=status)
+
+        if q:
+            qs = qs.filter(order_group__consumer__user__nickname__icontains=q)
 
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["status"] = self.request.GET.get("status", None)
+        context["q"] = self.request.GET.get("q", None)
         return context
 
 

@@ -54,6 +54,7 @@
     font-weight: 300;
     color: #6d8060;
     margin-left: 20px;
+    margin-right: 9px;
 }
 
 .bar {
@@ -63,7 +64,8 @@
 }
 
 #order-search {
-    width: 80%;
+    flex-grow: 1;
+    width: auto;
     height: 20px;
     font-size: 16px;
     font-weight: 300;
@@ -78,8 +80,7 @@
 #search-button {
     width: 19px;
     height: 19px;
-    margin-right: 19px;
-    margin-left: auto;
+    margin: auto 19px;
 }
 
 .search-sort {
