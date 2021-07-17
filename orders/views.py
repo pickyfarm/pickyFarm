@@ -342,7 +342,7 @@ def payment_valid(request):
         receipt_id = request.POST.get("receipt_id")
         total_price = int(request.POST.get("price"))
 
-        bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY, "development")
+        bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY, mode="development")
         print("--- atfer call BootpayApi() ---")
         result = bootpay.get_access_token()
         print("--- atfer get access token ---")
