@@ -345,7 +345,7 @@ def payment_valid(request):
 
         print(REST_API_KEY, PRIVATE_KEY)
         bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY)
-        print(receipt_id)
+        print(bootpay)
         result = bootpay.get_access_token()
         pprint.pprint(result)
 
