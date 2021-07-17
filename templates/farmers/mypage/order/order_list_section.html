@@ -14,13 +14,13 @@
         <div class="order-status {% if order.status == 'shipping' or order.status == 'complete' %} deactivate {% endif %}">
             {% if order.status == 'wait' %}
             결제대기
-            {% elif order.status == 'complete' %}
+            {% elif order.status == 'payment_complete' %}
             신규주문
             {% elif order.status == 'preparing' %}
             배송대기
             {% elif order.status == 'shipping' %}
             배송 중
-            {% elif order.status == 'complete' %}
+            {% elif order.status == 'delivery_complete' %}
             배송완료
             {% elif order.status == 'cancel' %}
             주문취소
@@ -76,5 +76,13 @@
 
     {% endfor %}
 
+
 </section>
+
+<div id="paginator-wrapper" class="flex justify-center">
+    {% for page_num in paginator.page_range %}
+    <a href="?page={{page_num}}" class="page-num {% if page_obj.number == page_num %} current-page {% endif %}">{{page_num}}</a>
+    {% endfor %}
+</div>
+
 <script src="{% static 'js/farmers/mypage/farmer_mypage_order.js'%}"></script>
