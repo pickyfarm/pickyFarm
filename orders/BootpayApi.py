@@ -23,7 +23,7 @@ class BootpayApi:
         data = {"application_id": self.application_id, "private_key": self.pk}
         response = requests.post(self.api_url(["request", "token"]), data=data)
         result = response.json()
-        if result["status"] == 200:
+        if result["status"] is 200:
             self.token = result["data"]["token"]
         return result
 
