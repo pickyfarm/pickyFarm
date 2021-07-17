@@ -341,10 +341,8 @@ def payment_valid(request):
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
         receipt_id = request.POST.get("receipt_id")
         total_price = int(request.POST.get("price"))
-        print(receipt_id, total_price)
 
-        print(REST_API_KEY, PRIVATE_KEY)
-        bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY)
+        bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY, "development")
         print(bootpay)
         result = bootpay.get_access_token()
         pprint.pprint(result)
