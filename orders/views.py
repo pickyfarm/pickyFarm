@@ -10,6 +10,7 @@ import requests, base64
 import json
 import os
 from .BootpayApi import BootpayApi
+import pprint
 
 # Create your views here.
 
@@ -21,28 +22,28 @@ def orderingCart(request):
 # order_group 주문 관리 번호 생성 function
 def create_order_group_management_number(pk):
     month_dic = {
-        1 : 'Jan',
-        2 : 'Feb',
-        3 : 'Mar',
-        4 : 'Apr',
-        5 : 'May',
-        6 : 'Jun',
-        7 : 'Jul',
-        9 : 'Sept',
-        10 : 'Oct',
-        11 : 'Nov',
-        12 : 'Dec',
+        1: "Jan",
+        2: "Feb",
+        3: "Mar",
+        4: "Apr",
+        5: "May",
+        6: "Jun",
+        7: "Jul",
+        9: "Sept",
+        10: "Oct",
+        11: "Nov",
+        12: "Dec",
     }
 
     now = timezone.localtime()
-    year = now.year %100
+    year = now.year % 100
     print(year)
 
     month = now.month
     print(month)
     print(month_dic[month])
     if month < 10:
-        month = '0' + str(month)
+        month = "0" + str(month)
     else:
         month = str(month)
 
@@ -51,25 +52,28 @@ def create_order_group_management_number(pk):
     print(day)
 
     if day < 10:
-        day = '0' + str(day)
+        day = "0" + str(day)
     else:
         day = str(day)
 
     print(day)
 
-    order_group_management_number = str(year) + '_' + month + '_' + day + '_PF' + str(pk)
+    order_group_management_number = (
+        str(year) + "_" + month + "_" + day + "_PF" + str(pk)
+    )
 
     print(order_group_management_number)
     return order_group_management_number
 
+
 def create_order_detail_management_number(pk, farmer_id):
     now = timezone.localtime()
-    year = now.year %100
+    year = now.year % 100
     print(year)
 
     month = now.month
     if month < 10:
-        month = '0' + str(month)
+        month = "0" + str(month)
     else:
         month = str(month)
 
@@ -78,11 +82,11 @@ def create_order_detail_management_number(pk, farmer_id):
     print(day)
 
     if day < 10:
-        day = '0' + str(day)
+        day = "0" + str(day)
     else:
         day = str(day)
 
-    order_detail_management_number = str(year) + month + day + str(pk) + '_' + farmer_id
+    order_detail_management_number = str(year) + month + day + str(pk) + "_" + farmer_id
     return order_detail_management_number
 
 
@@ -107,23 +111,25 @@ def payment_create(request):
         order_group_pk = order_group.pk
 
         # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
-        order_group_management_number = create_order_group_management_number(order_group_pk)
+        order_group_management_number = create_order_group_management_number(
+            order_group_pk
+        )
         order_group.order_management_number = order_group_management_number
         order_group.save()
 
-        # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개 
+        # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개
         order_detail_cnt = 0
-         # 부트페이 API로 보내기 위한 name parameter 
-        order_group_name = ''
+        # 부트페이 API로 보내기 위한 name parameter
+        order_group_name = ""
 
         for order in orders:
 
             order_detail_cnt += 1
 
-            pk = (int)(order['pk'])
-            quantity = (int)(order['quantity'])
-            print(f'{pk}:{quantity}')
-            
+            pk = (int)(order["pk"])
+            quantity = (int)(order["quantity"])
+            print(f"{pk}:{quantity}")
+
             product = Product.objects.get(pk=pk)
             # order_detail 구매 수량
             total_quantity += quantity
@@ -143,12 +149,13 @@ def payment_create(request):
             order_detail.save()
             order_detail_pk = order_detail.pk
             farmer_id = product.farmer.user.username
-            
+
             # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
-            order_detail_management_number = create_order_detail_management_number(order_group_pk, farmer_id)
+            order_detail_management_number = create_order_detail_management_number(
+                order_group_pk, farmer_id
+            )
             order_detail.order_management_number = order_detail_management_number
             order_detail.save()
-
 
             price_sum += total_price
 
@@ -156,17 +163,24 @@ def payment_create(request):
             if order_detail_cnt == 1:
                 order_group_name = product.title
 
-            print(f'product_weight : {product.weight}')
-            print(f'product_quantity : {quantity}')
-            total_weight += (product.weight)*quantity
-            print(f'중간 결과 {total_weight}')
-            products.append({'order_number':order_detail_management_number, 'product': product, 'order_quantity': quantity,
-                             'order_price': product.sell_price*quantity, 'weight': product.weight*quantity})
+            print(f"product_weight : {product.weight}")
+            print(f"product_quantity : {quantity}")
+            total_weight += (product.weight) * quantity
+            print(f"중간 결과 {total_weight}")
+            products.append(
+                {
+                    "order_number": order_detail_management_number,
+                    "product": product,
+                    "order_quantity": quantity,
+                    "order_price": product.sell_price * quantity,
+                    "weight": product.weight * quantity,
+                }
+            )
 
         # 구매하는 상품 개수가 1을 초과 시, **외 2개** 식으로 표기하기 위함
         if order_detail_cnt > 1:
             rest_cnt = order_detail_cnt - 1
-            order_group_name = order_group_name + ' 외 ' + str(rest_cnt) + '개'
+            order_group_name = order_group_name + " 외 " + str(rest_cnt) + "개"
 
         print(order_group_name)
 
@@ -181,17 +195,17 @@ def payment_create(request):
         order_group.save()
         print(order_group.pk)
         ctx = {
-            'order_group_name' : order_group_name,
-            'form': form,
-            'consumer': consumer,
-            'products': products,
-            'total_quantity': total_quantity,
-            'price_sum': price_sum,
-            'discount': discount,
-            'delivery_fee': delivery_fee,
-            'final_price': final_price,
-            'total_weight': round(total_weight,2),
-            'order_group_pk' : int(order_group.pk),
+            "order_group_name": order_group_name,
+            "form": form,
+            "consumer": consumer,
+            "products": products,
+            "total_quantity": total_quantity,
+            "price_sum": price_sum,
+            "discount": discount,
+            "delivery_fee": delivery_fee,
+            "final_price": final_price,
+            "total_weight": round(total_weight, 2),
+            "order_group_pk": int(order_group.pk),
         }
 
         return render(request, "orders/payment.html", ctx)
@@ -257,7 +271,9 @@ def payment_update(request, pk):
         order_group.save()
 
         # return redirect(reverse("users:mypage", kwargs={'cat': 'orders'}))
-        return JsonResponse({"orderId": "temp", "orderName": "temp", "customerName": "nameTemp"})
+        return JsonResponse(
+            {"orderId": "temp", "orderName": "temp", "customerName": "nameTemp"}
+        )
 
     pass
 
@@ -325,13 +341,15 @@ def payment_valid(request):
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
         receipt_id = request.POST.get("receipt_id")
         total_price = int(request.POST.get("price"))
-        
+        print(receipt_id, total_price)
+
         bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY)
         print(receipt_id)
         result = bootpay.get_access_token()
 
         if result["status"] == 200:
             verify_result = bootpay.verify(receipt_id)
+            pprint.pprint(verify_result)
 
             if verify_result["status"] == 200:
                 if (
