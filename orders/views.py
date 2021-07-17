@@ -343,9 +343,11 @@ def payment_valid(request):
         total_price = int(request.POST.get("price"))
         print(receipt_id, total_price)
 
+        print(REST_API_KEY, PRIVATE_KEY)
         bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY)
         print(receipt_id)
         result = bootpay.get_access_token()
+        pprint.pprint(result)
 
         if result["status"] == 200:
             verify_result = bootpay.verify(receipt_id)
