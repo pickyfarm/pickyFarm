@@ -343,7 +343,9 @@ def payment_valid(request):
         total_price = int(request.POST.get("price"))
         print(REST_API_KEY, PRIVATE_KEY)
 
-        bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
+        bootpay = BootpayApi(
+            application_id=REST_API_KEY, private_key=PRIVATE_KEY, mode="development"
+        )
         print("--- atfer call BootpayApi() ---")
         result = bootpay.get_access_token()
         print("--- atfer get access token ---")
