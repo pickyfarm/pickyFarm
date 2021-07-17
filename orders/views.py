@@ -346,6 +346,7 @@ def payment_valid(request):
         print("--- atfer call BootpayApi() ---")
         result = bootpay.get_access_token()
         print("--- atfer get access token ---")
+        pprint.pprint(result)
 
         if result["status"] == 200:
             verify_result = bootpay.verify(receipt_id)
