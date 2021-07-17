@@ -346,7 +346,7 @@ def payment_valid(request):
         data = {"application_id": REST_API_KEY, "private_key": PRIVATE_KEY}
         access_token = None
 
-        response = requests.post("https://dev-api.bootpay.co.kr", data)
+        response = requests.post("https://dev-api.bootpay.co.kr/request/token", data)
         result = response.json()
 
         if result["status"] == 200:
