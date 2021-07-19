@@ -8,7 +8,7 @@ from django.utils import timezone
 from products.models import Product
 import requests, base64
 import json
-import os
+import os, datetime
 from .BootpayApi import BootpayApi
 import pprint
 
@@ -342,14 +342,11 @@ def payment_valid(request):
         receipt_id = request.POST.get("receipt_id")
         total_price = int(request.POST.get("price"))
 
-        bootpay = BootpayApi(REST_API_KEY, PRIVATE_KEY, "development")
-        print("--- atfer call BootpayApi() ---")
+        bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
         result = bootpay.get_access_token()
-        print("--- atfer get access token ---")
 
         if result["status"] == 200:
             verify_result = bootpay.verify(receipt_id)
-            pprint.pprint(verify_result)
 
             if verify_result["status"] == 200:
                 if (
@@ -358,15 +355,25 @@ def payment_valid(request):
                 ):
                     ctx = {"data": verify_result}
 
+                    nowDatetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    print(f"=== PAYMENT VALIDATION SUCCESS : {nowDatetime} ===")
+                    print(f"=== RECIPT ID : {receipt_id} ===")
+
                     return render(request, "orders/payment_success.html", ctx)
 
-        while True:
+        else:
             cancel_result = bootpay.cancel(
                 receipt_id, total_price, request.user.nickname, "결제검증 실패로 인한 결제 취소"
             )
 
             if cancel_result["status"] == 200:
                 ctx = {"cancel_result": cancel_result}
+                return render(request, "orders/payment_fail.html", ctx)
+
+            else:
+                ctx = {
+                    "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
+                }
                 return render(request, "orders/payment_fail.html", ctx)
 
     return HttpResponse("잘못된 접근입니다", status=400)
