@@ -355,9 +355,9 @@ def payment_valid(request):
                 ):
                     ctx = {"data": verify_result}
 
-                    nowDatetime = datetime.datetime.now.strftime(r"%Y-%m-%d %H:%M:%S")
+                    nowDatetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     print(f"=== PAYMENT VALIDATION SUCCESS : {nowDatetime} ===")
-                    print(f"RECIPT ID : {receipt_id}")
+                    print(f"=== RECIPT ID : {receipt_id} ===")
 
                     return render(request, "orders/payment_success.html", ctx)
 
