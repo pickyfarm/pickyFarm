@@ -8,7 +8,7 @@ from django.utils import timezone
 from products.models import Product
 import requests, base64
 import json
-import os
+import os, datetime
 from .BootpayApi import BootpayApi
 import pprint
 
@@ -343,14 +343,10 @@ def payment_valid(request):
         total_price = int(request.POST.get("price"))
 
         bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
-        print("--- atfer call BootpayApi() ---")
         result = bootpay.get_access_token()
-        print("--- atfer get access token ---")
-        pprint.pprint(result)
 
         if result["status"] == 200:
             verify_result = bootpay.verify(receipt_id)
-            pprint.pprint(verify_result)
 
             if verify_result["status"] == 200:
                 if (
@@ -358,6 +354,10 @@ def payment_valid(request):
                     and verify_result["data"]["status"] == 1
                 ):
                     ctx = {"data": verify_result}
+
+                    nowDatetime = datetime.datetime.now.strftime("%Y-%m-%d %H:%M:%S")
+                    print(f"=== PAYMENT VALIDATION SUCCESS : {nowDatetime} ===")
+                    print(f"RECIPT ID : {receipt_id}")
 
                     return render(request, "orders/payment_success.html", ctx)
 
