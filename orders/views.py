@@ -341,48 +341,42 @@ def payment_valid(request):
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
         receipt_id = request.POST.get("receipt_id")
         total_price = int(request.POST.get("price"))
-        print(REST_API_KEY, PRIVATE_KEY)
 
-        data = {"application_id": REST_API_KEY, "private_key": PRIVATE_KEY}
-        access_token = None
-
-        response = requests.post("https://api.bootpay.co.kr/request/token", data)
-        result = response.json()
+        bootpay = BootpayApi(
+            application_id=REST_API_KEY, private_key=PRIVATE_KEY, mode="development"
+        )
+        print("--- atfer call BootpayApi() ---")
+        result = bootpay.get_access_token()
+        print("--- atfer get access token ---")
+        pprint.pprint(result)
 
         if result["status"] == 200:
-            access_token = result["data"]["token"]
+            verify_result = bootpay.verify(receipt_id)
+            pprint.pprint(verify_result)
 
-        print(access_token)
+            if verify_result["status"] == 200:
+                if (
+                    verify_result["data"]["price"] == total_price
+                    and verify_result["data"]["status"] == 1
+                ):
+                    ctx = {"data": verify_result}
 
-        # bootpay = BootpayApi(
-        #     application_id=REST_API_KEY, private_key=PRIVATE_KEY, mode="development"
-        # )
-        # print("--- atfer call BootpayApi() ---")
-        # result = bootpay.get_access_token()
-        # print("--- atfer get access token ---")
-        # pprint.pprint(result)
+                    return render(request, "orders/payment_success.html", ctx)
 
-        # if result["status"] == 200:
-        #     verify_result = bootpay.verify(receipt_id)
-        #     pprint.pprint(verify_result)
+        else:
+            cancel_result = bootpay.cancel(
+                receipt_id, total_price, request.user.nickname, "결제검증 실패로 인한 결제 취소"
+            )
 
-        #     if verify_result["status"] == 200:
-        #         if (
-        #             verify_result["data"]["price"] == total_price
-        #             and verify_result["data"]["status"] == 1
-        #         ):
-        #             ctx = {"data": verify_result}
+            if cancel_result["status"] == 200:
+                ctx = {"cancel_result": cancel_result}
+                return render(request, "orders/payment_fail.html", ctx)
 
-        #             return render(request, "orders/payment_success.html", ctx)
-
-        # while True:
-        #     cancel_result = bootpay.cancel(
-        #         receipt_id, total_price, request.user.nickname, "결제검증 실패로 인한 결제 취소"
-        #     )
-
-        #     if cancel_result["status"] == 200:
-        #         ctx = {"cancel_result": cancel_result}
-        #         return render(request, "orders/payment_fail.html", ctx)
+            else:
+                ctx = {
+                    "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
+                }
+                return render(request, "orders/payment_fail.html", ctx)
 
     return HttpResponse("잘못된 접근입니다", status=400)
 
