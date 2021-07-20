@@ -1,0 +1,92 @@
+{% load static %}
+<div id="noti-list">
+    <div id="notification-table" class="w-full">
+        <div class="flex flex-row text-center" id="notification-table-title">
+            <div class="w-2/12">알림 종류</div>
+            <div class="w-6/12">제목</div>
+            <div class="w-3/12">알림 날짜</div>
+            <div class="w-1/12"></div>
+        </div>
+        <div class="" id="notifications">
+            {% for notification in notifications %}
+            <div class="collapsible">
+                <div class="flex flex-row" id="notification-table-rows">
+                    <div class="w-2/12" id="table-row-type">{{ notification.get_notitype_display }}</div>
+                    <div class="w-6/12" id="table-row-title">{{ notification.message }}</div>
+                    <div class="w-3/12" id="table-row-date">{{ notification.create_at|date:"Y-m-d" }}</div>
+                    {% if notification.is_read == False %}
+                    <div class="1/12" id="table-row-new">N</div>
+                    {% else %}
+                    <div id="table-row-new"> </div>
+                    {% endif %}
+                </div>
+                <div class="text-center" id="noti-content">
+                    content accordion test
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- pagination section -->
+    <div class="flex justify-between w-36 mx-auto mt-8">
+        {% if notifications.has_previous %}
+            <img src="{% static 'images/farmer_mypage/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+            <img src="{% static 'images/farmer_mypage/pagination/prev.svg' %}" name='paginator' id='{{notifications.previous_page_number}}' style="cursor: pointer">
+        {% else %}
+            <img src="{% static 'images/farmer_mypage/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+            <img src="{% static 'images/farmer_mypage/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
+        {% endif %}
+
+            <div>{{notifications.number}}</div>
+            <div>/</div>
+            <div>{{notifications.paginator.num_pages}}</div>
+
+        {% if notifications.has_next %}
+            <img src="{% static 'images/farmer_mypage/pagination/next.svg' %}" name='paginator' id='{{notifications.next_page_number}}' style="cursor: pointer">
+            <img src="{% static 'images/farmer_mypage/pagination/last_page.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer">
+        {% else %}
+            <img src="{% static 'images/farmer_mypage/pagination/next.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer"> 
+            <img src="{% static 'images/farmer_mypage/pagination/last_page.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer">
+        {% endif %}
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        $(".collapsible").find("#noti-content").hide(); // noti-content 숨기기
+        // 클릭 이벤트 처리
+        $(".collapsible #notification-table-rows").click(function () {
+            $(this).siblings().removeClass('hide')
+            $(this).toggleClass("selected");
+            //클릭된 나 자신을 제외한 나머지 => slected 클래스를 무조건 제거
+            $(".collapsible #notification-table-rows").not(this).removeClass("selected");
+
+            // 펼칠 내용 영역 선택
+            var target = $(this).parents(".collapsible").find("#noti-content");
+
+            // 나머지 내용 영역을 선택
+            var other = $(".collapsible #notification-table-rows").not(this)
+                .parents(".collapsible").find("#noti-content");
+
+            // 열고 닫기 처리
+            target.slideToggle(300);
+            other.slideUp(300);
+        });
+    });
+</script>
+<script>
+    $(function(){
+        $("img[name=paginator]").click(function(){
+            event.preventDefault()
+            $.ajax({
+                url:'notification_ajax/?page=' + $(this).attr('id'),
+                data:{
+                    // 'search_input':search_input, 
+                },
+                success:function(data){
+                    $('#noti-list').html(data)
+                }
+            })
+        });
+    });
+</script>

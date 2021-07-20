@@ -39,5 +39,9 @@ urlpatterns = [
     ),
     path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
     # mypage pagination ajax url
-    path("mypage/pagination/", views.notification_paginate, name="notification_paginate"),
+    path(
+        "mypage/notifications/notification_ajax/",
+        views.notification_ajax,
+        name="notification_ajax",
+    ),
 ]

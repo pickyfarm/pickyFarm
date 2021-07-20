@@ -414,41 +414,35 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
         for noti in notifications:
             if noti.is_read == False:
                 new_notifications.append(noti)
-        notifications = Paginator(notifications, 5)
+
+        page = self.request.GET.get("page")
+        paginator = Paginator(notifications, 5)
+        notifications = paginator.get_page(page)
         context["notifications"] = notifications
         context["new_notifications"] = len(new_notifications)
 
-        # query_set for first page
-        first_page = notifications.page(1).object_list
-        context["first_page"] = first_page
-        # range of page ex range(1, 3)
-        page_range = notifications.page_range
-        context["page_range"] = page_range
+        # # query_set for first page
+        # first_page = notifications.page(1).object_list
+        # context["first_page"] = first_page
+        # # range of page ex range(1, 3)
+        # page_range = notifications.page_range
+        # context["page_range"] = page_range
 
         return context
 
 
-def notification_paginate(request):
+def notification_ajax(request):
     """ 마이페이지 알림 Pagination """
-    if request.method == "POST":
-        page_n = request.POST.get("page_n", None)  # getting page number
-        offset = 5  # 한 페이지에 나타나는 objects 수
-        page_offset = 5  # 페이지 묶음 : 1~5, 6~10, 11~15, ...
-        notifications_limit = int(page_n) * offset
-        page_range = int()
-        notifications = FarmerNotification.objects.all().order_by("-id")
-        notifications = notifications[notifications_limit - 5 : notifications_limit]
-        results = []
-        for r in notifications:
-            r_dict = {"": ""}
-            r_dict["pk"] = r.pk
-            r_dict["notitype"] = r.notitype
-            r_dict["message"] = r.message
-            r_dict["create_at"] = r.create_at.strftime("%Y년%m월%d일")
-            results.append(r_dict)
-            del r_dict
 
-        return JsonResponse({"results": results, "page_range": page_range})
+    page = request.GET.get("page")
+    notifications = FarmerNotification.objects.all().order_by("-id")
+    paginator = Paginator(notifications, 5)
+    notifications = paginator.get_page(page)
+
+    ctx = {
+        "notifications": notifications,
+    }
+    return render(request, "farmers/notification_list.html", ctx)
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):
