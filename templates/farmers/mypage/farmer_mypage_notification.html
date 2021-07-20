@@ -66,15 +66,16 @@
         // ajax
         $.ajax({
             type: "POST",
-            url: "{% url 'farmers:paginate' %}", // name of url
+            url: "{% url 'farmers:notification_paginate' %}", // name of url
             data: {
                 page_n: page_n, //page_number
                 csrfmiddlewaretoken: '{{ csrf_token }}',
             },
-            success: function (resp) {
+            success: function (data) {
                 //loop
                 $('#notifications').html('')
-                $.each(resp.results, function (i, val) {
+                $.each(data.results, function (i, val) {
+                    console.log(data.results)
                     //apending notifications
                     // $('#notifications').append('<h2>' + val.message + '</h2>')
                     $('#notifications').append(`
