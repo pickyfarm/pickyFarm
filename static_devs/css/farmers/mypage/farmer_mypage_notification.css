@@ -43,6 +43,9 @@
 #notifications {
     height: 400px;
 }
+#noti-content {
+    display: none;
+}
 /* #notification-table-rows div:not(:first-child) {
     color: #999999;
 } */

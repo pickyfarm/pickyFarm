@@ -105,13 +105,9 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(
-                Q(farmer__farm_name__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
         elif select_val == "farmer":
-            search_list = search_list.filter(
-                Q(farmer__user__nickname__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -141,9 +137,7 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(
-                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
-            )
+            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -220,9 +214,7 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
     try:
-        sub = Subscribe.objects.get(
-            farmer__pk=farmer.pk, consumer=request.user.consumer
-        )
+        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
     except:
         sub = False
     ctx = {
@@ -353,9 +345,9 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
     def get_queryset(self):
         status = self.request.GET.get("status", None)
         q = self.request.GET.get("q", None)
-        qs = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("order_group")
+        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "order_group"
+        )
 
         print(qs)
 
@@ -402,9 +394,7 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = Product.objects.filter(farmer=self.request.user.farmer)
-        context["questions"] = Question.objects.filter(
-            product__farmer=self.request.user.farmer
-        )
+        context["questions"] = Question.objects.filter(product__farmer=self.request.user.farmer)
         context["reviews"] = Product_Comment.objects.filter(
             product__farmer=self.request.user.farmer
         )
@@ -424,32 +414,35 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
         for noti in notifications:
             if noti.is_read == False:
                 new_notifications.append(noti)
-        notifications = Paginator(notifications, 5)
+
+        page = self.request.GET.get("page")
+        paginator = Paginator(notifications, 5)
+        notifications = paginator.get_page(page)
         context["notifications"] = notifications
         context["new_notifications"] = len(new_notifications)
 
-        # query_set for first page
-        first_page = notifications.page(1).object_list
-        context["first_page"] = first_page
-        # range of page ex range(1, 3)
-        page_range = notifications.page_range
-        context["page_range"] = page_range
+        # # query_set for first page
+        # first_page = notifications.page(1).object_list
+        # context["first_page"] = first_page
+        # # range of page ex range(1, 3)
+        # page_range = notifications.page_range
+        # context["page_range"] = page_range
 
         return context
 
 
-def paginate(request):
-    # pagination
-    if request.method == "POST":
-        notifications = FarmerNotification.objects.all().order_by("-id")
-        notifications = Paginator(notifications, 5)
-        page_n = request.POST.get("page_n", None)  # getting page number
-        results = list(
-            notifications.page(page_n).object_list.values(
-                "id", "message", "notitype", "create_at"
-            )
-        )
-        return JsonResponse({"results": results})
+def notification_ajax(request):
+    """ 마이페이지 알림 Pagination """
+
+    page = request.GET.get("page")
+    notifications = FarmerNotification.objects.all().order_by("-id")
+    paginator = Paginator(notifications, 5)
+    notifications = paginator.get_page(page)
+
+    ctx = {
+        "notifications": notifications,
+    }
+    return render(request, "farmers/notification_list.html", ctx)
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):
