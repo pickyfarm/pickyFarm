@@ -245,7 +245,6 @@
 	        items: itemsList,
 	        user_info: {
 		        username: revName,
-		        email: '사용자 이메일', // 빼는 것을 고려
 		        addr: '사용자 주소', // 빼는 것을 고려
 		        phone: '010-1234-4567'
 	        },
@@ -290,6 +289,8 @@
                 data : sendData,
                 dataType : "json",
                 success : function(response){
+                    if
+
                     var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
 	                if (enable) {
 		                BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.

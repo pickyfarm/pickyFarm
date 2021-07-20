@@ -222,6 +222,57 @@ def payment_update(request, pk):
         # Order_Group DB에서 찾아서 가져옴
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
+        # Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
+        order_details = order_group.order_details
+
+        valid = True
+        invalid_products = list()
+
+        # 결제 전 최종 재고 확인
+        for detail in order_details:
+            if detail.product.stock - detail.quantity < 0:
+                valid = False
+                # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
+                invalid_products.append(detail.product.title)
+
+        print(invalid_products)
+        
+        if valid is True:
+            # 결제 진행 시에 각 상품 재고 차감
+            for detail in order_details:
+                detail.product.stock -= detail.quantity
+                detail.product.save()
+
+            rev_name = request.POST.get("rev_name")
+            rev_phone_number = request.POST.get("rev_phone_number")
+            rev_loc_at = request.POST.get("rev_loc_at")
+            rev_message = request.POST.get("rev_message")
+            to_farm_message = request.POST.get("to_farm_message")
+
+            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
+
+            order_at = timezone.now()
+            print(order_group)
+            # 배송 정보 order_group에 업데이트
+            # rev address, total_price, total_quantity 추후 작업
+            order_group.rev_name = rev_name
+            order_group.rev_address = "추후작업"
+            order_group.rev_phone_number = rev_phone_number
+            order_group.rev_loc_at = rev_loc_at
+            # order_group.rev_loc_detail=rev_loc_detail
+            order_group.rev_message = rev_message
+            order_group.to_farm_message = to_farm_message
+            # order_group.payment_type=payment_type
+            order_group.save()
+
+            return JsonResponse({"orderId": "temp", "orderName": "temp", "customerName": "nameTemp"})
+        else:
+            
+
+            
+
+
+
         # !!!rev_address 추가 필요
         # rev_loc_detail 지우기
         # payment type은 잠시 보류
@@ -234,82 +285,57 @@ def payment_update(request, pk):
         #     to_farm_message = form.cleaned_data.get('to_farm_message')
         #     # payment_type = form.cleaned_data.get('payment_type')
 
-        rev_name = request.POST.get("rev_name")
-        rev_phone_number = request.POST.get("rev_phone_number")
-        rev_loc_at = request.POST.get("rev_loc_at")
-        rev_message = request.POST.get("rev_message")
-        to_farm_message = request.POST.get("to_farm_message")
-
-        print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
-
-        order_at = timezone.now()
-        print(order_group)
-        # 배송 정보 order_group에 업데이트
-        # rev address, total_price, total_quantity 추후 작업
-        order_group.rev_name = rev_name
-        order_group.rev_address = "추후작업"
-        order_group.rev_phone_number = rev_phone_number
-        order_group.rev_loc_at = rev_loc_at
-        # order_group.rev_loc_detail=rev_loc_detail
-        order_group.rev_message = rev_message
-        order_group.to_farm_message = to_farm_message
-        # order_group.payment_type=payment_type
-        order_group.save()
-
-        # return redirect(reverse("users:mypage", kwargs={'cat': 'orders'}))
-        return JsonResponse({"orderId": "temp", "orderName": "temp", "customerName": "nameTemp"})
-
-    pass
+        
 
 
-@login_required
-def payment_success(request):
+# @login_required
+# def payment_success(request):
 
-    if request.method == "GET":
-        # 결제 승인을 위해 사용되는 키값
-        # 이 키를 http header에 넣어서 결제 승인 api를 요청
-        payment_key = request.GET.get("paymentKey", None)
-        print(f"페이먼트 키 : {payment_key}")
-        # 주문 고유 id
-        order_id = request.GET.get("orderId", None)
-        # 결제할 금액 (비교 금액)
-        amount_ready = request.GET.get("amount_ready")
-        # 실제 결제한 금액
-        amount_paid = request.GET.get("amount")
-        if (payment_key is not None) and (order_id is not None):
-            if amount_ready == amount_paid:
-                data = {
-                    "orderId": order_id,
-                    "amount": amount_paid,
-                }
-                # PG사에서 제공해주는 client ID and Client Passwords
-                usr_pass = b"test_sk_BE92LAa5PVb64R41qaPV7YmpXyJj:"
-                # b64로 암호화
-                b64_val = base64.b64encode(usr_pass).decode("utf-8")
+#     if request.method == "GET":
+#         # 결제 승인을 위해 사용되는 키값
+#         # 이 키를 http header에 넣어서 결제 승인 api를 요청
+#         payment_key = request.GET.get("paymentKey", None)
+#         print(f"페이먼트 키 : {payment_key}")
+#         # 주문 고유 id
+#         order_id = request.GET.get("orderId", None)
+#         # 결제할 금액 (비교 금액)
+#         amount_ready = request.GET.get("amount_ready")
+#         # 실제 결제한 금액
+#         amount_paid = request.GET.get("amount")
+#         if (payment_key is not None) and (order_id is not None):
+#             if amount_ready == amount_paid:
+#                 data = {
+#                     "orderId": order_id,
+#                     "amount": amount_paid,
+#                 }
+#                 # PG사에서 제공해주는 client ID and Client Passwords
+#                 usr_pass = b"test_sk_BE92LAa5PVb64R41qaPV7YmpXyJj:"
+#                 # b64로 암호화
+#                 b64_val = base64.b64encode(usr_pass).decode("utf-8")
 
-                auth_request = requests.post(
-                    f"https://api.tosspayments.com/v1/payments/{payment_key}",
-                    headers={
-                        # 추후 authorization token이 들어가야 함
-                        "Authorization": f"Basic {b64_val}",
-                        "Content-Type": "application/json",
-                    },
-                    json=data,
-                )
-                print(auth_request.json())
-                if auth_request:
-                    # 여기서 order group 과 order detail의 결제 상태를 완료로 변경해주어야함
-                    ctx = {
-                        "order_id": order_id,
-                        "amount": amount_paid,
-                    }
-                    return render(request, "orders/payment_success.html", ctx)
-                else:
-                    return redirect(reverse("orders:payment_fail"))
-            else:
-                return redirect(reverse("orders:payment_fail"))
-        else:
-            return redirect(reverse("orders:payment_fail"))
+#                 auth_request = requests.post(
+#                     f"https://api.tosspayments.com/v1/payments/{payment_key}",
+#                     headers={
+#                         # 추후 authorization token이 들어가야 함
+#                         "Authorization": f"Basic {b64_val}",
+#                         "Content-Type": "application/json",
+#                     },
+#                     json=data,
+#                 )
+#                 print(auth_request.json())
+#                 if auth_request:
+#                     # 여기서 order group 과 order detail의 결제 상태를 완료로 변경해주어야함
+#                     ctx = {
+#                         "order_id": order_id,
+#                         "amount": amount_paid,
+#                     }
+#                     return render(request, "orders/payment_success.html", ctx)
+#                 else:
+#                     return redirect(reverse("orders:payment_fail"))
+#             else:
+#                 return redirect(reverse("orders:payment_fail"))
+#         else:
+#             return redirect(reverse("orders:payment_fail"))
 
 
 @login_required
