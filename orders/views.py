@@ -265,8 +265,22 @@ def payment_update(request, pk):
             # order_group.payment_type=payment_type
             order_group.save()
 
-            return JsonResponse({"orderId": "temp", "orderName": "temp", "customerName": "nameTemp"})
+            res_data = {
+                "valid" :valid,
+                "orderId": "temp", 
+                "orderName": "temp", 
+                "customerName": "nameTemp"
+            }
+
+            return JsonResponse(res_data)
         else:
+
+            res_data = {
+                "valid" : valid,
+                "invalid_products" : invalid_products,
+            }
+            
+            return JsonResponse(res_data)
             
 
             
