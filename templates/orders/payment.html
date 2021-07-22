@@ -249,7 +249,7 @@
 		        phone: '010-1234-4567'
 	        },
 	        order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
-	        params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
+	        params: {orderName: '{{order_group_name}}', errorMsg : ''},
 	        // account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
 	        // extra: {
 	        //     start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
@@ -289,21 +289,32 @@
                 data : sendData,
                 dataType : "json",
                 success : function(response){
-                    if
+                    let enable = response.valid
 
-                    var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
+                    if (enable == false){
+                        response.invalid_products.forEach(item =>{
+                            data.errorMsg += item
+                        })
+                        data.errorMsg += "재고 부족"
+                    }
+
+
+                    // 재고 수량 관리 로직 혹은 다른 처리
 	                if (enable) {
 		                BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
 	                } else {
 		                BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
+                        window.location.href = `/order/payment/fail?errorMsg=${data.errorMsg}`;
 	                }
                 }
             })
 	        
 	        
         }).close(function (data) {
+            
             // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
             console.log(data);
+            
         }).done(function (data) {
 	        //결제가 정상적으로 완료되면 수행됩니다
 	        //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.

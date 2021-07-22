@@ -237,17 +237,20 @@ def payment_update(request, pk):
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
         # Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
-        order_details = order_group.order_details
+        order_details = order_group.order_details.all()
 
         valid = True
         invalid_products = list()
 
         # 결제 전 최종 재고 확인
         for detail in order_details:
+            print("[재고 확인 상품 재고] "+ (str)(detail.product.stock))
+            print("[재고 확인 주문양] "+ (str)(detail.quantity))
             if detail.product.stock - detail.quantity < 0:
                 valid = False
                 # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
                 invalid_products.append(detail.product.title)
+                print(detail.product.title + "재고 부족")
 
         print(invalid_products)
         
@@ -288,7 +291,8 @@ def payment_update(request, pk):
 
             return JsonResponse(res_data)
         else:
-
+            print("[valid 값]" + (str)(valid))
+            print("[invalid_products]" + (str)(invalid_products))
             res_data = {
                 "valid" : valid,
                 "invalid_products" : invalid_products,
@@ -368,7 +372,11 @@ def payment_update(request, pk):
 
 @login_required
 def payment_fail(request):
-    ctx = {"msg": "실패"}
+    errorMsg = request.GET.get("errorMsg", None)
+    if errorMsg is None:
+        errorMsg = "실패"
+    
+    ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
 
 
