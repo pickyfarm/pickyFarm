@@ -14,6 +14,7 @@ def check_rate(rate_num):
 
 
 class Product(models.Model):
+
     title = models.CharField(max_length=50)
     sub_title = models.CharField(max_length=100)
     main_image = models.ImageField(upload_to="product_main_image/%Y/%m/%d/")
@@ -22,12 +23,21 @@ class Product(models.Model):
     is_event = models.BooleanField(default=False)
 
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
-    weight = models.FloatField()
+    weight = models.FloatField(help_text="판매 중량")
+    weight_unit = models.CharField(max_length=5, help_text="판매 중량 단위")
     stock = models.IntegerField(default=0, help_text="총 재고 수량")
     sales_count = models.IntegerField(default=0, help_text="총 판매 수량", blank=True)
     sales_rate = models.FloatField(default=0, blank=True)
 
     instruction = models.TextField(blank=True)
+
+    default_delivery_fee = models.IntegerField(default=0, help_text="기본 배송비")
+    additional_delivery_fee_unit = models.IntegerField(default=0, help_text="추가 배송비 단위")
+    additional_delivery_fee = models.IntegerField(default=0, help_text="추가 배송비")
+    jeju_mountain_additional_delivery_fee = models.IntegerField(default=0, help_text="제주/사간 추가 배송비")
+
+    return_delivery_fee = models.IntegerField(default=0, help_text="반품 배송비(편도)")
+    exchange_delivery_fee = models.IntegerField(default=0, help_text="교환 배송비(왕복)")
 
     desc_image = models.ImageField(upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True)
     desc_image2 = models.ImageField(upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True)
