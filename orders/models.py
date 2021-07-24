@@ -8,7 +8,11 @@ class Order_Group(models.Model):
 
     STATUS = (
         ("wait", "결제대기"),
-        ("complete", "결제완료"),
+        ("payment_complete", "결제완료"),
+        ("cancel", "결제취소"),
+        ("error_stock", "결제오류(재고부족)"),
+        ("error_valid", "결제오류(검증)"),
+        ('error_server', "결제오류(서버)"),
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
@@ -53,6 +57,9 @@ class Order_Detail(models.Model):
         ('re_ex_recept', '환불/교환 접수'),
         ('re_ex_approve', '환불/교환 승인'),
         ('re_ex_deny', '환불/교환 거절'),
+        ("error_stock", "결제오류(재고부족)"),
+        ("error_valid", "결제오류(검증)"),
+        ('error_server', "결제오류(서버)"),
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default='wait')

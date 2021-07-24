@@ -248,8 +248,8 @@
 		        addr: '사용자 주소', // 빼는 것을 고려
 		        phone: '010-1234-4567'
 	        },
-	        order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
-	        params: {orderName: '{{order_group_name}}', errorMsg : ''},
+	        order_id: '{{order_group_management_number}}', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
+	        params: {orderName: '{{order_group_name}}', errorMsg : '', orderGroupPk : '{{order_group_pk}}'},
 	        // account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
 	        // extra: {
 	        //     start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
@@ -281,7 +281,8 @@
             }
 
             console.log(data);
-            console.log(sendData)
+            console.log(sendData);
+            
 
             $.ajax({
                 type : "POST",
@@ -295,16 +296,15 @@
                         response.invalid_products.forEach(item =>{
                             data.errorMsg += item
                         })
-                        data.errorMsg += "재고 부족"
+                        data.params['errorMsg'] += "재고 부족"
                     }
-
 
                     // 재고 수량 관리 로직 혹은 다른 처리
 	                if (enable) {
 		                BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
 	                } else {
 		                BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
-                        window.location.href = `/order/payment/fail?errorMsg=${data.errorMsg}`;
+                        window.location.href = `/order/payment/fail?errorMsg=${data.params['errorMsg']}`;
 	                }
                 }
             })

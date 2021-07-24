@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.db import transaction
 from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail
 from django.utils import timezone
@@ -91,29 +92,37 @@ def create_order_detail_management_number(pk, farmer_id):
 
 
 @login_required
+@transaction.atomic
 def payment_create(request):
+
+    '''결제 페이지로 이동 시, Order_Group / Order_Detail 생성'''
+
     consumer = request.user.consumer
     if request.method == "POST":
         form = Order_Group_Form()
         orders = json.loads(request.POST.get("orders"))
         print(orders)
-        # 주문 상품 list (주문 수량, 주문 수량 고려한 가격, 주문 수량 고려한 무게)
+        # (변수) 주문 상품 list (주문 수량, 주문 수량 고려한 가격, 주문 수량 고려한 무게)
         products = []
-        # 총 주문 상품 개수
+        # (변수) 총 주문 상품 개수
         total_quantity = 0
-        # 총 주문 상품 무게
+        # (변수) 총 주문 상품 무게
         total_weight = 0
-        # 총 주문 상품 가격의 합
+        # (변수) 총 주문 상품 가격의 합
         price_sum = 0
 
+        # [PROCESS 1] 결제 대기 상태인 Order_Group 생성
         order_group = Order_Group(status="wait", consumer=consumer)
         order_group.save()
         order_group_pk = order_group.pk
 
-        # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
+
+        # [PROCESS 2] order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
         order_group_management_number = create_order_group_management_number(
             order_group_pk
         )
+
+        # [PROCESS 3] Order_Group 주문 번호 저장 (결제 단위 구별용 - BootPay 전송)
         order_group.order_management_number = order_group_management_number
         order_group.save()
 
@@ -122,23 +131,40 @@ def payment_create(request):
         # 부트페이 API로 보내기 위한 name parameter
         order_group_name = ""
 
+        # 전체 배송비 (기본 배송비 + 단위별 추가 배송비)
+        total_delivery_fee = 0
+
+        # [PROCESS 4] 소비자 주문목록에서 각 주문 사항 order_detail로 생성
         for order in orders:
 
             order_detail_cnt += 1
 
             pk = (int)(order["pk"])
             quantity = (int)(order["quantity"])
-            print(f"{pk}:{quantity}")
 
+            # 주문 상품의 본래 상품 select
             product = Product.objects.get(pk=pk)
+
+            # 기본 배송비 total_delivery_fee에 추가
+            total_delivery_fee += product.default_delivery_fee
+
+            # 단위별 추가 배송비 total_delivery_fee에 추가
+            if product.additional_delivery_fee_unit != 0:
+                quantity_per_unit = quantity/product.additional_delivery_fee_unit
+
+                if (float)(quantity_per_unit) > 1:
+                    if quantity%product.additional_delivery_fee_unit == 0:
+                        total_delivery_fee += ((int)(quantity_per_unit - 1)) * product.addtional_delivery_fee
+                    else:
+                        total_delivery_fee += (int)(quantity/product.additional_delivery_fee_unit) * product.additional_delivery_fee
+            # !!!!제주/산간 관련 추가 배송비 코드 추가해야!!!!
+
             # order_detail 구매 수량
             total_quantity += quantity
             # order_detail 구매 총액
             total_price = product.sell_price * quantity
 
-            # 결제 대기 상태의 order_detail 생성
-            # order_group으로 묶어줌
-            # (수정 사항) order_detail 주문 관리 번호 들어가야 함
+            # [PROCESS 5] 결제 대기 상태의 order_detail 생성 및 Order_Group으로 묶어줌
             order_detail = Order_Detail(
                 status="wait",
                 quantity=quantity,
@@ -147,9 +173,11 @@ def payment_create(request):
                 order_group=order_group,
             )
             order_detail.save()
+
             order_detail_pk = order_detail.pk
             farmer_id = product.farmer.user.username
 
+            # [PROCESS 6] Order_detail 주문 번호 저장
             # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
             order_detail_management_number = create_order_detail_management_number(
                 order_group_pk, farmer_id
@@ -184,17 +212,21 @@ def payment_create(request):
 
         print(order_group_name)
 
-        delivery_fee = 0  # 추후 배송비 관련 전략 생길 시 작성
+
+        # [PROCESS 7] 할인 관련 logic (예정)
         discount = 0  # 추후 할인 전략 도입 시 작성
         print(total_weight)
-        # 최종 주문 금액
-        final_price = price_sum + delivery_fee + discount
+
+        # [PROCESS 8] 최종 결제 금액 계산
+        final_price = price_sum + total_delivery_fee + discount
 
         order_group.total_price = final_price
         order_group.total_quantity = total_quantity
         order_group.save()
         print(order_group.pk)
         ctx = {
+            "order_group_management_number" : order_group_management_number,
+            "order_group_pk" : order_group_pk,
             "order_group_name": order_group_name,
             "form": form,
             "consumer": consumer,
@@ -202,7 +234,7 @@ def payment_create(request):
             "total_quantity": total_quantity,
             "price_sum": price_sum,
             "discount": discount,
-            "delivery_fee": delivery_fee,
+            "delivery_fee": total_delivery_fee,
             "final_price": final_price,
             "total_weight": round(total_weight, 2),
             "order_group_pk": int(order_group.pk),
@@ -213,36 +245,29 @@ def payment_create(request):
 
 @login_required
 @require_POST
+@transaction.atomic
 # 배송 정보가 입력된 후 oreder_group에 update
 def payment_update(request, pk):
+
+    '''결제 전, 주문 재고 확인'''
+    '''Order_Group 주문 정보 등록'''
+
     consumer = request.user.consumer
 
-    # if request.method == 'GET':
-    #     form = Order_Group_Form()
-    #     order_products = json.loads(request.GET.get('orders'))
-    #     print("왔다")
-    #     print(order_products)
-    #     ctx = {
-    #         'form': form,
-    #         'consumer': consumer,
-    #     }
-    #     print("여기까지 오니?")
-    #     return render(request, 'orders/payment.html', ctx)
     if request.method == "POST":
-        # form = Order_Group_Form(request.POST)
-        # GET Parameter에 있는 order_group pk를 가져옴
+        # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
         order_group_pk = pk
-
-        # Order_Group DB에서 찾아서 가져옴
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
-        # Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
+        # [PROCESS 2] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
         order_details = order_group.order_details.all()
 
+        # 모든 주문 상품 재고량 확인 태그
         valid = True
+        # 재고가 부족한 상품명 리스트
         invalid_products = list()
 
-        # 결제 전 최종 재고 확인
+        # [PROCESS 3] 결제 전 최종 재고 확인
         for detail in order_details:
             print("[재고 확인 상품 재고] "+ (str)(detail.product.stock))
             print("[재고 확인 주문양] "+ (str)(detail.quantity))
@@ -254,12 +279,17 @@ def payment_update(request, pk):
 
         print(invalid_products)
         
+        # [PROCESS 4] 재고 확인 성공인 경우, 각 상품 재고 차감 / status 변경
         if valid is True:
-            # 결제 진행 시에 각 상품 재고 차감
             for detail in order_details:
+                # order_detail 재고 차감
                 detail.product.stock -= detail.quantity
+                # order_detail status - payment_complete로 변경
+                detail.status = "payment_complete"
                 detail.product.save()
+                detail.save()
 
+            # [PROCESS 5] 주문 정보 Order_Group에 등록
             rev_name = request.POST.get("rev_name")
             rev_phone_number = request.POST.get("rev_phone_number")
             rev_loc_at = request.POST.get("rev_loc_at")
@@ -280,16 +310,21 @@ def payment_update(request, pk):
             order_group.rev_message = rev_message
             order_group.to_farm_message = to_farm_message
             # order_group.payment_type=payment_type
+
+            # order_group status - payment complete로 변경
+            order_group.status = "payment_complete"
             order_group.save()
 
             res_data = {
-                "valid" :valid,
+                "valid" : valid,
                 "orderId": "temp", 
                 "orderName": "temp", 
                 "customerName": "nameTemp"
             }
 
             return JsonResponse(res_data)
+        
+        # 재고 확인 실패의 경우 부족한 재고 상품 리스트 및 valid값 전송
         else:
             print("[valid 값]" + (str)(valid))
             print("[invalid_products]" + (str)(invalid_products))
