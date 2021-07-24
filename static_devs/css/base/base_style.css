@@ -1,4 +1,6 @@
 @import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import 'mobile_base_style.css';
+
 * {
     font-family: 'Noto Sans KR', sans-serif;
 }
