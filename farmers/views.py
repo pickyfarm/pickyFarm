@@ -442,7 +442,7 @@ def notification_ajax(request):
     ctx = {
         "notifications": notifications,
     }
-    return render(request, "farmers/notification_list.html", ctx)
+    return render(request, "farmers/mypage/farmer_mypage_notification_ajax.html", ctx)
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):
