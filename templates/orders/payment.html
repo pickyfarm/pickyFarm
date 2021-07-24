@@ -262,6 +262,7 @@
 	        // }
         }).error(function (data) {
 	        //결제 진행시 에러가 발생하면 수행됩니다.
+            window.location.href = "/order/payment/fail?errorType='server'}";
 	        console.log(data);
         }).cancel(function (data) {
 	        //결제가 취소되면 수행됩니다.
@@ -304,7 +305,7 @@
 		                BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
 	                } else {
 		                BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
-                        window.location.href = `/order/payment/fail?errorMsg=${data.params['errorMsg']}`;
+                        window.location.href = "/order/payment/fail?errorType='stock'";
 	                }
                 }
             })
@@ -318,7 +319,7 @@
         }).done(function (data) {
 	        //결제가 정상적으로 완료되면 수행됩니다
 	        //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
-            
+            //data.prams['orderGroupPk']
             let form = document.createElement("form")
             form.setAttribute("method", "post")
             form.setAttribute("action", "{% url 'orders:payment_valid' %}")
@@ -331,6 +332,11 @@
 
                 form.appendChild(hiddenField)
             }
+            let hiddenFieldAdd = document.createElement('input')
+            hiddenFieldAdd.setAttribute('type', 'hidden')
+            hiddenFieldAdd.setAttribute('name', 'orderGroupPk')
+            hiddenFieldAdd.setAttribute('value', data.params['orderGroupPk'])
+            form.appendChild(hiddenFieldAdd)
             console.log(csrftoken)
             let csrfHiddenField = document.createElement('input')
             csrfHiddenField.setAttribute('type', 'hidden')
