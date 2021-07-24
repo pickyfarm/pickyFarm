@@ -9,7 +9,9 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 class LoginForm(forms.Form):
     username = forms.CharField(
-        label="아이디", max_length=100, widget=forms.TextInput(attrs={"placeholder": "아이디를 입력해주세요"})
+        label="아이디",
+        max_length=100,
+        widget=forms.TextInput(attrs={"placeholder": "아이디를 입력해주세요"}),
     )
     password = forms.CharField(
         label="비밀번호", widget=forms.PasswordInput(attrs={"placeholder": "비밀번호를 입력해주세요"})
@@ -52,8 +54,19 @@ class SignUpForm(forms.Form):
         label_suffix="",
     )
 
-    last_name = forms.CharField(label="성", max_length=25, label_suffix="")
-    first_name = forms.CharField(label="이름", max_length=50, label_suffix="")
+    account_name = forms.CharField(
+        label="이름",
+        max_length=10,
+        widget=forms.TextInput(attrs={"placeholder": "이름을 입력하세요"}),
+        label_suffix="",
+    )
+
+    phone_number = forms.CharField(
+        label="전화번호",
+        max_length=11,
+        widget=forms.TextInput(attrs={"placeholder": "숫자만 입력하세요"}),
+        label_suffix="",
+    )
 
     nickname = forms.CharField(
         label="닉네임",
@@ -105,7 +118,9 @@ class SignUpForm(forms.Form):
         gender = self.cleaned_data.get("gender")
         birth = self.cleaned_data.get("birth")
 
-        user = models.User.objects.create_user(username, email=email, password=password_re)
+        user = models.User.objects.create_user(
+            username, email=email, password=password_re
+        )
 
         user.first_name = first_name
         user.last_name = last_name
@@ -117,7 +132,9 @@ class SignUpForm(forms.Form):
 
 
 class FindMyIdForm(forms.Form):
-    name = forms.CharField(label="이름", widget=forms.TextInput(attrs={"placeholder": "이름을 입력해주세요"}))
+    name = forms.CharField(
+        label="이름", widget=forms.TextInput(attrs={"placeholder": "이름을 입력해주세요"})
+    )
     email = forms.EmailField(
         label="이메일", widget=forms.TextInput(attrs={"placeholder": "이메일을 입력해주세요"})
     )
@@ -131,5 +148,7 @@ class MyPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
         label="Email",
         max_length=254,
-        widget=forms.EmailInput(attrs={"autocomplete": "email", "placeholder": "이메일을 입력해주세요"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "email", "placeholder": "이메일을 입력해주세요"}
+        ),
     )
