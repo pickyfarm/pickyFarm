@@ -7,6 +7,7 @@ from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail
 from django.utils import timezone
 from products.models import Product
+from users.models import Subscribe
 import requests, base64
 import json
 import os, datetime
@@ -95,7 +96,7 @@ def create_order_detail_management_number(pk, farmer_id):
 @transaction.atomic
 def payment_create(request):
 
-    '''결제 페이지로 이동 시, Order_Group / Order_Detail 생성'''
+    """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
 
     consumer = request.user.consumer
     if request.method == "POST":
@@ -115,7 +116,6 @@ def payment_create(request):
         order_group = Order_Group(status="wait", consumer=consumer)
         order_group.save()
         order_group_pk = order_group.pk
-
 
         # [PROCESS 2] order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
         order_group_management_number = create_order_group_management_number(
@@ -150,13 +150,17 @@ def payment_create(request):
 
             # 단위별 추가 배송비 total_delivery_fee에 추가
             if product.additional_delivery_fee_unit != 0:
-                quantity_per_unit = quantity/product.additional_delivery_fee_unit
+                quantity_per_unit = quantity / product.additional_delivery_fee_unit
 
                 if (float)(quantity_per_unit) > 1:
-                    if quantity%product.additional_delivery_fee_unit == 0:
-                        total_delivery_fee += ((int)(quantity_per_unit - 1)) * product.addtional_delivery_fee
+                    if quantity % product.additional_delivery_fee_unit == 0:
+                        total_delivery_fee += (
+                            (int)(quantity_per_unit - 1)
+                        ) * product.addtional_delivery_fee
                     else:
-                        total_delivery_fee += (int)(quantity/product.additional_delivery_fee_unit) * product.additional_delivery_fee
+                        total_delivery_fee += (int)(
+                            quantity / product.additional_delivery_fee_unit
+                        ) * product.additional_delivery_fee
             # !!!!제주/산간 관련 추가 배송비 코드 추가해야!!!!
 
             # order_detail 구매 수량
@@ -212,7 +216,6 @@ def payment_create(request):
 
         print(order_group_name)
 
-
         # [PROCESS 7] 할인 관련 logic (예정)
         discount = 0  # 추후 할인 전략 도입 시 작성
         print(total_weight)
@@ -225,8 +228,8 @@ def payment_create(request):
         order_group.save()
         print(order_group.pk)
         ctx = {
-            "order_group_management_number" : order_group_management_number,
-            "order_group_pk" : order_group_pk,
+            "order_group_management_number": order_group_management_number,
+            "order_group_pk": order_group_pk,
             "order_group_name": order_group_name,
             "form": form,
             "consumer": consumer,
@@ -249,8 +252,8 @@ def payment_create(request):
 # 배송 정보가 입력된 후 oreder_group에 update
 def payment_update(request, pk):
 
-    '''결제 전, 주문 재고 확인'''
-    '''Order_Group 주문 정보 등록'''
+    """결제 전, 주문 재고 확인"""
+    """Order_Group 주문 정보 등록"""
 
     consumer = request.user.consumer
 
@@ -269,8 +272,8 @@ def payment_update(request, pk):
 
         # [PROCESS 3] 결제 전 최종 재고 확인
         for detail in order_details:
-            print("[재고 확인 상품 재고] "+ (str)(detail.product.stock))
-            print("[재고 확인 주문양] "+ (str)(detail.quantity))
+            print("[재고 확인 상품 재고] " + (str)(detail.product.stock))
+            print("[재고 확인 주문양] " + (str)(detail.quantity))
             if detail.product.stock - detail.quantity < 0:
                 valid = False
                 # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
@@ -278,7 +281,7 @@ def payment_update(request, pk):
                 print(detail.product.title + "재고 부족")
 
         print(invalid_products)
-        
+
         # [PROCESS 4] 재고 확인 성공인 경우, 각 상품 재고 차감 / status 변경
         if valid is True:
             for detail in order_details:
@@ -296,7 +299,9 @@ def payment_update(request, pk):
             rev_message = request.POST.get("rev_message")
             to_farm_message = request.POST.get("to_farm_message")
 
-            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
+            print(
+                rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
+            )
 
             order_at = timezone.now()
             print(order_group)
@@ -316,29 +321,24 @@ def payment_update(request, pk):
             order_group.save()
 
             res_data = {
-                "valid" : valid,
-                "orderId": "temp", 
-                "orderName": "temp", 
-                "customerName": "nameTemp"
+                "valid": valid,
+                "orderId": "temp",
+                "orderName": "temp",
+                "customerName": "nameTemp",
             }
 
             return JsonResponse(res_data)
-        
+
         # 재고 확인 실패의 경우 부족한 재고 상품 리스트 및 valid값 전송
         else:
             print("[valid 값]" + (str)(valid))
             print("[invalid_products]" + (str)(invalid_products))
             res_data = {
-                "valid" : valid,
-                "invalid_products" : invalid_products,
+                "valid": valid,
+                "invalid_products": invalid_products,
             }
-            
+
             return JsonResponse(res_data)
-            
-
-            
-
-
 
         # !!!rev_address 추가 필요
         # rev_loc_detail 지우기
@@ -351,8 +351,6 @@ def payment_update(request, pk):
         #     rev_message = form.cleaned_data.get('rev_message')
         #     to_farm_message = form.cleaned_data.get('to_farm_message')
         #     # payment_type = form.cleaned_data.get('payment_type')
-
-        
 
 
 # @login_required
@@ -407,21 +405,32 @@ def payment_update(request, pk):
 
 @login_required
 def payment_fail(request):
-    errorMsg = request.GET.get("errorMsg", None)
-    if errorMsg is None:
-        errorMsg = "실패"
-    
+    errorType = request.GET.get("errorType", None)
+
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
 
 
 @login_required
+@transaction.atomic
 def payment_valid(request):
     if request.method == "POST":
         REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
+
         receipt_id = request.POST.get("receipt_id")
-        total_price = int(request.POST.get("price"))
+        order = Order_Group.objects.get(pk=int(request.POST.get("orderGroupPk")))
+        total_price = order.total_price
+
+        orders = Order_Detail.objects.filter(order_group=order)
+
+        farmers = list(set(map(lambda u: u.product.farmer, orders)))
+        unsubscribed_farmers, subscribed_farmers = list()
+
+        for farmer in farmers:
+            subscribed_farmers.append(farmer) if Subscribe.objects.get(
+                consumer=order.consumer, farmer=farmer
+            ).exists() else unsubscribed_farmers.append(farmer)
 
         bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
         result = bootpay.get_access_token()
@@ -434,7 +443,13 @@ def payment_valid(request):
                     verify_result["data"]["price"] == total_price
                     and verify_result["data"]["status"] == 1
                 ):
-                    ctx = {"data": verify_result}
+                    ctx = {
+                        "order_info": order,
+                        "data": verify_result,
+                        "orders": orders,
+                        "sub_farmers": subscribed_farmers,
+                        "unsub_farmers": unsubscribed_farmers,
+                    }
 
                     nowDatetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     print(f"=== PAYMENT VALIDATION SUCCESS : {nowDatetime} ===")
@@ -449,13 +464,17 @@ def payment_valid(request):
 
             if cancel_result["status"] == 200:
                 ctx = {"cancel_result": cancel_result}
-                return render(request, "orders/payment_fail.html", ctx)
+                return redirect(
+                    reverse("orders:payment_fail", kwargs={"errorType": "error_valid"})
+                )
 
             else:
                 ctx = {
                     "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
                 }
-                return render(request, "orders/payment_fail.html", ctx)
+                return redirect(
+                    reverse("orders:payment_fail", kwargs={"errorType": "error_server"})
+                )
 
     return HttpResponse("잘못된 접근입니다", status=400)
 

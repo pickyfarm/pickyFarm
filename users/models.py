@@ -27,7 +27,7 @@ class User(AbstractUser):
     )
 
     phone_number = models.CharField(max_length=11)
-
+    account_name = models.CharField(max_length=10)
     profile_image = models.ImageField(
         upload_to="profile_image/%Y/%m/%d/", null=True, blank=True
     )
