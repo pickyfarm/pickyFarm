@@ -66,12 +66,15 @@
 
             </div>
 
-            <div id="delivery-cat-detail-section">
+            <div id="delivery-cat-detail-section" class="mb-4">
+
+            </div>
+            <div id="delivery-address-input-section">
                 <div id="full-address-section" class="flex flex-row">
                     <input id="id_full_address" type="text">
                     <div id="address-search-btn" onclick="getAddress()"><img src="{% static 'images/users/search.svg' %}"></div>
                 </div>
-            
+                
                 <div class="flex flex-col">
                     <input id='id_detail_address' type='text'>
                     <div id="add-rev-address-help-text" class="self-end">*상세주소를 입력하세요</div>
@@ -270,7 +273,7 @@
     let deliveryCatChoice = document.getElementById('delivery-cat-choice')
     let deliveryCatDirect = document.getElementById('delivery-cat-direct')
     let deliveryAddress = document.getElementById("delivery-address")
-    const deliveryAddressInput = document.getElementById('delivery-cat-detail-section')
+    const deliveryAddressInput = document.getElementById('delivery-address-input-section')
     const mainAddressInput = document.getElementById('id_full_address')
     const subAddressInput = document.getElementById('id_detail_address')
 
@@ -308,6 +311,7 @@
     deliveryCatDirect.addEventListener('click', ()=>{
         deliveryAddress.value = ''
         deliveryAddressInput.style.display = 'block';
+        deliveryCatDetailSection.innerHTML = ""
     })
 
 
