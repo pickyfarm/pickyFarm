@@ -460,17 +460,17 @@ def payment_valid(request):
 
         receipt_id = request.POST.get("receipt_id")
         order_group_pk = int(request.POST.get("orderGroupPk"))
-        order = Order_Group.objects.get(pk=order_group_pk)
-        total_price = order.total_price
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+        total_price = order_group.total_price
 
-        orders = Order_Detail.objects.filter(order_group=order)
+        order_details = Order_Detail.objects.filter(order_group=order_group)
 
-        farmers = list(set(map(lambda u: u.product.farmer, orders)))
+        farmers = list(set(map(lambda u: u.product.farmer, order_details)))
         unsubscribed_farmers = list()
         subscribed_farmers = list()
 
         for farmer in farmers:
-            if Subscribe.objects.filter(consumer=order.consumer, farmer=farmer).exists():
+            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
                 subscribed_farmers.append(farmer)
             else: 
                 unsubscribed_farmers.append(farmer)
@@ -490,14 +490,14 @@ def payment_valid(request):
                     and verify_result["data"]["status"] == 1
                 ):
                     ctx = {
-                        "order_info": order,
+                        "order_group": order_group,
                         "data": verify_result,
-                        "orders": orders,
+                        "order_details": order_details,
                         "sub_farmers": subscribed_farmers,
                         "unsub_farmers": unsubscribed_farmers,
                     }
 
-                    nowDatetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    nowDatetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
                     print(f"=== PAYMENT VALIDATION SUCCESS : {nowDatetime} ===")
                     print(f"=== RECIPT ID : {receipt_id} ===")
 
