@@ -109,7 +109,7 @@
             <div id="buttons" class="flex flex-rows">
                 <div id="wish">찜하기</div>
 
-                <div id="cart" class="mr-12 ml-3">장바구니 담기</div>
+                <div id="cart" name="{{product_pk}}" class="mr-12 ml-3">장바구니 담기</div>
                 <div id="purchase" name="{{product_pk}}">바로 구매하기</div>
             </div>
         </div>
@@ -227,6 +227,12 @@
             }
         
         })
+    })
+
+    //장바구니 담기
+    let cartInBtn = document.getElementById("cart")
+    cartInBtn.addEventListener('click', function(){
+        cartIn(this.getAttribute('name'))
     })
 
     //바로 구매하기 버튼 누를 시
