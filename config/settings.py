@@ -59,6 +59,7 @@ PICKY_APPS = [
     "django_summernote",
     "addresses.apps.AddressesConfig",
     "django_seed",
+    "storages",
 ]
 
 INSTALLED_APPS = PICKY_APPS + DJANGO_APPS
@@ -172,27 +173,43 @@ USE_L10N = True
 
 USE_TZ = True
 
+### User Setting
+AUTH_USER_MODEL = "users.User"
+LOGIN_URL = "/user/login/"
 
-# Static files (CSS, JavaScript, Images)
+### Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-STATIC_URL = "/static/"
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_devs"),
 ]
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "/static/"
 
+### Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
 MEDIA_URL = "/media/"
 
-AUTH_USER_MODEL = "users.User"
 
-LOGIN_URL = "/user/login/"
+### S3 설정
+DEFAULT_FILE_STORAGE = "config.asset_storage.S3DefaultStorage"
+# STATICFILES_STORAGE = "config.asset_storage.S3StaticStorage"
 
-# Email 전송
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+AWS_REGION = "ap-northeast-2"
+AWS_STORAGE_BUCKET_NAME = "pickyfarm"
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+
+AWS_DEFAULT_ACL = "public-read"
+# AWS_LOCATION = "static"
+# STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+
+
+### Email 전송
 # 메일을 호스트하는 서버
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 
