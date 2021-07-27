@@ -67,7 +67,18 @@
             </div>
 
             <div id="delivery-cat-detail-section">
-                만약 여기에 검색창
+                <div id="full-address-section" class="flex flex-row">
+                    <input id="id_full_address" type="text">
+                    <div id="address-search-btn" onclick="getAddress()"><img src="{% static 'images/users/search.svg' %}"></div>
+                </div>
+            
+                <div class="flex flex-col">
+                    <input id='id_detail_address' type='text'>
+                    <div id="add-rev-address-help-text" class="self-end">*상세주소를 입력하세요</div>
+                </div>
+                <input id='id_extra_address' type='hidden'>
+                <input id='id_sido' type='hidden'>
+                <input id='id_sigungu' type='hidden'>
             </div>
 
             <div id="delivery-address-section" class="flex flex-row mb-5">
@@ -247,7 +258,7 @@
  
 
 </div>
-
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
 <script>
   
@@ -259,17 +270,30 @@
     let deliveryCatChoice = document.getElementById('delivery-cat-choice')
     let deliveryCatDirect = document.getElementById('delivery-cat-direct')
     let deliveryAddress = document.getElementById("delivery-address")
+    const deliveryAddressInput = document.getElementById('delivery-cat-detail-section')
+    const mainAddressInput = document.getElementById('id_full_address')
+    const subAddressInput = document.getElementById('id_detail_address')
 
     deliveryCatDefault.addEventListener('click', ()=>{
         deliveryAddress.value = '{{default_address}}'
+        deliveryAddressInput.style.display = 'none';
+
     })
 
     deliveryCatChoice.addEventListener('click', ()=>{
+        deliveryAddressInput.style.display = 'none';
+
         
     })
 
     deliveryCatDirect.addEventListener('click', ()=>{
-        deliveryAddress.value = '선종아 직접 입력하여라'
+        deliveryAddress.value = ''
+        deliveryAddressInput.style.display = 'block';
+    })
+
+
+    subAddressInput.addEventListener('input', (e) => {
+        deliveryAddress.value = `${mainAddressInput.value} ${e.target.value}`
     })
 
 
