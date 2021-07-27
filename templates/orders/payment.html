@@ -63,11 +63,14 @@
                 </ul>
             <div id="delivery-address-section" class="flex flex-row mb-5">
                 <div class="flex flex-row w-1/12">
-                    <div id="label-text">배송지</div>
+                    <div id="label-text" class="mt-2">배송지</div>
                     <img id="dot" src="{% static 'images/orders/dot.svg' %}">
+                    
                 </div>
 
-                <div></div>
+                <div class="w-11/12">
+                    <div id="middle-form" class="ml-12 pl-3 flex justify-items-start"><input type="text", maxlength="200", id="delivery-address" value="{{default_address}}"></div>
+                </div>
             </div>
             <div id="delivery-rev-loc-at-section" class="flex flex-row mb-5">
                 <div class="flex flex-row mr-5">
