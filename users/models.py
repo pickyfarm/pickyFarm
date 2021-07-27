@@ -1,3 +1,4 @@
+from addresses.models import Address
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
@@ -76,6 +77,8 @@ class Consumer(models.Model):
     user = models.OneToOneField(User, related_name="consumer", on_delete=models.CASCADE)
 
     grade = models.IntegerField(choices=grade, default=1)
+
+    default_address = models.OneToOneField('addresses.Address', related_name="consumer", on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.user.nickname

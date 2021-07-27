@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import User
+# from users.models import User
 
 # Create your models here.
 class Address(models.Model):
@@ -10,7 +10,7 @@ class Address(models.Model):
     sigungu = models.CharField(max_length=30, blank=True)
     is_default = models.BooleanField(default=False)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='addresses')
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
