@@ -425,7 +425,7 @@
 	        // }
         }).error(function (data) {
 	        //결제 진행시 에러가 발생하면 수행됩니다.
-            window.location.href = "/order/payment/fail?errorType='server'}";
+            window.location.href = "/order/payment/fail?errorType=error_server";
 	        console.log(data);
         }).cancel(function (data) {
 	        //결제가 취소되면 수행됩니다.
@@ -439,9 +439,11 @@
             sendData = {
                 'rev_name' : revName,
                 'rev_phone_number' : revPhoneNumber,
+                'rev_address' : revAddress,
                 'rev_loc_at' : revLocAt,
                 'rev_message' : revMessage,
-                'to_farm_message' : toFarmMessage
+                'to_farm_message' : toFarmMessage,
+                'payment_type' : paymentType,
             }
 
             console.log(data);
@@ -468,7 +470,7 @@
 		                BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
 	                } else {
 		                BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
-                        window.location.href = "/order/payment/fail?errorType='error_stock'";
+                        window.location.href = `/order/payment/fail?errorType=error_stock&orderGroupPk=${data.params['orderGroupPk']}`;
 	                }
                 }
             })

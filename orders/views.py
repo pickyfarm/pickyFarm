@@ -319,7 +319,6 @@ def payment_update(request, pk):
                 rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
             )
 
-            order_at = timezone.now()
             print(order_group)
             # 배송 정보 order_group에 업데이트
             order_group.rev_name = rev_name
@@ -330,6 +329,7 @@ def payment_update(request, pk):
             order_group.rev_message = rev_message
             order_group.to_farm_message = to_farm_message
             order_group.payment_type=payment_type
+            order_group.order_at = timezone.now()
 
             # order_group status - payment complete로 변경
             order_group.status = "payment_complete"
@@ -421,11 +421,31 @@ def payment_update(request, pk):
 @login_required
 @transaction.atomic
 def payment_fail(request):
-    error_type = request.GET.get("errorType", None)
+    error_type = str(request.GET.get("errorType", None))
+    order_group_pk = request.GET.get("orderGroupPk", None)
+    print(error_type)
 
-    # if error_type == 'error_stock':
-    #     errorMsg = "재고가 부족합니다"
+    if error_type == "error_stock":
+        errorMsg = "재고가 부족합니다"
+    elif error_type == "error_valid":
+        errorMsg = "결제 검증에 오류가 있습니다. 다시 시도해주세요"
+    elif error_type == "error_server":
+        errorMsg = "서버에 오류가 있었습니다. 다시 시도해주세요"
+    else:
+        errorMsg = "알 수 없는 오류가 있습니다. 다시 시도해주세요"
+
+    order_group = Order_Group.objects.get(pk=order_group_pk)
+    order_group.status = error_type
+    order_details = order_group.order_details.all()
+
+    for detail in order_details:
+        detail.product.stock += detail.quantity
+        print("[detail] - " + detail.product.title + " stock 복구")
+        detail.status = error_type
+        print("[detail] status - " + detail.status + "변경")
+        detail.save()
     
+    order_group.save()
 
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
@@ -439,18 +459,24 @@ def payment_valid(request):
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
 
         receipt_id = request.POST.get("receipt_id")
-        order = Order_Group.objects.get(pk=int(request.POST.get("orderGroupPk")))
+        order_group_pk = int(request.POST.get("orderGroupPk"))
+        order = Order_Group.objects.get(pk=order_group_pk)
         total_price = order.total_price
 
         orders = Order_Detail.objects.filter(order_group=order)
 
         farmers = list(set(map(lambda u: u.product.farmer, orders)))
-        unsubscribed_farmers, subscribed_farmers = list()
+        unsubscribed_farmers = list()
+        subscribed_farmers = list()
 
         for farmer in farmers:
-            subscribed_farmers.append(farmer) if Subscribe.objects.get(
-                consumer=order.consumer, farmer=farmer
-            ).exists() else unsubscribed_farmers.append(farmer)
+            if Subscribe.objects.filter(consumer=order.consumer, farmer=farmer).exists():
+                subscribed_farmers.append(farmer)
+            else: 
+                unsubscribed_farmers.append(farmer)
+        
+        print(subscribed_farmers)
+        print(unsubscribed_farmers)
 
         bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
         result = bootpay.get_access_token()
@@ -485,7 +511,7 @@ def payment_valid(request):
             if cancel_result["status"] == 200:
                 ctx = {"cancel_result": cancel_result}
                 return redirect(
-                    reverse("orders:payment_fail", kwargs={"errorType": "error_valid"})
+                    reverse("orders:payment_fail", kwargs={"errorType": "error_valid", "orderGroupPk" : order_group_pk})
                 )
 
             else:
@@ -493,7 +519,7 @@ def payment_valid(request):
                     "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
                 }
                 return redirect(
-                    reverse("orders:payment_fail", kwargs={"errorType": "error_server"})
+                    reverse("orders:payment_fail", kwargs={"errorType": "error_server", "orderGroupPk" : order_group_pk})
                 )
 
     return HttpResponse("잘못된 접근입니다", status=400)
