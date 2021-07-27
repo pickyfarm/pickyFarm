@@ -104,10 +104,11 @@ def payment_create(request):
     user_ctx = {
         "account_name" : user.account_name,
         "phone_number" : user.phone_number,
-        "default_address" : consumer.default_address.full_address
+        "default_address" : consumer.default_address.get_full_address(),
+        "addresses" : user.addresses,
     }
 
-    print(f'기본배송지 : {consumer.default_address.full_address} ')
+    print(f'기본배송지 : {consumer.default_address.get_full_address()} ')
 
 
     if request.method == "POST":
@@ -308,9 +309,11 @@ def payment_update(request, pk):
             # [PROCESS 5] 주문 정보 Order_Group에 등록
             rev_name = request.POST.get("rev_name")
             rev_phone_number = request.POST.get("rev_phone_number")
+            rev_address = request.POST.get("rev_address")
             rev_loc_at = request.POST.get("rev_loc_at")
             rev_message = request.POST.get("rev_message")
             to_farm_message = request.POST.get("to_farm_message")
+            payment_type = request.POST.get("payment_type")
 
             print(
                 rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
@@ -319,15 +322,14 @@ def payment_update(request, pk):
             order_at = timezone.now()
             print(order_group)
             # 배송 정보 order_group에 업데이트
-            # rev address, total_price, total_quantity 추후 작업
             order_group.rev_name = rev_name
-            order_group.rev_address = "추후작업"
+            order_group.rev_address = rev_address
             order_group.rev_phone_number = rev_phone_number
             order_group.rev_loc_at = rev_loc_at
             # order_group.rev_loc_detail=rev_loc_detail
             order_group.rev_message = rev_message
             order_group.to_farm_message = to_farm_message
-            # order_group.payment_type=payment_type
+            order_group.payment_type=payment_type
 
             # order_group status - payment complete로 변경
             order_group.status = "payment_complete"
@@ -417,8 +419,13 @@ def payment_update(request, pk):
 
 
 @login_required
+@transaction.atomic
 def payment_fail(request):
-    errorType = request.GET.get("errorType", None)
+    error_type = request.GET.get("errorType", None)
+
+    # if error_type == 'error_stock':
+    #     errorMsg = "재고가 부족합니다"
+    
 
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
