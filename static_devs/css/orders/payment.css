@@ -9,7 +9,6 @@
 
 
 #title-text{
-  font-family: NotoSansKR;
   font-size: 30px;
   font-weight: bold;
   font-stretch: normal;
@@ -22,7 +21,6 @@
 }
 
 #required-text{
-  font-family: NotoSansKR;
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
@@ -37,7 +35,6 @@
 }
 
 #sub-title-text{
-  font-family: NotoSansKR;
   font-size: 23px;
   font-weight: bold;
   font-stretch: normal;
@@ -55,6 +52,22 @@
     margin-left:24.5px;
     margin-bottom:0px;
   border-bottom: solid 1px #afb3ab;
+  
+}
+
+#sub-title-line3{
+  width: 868px;
+    height:28px;
+    margin-left:24.5px;
+    margin-bottom:0px;
+  border-bottom: solid 1px #afb3ab;
+}
+
+#div-line{
+  width: 990px;
+    height:105px;
+    margin-bottom:0px;
+  border-bottom: solid 1px #afb3ab;
 }
 
 #label-text{
@@ -69,6 +82,17 @@
   color: #4d4d4d
 }
 
+#label-text2{
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #808080;
+}
+
 
 /* input text form style */
 
@@ -77,6 +101,7 @@
     height:35px;
   border-radius: 20px;
   border: solid 1px #b3b3b3;
+  padding:5px;
 }
 
 #small-form>input:focus{
@@ -99,7 +124,7 @@
     width: 529px;
   height: 80px;
   border-radius: 14px;
-  padding-left:5px;
+  padding:5px;
   border: solid 1px #b3b3b3;
 }
 
@@ -109,15 +134,11 @@
 
 
 #help-text{
-    font-family: NotoSansKR;
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.88;
-  letter-spacing: normal;
-  text-align: left;
-  color: #c7c7c7;
+  font-size: 12px;
+  line-height: 1.25;
+ 
+  text-align: right;
+  color: #5c6754;
 
 }
 
@@ -127,9 +148,9 @@
 }
 
 #dot-rev-loc-at{
-    width:15px;
-    padding-bottom: 90px;
-    margin-left: 5px;
+  width:15px;
+  padding-bottom: 150px;
+  margin-left: 5px; 
 }
 
 #info-section{
@@ -156,7 +177,6 @@
 
 #payment-type-section>ul>li{
     margin-left:10px;
-    font-family: NotoSansKR;
   font-size: 20px;
   font-weight: normal;
   font-stretch: normal;
@@ -392,3 +412,62 @@
   text-align: right;
   color: rgba(92, 103, 84, 0.8);
 }
+
+
+/* 개인 정보 수집 이용 동의 */
+
+#personal-info-agree-top-section{
+  margin-top:39.5px;
+  margin-bottom: 16px;
+}
+
+#personal-info-agree-label{
+
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+
+}
+
+#personal-info-agree-require{
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+}
+
+#personal-info-agree-bottom-section{
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+  margin-left:20px;
+}
+
+
+/* 결제 정보 및 구매 진행 동의 */
+#final-agree-label{
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.88;
+  letter-spacing: normal;
+  text-align: left;
+  color: #c7c7c7;
+}
+
+
