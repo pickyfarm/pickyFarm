@@ -8,7 +8,7 @@
         {% endfor %}
 
         {% for product in today_pick_list %}
-        <label for="{% cycle 's1' 's2' 's3' 's4' 's5' %}" id="{% cycle 'slide1' 'slide2' 'slide3' 'slide4' 'slide5' %}" style="background-image: url({{product.main_image.url}}); background-size: cover;">
+        <label for="{% cycle 's1' 's2' 's3' 's4' 's5' as slide %}" id="{% cycle 'slide1' 'slide2' 'slide3' 'slide4' 'slide5' %}" {% if slide == 's3' %}checked{% endif %} style="background-image: url({{product.main_image.url}}); background-size: cover;">
             <div>
                 <a href="{% url 'products:product_detail' product.pk %}">
                     <div class="flex flex-col today_pick_info">
