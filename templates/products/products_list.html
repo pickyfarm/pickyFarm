@@ -9,13 +9,7 @@
 </script>
 {% endblock stylesheet %}
 {% block main_content %}
-{% if messages %}
 
-{% for message in messages %}
-<script>alert("{{message}}");</script>
-{% endfor %}
-
-{% endif %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
 
     <div class="flex flex-col justify-between mr-10 items-center" id="big_category" name="{{cat_name}}">
@@ -147,33 +141,21 @@
     console.log(wishBtn)
     
 
-    wishBtn.forEach(item => {
+    wishBtn.forEach(item => 
         item.addEventListener('click', function () {
             let product_pk=item.getAttribute('name')
             wish(product_pk)
         })
-    })
+    )
 
     let cartBtn = document.querySelectorAll('#cart')
     console.log(cartBtn)
-    cartBtn.forEach(item=>{
+    cartBtn.forEach(item=>
         item.addEventListener('click', function(){
-        let product_pk = item.getAttribute('name')
-        
-        $.ajax({
-            type:'POST',
-            url : "{% url 'users:cartInAjax' %}",
-            dataType : 'json',
-            data : data,
-            success : function(response){
-                alert(response.message)
-            },
-            error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
-            }
+            let product_pk = item.getAttribute('name')
+            cartIn(product_pk)
         })
-    })
-    })
+    )
     
 
 </script>
