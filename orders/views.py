@@ -97,8 +97,19 @@ def create_order_detail_management_number(pk, farmer_id):
 def payment_create(request):
 
     """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
+    
+    user = request.user
+    consumer = user.consumer
+    # 이름 전화번호 주소지 정보 등
+    user_ctx = {
+        "account_name" : user.account_name,
+        "phone_number" : user.phone_number,
+        "default_address" : consumer.default_address.full_address
+    }
 
-    consumer = request.user.consumer
+    print(f'기본배송지 : {consumer.default_address.full_address} ')
+
+
     if request.method == "POST":
         form = Order_Group_Form()
         orders = json.loads(request.POST.get("orders"))
@@ -242,6 +253,8 @@ def payment_create(request):
             "total_weight": round(total_weight, 2),
             "order_group_pk": int(order_group.pk),
         }
+
+        ctx = {**ctx, **user_ctx}
 
         return render(request, "orders/payment.html", ctx)
 
