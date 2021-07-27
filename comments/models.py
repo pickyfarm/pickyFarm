@@ -2,6 +2,7 @@ from django.db import models
 from users.models import User
 from likes.models import *
 from django.core.exceptions import ObjectDoesNotExist
+from core.models import CompressedImageField
 
 
 # Create your models here.
@@ -70,7 +71,7 @@ class Product_Comment(Comment):
 
 class Product_Comment_Image(models.Model):
 
-    image = models.ImageField(upload_to="comments/%Y/%m/%d/")
+    image = CompressedImageField(upload_to="comments/%Y/%m/%d/")
     product_comment = models.ForeignKey(
         Product_Comment, related_name="product_comment_images", on_delete=models.CASCADE
     )
@@ -85,7 +86,9 @@ class Product_Recomment(Comment):
     comment = models.ForeignKey(
         "Product_Comment", related_name="product_recomments", on_delete=models.CASCADE
     )
-    author = models.ForeignKey(User, related_name="product_recomment", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User, related_name="product_recomment", on_delete=models.CASCADE
+    )
 
     def like_count(self):
         try:
@@ -109,7 +112,9 @@ class Editor_Review_Comment(Comment):
         related_name="editor_review_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(User, related_name="editor_review_comment", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User, related_name="editor_review_comment", on_delete=models.CASCADE
+    )
 
     def like_count(self):
         try:
@@ -154,7 +159,9 @@ class Farmer_Story_Comment(Comment):
         related_name="farmer_story_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(User, related_name="farmer_story_comment", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User, related_name="farmer_story_comment", on_delete=models.CASCADE
+    )
 
     def like_count(self):
         try:

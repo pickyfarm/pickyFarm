@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import RegexValidator
 from editor_reviews.models import Editor_Review
+from core.models import CompressedImageField
 from config import settings
 import comments
 import os
@@ -28,7 +29,7 @@ class User(AbstractUser):
 
     phone_number = models.CharField(max_length=11)
     account_name = models.CharField(max_length=10)
-    profile_image = models.ImageField(
+    profile_image = CompressedImageField(
         upload_to="profile_image/%Y/%m/%d/", null=True, blank=True
     )
     nickname = models.CharField(max_length=100)
@@ -159,7 +160,7 @@ class Cart(models.Model):
 
 
 # class Staffs_Image(models.Model):
-#     image = models.ImageField(upload_to='/staffs_images')
+#     image = CompressedImageField(upload_to='/staffs_images')
 #     update_at = models.DateTimeField(auto_now=True)
 #     create_at = models.DateTimeField(auto_now_add=True)
 #     review = models.ForeignKey('Staffs', on_delete=models.CASCADE)
