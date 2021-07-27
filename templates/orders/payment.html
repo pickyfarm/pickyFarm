@@ -159,7 +159,7 @@
                     
                     {% for p in products %}
                     <div id="product" name="{{p.order_number}}" class="flex flex-row items-center">
-                        <div class="w-2/12"><img id="product-img" src="{{p.main_image.url}}"></div>
+                        <div class="w-2/12"><img id="product-img" src="{{p.productmain_image.url}}"></div>
                         <div class="w-3/12" id="farm_name">{{p.product.farmer.farm_name}}</div>
                         <div class="w-3/12" id="title">{{p.product.title}}</div>
                         <div class="w-1/12" id="orders-num">{{p.order_quantity}}</div>
