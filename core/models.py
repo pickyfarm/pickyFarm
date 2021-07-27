@@ -8,13 +8,6 @@ import os
 # Create your models here.
 
 
-class Main_Slider_Image(models.Model):
-
-    image = models.ImageField(upload_to="main_slider_images/%%Y/%%m/%%d")
-    update_at = models.DateTimeField(auto_now=True)
-    create_at = models.DateTimeField(auto_now_add=True)
-
-
 class CompressedImageFieldFile(ImageFieldFile):
     def save(self, name, content, save=True):
         # Compressed Image
@@ -34,6 +27,13 @@ class CompressedImageFieldFile(ImageFieldFile):
 
 class CompressedImageField(models.ImageField):
     attr_class = CompressedImageFieldFile
+
+
+class Main_Slider_Image(models.Model):
+
+    image = CompressedImageField(upload_to="main_slider_images/%%Y/%%m/%%d")
+    update_at = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
 
 
 class NoQuerySet(Exception):

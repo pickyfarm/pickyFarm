@@ -1,4 +1,5 @@
 from django.db import models
+from core.models import CompressedImageField
 
 
 class Farmer(models.Model):
@@ -8,19 +9,21 @@ class Farmer(models.Model):
         ("etc", "기타"),
     )
     farm_name = models.CharField(max_length=50)  # 농장 이름
-    farmer_profile = models.ImageField(
+    farmer_profile = CompressedImageField(
         upload_to="farmer_profile/%Y/%m/%d/", null=True, blank=True
     )  # 농장주 사진 default icon 설정
-    farm_profile = models.ImageField(
+    farm_profile = CompressedImageField(
         upload_to="farm_profile/%Y/%m/%d/"
     )  # 농장 대표사진 or 로고
     profile_title = models.CharField(max_length=200)  # 농가 한 줄 소개
-    farm_desc = models.ImageField(
+    farm_desc = CompressedImageField(
         upload_to="farm_desc/%Y/%m/%d/", null=True, blank=True
     )  # 농가 상세 소개
     sub_count = models.IntegerField(default=0)  # 구독자 수
     farm_news = models.CharField(max_length=500, null=True, blank=True)  # 농가 뉴스
-    farm_thanks_msg = models.CharField(max_length=500, null=True, blank=True)  # 농가 구매 감사 메세지
+    farm_thanks_msg = models.CharField(
+        max_length=500, null=True, blank=True
+    )  # 농가 구매 감사 메세지
     farm_cat = models.CharField(choices=CAT_CHOICES, max_length=20, default="fruit")
     contract = models.BooleanField(default=False)  # 계약서 동의 여부
     open = models.BooleanField(default=False)  # 입점 승인 여부
@@ -44,7 +47,7 @@ class Farmer_Story(models.Model):
         "Farmer", related_name="farmer_stories", on_delete=models.CASCADE
     )  # 작성자
     title = models.CharField(max_length=50)  # 제목
-    thumbnail = models.ImageField(
+    thumbnail = CompressedImageField(
         upload_to="story_thumbnail/%Y/%m/%d/", null=True, blank=True
     )  # 썸네일
     hits = models.PositiveIntegerField(default=0)  # 조회수
