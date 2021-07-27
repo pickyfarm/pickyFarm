@@ -262,46 +262,45 @@
     cursor: pointer;
 }
 
-#delivery-cat-detail-section {
+#delivery-address-input-section {
     display: none;
     margin-bottom: 20px;
 }
 
 /* 배송지 관련 부분 */
 
-#delivery-cat-detail-index-section{
-  font-family: NotoSansKR;
-  font-size: 15px;
-  text-align: left;
-  color: #5c6754;
-  margin-top:10px;
-  text-align: center;
+#delivery-cat-detail-index-section {
+    font-family: NotoSansKR;
+    font-size: 15px;
+    text-align: left;
+    color: #5c6754;
+    margin-top: 10px;
+    text-align: center;
 }
 
-#delivery-cat-detail-index-title-section{
-    width:50%;
+#delivery-cat-detail-index-title-section {
+    width: 50%;
     border-bottom: solid 0.5px #b3b3b3;
-    padding-bottom : 15px;
+    padding-bottom: 15px;
 }
 
-#delivery-address-choice{
-  width:50%;
-  font-size: 15px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2;
-  letter-spacing: normal;
-  text-align: left;
-  color: #000000;
-  cursor: pointer;
+#delivery-address-choice {
+    width: 50%;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+    cursor: pointer;
 }
 
-#delivery-address-choice:hover{
-  background-color: #5c6754;
-  color: #ffffff;
+#delivery-address-choice:hover {
+    background-color: #5c6754;
+    color: #ffffff;
 }
-
 
 /* 주문 상세 내역 결제 금액 부분 */
 
