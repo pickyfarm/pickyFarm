@@ -66,8 +66,8 @@
 
             </div>
 
-            <div id="delivery-cat-detail-section">
-                만약 여기에 검색창
+            <div id="delivery-cat-detail-section" class="mb-5">
+                
             </div>
 
             <div id="delivery-address-section" class="flex flex-row mb-5">
@@ -260,12 +260,30 @@
     let deliveryCatDirect = document.getElementById('delivery-cat-direct')
     let deliveryAddress = document.getElementById("delivery-address")
 
+    let deliveryCatDetailSection= document.getElementById('delivery-cat-detail-section')
+
     deliveryCatDefault.addEventListener('click', ()=>{
+        deliveryCatDetailSection.innerHTML = ""
         deliveryAddress.value = '{{default_address}}'
     })
 
     deliveryCatChoice.addEventListener('click', ()=>{
-        
+        add_html = `<div id="delivery-cat-detail-index-section" class="flex flex-row">
+                    <div id="delivery-cat-detail-index-title-section" class="flex flex-row">
+                        <div class="">배송 받으실 주소를 선택해주세요</div>
+                    </div>
+                </div>
+                {% for addr in  addresses%}
+                        <div id="delivery-address-choice" class="transition_element text-center">{{addr.full_address}} {{addr.detail_address}}</div>
+                {% endfor %}`
+        deliveryCatDetailSection.innerHTML = add_html
+
+        let choice = document.querySelectorAll('#delivery-address-choice')
+        choice.forEach(item=>
+            item.addEventListener('click', ()=>{
+                deliveryAddress.value = item.innerHTML
+            })
+        )
     })
 
     deliveryCatDirect.addEventListener('click', ()=>{

@@ -105,7 +105,7 @@ def payment_create(request):
         "account_name" : user.account_name,
         "phone_number" : user.phone_number,
         "default_address" : consumer.default_address.get_full_address(),
-        "addresses" : user.addresses,
+        "addresses" : user.addresses.all(),
     }
 
     print(f'기본배송지 : {consumer.default_address.get_full_address()} ')
