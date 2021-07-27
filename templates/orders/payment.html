@@ -51,16 +51,20 @@
                 <div id="sub-title-text">배송지 정보</div>
                 <div id="sub-title-line"></div>
             </div>
-            <div id="delivery-cat-section" class="flex flex-row mb-5">
+            <div id="delivery-cat-section" class="mb-5">
                 <ul id="delivery-cat" class="flex flex-row">
-                
                     <li id="label-text2" class="mr-5">
-                        <label for="delivery-cat-basic"><input type="radio" name="delivery-cat" id="delivery-cat-basic" value="기본배송지" class="mr-2" required checked>기본배송지</label>
+                        <label for="delivery-cat-default" ><input type="radio" name="delivery-cat" id="delivery-cat-default" value="기본 배송지" class="mr-2" required checked>기본 배송지</label>
                     </li>
-                    <li id="label-text2">
-                        <label for="delivery-cat-direct"><input type="radio" name="delivery-cat" id="delivery-cat-direct"  value="직접입력" class="mr-2" required>직접입력</label></div>
+                    <li id="label-text2" class="mr-5">
+                        <label for="delivery-cat-choice"><input type="radio" name="delivery-cat" id="delivery-cat-choice"  value="배송지 선택" class="mr-2" required>배송지 선택</label>
+                    </li>
+                    <li id="label-text2" class="mr-5">
+                        <label for="delivery-cat-direct"><input type="radio" name="delivery-cat" id="delivery-cat-direct"  value="직접입력" class="mr-2" required>직접입력</label>
                     </li>
                 </ul>
+
+            </div>
             <div id="delivery-address-section" class="flex flex-row mb-5">
                 <div class="flex flex-row w-1/12">
                     <div id="label-text" class="mt-2">배송지</div>
@@ -70,7 +74,9 @@
 
                 <div class="w-11/12">
                     <div id="middle-form" class="ml-12 pl-3 flex justify-items-start"><input type="text", maxlength="200", id="delivery-address" value="{{default_address}}"></div>
+
                 </div>
+
             </div>
             <div id="delivery-rev-loc-at-section" class="flex flex-row mb-5">
                 <div class="flex flex-row mr-5">
@@ -244,6 +250,25 @@
     totalPrice = Number.parseInt(totalPrice)
     console.log(totalPrice)
 
+    let deliveryCatDefault = document.getElementById('delivery-cat-default')
+    let deliveryCatChoice = document.getElementById('delivery-cat-choice')
+    let deliveryCatDirect = document.getElementById('delivery-cat-direct')
+    let deliveryAddress = document.getElementById("delivery-address")
+
+    deliveryCatDefault.addEventListener('click', ()=>{
+        deliveryAddress.value = '{{default_address}}'
+    })
+
+    deliveryCatChoice.addEventListener('click', ()=>{
+        
+    })
+
+    deliveryCatDirect.addEventListener('click', ()=>{
+        deliveryAddress.value = '선종아 직접 입력하여라'
+    })
+
+
+
     let goBtn = document.getElementById('go-btn')
     console.log(goBtn)
     console.log(window.location.origin)
@@ -253,7 +278,7 @@
         let revPhoneNumber = document.getElementById('id_rev_phone_number').value
        
         let revLocAt = document.querySelector("input[name='rev_loc_at']:checked").value
-        let payment_type = document.querySelector("input[name='payment_type']:checked").value
+        let paymentType = document.querySelector("input[name='payment_type']:checked").value
        
         let revMessage = document.getElementById('id_rev_message').value
         let toFarmMessage = document.getElementById('id_to_farm_message').value
@@ -262,8 +287,8 @@
         console.log(toFarmMessage)
         console.log(revName)
         console.log(revLocAt)
-        console.log(typeof(payment_type))
-        console.log(payment_type)
+    
+     
 
         if(revName == ""){
             alert("주문자 이름을 입력해주세요")
@@ -286,14 +311,23 @@
             return
         }
 
+        //배송지 관련 로직//
+        //배송지 카테고리 selectors
         
+        //배송지 폼
+        let deliveryAddress = document.getElementById("delivery-address")
+        
+
+        revAddress = deliveryAddress.value
 
         data = {
             'rev_name' : revName,
             'rev_phone_number' : revPhoneNumber,
+            'rev_address' : revAddress,
             'rev_loc_at' : revLocAt,
             'rev_message' : revMessage,
             'to_farm_message' : toFarmMessage,
+            'payment_type' : paymentType,
         }
 
         let itemsList = []
@@ -321,7 +355,7 @@
 	        application_id: "60dad0c05b29480021dc523d",
 	        name: '{{order_group_name}}', //결제창에서 보여질 이름
 	        pg: 'nicepay',
-	        method: payment_type, //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+	        method: paymentType, //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 	        show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
 	        items: itemsList,
 	        user_info: {
@@ -386,7 +420,7 @@
 		                BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
 	                } else {
 		                BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
-                        window.location.href = "/order/payment/fail?errorType='stock'";
+                        window.location.href = "/order/payment/fail?errorType='error_stock'";
 	                }
                 }
             })
