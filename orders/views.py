@@ -511,3 +511,9 @@ def payment_valid(request):
 #         )
 #         if cancel_result["status"] == 200:
 #             return
+
+# 결제취소 창 테스트용 view
+# def fail_test(request):
+#     errorMsg = request.GET.get("errorType", None)
+#     return render(request, "orders/payment_fail.html", {"errorMsg": errorMsg})
+

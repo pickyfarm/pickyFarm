@@ -1,20 +1,39 @@
-{% extends "base/base.html" %}
-
-{% load static %}
-{% block stylesheet %}
+{% extends "base/base.html" %} {% load static %} {% block stylesheet %}
 <!-- <link rel="stylesheet" href="{% static 'css/products/create_question.css' %}"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-{% endblock stylesheet %}
-{% block main_content %}
-
-<div>결제 실패</div>
-{{errorMsg}}
-{% endblock main_content %}
-
-
-{% block mypage_base_script_section %}
-<script>
-    
-</script>
+<link rel="stylesheet" href="{% static 'css/orders/payment_fail.css' %}" />
+{% endblock stylesheet %} {% block main_content %}
+<div class="fail-main-content">
+    <div class="fail-sub-content">
+        <div class="fail-title">주문 / 결제 실패</div>
+    </div>
+    <div class="fail-sub-content-1">
+        <div id="fail-img">
+            <img src="{% static 'images/orders/warning.png' %}" alt="!" />
+        </div>
+        <div class="fail-ment">주문 결제에 실패했습니다.</div>
+    </div>
+    <div class="fail-sub-content-2">
+        <div class="fail-sub-content-ments">
+            <div>* 주문내역과 결제수단을 확인 후 재시도 해보시기 바랍니다.</div>
+            <div>
+                * 지속적으로 결제가 이루어지지 않는 경우 고객상담실로 문의
+                주시기 바랍니다.
+            </div>
+            <div>(0000 - 0000)</div>
+        </div>
+    </div>
+    <div class="fail-sub-content-3">
+        <a href="#">
+            <input
+                id="fail-return-button"
+                class="transition_element"
+                type="button"
+                value="돌아가기"
+            />
+        </a>
+    </div>
+</div>
+{{errorMsg}} {% endblock main_content %} {% block mypage_base_script_section %}
+<script></script>
 {% endblock %}
