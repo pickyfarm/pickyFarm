@@ -1,22 +1,488 @@
-{% extends "base/base.html" %}
-
-{% load static %}
-{% block stylesheet %}
+{% extends "base/base.html" %} {% load static %} {% block stylesheet %}
 <!-- <link rel="stylesheet" href="{% static 'css/products/create_question.css' %}"> -->
+<link rel="stylesheet" href="{% static 'css/orders/payment_success.css' %}" />
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-{% endblock stylesheet %}
-{% block main_content %}
+{% endblock stylesheet %} {% block main_content %}
 
-<div>결제 성공</div>
-<div>{{order_id}}</div>
-<div>{{amount}}</div>
+<div class="order-payment-success-container mx-auto flex">
+    <div class="order-payment-success-title flex">주문 / 결제 완료</div>
+    <div class="order-payment-success-information-wrap">
+        <div class="order-payment-success-information-title">
+            주문 상품 정보
+        </div>
+        <div class="order-payment-success-information-border"></div>
+        <div class="order-payment-success-information-lists-wrap">
+            <!-- 여기서부터 for문 돌리면 됨 -->
+            <div class="order-payment-success-information-list-wrap">
+                <div class="order-payment-success-information-list flex">
+                    <div
+                        class="
+                            order-payment-success-information-list-left-section
+                        "
+                    >
+                        <div
+                            class="order-payment-success-information-image"
+                        ></div>
+                    </div>
+                    <div
+                        class="
+                            order-payment-success-information-list-right-section
+                            flex
+                        "
+                    >
+                        <div class="order-payment-success-information-name">
+                            해맑은 농장
+                        </div>
+                        <div
+                            class="
+                                order-payment-success-information-description-wrap
+                                flex
+                            "
+                        >
+                            <div
+                                class="
+                                    order-payment-success-information-description-left-section
+                                "
+                            >
+                                <div
+                                    class="
+                                        order-payment-success-information-description
+                                    "
+                                >
+                                    못나지만 맛사과
+                                </div>
+                            </div>
+                            <div
+                                class="
+                                    order-payment-success-information-description-right-section
+                                    flex
+                                "
+                            >
+                                <div
+                                    class="
+                                        order-payment-success-information-description-amount
+                                    "
+                                >
+                                    1
+                                </div>
+                                <div
+                                    class="
+                                        order-payment-success-information-description-weight
+                                    "
+                                >
+                                    1 kg
+                                </div>
+                                <div
+                                    class="
+                                        order-payment-success-information-description-price
+                                    "
+                                >
+                                    19,000원
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="
+                                order-payment-success-information-description-bottom-wrap
+                                flex
+                            "
+                        >
+                            <div
+                                class="order-payment-success-information-weight"
+                            >
+                                1 kg
+                            </div>
+                            <div
+                                class="order-payment-success-information-price"
+                            >
+                                19,000원
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="order-payment-success-information-list-border-bottom"
+            ></div>
+            <!-- 여기까지 for문 돌리면 됩니다. -->
+        </div>
+    </div>
+    <div class="order-payment-success-amount-wrap flex">
+        <div class="order-payment-success-amount-title">총 결제 금액</div>
+        <div class="order-payment-success-amount-number">00,000</div>
+        <div class="order-payment-success-amount-unit">원</div>
+    </div>
+    <div class="order-payment-success-customer-section">
+        <div class="order-payment-success-customer-information-title">
+            주문자 정보
+        </div>
+        <div class="order-payment-success-information-border"></div>
+        <div class="order-payment-success-customer-information-wrap">
+            <div
+                class="
+                    order-payment-success-customer-information-name-wrap
+                    flex
+                "
+            >
+                <div
+                    class="
+                        order-payment-success-customer-information-name-title
+                    "
+                >
+                    이름
+                </div>
+                <div class="order-payment-success-customer-information-name">
+                    주문자 이름
+                </div>
+            </div>
+            <div
+                class="order-payment-success-customer-information-tel-wrap flex"
+            >
+                <div
+                    class="order-payment-success-customer-information-tel-title"
+                >
+                    연락처
+                </div>
+                <div class="order-payment-success-customer-information-tel">
+                    010.0000.0000
+                </div>
+            </div>
+            <div
+                class="
+                    order-payment-success-customer-information-email-wrap
+                    flex
+                "
+            >
+                <div
+                    class="
+                        order-payment-success-customer-information-email-title
+                    "
+                >
+                    이메일
+                </div>
+                <div class="order-payment-success-customer-information-email">
+                    aaaaaa@naver.com
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order-payment-success-customer-address-section">
+        <div class="order-payment-success-customer-address-information-title">
+            배송지 정보
+        </div>
+        <div class="order-payment-success-information-border"></div>
+        <div class="order-payment-success-customer-address-information-wrap">
+            <div
+                class="
+                    order-payment-success-customer-address-information-name-wrap
+                    flex
+                "
+            >
+                <div
+                    class="
+                        order-payment-success-customer-address-information-name-title
+                    "
+                >
+                    주소
+                </div>
+                <div
+                    class="
+                        order-payment-success-customer-address-information-name
+                    "
+                >
+                    주문자 주소
+                </div>
+            </div>
+            <div
+                class="
+                    order-payment-success-customer-address-information-receive-wrap
+                    flex
+                "
+            >
+                <div
+                    class="
+                        order-payment-success-customer-address-information-receive-title
+                    "
+                >
+                    받으실 장소
+                </div>
+                <div
+                    class="
+                        order-payment-success-customer-address-information-receive
+                    "
+                >
+                    문 앞
+                </div>
+            </div>
+            <div
+                class="
+                    order-payment-success-customer-address-information-etc-wrap
+                    flex
+                "
+            >
+                <div
+                    class="
+                        order-payment-success-customer-address-information-etc-title
+                    "
+                >
+                    특이사항
+                </div>
+                <div
+                    class="
+                        order-payment-success-customer-address-information-etc
+                    "
+                >
+                    공동현관 비밀번호 1234
+                </div>
+            </div>
+        </div>
+    </div>
 
-{% endblock main_content %}
+    <div class="order-payment-success-appreciate-message-section">
+        <div class="order-payment-success-appreciate-message-title">
+            농가가 전하는 구매 감사 메시지
+        </div>
+        <div class="order-payment-success-information-border"></div>
 
+        <div
+            class="
+                order-payment-success-appreciate-message-card-section-container
+                flex
+            "
+        >
+            <!-- 여기서부터 구독하지 않은 농장 정보 -->
+            <div
+                class="
+                    order-payment-success-unsubfarmer-appreciate-message-card-section
+                "
+            >
+                <div
+                    class="
+                        order-payment-success-unsubfarmer-appreciate-message-card-wrap
+                        flex
+                    "
+                >
+                    <div
+                        class="
+                            order-payment-success-unsubfarmer-card-photo-section
+                        "
+                    >
+                        <div
+                            class="
+                                order-payment-success-unsubfarmer-card-photo-circle
+                            "
+                        >
+                            <div
+                                class="
+                                    order-payment-success-unsubfarmer-card-photo-wrap
+                                "
+                            >
+                                <img
+                                    class="
+                                        order-payment-success-unsubfarmer-card-photo
+                                    "
+                                    src="{% static 'images/orders/farmer_photo.svg' %}"
+                                    alt="farmer_photo"
+                                />
+                            </div>
+                            <div
+                                class="
+                                    order-payment-success-unsubfarmer-card-photo-subscribe-wrap
+                                "
+                            >
+                                <img
+                                    class="
+                                        transition_element
+                                        order-payment-success-unsubfarmer-card-photo-subscribe-btn
+                                    "
+                                    src="{% static 'images/orders/subscribe_add.svg' %}"
+                                    alt="subscribe_add"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="order-payment-success-unsubfarmer-card-farm-name"
+                    >
+                        해맑은 농장
+                    </div>
+                    <div
+                        class="
+                            order-payment-success-unsubfarmer-card-farmer-name
+                        "
+                    >
+                        농부 이름
+                    </div>
+                    <div
+                        class="
+                            order-payment-success-unsubfarmer-card-message-text
+                        "
+                    >
+                        "구매 감사 메세지 들어가는 자리입니다. 작성된 문구는 이
+                        칸 안으로!! 이 박스 선 은 텍스트 폭만 나타내고 실제로는
+                        안 보 입니다!!"
+                    </div>
+                    <a
+                        class="
+                            order-payment-success-unsubfarmer-card-farm-link-section-anchor
+                        "
+                        href="#"
+                    >
+                        <div
+                            class="
+                                order-payment-success-unsubfarmer-card-farm-link-section
+                                transition_element
+                                flex
+                            "
+                        >
+                            <div
+                                class="
+                                    order-payment-success-unsubfarmer-card-farm-link-title
+                                "
+                            >
+                                농가 페이지 방문하기
+                            </div>
+                            <div
+                                class="
+                                    order-payment-success-unsubfarmer-card-farm-link-btn
+                                "
+                            >
+                                <img
+                                    class="
+                                        order-payment-success-unsubfarmer-card-farm-link-btn-arrow
+                                    "
+                                    src="{% static 'images/orders/arrow.svg' %}"
+                                    alt="arrow"
+                                />
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- 여기까지 구독하지 않은 농장 정보 -->
+            <!-- 여기서부터 구독한 농장 정보 -->
+            <div
+                class="
+                    order-payment-success-subfarmer-appreciate-message-card-section
+                "
+            >
+                <div
+                    class="
+                        order-payment-success-subfarmer-appreciate-message-card-wrap
+                        flex
+                    "
+                >
+                    <div
+                        class="
+                            order-payment-success-subfarmer-card-photo-section
+                        "
+                    >
+                        <div
+                            class="
+                                order-payment-success-subfarmer-card-photo-circle
+                            "
+                        >
+                            <div
+                                class="
+                                    order-payment-success-subfarmer-card-photo-wrap
+                                "
+                            >
+                                <img
+                                    class="
+                                        order-payment-success-subfarmer-card-photo
+                                    "
+                                    src="{% static 'images/orders/farmer_photo.svg' %}"
+                                    alt="farmer_photo"
+                                />
+                            </div>
+                            <div
+                                class="
+                                    order-payment-success-subfarmer-card-photo-subscribe-wrap
+                                "
+                            >
+                                <img
+                                    class="
+                                        order-payment-success-subfarmer-card-photo-subscribe-btn
+                                    "
+                                    src="{% static 'images/orders/subscribe.svg' %}"
+                                    alt="subscribe"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-payment-success-subfarmer-card-farm-name">
+                        해맑은 농장
+                    </div>
+                    <div
+                        class="order-payment-success-subfarmer-card-farmer-name"
+                    >
+                        농부 이름
+                    </div>
+                    <div
+                        class="
+                            order-payment-success-subfarmer-card-message-text
+                        "
+                    >
+                        "구매 감사 메세지 들어가는 자리입니다. 작성된 문구는 이
+                        칸 안으로!! 이 박스 선 은 텍스트 폭만 나타내고 실제로는
+                        안 보 입니다!!"
+                    </div>
+                    <a
+                        class="
+                            order-payment-success-subfarmer-card-farm-link-section-anchor
+                        "
+                        href="#"
+                    >
+                        <div
+                            class="
+                                order-payment-success-subfarmer-card-farm-link-section
+                                flex
+                            "
+                        >
+                            <div
+                                class="
+                                    order-payment-success-subfarmer-card-farm-link-title
+                                "
+                            >
+                                농가 페이지 방문하기
+                            </div>
+                            <div
+                                class="
+                                    order-payment-success-subfarmer-card-farm-link-btn
+                                "
+                            >
+                                <img
+                                    class="
+                                        order-payment-success-subfarmer-card-farm-link-btn-arrow
+                                    "
+                                    src="{% static 'images/orders/arrow.svg' %}"
+                                    alt="arrow"
+                                />
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- 여기까지 구독한 농장 정보 -->
+        </div>
+    </div>
+    <div class="order-payment-success-confirm-btn-section flex">
+        <a class="order-payment-success-confirm-btn-anchor" href="#">
+            <div
+                class="
+                    order-payment-success-confirm-btn
+                    transition_element
+                    flex
+                "
+            >
+                확인
+            </div>
+        </a>
+    </div>
+</div>
 
-{% block mypage_base_script_section %}
-<script>
-    
-</script>
+{% endblock main_content %} {% block mypage_base_script_section %}
+<script></script>
 {% endblock %}
