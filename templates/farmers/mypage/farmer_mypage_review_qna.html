@@ -2,122 +2,138 @@
 {% load static %}
 
 {% block stylesheet_farmer_mypage %}
-<style>
-    #content {
-        width: 800px;
-    }
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_qna_and_review.css' %}" />
 
-    #content-title {
-        margin-top: 106.9px;
-        margin-bottom: 36px;
-    }
-
-    #title-notification span {
-        font-size: 23px;
-        font-weight: bold;
-        color: #5c6754;
-    }
-
-    #title-notification-count-unit span {
-        font-size: 12px;
-        color: #70845d;
-    }
-
-    #notification-table tr {
-        height: 78px;
-        border-bottom: 1px solid #5e665681;
-    }
-
-    #notification-table-title {
-        font-size: 12px;
-        font-weight: 500;
-        color: #999999;
-    }
-
-    #notification-table-rows {
-        font-weight: 500;
-        font-size: 12px;
-    }
-
-    #notification-table-rows:hover {
-        background-color: #f3f4f3;
-    }
-
-    #notification-table-rows td:not(:first-child) {
-        color: #999999;
-    }
-</style>
 {% endblock stylesheet_farmer_mypage %}
 
 {% block content %}
 <div class="mx-auto" id="content">
     <div id="content-title" class="flex flex-row">
-        <div id="title-notification" class="mr-3">
+        <div id="title-question" class="mr-3">
             <span>문의/리뷰관리</span>
         </div>
     </div>
     <div>
         <div>문의 관리</div>
-        <table id="notification-table" class="w-full mb-40">
-            <tr id="notification-table-title">
-                <th>답변여부</th>
-                <th>상품명</th>
-                <th>제목</th>
-                <th>알림 날짜</th>
-                <th>신고하기</th>
-                <th>답변</th>
-            </tr>
-            {% for question in questions %}
-            <tr class="transition_element text-center" id="notification-table-rows"
-                onclick="location.href='{% url 'core:main' %}'">
-                {% if question.status == False %}
-                <td id="table-row-answer">미답변</td>
+        <div id="qna-list" class="mb-40">
+            <div id="question-table-wrapper">
+                <table id="question-table" class="w-full">
+                    <tr id="question-table-title">
+                        <th>답변여부</th>
+                        <th>상품명</th>
+                        <th>제목</th>
+                        <th>알림 날짜</th>
+                        <th>신고하기</th>
+                        <th>답변</th>
+                    </tr>
+                    {% for question in questions %}
+                    <tr class="transition_element text-center" id="question-table-rows"
+                        onclick="location.href='{% url 'core:main' %}'">
+                        {% if question.status == False %}
+                        <td id="table-row-answer">미답변</td>
+                        {% else %}
+                        <td id="table-row-answer">답변 완료</td>
+                        {% endif %}
+                        <td id="table-row-product">{{question.product}}</td>
+                        <td id="table-row-title">{{ question.title }}</td>
+                        <td id="table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
+                        <td>신고하기</td>
+                        {% if question.status == False %}
+                        <td>답변하기 -></td>
+                        {% else %}
+                        <td>답변수정 -></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="flex justify-between w-36 mx-auto mt-8">
+                {% if questions.has_previous %}
+                    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{questions.previous_page_number}}' style="cursor: pointer">
                 {% else %}
-                <td id="table-row-answer">답변 완료</td>
+                    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
                 {% endif %}
-                <td id="table-row-product">{{question.product}}</td>
-                <td id="table-row-title">{{ question.title }}</td>
-                <td id="table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
-                <td>신고하기</td>
-                {% if question.status == False %}
-                <td>답변하기 -></td>
+            
+                    <div>{{questions.number}}</div>
+                    <div>/</div>
+                    <div>{{questions.paginator.num_pages}}</div>
+            
+                {% if questions.has_next %}
+                    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{questions.next_page_number}}' style="cursor: pointer">
+                    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
                 {% else %}
-                <td>답변수정 -></td>
+                    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{questions.paginator.num_pages}}' style="cursor: pointer"> 
+                    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
                 {% endif %}
-            </tr>
-            {% endfor %}
-        </table>
+            </div>
+        </div>
         <div>리뷰 관리</div>
-        <table id="notification-table" class="w-full">
-            <tr id="notification-table-title">
-                <th>상품명</th>
-                <th>구매자 평점</th>
-                <th>제목</th>
-                <th>알림 날짜</th>
-                <th>신고하기</th>
-                <th>답변</th>
-            </tr>
+        <div id="review-list" class="mb-40">
+            <div id="review-table-wrapper">
+                <table id="review-table" class="w-full">
+                    <tr id="review-table-title">
+                        <th>상품명</th>
+                        <th>구매자 평점</th>
+                        <th>제목</th>
+                        <th>알림 날짜</th>
+                        <th>신고하기</th>
+                        <th>답변</th>
+                    </tr>
 
-            {% for review in reviews %}
-            <tr class="transition_element text-center" id="notification-table-rows"
-                onclick="location.href='{% url 'core:main' %}'">
-                <td id="table-row-product">{{ review.product }}</td>
-                <td id="table-row-score">**구매자 평점 이미지**</td>
-                <td id="table-row-title">{{ review.text }}</td>
-                <td id="table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
-                <td>신고하기</td>
-                {% if review.status == False %}
-                <td>답변하기 -></td>
+                    {% for review in reviews %}
+                    <tr class="transition_element text-center" id="review-table-rows"
+                        onclick="location.href='{% url 'core:main' %}'">
+                        <td id="table-row-product">{{ review.product }}</td>
+                        <td id="table-row-score">**구매자 평점 이미지**</td>
+                        <td id="table-row-title">{{ review.text }}</td>
+                        <td id="table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
+                        <td>신고하기</td>
+                        {% if review.status == False %}
+                        <td>답변하기 -></td>
+                        {% else %}
+                        <td>답변수정 -></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="flex justify-between w-36 mx-auto mt-8">
+                {% if reviews.has_previous %}
+                    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+                    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{reviews.previous_page_number}}' style="cursor: pointer">
                 {% else %}
-                <td>답변수정 -></td>
+                    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+                    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
                 {% endif %}
-            </tr>
-            {% endfor %}
-        </table>
+            
+                    <div>{{reviews.number}}</div>
+                    <div>/</div>
+                    <div>{{reviews.paginator.num_pages}}</div>
+            
+                {% if reviews.has_next %}
+                    <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{reviews.next_page_number}}' style="cursor: pointer">
+                    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
+                {% else %}
+                    <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer"> 
+                    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
     document.querySelector('#button-review-qna-manage').classList.add('active')
 </script>
+
+<script>
+    PAGINATION_URL = 'qna_ajax/?page='
+    PAGINATION_SECTION = '#qna-list'
+
+    PAGINATION_URL2 = 'review_ajax/?page2='
+    PAGINATION_SECTION2 = '#review-list'
+</script>
+<script src="{% static 'js/pagination/pagination.js' %}"></script>
 {% endblock content %}

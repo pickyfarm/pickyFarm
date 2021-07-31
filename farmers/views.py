@@ -394,10 +394,25 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = Product.objects.filter(farmer=self.request.user.farmer)
-        context["questions"] = Question.objects.filter(product__farmer=self.request.user.farmer)
-        context["reviews"] = Product_Comment.objects.filter(
-            product__farmer=self.request.user.farmer
+
+        # 문의
+        questions = Question.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
         )
+        page = self.request.GET.get("page")
+        paginator = Paginator(questions, 5)
+        questions = paginator.get_page(page)
+        context["questions"] = questions
+
+        # 리뷰
+        reviews = Product_Comment.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
+        page2 = self.request.GET.get("page2")
+        paginator2 = Paginator(reviews, 5)
+        reviews = paginator.get_page(page)
+        context["reviews"] = reviews
+
         return context
 
 
@@ -429,20 +444,6 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
         # context["page_range"] = page_range
 
         return context
-
-
-def notification_ajax(request):
-    """ 마이페이지 알림 Pagination """
-
-    page = request.GET.get("page")
-    notifications = FarmerNotification.objects.all().order_by("-id")
-    paginator = Paginator(notifications, 5)
-    notifications = paginator.get_page(page)
-
-    ctx = {
-        "notifications": notifications,
-    }
-    return render(request, "farmers/mypage/farmer_mypage_notification_ajax.html", ctx)
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):
@@ -516,3 +517,47 @@ class FarmerMyPageNotice(FarmerMyPageBase):
         print(context)
 
         return context
+
+
+"""
+Mypage Pagination
+"""
+
+
+def notification_ajax(request):
+    """ 마이페이지 알림 Pagination """
+
+    page = request.GET.get("page")
+    notifications = FarmerNotification.objects.all().order_by("-id")
+    paginator = Paginator(notifications, 5)
+    notifications = paginator.get_page(page)
+    ctx = {
+        "notifications": notifications,
+    }
+    return render(request, "farmers/mypage/farmer_mypage_notification_ajax.html", ctx)
+
+
+def qna_ajax(request):
+    """ 마이페이지 문의 Pagination """
+
+    page = request.GET.get("page")
+    questions = Question.objects.all().order_by("-id")
+    paginator = Paginator(questions, 5)
+    questions = paginator.get_page(page)
+    ctx = {
+        "questions": questions,
+    }
+    return render(request, "farmers/mypage/farmer_mypage_qna_ajax.html", ctx)
+
+
+def review_ajax(request):
+    """ 마이페이지 리뷰 Pagination """
+
+    page = request.GET.get("page2")
+    reviews = Question.objects.all().order_by("-id")
+    paginator = Paginator(reviews, 5)
+    reviews = paginator.get_page(page)
+    ctx = {
+        "reviews": reviews,
+    }
+    return render(request, "farmers/mypage/farmer_mypage_review_ajax.html", ctx)
