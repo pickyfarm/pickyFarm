@@ -169,7 +169,7 @@ class Story_Detail(DetailView):
         ctx["farmer"] = farmer
         ctx["stories"] = stories
         ctx["tags"] = Farm_Tag.objects.all().filter(farmer=farmer)
-        ctx["comments"] = comments.order_by("-create_at")[: min(10, len(comments))]
+        ctx["comments"] = comments
         ctx["form"] = form
 
         if self.request.user != AnonymousUser():
@@ -315,6 +315,17 @@ Farmer mypage section
 
 
 class FarmerMyPageBase(ListView):
+    def dispatch(self, request, *args, **kwargs):
+        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
+
+        if (
+            self.request.user == AnonymousUser()
+            or not Farmer.objects.filter(user=self.request.user).exists()
+        ):
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         """context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
 
@@ -322,41 +333,36 @@ class FarmerMyPageBase(ListView):
         context["farmer"] = Farmer.objects.get(user=self.request.user)
         return context
 
-    def render_to_response(self, context, **response_kwargs):
-        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
-
-        if not Farmer.objects.filter(user=self.request.user).exists():
-            return redirect(reverse("core:main"))
-
-        return super().render_to_response(context, **response_kwargs)
-
 
 class FarmerMyPageOrderManage(FarmerMyPageBase):
     """농가 주문관리 페이지"""
 
     model = Order_Detail
+    context_object_name = "orders"
     template_name = "farmers/mypage/order/farmer_mypage_order.html"
+    paginate_by = 1
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["orders"] = []
-        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
+    def get_queryset(self):
+        status = self.request.GET.get("status", None)
+        q = self.request.GET.get("q", None)
+        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
             "order_group"
         )
 
-        order_list = []
-        order_list.append(orders.first())
+        print(qs)
 
-        for i in range(1, len(orders)):
-            if orders[i].order_group != orders[i - 1].order_group:
-                context["orders"].append(order_list)
-                order_list = [orders[i]]
+        if status:
+            qs = qs.filter(status=status)
 
-            else:
-                order_list.append(orders[i])
+        if q:
+            qs = qs.filter(order_group__consumer__user__nickname__icontains=q)
 
-        context["orders"].append(order_list)
+        return qs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["status"] = self.request.GET.get("status", None)
+        context["q"] = self.request.GET.get("q", None)
         return context
 
 
@@ -408,30 +414,35 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
         for noti in notifications:
             if noti.is_read == False:
                 new_notifications.append(noti)
-        notifications = Paginator(notifications, 5)
+
+        page = self.request.GET.get("page")
+        paginator = Paginator(notifications, 5)
+        notifications = paginator.get_page(page)
         context["notifications"] = notifications
         context["new_notifications"] = len(new_notifications)
 
-        # query_set for first page
-        first_page = notifications.page(1).object_list
-        context["first_page"] = first_page
-        # range of page ex range(1, 3)
-        page_range = notifications.page_range
-        context["page_range"] = page_range
+        # # query_set for first page
+        # first_page = notifications.page(1).object_list
+        # context["first_page"] = first_page
+        # # range of page ex range(1, 3)
+        # page_range = notifications.page_range
+        # context["page_range"] = page_range
 
         return context
 
 
-def paginate(request):
-    # pagination
-    if request.method == "POST":
-        notifications = FarmerNotification.objects.all().order_by("-id")
-        notifications = Paginator(notifications, 5)
-        page_n = request.POST.get("page_n", None)  # getting page number
-        results = list(
-            notifications.page(page_n).object_list.values("id", "message", "notitype", "create_at")
-        )
-        return JsonResponse({"results": results})
+def notification_ajax(request):
+    """ 마이페이지 알림 Pagination """
+
+    page = request.GET.get("page")
+    notifications = FarmerNotification.objects.all().order_by("-id")
+    paginator = Paginator(notifications, 5)
+    notifications = paginator.get_page(page)
+
+    ctx = {
+        "notifications": notifications,
+    }
+    return render(request, "farmers/mypage/farmer_mypage_notification_ajax.html", ctx)
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):

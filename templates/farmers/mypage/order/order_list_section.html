@@ -1,0 +1,88 @@
+{% load static %}
+<section id="order-list-wrapper" class="flex flex-col">
+    <div id="order-list-sheet-index-section" class="grid place-items-center">
+        <span class="order-list-sheet-index">주문상태</span>
+        <span class="order-list-sheet-index">상품명</span>
+        <span class="order-list-sheet-index">포장단위</span>
+        <span class="order-list-sheet-index">수량</span>
+        <span class="order-list-sheet-index">배송정보</span>
+        <span class="order-list-sheet-index">송장정보</span>
+    </div>
+
+    {% for order in orders %}
+    <div class="order-list-sheet-data-section grid place-items-center relative">
+        <div class="order-status {% if order.status == 'shipping' or order.status == 'complete' %} deactivate {% endif %}">
+            {% if order.status == 'wait' %}
+            결제대기
+            {% elif order.status == 'payment_complete' %}
+            신규주문
+            {% elif order.status == 'preparing' %}
+            배송대기
+            {% elif order.status == 'shipping' %}
+            배송 중
+            {% elif order.status == 'delivery_complete' %}
+            배송완료
+            {% elif order.status == 'cancel' %}
+            주문취소
+            {% elif order.status == 're_ex_recept' %}
+            환불/교환 요청
+            {% elif order.status == 're_ex_approve' %}
+            환불/교환 승인
+            {% else %}
+            환불/교환 거절
+            {% endif %}
+        </div>
+        <div class="product-name">{{order.product.title}}</div>
+        <div class="package-unit">{{order.product.weight}}kg</div>
+        <div class="order-quantity">{{order.quantity}}</div>
+        <div class="order-info grid">
+            <div class="order-info-index">주문자 정보</div>
+            <div class="order-info-index">배송지</div>
+            <div class="order-info-index order-memo">요청사항</div>
+            <div class="order-info-data consumer-info">{{order.order_group.consumer.user.get_full_name}}</div>
+            <div class="order-info-data shipping-address">{{order.order_group.rev_address}}</div>
+            <div class="order-info-data shipping-notes">{{order.order_group.rev_loc_at}}</div>
+            <div class="order-info-data order-memo">{{order.order_group.to_farm_message}}</div>
+        </div>
+        <div class="invoice-info">
+            {% if order.status == 'shipping' or order.status == 'complete' %}
+            {{order.invoice_number}}
+            {% elif order.status == 're_ex_recept' %}
+            <div class="button order-status-action-button transition_element">
+                사유 확인
+            </div>
+            {% elif order.status == 'preparing' %}
+            <div class="button order-status-action-button transition_element">
+                송장 입력
+            </div>
+            {% else %}
+            {% endif %}
+        </div>
+        <div class="absolute order-confirm-overlay flex justify-center items-center" name="{{order.pk}}">
+            {% if order.status == 'cancel' %}
+            <div class="order-cancelled">취소한 주문건 입니다.</div>
+            {% else %}
+            <div class="button order-confirm-button order-confirm flex flex-col items-center justify-center transition_element">
+                <img src="{% static 'images/farmer_mypage/order/accept.svg' %}" alt="accept">
+                <span>주문확인</span>
+            </div>
+            <div class="button order-confirm-button order-cancel flex flex-col items-center justify-center transition_element">
+                <img src="{% static 'images/farmer_mypage/order/decline.svg' %}" alt="decline">
+                <span>주문취소</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% endfor %}
+
+
+</section>
+
+<div id="paginator-wrapper" class="flex justify-center">
+    {% for page_num in paginator.page_range %}
+    <a href="?page={{page_num}}" class="page-num {% if page_obj.number == page_num %} current-page {% endif %}">{{page_num}}</a>
+    {% endfor %}
+</div>
+
+<script src="{% static 'js/farmers/mypage/farmer_mypage_order.js'%}"></script>

@@ -109,8 +109,8 @@
             <div id="buttons" class="flex flex-rows">
                 <div id="wish">찜하기</div>
 
-                <div id="cart" class="mr-12 ml-3">장바구니 담기</div>
-                <div id="purchase">바로 구매하기</div>
+                <div id="cart" name="{{product_pk}}" class="mr-12 ml-3">장바구니 담기</div>
+                <div id="purchase" name="{{product_pk}}">바로 구매하기</div>
             </div>
         </div>
     </div>
@@ -130,6 +130,7 @@
 
     
 <script>
+    
     let plusBtn = document.getElementById('plus_btn')
     let minusBtn = document.getElementById('minus_btn')
     let totalPrice = document.getElementById('total_price')
@@ -227,6 +228,54 @@
         
         })
     })
+
+    //장바구니 담기
+    let cartInBtn = document.getElementById("cart")
+    cartInBtn.addEventListener('click', function(){
+        cartIn(this.getAttribute('name'))
+    })
+
+    //바로 구매하기 버튼 누를 시
+
+    let purchaseBtn = document.getElementById("purchase")
+    purchaseBtn.addEventListener('click', function(){
+        let pk = this.getAttribute("name")
+        let quantity = parseInt(document.getElementById("quantity_number").innerHTML)
+        console.log(pk)
+        console.log(quantity)
+        product = {
+            'pk' : pk,
+            'quantity' : quantity
+        }
+        let products = [];
+        products.push(product)
+
+        data = {
+            "orders" : JSON.stringify(products),
+            "csrfmiddlewaretoken": csrftoken,
+        }
+
+        let form = document.createElement("form")
+        form.setAttribute("method", "post")
+        form.setAttribute("action", "{% url 'orders:payment_create' %}")
+
+        for(let key in data){
+            let hiddenField = document.createElement('input')
+            hiddenField.setAttribute('type', 'hidden')
+            hiddenField.setAttribute('name', key)
+            hiddenField.setAttribute('value', data[key])
+
+            form.appendChild(hiddenField)
+        }
+        
+        document.body.appendChild(form)
+        form.submit()
+
+        
+    })
+
+
+    
         
 
         // $.ajax({

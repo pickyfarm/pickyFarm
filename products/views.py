@@ -134,6 +134,7 @@ def _range(_min, args=None):
 
 def product_detail(request, pk):
     try:
+        product_pk = pk
         product = Product.objects.get(pk=pk)
         product.calculate_total_rating_avg()
         farmer = product.farmer
@@ -176,6 +177,7 @@ def product_detail(request, pk):
             cost_performance_per = [0, 0, 0]
 
         ctx = {
+            "product_pk" : product_pk,
             "product": product,
             "farmer": farmer,
             "comments": comments,
