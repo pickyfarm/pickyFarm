@@ -31,6 +31,7 @@ urlpatterns = [
     path("summernote/", include("django_summernote.urls")),
     path("address/", include("addresses.urls", namespace="addresses")),
     path("likes/", include("likes.urls", namespace="likes")),
+    path("message/", include("kakaomessages.urls", namespace="messages")),
 ]
 
 if settings.DEBUG:
