@@ -44,4 +44,5 @@ urlpatterns = [
         views.notification_ajax,
         name="notification_ajax",
     ),
+    path("mypage/reviews_qnas/qna_ajax/", views.qna_ajax, name="qna_ajax"),
 ]
