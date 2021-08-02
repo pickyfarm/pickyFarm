@@ -10,6 +10,7 @@ from django.db.models import Q
 from admins.models import FarmerNotice, FarmerNotification
 from math import ceil
 from django.http import JsonResponse, HttpResponseBadRequest
+import datetime
 
 
 # models
@@ -353,9 +354,14 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
     def get_queryset(self):
         status = self.request.GET.get("status", None)
         q = self.request.GET.get("q", None)
-        qs = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("order_group")
+        start_date = self.request.GET.get("start-date", None)
+        end_date = self.request.GET.get("end-date", None)
+
+        qs = (
+            Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+            .order_by("order_group")
+            .exclude(status="wait")
+        )
 
         print(qs)
 
@@ -364,6 +370,14 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
 
         if q:
             qs = qs.filter(order_group__consumer__user__nickname__icontains=q)
+
+        if start_date and end_date:
+            converted_end_date = end_date + " 23:59:59"
+            converted_end_date = datetime.datetime.strptime(
+                converted_end_date, "%Y-%m-%d %H:%M:%S"
+            )
+
+            qs = qs.filter(update_at__lte=converted_end_date, update_at__gte=start_date)
 
         return qs
 
