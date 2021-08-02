@@ -340,6 +340,21 @@ class FarmerMyPageBase(ListView):
 
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
+
+        orders = Order_Detail.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).exclude(status="wait")
+        context["overall_orders"] = orders
+        context["new_orders"] = orders.filter(status="payment_complete")
+        context["preparing_orders"] = orders.filter(status="preparing")
+        context["shipping_orders"] = orders.filter(status="shipping")
+        context["delivered_orders"] = orders.filter(status="delivery_complete")
+        context["claimed_orders"] = orders.filter(
+            Q(status="re_ex_recept")
+            | Q(status="re_ex_approve")
+            | Q(status="re_ex_deny")
+        )
+
         return context
 
 
