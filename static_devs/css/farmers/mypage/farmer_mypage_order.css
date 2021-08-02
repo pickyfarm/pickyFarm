@@ -39,14 +39,15 @@
 }
 
 .search-bar-section {
-    margin-left: 125px;
+    margin-bottom: 100px;
 }
 
 .search-bar-wrapper {
-    width: 740px;
-    height: 35px;
+    width: 417px;
+    height: 30px;
     border-radius: 18px;
     background-color: #f2f2f2;
+    margin-right: 20px;
 }
 
 .search-bar-title {
@@ -75,6 +76,55 @@
 
 #order-search:focus {
     outline: none;
+}
+
+.date-filter-form {
+    flex: 1;
+}
+
+.date-filter-button {
+    height: 30px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: center;
+    line-height: 30px;
+}
+
+.month-filter,
+.date-input {
+    color: #5c6754;
+    border: 1px solid #707070;
+}
+
+#recent-one-month {
+    margin-right: 4px;
+}
+
+#recent-three-month {
+    margin-right: 8px;
+}
+
+.month-filter {
+    width: 88px;
+}
+
+.date-input {
+    display: block;
+    text-align: right;
+    width: 127px;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    margin-left: 10px;
+}
+
+.date-filter-submit {
+    width: 86px;
+    border-radius: 15px;
+    background-color: #5c6754;
+    color: white;
+    margin-left: auto;
 }
 
 #search-button {
