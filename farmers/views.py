@@ -105,9 +105,13 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
+            search_list = search_list.filter(
+                Q(farmer__farm_name__contains=search_key_2)
+            )
         elif select_val == "farmer":
-            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
+            search_list = search_list.filter(
+                Q(farmer__user__nickname__contains=search_key_2)
+            )
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -137,7 +141,9 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
+            return redirect(
+                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
+            )
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -214,7 +220,9 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
     try:
-        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
+        sub = Subscribe.objects.get(
+            farmer__pk=farmer.pk, consumer=request.user.consumer
+        )
     except:
         sub = False
     ctx = {
@@ -340,14 +348,14 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
     model = Order_Detail
     context_object_name = "orders"
     template_name = "farmers/mypage/order/farmer_mypage_order.html"
-    paginate_by = 1
+    paginate_by = 5
 
     def get_queryset(self):
         status = self.request.GET.get("status", None)
         q = self.request.GET.get("q", None)
-        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
-            "order_group"
-        )
+        qs = Order_Detail.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).order_by("order_group")
 
         print(qs)
 
@@ -396,18 +404,18 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         products = Product.objects.filter(farmer=self.request.user.farmer)
 
         # 문의
-        questions = Question.objects.filter(product__farmer=self.request.user.farmer).order_by(
-            "-id"
-        )
+        questions = Question.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).order_by("-id")
         page = self.request.GET.get("page")
         paginator = Paginator(questions, 5)
         questions = paginator.get_page(page)
         context["questions"] = questions
 
         # 리뷰
-        reviews = Product_Comment.objects.filter(product__farmer=self.request.user.farmer).order_by(
-            "-id"
-        )
+        reviews = Product_Comment.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).order_by("-id")
         page2 = self.request.GET.get("page2")
         paginator2 = Paginator(reviews, 5)
         reviews = paginator.get_page(page)
@@ -525,7 +533,7 @@ Mypage Pagination
 
 
 def notification_ajax(request):
-    """ 마이페이지 알림 Pagination """
+    """마이페이지 알림 Pagination"""
 
     page = request.GET.get("page")
     notifications = FarmerNotification.objects.all().order_by("-id")
@@ -538,7 +546,7 @@ def notification_ajax(request):
 
 
 def qna_ajax(request):
-    """ 마이페이지 문의 Pagination """
+    """마이페이지 문의 Pagination"""
 
     page = request.GET.get("page")
     questions = Question.objects.all().order_by("-id")
@@ -551,7 +559,7 @@ def qna_ajax(request):
 
 
 def review_ajax(request):
-    """ 마이페이지 리뷰 Pagination """
+    """마이페이지 리뷰 Pagination"""
 
     page = request.GET.get("page2")
     reviews = Question.objects.all().order_by("-id")

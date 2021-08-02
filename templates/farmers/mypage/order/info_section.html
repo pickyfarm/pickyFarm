@@ -35,9 +35,13 @@
             <button style="background-image: url('{% static 'images/farmer_mypage/order/searchicon.svg' %}');" alt="검색" id="search-button"
                 class="button"></button>
         </form >
-        <div class="search-sort flex items-center">
-            <img src="{% static 'images/farmer_mypage/order/sorticon.svg' %}" alt="정렬하기" id="search-icon">
-            정렬
-        </div>
+        <form action="" method="GET" class="date-filter-form flex items-center">
+            <div class="date-filter-button month-filter button" id="recent-one-month">최근 1개월</div>
+            <div class="date-filter-button month-filter button" id="recent-three-month">최근 3개월</div>
+            <input type="date" name="start-date" id="start-date" class="date-filter-button date-input">
+            &nbsp;~&nbsp;
+            <input type="date" name="end-date" id="end-date" class="date-filter-button date-input">
+            <button type="button" class="date-filter-button date-filter-submit">조회</button>
+        </form>
     </div>
 </div>
