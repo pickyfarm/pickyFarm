@@ -167,8 +167,8 @@
     const url = new URL(CURRENT_URL)
     const urlParams = url.searchParams;
     
-    const start_date = urlParams.get('start-date')
-    const end_date = urlParams.get('end-date')
+    const start_date = urlParams.get('start-date')?urlParams.get('start-date'):''
+    const end_date = urlParams.get('end-date')?urlParams.get('end-date'):''
 
     PAGINATION_URL = 'qna_ajax/?page='
     PAGINATION_SECTION = '#qna-list'
