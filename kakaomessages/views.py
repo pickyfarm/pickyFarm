@@ -6,6 +6,29 @@ from .message import *
 from django.http import HttpResponse
 
 
+def send_kakao_message(phonenum, args={}):
+    data = {
+        "messages": [
+            # 변수가 있는 경우
+            {
+                "to": phonenum,
+                # array 사용으로 동일한 내용을 여러 수신번호에 전송 가능
+                # "to": ["01000000002", "01000000003"],
+                "from": "01033688026",
+                "kakaoOptions": {
+                    "pfId": "KA01PF210731082631285ecaWbc5i60e",
+                    "templateId": "KA01TP2107310829300073JUsV4IeXxB",
+                    # 변수: 값 형식으로 모든 변수에 대한 변수값 입력
+                    # "variables": {},  # 변수가 없는 경우에도 입력
+                    "variables": args,
+                },
+            },
+        ]
+    }
+
+    sendMany(data)
+
+
 data = {
     "messages": [
         # 변수가 있는 경우
