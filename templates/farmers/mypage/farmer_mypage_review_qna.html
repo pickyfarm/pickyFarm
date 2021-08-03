@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block stylesheet_farmer_mypage %}
-<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_qna_and_review.css' %}" />
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_review_qna.css' %}" />
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
 
 {% endblock stylesheet_farmer_mypage %}
 
@@ -12,6 +13,33 @@
         <div id="title-question" class="mr-3">
             <span>문의/리뷰관리</span>
         </div>
+    </div>
+    <div class="date-filter-content">
+        <form action="" method="GET" class="date-filter-form flex">
+            <div class="date-filter-search-option">
+                <div class="date-filter-search-option--date flex items-center">
+                    <div class="date-filter-button date-filter button transition_element" id="today">오늘</div>
+                    <div class="date-filter-button week-filter button transition_element" id="recent-one-week">최근 1주일</div>
+                    <div class="date-filter-button month-filter button transition_element" id="recent-one-month">최근 1개월</div>
+                    <input type="date" name="start-date" id="start-date" class="date-filter-button date-input">
+                    &nbsp;~&nbsp;
+                    <input type="date" name="end-date" id="end-date" class="date-filter-button date-input">
+                </div>
+                <div class="date-filter-search-option--category flex items-center">
+                    <input type="radio" name="search-category" id="qna" value="qna">
+                    <label for="qna" class="mr-16">문의관리</label>
+                    <input type="radio" name="search-category" id="review" value="review">
+                    <label for="qna">리뷰관리</label>
+
+                </div>
+            </div>
+            <button class="date-filter-button date-filter-submit">
+                <div class="flex flex-row justify-center">
+                <span class="mr-1">조회</span>
+                <img src="{% static 'images/farmer_mypage/searchicon.svg' %}" alt="">
+                </div>
+            </button>
+        </form>
     </div>
     <div>
         <div>문의 관리</div>
@@ -131,17 +159,16 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.querySelector('#button-review-qna-manage').classList.add('active')
-</script>
-
 <script>
     PAGINATION_URL = 'qna_ajax/?page='
     PAGINATION_SECTION = '#qna-list'
 
     PAGINATION_URL2 = 'review_ajax/?page2='
     PAGINATION_SECTION2 = '#review-list'
+
+    document.querySelector('#button-review-qna-manage').classList.add('active')
+    const DateTime = luxon.DateTime;
 </script>
 <script src="{% static 'js/pagination/pagination.js' %}"></script>
+<script src="{% static 'js/farmers/mypage/farmer_mypage_review_qna.js'%}"></script>
 {% endblock content %}
