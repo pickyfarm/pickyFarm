@@ -434,19 +434,20 @@ def payment_fail(request):
         errorMsg = "서버에 오류가 있었습니다. 다시 시도해주세요"
     else:
         errorMsg = "알 수 없는 오류가 있습니다. 다시 시도해주세요"
-
-    order_group = Order_Group.objects.get(pk=order_group_pk)
-    order_group.status = error_type
-    order_details = order_group.order_details.all()
-
-    for detail in order_details:
-        detail.product.stock += detail.quantity
-        print("[detail] - " + detail.product.title + " stock 복구")
-        detail.status = error_type
-        print("[detail] status - " + detail.status + "변경")
-        detail.save()
     
-    order_group.save()
+    if order_group_pk is not None:
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+        order_group.status = error_type
+        order_details = order_group.order_details.all()
+
+        for detail in order_details:
+            detail.product.stock += detail.quantity
+            print("[detail] - " + detail.product.title + " stock 복구")
+            detail.status = error_type
+            print("[detail] status - " + detail.status + "변경")
+            detail.save()
+    
+        order_group.save()
 
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
