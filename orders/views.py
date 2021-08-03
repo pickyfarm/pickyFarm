@@ -31,6 +31,7 @@ def create_order_group_management_number(pk):
         5: "May",
         6: "Jun",
         7: "Jul",
+        8: "Aug",
         9: "Sept",
         10: "Oct",
         11: "Nov",
@@ -63,7 +64,7 @@ def create_order_group_management_number(pk):
     order_group_management_number = (
         str(year) + "_" + month + "_" + day + "_PF" + str(pk)
     )
-
+    
     print(order_group_management_number)
     return order_group_management_number
 
