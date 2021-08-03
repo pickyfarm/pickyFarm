@@ -2,10 +2,10 @@ $(function(){
     $("img[name=paginator]").click(function(event){
         event.preventDefault()
         $.ajax({
-            url: PAGINATION_URL + $(this).attr('id'),
+            url: PAGINATION_URL + $(this).attr('id') + SEARCH_VAL,
             data:{
-                // 'searchValue': searchValue, 
-                // 'searchValue_2': searchValue_2,
+                // 'start-date': startdate, 
+                // 'end-date': enddate, 
             },
             success:function(data){
                 $(PAGINATION_SECTION).html(data)
@@ -17,7 +17,7 @@ $(function(){
         event.preventDefault()
 
         $.ajax({
-            url: PAGINATION_URL2 + $(this).attr('id'),
+            url: PAGINATION_URL2 + $(this).attr('id') + SEARCH_VAL,
             data:{
                 // 'searchValue': searchValue, 
                 // 'searchValue_2': searchValue_2,

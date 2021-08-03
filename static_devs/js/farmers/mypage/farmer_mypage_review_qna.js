@@ -13,8 +13,9 @@ document
     .querySelector('#recent-one-month')
     .addEventListener('click', () => setMonthFilter(1));
 
-document.querySelector('.date-filter-submit').addEventListener('click', () => {
-    !(startDate.value && endDate.value) && alert('날짜를 모두 입력해주세요.');
+document.querySelector('.date-filter-submit').addEventListener('click', (e) => {
+    !(startDate.value && endDate.value) && e.preventDefault();
+    !(startDate.value && endDate.value) && shootToastMessage('날짜를 모두 입력해주세요.');
 });
 
 startDate.addEventListener('change', (e) => {
@@ -30,14 +31,6 @@ const setTodayFilter = () => {
     endDate.value = today.toISODate();
 }
 
-const setMonthFilter = (month) => {
-    const today = DateTime.now();
-    const pastDate = today.minus({ months: month });
-
-    startDate.value = pastDate.toISODate();
-    endDate.value = today.toISODate();
-};
-
 const setWeekFilter = (week) => {
     const today = DateTime.now();
     const pastDate = today.minus({ weeks: week});
@@ -45,3 +38,11 @@ const setWeekFilter = (week) => {
     startDate.value = pastDate.toISODate();
     endDate.value = today.toISODate();
 }
+
+const setMonthFilter = (month) => {
+    const today = DateTime.now();
+    const pastDate = today.minus({ months: month });
+
+    startDate.value = pastDate.toISODate();
+    endDate.value = today.toISODate();
+};

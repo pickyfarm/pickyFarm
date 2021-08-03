@@ -30,7 +30,6 @@
                     <label for="qna" class="mr-16">문의관리</label>
                     <input type="radio" name="search-category" id="review" value="review">
                     <label for="qna">리뷰관리</label>
-
                 </div>
             </div>
             <button class="date-filter-button date-filter-submit">
@@ -160,15 +159,26 @@
     </div>
 </div>
 <script>
+    const DateTime = luxon.DateTime;
+</script>
+<script src="{% static 'js/farmers/mypage/farmer_mypage_review_qna.js'%}"></script>
+<script>
+    const CURRENT_URL = window.location.href
+    const url = new URL(CURRENT_URL)
+    const urlParams = url.searchParams;
+    
+    const start_date = urlParams.get('start-date')
+    const end_date = urlParams.get('end-date')
+
     PAGINATION_URL = 'qna_ajax/?page='
     PAGINATION_SECTION = '#qna-list'
+    SEARCH_VAL = '&start-date='+start_date+'&end-date='+end_date
 
     PAGINATION_URL2 = 'review_ajax/?page2='
     PAGINATION_SECTION2 = '#review-list'
+    SEARCH_VAL = '&start-date='+start_date+'&end-date='+end_date
 
     document.querySelector('#button-review-qna-manage').classList.add('active')
-    const DateTime = luxon.DateTime;
 </script>
 <script src="{% static 'js/pagination/pagination.js' %}"></script>
-<script src="{% static 'js/farmers/mypage/farmer_mypage_review_qna.js'%}"></script>
 {% endblock content %}
