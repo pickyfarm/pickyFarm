@@ -1,6 +1,11 @@
 $(function(){
     $("img[name=paginator]").click(function(event){
         event.preventDefault()
+        try{
+            console.log(SEARCH_VAL)
+        } catch {
+            SEARCH_VAL = ''
+        }
         $.ajax({
             url: PAGINATION_URL + $(this).attr('id') + SEARCH_VAL,
             data:{
@@ -15,7 +20,11 @@ $(function(){
 
     $("img[name=paginator2]").click(function(event){
         event.preventDefault()
-
+        try{
+            console.log(SEARCH_VAL)
+        } catch {
+            SEARCH_VAL = ''
+        }
         $.ajax({
             url: PAGINATION_URL2 + $(this).attr('id') + SEARCH_VAL,
             data:{
