@@ -31,6 +31,7 @@ def create_order_group_management_number(pk):
         5: "May",
         6: "Jun",
         7: "Jul",
+        8: "Aug",
         9: "Sept",
         10: "Oct",
         11: "Nov",
@@ -63,7 +64,7 @@ def create_order_group_management_number(pk):
     order_group_management_number = (
         str(year) + "_" + month + "_" + day + "_PF" + str(pk)
     )
-
+    
     print(order_group_management_number)
     return order_group_management_number
 
@@ -524,6 +525,11 @@ def payment_valid(request):
 
     return HttpResponse("잘못된 접근입니다", status=400)
 
+# 주문/결제 완료 프론트단을 작업하기 위한 임시 view
+# def temporary_payment_success(request):
+#     return render(request, 'orders/payment_success.html',{})
+
+
 
 # @login_required
 # def payment_cancel_by_verification_fail(receiptID, price):
@@ -548,3 +554,9 @@ def payment_valid(request):
 #         )
 #         if cancel_result["status"] == 200:
 #             return
+
+# 결제취소 창 테스트용 view
+# def fail_test(request):
+#     errorMsg = request.GET.get("errorType", None)
+#     return render(request, "orders/payment_fail.html", {"errorMsg": errorMsg})
+
