@@ -394,12 +394,12 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = Product.objects.filter(farmer=self.request.user.farmer)
+        page = self.request.GET.get("page")
 
         # 문의
         questions = Question.objects.filter(product__farmer=self.request.user.farmer).order_by(
             "-id"
         )
-        page = self.request.GET.get("page")
         paginator = Paginator(questions, 5)
         questions = paginator.get_page(page)
         context["questions"] = questions
@@ -408,9 +408,8 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         reviews = Product_Comment.objects.filter(product__farmer=self.request.user.farmer).order_by(
             "-id"
         )
-        page2 = self.request.GET.get("page2")
         paginator2 = Paginator(reviews, 5)
-        reviews = paginator.get_page(page)
+        reviews = paginator2.get_page(page)
         context["reviews"] = reviews
 
         return context
@@ -554,7 +553,7 @@ def review_ajax(request):
     """ 마이페이지 리뷰 Pagination """
 
     page = request.GET.get("page2")
-    reviews = Question.objects.all().order_by("-id")
+    reviews = Product_Comment.objects.all().order_by("-id")
     paginator = Paginator(reviews, 5)
     reviews = paginator.get_page(page)
     ctx = {
