@@ -210,8 +210,9 @@
 .order-payment-success-subfarmer-card-photo-circle {
     width: 150px;
     height: 150px;
+    object-fit: cover;
     margin: 0 99px 22px 82px;
-    padding: 39.6px 46.6px 38.8px 45px;
+    /* padding: 39.6px 46.6px 38.8px 45px; */
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
     border-radius: 80px;
@@ -219,8 +220,7 @@
 
 .order-payment-success-unsubfarmer-card-photo-subscribe-btn,
 .order-payment-success-subfarmer-card-photo-subscribe-btn {
-    position: relative;
-    left: 70px;
+    left: 185px;
     bottom: 15px;
 }
 
