@@ -46,3 +46,17 @@ const setMonthFilter = (month) => {
     startDate.value = pastDate.toISODate();
     endDate.value = today.toISODate();
 };
+
+// radio button custom
+document.querySelector('#button-review-qna-manage').classList.add('active')
+$('input:radio[name=search-category]').on('change', function () {
+    if (this.value == 'qna') {
+        $('input:radio[value=qna]').parent().addClass('checked');
+        $('input:radio[value=review]').parent().removeClass('checked');
+    }
+
+    if (this.value == 'review') {
+        $('input:radio[value=review]').parent().addClass('checked');
+        $('input:radio[value=qna]').parent().removeClass('checked');
+    }
+});

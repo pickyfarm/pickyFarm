@@ -99,3 +99,8 @@
     color: #ffffff;
     background-color: #5c6754;
 }
+
+#qna,
+#review {
+    display: none;
+}

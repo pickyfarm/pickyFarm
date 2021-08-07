@@ -4,7 +4,23 @@
 {% block stylesheet_farmer_mypage %}
 <link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_review_qna.css' %}" />
 <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
+<style>
+    .date-filter-search-option--category label::before {
+        content: '';
+        display: inline-block;
+        position: relative;
+        top: 3.5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
+    }
 
+    label.checked::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+</style>
 {% endblock stylesheet_farmer_mypage %}
 
 {% block content %}
@@ -26,10 +42,14 @@
                     <input type="date" name="end-date" id="end-date" class="date-filter-button date-input">
                 </div>
                 <div class="date-filter-search-option--category flex items-center">
-                    <input type="radio" name="search-category" id="qna" value="qna">
-                    <label for="qna" class="mr-16">문의관리</label>
-                    <input type="radio" name="search-category" id="review" value="review">
-                    <label for="qna">리뷰관리</label>
+                    <label for="qna" class="mr-16">
+                        <input type="radio" name="search-category" id="qna" value="qna">
+                        문의관리
+                    </label>
+                    <label for="review">
+                        <input type="radio" name="search-category" id="review" value="review">
+                        리뷰관리
+                    </label>
                 </div>
             </div>
             <button class="date-filter-button date-filter-submit">
@@ -160,9 +180,7 @@
 </div>
 <script>
     const DateTime = luxon.DateTime;
-</script>
-<script src="{% static 'js/farmers/mypage/farmer_mypage_review_qna.js'%}"></script>
-<script>
+
     const CURRENT_URL = window.location.href
     const url = new URL(CURRENT_URL)
     const urlParams = url.searchParams;
@@ -177,8 +195,7 @@
     PAGINATION_URL2 = 'review_ajax/?page2='
     PAGINATION_SECTION2 = '#review-list'
     SEARCH_VAL = '&start-date='+start_date+'&end-date='+end_date
-
-    document.querySelector('#button-review-qna-manage').classList.add('active')
 </script>
+<script src="{% static 'js/farmers/mypage/farmer_mypage_review_qna.js'%}"></script>
 <script src="{% static 'js/pagination/pagination.js' %}"></script>
 {% endblock content %}
