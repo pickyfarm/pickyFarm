@@ -451,6 +451,8 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         page2 = self.request.GET.get("page2")
         paginator2 = Paginator(reviews, 5)
         reviews = paginator2.get_page(page)
+
+        context["total_range"] = range(0, 5)
         context["reviews"] = reviews
 
         return context

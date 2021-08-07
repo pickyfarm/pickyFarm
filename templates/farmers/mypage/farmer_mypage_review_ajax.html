@@ -13,21 +13,25 @@
         {% for review in reviews %}
         <tr class="transition_element text-center" id="review-table-rows"
             onclick="location.href='{% url 'core:main' %}'">
-            <td id="table-row-product">{{ review.product }}</td>
-            <td id="table-row-score">
-                <div class="flex flex-row justify-center">
-                {% for i in ''|center:review.avg %}
-                    <img src="{% static 'images/farmer_mypage/yellow-star.svg' %}" alt="">
-                {% endfor %}
+            <td id="review-table-row-product">{{ review.product }}</td>
+            <td id="review-table-row-score">
+                <div class="flex flex-row justify-between">
+                    {% for i in total_range %}
+                        {% if i < review.avg %}
+                        <img src="{% static 'images/farmer_mypage/yellow-star.svg' %}" alt="">
+                        {% else %}
+                        <img src="{% static 'images/farmer_mypage/gray-star.svg' %}" alt="">
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </td>
-            <td id="table-row-title">{{ review.text }}</td>
-            <td id="table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
-            <td>신고하기</td>
+            <td id="review-table-row-title">{{ review.text }}</td>
+            <td id="review-table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
+            <td id="review-table-row-report">신고하기</td>
             {% if review.status == False %}
-            <td>답변하기 -></td>
+            <td id="review-table-row-answer">답변하기 -></td>
             {% else %}
-            <td>답변수정 -></td>
+            <td id="review-table-row-answer">답변수정 -></td>
             {% endif %}
         </tr>
         {% endfor %}
