@@ -15,6 +15,7 @@
         <div class="order-payment-success-information-border"></div>
         <div class="order-payment-success-information-lists-wrap">
             <!-- 여기서부터 for문 돌리면 됨 -->
+            {% for detail in order_details %}
             <div class="order-payment-success-information-list-wrap">
                 <div class="order-payment-success-information-list flex">
                     <div
@@ -106,6 +107,7 @@
             <div
                 class="order-payment-success-information-list-border-bottom"
             ></div>
+            {% endfor %}
             <!-- 여기까지 for문 돌리면 됩니다. -->
         </div>
     </div>

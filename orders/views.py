@@ -526,8 +526,9 @@ def payment_valid(request):
 
     return HttpResponse("잘못된 접근입니다", status=400)
 
-# 주문/결제 완료 프론트단을 작업하기 위한 임시 view
+
 # def temporary_payment_success(request):
+
 #     return render(request, 'orders/payment_success.html',{})
 
 
