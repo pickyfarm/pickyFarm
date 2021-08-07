@@ -1,11 +1,16 @@
 $(function(){
     $("img[name=paginator]").click(function(event){
         event.preventDefault()
+        try{
+            console.log(SEARCH_VAL)
+        } catch {
+            SEARCH_VAL = ''
+        }
         $.ajax({
-            url: PAGINATION_URL + $(this).attr('id'),
+            url: PAGINATION_URL + $(this).attr('id') + SEARCH_VAL,
             data:{
-                // 'searchValue': searchValue, 
-                // 'searchValue_2': searchValue_2,
+                // 'start-date': startdate, 
+                // 'end-date': enddate, 
             },
             success:function(data){
                 $(PAGINATION_SECTION).html(data)
@@ -15,9 +20,13 @@ $(function(){
 
     $("img[name=paginator2]").click(function(event){
         event.preventDefault()
-
+        try{
+            console.log(SEARCH_VAL)
+        } catch {
+            SEARCH_VAL = ''
+        }
         $.ajax({
-            url: PAGINATION_URL2 + $(this).attr('id'),
+            url: PAGINATION_URL2 + $(this).attr('id') + SEARCH_VAL,
             data:{
                 // 'searchValue': searchValue, 
                 // 'searchValue_2': searchValue_2,
