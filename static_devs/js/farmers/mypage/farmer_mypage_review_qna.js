@@ -53,10 +53,14 @@ $('input:radio[name=search-category]').on('change', function () {
     if (this.value == 'qna') {
         $('input:radio[value=qna]').parent().addClass('checked');
         $('input:radio[value=review]').parent().removeClass('checked');
+        $('.review-wrapper').addClass('hide')
+        $('.qna-wrapper').removeClass('hide')
     }
 
     if (this.value == 'review') {
         $('input:radio[value=review]').parent().addClass('checked');
         $('input:radio[value=qna]').parent().removeClass('checked');
+        $('.qna-wrapper').addClass('hide')
+        $('.review-wrapper').removeClass('hide')
     }
 });

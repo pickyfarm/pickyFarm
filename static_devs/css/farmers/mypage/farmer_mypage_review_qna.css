@@ -101,6 +101,7 @@
 }
 
 #qna,
-#review {
+#review,
+.hide {
     display: none;
 }
