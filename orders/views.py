@@ -435,18 +435,19 @@ def payment_fail(request):
     else:
         errorMsg = "알 수 없는 오류가 있습니다. 다시 시도해주세요"
 
-    order_group = Order_Group.objects.get(pk=order_group_pk)
-    order_group.status = error_type
-    order_details = order_group.order_details.all()
+    if order_group_pk is not None:
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+        order_group.status = error_type
+        order_details = order_group.order_details.all()
 
-    for detail in order_details:
-        detail.product.stock += detail.quantity
-        print("[detail] - " + detail.product.title + " stock 복구")
-        detail.status = error_type
-        print("[detail] status - " + detail.status + "변경")
-        detail.save()
+        for detail in order_details:
+            detail.product.stock += detail.quantity
+            print("[detail] - " + detail.product.title + " stock 복구")
+            detail.status = error_type
+            print("[detail] status - " + detail.status + "변경")
+            detail.save()
 
-    order_group.save()
+        order_group.save()
 
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
@@ -542,6 +543,7 @@ def payment_valid(request):
 
 # 주문/결제 완료 프론트단을 작업하기 위한 임시 view
 # def temporary_payment_success(request):
+
 #     return render(request, 'orders/payment_success.html',{})
 
 
