@@ -16,10 +16,16 @@ def check_rate(rate_num):
 
 
 class Product(models.Model):
+    kinds = (
+        ("ugly", "무난이 작물"),
+        ("normal", "일반 작물"),
+    )
 
     title = models.CharField(max_length=50)
     sub_title = models.CharField(max_length=100)
     main_image = CompressedImageField(upload_to="product_main_image/%Y/%m/%d/")
+
+    kinds = models.CharField(max_length=100, default="ugly", choices=kinds)
 
     open = models.BooleanField(default=False)
     is_event = models.BooleanField(default=False)
@@ -78,6 +84,8 @@ class Product(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
+
+    related_product = models.OneToOneField("Product", null=True, blank=True, on_delete=models.SET_NULL)
     farmer = models.ForeignKey(
         "farmers.Farmer", related_name="products", on_delete=models.CASCADE
     )
