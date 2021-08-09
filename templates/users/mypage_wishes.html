@@ -151,6 +151,16 @@
             if(totalSelector.checked == true && item.checked == false){
             totalSelector.checked = false
             }
+            if(totalSelector.checked == false && item.checked == true){
+                let cnt = 0
+                selectors.forEach(item=>{
+                    if(item.checked == true)
+                        cnt+=1
+                })
+                if(cnt == selectors.length){
+                    totalSelector.checked = true
+                }
+            }
         })
     })
 

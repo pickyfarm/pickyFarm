@@ -212,8 +212,8 @@
         }
     })
 
-
-    
+    //Selector 초기화
+    totalSelector.checked = true
 
     selectors.forEach(item => {
         if (item.checked == true) {
@@ -236,6 +236,17 @@
         item.addEventListener('click', function () {
             if(totalSelector.checked == true && item.checked == false){
                 totalSelector.checked = false
+            }
+
+            if(totalSelector.checked == false && item.checked == true){
+                let cnt = 0
+                selectors.forEach(item=>{
+                    if(item.checked == true)
+                        cnt+=1
+                })
+                if(cnt == selectors.length){
+                    totalSelector.checked = true
+                }
             }
             let pk = $(this).attr('name')
             console.log(pk)

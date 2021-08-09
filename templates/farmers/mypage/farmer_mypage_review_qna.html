@@ -2,49 +2,23 @@
 {% load static %}
 
 {% block stylesheet_farmer_mypage %}
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_review_qna.css' %}" />
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
 <style>
-    #content {
-        width: 800px;
+    .date-filter-search-option--category label::before {
+        content: '';
+        display: inline-block;
+        position: relative;
+        top: 3.5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
     }
 
-    #content-title {
-        margin-top: 106.9px;
-        margin-bottom: 36px;
-    }
-
-    #title-notification span {
-        font-size: 23px;
-        font-weight: bold;
-        color: #5c6754;
-    }
-
-    #title-notification-count-unit span {
-        font-size: 12px;
-        color: #70845d;
-    }
-
-    #notification-table tr {
-        height: 78px;
-        border-bottom: 1px solid #5e665681;
-    }
-
-    #notification-table-title {
-        font-size: 12px;
-        font-weight: 500;
-        color: #999999;
-    }
-
-    #notification-table-rows {
-        font-weight: 500;
-        font-size: 12px;
-    }
-
-    #notification-table-rows:hover {
-        background-color: #f3f4f3;
-    }
-
-    #notification-table-rows td:not(:first-child) {
-        color: #999999;
+    label.checked::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
 </style>
 {% endblock stylesheet_farmer_mypage %}
@@ -52,72 +26,231 @@
 {% block content %}
 <div class="mx-auto" id="content">
     <div id="content-title" class="flex flex-row">
-        <div id="title-notification" class="mr-3">
+        <div id="title-question" class="mr-3">
             <span>문의/리뷰관리</span>
         </div>
     </div>
+    <div class="date-filter-content">
+        <form action="" method="GET" class="date-filter-form flex">
+            <div class="date-filter-search-option">
+                <div class="date-filter-search-option--date flex items-center">
+                    <div class="date-filter-button date-filter button transition_element" id="today">오늘</div>
+                    <div class="date-filter-button week-filter button transition_element" id="recent-one-week">최근 1주일</div>
+                    <div class="date-filter-button month-filter button transition_element" id="recent-one-month">최근 1개월</div>
+                    <input type="date" name="start-date" id="start-date" class="date-filter-button date-input">
+                    &nbsp;~&nbsp;
+                    <input type="date" name="end-date" id="end-date" class="date-filter-button date-input">
+                </div>
+                <div class="date-filter-search-option--category flex items-center">
+                    <label for="qna" class="mr-16">
+                        <input type="radio" name="search-category" id="qna" value="qna">
+                        문의관리
+                    </label>
+                    <label for="review">
+                        <input type="radio" name="search-category" id="review" value="review">
+                        리뷰관리
+                    </label>
+                </div>
+            </div>
+            <button class="date-filter-button date-filter-submit">
+                <div class="flex flex-row justify-center">
+                <span class="mr-1">조회</span>
+                <img src="{% static 'images/farmer_mypage/searchicon.svg' %}" alt="">
+                </div>
+            </button>
+        </form>
+    </div>
     <div>
-        <div>문의 관리</div>
-        <table id="notification-table" class="w-full mb-40">
-            <tr id="notification-table-title">
-                <th>답변여부</th>
-                <th>상품명</th>
-                <th>제목</th>
-                <th>알림 날짜</th>
-                <th>신고하기</th>
-                <th>답변</th>
-            </tr>
-            {% for question in questions %}
-            <tr class="transition_element text-center" id="notification-table-rows"
-                onclick="location.href='{% url 'core:main' %}'">
-                {% if question.status == False %}
-                <td id="table-row-answer">미답변</td>
-                {% else %}
-                <td id="table-row-answer">답변 완료</td>
-                {% endif %}
-                <td id="table-row-product">{{question.product}}</td>
-                <td id="table-row-title">{{ question.title }}</td>
-                <td id="table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
-                <td>신고하기</td>
-                {% if question.status == False %}
-                <td>답변하기 -></td>
-                {% else %}
-                <td>답변수정 -></td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </table>
-        <div>리뷰 관리</div>
-        <table id="notification-table" class="w-full">
-            <tr id="notification-table-title">
-                <th>상품명</th>
-                <th>구매자 평점</th>
-                <th>제목</th>
-                <th>알림 날짜</th>
-                <th>신고하기</th>
-                <th>답변</th>
-            </tr>
-
-            {% for review in reviews %}
-            <tr class="transition_element text-center" id="notification-table-rows"
-                onclick="location.href='{% url 'core:main' %}'">
-                <td id="table-row-product">{{ review.product }}</td>
-                <td id="table-row-score">**구매자 평점 이미지**</td>
-                <td id="table-row-title">{{ review.text }}</td>
-                <td id="table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
-                <td>신고하기</td>
-                {% if review.status == False %}
-                <td>답변하기 -></td>
-                {% else %}
-                <td>답변수정 -></td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </table>
+        <div class="qna-wrapper">
+            <div>문의 관리</div>
+            <div id="qna-list" class="mb-40">
+                <div id="question-table-wrapper">
+                    <table id="question-table" class="w-full">
+                        <tr id="question-table-title">
+                            <th>답변여부</th>
+                            <th>상품명</th>
+                            <th>제목</th>
+                            <th>문의일시</th>
+                            <th>
+                                <img class="mx-auto" src="{% static 'images/farmer_mypage/report.svg' %}" alt="신고하기">
+                            </th>
+                            <th>답변</th>
+                        </tr>
+                        {% for question in questions %}
+                        <tr class="transition_element text-center" id="question-table-rows"
+                            onclick="location.href='{% url 'core:main' %}'">
+                            <!-- 답변여부 -->
+                            {% if question.status == False %}
+                            <td class="px-3" id="question-table-row-answer--yet">미답변</td>
+                            {% else %}
+                            <td class="px-3" id="question-table-row-answer--complete">답변 완료</td>
+                            {% endif %}
+                            <!-- 상품명 -->
+                            {% if question.product.title|length > 12 %}
+                            <td class="px-3" id="review-table-row-product">{{ question.product.title|slice:":12" }}...</td>
+                            {% else %}
+                            <td class="px-3" id="review-table-row-product">{{ question.product.title }}</td>
+                            {% endif %}
+                            <!-- 제목 -->
+                            {% if question.title|length > 25 %}
+                            <td class="px-3" id="question-table-row-title">{{ question.title|slice:":25" }}...</td>
+                            {% else %}
+                            <td class="px-3" id="question-table-row-title">{{ question.title }}</td>
+                            {% endif %}
+                            <td class="px-3" id="question-table-row-date">{{ question.create_at|date:"Y-m-d" }}</td>
+                            <td class="px-3" id="question-table-row-report">신고하기</td>
+                            <!-- 답변 -->
+                            {% if question.status == False %}
+                            <td class="px-3" id="review-table-row-answer">
+                                <div class="flex items-center">
+                                    <span class="mr-1">답변하기</span>
+                                    <img src="{% static 'images/farmer_mypage/answer-create.svg' %}" alt="">
+                                </div>
+                            </td>
+                            {% else %}
+                            <td class="px-3" id="review-table-row-answer">
+                                <div class="flex items-center">
+                                    <span class="mr-1">답변수정</span>
+                                    <img src="{% static 'images/farmer_mypage/answer-update.svg' %}" alt="">
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="flex justify-between w-36 mx-auto mt-8">
+                    {% if questions.has_previous %}
+                        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{questions.previous_page_number}}' style="cursor: pointer">
+                    {% else %}
+                        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                    {% endif %}
+                
+                        <div>{{questions.number}}</div>
+                        <div>/</div>
+                        <div>{{questions.paginator.num_pages}}</div>
+                
+                    {% if questions.has_next %}
+                        <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{questions.next_page_number}}' style="cursor: pointer">
+                        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+                    {% else %}
+                        <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{questions.paginator.num_pages}}' style="cursor: pointer"> 
+                        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="review-wrapper">
+            <div>리뷰 관리</div>
+            <div id="review-list" class="mb-40">
+                <div id="review-table-wrapper">
+                    <table id="review-table" class="w-full">
+                        <tr id="review-table-title">
+                            <th>상품명</th>
+                            <th>구매자 평점</th>
+                            <th>내용</th>
+                            <th>게시일자</th>
+                            <th>
+                                <img class="mx-auto" src="{% static 'images/farmer_mypage/report.svg' %}" alt="신고하기">
+                            </th>
+                            <th>답변</th>
+                        </tr>
+                        {% for review in reviews %}
+                        <tr class="transition_element text-center" id="review-table-rows"
+                            onclick="location.href='{% url 'core:main' %}'">
+                            <!-- 상품명 -->
+                            {% if review.product.title|length > 12 %}
+                            <td class="px-3" id="review-table-row-product">{{ review.product.title|slice:":12" }}...</td>
+                            {% else %}
+                            <td class="px-3" id="review-table-row-product">{{ review.product.title }}</td>
+                            {% endif %}
+                             <!-- 구매자 평점 -->
+                            <td class="px-3" id="review-table-row-score">
+                                <div class="flex flex-row justify-between">
+                                    {% for i in total_range %}
+                                        {% if i < review.avg %}
+                                        <img src="{% static 'images/farmer_mypage/yellow-star.svg' %}" alt="">
+                                        {% else %}
+                                        <img src="{% static 'images/farmer_mypage/gray-star.svg' %}" alt="">
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <!-- 내용 -->
+                            {% if review.text|length > 25 %}
+                            <td class="px-3" id="review-table-row-title">{{ review.text|slice:":25" }}...</td>
+                            {% else %}
+                            <td class="px-3" id="review-table-row-title">{{ review.text }}...</td>
+                            {% endif %}
+                            <!-- 게시일자 -->
+                            <td class="px-3" id="review-table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
+                            <!-- 신고하기 -->
+                            <td class="px-3" id="review-table-row-report">신고하기</td>
+                            <!-- 답변 -->
+                            {% if review.status == False %}
+                            <td class="px-3" id="review-table-row-answer">
+                                <div class="flex items-center">
+                                    <span class="mr-1">답변하기</span>
+                                    <img src="{% static 'images/farmer_mypage/answer-create.svg' %}" alt="">
+                                </div>
+                            </td>
+                            {% else %}
+                            <td class="px-3" id="review-table-row-answer">
+                                <div class="flex items-center">
+                                    <span class="mr-1">답변수정</span>
+                                    <img src="{% static 'images/farmer_mypage/answer-update.svg' %}" alt="">
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="flex justify-between w-36 mx-auto mt-8">
+                    {% if reviews.has_previous %}
+                        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+                        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{reviews.previous_page_number}}' style="cursor: pointer">
+                    {% else %}
+                        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+                        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+                    {% endif %}
+                
+                        <div>{{reviews.number}}</div>
+                        <div>/</div>
+                        <div>{{reviews.paginator.num_pages}}</div>
+                
+                    {% if reviews.has_next %}
+                        <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{reviews.next_page_number}}' style="cursor: pointer">
+                        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
+                    {% else %}
+                        <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer"> 
+                        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 <script>
-    document.querySelector('#button-review-qna-manage').classList.add('active')
+    const DateTime = luxon.DateTime;
+
+    const CURRENT_URL = window.location.href
+    const url = new URL(CURRENT_URL)
+    const urlParams = url.searchParams;
+    
+    const start_date = urlParams.get('start-date')?urlParams.get('start-date'):''
+    const end_date = urlParams.get('end-date')?urlParams.get('end-date'):''
+
+    PAGINATION_URL = 'qna_ajax/?page='
+    PAGINATION_SECTION = '#qna-list'
+    SEARCH_VAL = '&start-date='+start_date+'&end-date='+end_date
+
+    PAGINATION_URL2 = 'review_ajax/?page2='
+    PAGINATION_SECTION2 = '#review-list'
+    SEARCH_VAL = '&start-date='+start_date+'&end-date='+end_date
 </script>
+<script src="{% static 'js/farmers/mypage/farmer_mypage_review_qna.js'%}"></script>
+<script src="{% static 'js/pagination/pagination.js' %}"></script>
 {% endblock content %}

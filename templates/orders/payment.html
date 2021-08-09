@@ -30,19 +30,19 @@
             </div>
             <div id="info-name-section" class="flex flex-row mb-5">
                 <div class="flex flex-row w-1/12">
-                    <div id="label-text">{{form.rev_name.label_tag}}</div>
-                    <img id="dot" class="pb-5" src="{% static 'images/orders/dot.svg' %}">
+                    <div id="label-text" class="mt-2">이름</div>
+                    <img id="dot" src="{% static 'images/orders/dot.svg' %}">
                 </div>
 
-                <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start">{{form.rev_name}}</div>
+                <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="rev_name", maxlength="10", id="id_rev_name" value="{{account_name}}"></div>
             </div>
             <div id="info-phone-number-section" class="flex flex-row">
                 <div class="flex flex-row w-1/12">
-                    <div id="label-text">{{form.rev_phone_number.label_tag}}</div>
-                    <img id="dot" class="pb-5" src="{% static 'images/orders/dot.svg' %}">
+                    <div id="label-text" class="mt-2">휴대폰</div>
+                    <img id="dot" src="{% static 'images/orders/dot.svg' %}">
                 </div>
 
-                <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start">{{form.rev_phone_number}}</div>
+                <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="rev_phone_number", maxlength="30", id="id_rev_phone_number" value="{{phone_number}}"></div>
             </div>
         </div>
 
@@ -51,36 +51,92 @@
                 <div id="sub-title-text">배송지 정보</div>
                 <div id="sub-title-line"></div>
             </div>
-            <div id="delivery-cat-section" class="flex flex-row mb-5">
-                <div id="label-text" class="mr-5"><label><input type="radio" value="기본배송지" class="mr-2">기본배송지</label>
-                </div>
-                <div id="label-text"><label><input type="radio" value="직접입력" class="mr-2">직접입력</label></div>
+            <div id="delivery-cat-section" class="mb-5">
+                <ul id="delivery-cat" class="flex flex-row">
+                    <li id="label-text2" class="mr-5">
+                        <label for="delivery-cat-default" ><input type="radio" name="delivery-cat" id="delivery-cat-default" value="기본 배송지" class="mr-2" required checked>기본 배송지</label>
+                    </li>
+                    <li id="label-text2" class="mr-5">
+                        <label for="delivery-cat-choice"><input type="radio" name="delivery-cat" id="delivery-cat-choice"  value="배송지 선택" class="mr-2" required>배송지 선택</label>
+                    </li>
+                    <li id="label-text2" class="mr-5">
+                        <label for="delivery-cat-direct"><input type="radio" name="delivery-cat" id="delivery-cat-direct"  value="직접입력" class="mr-2" required>직접입력</label>
+                    </li>
+                </ul>
+
             </div>
+
+            <div id="delivery-cat-detail-section" class="mb-4">
+
+            </div>
+            <div id="delivery-address-input-section">
+                <div id="full-address-section" class="flex flex-row">
+                    <input id="id_full_address" type="text">
+                    <div id="address-search-btn" onclick="getAddress()"><img src="{% static 'images/users/search.svg' %}"></div>
+                </div>
+                
+                <div class="flex flex-col">
+                    <input id='id_detail_address' type='text'>
+                    <div id="add-rev-address-help-text" class="self-end">*상세주소를 입력하세요</div>
+                </div>
+                <input id='id_extra_address' type='hidden'>
+                <input id='id_sido' type='hidden'>
+                <input id='id_sigungu' type='hidden'>
+            </div>
+
             <div id="delivery-address-section" class="flex flex-row mb-5">
                 <div class="flex flex-row w-1/12">
-                    <div id="label-text">배송지</div>
+                    <div id="label-text" class="mt-2">배송지</div>
                     <img id="dot" src="{% static 'images/orders/dot.svg' %}">
+                    
                 </div>
 
-                <div></div>
+                <div class="w-11/12">
+                    <div id="middle-form" class="ml-12 pl-3 flex justify-items-start"><input type="text", maxlength="200", id="delivery-address" value="{{default_address}}"></div>
+
+                </div>
+
             </div>
             <div id="delivery-rev-loc-at-section" class="flex flex-row mb-5">
                 <div class="flex flex-row mr-5">
-                    <div id="label-text">{{form.rev_loc_at.label_tag}}</div>
+                    <div id="label-text">받으실 장소</div>
                     <img id="dot-rev-loc-at" src="{% static 'images/orders/dot.svg' %}">
                 </div>
 
-                <div id="label-text" class="ml-9">{{form.rev_loc_at}}</div>
+                <div id="label-text2" class="ml-9">
+                    <ul id="id_rev_loc_at">
+                        <li class="mb-3">
+                            <label for="id_rev_loc_at_0">
+                                <input type="radio" name="rev_loc_at" value="문 앞" id="id_rev_loc_at_0" required checked> 문 앞
+                            </label>
+                        </li>
+                        <li class="mb-3">
+                            <label for="id_rev_loc_at_1">
+                                <input type="radio" name="rev_loc_at" value="경비실" id="id_rev_loc_at_1" required> 경비실
+                            </label>
+                        </li>
+                        <li class="mb-3">
+                            <label for="id_rev_loc_at_2">
+                                <input type="radio" name="rev_loc_at" value="택배함" id="id_rev_loc_at_2" required> 택배함
+                            </label>
+                        </li>
+                        <li class="mb-3">
+                            <label for="id_rev_loc_at_3">
+                                <input type="radio" name="rev_loc_at" value="기타장소" id="id_rev_loc_at_3" required> 기타장소
+                            </label>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div id="delivery-rev-message-section" class="flex flex-row mb-5">
-                <div id="label-text" class="mr-8">{{form.rev_message.label_tag}}</div>
+                <div id="label-text" class="mr-8 mt-4">배송지 특이사항</div>
                 <div class="ml-4">
                     <div id="big-form">{{form.rev_message}}</div>
                     <div id="help-text">* 정확한 배송을 위해서 장소의 출입방법이나 특징 등을 자세하게 작성해주세요</div>
                 </div>
             </div>
             <div id="delivery-to-farm-message-section" class="flex flex-row mb-5">
-                <div id="label-text" class="mr-7">{{form.to_farm_message.label_tag}}</div>
+                <div id="label-text" class="mr-7 mt-2">농가 전달 메세지</div>
                 <div id="middle-form" class="ml-4">{{form.to_farm_message}}</div>
             </div>
         </div>
@@ -102,8 +158,8 @@
                 <div id="products-section">
                     
                     {% for p in products %}
-                    <div id="product" class="flex flex-row items-center">
-                        <div class="w-2/12"><img id="product-img" src="{{product.main_image.url}}"></div>
+                    <div id="product" name="{{p.order_number}}" class="flex flex-row items-center">
+                        <div class="w-2/12"><img id="product-img" src="{{p.product.main_image.url}}"></div>
                         <div class="w-3/12" id="farm_name">{{p.product.farmer.farm_name}}</div>
                         <div class="w-3/12" id="title">{{p.product.title}}</div>
                         <div class="w-1/12" id="orders-num">{{p.order_quantity}}</div>
@@ -153,16 +209,46 @@
         <div id="pay-section">
             <div id="pay-title-section" class="flex flex-row ">
                 <div id="sub-title-text">결제 수단</div>
-                <div id="sub-title-line"></div>
+                <div id="sub-title-line3"></div>
             </div>
             <div id="payment-type-section" class="flex flex-row">
-                {{form.payment_type}}
+                <ul class="flex flex-row">
+                    <li>
+                        <label for="id_payment_type_0" class="mr-2">
+                            <input type="radio" name="payment_type" value="card" id="id_payment_type_0" checked>  카드결제
+                        </label>
+                    </li>
+                    <li>
+                        <label for="id_payment_type_1" class="mr-2">
+                            <input type="radio" name="payment_type" value="kakao" id="id_payment_type_1">  카카오페이
+                        </label>
+                    </li>
+                    <li>
+                        <label for="id_payment_type_2" class="mr-2">
+                            <input type="radio" name="payment_type" value="npay" id="id_payment_type_2">  네이버페이
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="personal-info-agree-section">
+            <div id="div-line"></div>
+            <div id="personal-info-agree-top-section" class="flex flex-row">
+                <label id="personal-info-agree-label"><input id="personal-info-agree" class="pt-5" type="radio" value="agree">
+                    개인 정보 수집 이용 동의</label>
+                <div id="personal-info-agree-require" class="ml-1">(필수)</div>
+            </div>
+            <div id="personal-info-agree-bottom-section">
+                <div>수집 목적 : 상품 배송</div>
+                <div>개인 정보 항목 : 주소</div>
+                <div>보유기간 : 회원 탈퇴 시 까지</div>
             </div>
         </div>
 
         <div id="btns-section" class="flex flex-col items-center">
-            <div id="agree-section" class="mb-8">
-                <label id="help-text"><input class="pt-5" type="radio" value="agree">구매할 상품의 결제정보를 확인하였으며, 구매진행에
+            <div id="agree-section" class="mb-2">
+                <label id="final-agree-label"><input id="final-agree" class="pt-5 ml-2" type="radio" value="agree">   구매할 상품의 결제정보를 확인하였으며, 구매진행에
                     동의합니다</label>
             </div>
             <div id="buttons" class="flex flex-row">
@@ -172,16 +258,68 @@
         </div>
 
     <!-- </form> -->
-    <div id="gotmpbtn" class="ml-6">결제하기</div>
+ 
 
 </div>
-
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
 <script>
   
     let totalPrice = document.getElementById('price_text_b').innerHTML
     totalPrice = Number.parseInt(totalPrice)
     console.log(totalPrice)
+
+    let deliveryCatDefault = document.getElementById('delivery-cat-default')
+    let deliveryCatChoice = document.getElementById('delivery-cat-choice')
+    let deliveryCatDirect = document.getElementById('delivery-cat-direct')
+    let deliveryAddress = document.getElementById("delivery-address")
+    const deliveryAddressInput = document.getElementById('delivery-address-input-section')
+    const mainAddressInput = document.getElementById('id_full_address')
+    const subAddressInput = document.getElementById('id_detail_address')
+
+    let deliveryCatDetailSection= document.getElementById('delivery-cat-detail-section')
+
+    deliveryCatDefault.addEventListener('click', ()=>{
+        deliveryCatDetailSection.innerHTML = ""
+        deliveryAddress.value = '{{default_address}}'
+        deliveryAddressInput.style.display = 'none';
+
+    })
+
+    deliveryCatChoice.addEventListener('click', ()=>{
+        add_html = `<div id="delivery-cat-detail-index-section" class="flex flex-row">
+                    <div id="delivery-cat-detail-index-title-section" class="flex flex-row">
+                        <div class="">배송 받으실 주소를 선택해주세요</div>
+                    </div>
+                </div>
+                {% for addr in  addresses%}
+                        <div id="delivery-address-choice" class="transition_element text-center">{{addr.full_address}} {{addr.detail_address}}</div>
+                {% endfor %}`
+        deliveryCatDetailSection.innerHTML = add_html
+
+        let choice = document.querySelectorAll('#delivery-address-choice')
+        choice.forEach(item=>
+            item.addEventListener('click', ()=>{
+                deliveryAddress.value = item.innerHTML
+            })
+        )
+        deliveryAddressInput.style.display = 'none';
+
+        
+    })
+
+    deliveryCatDirect.addEventListener('click', ()=>{
+        deliveryAddress.value = ''
+        deliveryAddressInput.style.display = 'block';
+        deliveryCatDetailSection.innerHTML = ""
+    })
+
+
+    subAddressInput.addEventListener('input', (e) => {
+        deliveryAddress.value = `${mainAddressInput.value} ${e.target.value}`
+    })
+
+
 
     let goBtn = document.getElementById('go-btn')
     console.log(goBtn)
@@ -190,55 +328,95 @@
     goBtn.addEventListener('click', ()=>{
         let revName = document.getElementById('id_rev_name').value
         let revPhoneNumber = document.getElementById('id_rev_phone_number').value
-        let revLocAtInputs = document.getElementsByName('rev_loc_at')
-        let revLocAt = " "
-        revLocAtInputs.forEach(element => {
-            if(element.checked == true){
-                revLocAt = element.getAttribute('value')
-            }
-        });
+       
+        let revLocAt = document.querySelector("input[name='rev_loc_at']:checked").value
+        let paymentType = document.querySelector("input[name='payment_type']:checked").value
+       
         let revMessage = document.getElementById('id_rev_message').value
         let toFarmMessage = document.getElementById('id_to_farm_message').value
+        let items = document.querySelectorAll('#product')
+        console.log(items)
         console.log(toFarmMessage)
         console.log(revName)
         console.log(revLocAt)
+    
+     
 
+        if(revName == ""){
+            alert("주문자 이름을 입력해주세요")
+            return 
+        }
+        else if(revPhoneNumber == ""){
+            alert("휴대폰 번호를 입력해주세요")
+            return 
+        }
+
+        let personalInfoAgree = document.getElementById("personal-info-agree")
+        if(personalInfoAgree.checked == false){
+            alert("개인 정보 수집 이용에 동의해주세요")
+            return 
+        }
+
+        let finalAgree = document.getElementById("final-agree")
+        if(finalAgree.checked == false){
+            alert("결제 정보 확인 및 구매 진행에 동의해주세요")
+            return
+        }
+
+        //배송지 관련 로직//
+        //배송지 카테고리 selectors
         
+        //배송지 폼
+        let deliveryAddress = document.getElementById("delivery-address")
+        
+
+        revAddress = deliveryAddress.value
 
         data = {
             'rev_name' : revName,
             'rev_phone_number' : revPhoneNumber,
+            'rev_address' : revAddress,
             'rev_loc_at' : revLocAt,
             'rev_message' : revMessage,
             'to_farm_message' : toFarmMessage,
+            'payment_type' : paymentType,
         }
+
+        let itemsList = []
+
+        items.forEach(item=>{
+            const unique = item.getAttribute('name')
+            const itemName = item.querySelector('#title').innerHTML
+            const qty = item.querySelector('#orders-num').innerHTML
+            const price = item.querySelector('#sell-price').innerHTML
+            const cat1 = "과일 임시"
+
+            itemsList = [...itemsList, {
+                item_name: itemName, //상품명
+			    qty: qty, //수량
+			    unique: unique, //해당 상품을 구분짓는 primary key
+			    price: price, //상품 단가
+			    cat1: cat1, // 대표 상품의 카테고리 상, 50글자 이내
+            }]
+        })
+
+        console.log(itemsList)
 
         BootPay.request({
 	        price: totalPrice, //실제 결제되는 가격
 	        application_id: "60dad0c05b29480021dc523d",
 	        name: '{{order_group_name}}', //결제창에서 보여질 이름
-	        pg: '',
-	        method: '', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+	        pg: 'kcp',
+	        method: paymentType, //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 	        show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
-	        items: [
-            
-		        {
-			        item_name: p.product.title, //상품명
-			        qty: p.order_quantity, //수량
-			        unique: '123', //해당 상품을 구분짓는 primary key
-			        price: p.product.sell_price, //상품 단가
-			        cat1: p.product.category.name, // 대표 상품의 카테고리 상, 50글자 이내
-		        },
-                
-	        ],
+	        items: itemsList,
 	        user_info: {
 		        username: revName,
-		        email: '사용자 이메일', // 빼는 것을 고려
-		        addr: '사용자 주소', // 빼는 것을 고려
-		        phone: '010-1234-4567'
+		        addr: revAddress,
+		        phone: revPhoneNumber
 	        },
-	        order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
-	        params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
+	        order_id: '{{order_group_management_number}}', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
+	        params: {orderName: '{{order_group_name}}', errorMsg : '', orderGroupPk : '{{order_group_pk}}'},
 	        // account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
 	        // extra: {
 	        //     start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
@@ -251,6 +429,7 @@
 	        // }
         }).error(function (data) {
 	        //결제 진행시 에러가 발생하면 수행됩니다.
+            window.location.href = "/order/payment/fail?errorType=error_server";
 	        console.log(data);
         }).cancel(function (data) {
 	        //결제가 취소되면 수행됩니다.
@@ -264,13 +443,16 @@
             sendData = {
                 'rev_name' : revName,
                 'rev_phone_number' : revPhoneNumber,
+                'rev_address' : revAddress,
                 'rev_loc_at' : revLocAt,
                 'rev_message' : revMessage,
-                'to_farm_message' : toFarmMessage
+                'to_farm_message' : toFarmMessage,
+                'payment_type' : paymentType,
             }
 
             console.log(data);
-            console.log(sendData)
+            console.log(sendData);
+            
 
             $.ajax({
                 type : "POST",
@@ -278,23 +460,62 @@
                 data : sendData,
                 dataType : "json",
                 success : function(response){
-                    var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
+                    let enable = response.valid
+
+                    if (enable == false){
+                        response.invalid_products.forEach(item =>{
+                            data.errorMsg += item
+                        })
+                        data.params['errorMsg'] += "재고 부족"
+                    }
+
+                    // 재고 수량 관리 로직 혹은 다른 처리
 	                if (enable) {
 		                BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
 	                } else {
 		                BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
+                        window.location.href = `/order/payment/fail?errorType=error_stock&orderGroupPk=${data.params['orderGroupPk']}`;
 	                }
                 }
             })
 	        
 	        
         }).close(function (data) {
+            
             // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
             console.log(data);
+            
         }).done(function (data) {
 	        //결제가 정상적으로 완료되면 수행됩니다
 	        //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
-	        console.log(data);
+            //data.prams['orderGroupPk']
+            let form = document.createElement("form")
+            form.setAttribute("method", "post")
+            form.setAttribute("action", "{% url 'orders:payment_valid' %}")
+
+            for(let key in data){
+                let hiddenField = document.createElement('input')
+                hiddenField.setAttribute('type', 'hidden')
+                hiddenField.setAttribute('name', key)
+                hiddenField.setAttribute('value', data[key])
+
+                form.appendChild(hiddenField)
+            }
+            let hiddenFieldAdd = document.createElement('input')
+            hiddenFieldAdd.setAttribute('type', 'hidden')
+            hiddenFieldAdd.setAttribute('name', 'orderGroupPk')
+            hiddenFieldAdd.setAttribute('value', data.params['orderGroupPk'])
+            form.appendChild(hiddenFieldAdd)
+            console.log(csrftoken)
+            let csrfHiddenField = document.createElement('input')
+            csrfHiddenField.setAttribute('type', 'hidden')
+            csrfHiddenField.setAttribute('name', 'csrfmiddlewaretoken')
+            csrfHiddenField.setAttribute('value', csrftoken)
+
+            form.appendChild(csrfHiddenField)
+            document.body.appendChild(form)
+            form.submit()
+
         });
                 // tossPayments.requestPayment('카드', {
                 // amount: totalPrice,

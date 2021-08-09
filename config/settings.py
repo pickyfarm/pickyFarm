@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 from django.conf import settings
 import os
 import dotenv
+import subprocess
+import configparser
 
 # dotenv_path = os.path.join('~/pickypick', '.env')
 # dotenv.read_dotenv(dotenv_path)
@@ -18,6 +20,54 @@ import dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# 서버 log 저장 코드
+LOG_DIR = '/var/log/django'
+
+if not os.path.exists(LOG_DIR):
+    LOG_DIR = os.path.join(BASE_DIR, '.log')
+    os.makedirs(LOG_DIR, exist_ok=True)
+
+subprocess.call(['chmod', '755', LOG_DIR])
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'formatters': {
+        'django.server': {
+            'format': '[%(asctime)s] %(message)s',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+        'file_error': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'level': 'ERROR',
+            'formatter': 'django.server',
+            'backupCount': 10,
+            'filename': os.path.join(LOG_DIR, 'error.log'),
+            'maxBytes': 10485760,
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file_error'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    }
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -59,6 +109,8 @@ PICKY_APPS = [
     "django_summernote",
     "addresses.apps.AddressesConfig",
     "django_seed",
+    "storages",
+    "kakaomessages",
 ]
 
 INSTALLED_APPS = PICKY_APPS + DJANGO_APPS
@@ -172,27 +224,42 @@ USE_L10N = True
 
 USE_TZ = True
 
+### User Setting
+AUTH_USER_MODEL = "users.User"
+LOGIN_URL = "/user/login/"
 
-# Static files (CSS, JavaScript, Images)
+### Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-STATIC_URL = "/static/"
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_devs"),
 ]
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "/static/"
 
+### Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
 MEDIA_URL = "/media/"
 
-AUTH_USER_MODEL = "users.User"
 
-LOGIN_URL = "/user/login/"
+### S3 설정
+DEFAULT_FILE_STORAGE = "config.asset_storage.S3DefaultStorage"
+# STATICFILES_STORAGE = "config.asset_storage.S3StaticStorage"
 
-# Email 전송
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+AWS_REGION = "ap-northeast-2"
+AWS_STORAGE_BUCKET_NAME = "pickyfarm"
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+
+# AWS_LOCATION = "static"
+# STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+
+
+### Email 전송
 # 메일을 호스트하는 서버
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 
@@ -212,3 +279,19 @@ EMAIL_USE_TLS = True
 
 # 사이트와 관련한 자동응답을 받을 이메일 주소
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+# kakao 알림톡 SDK
+apiKey = os.environ.get("api_key")
+apiSecret = os.environ.get("api_secret")
+protocol = os.environ.get("protocol")
+domain = os.environ.get("domain")
+prefix = os.environ.get("prefix") and os.environ.get("prefix") or ""
+
+
+def getUrl(path):
+    url = "%s://%s" % (protocol, domain)
+    if prefix != "":
+        url = url + prefix
+    url = url + path
+    return url

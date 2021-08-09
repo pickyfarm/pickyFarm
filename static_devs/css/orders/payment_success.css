@@ -1,0 +1,306 @@
+.order-payment-success-container {
+    width: 990px;
+    flex-direction: column;
+}
+
+.order-payment-success-title {
+    color: #5c6754;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 103px;
+    justify-content: center;
+}
+
+.order-payment-success-information-title {
+    color: #5c6754;
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.order-payment-success-information-border {
+    width: 990px;
+    height: 1px;
+    background-color: #707070;
+    margin-top: 10px;
+    margin-bottom: 39px;
+}
+
+.order-payment-success-information-lists-wrap {
+    padding: 0 45px 0;
+    position: relative;
+}
+
+.order-payment-success-information-list {
+    flex-direction: row;
+    position: relative;
+}
+
+.order-payment-success-information-list-left-section {
+    margin-right: 25px;
+}
+
+.order-payment-success-information-image {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background-color: #b3b3b3;
+}
+
+.order-payment-success-information-name {
+    height: 22px;
+    margin-bottom: 1px;
+}
+
+.order-payment-success-information-list-right-section {
+    flex-direction: column;
+    width: 100%;
+}
+
+.order-payment-success-information-description-wrap {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.order-payment-success-information-description {
+    font-size: 15px;
+    color: #707070;
+}
+
+.order-payment-success-information-description-right-section {
+    width: 200px;
+    justify-content: space-between;
+    color: #707070;
+    font-size: 16px;
+}
+
+.order-payment-success-information-description-bottom-wrap {
+    width: 110px;
+    justify-content: space-between;
+    color: #c7c7c7;
+}
+
+.order-payment-success-information-weight::after {
+    content: '|';
+    color: #c7c7c7;
+    margin-left: 3px;
+    font-size: 12px;
+}
+
+.order-payment-success-information-list-border-bottom {
+    width: 900.7px;
+    height: 1px;
+    background-color: #b3b3b3;
+    margin: 17px 0 15px;
+}
+
+.order-payment-success-amount-wrap {
+    margin-top: 26.5px;
+    padding: 0 45px 0;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.order-payment-success-amount-title {
+    font-size: 16px;
+    color: #5c6754;
+}
+
+.order-payment-success-amount-number {
+    margin-left: 55.5px;
+    color: #5c6754;
+    font-size: 23px;
+}
+
+.order-payment-success-amount-unit {
+    margin-left: 29px;
+    color: #5c6754;
+    font-size: 16px;
+}
+
+.order-payment-success-customer-section,
+.order-payment-success-customer-address-section,
+.order-payment-success-appreciate-message-section {
+    margin-top: 81.9px;
+}
+
+.order-payment-success-customer-information-title,
+.order-payment-success-customer-address-information-title,
+.order-payment-success-appreciate-message-title {
+    color: #5c6754;
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.order-payment-success-customer-information-wrap,
+.order-payment-success-customer-address-information-wrap {
+    padding: 0 45px 0;
+}
+
+.order-payment-success-customer-information-name-wrap,
+.order-payment-success-customer-address-information-name-wrap {
+    margin-bottom: 39px;
+}
+
+.order-payment-success-customer-information-tel-wrap,
+.order-payment-success-customer-address-information-receive-wrap {
+    margin-bottom: 39px;
+}
+
+.order-payment-success-customer-information-name-title,
+.order-payment-success-customer-information-tel-title,
+.order-payment-success-customer-information-email-title,
+.order-payment-success-customer-address-information-name-title,
+.order-payment-success-customer-address-information-receive-title,
+.order-payment-success-customer-address-information-etc-title {
+    color: #4d4d4d;
+    font-size: 15px;
+}
+
+.order-payment-success-customer-information-name,
+.order-payment-success-customer-address-information-name {
+    margin-left: 128px;
+    color: #808080;
+    font-size: 15px;
+}
+
+.order-payment-success-customer-information-tel,
+.order-payment-success-customer-information-email {
+    margin-left: 115px;
+    color: #808080;
+    font-size: 15px;
+}
+
+.order-payment-success-customer-address-information-receive {
+    margin-left: 84px;
+    color: #808080;
+    font-size: 15px;
+}
+
+.order-payment-success-customer-address-information-etc {
+    margin-left: 101px;
+    color: #808080;
+    font-size: 15px;
+}
+
+.order-payment-success-appreciate-message-card-section-container {
+    justify-content: space-between;
+}
+
+.order-payment-success-unsubfarmer-appreciate-message-card-section,
+.order-payment-success-subfarmer-appreciate-message-card-section {
+    width: 485px;
+    height: 531px;
+    padding: 40px 40px 40px 40px;
+    background-color: #f2f2f2;
+}
+
+.order-payment-success-unsubfarmer-appreciate-message-card-wrap,
+.order-payment-success-subfarmer-appreciate-message-card-wrap {
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.order-payment-success-unsubfarmer-card-photo-section,
+.order-payment-success-subfarmer-card-photo-section {
+    margin-bottom: 22px;
+}
+
+.order-payment-success-unsubfarmer-card-photo-circle,
+.order-payment-success-subfarmer-card-photo-circle {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin: 0 99px 22px 82px;
+    /* padding: 39.6px 46.6px 38.8px 45px; */
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+    border-radius: 80px;
+}
+
+.order-payment-success-unsubfarmer-card-photo-subscribe-btn,
+.order-payment-success-subfarmer-card-photo-subscribe-btn {
+    left: 185px;
+    bottom: 15px;
+}
+
+.order-payment-success-unsubfarmer-card-photo-subscribe-btn:hover,
+.order-payment-success-subfarmer-card-photo-subscribe-btn:hover {
+    cursor: pointer;
+}
+
+.order-payment-success-unsubfarmer-card-farm-name,
+.order-payment-success-subfarmer-card-farm-name {
+    color: #5e6656;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.order-payment-success-unsubfarmer-card-farmer-name,
+.order-payment-success-subfarmer-card-farmer-name {
+    color: #5e6656;
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 33px;
+}
+
+.order-payment-success-unsubfarmer-card-message-text,
+.order-payment-success-subfarmer-card-message-text {
+    width: 313px;
+    height: 115px;
+    color: #5e6656;
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 35px;
+}
+
+.order-payment-success-unsubfarmer-card-farm-link-section,
+.order-payment-success-subfarmer-card-farm-link-section {
+    position: absolute;
+    right: 0;
+    bottom: -20px;
+    align-items: center;
+}
+
+.order-payment-success-unsubfarmer-card-farm-link-title,
+.order-payment-success-subfarmer-card-farm-link-title {
+    color: #808080;
+    font-size: 15px;
+    margin-right: 10.6px;
+}
+
+.order-payment-success-unsubfarmer-card-farm-link-btn,
+.order-payment-success-subfarmer-card-farm-link-btn {
+    width: 28px;
+    height: 28px;
+    background-color: #ffffff;
+    border-radius: 17px;
+}
+
+.order-payment-success-unsubfarmer-card-farm-link-btn-arrow,
+.order-payment-success-subfarmer-card-farm-link-btn-arrow {
+    padding: 6px 0 0 5px;
+}
+
+.order-payment-success-confirm-btn-section {
+    margin-top: 100px;
+    justify-content: center;
+}
+
+.order-payment-success-confirm-btn {
+    width: 200px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    background-color: #5c6754;
+    text-align: center;
+    font-size: 25px;
+    color: #ffffff;
+}
+
+.order-payment-success-confirm-btn:hover {
+    background-color: #ffffff;
+    color: #5c6754;
+    border: 2.5px solid #5c6754;
+}

@@ -1,0 +1,61 @@
+document.querySelectorAll('.order-confirm').forEach((elem) => {
+    elem.addEventListener('click', (e) => {
+        // AJAX Handler when farmer accepts new order
+        orderConfirm(
+            e.target.closest('.order-confirm-overlay').getAttribute('name')
+        );
+    });
+});
+
+document.querySelectorAll('.order-cancel').forEach((elem) => {
+    elem.addEventListener('click', (e) => {
+        // AJAX Handler when farmer declines new order
+        orderCancel(
+            e.target.closest('.order-confirm-overlay').getAttribute('name')
+        );
+    });
+});
+
+const orderConfirm = (pk) => {
+    document.querySelector(
+        `.order-confirm-overlay[name='${pk}']`
+    ).style.display = 'none';
+
+    shootToastMessage('주문을 수락하였습니다.');
+};
+
+const orderCancel = (pk) => {
+    document.querySelector(`.order-confirm-overlay[name='${pk}']`).innerHTML =
+        '<div class="order-cancelled">취소한 주문건 입니다.</div>';
+
+    shootToastMessage('주문을 취소하였습니다.');
+};
+
+const startDate = document.querySelector('#start-date');
+const endDate = document.querySelector('#end-date');
+
+document
+    .querySelector('#recent-one-month')
+    .addEventListener('click', () => setDateFilter(1));
+
+document
+    .querySelector('#recent-three-month')
+    .addEventListener('click', () => setDateFilter(3));
+
+document.querySelector('.date-filter-submit').addEventListener('click', () => {
+    !(startDate.value && endDate.value) && alert('날짜를 모두 입력해주세요.');
+});
+
+startDate.addEventListener('change', (e) => {
+    if (DateTime.fromISO(e.target.value) > DateTime.now()) {
+        startDate.value = endDate.value = DateTime.now().toISODate();
+    }
+});
+
+const setDateFilter = (month) => {
+    const today = DateTime.now();
+    const pastDate = today.minus({ months: month });
+
+    startDate.value = pastDate.toISODate();
+    endDate.value = today.toISODate();
+};

@@ -2,42 +2,46 @@
 <div class="info-section-wrapper flex flex-col">
     <div class="section-title" id="order-list-title">주문관리</div>
     <div class="order-status-info-section flex mx-auto">
-        <div class="order-status-circle flex flex-col items-center justify-center selected">
+        <a href='?status=' class="order-status-circle flex flex-col items-center justify-center {% if not status%} selected {% endif %}">
             <div class="order-status-title">전체 주문</div>
-            <div class="order-status-count">100</div>
-        </div>
-        <div class="order-status-circle flex flex-col items-center justify-center">
+            <div class="order-status-count">{{overall_orders.count}}</div>
+        </a>
+        <a href='?status=payment_complete' class="order-status-circle flex flex-col items-center justify-center {% if status == 'payment_complete' %} selected {% endif %}">
             <div class="order-status-title">신규 주문</div>
-            <div class="order-status-count">5</div>
-        </div>
-        <div class="order-status-circle flex flex-col items-center justify-center">
+            <div class="order-status-count">{{new_orders.count}}</div>
+        </a>
+        <a href='?status=preparing' class="order-status-circle flex flex-col items-center justify-center {% if status == 'preparing' %} selected {% endif %}">
             <div class="order-status-title">배송 대기</div>
-            <div class="order-status-count">2</div>
-        </div>
-        <div class="order-status-circle flex flex-col items-center justify-center">
+            <div class="order-status-count">{{preparing_orders.count}}</div>
+        </a>
+        <a href='?status=shipping' class="order-status-circle flex flex-col items-center justify-center {% if status == 'shipping' %} selected {% endif %}">
             <div class="order-status-title">배송 중</div>
-            <div class="order-status-count">2</div>
-        </div>
-        <div class="order-status-circle flex flex-col items-center justify-center">
+            <div class="order-status-count">{{shipping_orders.count}}</div>
+        </a>
+        <a href='?status=delivery_complete' class="order-status-circle flex flex-col items-center justify-center {% if status == 'delivery_complete' %} selected {% endif %}">
             <div class="order-status-title">배송 완료</div>
-            <div class="order-status-count">1</div>
-        </div>
-        <div class="order-status-circle flex flex-col items-center justify-center">
+            <div class="order-status-count">{{delivered_orders.count}}</div>
+        </a>
+        <a href='?status=re_ex_recept' class="order-status-circle flex flex-col items-center justify-center {% if status == 're_ex_recept' %} selected {% endif %}">
             <div class="order-status-title">반품요청</div>
-            <div class="order-status-count">0</div>
-        </div>
+            <div class="order-status-count">{{claimed_orders.count}}</div>
+        </a>
     </div>
     <div class="search-bar-section flex items-center">
-        <div class="search-bar-wrapper flex items-center">
+        <form action="" method="GET" class="search-bar-wrapper flex items-center">
             <div class="search-bar-title">수령인 이름</div>
             <div class="bar"></div>
-            <input type="text" id="order-search">
-            <img src="{% static 'images/farmer_mypage/order/searchicon.svg' %}" alt="검색" id="search-button"
-                class="button">
-        </div>
-        <div class="search-sort flex items-center">
-            <img src="{% static 'images/farmer_mypage/order/sorticon.svg' %}" alt="정렬하기" id="search-icon">
-            정렬
-        </div>
+            <input type="text" id="order-search" name='q' value="{% if q %} {{q}} {% endif %}">
+            <button style="background-image: url('{% static 'images/farmer_mypage/order/searchicon.svg' %}');" alt="검색" id="search-button"
+                class="button"></button>
+        </form >
+        <form action="" method="GET" class="date-filter-form flex items-center">
+            <div class="date-filter-button month-filter button" id="recent-one-month">최근 1개월</div>
+            <div class="date-filter-button month-filter button" id="recent-three-month">최근 3개월</div>
+            <input type="date" name="start-date" id="start-date" class="date-filter-button date-input">
+            &nbsp;~&nbsp;
+            <input type="date" name="end-date" id="end-date" class="date-filter-button date-input">
+            <button class="date-filter-button date-filter-submit">조회</button>
+        </form>
     </div>
 </div>

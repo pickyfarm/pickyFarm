@@ -10,6 +10,7 @@ from django.db.models import Q
 from admins.models import FarmerNotice, FarmerNotification
 from math import ceil
 from django.http import JsonResponse, HttpResponseBadRequest
+import datetime
 
 
 # models
@@ -105,9 +106,13 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
+            search_list = search_list.filter(
+                Q(farmer__farm_name__contains=search_key_2)
+            )
         elif select_val == "farmer":
-            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
+            search_list = search_list.filter(
+                Q(farmer__user__nickname__contains=search_key_2)
+            )
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -137,7 +142,9 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
+            return redirect(
+                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
+            )
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -169,7 +176,7 @@ class Story_Detail(DetailView):
         ctx["farmer"] = farmer
         ctx["stories"] = stories
         ctx["tags"] = Farm_Tag.objects.all().filter(farmer=farmer)
-        ctx["comments"] = comments.order_by("-create_at")[: min(10, len(comments))]
+        ctx["comments"] = comments
         ctx["form"] = form
 
         if self.request.user != AnonymousUser():
@@ -214,7 +221,9 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
     try:
-        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
+        sub = Subscribe.objects.get(
+            farmer__pk=farmer.pk, consumer=request.user.consumer
+        )
     except:
         sub = False
     ctx = {
@@ -315,48 +324,82 @@ Farmer mypage section
 
 
 class FarmerMyPageBase(ListView):
+    def dispatch(self, request, *args, **kwargs):
+        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
+
+        if (
+            self.request.user == AnonymousUser()
+            or not Farmer.objects.filter(user=self.request.user).exists()
+        ):
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         """context에 필요한 내용은 각 클래스에서 overriding하여 추가"""
 
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
+
+        orders = Order_Detail.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).exclude(status="wait")
+        context["overall_orders"] = orders
+        context["new_orders"] = orders.filter(status="payment_complete")
+        context["preparing_orders"] = orders.filter(status="preparing")
+        context["shipping_orders"] = orders.filter(status="shipping")
+        context["delivered_orders"] = orders.filter(status="delivery_complete")
+        context["claimed_orders"] = orders.filter(
+            Q(status="re_ex_recept")
+            | Q(status="re_ex_approve")
+            | Q(status="re_ex_deny")
+        )
+
         return context
-
-    def render_to_response(self, context, **response_kwargs):
-        """로그인한 farmer외의 접근을 막는 코드입니다. 절대 수정 금지"""
-
-        if not Farmer.objects.filter(user=self.request.user).exists():
-            return redirect(reverse("core:main"))
-
-        return super().render_to_response(context, **response_kwargs)
 
 
 class FarmerMyPageOrderManage(FarmerMyPageBase):
     """농가 주문관리 페이지"""
 
     model = Order_Detail
+    context_object_name = "orders"
     template_name = "farmers/mypage/order/farmer_mypage_order.html"
+    paginate_by = 5
+
+    def get_queryset(self):
+        status = self.request.GET.get("status", None)
+        q = self.request.GET.get("q", None)
+        start_date = self.request.GET.get("start-date", None)
+        end_date = self.request.GET.get("end-date", None)
+
+        qs = (
+            Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+            .order_by("order_group")
+            .exclude(status="wait")
+        )
+
+        print(qs)
+
+        if status:
+            qs = qs.filter(status=status)
+
+        if q:
+            qs = qs.filter(order_group__consumer__user__nickname__icontains=q)
+
+        if start_date and end_date:
+            converted_end_date = end_date + " 23:59:59"
+            converted_end_date = datetime.datetime.strptime(
+                converted_end_date, "%Y-%m-%d %H:%M:%S"
+            )
+
+            qs = qs.filter(update_at__lte=converted_end_date, update_at__gte=start_date)
+
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["orders"] = []
-        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
-            "order_group"
-        )
-
-        order_list = []
-        order_list.append(orders.first())
-
-        for i in range(1, len(orders)):
-            if orders[i].order_group != orders[i - 1].order_group:
-                context["orders"].append(order_list)
-                order_list = [orders[i]]
-
-            else:
-                order_list.append(orders[i])
-
-        context["orders"].append(order_list)
-
+        context["status"] = self.request.GET.get("status", None)
+        context["q"] = self.request.GET.get("q", None)
         return context
 
 
@@ -376,7 +419,27 @@ class FarmerMyPageProductManage(FarmerMyPageBase):
 class FarmerMyPagePaymentManage(FarmerMyPageBase):
     """농가 정산관리 페이지"""
 
-    pass
+    model = Order_Detail
+    context_object_name = "orders"
+    templagte_name = "farmers/mypage/payment/farmer_mypage_payment.html"
+
+    def get_queryset(self):
+        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+        status = self.request.GET.get("status", None)
+        q = self.request.GET.get("q", None)
+        search_key = self.request.GET.get("searchKey", None)
+
+        if status:
+            qs = qs.filter(payment_status=status)
+
+        if q:
+            if search_key == "order_number":
+                qs = qs.filter(order_management_number=q)
+
+            elif search_key == "product_name":
+                qs = qs.filter(product__contains=q)
+
+        return qs
 
 
 class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
@@ -387,11 +450,49 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        products = Product.objects.filter(farmer=self.request.user.farmer)
-        context["questions"] = Question.objects.filter(product__farmer=self.request.user.farmer)
-        context["reviews"] = Product_Comment.objects.filter(
+        page = self.request.GET.get("page")
+        start_date = self.request.GET.get("start-date", None)
+        end_date = self.request.GET.get("end-date", None)
+
+        # 문의
+        questions = Question.objects.filter(
             product__farmer=self.request.user.farmer
-        )
+        ).order_by("-id")
+        if start_date and end_date:
+            converted_end_date = end_date + " 23:59:59"
+            converted_end_date = datetime.datetime.strptime(
+                converted_end_date, "%Y-%m-%d %H:%M:%S"
+            )
+
+            questions = questions.filter(
+                create_at__lte=converted_end_date, create_at__gte=start_date
+            )
+
+        page = self.request.GET.get("page")
+        paginator = Paginator(questions, 5)
+        questions = paginator.get_page(page)
+        context["questions"] = questions
+
+        # 리뷰
+        reviews = Product_Comment.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).order_by("-id")
+        if start_date and end_date:
+            converted_end_date = end_date + " 23:59:59"
+            converted_end_date = datetime.datetime.strptime(
+                converted_end_date, "%Y-%m-%d %H:%M:%S"
+            )
+            reviews = reviews.filter(
+                create_at__lte=converted_end_date, create_at__gte=start_date
+            )
+
+        page2 = self.request.GET.get("page2")
+        paginator2 = Paginator(reviews, 5)
+        reviews = paginator2.get_page(page)
+
+        context["total_range"] = range(0, 5)
+        context["reviews"] = reviews
+
         return context
 
 
@@ -408,30 +509,21 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
         for noti in notifications:
             if noti.is_read == False:
                 new_notifications.append(noti)
-        notifications = Paginator(notifications, 5)
+
+        page = self.request.GET.get("page")
+        paginator = Paginator(notifications, 5)
+        notifications = paginator.get_page(page)
         context["notifications"] = notifications
         context["new_notifications"] = len(new_notifications)
 
-        # query_set for first page
-        first_page = notifications.page(1).object_list
-        context["first_page"] = first_page
-        # range of page ex range(1, 3)
-        page_range = notifications.page_range
-        context["page_range"] = page_range
+        # # query_set for first page
+        # first_page = notifications.page(1).object_list
+        # context["first_page"] = first_page
+        # # range of page ex range(1, 3)
+        # page_range = notifications.page_range
+        # context["page_range"] = page_range
 
         return context
-
-
-def paginate(request):
-    # pagination
-    if request.method == "POST":
-        notifications = FarmerNotification.objects.all().order_by("-id")
-        notifications = Paginator(notifications, 5)
-        page_n = request.POST.get("page_n", None)  # getting page number
-        results = list(
-            notifications.page(page_n).object_list.values("id", "message", "notitype", "create_at")
-        )
-        return JsonResponse({"results": results})
 
 
 class FarmerMyPageInfoManage(FarmerMyPageBase):
@@ -505,3 +597,73 @@ class FarmerMyPageNotice(FarmerMyPageBase):
         print(context)
 
         return context
+
+
+"""
+Mypage Pagination
+"""
+
+
+def notification_ajax(request):
+    """마이페이지 알림 Pagination"""
+
+    page = request.GET.get("page")
+    notifications = FarmerNotification.objects.all().order_by("-id")
+    paginator = Paginator(notifications, 5)
+    notifications = paginator.get_page(page)
+    ctx = {
+        "notifications": notifications,
+    }
+    return render(request, "farmers/mypage/farmer_mypage_notification_ajax.html", ctx)
+
+
+def qna_ajax(request):
+    """마이페이지 문의 Pagination"""
+
+    page = request.GET.get("page")
+    start_date = request.GET.get("start-date", None)
+    end_date = request.GET.get("end-date", None)
+
+    questions = Question.objects.all().order_by("-id")
+
+    if start_date and end_date:
+        converted_end_date = end_date + " 23:59:59"
+        converted_end_date = datetime.datetime.strptime(
+            converted_end_date, "%Y-%m-%d %H:%M:%S"
+        )
+        questions = questions.filter(
+            create_at__lte=converted_end_date, create_at__gte=start_date
+        )
+
+    paginator = Paginator(questions, 5)
+    questions = paginator.get_page(page)
+
+    ctx = {
+        "questions": questions,
+    }
+    return render(request, "farmers/mypage/farmer_mypage_qna_ajax.html", ctx)
+
+
+def review_ajax(request):
+    """마이페이지 리뷰 Pagination"""
+
+    page = request.GET.get("page2")
+    start_date = request.GET.get("start-date", None)
+    end_date = request.GET.get("end-date", None)
+    reviews = Product_Comment.objects.all().order_by("-id")
+
+    if start_date and end_date:
+        converted_end_date = end_date + " 23:59:59"
+        converted_end_date = datetime.datetime.strptime(
+            converted_end_date, "%Y-%m-%d %H:%M:%S"
+        )
+        reviews = reviews.filter(
+            create_at__lte=converted_end_date, create_at__gte=start_date
+        )
+
+    paginator = Paginator(reviews, 5)
+    reviews = paginator.get_page(page)
+    ctx = {
+        "reviews": reviews,
+    }
+    return render(request, "farmers/mypage/farmer_mypage_review_ajax.html", ctx)

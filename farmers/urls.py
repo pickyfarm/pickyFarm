@@ -17,7 +17,6 @@ urlpatterns = [
     path("farmer_detail/<int:pk>/", views.farmer_detail, name="farmer_detail"),
     path("apply/", views.farm_apply, name="farm_apply"),
     path("enroll/step/<int:step>/", views.FarmEnroll.as_view(), name="farm_enroll"),
-    path("pagination/", views.paginate, name="paginate"),
     # farmer mypage
     path(
         "mypage/info/update/",
@@ -39,4 +38,12 @@ urlpatterns = [
         name="farmer_mypage_review_qna",
     ),
     path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
+    # mypage pagination ajax url
+    path(
+        "mypage/notifications/notification_ajax/",
+        views.notification_ajax,
+        name="notification_ajax",
+    ),
+    path("mypage/reviews_qnas/qna_ajax/", views.qna_ajax, name="qna_ajax"),
+    path("mypage/reviews_qnas/review_ajax/", views.review_ajax, name="review_ajax"),
 ]

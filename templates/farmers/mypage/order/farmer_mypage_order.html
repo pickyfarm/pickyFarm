@@ -5,7 +5,10 @@
 {% block content %}
 {% include 'farmers/mypage/order/info_section.html' %}
 {% include 'farmers/mypage/order/order_list_section.html' %}
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
 <script>
     document.querySelector('#button-order-manage').classList.add('active');
+    const DateTime = luxon.DateTime;
 </script>
+<script src="{% static 'js/farmers/mypage/farmer_mypage_order.js'%}"></script>
 {% endblock content %}
