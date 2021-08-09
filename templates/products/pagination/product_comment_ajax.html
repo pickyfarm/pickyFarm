@@ -188,28 +188,7 @@
 </div>
 
 <script type="text/javascript">
-    // urls for AJAX request
-    const recommentEditURL = '{% url "comments:product_recomment_edit" %}'
-    const recommentDeleteURL = '{% url "comments:product_recomment_delete" %}'
-    const recommentLikeURL = '{% url "likes:product_recomment_like" %}'
-
-    // constants for AJAX request's argument
-    const productPK = "{{product.pk}}"
-    const userPK = "{{request.user.pk}}"
-
-    // constants for AJAX callback
-    const likeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_like.svg' %}"
-    const recommentLikeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_recomment_like.svg' %}"
-    const reportButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
-    const currentUserProfileImageURL = "{{user.profile_image.url}}"
-    const currentUserNickname = "{{request.user.nickname}}"
-
-    // for pagination with AJAX
     PAGINATION_URL = `comment_ajax/?page=`
     PAGINATION_SECTION = '#comments-wrapper'
 </script>
-<script src="{% static 'js/products/comment_submit.js' %}"></script>
-<script src="{% static 'js/products/comment_edit.js' %}"></script>
-<script src="{% static 'js/products/comment_delete.js' %}"></script>
-<script src="{% static 'js/products/comment_like.js' %}"></script>
 <script src="{% static 'js/pagination/pagination.js' %}"></script> 

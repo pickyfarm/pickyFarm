@@ -227,11 +227,28 @@ def comment_ajax(request, pk):
     ctx = {
         "product": product,
         "comments": comments,
+        "total_comments": total_comments,
     }
     return render(request, "products/pagination/product_comment_ajax.html", ctx)
 
 
-# 상품 문의 pagination with ajax
+def question_ajax(request, pk):
+    """상품 문의 Pagination"""
+    product = Product.objects.get(pk=pk)
+    questions = product.questions.all().order_by("-create_at")
+    total_questions = questions.count()
+    page = request.GET.get("page2")
+    paginator2 = Paginator(questions, 5)
+    questions = paginator2.get_page(page)
+    ctx = {
+        "product": product,
+        "questions": questions,
+        "total_questions": total_questions,
+    }
+    return render(request, "products/pagination/product_question_ajax.html", ctx)
+
+
+# 상품 문의 pagination with ajax (수정 전)
 def question_paging(request):
     product_pk = request.POST.get("product_pk", None)
     page_num = (int)(request.POST.get("page_num", None))

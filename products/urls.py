@@ -15,4 +15,5 @@ urlpatterns = [
     path("question/<int:pk>", views.read_qna, name="question_read"),
     # pagination
     path("detail/<int:pk>/comment_ajax/", views.comment_ajax, name="comment_ajax"),
+    path("detail/<int:pk>/question_ajax/", views.question_ajax, name="question_ajax"),
 ]
