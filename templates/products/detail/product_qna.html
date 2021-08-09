@@ -9,17 +9,17 @@
             <div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div>
         </a>
         <a href="#product_review" class="w-1/6">
-            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div>
+            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{total_comments}})</div>
         </a>
         <a href="#product_qna" class="w-1/6">
-            <div id="sel" class="py-3 border-t border-r">상품문의 ({{questions.count}})</div>
+            <div id="sel" class="py-3 border-t border-r">상품문의 ({{total_questions}})</div>
         </a>
         <div class="w-2/6 border-b"></div>
     </div>
     <div id="question_content" class="mx-auto">
         <div class="flex flex-rows mb-3">
             <div id="q_title">Q & A</div>
-            <div id="q_count" class="ml-5 pt-3">(총 {{questions.count}}건)</div>
+            <div id="q_count" class="ml-5 pt-3">(총 {{total_questions}}건)</div>
         </div>
         <div class="flex flex-rows mb-2">
             <img src="{%static 'images/product_detail/index_leaf.svg' %}">

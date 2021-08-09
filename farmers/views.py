@@ -106,13 +106,9 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(
-                Q(farmer__farm_name__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
         elif select_val == "farmer":
-            search_list = search_list.filter(
-                Q(farmer__user__nickname__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -142,9 +138,7 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(
-                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
-            )
+            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -221,9 +215,7 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
     try:
-        sub = Subscribe.objects.get(
-            farmer__pk=farmer.pk, consumer=request.user.consumer
-        )
+        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
     except:
         sub = False
     ctx = {
@@ -341,18 +333,16 @@ class FarmerMyPageBase(ListView):
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
 
-        orders = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).exclude(status="wait")
+        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).exclude(
+            status="wait"
+        )
         context["overall_orders"] = orders
         context["new_orders"] = orders.filter(status="payment_complete")
         context["preparing_orders"] = orders.filter(status="preparing")
         context["shipping_orders"] = orders.filter(status="shipping")
         context["delivered_orders"] = orders.filter(status="delivery_complete")
         context["claimed_orders"] = orders.filter(
-            Q(status="re_ex_recept")
-            | Q(status="re_ex_approve")
-            | Q(status="re_ex_deny")
+            Q(status="re_ex_recept") | Q(status="re_ex_approve") | Q(status="re_ex_deny")
         )
 
         return context
@@ -388,9 +378,7 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
 
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             qs = qs.filter(update_at__lte=converted_end_date, update_at__gte=start_date)
 
@@ -455,14 +443,12 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         end_date = self.request.GET.get("end-date", None)
 
         # 문의
-        questions = Question.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("-id")
+        questions = Question.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             questions = questions.filter(
                 create_at__lte=converted_end_date, create_at__gte=start_date
@@ -474,21 +460,17 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         context["questions"] = questions
 
         # 리뷰
-        reviews = Product_Comment.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("-id")
+        reviews = Product_Comment.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
-            reviews = reviews.filter(
-                create_at__lte=converted_end_date, create_at__gte=start_date
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+            reviews = reviews.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
         page2 = self.request.GET.get("page2")
         paginator2 = Paginator(reviews, 5)
-        reviews = paginator2.get_page(page)
+        reviews = paginator2.get_page(page2)
 
         context["total_range"] = range(0, 5)
         context["reviews"] = reviews
@@ -628,12 +610,8 @@ def qna_ajax(request):
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
-        converted_end_date = datetime.datetime.strptime(
-            converted_end_date, "%Y-%m-%d %H:%M:%S"
-        )
-        questions = questions.filter(
-            create_at__lte=converted_end_date, create_at__gte=start_date
-        )
+        converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+        questions = questions.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
     paginator = Paginator(questions, 5)
     questions = paginator.get_page(page)
@@ -654,12 +632,8 @@ def review_ajax(request):
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
-        converted_end_date = datetime.datetime.strptime(
-            converted_end_date, "%Y-%m-%d %H:%M:%S"
-        )
-        reviews = reviews.filter(
-            create_at__lte=converted_end_date, create_at__gte=start_date
-        )
+        converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+        reviews = reviews.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
     paginator = Paginator(reviews, 5)
     reviews = paginator.get_page(page)

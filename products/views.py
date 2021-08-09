@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import request, JsonResponse
 from django.core import serializers
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Product, Category, Question, Answer
 from .forms import Question_Form, Answer_Form
@@ -138,13 +139,24 @@ def product_detail(request, pk):
         product = Product.objects.get(pk=pk)
         product.calculate_total_rating_avg()
         farmer = product.farmer
+        # 상품 리뷰
         comments = product.product_comments.all().order_by("-create_at")
+        total_comments = comments.count()
+        page = request.GET.get("page")
+        paginator = Paginator(comments, 5)
+        comments = paginator.get_page(page)
+        # 상품 문의
         questions = product.questions.all().order_by("-create_at")
+        total_questions = questions.count()
+        page2 = request.GET.get("page2")
+        paginator2 = Paginator(questions, 5)
+        questions = paginator2.get_page(page2)
+
         total_score = product.calculate_total_rating_avg()
         total_percent = format(total_score / 5 * 100, ".1f")
         recomment_form = ProductRecommentForm()
-        questions_total_pages = ceil(questions.count() / 5)
-        questions = questions[0:5]
+        # questions_total_pages = ceil(questions.count() / 5)
+        # questions = questions[0:5]
 
         # freshness
         if product.reviews != 0:
@@ -177,16 +189,18 @@ def product_detail(request, pk):
             cost_performance_per = [0, 0, 0]
 
         ctx = {
-            "product_pk" : product_pk,
+            "product_pk": product_pk,
             "product": product,
             "farmer": farmer,
             "comments": comments,
+            "total_comments": total_comments,
             "questions": questions,
+            "total_questions": total_questions,
             "total_score": range(int(total_score)),
             "remainder_score": range(5 - int(total_score)),
             "total_percent": total_percent,
             "recomment_form": recomment_form,
-            "question_total_pages": range(1, questions_total_pages + 1),
+            # "question_total_pages": range(1, questions_total_pages + 1),
             "freshness_1": freshness_per[0],
             "freshness_3": freshness_per[1],
             "freshness_5": freshness_per[2],
@@ -202,6 +216,22 @@ def product_detail(request, pk):
         return redirect("/")
 
 
+def comment_ajax(request, pk):
+    """상품 리뷰 Pagination"""
+    product = Product.objects.get(pk=pk)
+    comments = product.product_comments.all().order_by("-create_at")
+    total_comments = comments.count()
+    page = request.GET.get("page")
+    paginator = Paginator(comments, 5)
+    comments = paginator.get_page(page)
+    ctx = {
+        "product": product,
+        "comments": comments,
+    }
+    return render(request, "products/pagination/product_comment_ajax.html", ctx)
+
+
+# 상품 문의 pagination with ajax
 def question_paging(request):
     product_pk = request.POST.get("product_pk", None)
     page_num = (int)(request.POST.get("page_num", None))
