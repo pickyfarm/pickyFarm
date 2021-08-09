@@ -438,7 +438,6 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        page = self.request.GET.get("page")
         start_date = self.request.GET.get("start-date", None)
         end_date = self.request.GET.get("end-date", None)
 
@@ -471,7 +470,6 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         page2 = self.request.GET.get("page2")
         paginator2 = Paginator(reviews, 5)
         reviews = paginator2.get_page(page2)
-
         context["total_range"] = range(0, 5)
         context["reviews"] = reviews
 
@@ -605,8 +603,7 @@ def qna_ajax(request):
     page = request.GET.get("page")
     start_date = request.GET.get("start-date", None)
     end_date = request.GET.get("end-date", None)
-
-    questions = Question.objects.all().order_by("-id")
+    questions = Question.objects.filter(product__farmer=request.user.farmer).order_by("-id")
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
@@ -628,7 +625,7 @@ def review_ajax(request):
     page = request.GET.get("page2")
     start_date = request.GET.get("start-date", None)
     end_date = request.GET.get("end-date", None)
-    reviews = Product_Comment.objects.all().order_by("-id")
+    reviews = Product_Comment.objects.filter(product__farmer=request.user.farmer).order_by("-id")
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
