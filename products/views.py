@@ -141,28 +141,27 @@ def product_detail(request, pk):
         product.calculate_total_rating_avg()
         kinds = product.kinds
         farmer = product.farmer
+
         # 상품 리뷰
         comments = product.product_comments.all().order_by("-create_at")
         total_comments = comments.count()
         page = request.GET.get("page")
         paginator = Paginator(comments, 5)
         comments = paginator.get_page(page)
+
         # 상품 문의
         questions = product.questions.all().order_by("-create_at")
         total_questions = questions.count()
-        page2 = request.GET.get("page2")
+        page2 = request.GET.get("page")
         paginator2 = Paginator(questions, 5)
         questions = paginator2.get_page(page2)
 
         total_score = product.calculate_total_rating_avg()
         total_percent = format(total_score / 5 * 100, ".1f")
         recomment_form = ProductRecommentForm()
-        questions_total_pages = ceil(questions.count() / 5)
-        questions = questions[0:5]
-    
+
         # 연관 일반 작물
         related_product = product.related_product
-        print(related_product)
 
         # freshness
         if product.reviews != 0:
@@ -198,7 +197,7 @@ def product_detail(request, pk):
         ctx = {
             "product_pk": product_pk,
             "product": product,
-            "kinds" : kinds,
+            "kinds": kinds,
             "farmer": farmer,
             "comments": comments,
             "total_comments": total_comments,
@@ -208,7 +207,6 @@ def product_detail(request, pk):
             "remainder_score": range(5 - int(total_score)),
             "total_percent": total_percent,
             "recomment_form": recomment_form,
-            # "question_total_pages": range(1, questions_total_pages + 1),
             "freshness_1": freshness_per[0],
             "freshness_3": freshness_per[1],
             "freshness_5": freshness_per[2],
@@ -218,7 +216,7 @@ def product_detail(request, pk):
             "cost_1": cost_performance_per[0],
             "cost_3": cost_performance_per[1],
             "cost_5": cost_performance_per[2],
-            "related_product" : related_product,
+            "related_product": related_product,
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:
