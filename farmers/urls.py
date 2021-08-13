@@ -51,9 +51,7 @@ urlpatterns = [
         views.FarmerMyPageReviewQnAManage.as_view(),
         name="farmer_mypage_review_qna",
     ),
-    path(
-        "mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"
-    ),
+    path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
     # mypage pagination ajax url
     path(
         "mypage/notifications/notification_ajax/",

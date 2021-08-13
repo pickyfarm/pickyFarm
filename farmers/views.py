@@ -107,13 +107,9 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(
-                Q(farmer__farm_name__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
         elif select_val == "farmer":
-            search_list = search_list.filter(
-                Q(farmer__user__nickname__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -143,9 +139,7 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(
-                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
-            )
+            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -222,9 +216,7 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
     try:
-        sub = Subscribe.objects.get(
-            farmer__pk=farmer.pk, consumer=request.user.consumer
-        )
+        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
     except:
         sub = False
     ctx = {
@@ -257,14 +249,22 @@ def farm_apply(request):
 
 
 # 입점 등록 page
-def enroll(request):
-    with transaction.atomic():
-        enroll_page1()
-        enroll_page2()
-        enroll_page3()
+# def enroll(request):
+#     sid = transaction.savepoint()
+#     # start transaction
+#     try:
+#         enroll_page1()
+#         enroll_page2()
+#         enroll_page3()
+#         transaction.savepoint_commit(sid)
+#         # end transaction
+#     except Exception:
+#         # 트랜잭션 내에서 에러 발생시 롤백처리
+#         transaction.savepoint_rollback(sid)
 
 
 # 입점 등록 1단계 (회원가입)
+@transaction.atomic
 def enroll_page1(request):
     if request.method == "GET":
         form = SignUpForm()
@@ -282,15 +282,16 @@ def enroll_page1(request):
             password = form.cleaned_data.get("password")
             form.save()
             user = authenticate(request, username=username, password=password)
-            Consumer.objects.create(user=user, grade=1)
             address = addressform.save(commit=False)
             address.user = user
             address.is_default = True
             address.save()
-            return redirect(reverse("farmers:enroll_page2"))
+            Consumer.objects.create(user=user, grade=1)
+            return redirect("farmers:enroll_page2")
 
 
 # 입점 등록 2단계 (파머 정보 입력)
+@transaction.atomic
 def enroll_page2(request):
     if request.method == "GET":
         farm_form = FarmEnrollForm()
@@ -300,22 +301,39 @@ def enroll_page2(request):
         return render(request, "farmers/enroll/farm_enroll_2.html", ctx)
     elif request.method == "POST":
         farmer_form = FarmEnrollForm(request.POST)
+        user = request.POST.get("user")
+        address = request.POST.get("address")
+        print("enroll 2 step farmer_form post")
+        print("user", user)
         if farmer_form.is_valid():
-            farmer_form.save()
-            return redirect(reverse("farmers:enroll_page3"))
+            print("farmer form is valid")
+            farmer_form.save(commit=False)
+            farmer_form.user = user
+            farmer_form.address = address
+            farmer = farmer_form.save()
+            print("farmer", farmer)
+            return redirect(reverse("farmers:enroll_page3", farmer=farmer))
+    # return redirect("core:main")
 
 
 # 입점 등록 3단계 (계약서 작성)
-def enroll_page3(request):
+@transaction.atomic
+def enroll_page3(request, farmer):
     if request.method == "GET":
         return render(request, "farmers/enroll/farm_enroll_3.html")
     elif request.method == "POST":
+        print("enroll 3 step 계약서 post")
         agree_1 = request.POST.get("agree-1")
         agree_2 = request.POST.get("agree-2")
+        print("agree_1", agree_1)
+        print("agree_2", agree_2)
         if agree_1 is not None and agree_2 is not None:
-            user = request.user
-            if user is not None:
-                login(request, user=user)
+            print("계약서 동의 완료")
+            farmer.contract = True
+            farmer.save()
+            if farmer is not None:
+                print("파머 생성 완료")
+                login(request, user=farmer.user)
                 return redirect(reverse("core:main"))
 
 
@@ -338,6 +356,7 @@ def enroll_page3(request):
 #         elif step == 3:
 #             return render(request, "farmers/farm_enroll_3.html")
 #         return redirect(reverse("core:main"))
+
 
 class FarmEnrollLogin(TemplateView):
     template_name = "farmers/enroll/farm_enroll_login.html"
@@ -377,18 +396,16 @@ class FarmerMyPageBase(ListView):
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
 
-        orders = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).exclude(status="wait")
+        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).exclude(
+            status="wait"
+        )
         context["overall_orders"] = orders
         context["new_orders"] = orders.filter(status="payment_complete")
         context["preparing_orders"] = orders.filter(status="preparing")
         context["shipping_orders"] = orders.filter(status="shipping")
         context["delivered_orders"] = orders.filter(status="delivery_complete")
         context["claimed_orders"] = orders.filter(
-            Q(status="re_ex_recept")
-            | Q(status="re_ex_approve")
-            | Q(status="re_ex_deny")
+            Q(status="re_ex_recept") | Q(status="re_ex_approve") | Q(status="re_ex_deny")
         )
 
         return context
@@ -424,9 +441,7 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
 
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             qs = qs.filter(update_at__lte=converted_end_date, update_at__gte=start_date)
 
@@ -490,14 +505,12 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         end_date = self.request.GET.get("end-date", None)
 
         # 문의
-        questions = Question.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("-id")
+        questions = Question.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             questions = questions.filter(
                 create_at__lte=converted_end_date, create_at__gte=start_date
@@ -509,17 +522,13 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         context["questions"] = questions
 
         # 리뷰
-        reviews = Product_Comment.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("-id")
+        reviews = Product_Comment.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
-            reviews = reviews.filter(
-                create_at__lte=converted_end_date, create_at__gte=start_date
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+            reviews = reviews.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
         page2 = self.request.GET.get("page2")
         paginator2 = Paginator(reviews, 5)
@@ -634,7 +643,7 @@ class FarmerMyPageNotice(FarmerMyPageBase):
 
 
 """
-Mypage Pagination
+Mypage Pagination with AJAX
 """
 
 
@@ -657,18 +666,12 @@ def qna_ajax(request):
     page = request.GET.get("page")
     start_date = request.GET.get("start-date", None)
     end_date = request.GET.get("end-date", None)
-    questions = Question.objects.filter(product__farmer=request.user.farmer).order_by(
-        "-id"
-    )
+    questions = Question.objects.filter(product__farmer=request.user.farmer).order_by("-id")
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
-        converted_end_date = datetime.datetime.strptime(
-            converted_end_date, "%Y-%m-%d %H:%M:%S"
-        )
-        questions = questions.filter(
-            create_at__lte=converted_end_date, create_at__gte=start_date
-        )
+        converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+        questions = questions.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
     paginator = Paginator(questions, 5)
     questions = paginator.get_page(page)
@@ -685,18 +688,12 @@ def review_ajax(request):
     page = request.GET.get("page2")
     start_date = request.GET.get("start-date", None)
     end_date = request.GET.get("end-date", None)
-    reviews = Product_Comment.objects.filter(
-        product__farmer=request.user.farmer
-    ).order_by("-id")
+    reviews = Product_Comment.objects.filter(product__farmer=request.user.farmer).order_by("-id")
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
-        converted_end_date = datetime.datetime.strptime(
-            converted_end_date, "%Y-%m-%d %H:%M:%S"
-        )
-        reviews = reviews.filter(
-            create_at__lte=converted_end_date, create_at__gte=start_date
-        )
+        converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+        reviews = reviews.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
     paginator = Paginator(reviews, 5)
     reviews = paginator.get_page(page)
