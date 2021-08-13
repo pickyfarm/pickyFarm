@@ -1,15 +1,16 @@
-from django.core import exceptions
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.views.generic import DetailView, ListView
 from django.views import View
+from django.views.generic import DetailView, ListView
+from django.core import exceptions
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import AnonymousUser
+from django.db import transaction
 from django.db.models import Q
+from django.http import JsonResponse, HttpResponseBadRequest
 from admins.models import FarmerNotice, FarmerNotification
 from math import ceil
-from django.http import JsonResponse, HttpResponseBadRequest
 import datetime
 
 
@@ -248,66 +249,128 @@ def farm_apply(request):
 
 
 # 입점 등록 page
-class FarmEnroll(View):
-    def get(self, request, step):
-        if step == 1:
-            form = SignUpForm()
-            addressform = AddressForm()
-            ctx = {
-                "form": form,
-                "addressform": addressform,
-            }
-            return render(request, "farmers/farm_enroll_1.html", ctx)
-        elif step == 2:
-            farm_form = FarmEnrollForm()
-            ctx = {
-                "farm_form": farm_form,
-            }
-            return render(request, "farmers/farm_enroll_2.html", ctx)
-        elif step == 3:
-            return render(request, "farmers/farm_enroll_3.html")
-        return redirect(reverse("core:main"))
+def enroll(request):
+    with transaction.atomic():
+        enroll_page1()
+        enroll_page2()
+        enroll_page3()
 
-    def post(self, request, step):
+
+# 입점 등록 1단계 (회원가입)
+def enroll_page1(request):
+    if request.method == "GET":
+        form = SignUpForm()
+        addressform = AddressForm()
+        ctx = {
+            "form": form,
+            "addressform": addressform,
+        }
+        return render(request, "farmers/enroll/farm_enroll_1.html", ctx)
+    elif request.method == "POST":
         form = SignUpForm(request.POST)
         addressform = AddressForm(request.POST)
-        farmer_form = FarmEnrollForm(request.POST)
-
-        # farm enroll step 1
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
-            # Consumer.objects.create(user=user, grade=1)
+            form.save()
+            user = authenticate(request, username=username, password=password)
+            Consumer.objects.create(user=user, grade=1)
             address = addressform.save(commit=False)
-            # address.user = user
-            # address.is_default = True
-            # address.save()
-            return redirect(reverse("farmers:farm_enroll", kwargs={"step": "step_2"}))
+            address.user = user
+            address.is_default = True
+            address.save()
+            return redirect(reverse("farmers:enroll_page2"))
 
-        # farm enroll step 2
+
+# 입점 등록 2단계 (파머 정보 입력)
+def enroll_page2(request):
+    if request.method == "GET":
+        farm_form = FarmEnrollForm()
+        ctx = {
+            "farm_form": farm_form,
+        }
+        return render(request, "farmers/enroll/farm_enroll_2.html", ctx)
+    elif request.method == "POST":
+        farmer_form = FarmEnrollForm(request.POST)
         if farmer_form.is_valid():
-            print("farm enroll 2 form valid")
-            farmer_form.save(commit=False)
-            return redirect(reverse("farmers:farm_enroll", kwargs={"step": "step_3"}))
+            farmer_form.save()
+            return redirect(reverse("farmers:enroll_page3"))
 
-        # farm enroll step 3
+
+# 입점 등록 3단계 (계약서 작성)
+def enroll_page3(request):
+    if request.method == "GET":
+        return render(request, "farmers/enroll/farm_enroll_3.html")
+    elif request.method == "POST":
         agree_1 = request.POST.get("agree-1")
         agree_2 = request.POST.get("agree-2")
         if agree_1 is not None and agree_2 is not None:
-            user = authenticate(request, username=username, password=password)
+            user = request.user
             if user is not None:
-                form.save()
-                address.save()
-                farmer_form.save()
-                Consumer.objects.create(user=user, grade=1)
                 login(request, user=user)
                 return redirect(reverse("core:main"))
-        else:
-            print("farm enroll form 3까지 못갔어요,,,")
-            return redirect(reverse("core:main"))
 
-        print("redirect to main")
-        return redirect(reverse("core:main"))
+
+# class FarmEnroll(View):
+#     def get(self, request, step):
+#         if step == 1:
+#             form = SignUpForm()
+#             addressform = AddressForm()
+#             ctx = {
+#                 "form": form,
+#                 "addressform": addressform,
+#             }
+#             return render(request, "farmers/farm_enroll_1.html", ctx)
+#         elif step == 2:
+#             farm_form = FarmEnrollForm()
+#             ctx = {
+#                 "farm_form": farm_form,
+#             }
+#             return render(request, "farmers/farm_enroll_2.html", ctx)
+#         elif step == 3:
+#             return render(request, "farmers/farm_enroll_3.html")
+#         return redirect(reverse("core:main"))
+
+#     def post(self, request, step):
+#         form = SignUpForm(request.POST)
+#         addressform = AddressForm(request.POST)
+#         farmer_form = FarmEnrollForm(request.POST)
+
+#         # farm enroll step 1
+#         if form.is_valid():
+#             username = form.cleaned_data.get("username")
+#             password = form.cleaned_data.get("password")
+#             # Consumer.objects.create(user=user, grade=1)
+#             address = addressform.save(commit=False)
+#             # address.user = user
+#             # address.is_default = True
+#             # address.save()
+#             return redirect(reverse("farmers:farm_enroll", kwargs={"step": "step_2"}))
+
+#         # farm enroll step 2
+#         if farmer_form.is_valid():
+#             print("farm enroll 2 form valid")
+#             farmer_form.save(commit=False)
+#             return redirect(reverse("farmers:farm_enroll", kwargs={"step": "step_3"}))
+
+#         # farm enroll step 3
+#         agree_1 = request.POST.get("agree-1")
+#         agree_2 = request.POST.get("agree-2")
+#         if agree_1 is not None and agree_2 is not None:
+#             user = authenticate(request, username=username, password=password)
+#             if user is not None:
+#                 form.save()
+#                 address.save()
+#                 farmer_form.save()
+#                 Consumer.objects.create(user=user, grade=1)
+#                 login(request, user=user)
+#                 return redirect(reverse("core:main"))
+#         else:
+#             print("farm enroll form 3까지 못갔어요,,,")
+#             return redirect(reverse("core:main"))
+
+#         print("redirect to main")
+#         return redirect(reverse("core:main"))
 
 
 """
