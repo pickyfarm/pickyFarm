@@ -88,12 +88,12 @@
             </div>
             <div id="info_section" class="border-b mt-12 pt-5 pb-5">
                 <div class="flex flex-rows">
-                    <div id="info_t" class="w-1/5 text-left mb-3">배송비</div>
-                    <div id="info_c" name="shipping-fee" class="w-4/5 text-left text-red-500">{{product.default_delivery_fee}}</div>
+                    <div id="info_t" class="w-1/5 text-left">배송비</div>
+                    <div id="shipping-fee" class="w-4/5 text-left text-red-500">{{product.default_delivery_fee}}원</div>
                 </div>
-                <div id="shipping-fee-desc">
-                    {{product.addtional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가
-                <div>
+                <div id="shipping-fee-desc" class="mb-3">
+                    {{product.additional_delivery_fee_unit}}개 마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가
+                </div>
                 <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">중량/용량</div>
                     <div id="info_c" name="product-weight" class="w-4/5 text-left">{{product.weight}}{{product.weight_unit}}</div>
@@ -395,7 +395,7 @@
 
     let quantityNumber = document.getElementById("quantity_number")
 
-    let shippingFee = document.getElementsByName("shipping-fee")
+    let shippingFee = document.getElementById("shipping-fee")
     let shippingFeeDesc = document.getElementById("shipping-fee-desc")
     let weight = document.getElementsByName("product-weight")
 
@@ -405,18 +405,37 @@
         cost.innerHTML = '{{product.sell_price}}원'
         totalCost.innerHTML = '{{product.sell_price}}'
         quantity_number.innerHTML = '1'
-        shippingFee = '{{product.default_delivery_fee}}원'
-        shippingFeeDesc = '{{product.addtional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+        shippingFee.innerHTML = '{{product.default_delivery_fee}}원'
+        shippingFeeDesc.innerHTML = '{{product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+        
+        //바로 구매하기 name pk 변경
+        purchaseBtn.setAttribute('name', '{{product.pk}}')
+
+        //버튼 색 변경
+        this.style.color = "#fff"
+        this.style.backgroundColor = "#5c6754"
+        normalTag.style.color = "#5c6754"
+        normalTag.style.backgroundColor = "#fff"
+
     })
 
     normalTag.addEventListener('click', function(){
         title.innerHTML = '{{related_product.title}}'
         subTitle.innerHTML = '{{related_product.sub_title}}'
-        cost.innerHTML = '{{related_product.sell_price}}'
+        cost.innerHTML = '{{related_product.sell_price}}원'
         totalCost.innerHTML = '{{related_product.sell_price}}'
         quantity_number.innerHTML = '1'
-        shippingFee = '{{related_product.default_delivery_fee}}원'
-        shippingFeeDesc = '{{related.product.addtional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+        shippingFee.innerHTML = '{{related_product.default_delivery_fee}}원'
+        shippingFeeDesc.innerHTML = '{{related_product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+        
+        //바로 구매하기 name pk 변경
+        purchaseBtn.setAttribute('name', '{{related_product.pk}}')
+        
+        //버튼 색 변경
+        this.style.color = "#fff"
+        this.style.backgroundColor = "#5c6754"
+        uglyTag.style.color = "#5c6754"
+        uglyTag.style.backgroundColor = "#fff"
     })
 
 

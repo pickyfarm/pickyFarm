@@ -246,6 +246,32 @@
     color: #000000;
 }
 
+#shipping-fee{
+    width: 346px;
+    height: 22px;
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
+
+#shipping-fee-desc{
+    font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6854;
+  margin-left : 102px;
+}
+
 #farmer_name {
     font-size: 19px;
     font-weight: normal;
