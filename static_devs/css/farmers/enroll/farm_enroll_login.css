@@ -1,0 +1,93 @@
+button {
+    cursor: pointer;
+}
+
+#main-content {
+    width: 920px;
+}
+
+.section-title {
+    font-size: 30px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: rgb(92, 103, 84);
+    margin-bottom: 9px;
+}
+
+.section-subtitle {
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: rgb(92, 103, 84);
+    margin-bottom: 52px;
+}
+
+.login-form-section {
+    width: 100%;
+}
+
+*::selection {
+    background: none;
+}
+
+.links {
+    height: 17px;
+}
+
+.links * {
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+
+    letter-spacing: normal;
+
+    color: rgb(92, 103, 84);
+}
+
+#id_username {
+    margin-bottom: 14px;
+}
+
+#auto-login-section {
+    margin: 30px auto 30px 0;
+}
+
+.login-button {
+    margin-top: 65px;
+    margin-bottom: 12px;
+}
+
+.bar {
+    border: 1px solid #b3b3b3;
+    margin: auto 25.5px;
+    height: 17px;
+}
+
+.errorlist {
+    margin-top: 10px;
+    font-size: 13px;
+    color: red;
+    font-weight: 300;
+}
+
+.form-container {
+    width: 441px;
+    height: 441px;
+    border: solid 1px rgba(112, 112, 112, 0.3);
+    border-radius: 3px;
+}
+
+.section-description {
+    font-size: 23px;
+    font-weight: bold;
+    font-stretch: normal;
+    letter-spacing: normal;
+    color: rgb(92, 103, 84);
+    margin-top: 41px;
+    margin-bottom: 64px;
+}
