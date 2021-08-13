@@ -22,7 +22,7 @@
             <div class="section-description">
                 이미 피키팜 회원이시라면
             </div>
-            <form action="{% url 'farmer:farm_enroll' step=1 %}"
+            <form action="{% url 'farmer:farm_enroll_login' %}"
                   method="post"
                   class="flex flex-col">
                 {% csrf_token %}

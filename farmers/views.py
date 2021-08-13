@@ -326,6 +326,12 @@ class FarmEnrollLogin(TemplateView):
         context["form"] = LoginForm()
         return context
 
+    def post(self):
+        form = LoginForm(self.request.POST)
+
+        if form.is_valid():
+            pass
+
 
 """
 Farmer mypage section
