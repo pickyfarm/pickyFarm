@@ -78,11 +78,11 @@
                     {{farmer.user.nickname}}
                 </div>
                 <a href="{% url 'farmers:farmer_detail' farmer.pk %}">
-                    <div id="visit" class="ml-4">
+                    <div id="visit" class="ml-4 transition_element">
                         방문하기
                     </div>
                 </a>
-                <div id="sub" name="{{farmer.pk}}" class="ml-2">
+                <div id="sub" name="{{farmer.pk}}" class="ml-2 transition_element">
                     구독하기
                 </div>
             </div>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">중량/용량</div>
-                    <div id="info_c" name="product-weight" class="w-4/5 text-left">{{product.weight}}{{product.weight_unit}}</div>
+                    <div id="product-weight" class="w-4/5 text-left">{{product.weight}}{{product.weight_unit}}</div>
                 </div>
                 <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">원산지</div>
@@ -121,9 +121,9 @@
                 <div id="won" class="mb-2 ml-2">원</div>
             </div>
             <div id="buttons" class="flex flex-rows">
-                <div id="wish">찜하기</div>
+                <div id="wish" class="transition_element">찜하기</div>
 
-                <div id="cart" name="{{product_pk}}" class="mr-12 ml-3">장바구니 담기</div>
+                <div id="cart" name="{{product_pk}}" class="mr-12 ml-3 transition_element">장바구니 담기</div>
                 <div id="purchase" name="{{product_pk}}">바로 구매하기</div>
             </div>
         </div>
@@ -233,14 +233,14 @@
             data: data,
             success: function (response) {
                 if (response.status == -1)
-                    alert("구독하지 못했습니다. 다시 시도해주세요")
+                    shootToastMessage("구독하지 못했습니다. 다시 시도해주세요", '2')
                 else if (response.status == 0)
-                    alert("이미 구독한 농가입니다!")
+                    shootToastMessage("이미 구독한 농가입니다!", '2')
                 else
-                    alert("농가를 구독하였습니다!")
+                    shootToastMessage("농가를 구독하였습니다!", '2')
             },
             error: function (request, status, error) {
-                alert('로그인이 필요합니다.')
+                shootToastMessage("로그인이 필요합니다", '2')
             }
         
         })
@@ -397,16 +397,33 @@
 
     let shippingFee = document.getElementById("shipping-fee")
     let shippingFeeDesc = document.getElementById("shipping-fee-desc")
-    let weight = document.getElementsByName("product-weight")
+    let weight = document.getElementById("product-weight")
+
+    let mainImage = document.getElementById("main_image")
 
     uglyTag.addEventListener('click', function(){
+        shootToastMessage("무난이 작물로 전환합니다", '2')
+
         title.innerHTML = '{{product.title}}'
         subTitle.innerHTML = '{{product.sub_title}}'
         cost.innerHTML = '{{product.sell_price}}원'
+        weight.innerHTML = '{{product.weight}}{{product.weight_unit}}'
         totalCost.innerHTML = '{{product.sell_price}}'
         quantity_number.innerHTML = '1'
-        shippingFee.innerHTML = '{{product.default_delivery_fee}}원'
-        shippingFeeDesc.innerHTML = '{{product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+        if('{{product.default_delivery_fee}}' == '0'){
+            shippingFee.innerHTML = '무료'
+            shippingFee.style.color = "#ff0000"
+            shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
+        }
+        else{
+            shippingFee.innerHTML = '{{product.default_delivery_fee}}원'
+            shippingFee.style.color = "#5c6854"
+            shippingFeeDesc.innerHTML = '{{product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+        }
+        
+        
+        //메인 이미지 변경
+        mainImage.setAttribute('sec' , '{{product.main_image.url}}')
         
         //바로 구매하기 name pk 변경
         purchaseBtn.setAttribute('name', '{{product.pk}}')
@@ -417,17 +434,34 @@
         normalTag.style.color = "#5c6754"
         normalTag.style.backgroundColor = "#fff"
 
+        
+
     })
 
     normalTag.addEventListener('click', function(){
+        shootToastMessage("일반 작물로 전환합니다", '2')
+
         title.innerHTML = '{{related_product.title}}'
         subTitle.innerHTML = '{{related_product.sub_title}}'
         cost.innerHTML = '{{related_product.sell_price}}원'
+        weight.innerHTML = '{{related_product.weight}}{{product.weight_unit}}'
         totalCost.innerHTML = '{{related_product.sell_price}}'
         quantity_number.innerHTML = '1'
-        shippingFee.innerHTML = '{{related_product.default_delivery_fee}}원'
-        shippingFeeDesc.innerHTML = '{{related_product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+        if('{{related_product.default_delivery_fee}}' == '0'){
+            shippingFee.innerHTML = "무료"
+            shippingFee.style.color = "#ff0000"
+            shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
+        }
+        else{
+            shippingFee.innerHTML = '{{related_product.default_delivery_fee}}원'
+            shippingFee.style.color = "#5c6854"
+            shippingFeeDesc.innerHTML = '{{related_product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+        }
         
+        
+        //메인 이미지 변경
+        mainImage.setAttribute('sec' , '{{related_product.main_image.url}}')
+
         //바로 구매하기 name pk 변경
         purchaseBtn.setAttribute('name', '{{related_product.pk}}')
         
