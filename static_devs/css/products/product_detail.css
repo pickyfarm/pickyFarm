@@ -35,6 +35,42 @@
     background-color: #ffffff;
 }
 
+#tags{
+    margin-bottom:10px;
+}
+
+#ugly_tag{
+    font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  border : solid 1px #5c6754;
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  padding:2px 9px 2px 8px;
+  margin-right:10px;
+  cursor: pointer;
+}
+
+#normal_tag{
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5c6754;
+    border : solid 1px #5c6754;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    padding:2px 15px 2px 14px;
+    cursor: pointer;
+}
+
+
 #title {
     font-family: NotoSansKR;
     font-size: 35px;
