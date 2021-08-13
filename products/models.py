@@ -20,6 +20,10 @@ class Product(models.Model):
         ("ugly", "무난이 작물"),
         ("normal", "일반 작물"),
     )
+    weight_unit = (
+        ("g", "g"),
+        ("kg", "kg"),
+    )
 
     title = models.CharField(max_length=50)
     sub_title = models.CharField(max_length=100)
@@ -32,7 +36,7 @@ class Product(models.Model):
 
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
     weight = models.FloatField(help_text="판매 중량")
-    weight_unit = models.CharField(max_length=5, help_text="판매 중량 단위")
+    weight_unit = models.CharField(max_length=5, choices = weight_unit, help_text="판매 중량 단위")
     stock = models.IntegerField(default=0, help_text="총 재고 수량")
     sales_count = models.IntegerField(default=0, help_text="총 판매 수량", blank=True)
     sales_rate = models.FloatField(default=0, blank=True)

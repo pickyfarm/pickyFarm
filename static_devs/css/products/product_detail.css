@@ -16,7 +16,7 @@
 }
 
 #farm_news_letter {
-    font-family: NotoSansKR;
+
     font-size: 15px;
 
     letter-spacing: normal;
@@ -24,7 +24,7 @@
 
 #farm_news {
     width: 395px;
-    font-family: NotoSansKR;
+
     font-size: 13px;
     font-weight: 300;
     letter-spacing: normal;
@@ -46,7 +46,8 @@
   font-style: normal;
   letter-spacing: normal;
   text-align: center;
-  color: #5c6754;
+  color: #ffff;
+  background-color: #5c6754;
   border : solid 1px #5c6754;
   border-top-right-radius: 9999px;
   border-bottom-right-radius: 9999px;
@@ -72,7 +73,7 @@
 
 
 #title {
-    font-family: NotoSansKR;
+
     font-size: 35px;
     font-weight: 500;
     font-stretch: normal;
@@ -85,7 +86,7 @@
 #subtitle {
     font-size: 20px;
     font-weight: normal;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     letter-spacing: normal;
@@ -97,7 +98,6 @@
     font-size: 10px;
     font-weight: 500;
     font-stretch: normal;
-    font-family: NotoSansKR;
     font-style: normal;
     line-height: 2.5;
     letter-spacing: normal;
@@ -112,7 +112,7 @@
 #cost {
     font-size: 40px;
     font-weight: 500;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.28;
@@ -125,7 +125,7 @@
 #farmer_img {
     width: 53px;
     height: 53px;
-    font-family: NotoSansKR;
+
     border-radius: 999%;
     border: solid 2px #5e6656;
     object-fit: cover;
@@ -148,7 +148,7 @@
 
 #farm_name {
     font-size: 15px;
-    font-family: NotoSansKR;
+
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -161,7 +161,7 @@
 #visit {
     font-size: 15px;
     font-weight: 500;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.6;
@@ -176,7 +176,7 @@
 #visit:hover {
     font-size: 15px;
     font-weight: 500;
-    font-family: NotoSansKR;
+ 
     font-stretch: normal;
     font-style: normal;
     line-height: 1.6;
@@ -191,7 +191,7 @@
 #sub {
     font-size: 15px;
     font-weight: 500;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.6;
@@ -207,7 +207,7 @@
 #sub:hover {
     font-size: 15px;
     font-weight: 500;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.6;
@@ -222,7 +222,7 @@
 
 #info_t {
     font-size: 15px;
-    font-family: NotoSansKR;
+ 
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -235,7 +235,46 @@
 #info_c {
     width: 346px;
     height: 22px;
-    font-family: NotoSansKR;
+
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
+
+#shipping-fee{
+    width: 346px;
+    height: 22px;
+
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
+
+#shipping-fee-desc{
+    font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6854;
+  margin-left : 102px;
+}
+
+#product-weight{
+    width: 346px;
+    height: 22px;
     font-size: 15px;
     font-weight: 300;
     font-stretch: normal;
@@ -249,7 +288,7 @@
 #farmer_name {
     font-size: 19px;
     font-weight: normal;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.2;
@@ -260,7 +299,7 @@
 
 #quantity_letter {
     font-size: 15px;
-    font-family: NotoSansKR;
+ 
 }
 
 #quantity_num_section {
@@ -289,7 +328,7 @@
     width: 60px;
     height: 35px;
     padding-top: 8px;
-    font-family: NotoSansKR;
+
     font-size: 15px;
     font-weight: normal;
     font-stretch: normal;
@@ -305,7 +344,7 @@
 #total_price_letter {
     font-size: 15px;
     font-weight: 500;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.2;
@@ -315,13 +354,13 @@
 }
 
 #cost {
-    font-family: NotoSansKR;
+    
 }
 
 #total_price {
     font-size: 67.9px;
     font-weight: 500;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.2;
@@ -333,7 +372,7 @@
 #won {
     font-size: 35px;
     font-weight: normal;
-    font-family: NotoSansKR;
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.2;
@@ -346,15 +385,15 @@
     font-size: 15px;
     font-weight: bold;
     font-stretch: normal;
-    font-family: NotoSansKR;
+
     font-style: normal;
     line-height: 1.04;
     letter-spacing: normal;
     text-align: left;
-    color: #005413;
+    color: #5c6754;
     padding: 16.5px 20px 16.7px 20px;
     border-radius: 27.6px;
-    border: solid 3px #005413;
+    border: solid 3px #5c6754;
     cursor: pointer;
 }
 
@@ -362,16 +401,16 @@
     font-size: 15px;
     font-weight: bold;
     font-stretch: normal;
-    font-family: NotoSansKR;
+
     font-style: normal;
     line-height: 1.04;
     letter-spacing: normal;
     text-align: left;
     color: #ffffff;
-    background-color: #005413;
+    background-color: #5c6754;
     padding: 16.5px 20px 16.7px 20px;
     border-radius: 27.6px;
-    border: solid 3px #005413;
+    border: solid 3px #5c6754;
     transition: ease-in;
     cursor: pointer;
 }
@@ -379,8 +418,7 @@
 #cart {
     padding: 16.5px 14.5px 16.7px 15.5px;
     border-radius: 27.6px;
-    border: solid 3px #005413;
-    font-family: NotoSansKR;
+    border: solid 3px #5c6754;
     font-size: 15px;
     font-weight: bold;
     font-stretch: normal;
@@ -388,15 +426,15 @@
     line-height: 1.04;
     letter-spacing: normal;
     text-align: left;
-    color: #005413;
+    color: #5c6754;
     cursor: pointer;
 }
 
 #cart:hover {
     padding: 16.5px 14.5px 16.7px 15.5px;
     border-radius: 27.6px;
-    border: solid 3px #005413;
-    font-family: NotoSansKR;
+    border: solid 3px #5c6754;
+
     font-size: 15px;
     font-weight: bold;
     font-stretch: normal;
@@ -405,7 +443,7 @@
     letter-spacing: normal;
     text-align: left;
     color: #ffffff;
-    background-color: #005413;
+    background-color:#5c6754;
     transition: ease-in;
     cursor: pointer;
 }
@@ -414,7 +452,7 @@
     font-size: 20px;
     font-weight: bold;
     font-stretch: normal;
-    font-family: NotoSansKR;
+
     font-style: normal;
     line-height: 0.9;
     letter-spacing: normal;
@@ -422,27 +460,12 @@
     color: #ffffff;
     padding: 15px 55px 12.7px 58px;
     border-radius: 27.6px;
-    border: solid 3px #005413;
-    background-color: #005413;
+    border: solid 3px #5c6754;
+    background-color: #5c6754;
     cursor: pointer;
 }
 
-#purchase:hover {
-    font-size: 20px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-family: NotoSansKR;
-    font-style: normal;
-    line-height: 0.9;
-    letter-spacing: normal;
-    text-align: left;
-    color: #005413;
-    padding: 15px 55px 12.7px 58px;
-    border-radius: 27.6px;
-    border: solid 3px #005413;
-    background-color: #ffffff;
-    cursor: pointer;
-}
+
 
 #logo {
     margin-bottom: 30px;
@@ -458,7 +481,7 @@
 #sel {
     font-weight: 300;
     font-stretch: normal;
-    font-family: NotoSansKR;
+
     font-style: normal;
     letter-spacing: normal;
     color: #000000;
@@ -468,7 +491,7 @@
 #n_sel {
     font-weight: 300;
     font-stretch: normal;
-    font-family: NotoSansKR;
+
     font-style: normal;
     letter-spacing: normal;
     color: #000000;
@@ -478,7 +501,7 @@
 #n_sel:hover {
     font-weight: 300;
     font-stretch: normal;
-    font-family: NotoSansKR;
+
     font-style: normal;
     letter-spacing: normal;
     color: #000000;
@@ -487,7 +510,7 @@
 }
 
 #info_detail {
-    font-family: NotoSansKR;
+
     font-size: 15px;
     color: #000000;
     width: 990px;
@@ -511,7 +534,7 @@
 }
 
 #q_title {
-    font-family: NotoSansKR;
+
     font-size: 20px;
     font-weight: bold;
     font-stretch: normal;
@@ -533,7 +556,7 @@
 }
 
 #q_desc {
-    font-family: NotoSansKR-KSCpc-EUC-H;
+
     font-size: 15px;
 
     font-stretch: normal;
@@ -554,7 +577,7 @@
 }
 
 #q_letter_gray {
-    font-family: NotoSansKR;
+
     font-size: 12px;
     font-weight: 500;
     font-stretch: normal;
@@ -566,7 +589,7 @@
 }
 
 #q_letter_black {
-    font-family: NotoSansKR;
+
     font-size: 12px;
     font-weight: 500;
     font-stretch: normal;
@@ -578,7 +601,7 @@
 }
 
 #q_letter_answered {
-    font-family: NotoSansKR;
+
     font-size: 12px;
     font-weight: 500;
     font-stretch: normal;
@@ -592,7 +615,7 @@
 #q_write {
     width: 110px;
     height: 36px;
-    font-family: NotoSansKR;
+
     font-size: 15px;
     font-stretch: normal;
     font-style: normal;
@@ -610,7 +633,7 @@
 }
 
 #paginator {
-    font-family: NotoSansKR;
+
     font-size: 20px;
     font-weight: 500;
     font-stretch: normal;
