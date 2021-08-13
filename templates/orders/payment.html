@@ -550,24 +550,24 @@
         console.log(itemsList)
 
         BootPay.request({
-            price: totalPrice, //실제 결제되는 가격
-            application_id: "60dad0c05b29480021dc523d",
-            name: '{{order_group_name}}', //결제창에서 보여질 이름
-            pg: 'payapp',
-            method: paymentType, //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
-            show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
-            items: itemsList,
-            user_info: {
-                username: revName,
-                addr: revAddress,
-                phone: revPhoneNumber
-            },
-            order_id: '{{order_group_management_number}}', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
-            params: { orderName: '{{order_group_name}}', errorMsg: '', orderGroupPk: '{{order_group_pk}}' },
-            // account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
-            // extra: {
-            //     start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
-            //     end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
+	        price: totalPrice, //실제 결제되는 가격
+	        application_id: "60dad0c05b29480021dc523d",
+	        name: '{{order_group_name}}', //결제창에서 보여질 이름
+	        pg: 'payapp',
+	        method: paymentType, //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+	        show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
+	        items: itemsList,
+	        user_info: {
+		        username: revName,
+		        addr: revAddress,
+		        phone: revPhoneNumber
+	        },
+	        order_id: '{{order_group_management_number}}', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
+	        params: {orderName: '{{order_group_name}}', errorMsg : '', orderGroupPk : '{{order_group_pk}}'},
+	        // account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
+	        // extra: {
+	        //     start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
+		    //     end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
             //     vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
             //     quota: '0,2,3', // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용,
             //     theme: 'purple', // [ red, purple(기본), custom ]
