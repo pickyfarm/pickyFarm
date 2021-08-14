@@ -326,6 +326,7 @@
 
         
     let qna_page = document.querySelectorAll('#qna_paginator')
+    console.log(qna_page)
     qna_page.forEach(item => {
         item.addEventListener('click', function () {
             let page_num = item.getAttribute('name')
@@ -385,6 +386,7 @@
 
     // 무난이 작물, 일반 작물 전환
     let uglyTag = document.getElementById("ugly_tag")
+    console.log(uglyTag)
     let normalTag = document.getElementById("normal_tag")
 
     let title = document.getElementById("title")
