@@ -401,6 +401,14 @@
 
     let mainImage = document.getElementById("main_image")
 
+    let harvestDate =document.getElementById("harvest_date")
+    let shelfLifeDate = document.getElementById("shelf_life_date")
+    let law_genetic = document.getElementById("law_genetic")
+    let law_disease = document.getElementById("law_disease")
+    let law_record = document.getElementById("law_record")
+    let law_location = document.getElementById("law_location")
+    let law_livestock = document.getElementById("law_livestock")
+
     uglyTag.addEventListener('click', function(){
         shootToastMessage("무난이 작물로 전환합니다", '2')
 
@@ -434,8 +442,9 @@
         normalTag.style.color = "#5c6754"
         normalTag.style.backgroundColor = "#fff"
 
-        
-
+        //삼품 상세
+        harvestDate.innerHTML = "{{product_harvest_start_date}} ~ {{product_harvest_end_date}}"
+        shelfLifeDate.innerHTML = "{{product_shelf_life_date}}"
     })
 
     normalTag.addEventListener('click', function(){
@@ -470,7 +479,15 @@
         this.style.backgroundColor = "#5c6754"
         uglyTag.style.color = "#5c6754"
         uglyTag.style.backgroundColor = "#fff"
+
+        //상세 정보
+        harvestDate.innerHTML = "{{rel_product_harvest_start_date}} ~ {{product_harvest_end_date}}"
+        shelfLifeDate.innerHTML = "{{rel_product_shelf_life_date}}"
+
     })
+
+
+
 
 
 
