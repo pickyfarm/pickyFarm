@@ -12,6 +12,14 @@ urlpatterns = [
     path("login/kakao/callback", views.kakao_callback, name="kakao_login_callback"),
     path("logout/", views.log_out, name="logout"),
     path("signup/", views.SignUp.as_view(), name="signup"),
+    path(
+        "signup/terms_of_service",
+        views.terms_of_service_popup,
+        name="signup_terms_of_service",
+    ),
+    path(
+        "signup/personal_info", views.personal_info_popup, name="signup_personal_info"
+    ),
     path("signup/id_validation/", views.idValidation, name="id_validation"),
     path(
         "signup/nickname_validation/",
@@ -59,7 +67,8 @@ urlpatterns = [
     path("subs/", views.subs, name="subs"),
     path("cancelSubs/", views.cancelSubs, name="cancelSubs"),
     path("wish/", views.wish, name="wish"),
-    path('cancelWish/', views.cancelWish, name="cancelWish"),
+    path("cancelWish/", views.cancelWish, name="cancelWish"),
     path("infoUpdate/", views.infoUpdate, name="infoUpdate"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
+    path("test/", views.testview, name="testview"),
 ]
