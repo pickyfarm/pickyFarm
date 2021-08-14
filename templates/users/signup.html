@@ -3,7 +3,7 @@
 
 
 {% block stylesheet %}
-
+<link rel="stylesheet" href="{% static 'css/users/signup.css' %}">
 {% endblock stylesheet %}
 
 {% block title_name %}회원가입{% endblock title_name %}
@@ -95,8 +95,23 @@
                     <label class="mand" for="personal_info">개인정보처리방침 동의</label>
                     <a href="#">약관보기</a>
                 </div>
-                <input type="checkbox" name="push-agree" id="push-agree" class="signup-terms">
-                <label class="opt" for="push-agree">무료배송, 할인쿠폰 등 혜택/정보 수신동의</label>
+                <input type="checkbox" name="agree-benefit" id="agree-benefit" class="signup-terms">
+                <label class="opt" for="agree-benefit">무료배송, 할인쿠폰 등 혜택/정보 수신동의</label>
+                <div class="flex flex-col agree-term-wrapper">
+                    <div class='agree-wrapper'>
+                        <input type="checkbox" name="agree-kakao-farmer" id="agree-kakao-farmer" class="signup-terms">
+                        <label class="opt" for="agree-kakao-farmer">구독 농가에 대한 알림톡 수신 동의</label>
+                    </div>
+                    <div class="term-description">- 구독 농가의 새로운 Farmer's Diary 등록 알림</div>
+                    <div class="term-description">- 구독 농가의 새로운 상품 등록 알림</div>
+                </div>
+                <div class="flex flex-col agree-term-wrapper">
+                    <div class="agree-wrapper">
+                        <input type="checkbox" name="agree-kakao-comment" id="agree-kakao-comment" class="signup-terms">
+                        <label class="opt" for="agree-kakao-comment">회원 작성 게시글에 대한 알림톡 수신 동의</label>
+                    </div>
+                    <div class="term-description">- 회원이 작성한 게시물에 대한 새로운 댓글 등록 알림</div>
+                </div>
                 <input type="checkbox" name="over14" id="over14" class="signup-terms">
                 <label for="over14">본인은 만 14세 이상입니다</label>
             </div>
@@ -108,155 +123,8 @@
 </div>
 
 <style>
-    input:focus {
-        outline: none;
-    }
-
-    #signup_form {
-        width: 740px;
-        height: auto;
-
-    }
-
-    #signup-title {
-        font-family: NotoSansKR;
-        font-size: 30px;
-        font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1;
-        letter-spacing: normal;
-        color: #5c6754;
-        margin-bottom: 60px;
-    }
-
-    .horizon-bar {
-        border-top: solid 1px #5e6656;
-    }
-
-    .input_forms {
-        grid-template-columns: 200px 300px auto;
-        row-gap: 40px;
-        margin-bottom: 50px;
-        margin-top: 50px;
-    }
-
-    .form_term_agree {
-        grid-template-columns: 200px auto;
-        row-gap: 20px;
-    }
-
-    .input_forms input {
-        border-radius: 20px;
-        border: solid 1px #b3b3b3;
-        width: 300px;
-        height: 35px;
-        padding-left: 15px;
-        font-size: 12px;
-        color: #808080;
-        font-weight: normal;
-    }
-
-    .input_forms input,
-    .form-validation-message,
-    .form_term_agree label,
-    .form_term_agree div:not(#term-agree) {
-        grid-column: 2;
-    }
-
-    .form-validation-message {
-        font-size: 12px;
-        text-align: start;
-        margin-top: 5px;
-        padding-left: 3px;
-        color: #5c6754;
-    }
-
-    .invalid-form {
-        color: red;
-    }
-
-
-    .input_forms input::placeholder {
-        position: relative;
-        right: 7.5px;
-        font-size: 15px;
-        text-align: center;
-        font-weight: normal;
-    }
-
-    .input_forms label,
-    #term-agree {
-        grid-column: 1;
-        font-size: 15px;
-        font-weight: 500;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
-        color: #4d4d4d;
-        text-align: start;
-        margin-top: 7.5px;
-        padding-left: 20px;
-    }
-
-    .birth-selection ul,
-    .gender-selection ul {
-        display: flex;
-    }
-
-    .gender-selection label {
-        margin-left: 0;
-    }
-
-    .gender-selection li:nth-child(1) {
-        margin-right: 75px !important;
-    }
-
-    .valid-button:not(#phone-number-check) {
-        width: 65px;
-        height: 25px;
-        border-radius: 20px;
-        background-color: #5e6656;
-        color: white;
-        line-height: 25px;
-        margin-left: 40px;
-        font-size: 12px;
-        font-weight: 500;
-        margin-top: 5px;
-    }
-
-    #phone-number-check{
-        width: 89px;
-        height: 25px;
-        line-height: 22px;
-        background-color: white;
-        border: solid 1px rgba(94, 102, 86, 0.5);
-        color: #5e6656;
-        margin-left: 40px;
-        font-size: 12px;
-        font-weight: 500;
-        text-align: center;
-        border-radius: 25px;
-        margin-top: 5px;
-    }
-
-    #id_detail_address {
-        margin-top: 20px;
-    }
-
-    #id_gender_0,
-    #id_gender_1 {
-        display: none;
-    }
-
-    .gender-selection label {
-        font-size: 15px;
-        color: #808080;
-        font-weight: normal;
-    }
-
     #id_gender label::before {
-        content: "";
+        content: '';
         display: inline-block;
         position: relative;
         top: 3.5px;
@@ -266,52 +134,13 @@
         margin-right: 9px;
     }
 
-    .birth-selection select {
-        width: 88px;
-        height: 35px;
-        border-radius: 20px;
-        border: solid 1px #b3b3b3;
-        text-align-last: center;
-        font-size: 15px;
-        color: #808080;
-        font-weight: 300;
-    }
-
     label.checked::before {
-        content: "";
+        content: '';
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
 
-    .submit {
-        width: 140px;
-        height: 40px;
-        border-radius: 50px;
-        background-color: #5c6754;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        margin-top: 54px;
-        margin-bottom: 42px;
-    }
-
-    .line {
-        width: 740px;
-        border: solid 1px #5e6656;
-        ;
-    }
-
-    .form_term_agree input {
-        display: none;
-    }
-
-    .form_term_agree label {
-        margin-right: auto;
-        color: #707070;
-        font-size: 15px;
-    }
-
     .form_term_agree input+label::before {
-        content: "";
+        content: '';
         display: inline-block;
         position: relative;
         top: 5px;
@@ -321,37 +150,9 @@
         margin-right: 9px;
     }
 
-    #all-agree::before {
-        margin-right: 12px;
-        top: 2px;
-    }
-
     .form_term_agree input:checked+label::before {
-        content: "";
+        content: '';
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
-    }
-
-    label.mand::after,
-    label.opt::after {
-        margin-left: 12px;
-        font-size: 15px;
-        color: #b3b3b3;
-        font-weight: 300;
-    }
-
-    label.mand::after {
-        content: "(필수)";
-    }
-
-    label.opt::after {
-        content: "(선택)";
-    }
-
-    .form_term_agree a {
-        margin-right: 126.5px;
-        font-size: 15px;
-        font-weight: 500;
-        color: #5c6754;
     }
 </style>
 

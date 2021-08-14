@@ -59,7 +59,8 @@ urlpatterns = [
     path("subs/", views.subs, name="subs"),
     path("cancelSubs/", views.cancelSubs, name="cancelSubs"),
     path("wish/", views.wish, name="wish"),
-    path('cancelWish/', views.cancelWish, name="cancelWish"),
+    path("cancelWish/", views.cancelWish, name="cancelWish"),
     path("infoUpdate/", views.infoUpdate, name="infoUpdate"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
+    path("test/", views.testview, name="testview"),
 ]
