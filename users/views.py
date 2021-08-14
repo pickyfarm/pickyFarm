@@ -456,6 +456,14 @@ def nicknameValidation(request):
     return JsonResponse(ctx)
 
 
+def terms_of_service_popup(request):
+    return render(request, "users/signup/terms_of_service_popup.html")
+
+
+def personal_info_popup(request):
+    return render()
+
+
 user_email = ""
 
 

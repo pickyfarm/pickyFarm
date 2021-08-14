@@ -88,7 +88,7 @@
                 <div class="flex justify-between items-center">
                     <input type="checkbox" name="terms_of_services" id="terms_of_services" class="signup-terms">
                     <label class="mand" for="terms_of_services">이용약관 동의</label>
-                    <a href="#">약관보기</a>
+                    <a href="{% url 'user:signup_terms_of_service' %}">약관보기</a>
                 </div>
                 <div class="flex justify-between items-center">
                     <input type="checkbox" name="personal_info" id="personal_info" class="signup-terms">
