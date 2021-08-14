@@ -20,7 +20,6 @@ urlpatterns = [
     path("farm_tag_search/", views.farm_tag_search, name="farm_tag_search"),
     path("farmer_detail/<int:pk>/", views.farmer_detail, name="farmer_detail"),
     path("apply/", views.farm_apply, name="farm_apply"),
-    # path("enroll/step/<int:step>/", views.FarmEnroll.as_view(), name="farm_enroll"),
     path("enroll/1/", views.enroll_page1, name="enroll_page1"),
     path("enroll/2/", views.enroll_page2, name="enroll_page2"),
     path("enroll/3/", views.enroll_page3, name="enroll_page3"),

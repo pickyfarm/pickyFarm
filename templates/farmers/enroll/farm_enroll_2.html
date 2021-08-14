@@ -21,7 +21,7 @@
         <div class="relative mx-auto mt-2" id="border">
             <div class="absolute" id="step" style="width:50%"></div>
         </div>
-        <form method="POST" action="{% url 'farmers:enroll_page2' %}" onkeydown="return event.key != 'Enter';">
+        <form method="POST" action="{% url 'farmers:enroll_page2' %}" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="font-medium text-3xl text-left mb-16" style="margin-left:60.5px">농장 정보 입력</div>
             <!--농장 이름-->
@@ -60,8 +60,8 @@
             <div class="input_forms grid">
                 {{farm_form.profile_title.label_tag}}
                 {{farm_form.profile_title}}
-                {{farm_form.profile_desc.label_tag}}
-                {{farm_form.profile_desc}}
+                <!-- {{farm_form.profile_desc.label_tag}} -->
+                <!-- {{farm_form.profile_desc}} -->
             </div>
             <!--해시 태그-->
             <div class="flex flex-row">
@@ -81,6 +81,8 @@
             <div class="p-4" id="sample_wrap">
                 {% include 'farmers/farmer_detail_sample.html' %}
             </div>
+            <div style="display: none;">{{form}}</div>
+            <div style="display: none;">{{addressform}}</div>
             <button class="submit" id="step2_submit">다음 단계로</button>
         </form>
     </div>
