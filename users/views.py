@@ -385,13 +385,26 @@ class SignUp(View):
     def post(self, request):
         form = SignUpForm(request.POST)
         addressform = AddressForm(request.POST)
+        benefit_agree = True if request.POST.get("agree-benefit", False) else False
+        kakao_farmer_agree = (
+            True if request.POST.get("agree-kakao-farmer", False) else False
+        )
+        kakao_comment_agree = (
+            True if request.POST.get("agree-kakao-comment", False) else False
+        )
 
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
-            Consumer.objects.create(user=user, grade=1)
+            Consumer.objects.create(
+                user=user,
+                grade=1,
+                benefit_agree=benefit_agree,
+                kakao_farmer_agree=kakao_farmer_agree,
+                kakao_comment_agree=kakao_comment_agree,
+            )
 
             address = addressform.save(commit=False)
             address.user = user

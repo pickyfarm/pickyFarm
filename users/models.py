@@ -75,10 +75,18 @@ class Consumer(models.Model):
     )
 
     user = models.OneToOneField(User, related_name="consumer", on_delete=models.CASCADE)
-
     grade = models.IntegerField(choices=grade, default=1)
+    default_address = models.OneToOneField(
+        "addresses.Address",
+        related_name="consumer",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
 
-    default_address = models.OneToOneField('addresses.Address', related_name="consumer", on_delete=models.SET_NULL, null=True, blank=True)
+    benefit_agree = models.BooleanField(default=False)
+    kakao_farmer_agree = models.BooleanField(default=False)
+    kakao_comment_agree = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.nickname
