@@ -118,7 +118,8 @@
 
 .exchange-product-information-content-wrap {
     align-items: center;
-    margin-bottom: 10px;
+    margin-top: 25px;
+    margin-bottom: 5px;
 }
 
 
@@ -143,26 +144,41 @@
 .exchange-product-detail-wrap {
     color: #808080;
     align-items: center;
+    margin-top: 2px;
 }
 
 .exchange-product-weight {
     font-size: 15px;
 }
 
-.exchange-product-quantity {
+.exchange-product-price {
     font-size: 15px;
+    color: #000;
 }
 
-.exchange-product-quantity::before {
-    content: '|';
-    padding: 0 10px;
-    color: #aaaea6;
+
+.exchange-product-quantity {
+    font-size: 15px;
+    margin-left: 10px;
 }
 
 .exchange-product-quantity-unit {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 300;
-    margin-left: 6.8px;
+    margin-left: 5px;
+}
+
+.exchange-product-quantity-unit::after{
+    content: '|';
+    padding: 0 10px;
+    color: #aaaea6;
+    font-size: larger;
+}
+
+.exchange-product-option {
+    font-size: 10px;
+    color: #7c8576;
+    margin-top: 2px;
 }
 
 .border-line {
