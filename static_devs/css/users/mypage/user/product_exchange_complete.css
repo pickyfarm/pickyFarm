@@ -1,0 +1,290 @@
+* {
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.transition_element {
+    transition: all 15s ease-in;
+}
+
+.button {
+    cursor: pointer;
+}
+
+.wrap_padding {
+    padding: 0 17px;
+}
+
+.popup_container {
+    padding-top:60px;
+    width: 375px;
+    /*height: 1130px;*/
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.product-exchange-complete-title-wrap {
+    width: 100%;
+    padding: 0 42px;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.product-exchange-complete-main-title {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #4d5548;
+    font-weight: bold;
+}
+
+.product-exchange-complete-sub-title {
+    margin-top: 10px;
+    width: 128px;
+    display: inline-block;
+    font-size: 15px;
+    color: #7c8576;
+}
+
+.main-content-wrap {
+    margin-top: 59.5px;
+    padding: 0 25px;
+}
+
+.exchange-product-information-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4d5548;
+}
+
+.exchange-product-receipt-wrap {
+    margin-top: 20px;
+}
+
+.exchange-product-receipt-top-section {
+    width: 325px;
+    overflow: hidden;
+    height: auto;
+    margin: 10px 4px 0 0;
+    border: solid 0.5px #707070;
+    /*padding: 10px 0 20px 0;*/
+    padding-bottom: 20px;
+}
+
+.exchange-date-wrap {
+    background-color: #f8f8f8;
+    height: 41px;
+    align-items: center;
+}
+
+.exchange-date-title {
+    font-size: 12px;
+    font-weight: 300;
+    color: #5e6656;
+    margin-right: 10px;
+}
+
+.exchange-date-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #4d4d4d;
+}
+
+.farm-information-wrap {
+    margin-top: 15px;
+    margin-bottom: 14px;
+    align-items: flex-end;
+}
+
+.farm-information-title {
+    font-size: 10px;
+    font-weight: 500;
+    color: #707070;
+    /*margin-top: 15px;*/
+    /*margin-bottom: 20px;*/
+}
+
+.farm-information-value {
+    font-size: 15px;
+    font-weight: bold;
+    color: #5c6754;
+    margin-left: 10px;
+}
+
+
+.exchange-product-information-content-wrap {
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
+.exchange-product-information-content-left-section {
+    margin-right: 25px;
+}
+
+.exchange-product-image {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    background-color: #b3b3b3;
+}
+
+
+.exchange-product-name {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.exchange-product-detail-wrap {
+    color: #808080;
+    align-items: center;
+}
+
+.exchange-product-weight {
+    font-size: 15px;
+}
+
+.exchange-product-quantity {
+    font-size: 15px;
+}
+
+.exchange-product-quantity::before {
+    content: '|';
+    padding: 0 10px;
+    color: #aaaea6;
+}
+
+.exchange-product-quantity-unit {
+    font-size: 12px;
+    font-weight: 300;
+    margin-left: 6.8px;
+}
+
+.border-line {
+    width: 291px;
+    height: 1px;
+    margin: 19.5px 17px 9.5px 0;
+    opacity: 0.5;
+    background-color: #b7b7b7;
+}
+
+
+.drag-bag-product-wrap {
+    margin-top: 70px;
+    position: relative;
+    text-align: center;
+}
+
+.drag-bag-product-title {
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    color: #4d5548;
+}
+
+.drag-bag-product-content-wrap {
+    margin-top: 25px;
+}
+
+.drag-bag-request-wrap {
+    margin-top: 14px;
+}
+
+.drag-bag-cost-wrap {
+    margin-top: 18px;
+}
+
+.drag-bag-address-title,
+.drag-bag-request-title,
+.drag-bag-cost-title
+{
+    font-size: 12px;
+    color: #536656;
+    padding-top: 2px;
+}
+
+.drag-bag-address-value {
+    text-align: left;
+    width: 217px;
+    font-size: 15px;
+    margin-left: 39px;
+}
+
+.drag-bag-request-value {
+    margin-left: 28px;
+    width: 217px;
+    text-align: left;
+    font-size: 15px;
+
+}
+
+.drag-bag-cost-value{
+    margin-left: 14px;
+    width: 217px;
+    text-align: left;
+    font-size: 15px;
+
+}
+
+.return-mypage-btn-wrap {
+    margin:60px 0;
+    flex-direction: column;
+    align-items: center;
+    display: inline-block;
+}
+
+
+
+
+/* 모바일용 미디어 쿼리 */
+@media screen and (max-width: 768px) {
+    .popup_container {
+        width: 100%;
+    }
+    .main-content-wrap {
+        width: 100%;
+        padding: 0 25px;
+    }
+
+    .exchange-product-receipt-top-section {
+        width: 100%;
+    }
+
+    .border-line {
+        width: 87%;
+        margin-right: 0;
+    }
+
+    .drag-bag-address-value,
+    .drag-bag-request-value,
+    .drag-bag-cost-value
+    {
+        width: 80%;
+    }
+}
+
+
+/* flex-wrap에 의한 배치 깨짐현상을 해결하기 위한 추가 미디어쿼리 */
+@media screen and (max-width: 470px) {
+    .drag-bag-address-value,
+    .drag-bag-request-value,
+    .drag-bag-cost-value
+    {
+        width: 70%;
+    }
+}
+
+/* flex-wrap에 의한 배치 깨짐현상을 해결하기 위한 추가 미디어쿼리 */
+@media screen and (max-width: 380px) {
+    .drag-bag-address-value,
+    .drag-bag-request-value,
+    .drag-bag-cost-value
+    {
+        width: 60%;
+    }
+}
