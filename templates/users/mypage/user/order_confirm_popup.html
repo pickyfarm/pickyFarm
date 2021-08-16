@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+{% load static %} <html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/order_confirm_popup.css' %}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<title>주문확인</title>
+</head>
+<body>
+<div class="popup_container flex">
+	<div class="order-confirm-main-title">
+		주문 확인
+	</div>
+	<div class="order-confirm-main-content-wrap">
+		<div class="order-confirm-date">
+			2021.07.27
+		</div>
+		<div class="order-confirm-receipt-wrap">
+			<div class="order-confirm-receipt-top-section">
+				<div class="order-confirm-number-wrap wrap_padding flex">
+					<span class="order-confirm-number-title">주문번호</span>
+					<span class="order-confirm-number-value">012345678910</span>
+				</div>
+				<div class=" order-confirm-product-information-wrap wrap_padding ">
+					<div class="order-confirm-product-information-title">
+						상품정보
+					</div>
+					<div class=" order-confirm-product-information-contents-wrap ">
+						<!-- 무난이 작물 시작-->
+						<div class=" order-confirm-product-information-content-wrap flex ">
+							<div class=" order-confirm-product-information-content-left-section ">
+								<div class="order-confirm-product-image">
+								</div>
+							</div>
+							<div class=" order-confirm-product-information-content-right-section ">
+								<div class="order-confirm-product-tag">
+									<img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt="moonan_harvest_tag"/>
+								</div>
+								<div class="order-confirm-product-name">
+									못나지만 맛사과
+								</div>
+								<div class=" order-confirm-product-detail-wrap flex ">
+									<div class=" order-confirm-product-weight ">
+										8 kg
+									</div>
+									<div class=" order-confirm-product-quantity ">
+										4
+									</div>
+									<div class=" order-confirm-product-quantity-unit ">
+										(개/박스)
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 무난이 작물 끝-->
+						<!-- 일 작물 시작-->
+						<div class=" order-confirm-product-information-content-wrap flex ">
+							<div class=" order-confirm-product-information-content-left-section ">
+								<div class="order-confirm-product-image">
+								</div>
+							</div>
+							<div class=" order-confirm-product-information-content-right-section ">
+								<div class="order-confirm-product-tag">
+									<img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}" alt="moonan_harvest_tag"/>
+								</div>
+								<div class="order-confirm-product-name">
+									못나지만 맛사과
+								</div>
+								<div class=" order-confirm-product-detail-wrap flex ">
+									<div class=" order-confirm-product-weight ">
+										8 kg
+									</div>
+									<div class=" order-confirm-product-quantity ">
+										4
+									</div>
+									<div class=" order-confirm-product-quantity-unit ">
+										(개/박스)
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 일반 작물 끝-->
+					</div>
+					<div class="border-line">
+					</div>
+					<div class="order-confirm-customer-wrap">
+						<div class="order-confirm-customer-title">
+							주문자 정보
+						</div>
+						<div class="order-confirm-customer-detail-wrap">
+							<div class=" order-confirm-customer-detail-address-wrap flex ">
+								<div class=" order-confirm-customer-detail-title ">
+									이름
+								</div>
+								<div class=" order-confirm-customer-detail-user-value-wrap ">
+									<div class=" order-confirm-customer-detail-address ">
+										선다영
+									</div>
+								</div>
+							</div>
+							<div class=" order-confirm-customer-detail-request-message-wrap flex ">
+								<div class=" order-confirm-customer-detail-title ">
+									번호
+								</div>
+								<div class=" order-confirm-customer-detail-user-value-wrap ">
+									<div class=" order-confirm-customer-detail-address ">
+										010.5767.4799
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+                    <div class="border-line">
+					</div>
+					<div class="order-confirm-customer-wrap">
+						<div class="order-confirm-customer-title">
+							배송지 정보
+						</div>
+						<div class="order-confirm-customer-detail-wrap">
+							<div class=" order-confirm-customer-detail-address-wrap flex ">
+								<div class=" order-confirm-customer-detail-title ">
+									배송지
+								</div>
+								<div class=" order-confirm-customer-detail-address-value-wrap ">
+									<div class=" order-confirm-customer-detail-address ">
+										경기도 성남시 분당구 서현동 13-5번지 삼광빌라 532동 1003호
+									</div>
+									<div class=" order-confirm-customer-detail-plus-wrap flex ">
+										<div class=" order-confirm-customer-detail-delivery-place ">
+											문앞
+										</div>
+										<div class=" order-confirm-customer-detail-door-password ">
+											현관비밀번호 없음
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+                    <!-- <div class=" order-confirm-customer-detail-request-message-wrap flex ">
+                        <div class=" order-confirm-customer-detail-title ">
+                            요청사항
+                        </div>
+                        <div class=" order-confirm-customer-detail-request-message ">
+                            포장 예쁘게 부탁드립니다. 포장 예쁘게 부탁드립니다. 포장 예쁘게
+                        </div>
+                    </div> -->
+                    <div class="order-confirm-request-box">
+                        <div class="order-confirm-request-title">
+                            요청 사항
+                        </div>
+                        <div class=" order-confirm-request-detail-request-message ">
+                            포장 예쁘게 부탁드립니다. 포장 예쁘게 부탁드립니다. 포장 예쁘게 부탁드립니다. 포장 예쁘게 포장 예쁘게 부탁드립니다. 포장 예쁘게 부탁드립니다.
+                        </div>                      
+                    </div>
+                </div>
+
+                <div class="order-confirm-reason-wrap">
+                    <form action="#" method="post">
+                         {% csrf_token %}
+                        <button class="order-confirm-reason-submit-wrap flex" type="submit">
+                        <div class="order-confirm-reason-submit-img-wrap">
+                            <img class="order-confirm-reason-submit-img" src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt="check_nohover"/>
+                        </div>
+                        <div class="order-confirm-reason-submit-text">
+                            취소 완료
+                        </div>
+                        </button>
+                    </form>
+                </div>
+		</div>
+	</div>
+</div>
+<script>
+            const check_btn = document.querySelector(
+                '.order-confirm-reason-submit-wrap'
+            );
+            const check_img = document.querySelector(
+                '.order-confirm-reason-submit-img'
+            );
+            const switchCheckImgHoverIn = function (e) {
+                check_img.setAttribute(
+                    'src',
+                    "{% static 'images/users/mypage/user/check_hover.svg' %}"
+                );
+            };
+            const switchCheckImgHoverOut = function (e) {
+                check_img.setAttribute(
+                    'src',
+                    "{% static 'images/users/mypage/user/check_nohover.svg' %}"
+                );
+            };
+            check_btn.addEventListener('mouseover', switchCheckImgHoverIn);
+            check_btn.addEventListener('mouseleave', switchCheckImgHoverOut);
+        </script>
+</body>
+</html>
