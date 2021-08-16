@@ -683,3 +683,9 @@ def review_ajax(request):
         "reviews": reviews,
     }
     return render(request, "farmers/mypage/farmer_mypage_review_ajax.html", ctx)
+
+
+def product_refund(request):
+    addresses=["서울 동작구 장승배기로 11가길 11(상도파크자이) 105동 1901호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+     "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호"]
+    return render(request, "farmers/mypage/order/product_refund_popup.html", {"addresses": addresses})
