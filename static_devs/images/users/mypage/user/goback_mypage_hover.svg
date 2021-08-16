@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="153" height="36" viewBox="0 0 153 36">
+    <g transform="translate(-111 -944)">
+        <rect width="153" height="36" fill="#5c6754" rx="18" transform="translate(111 944)"/>
+        <text fill="#fff" font-family="NotoSansKR-Medium, Noto Sans KR" font-size="12px" font-weight="500" transform="translate(122 967)">
+            <tspan x="0" y="0">마이페이지로 돌아가기</tspan>
+        </text>
+        <g>
+            <path fill="#fff" d="M11.317 5.321L6.119.157a.576.576 0 0 0-.082-.066L6.01.076a.59.59 0 0 0-.065-.035C5.933.036 5.92.034 5.907.03a.542.542 0 0 0-.063-.019.539.539 0 0 0-.214 0 .539.539 0 0 0-.063.019c-.012 0-.025.006-.037.011a.588.588 0 0 0-.066.035l-.027.015a.576.576 0 0 0-.082.066L.158 5.321a.534.534 0 0 0 0 .759.542.542 0 0 0 .763 0L5.2 1.83v11.756a.539.539 0 0 0 1.079 0V1.83l4.275 4.25a.538.538 0 1 0 .763-.759z" transform="translate(238 956.262) translate(14.123 0) rotate(90)"/>
+        </g>
+    </g>
+</svg>
