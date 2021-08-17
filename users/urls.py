@@ -71,5 +71,4 @@ urlpatterns = [
     path("infoUpdate/", views.infoUpdate, name="infoUpdate"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
     path("test/", views.testview, name="testview"),
-    path("test2/", views.testview2, name="testview2"),
 ]
