@@ -199,9 +199,15 @@ def product_detail(request, pk):
         product_harvest_end_date = dateformat.format(product.harvest_end_date, 'Y년 m월 d일')
         product_shelf_life_date = product.shelf_life_date
 
-        rel_product_harvest_start_date = dateformat.format(product.related_product.harvest_start_date, 'Y년 m월 d일')
-        rel_product_harvest_end_date = dateformat.format(product.related_product.harvest_end_date, 'Y년 m월 d일')
-        rel_product_shelf_life_date = product.related_product.shelf_life_date
+        if product.related_product is not None:
+            rel_product_harvest_start_date = dateformat.format(product.related_product.harvest_start_date, 'Y년 m월 d일')
+            rel_product_harvest_end_date = dateformat.format(product.related_product.harvest_end_date, 'Y년 m월 d일')
+            rel_product_shelf_life_date = product.related_product.shelf_life_date
+        else :
+            rel_product_harvest_start_date = None
+            rel_product_harvest_end_date = None
+            rel_product_shelf_life_date = None
+
 
 
 
