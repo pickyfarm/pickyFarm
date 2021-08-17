@@ -9,25 +9,32 @@
             <div id="sel" class="py-3 border-t border-r">상세정보</div>
         </a>
         <a href="#product_review" class="w-1/6">
-            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div>
+            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{total_comments}})</div>
         </a>
         <a href="#product_qna" class="w-1/6">
-            <div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div>
+            <div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{total_questions}})</div>
+        </a>
+        <a href="#product_refund_change" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">반품/환불 규정</div>
         </a>
         <div class="w-2/6 border-b"></div>
     </div>
     <div id="info_detail" class="grid grid-cols-4 mx-auto">
-        <div>포장단위별 용량(중량), 수량, 크기</div>
-        <div>{{product.weight}}kg</div>
-        <div>관련법상 표기사항</div>
-        <div>해당 사항 없음</div>
-        <div>농수산물 원산지 표시에 관한 법률에 따른 원산지</div>
+        <div>제조일(수확일)</div>
+        <div id="harvest_date">{{product_harvest_start_date}} ~ {{product_harvest_end_date}}</div>
+        <div>유통기한 또는 품질유지기간</div>
+        <div id="shelf_life_date">{{product_shelf_life_date}}</div>
+        <div>원산지</div>
         <div>국산</div>
-        <div>상품구성</div>
-        <div>{{product.category.name}}</div>
-        <div>제조연월일, 유통기한 또는 품질유지기한</div>
-        <div>제품 별도 표기</div>
-        <div>소비자상담</div>
-        <div>홈페이지 고객문의센터</div>
+        <div>보관 방법</div>
+        <div id="law_genetic">{{farmer.law_genetic}}</div>
+        <div>질병예방치료를 위한 약품이 아니라는 표시</div>
+        <div id="farmer.law_disease">{{farmer.law_disease}}</div>
+        <div>이력 관리 유무 표시</div>
+        <div id="law_record">{{farmer.law_record}}</div>
+        <div>지리적 표시</div>
+        <div id="law_location">{{farmer.law_location}}</div>
+        <div>축산물의 경우 등급 표시</div>
+        <div id="law_livestock">{{farmer.law_livestock}}</div>
     </div>
 </div>

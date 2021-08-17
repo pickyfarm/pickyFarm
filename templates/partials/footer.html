@@ -30,9 +30,9 @@
     <div class="info flex flex-col text-xs justify-between">
         <div class="ml-auto mb-8">
             <ul class="flex">
-                <li class="mx-4 font-medium">이용약관</li>
+                <li class="mx-4 font-medium"><a href="{% url 'user:signup_terms_of_service' %}" target="_top">이용약관</a></li>
                 <li class="mx-4 font-medium">개인정보처리방침</li>
-                <li class="mx-4 font-medium">이용안내</li>
+                <li class="mx-4 font-medium"><a href="{% url 'core:disclaimer' %}" target="_top">책임한계고지</a></li>
                 <li class="ml-4 font-medium">인사채용</li>
             </ul>
         </div>
@@ -60,7 +60,7 @@
         <div class=" flex mt-1 justify-between">
             <div class="self-center bg-green-900 w-36 text-white h-8 text-center leading-8 rounded-full">입점문의하기</div>
             <div>
-                <ul class="flex"> 
+                <ul class="flex">
                     <li><img src="{% static 'images/phone.svg' %}" class="w-8 mx-1" alt=""></li>
                     <li><img src="{% static 'images/phone.svg' %}" class="w-8 mx-1" alt=""></li>
                     <li><img src="{% static 'images/phone.svg' %}" class="w-8 mx-1" alt=""></li>

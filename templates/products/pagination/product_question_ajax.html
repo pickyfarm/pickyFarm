@@ -1,0 +1,47 @@
+{% load static %}
+<div id="qnas-section">
+    {% if questions.exists is False %}
+    <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
+    {% else %}
+    {% for q in questions %}
+    <a href="{% url 'products:question_read' q.pk %}">
+        <div id="q_table_bottom" class="flex flex-rows py-1">
+            {% if q.status is True %}
+            <div id="q_letter_answered" class="w-2/12">답변완료</div>
+            {% else %}
+            <div id="q_letter_gray" class="w-2/12">답변대기</div>
+            {% endif %}
+            <div id="q_letter_black" class="w-6/12">{{q.title}}</div>
+            <div id="q_letter_black" class="w-2/12">{{q.consumer.user.nickname}}</div>
+            <div id="q_letter_gray" class="w-2/12">{{q.create_at.date}}</div>
+        </div>
+    </a>
+    {% endfor %}
+    {% endif %}
+</div>
+<div class="flex justify-between w-36 mx-auto mt-8">
+    {% if questions.has_previous %}
+        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{questions.previous_page_number}}' style="cursor: pointer">
+    {% else %}
+        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    {% endif %}
+
+        <div>{{questions.number}}</div>
+        <div>/</div>
+        <div>{{questions.paginator.num_pages}}</div>
+
+    {% if questions.has_next %}
+        <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{questions.next_page_number}}' style="cursor: pointer">
+        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+    {% else %}
+        <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer"> 
+        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+    {% endif %}
+</div>
+<script>
+    PAGINATION_URL2 = 'question_ajax/?page2='
+    PAGINATION_SECTION2 = '#questions-wrapper'
+</script>
+<script src="{% static 'js/pagination/pagination.js' %}"></script> 

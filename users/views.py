@@ -206,6 +206,7 @@ def wish(request):
             }
             return JsonResponse(response)
 
+
 @login_required
 @require_POST
 def cancelWish(request):
@@ -384,13 +385,26 @@ class SignUp(View):
     def post(self, request):
         form = SignUpForm(request.POST)
         addressform = AddressForm(request.POST)
+        benefit_agree = True if request.POST.get("agree-benefit", False) else False
+        kakao_farmer_agree = (
+            True if request.POST.get("agree-kakao-farmer", False) else False
+        )
+        kakao_comment_agree = (
+            True if request.POST.get("agree-kakao-comment", False) else False
+        )
 
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
-            Consumer.objects.create(user=user, grade=1)
+            Consumer.objects.create(
+                user=user,
+                grade=1,
+                benefit_agree=benefit_agree,
+                kakao_farmer_agree=kakao_farmer_agree,
+                kakao_comment_agree=kakao_comment_agree,
+            )
 
             address = addressform.save(commit=False)
             address.user = user
@@ -440,6 +454,14 @@ def nicknameValidation(request):
     ctx = {"target": target, "isValid": isValid}
 
     return JsonResponse(ctx)
+
+
+def terms_of_service_popup(request):
+    return render(request, "users/signup/terms_of_service_popup.html")
+
+
+def personal_info_popup(request):
+    return render()
 
 
 user_email = ""
@@ -743,37 +765,34 @@ def mypage(request, cat):
             return render(request, "users/mypage_info.html", ctx)
 
     else:
-        address_type = request.GET.get('type', None)
+        address_type = request.GET.get("type", None)
         print("post에 왔다")
         addressform = AddressForm(request.POST)
         user = request.user
         if addressform.is_valid():
-           # [address UPDATE POST] 배송지 추가 페이지에서 새로운 배송지 등록 시, backend logic
-            if address_type == 'add':
+            # [address UPDATE POST] 배송지 추가 페이지에서 새로운 배송지 등록 시, backend logic
+            if address_type == "add":
                 address = addressform.save(commit=False)
                 address.user = user
                 address.is_default = False
                 address.save()
             # [address UPDATE POST] 기존에 등록된 배송지 수정 시, backend logic
-            elif address_type == 'update':
-                update_pk = request.GET.get('pk', None)
+            elif address_type == "update":
+                update_pk = request.GET.get("pk", None)
                 address = Address.objects.get(pk=update_pk)
                 print(address)
-                address.full_address = addressform.cleaned_data['full_address']
-                address.detail_address = addressform.cleaned_data['detail_address']
-                address.extra_address = addressform.cleaned_data['extra_address']
-                address.sido = addressform.cleaned_data['sido']
-                address.fsigungu = addressform.cleaned_data['sigungu']
+                address.full_address = addressform.cleaned_data["full_address"]
+                address.detail_address = addressform.cleaned_data["detail_address"]
+                address.extra_address = addressform.cleaned_data["extra_address"]
+                address.sido = addressform.cleaned_data["sido"]
+                address.fsigungu = addressform.cleaned_data["sigungu"]
                 address.save()
                 print(address)
 
             return redirect(reverse("users:mypage", kwargs={"cat": "rev_address"}))
-        else :
-            #404 페이지 제작 후 여기에 넣어야함
+        else:
+            # 404 페이지 제작 후 여기에 넣어야함
             return redirect(reverse("core:main"))
-        
-
-        
 
 
 # def add_rev_address(request):
@@ -896,3 +915,7 @@ class EditorMypage_Info(TemplateView):
         context = super().get_context_data(**kwargs)
         context["editor"] = Editor.objects.get(user=self.request.user)
         return context
+
+
+def testview(request):
+    return render(request, "users/mypage/user/order_cancel_popup.html")

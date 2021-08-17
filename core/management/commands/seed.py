@@ -95,6 +95,7 @@ def seed_product():
             "category": lambda x: random.choice(
                 product_models.Category.objects.exclude(parent__isnull=True)
             ),
+            "related_product": product_models.Product.objects.get(pk=5),
         },
     )
     seeder.execute()
