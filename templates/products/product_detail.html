@@ -4,6 +4,7 @@
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
 <link rel="stylesheet" href="{% static 'css/products/product_review.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_refund_change.css' %}">
 <!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -144,6 +145,9 @@
 
 <!-- 상품문의 -->
 {% include 'products/detail/product_qna.html' %}
+
+<!-- 상품문의 -->
+{% include 'products/detail/product_refund_change.html' %}
 
     
 <script>

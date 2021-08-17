@@ -1,0 +1,59 @@
+{% load static %}
+
+<div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id="product_refund_change" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
+        <a href="#product_desc" class="w-1/6">
+            <div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div>
+        </a>
+        <a href="#product_info" class="w-1/6">
+            <div id="n_sel" class="py-3 border-t border-r">상세정보</div>
+        </a>
+        <a href="#product_review" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{total_comments}})</div>
+        </a>
+        <a href="#product_qna" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{total_questions}})</div>
+        </a>
+        <a href="#product_refund_change" class="w-1/6">
+            <div id="sel" class="py-3 border-b border-t border-r">반품/환불 규정</div>
+        </a>
+        <div class="w-2/6 border-b"></div>
+    </div>
+    <div id="refund_change_info_detail" class="flex flex-col mx-auto">
+        <div id="refund_change_info_detail-row" class="flex flex-row">
+            <div id="refund_change_info_detail-left-section" class="w-3/12">반품/교환</div>
+            <div id="refund_change_info_detail-right-section" class="flex flex-row w-9/12">
+                <div>구매자 단순 변심은 상품 수령 후 7일 이내</div>
+                <div id="refund_change_info_detail-sub-desc">(구매자 반품 배송비 부담)</div>
+            </div>
+        </div>
+
+        <div id="refund_change_info_detail-row" class="flex flex-row">
+            <div id="refund_change_info_detail-left-section" class="w-3/12">사유에 따른 요청 가능 기간</div>
+            <div id="refund_change_info_detail-right-section" class="w-9/12">
+                <div>표시/광고와 상이, 상품 하자의 경우 상품 수령 후 3개월 이내 혹은 표시/광고와 다른 사실을 안 날로부터 30일 이내</div>
+                <div id="refund_change_info_detail-sub-desc">(판매자 반품 배송비 부담)</div>
+                <div>둘 중 하나 경과시 반품/교환 불가</div>
+            </div>
+        </div>
+
+        <div id="refund_change_info_detail-row" class="flex flex-row">
+            <div id="refund_change_info_detail-left-section" class="w-3/12">반품/교환 불가능 사유</div>
+            <div id="refund_change_info_detail-right-section" class="w-9/12 justify-items-start">
+                <div>1. 반품 요청 기간이 지난 경우</div>
+                <div>2. 구매자의 책임있는 사유로 상품 등이 멸실 또는 훼손된 경우</div>
+                <div id="refund_change_info_detail-sub-desc">(단, 상품의 내용을 확인하기 위하여 포장 등을 훼손한 경우는 제외)</div>
+                <div>3. 구매자의 책임있는 사유로 포장이 훼손되어 상품 가치가 현저히 상실된 경우</div>
+                <div id="refund_change_info_detail-sub-desc">(예 : 식품, 화장품, 향수류, 음반 등)</div>
+                <div>4. 구매자의 사용 또는 일부 소비에 의하여 상품의 가치가 현저히 감소한 경우</div>
+                <div id="refund_change_info_detail-sub-desc">(라벨이 떨어진 의류 꼬는 태그가 떨어진 명품관 상품인 경우)</div>
+                <div>5. 시간의 경과에 의하여 재판매가 곤란할 정도로 상품 등의 가치가 현저히 감소한 경우</div>
+                <div>6. 고객의 요청사항에 맞춰 제작에 들어가는 맞춤제작상품의 경우</div>
+                <div id="refund_change_info_detail-sub-desc">(판매자에게 회복불가능한 손해가 예상되고, 그러한 예정으로 청약철회권 행사가 불가하다는 사실을 서면 동의 받은 경우)</div>
+                <div>7. 복제가 가능한 상품 등의 포장을 훼손한 경우</div>
+                <div id="refund_change_info_detail-sub-desc">(CD/DVD/GAME/도서의 경우 포장 개봉 시)</div>
+            </div>
+        </div>
+        
+    </div>
+</div>
