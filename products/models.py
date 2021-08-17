@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from core.models import CompressedImageField
+from django.utils import timezone
 
 
 # Create your models here.
@@ -85,9 +86,14 @@ class Product(models.Model):
     cost_performance_3 = models.IntegerField(default=0)
     cost_performance_5 = models.IntegerField(default=0)
 
+    # 상품 상세 정보 관련
+    harvest_start_date = models.DateField(default=timezone.now, help_text="제조일(수확일) start")
+    harvest_end_date = models.DateField(default=timezone.now, help_text="제조일(수확일) end")
+    shelf_life_date = models.CharField(max_length=200, blank=True, null=True, help_text="유통기한 또는 품질보증기한")
+    storage_method = models.CharField(max_length=200, blank=True, null=True, help_text="보관방법 또는 취급방법")
+
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
-
 
     related_product = models.OneToOneField("Product", null=True, blank=True, on_delete=models.SET_NULL)
     farmer = models.ForeignKey(

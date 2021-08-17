@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Product, Category, Question, Answer
 from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
-from django.utils import timezone
+from django.utils import timezone, dateformat
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
 from django import template
@@ -193,7 +193,18 @@ def product_detail(request, pk):
         else:
             cost_performance_per = [0, 0, 0]
 
-        print(kinds)
+        
+        #상세 정보
+        product_harvest_start_date = dateformat.format(product.harvest_start_date, 'Y년 m월 d일')
+        product_harvest_end_date = dateformat.format(product.harvest_end_date, 'Y년 m월 d일')
+        product_shelf_life_date = product.shelf_life_date
+
+        rel_product_harvest_start_date = dateformat.format(product.related_product.harvest_start_date, 'Y년 m월 d일')
+        rel_product_harvest_end_date = dateformat.format(product.related_product.harvest_end_date, 'Y년 m월 d일')
+        rel_product_shelf_life_date = product.related_product.shelf_life_date
+
+
+
         ctx = {
             "product_pk": product_pk,
             "product": product,
@@ -217,6 +228,13 @@ def product_detail(request, pk):
             "cost_3": cost_performance_per[1],
             "cost_5": cost_performance_per[2],
             "related_product": related_product,
+            "product_harvest_start_date" : product_harvest_start_date,
+            "product_harvest_end_date" : product_harvest_end_date,
+            "product_shelf_life_date" : product_shelf_life_date,
+            "rel_product_harvest_start_date" : rel_product_harvest_start_date,
+            "rel_product_harvest_end_date" : rel_product_harvest_end_date,
+            "rel_product_shelf_life_date" : rel_product_shelf_life_date,
+            
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:
