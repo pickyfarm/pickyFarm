@@ -59,4 +59,6 @@ urlpatterns = [
     ),
     path("mypage/reviews_qnas/qna_ajax/", views.qna_ajax, name="qna_ajax"),
     path("mypage/reviews_qnas/review_ajax/", views.review_ajax, name="review_ajax"),
+    path("mypage/orders/product_refund/", views.product_refund, name="product_refund"),
+    path("test2/", views.testview2, name="testview2"),
 ]

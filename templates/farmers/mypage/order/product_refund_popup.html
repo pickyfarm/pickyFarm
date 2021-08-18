@@ -1,157 +1,183 @@
-<!doctype html>
+<!DOCTYPE html>
 {% load static %}
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport'
-          content='width=device-width, user-scalable=no, initial-scale=1.0'>
-    <link rel="stylesheet" href="{% static 'css/farmers/mypage/order/product_refund_popup.css' %}" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <title>반품 요청 확인</title>
-</head>
-<body>
-<div class='popup_container flex'>
-    <div class='refund-request-main-title'>반품요청</div>
-    <div class='refund-request-main-content-wrap'>
-        <div class='refund-request-sub-title'>주문내역</div>
-        <div class='refund-request-date'>2021.07.27</div>
-        <div class='refund-request-receipt-wrap'>
-            <div class='refund-request-receipt-top-section'>
-                <div class='refund-request-number-wrap wrap_padding flex'>
-                    <span class='refund-request-number-title'>주문번호</span>
-                    <span class='refund-request-number-value'>012345678910</span>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'css/farmers/mypage/farmer_mypage_product_refund_popup.css' %}"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>교환 / 반품 신청</title>
+    </head>
+    <body>
+        <div class="popup_container flex">
+            <div class="refund-main-content-wrap">
+                    <div class="refund-reason-wrap">
+                        <div class="refund-reason-title">교환 / 반품 신청</div>
+                        <form action="#" method="post"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="radio-box">
+                                <div class="radio-change-box">
+                                    <input type="radio" id="radio-change" name="change_or_refund" value="change"><label for="radio-change">교환</label>
+                                </div> 
+                                <div class="radio-refund-box">
+                                    <input type="radio" id="radio-refund" name="change_or_refund" value="refund"><label for="radio-refund">반품</label> 
+                                </div>
+                            </div>
+                        <div class="refund-reason-title">교환 / 반품 사유</div>
+                            <div class="refund-reason-input-wrap">
+                                <textarea
+                                    class="refund-reason-input"
+                                    type="text"
+                                    name="reason_txt"
+                                ></textarea>
+                            
+                            <div class="refund-post-img">
+                                <div>
+                                <div class="refund-post-img-box">
+                                    <div class="clip-box">
+                                        <img src="{% static 'images/farmer_mypage/order/post_img.svg' %}" alt="clip" class="clip-img">
+                                        <span class="img-txt">
+                                            사진 첨부하기
+                                        </span>
+                                        <img src="{% static 'images/farmer_mypage/order/post_img.svg' %}" alt="clip" class="clip-img">
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="img-ps">*사유와 연관된 사진이 있다면 첨부해주세요</div>
+                                <div class="add-file-box">
+                                    <input type="file" name="product_image" class="add-file">
+                                </div>
+                            </div >
+                            <div class="refund-reason-title">배송 / 회수 정보</div>
+                            <div class="retrieve-subtitle">*회수 주소지</div>
+                                <div class="retrieve-box">
+                                    <!-- 임시 radio / 탬플릿 언어 for로 해야함 / forloop.counter로 id 구분 주었음 : label 과의 상호작용 -->
+                                    {% for address in addresses %}
+                                    <div class="address-box">
+                                            <div class="address-subbox">
+                                                <input type="radio" name="address" id="{{ forloop.counter}}" class="address-radio">
+                                            </div>
+                                            <label for="{{ forloop.counter }}" class="{{forloop.counter}}"><div >{{ address }}</div></label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            <div class="retrieve-subtitle">*회수 요청사항</div>
+                                <div class="request-box">
+                                        <div class="request-radio-box">
+                                            <div class="request-radio-subbox">
+                                                <input type="radio" name="request"  id="door" class="request-radio">
+                                            </div>
+                                            <label for="door"><div>문 앞</div></label>
+                                        </div>
+                                        <div class="request-radio-box">
+                                            <div class="request-radio-subbox">
+
+                                                <input type="radio" name="request" id="security" class="request-radio">
+                                            </div>
+                                            <label for="security"><div>경비실</div></label>
+                                        </div>
+                                        <div class="request-radio-box">
+                                            <div class="request-radio-subbox">
+
+                                                <input type="radio" name="request" id="delivery" class="request-radio">
+                                            </div>
+                                            <label for="delivery"><div>배송기사가 사전에 연락 후 문 앞 배송</div></label>
+                                        </div>
+                                        <div class="request-radio-box">
+                                            <div class="request-radio-subbox">
+                                                <input type="radio" name="request" id="etc" class="request-radio">
+
+                                            </div>
+                                            <label for="etc"><div>그 외 요청사항</div></label>
+                                        </div>                                                                                                                        
+                                            <div class="request-txt-box"><input type="text" name="etc_txt"></div>
+                                </div>  
+                                                         
+                            <button class="refund-reason-submit-wrap flex" type="submit">
+                                <div class="refund-reason-submit-img-wrap">
+                                    <img
+                                        class="refund-reason-submit-img"
+                                        src="{% static 'images/users/mypage/user/check_nohover.svg' %}"
+                                        alt="check_nohover"
+                                    />
+                                </div>
+                                <div class="refund-reason-submit-text">신청하기</div>
+                            </button>
+                        </form>
+                    </div> 
+                    </div>
                 </div>
-                <div class='refund-request-product-information-wrap wrap_padding'>
-                    <div class='refund-request-product-information-title'>상품정보</div>
-                    <div class='refund-request-product-information-contents-wrap'>
-                        <!-- 무난이 작물 시작-->
-                        <div class='refund-request-product-information-content-wrap flex'>
-                            <div class='refund-request-product-information-content-left-section'>
-                                <div class='refund-request-product-image'>
-                                </div>
-                            </div>
-                            <div class='refund-request-product-information-content-right-section'>
-                                <div class='refund-request-product-tag'>
-                                    <img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt='moonan_harvest_tag'>
-                                </div>
-                                <div class='refund-request-product-name'>못나지만 맛사과</div>
-                                <div class='refund-request-product-detail-wrap flex'>
-                                    <div class='refund-request-product-weight'>8 kg</div>
-                                    <div class='refund-request-product-quantity'>4</div>
-                                    <div class='refund-request-product-quantity-unit'>(개/박스)</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 무난이 작물 끝-->
-
-                        <!-- 일 작물 시작-->
-                        <div class='refund-request-product-information-content-wrap flex'>
-                            <div class='refund-request-product-information-content-left-section'>
-                                <div class='refund-request-product-image'>
-                                </div>
-                            </div>
-                            <div class='refund-request-product-information-content-right-section'>
-                                <div class='refund-request-product-tag'>
-                                    <img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}""" alt='moonan_harvest_tag'>
-                                </div>
-                                <div class='refund-request-product-name'>못나지만 맛사과</div>
-                                <div class='refund-request-product-detail-wrap flex'>
-                                    <div class='refund-request-product-weight'>8 kg</div>
-                                    <div class='refund-request-product-quantity'>4</div>
-                                    <div class='refund-request-product-quantity-unit'>(개/박스)</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 일반 작물 끝-->
-                    </div>
-                    <div class='border-line'></div>
-                    <div class='refund-request-customer-wrap'>
-                        <div class='refund-request-customer-title'>주문자 정보</div>
-                        <div class='refund-request-customer-detail-wrap'>
-                            <div class='refund-request-customer-detail-name-callnum-wrap flex'>
-                                <div class='refund-request-customer-detail-title'>이름 / 번호</div>
-                                <div class='refund-request-customer-detail-namecall-value-wrap flex'>
-                                    <div class='refund-request-customer-detail-name'>선다영</div>
-                                    <div class='refund-request-customer-detail-callnum'>010.5767.4799</div>
-                                </div>
-                            </div>
-                            <div class='refund-request-customer-detail-address-wrap flex'>
-                                <div class='refund-request-customer-detail-title'>배송지</div>
-                                <div class='refund-request-customer-detail-address-value-wrap'>
-                                    <div class='refund-request-customer-detail-address'>경기도 성남시 분당구 서현동 13-5번지 삼광빌라 532동 1003호</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class='refund-request-reason-wrap'>
-                <div class='refund-request-reason-title'>반품 요청 사유</div>
-                <div class='refund-request-reason-content-wrap'>
-                    <div class='refund-request-reason-photo-wrap'>
-                        <!--                            여기에 img 태그를 넣으면 될 거 같습니다. -->
-                    </div>
-                    <div class='refund-request-reason-text'>여기에는 소비자가 작성한 반품 요청 사유가 들어갑니다!</div>
-                </div>
-            </div>
-
-            <div class='answer-of-farm-wrap'>
-                <div class='answer-of-farm-title'>농가의 답변</div>
-                <form action='#' method='post'>
-                    {% csrf_token %}
-                    <div class='answer-of-farm-input-wrap'>
-                        <textarea class='answer-of-farm-input' type='text'></textarea>
-                    </div>
-                    <div class='refund-btn-wrap'>
-                        <!-- 교환 거절 버튼 -->
-                        <button class='reject-submit-wrap flex' type='submit'>
-                            <div class='reject-submit-img-wrap'>
-                                <img class='reject-submit-img' src="{% static 'images/farmer_mypage/order/reject_nohover.svg' %}" alt='reject_nohover'>
-                            </div>
-                            <div class='reject-submit-text'>반품 거절</div>
-                        </button>
-
-                        <!-- 교환 확인 버튼 -->
-                        <button class='commit-submit-wrap flex' type='submit'>
-                            <div class='commit-submit-img-wrap'>
-                                <img class='commit-submit-img' src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt='commit_nohover'>
-                            </div>
-                            <div class='commit-submit-text'>반품 확인</div>
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
-</div>
-<script>
-    const reject_btn = document.querySelector('.reject-submit-wrap');
-    const reject_img = document.querySelector('.reject-submit-img');
-    const commit_btn = document.querySelector('.commit-submit-wrap');
-    const commit_img = document.querySelector('.commit-submit-img');
+        <script>
+            const clipBox = document.querySelector(".clip-box");
+            const addfile = document.querySelector(".add-file");
+            clipBox.addEventListener("click", () =>{
+                addfile.click();
+                addfile.style.display = "block";
+                console.log("click!");
+            });
+            
+            const addressRadios = document.querySelectorAll(".address-radio");
+            const addressBoxes = document.querySelectorAll(".address-box");
+            for(j=0; j < addressRadios.length; j++){
+                addressRadios[j].addEventListener("click", () =>{
+                    for(i=0; i<addressRadios.length; i++){
+                        if(addressRadios[i].checked){
+                            addressBoxes[i].style.color ="#4d5548";
+                        } else{
+                            addressBoxes[i].style.color ="#b3b3b3";
+                        };
+                    }
+                })
+            }
 
-    const switchRejectImgHoverIn = function(e){
-        reject_img.setAttribute('src',"{% static 'images/farmer_mypage/order/reject_hover.svg' %}")
-    }
+            const requestRadios = document.querySelectorAll(".request-radio");
+            const requestBoxes = document.querySelectorAll(".request-radio-box");
+            for(j=0; j < requestRadios.length; j++){
+                requestRadios[j].addEventListener("click", () =>{
+                    for(i=0; i<requestRadios.length; i++){
+                        if(requestRadios[i].checked){
+                            requestBoxes[i].style.color ="#4d5548";
+                        } else{
+                            requestBoxes[i].style.color ="#b3b3b3";
+                        };
+                    }
+                })
+            }
+            
 
-    const switchRejectImgHoverOut = function(e){
-        reject_img.setAttribute('src',"{% static 'images/farmer_mypage/order/reject_nohover.svg' %}")
-    }
+            const check_btn = document.querySelector(
+                '.refund-reason-submit-wrap'
+            );
+            const check_img = document.querySelector(
+                '.refund-reason-submit-img'
+            );
 
+            const switchCheckImgHoverIn = function (e) {
+                // setAttribute의 2번째 인자 경로를 템플릿 태그로 고쳐야 할 것 같습니다.
+                check_img.setAttribute(
+                    'src',
+                    "{% static 'images/users/mypage/user/check_hover.svg' %}"
+                );
+            };
 
-    const switchCommitImgHoverIn = function(e){
-        commit_img.setAttribute('src',"{% static 'images/users/mypage/user/check_hover.svg' %}")
-    }
+            const switchCheckImgHoverOut = function (e) {
+                // setAttribute의 2번째 인자 경로를 템플릿 태그로 고쳐야 할 것 같습니다.
+                check_img.setAttribute(
+                    'src',
+                    "{% static 'images/users/mypage/user/check_nohover.svg' %}"
+                );
+            };
 
-    const switchCommitImgHoverOut = function(e){
-        commit_img.setAttribute('src',"{% static 'images/users/mypage/user/check_nohover.svg' %}")
-    }
-
-    reject_btn.addEventListener('mouseover',switchRejectImgHoverIn);
-    reject_btn.addEventListener('mouseleave',switchRejectImgHoverOut);
-    commit_btn.addEventListener('mouseover',switchCommitImgHoverIn);
-    commit_btn.addEventListener('mouseleave',switchCommitImgHoverOut);
-</script>
-</body>
+            check_btn.addEventListener('mouseover', switchCheckImgHoverIn);
+            check_btn.addEventListener('mouseleave', switchCheckImgHoverOut);
+        </script>
+    </body>
 </html>
