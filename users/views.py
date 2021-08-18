@@ -920,5 +920,6 @@ class EditorMypage_Info(TemplateView):
 def testview(request):
     return render(request, "users/mypage/user/order_cancel_popup.html")
 
-def testview2(request):
-    return render(request, "users/mypage/user/order_confirm_popup.html")
+
+def reviewtest(request):
+    return render(request, "users/mypage/user/product_review_popup.html")
