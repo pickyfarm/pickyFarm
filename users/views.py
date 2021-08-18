@@ -923,3 +923,8 @@ def testview(request):
 
 def reviewtest(request):
     return render(request, "users/mypage/user/product_review_popup.html")
+
+def product_refund(request):
+    addresses=["서울 동작구 장승배기로 11가길 11(상도파크자이) 105동 1901호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+     "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호"]
+    return render(request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses})
