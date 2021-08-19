@@ -1,0 +1,157 @@
+<!doctype html>
+{% load static %}
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport'
+          content='width=device-width, user-scalable=no, initial-scale=1.0'>
+    <link rel="stylesheet" href="{% static 'css/farmers/mypage/order/product_refund_request_commit.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>반품 요청 확인</title>
+</head>
+<body>
+<div class='popup_container flex'>
+    <div class='refund-request-main-title'>반품요청</div>
+    <div class='refund-request-main-content-wrap'>
+        <div class='refund-request-sub-title'>주문내역</div>
+        <div class='refund-request-date'>2021.07.27</div>
+        <div class='refund-request-receipt-wrap'>
+            <div class='refund-request-receipt-top-section'>
+                <div class='refund-request-number-wrap wrap_padding flex'>
+                    <span class='refund-request-number-title'>주문번호</span>
+                    <span class='refund-request-number-value'>012345678910</span>
+                </div>
+                <div class='refund-request-product-information-wrap wrap_padding'>
+                    <div class='refund-request-product-information-title'>상품정보</div>
+                    <div class='refund-request-product-information-contents-wrap'>
+                        <!-- 무난이 작물 시작-->
+                        <div class='refund-request-product-information-content-wrap flex'>
+                            <div class='refund-request-product-information-content-left-section'>
+                                <div class='refund-request-product-image'>
+                                </div>
+                            </div>
+                            <div class='refund-request-product-information-content-right-section'>
+                                <div class='refund-request-product-tag'>
+                                    <img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt='moonan_harvest_tag'>
+                                </div>
+                                <div class='refund-request-product-name'>못나지만 맛사과</div>
+                                <div class='refund-request-product-detail-wrap flex'>
+                                    <div class='refund-request-product-weight'>8 kg</div>
+                                    <div class='refund-request-product-quantity'>4</div>
+                                    <div class='refund-request-product-quantity-unit'>(개/박스)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 무난이 작물 끝-->
+
+                        <!-- 일 작물 시작-->
+                        <div class='refund-request-product-information-content-wrap flex'>
+                            <div class='refund-request-product-information-content-left-section'>
+                                <div class='refund-request-product-image'>
+                                </div>
+                            </div>
+                            <div class='refund-request-product-information-content-right-section'>
+                                <div class='refund-request-product-tag'>
+                                    <img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}""" alt='moonan_harvest_tag'>
+                                </div>
+                                <div class='refund-request-product-name'>못나지만 맛사과</div>
+                                <div class='refund-request-product-detail-wrap flex'>
+                                    <div class='refund-request-product-weight'>8 kg</div>
+                                    <div class='refund-request-product-quantity'>4</div>
+                                    <div class='refund-request-product-quantity-unit'>(개/박스)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 일반 작물 끝-->
+                    </div>
+                    <div class='border-line'></div>
+                    <div class='refund-request-customer-wrap'>
+                        <div class='refund-request-customer-title'>주문자 정보</div>
+                        <div class='refund-request-customer-detail-wrap'>
+                            <div class='refund-request-customer-detail-name-callnum-wrap flex'>
+                                <div class='refund-request-customer-detail-title'>이름 / 번호</div>
+                                <div class='refund-request-customer-detail-namecall-value-wrap flex'>
+                                    <div class='refund-request-customer-detail-name'>선다영</div>
+                                    <div class='refund-request-customer-detail-callnum'>010.5767.4799</div>
+                                </div>
+                            </div>
+                            <div class='refund-request-customer-detail-address-wrap flex'>
+                                <div class='refund-request-customer-detail-title'>배송지</div>
+                                <div class='refund-request-customer-detail-address-value-wrap'>
+                                    <div class='refund-request-customer-detail-address'>경기도 성남시 분당구 서현동 13-5번지 삼광빌라 532동 1003호</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='refund-request-reason-wrap'>
+                <div class='refund-request-reason-title'>반품 요청 사유</div>
+                <div class='refund-request-reason-content-wrap'>
+                    <div class='refund-request-reason-photo-wrap'>
+                        <!--                            여기에 img 태그를 넣으면 될 거 같습니다. -->
+                    </div>
+                    <div class='refund-request-reason-text'>여기에는 소비자가 작성한 반품 요청 사유가 들어갑니다!</div>
+                </div>
+            </div>
+
+            <div class='answer-of-farm-wrap'>
+                <div class='answer-of-farm-title'>농가의 답변</div>
+                <form action='#' method='post'>
+                    {% csrf_token %}
+                    <div class='answer-of-farm-input-wrap'>
+                        <textarea class='answer-of-farm-input' type='text'></textarea>
+                    </div>
+                    <div class='refund-btn-wrap'>
+                        <!-- 교환 거절 버튼 -->
+                        <button class='reject-submit-wrap flex' type='submit'>
+                            <div class='reject-submit-img-wrap'>
+                                <img class='reject-submit-img' src="{% static 'images/farmer_mypage/order/reject_nohover.svg' %}" alt='reject_nohover'>
+                            </div>
+                            <div class='reject-submit-text'>반품 거절</div>
+                        </button>
+
+                        <!-- 교환 확인 버튼 -->
+                        <button class='commit-submit-wrap flex' type='submit'>
+                            <div class='commit-submit-img-wrap'>
+                                <img class='commit-submit-img' src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt='commit_nohover'>
+                            </div>
+                            <div class='commit-submit-text'>반품 확인</div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const reject_btn = document.querySelector('.reject-submit-wrap');
+    const reject_img = document.querySelector('.reject-submit-img');
+    const commit_btn = document.querySelector('.commit-submit-wrap');
+    const commit_img = document.querySelector('.commit-submit-img');
+
+    const switchRejectImgHoverIn = function(e){
+        reject_img.setAttribute('src',"{% static 'images/farmer_mypage/order/reject_hover.svg' %}")
+    }
+
+    const switchRejectImgHoverOut = function(e){
+        reject_img.setAttribute('src',"{% static 'images/farmer_mypage/order/reject_nohover.svg' %}")
+    }
+
+
+    const switchCommitImgHoverIn = function(e){
+        commit_img.setAttribute('src',"{% static 'images/users/mypage/user/check_hover.svg' %}")
+    }
+
+    const switchCommitImgHoverOut = function(e){
+        commit_img.setAttribute('src',"{% static 'images/users/mypage/user/check_nohover.svg' %}")
+    }
+
+    reject_btn.addEventListener('mouseover',switchRejectImgHoverIn);
+    reject_btn.addEventListener('mouseleave',switchRejectImgHoverOut);
+    commit_btn.addEventListener('mouseover',switchCommitImgHoverIn);
+    commit_btn.addEventListener('mouseleave',switchCommitImgHoverOut);
+</script>
+</body>
+</html>

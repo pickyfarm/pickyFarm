@@ -71,4 +71,6 @@ urlpatterns = [
     path("infoUpdate/", views.infoUpdate, name="infoUpdate"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
     path("test/", views.testview, name="testview"),
+    path("reviewtest/", views.reviewtest, name="reviewtest"),
+
 ]

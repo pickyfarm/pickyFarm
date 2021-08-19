@@ -34,6 +34,14 @@ class Farmer(models.Model):
         "addresses.Address", related_name="farmer", on_delete=models.CASCADE
     )
 
+    # 작물 관련법상 표시사항 정보
+    law_genetic = models.CharField(max_length=100, default="해당사항 없음")
+    law_disease = models.CharField(max_length=100, default="해당사항 없음")
+    law_record = models.CharField(max_length=100, default="해당사항 없음")
+    law_livestock = models.CharField(max_length=100, default="해당사항 없음")
+    law_location = models.CharField(max_length=100, default="해당사항 없음")
+
+
     def __str__(self):
         return self.farm_name
 
