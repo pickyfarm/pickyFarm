@@ -90,6 +90,10 @@ $('#id_profile_desc').keyup(function () {
     $('#sample_profile_desc').text("&#34;" + $(this).val() + "&#34;");
 });
 
+$('#id_farm_news').keyup(function () {
+    $('#sample_farm_news').text($(this).val());
+});
+
 
 // step2 page form valid check
 $('#step2_submit').click(function () {
@@ -126,6 +130,16 @@ $('#step2_submit').click(function () {
     }
     if ($('#id_profile_desc').val() == "") {
         alert("농장 상세 소개를 입력해주세요.");
+        return;
+    }
+    if ($('#id_farm_thanks_msg').val() == "") {
+        alert("결제 시 보여질 구매 감사 메세지를 작성해주세요.");
+        event.preventDefault();
+        return;
+    }
+    if ($('#id_farm_news').val() == "") {
+        alert("농소비자에게 전달 할 농가뉴스를 작성해주세요.");
+        event.preventDefault();
         return;
     }
     if ($('#id_farm_cat input').is(":checked") == false) {
