@@ -33,6 +33,7 @@ class Farmer(models.Model):
     address = models.OneToOneField(
         "addresses.Address", related_name="farmer", on_delete=models.CASCADE
     )
+    shipping_description = models.CharField(max_length=100, default="")  # 배송 기간에 대한 안내
 
     # 작물 관련법상 표시사항 정보
     law_genetic = models.CharField(max_length=100, default="해당사항 없음")
@@ -40,7 +41,6 @@ class Farmer(models.Model):
     law_record = models.CharField(max_length=100, default="해당사항 없음")
     law_livestock = models.CharField(max_length=100, default="해당사항 없음")
     law_location = models.CharField(max_length=100, default="해당사항 없음")
-
 
     def __str__(self):
         return self.farm_name

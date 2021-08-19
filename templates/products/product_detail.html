@@ -38,14 +38,14 @@
             <div id="top_section" class="flex flex-row">
                 <div id="title_section" class="w-5/6">
                     <div id="tags" class="flex flex-row">
-                    
+
                         {% if related_product is None and kinds == "ugly" %}
-                            <div id="ugly_tag">무난이 작물</div>
+                        <div id="ugly_tag">무난이 작물</div>
                         {% elif related_product is not None and kinds == "ugly" %}
-                            <div id="ugly_tag">무난이 작물</div>
-                            <div id="normal_tag">일반 작물</div>
+                        <div id="ugly_tag">무난이 작물</div>
+                        <div id="normal_tag">일반 작물</div>
                         {% else %}
-                            <div id="normal_tag">일반 작물</div>
+                        <div id="normal_tag">일반 작물</div>
                         {% endif %}
                     </div>
                     <div id="title">
@@ -96,6 +96,10 @@
                     {{product.additional_delivery_fee_unit}}개 마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가
                 </div>
                 <div class="flex flex-rows mb-3">
+                    <div id="info_t" class="w-1/5 text-left">배송 기간</div>
+                    <div id="shipping-fee" class="w-4/5 text-left text-red-500">{{farmer.shipping_description}}</div>
+                </div>
+                <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">중량/용량</div>
                     <div id="product-weight" class="w-4/5 text-left">{{product.weight}}{{product.weight_unit}}</div>
                 </div>
@@ -131,7 +135,7 @@
     </div>
 
 
-    </div>
+</div>
 </div>
 
 <!-- 상품설명 -->
@@ -149,9 +153,9 @@
 <!-- 상품문의 -->
 {% include 'products/detail/product_refund_change.html' %}
 
-    
+
 <script>
-    
+
     let plusBtn = document.getElementById('plus_btn')
     let minusBtn = document.getElementById('minus_btn')
     let totalPrice = document.getElementById('total_price')
@@ -206,8 +210,8 @@
     let main_image = document.getElementById('main_image')
     let sub_images = document.querySelectorAll('#images')
 
-    sub_images.forEach(item=>{
-        item.addEventListener('click', function(){
+    sub_images.forEach(item => {
+        item.addEventListener('click', function () {
             let tmp_url = main_image.getAttribute('src')
             main_image.setAttribute('src', item.getAttribute('src'))
             item.setAttribute('src', tmp_url)
@@ -246,33 +250,33 @@
             error: function (request, status, error) {
                 shootToastMessage("로그인이 필요합니다", '2')
             }
-        
+
         })
     })
 
     //장바구니 담기
     let cartInBtn = document.getElementById("cart")
-    cartInBtn.addEventListener('click', function(){
+    cartInBtn.addEventListener('click', function () {
         cartIn(this.getAttribute('name'))
     })
 
     //바로 구매하기 버튼 누를 시
 
     let purchaseBtn = document.getElementById("purchase")
-    purchaseBtn.addEventListener('click', function(){
+    purchaseBtn.addEventListener('click', function () {
         let pk = this.getAttribute("name")
         let quantity = parseInt(document.getElementById("quantity_number").innerHTML)
         console.log(pk)
         console.log(quantity)
         product = {
-            'pk' : pk,
-            'quantity' : quantity
+            'pk': pk,
+            'quantity': quantity
         }
         let products = [];
         products.push(product)
 
         data = {
-            "orders" : JSON.stringify(products),
+            "orders": JSON.stringify(products),
             "csrfmiddlewaretoken": csrftoken,
         }
 
@@ -280,7 +284,7 @@
         form.setAttribute("method", "post")
         form.setAttribute("action", "{% url 'orders:payment_create' %}")
 
-        for(let key in data){
+        for (let key in data) {
             let hiddenField = document.createElement('input')
             hiddenField.setAttribute('type', 'hidden')
             hiddenField.setAttribute('name', key)
@@ -288,29 +292,29 @@
 
             form.appendChild(hiddenField)
         }
-        
+
         document.body.appendChild(form)
         form.submit()
 
-        
+
     })
 
 
-    
-        
 
-        // $.ajax({
-        //         type: 'POST',
-        //         url: "{% url 'users:cartInAjax' %}",
-        //         dataType: 'json',
-        //         data: data,
-        //         success: function (response) {
-        //             alert(response.message)
-        //         },
-        //         error: function (request, status, error) {
-        //             alert('로그인이 필요합니다.')
-        //         }
-        //     })
+
+
+    // $.ajax({
+    //         type: 'POST',
+    //         url: "{% url 'users:cartInAjax' %}",
+    //         dataType: 'json',
+    //         data: data,
+    //         success: function (response) {
+    //             alert(response.message)
+    //         },
+    //         error: function (request, status, error) {
+    //             alert('로그인이 필요합니다.')
+    //         }
+    //     })
 
 
 
@@ -328,37 +332,37 @@
 
         // 스크롤 하단 고정 (수정 필요)
 
-        
-    let qna_page = document.querySelectorAll('#qna_paginator')
-    console.log(qna_page)
-    qna_page.forEach(item => {
-        item.addEventListener('click', function () {
-            let page_num = item.getAttribute('name')
 
-            $.ajax({
-                type: 'POST',
-                url: "{% url 'products:qna_paginator' %}",
-                dataType: 'json',
-                data: {
-                    'product_pk': product_pk,
-                    'page_num': page_num,
-                    "csrfmiddlewaretoken": csrftoken,
-                },
-                success: function (data) {
-                    let qnaSection = document.getElementById('qnas-section')
-                    console.log(data)
-                    qnaSection.innerHTML = ''
-                    data.questions.forEach(item => {
-                        let status = item.status
-                        let title = item.title
-                        let consumer = item.consumer
-                        let create_at = item.create_at
-                        let q_pk = item.pk
-                        console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
-                        let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+        let qna_page = document.querySelectorAll('#qna_paginator')
+        console.log(qna_page)
+        qna_page.forEach(item => {
+            item.addEventListener('click', function () {
+                let page_num = item.getAttribute('name')
 
-                        if (status == true) {
-                            qnaLine += `
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'products:qna_paginator' %}",
+                    dataType: 'json',
+                    data: {
+                        'product_pk': product_pk,
+                        'page_num': page_num,
+                        "csrfmiddlewaretoken": csrftoken,
+                    },
+                    success: function (data) {
+                        let qnaSection = document.getElementById('qnas-section')
+                        console.log(data)
+                        qnaSection.innerHTML = ''
+                        data.questions.forEach(item => {
+                            let status = item.status
+                            let title = item.title
+                            let consumer = item.consumer
+                            let create_at = item.create_at
+                            let q_pk = item.pk
+                            console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
+                            let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+
+                            if (status == true) {
+                                qnaLine += `
                         <div id="q_letter_answered" class="w-2/12">답변완료</div>
                 <div id="q_letter_black" class="w-6/12">${title}</div>
                 <div id="q_letter_black" class="w-2/12">${consumer}</div>
@@ -407,7 +411,7 @@
 
     let mainImage = document.getElementById("main_image")
 
-    let harvestDate =document.getElementById("harvest_date")
+    let harvestDate = document.getElementById("harvest_date")
     let shelfLifeDate = document.getElementById("shelf_life_date")
     let law_genetic = document.getElementById("law_genetic")
     let law_disease = document.getElementById("law_disease")
@@ -415,7 +419,7 @@
     let law_location = document.getElementById("law_location")
     let law_livestock = document.getElementById("law_livestock")
 
-    uglyTag.addEventListener('click', function(){
+    uglyTag.addEventListener('click', function () {
         shootToastMessage("무난이 작물로 전환합니다", '2')
 
         title.innerHTML = '{{product.title}}'
@@ -424,21 +428,21 @@
         weight.innerHTML = '{{product.weight}}{{product.weight_unit}}'
         totalCost.innerHTML = '{{product.sell_price}}'
         quantity_number.innerHTML = '1'
-        if('{{product.default_delivery_fee}}' == '0'){
+        if ('{{product.default_delivery_fee}}' == '0') {
             shippingFee.innerHTML = '무료'
             shippingFee.style.color = "#ff0000"
             shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
         }
-        else{
+        else {
             shippingFee.innerHTML = '{{product.default_delivery_fee}}원'
             shippingFee.style.color = "#5c6854"
             shippingFeeDesc.innerHTML = '{{product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
         }
-        
-        
+
+
         //메인 이미지 변경
-        mainImage.setAttribute('sec' , '{{product.main_image.url}}')
-        
+        mainImage.setAttribute('sec', '{{product.main_image.url}}')
+
         //바로 구매하기 name pk 변경
         purchaseBtn.setAttribute('name', '{{product.pk}}')
 
@@ -453,7 +457,7 @@
         shelfLifeDate.innerHTML = "{{product_shelf_life_date}}"
     })
 
-    normalTag.addEventListener('click', function(){
+    normalTag.addEventListener('click', function () {
         shootToastMessage("일반 작물로 전환합니다", '2')
 
         title.innerHTML = '{{related_product.title}}'
@@ -462,24 +466,24 @@
         weight.innerHTML = '{{related_product.weight}}{{product.weight_unit}}'
         totalCost.innerHTML = '{{related_product.sell_price}}'
         quantity_number.innerHTML = '1'
-        if('{{related_product.default_delivery_fee}}' == '0'){
+        if ('{{related_product.default_delivery_fee}}' == '0') {
             shippingFee.innerHTML = "무료"
             shippingFee.style.color = "#ff0000"
             shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
         }
-        else{
+        else {
             shippingFee.innerHTML = '{{related_product.default_delivery_fee}}원'
             shippingFee.style.color = "#5c6854"
             shippingFeeDesc.innerHTML = '{{related_product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
         }
-        
-        
+
+
         //메인 이미지 변경
-        mainImage.setAttribute('sec' , '{{related_product.main_image.url}}')
+        mainImage.setAttribute('sec', '{{related_product.main_image.url}}')
 
         //바로 구매하기 name pk 변경
         purchaseBtn.setAttribute('name', '{{related_product.pk}}')
-        
+
         //버튼 색 변경
         this.style.color = "#fff"
         this.style.backgroundColor = "#5c6754"

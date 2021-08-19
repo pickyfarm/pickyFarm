@@ -919,3 +919,7 @@ class EditorMypage_Info(TemplateView):
 
 def testview(request):
     return render(request, "users/mypage/user/order_cancel_popup.html")
+
+
+def reviewtest(request):
+    return render(request, "users/mypage/user/product_review_popup.html")
