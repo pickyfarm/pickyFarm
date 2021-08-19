@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+{% load static %} <html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/product_review_popup.css' %}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<title>주문확인</title>
+</head>
+<body>
+<div class="popup_container flex">
+	<div class="review-main-content-wrap">
+		<div class="review-date">
+			상품 리뷰 등록
+		</div>
+		<div class="review-receipt-wrap">
+			<div class="review-receipt-top-section">
+				<div class="review-number-wrap wrap_padding flex">
+					<span class="review-number-title">주문일시</span>
+					<span class="review-number-value">2021.08.10</span>
+				</div>
+				<div class=" review-product-information-wrap wrap_padding ">
+					<div class="review-product-information-title">
+						상품정보
+					</div>
+					<div class=" review-customer-detail-address-wrap flex ">
+						<div class=" review-customer-detail-title ">
+							Farm
+						</div>
+						<div class=" review-customer-detail-user-value-wrap ">
+							<div class=" review-customer-detail-address ">
+								해맑은 농가
+							</div>
+						</div>
+					</div>					
+					<div class=" review-product-information-contents-wrap ">
+						<!-- 무난이 작물 시작-->
+						<div class=" review-product-information-content-wrap flex ">
+							<div class=" review-product-information-content-left-section ">
+								<div class="review-product-image">
+								</div>
+							</div>
+							<div class=" review-product-information-content-right-section ">
+								<div class="review-product-tag">
+									<img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt="moonan_harvest_tag"/>
+								</div>
+								<div class="review-product-name">
+									못나지만 맛사과
+								</div>
+								<div class=" review-product-detail-wrap flex ">
+									<div class=" review-product-weight ">
+										8 kg
+									</div>
+									<div class=" review-product-quantity ">
+										4
+									</div>
+									<div class="review-product-quantity-unit ">
+										(개/박스)
+									</div>
+								</div>
+								<div class="product-cancel">
+									반품신청
+								</div>
+							</div>
+						</div>
+						<!-- 무난이 작물 끝-->
+					</div>
+				</div>
+			</div>
+			<form action="#" method="post">
+				{% csrf_token %}		
+				<div class="refund-main-content-wrap">	
+					<div class="review-reason-wrap">
+						<div class="review-main-title">picky review</div>
+						<div class="downArrow-img-box">
+							<img src="{% static 'images/users/mypage/user/downArrow.svg' %}" alt="downArrow"/>
+						</div>
+						<div class="review-main-sub-title-box">
+							<div class="review-main-sub-title">
+								농가에게 힘이 되어줄 수 있는 리뷰입니다.
+							</div>	
+							<div class="review-main-sub-title">
+								따뜻한 관심 부탁드립니다.
+							</div>						
+						</div>
+
+							<div class="refund-reason-wrap">
+
+								<!-- 신선도, 맛, 가성비 시작 -->
+								<div class="rating-box">
+									<div class="rating-sub-box">
+										<div class="rating-title">
+											신선도
+										</div>
+					<!-- 이미지로 평가하는거 input 태그 숨겨서 거기에 value로 받게 했습니다. (얼굴, 별 모두 적용)
+										나중에 DB에 옮길 때 이용하시면 될 듯 합니다. -->
+										<div class="face-rating">
+											<!-- value는 자바스크립트에서 넣어줌 -->
+											<input type="text" name="fresh" value="" class="none-display-rating fresh">											
+											<div class="face-rating-btn gray">
+												<img src="{% static 'images/users/mypage/user/good-gray.svg' %}" alt="good" class="fresh">
+											</div>
+											<div class="face-rating-btn gray">
+												<img src="{% static 'images/users/mypage/user/soso-gray.svg' %}" alt="soso" class="fresh">
+											</div>
+											<div class="face-rating-btn gray">
+												<img src="{% static 'images/users/mypage/user/bad-gray.svg' %}" alt="bad" class="fresh">
+											</div>																
+										</div>
+
+									</div>
+									<div class="rating-sub-box">
+										<div class="rating-title">
+											맛
+										</div>
+										<div class="face-rating">
+											<!-- value는 자바스크립트에서 넣어줌 -->
+											<input type="text" name="flavor" value="" class="none-display-rating flavor">	
+											<div class="face-rating-btn">
+												<img src="{% static 'images/users/mypage/user/good-gray.svg' %}" alt="good" class="flavor">
+											</div>
+											<div class="face-rating-btn">
+												<img src="{% static 'images/users/mypage/user/soso-gray.svg' %}" alt="soso" class="flavor">
+												
+											</div>
+											<div class="face-rating-btn">
+												<img src="{% static 'images/users/mypage/user/bad-gray.svg' %}" alt="bad" class="flavor">
+											</div>																
+										</div>
+									</div>
+									<div class="rating-sub-box">
+										<div class="rating-title">
+											가성비
+										</div>
+										<div class="face-rating">
+											<!-- value는 자바스크립트에서 넣어줌 -->
+											<input type="text" name="cheap" value="" class="none-display-rating cheap">	
+
+											<div class="face-rating-btn">
+												<img src="{% static 'images/users/mypage/user/good-gray.svg' %}" alt="good" class="cheap">
+											</div>
+											<div class="face-rating-btn">
+												<img src="{% static 'images/users/mypage/user/soso-gray.svg' %}" alt="soso" class="cheap">
+											</div>
+											<div class="face-rating-btn">
+												<img src="{% static 'images/users/mypage/user/bad-gray.svg' %}" alt="bad" class="cheap">
+											</div>																
+										</div>
+									</div>
+								</div>
+								<!-- 신선도, 맛, 가성비 끝 -->
+								
+								<!-- 별점 시작 -->
+								<div class="total-score-box">
+									<div class="start-title">
+										총점
+									</div>
+									<div class="star-box">
+										<input type="text" name="star" value="" class="starRating">
+										<div class="star-subbox">
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
+											
+										</div>
+									</div>
+								</div>
+								<!-- 별점 끝 -->
+								
+								<!-- 리뷰 텍스트 시작 -->
+								<div class="refund-reason-input-wrap">
+									<textarea
+									class="refund-reason-input"
+									type="text"
+									name="reason_txt"
+									></textarea>
+								</div>
+								<!-- 리뷰 텍스트 끝 -->	
+								
+								<!-- 사진 첨부 시작 -->
+								<div class="review-post-container">
+									<div class="refund-post-img">
+										<div class="refund-post-img-box">
+											<div class="clip-box">
+												<img src="{% static 'images/farmer_mypage/order/post_img.svg' %}" alt="clip" class="clip-img">
+												<span class="img-txt">
+													사진 첨부하기
+												</span>
+												<img src="{% static 'images/farmer_mypage/order/post_img.svg' %}" alt="clip" class="clip-img">
+											</div>
+										</div>
+									</div>
+									<div class="img-ps">*사유와 연관된 사진이 있다면 첨부해주세요</div>
+								</div>
+								<div class="add-file-box">
+									<input type="file" name="product_image" class="add-file">
+								</div>
+							</div>
+					</div >
+					<!-- 사진 첨부 끝 -->					 
+				</div>
+				<div class="review-btn-box">
+					<button class="review-reason-submit-wrap flex" type="submit">
+					<div class="review-reason-submit-img-wrap">
+						<img class="review-reason-submit-img" src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt="check_nohover"/>
+					</div>
+					<div class="review-reason-submit-text">
+						등록하기
+					</div>
+					</button>
+				</div>
+				</form>
+			</div>
+</div>
+<script>
+			const clipBox = document.querySelector(".clip-box");
+			const addfile = document.querySelector(".add-file");
+			clipBox.addEventListener("click", () =>{
+				addfile.click();
+				addfile.style.display = "block";
+				console.log("click!");
+			});
+
+			// rating
+			const freshRating = document.querySelector(".none-display-rating.fresh");
+			const freshimgs = document.querySelectorAll(".fresh");
+			for(i = 0; i<freshimgs.length; i++){
+				freshimgs[i].addEventListener("click", function(e){
+					const elem = e.target;
+					for(k=0; k<freshimgs.length; k++){
+						if(freshimgs[k]==elem){
+							tempNumber = k;
+						}
+					}
+					if(tempNumber==1){
+						elem.src="{% static 'images/users/mypage/user/good-green.svg' %}";
+						freshRating.value = "good";
+					} else if(tempNumber==2){
+						elem.src="{% static 'images/users/mypage/user/soso-green.svg' %}";
+						freshRating.value = "soso";
+					} else{
+						elem.src="{% static 'images/users/mypage/user/bad-green.svg' %}";
+						freshRating.value = "bad";
+					}
+					for(j = 0; j<freshimgs.length; j++){
+						if(freshimgs[j]!=elem){
+							if(j==1){
+								freshimgs[j].src="{% static 'images/users/mypage/user/good-gray.svg' %}";
+							} else if(j==2){
+								freshimgs[j].src="{% static 'images/users/mypage/user/soso-gray.svg' %}";
+							} else{
+								freshimgs[j].src="{% static 'images/users/mypage/user/bad-gray.svg' %}";
+							}
+						}
+					}
+				})
+			}
+			const flavorRating = document.querySelector(".none-display-rating.flavor");
+			const flavorimgs = document.querySelectorAll(".flavor");
+			for(i = 0; i<flavorimgs.length; i++){
+				flavorimgs[i].addEventListener("click", function(e){
+					const elem = e.target;
+					for(k=0; k<flavorimgs.length; k++){
+						if(flavorimgs[k]==elem){
+							tempNumber = k;
+						}
+					}
+					if(tempNumber==1){
+						elem.src="{% static 'images/users/mypage/user/good-green.svg' %}";
+						flavorRating.value = "good";
+					} else if(tempNumber==2){
+						elem.src="{% static 'images/users/mypage/user/soso-green.svg' %}";
+						flavorRating.value = "soso";
+					} else{
+						elem.src="{% static 'images/users/mypage/user/bad-green.svg' %}";
+						flavorRating.value = "bad";
+					}
+					for(j = 0; j<flavorimgs.length; j++){
+						if(flavorimgs[j]!=elem){
+							if(j==1){
+								flavorimgs[j].src="{% static 'images/users/mypage/user/good-gray.svg' %}";
+							} else if(j==2){
+								flavorimgs[j].src="{% static 'images/users/mypage/user/soso-gray.svg' %}";
+							} else{
+								flavorimgs[j].src="{% static 'images/users/mypage/user/bad-gray.svg' %}";
+							}
+						}
+					}
+				})
+			}
+			const cheapRating = document.querySelector(".none-display-rating.cheap");
+			const cheapimgs = document.querySelectorAll(".cheap");
+			for(i = 0; i<cheapimgs.length; i++){
+				cheapimgs[i].addEventListener("click", function(e){
+					const elem = e.target;
+					for(k=0; k<cheapimgs.length; k++){
+						if(cheapimgs[k]==elem){
+							tempNumber = k;
+						}
+					}
+					if(tempNumber==1){
+						elem.src="{% static 'images/users/mypage/user/good-green.svg' %}";
+						cheapRating.value = "good";
+					} else if(tempNumber==2){
+						elem.src="{% static 'images/users/mypage/user/soso-green.svg' %}";
+						cheapRating.value = "soso";
+					} else{
+						elem.src="{% static 'images/users/mypage/user/bad-green.svg' %}";
+						cheapRating.value = "bad";
+					}
+					for(j = 0; j<cheapimgs.length; j++){
+						if(cheapimgs[j]!=elem){
+							if(j==1){
+								cheapimgs[j].src="{% static 'images/users/mypage/user/good-gray.svg' %}";
+							} else if(j==2){
+								cheapimgs[j].src="{% static 'images/users/mypage/user/soso-gray.svg' %}";
+							} else{
+								cheapimgs[j].src="{% static 'images/users/mypage/user/bad-gray.svg' %}";
+							}
+						}
+					}
+				})
+			}
+			
+
+			// star
+			const starRating = document.querySelector(".starRating");
+			const stars = document.querySelectorAll(".star-img");
+			console.log(stars.length);
+			console.log(stars);
+			for(i = 0; i<stars.length; i++){
+				stars[i].addEventListener("click", function(e){
+					const elem = e.target;
+					for(k=0; k<stars.length; k++){
+						if(stars[k]==elem){
+							tempNumber = k;
+						}
+					}
+
+					for(j=0; j<=tempNumber; j++){
+						stars[j].src="{% static 'images/users/mypage/user/star-yellow.svg' %}";
+						starRating.value = j+1;
+					}
+					if(tempNumber<4){
+						for(l=tempNumber+1; l<=4; l++){
+							stars[l].src="{% static 'images/users/mypage/user/gray-star.svg' %}";
+						}
+
+					}
+				})
+			}
+			
+
+            const check_btn = document.querySelector(
+                '.review-reason-submit-wrap'
+            );
+            const check_img = document.querySelector(
+                '.review-reason-submit-img'
+            );
+            const switchCheckImgHoverIn = function (e) {
+                check_img.setAttribute(
+                    'src',
+                    "{% static 'images/users/mypage/user/check_hover.svg' %}"
+                );
+            };
+            const switchCheckImgHoverOut = function (e) {
+                check_img.setAttribute(
+                    'src',
+                    "{% static 'images/users/mypage/user/check_nohover.svg' %}"
+                );
+            };
+            check_btn.addEventListener('mouseover', switchCheckImgHoverIn);
+            check_btn.addEventListener('mouseleave', switchCheckImgHoverOut);
+        </script>
+</body>
+</html>
