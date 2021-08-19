@@ -1,4 +1,5 @@
-input, textarea {
+input,
+textarea {
     outline: none;
 }
 
@@ -24,7 +25,7 @@ input, textarea {
 }
 
 /* image upload 관련 */
-.filebox input[type="file"] {
+.filebox input[type='file'] {
     position: absolute;
     width: 0;
     height: 0;
@@ -43,11 +44,12 @@ input, textarea {
     cursor: pointer;
 }
 
-.default_img_1, .default_img_2 {
+.default_img_1,
+.default_img_2 {
     border-radius: 50%;
     width: 152px;
     height: 152px;
-    background-size: cover,
+    background-size: cover;
 }
 
 /* category 관련 */
@@ -61,7 +63,7 @@ input, textarea {
     height: 40px;
     margin-right: 20px;
 }
-#id_farm_cat li label{
+#id_farm_cat li label {
     position: absolute;
     left: 0;
     width: 70px;
@@ -78,12 +80,11 @@ input, textarea {
     background-color: #5c6754;
 }
 
-
-#id_farm_cat input[type="radio"] {
+#id_farm_cat input[type='radio'] {
     display: none;
 }
-#id_farm_cat input[type="radio"]::after {
-    content: "#";
+#id_farm_cat input[type='radio']::after {
+    content: '#';
 }
 
 /* 직접 입력 hashtag */
@@ -107,7 +108,10 @@ input, textarea {
     overflow-y: scroll;
 }
 
-#sample_farm_name, #sample_farmer_name, #sample_profile_title, #d_quotes {
+#sample_farm_name,
+#sample_farmer_name,
+#sample_profile_title,
+#d_quotes {
     color: #5e6656;
 }
 #sample_farm_name {
@@ -128,7 +132,8 @@ input, textarea {
 }
 
 /* ------------------------------------------ */
-#signup_form, #content {
+#signup_form,
+#content {
     width: 990px;
 }
 
@@ -153,7 +158,8 @@ input, textarea {
     color: #808080;
     font-weight: normal;
 }
-#img_label, #cat_label {
+#img_label,
+#cat_label {
     margin-left: 60.5px;
     font-size: 25px;
     text-align: left;
@@ -161,7 +167,8 @@ input, textarea {
     width: 220px;
 }
 
-#id_farmer_profile, #id_farm_profile {
+#id_farmer_profile,
+#id_farm_profile {
     height: 200px;
 }
 
@@ -285,7 +292,6 @@ input, textarea {
     font-size: 15px;
 }
 
-
 label.mand::after,
 label.opt::after {
     margin-left: 20px;
@@ -295,11 +301,11 @@ label.opt::after {
 }
 
 label.mand::after {
-    content: "(필수)";
+    content: '(필수)';
 }
 
 label.opt::after {
-    content: "(선택)";
+    content: '(선택)';
 }
 
 .form_term_agree a {
@@ -313,6 +319,10 @@ label.opt::after {
 #contract-content {
     width: 740px;
 }
+#contract-announce-content {
+    color: #707070;
+    font-size: 14px;
+}
 
 #contract-desc {
     width: 740px;
@@ -323,11 +333,26 @@ label.opt::after {
     overflow-y: scroll;
 }
 
-#contract-content input[type="checkbox"] {
+#contract-content input[type='checkbox'] {
     display: none;
+}
+
+#contract-agree {
+    color: #808080;
+}
+
+/* contract html */
+#contract-item-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+#contract-item-desc {
+    font-size: 12px;
+    margin-bottom: 12px;
 }
 
 /* farm_info update page */
 #update_btn {
-    cursor: pointer;   
+    cursor: pointer;
 }
