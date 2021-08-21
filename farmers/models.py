@@ -1,6 +1,7 @@
 from django.db import models
 from core.models import CompressedImageField
 from django.templatetags.static import static
+from config.settings import base
 
 
 class Farmer(models.Model):
@@ -11,10 +12,16 @@ class Farmer(models.Model):
     )
     farm_name = models.CharField(max_length=50)  # 농장 이름
     farmer_profile = CompressedImageField(
-        upload_to="farmer_profile/%Y/%m/%d/", null=True, blank=True
+        upload_to="farmer_profile/%Y/%m/%d/",
+        null=True,
+        blank=True,
+        default="..{}images/farm/farmer_default.svg".format(base.STATIC_URL),
     )  # 농장주 사진 default icon 설정
     farm_profile = CompressedImageField(
-        upload_to="farm_profile/%Y/%m/%d/", null=True, blank=True
+        upload_to="farm_profile/%Y/%m/%d/",
+        null=True,
+        blank=True,
+        default="..{}images/farm/farm_default.svg".format(base.STATIC_URL),
     )  # 농장 대표사진 or 로고
     profile_title = models.CharField(max_length=200)  # 농가 한 줄 소개
     farm_desc = CompressedImageField(
