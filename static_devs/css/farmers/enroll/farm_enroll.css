@@ -90,12 +90,19 @@ textarea {
 /* 직접 입력 hashtag */
 #hashtag_wrap {
     margin-left: 304.5px;
+    flex-wrap: wrap;
 }
-#new_tag {
+
+.hashtag-input-wrap {
     height: 25px;
-    padding: 0px 15px 1px 15px;
     border-radius: 20px;
     border: solid 1px #b3b3b3;
+    padding: 0px 10px;
+}
+
+#new_tag {
+    padding: 0px 5px;
+
     overflow-x: auto;
     outline: none;
 }

@@ -36,8 +36,7 @@
                         <div id="img_label" style="font-size: 15px;">{{farm_form.farmer_profile.label_tag}}</div>
                         <div class="mb-5" id="img_desc" style="font-size: 12px;">농부님의 사진을 올려주세요</div>
                         <div class="filebox">
-                            <div class="default_img_1 mb-4 mx-auto"
-                                style="background-image: url('{% static 'images/farm/farmer_default.svg' %}');"></div>
+                            <div class="default_img_1 mb-4 mx-auto" style="background-image: url('{% static 'images/farm/farmer_default.svg' %}');"></div>
                             <label for="id_farmer_profile">업로드</label>
                             {{farm_form.farmer_profile}}
                         </div>
@@ -46,8 +45,7 @@
                         <div id="img_label" style="font-size: 15px;">{{farm_form.farm_profile.label_tag}}</div>
                         <div class="mb-5" id="img_desc" style="font-size: 12px;">농장로고나 대표사진을 올려주세요</div>
                         <div class="filebox">
-                            <div class="default_img_2 mb-4 mx-auto"
-                                style="background-image: url('{% static 'images/farm/farm_default.svg' %}');"></div>
+                            <div class="default_img_2 mb-4 mx-auto" style="background-image: url('{% static 'images/farm/farm_default.svg' %}');"></div>
                             <label for="id_farm_profile">업로드</label>
                             {{farm_form.farm_profile}}
                         </div>
@@ -55,7 +53,7 @@
                     <div class="flex flex-col">
                         <div id="img-upload-announce">
                             * 프로필 / 농가 사진은 원하시는 개인 소장 사진이 있을 시 업로드 해주세요.
-                            아닌 경우 피키팜에서 사진을 올려드립니다.  
+                            아닌 경우 피키팜에서 사진을 올려드립니다.
                         </div>
                     </div>
                 </div>
@@ -84,8 +82,19 @@
                     </div>
                     {{farm_form.farm_cat}}
                 </div>
-                <div class="grid grid-flow-row grid-rows-1 grid-cols-4 gap-4" id="hashtag_wrap">
-                    <input type="text" placeholder="# 직접입력" onKeyDown="onKeyDown()" id="new_tag" />
+                <div class="flex gap-4" id="hashtag_wrap">
+                    <div class="hashtag-input-wrap flex flex-row">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" onKeyDown="onKeyDown()" id="new_tag" name="farm_tag" />
+                    </div>
+                    <div class="hashtag-input-wrap flex">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" onKeyDown="onKeyDown()" id="new_tag" name="farm_tag" />
+                    </div>
+                    <div class="hashtag-input-wrap flex">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" onKeyDown="onKeyDown()" id="new_tag" name="farm_tag" />
+                    </div>
                 </div>
                 <div class="line mx-auto mb-14" style="margin-top: 35px;"></div>
                 <div class="font-medium text-2xl text-left mb-20" style="color:#5c6754;">나의 농가페이지 미리보기</div>
@@ -99,5 +108,6 @@
 </div>
 
 <script type="text/javascript" src="{% static 'js/farmers/farm_enroll.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/farmers/enroll/farm_tag.js' %}"></script>
 
 {% endblock %}
