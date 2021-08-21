@@ -7,6 +7,16 @@ class FarmEnrollForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.label_suffix = ""
+        self.fields["farmer_profile"].required = False
+        self.fields[
+            "farmer_profile"
+        ].initial = (
+            "https://pickyfarm.s3.ap-northeast-2.amazonaws.com/static/farm/farmer_default.svg"
+        )
+        self.fields["farm_profile"].required = False
+        self.fields[
+            "farm_profile"
+        ].initial = "https://pickyfarm.s3.ap-northeast-2.amazonaws.com/static/farm/farm_default.svg"
 
     class Meta:
         model = models.Farmer

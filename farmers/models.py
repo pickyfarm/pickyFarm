@@ -1,5 +1,6 @@
 from django.db import models
 from core.models import CompressedImageField
+from django.templatetags.static import static
 
 
 class Farmer(models.Model):
@@ -13,7 +14,7 @@ class Farmer(models.Model):
         upload_to="farmer_profile/%Y/%m/%d/", null=True, blank=True
     )  # 농장주 사진 default icon 설정
     farm_profile = CompressedImageField(
-        upload_to="farm_profile/%Y/%m/%d/"
+        upload_to="farm_profile/%Y/%m/%d/", null=True, blank=True
     )  # 농장 대표사진 or 로고
     profile_title = models.CharField(max_length=200)  # 농가 한 줄 소개
     farm_desc = CompressedImageField(
@@ -21,15 +22,11 @@ class Farmer(models.Model):
     )  # 농가 상세 소개
     sub_count = models.IntegerField(default=0)  # 구독자 수
     farm_news = models.CharField(max_length=500, null=True, blank=True)  # 농가 뉴스
-    farm_thanks_msg = models.CharField(
-        max_length=500, null=True, blank=True
-    )  # 농가 구매 감사 메세지
+    farm_thanks_msg = models.CharField(max_length=500, null=True, blank=True)  # 농가 구매 감사 메세지
     farm_cat = models.CharField(choices=CAT_CHOICES, max_length=20, default="fruit")
     contract = models.BooleanField(default=False)  # 계약서 동의 여부
     open = models.BooleanField(default=False)  # 입점 승인 여부
-    user = models.OneToOneField(
-        "users.User", related_name="farmer", on_delete=models.CASCADE
-    )
+    user = models.OneToOneField("users.User", related_name="farmer", on_delete=models.CASCADE)
     address = models.OneToOneField(
         "addresses.Address", related_name="farmer", on_delete=models.CASCADE
     )

@@ -1,21 +1,20 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.views.generic import DetailView, ListView, TemplateView
 from django.views import View
+from django.views.generic import DetailView, ListView, TemplateView
 from django.core import exceptions
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponseBadRequest
+from django.templatetags.static import static
 from requests.api import get
-from admins.models import FarmerNotice, FarmerNotification
 from math import ceil
 import datetime
 import json
-
 
 # models
 from .models import *
@@ -24,6 +23,7 @@ from users.models import Consumer, Subscribe, User
 from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group
 from comments.models import Farmer_Story_Comment, Product_Comment
+from admins.models import FarmerNotice, FarmerNotification
 
 # forms
 from .forms import *
@@ -303,11 +303,22 @@ def enroll_page2(request, consumerpk):
         consumer = Consumer.objects.get(pk=consumerpk)
         farm_form = FarmEnrollForm(request.POST, request.FILES)
         if farm_form.is_valid():
+            print(farm_form.cleaned_data)
+            print("--------------------")
+            # <InMemoryUploadedFile: 파일이름.png (image/png)>
+            print(static("images/farm/farmer_default.svg"))
+            # if farm_form.cleaned_data["farmer_profile"] is None:
+            #     farm_form.farmer_profile = static("images/farm/farmer_default.svg")
+            # if farm_form.cleaned_data["farm_profile"] is None:
+            #     farm_form.farm_profile = static("images/farm/farm_default.svg")
             farmer = farm_form.save(commit=False)
             farmer.user = consumer.user
             farmer.address = consumer.default_address
             farmer.save()
             return redirect("farmers:enroll_page3", farmer.pk)
+
+        # elif farm_form.cleaned_data["farm_profile"] is None
+
         ctx = {
             "farm_form": farm_form,
         }
@@ -683,9 +694,17 @@ def review_ajax(request):
 
 
 def product_refund(request):
-    addresses=["서울 동작구 장승배기로 11가길 11(상도파크자이) 105동 1901호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
-     "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호", "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호"]
-    return render(request, "farmers/mypage/order/product_refund_popup.html", {"addresses": addresses})
+    addresses = [
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 105동 1901호",
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+    ]
+    return render(
+        request, "farmers/mypage/order/product_refund_popup.html", {"addresses": addresses}
+    )
+
 
 def testview2(request):
     return render(request, "farmers/mypage/order/order_confirm_popup.html")
