@@ -1,22 +1,26 @@
-from django.core import exceptions
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views import View
+from django.core import exceptions
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import AnonymousUser
+from django.db import transaction
 from django.db.models import Q
+from django.http import JsonResponse, HttpResponseBadRequest
+from requests.api import get
 from admins.models import FarmerNotice, FarmerNotification
 from math import ceil
-from django.http import JsonResponse, HttpResponseBadRequest
 import datetime
+import json
 
 
 # models
 from .models import *
 from products.models import Product, Question
-from users.models import Consumer, Subscribe
+from users.models import Consumer, Subscribe, User
 from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group
 from comments.models import Farmer_Story_Comment, Product_Comment
@@ -106,13 +110,9 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(
-                Q(farmer__farm_name__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
         elif select_val == "farmer":
-            search_list = search_list.filter(
-                Q(farmer__user__nickname__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -142,9 +142,7 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(
-                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
-            )
+            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -221,9 +219,7 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
     try:
-        sub = Subscribe.objects.get(
-            farmer__pk=farmer.pk, consumer=request.user.consumer
-        )
+        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
     except:
         sub = False
     ctx = {
@@ -255,67 +251,90 @@ def farm_apply(request):
         return render(request, "farmers/farm_apply.html", ctx)
 
 
-# 입점 등록 page
-class FarmEnroll(View):
-    def get(self, request, step):
-        if step == 1:
-            form = SignUpForm()
-            addressform = AddressForm()
-            ctx = {
-                "form": form,
-                "addressform": addressform,
-            }
-            return render(request, "farmers/farm_enroll_1.html", ctx)
-        elif step == 2:
+def enroll_page1(request):
+    """입점 등록 1단계 (회원가입)"""
+
+    if request.method == "GET":
+        form = SignUpForm()
+        addressform = AddressForm()
+        ctx = {
+            "form": form,
+            "addressform": addressform,
+        }
+        return render(request, "farmers/enroll/farm_enroll_1.html", ctx)
+
+    elif request.method == "POST":
+        form = SignUpForm(request.POST)
+        addressform = AddressForm(request.POST)
+        if form.is_valid() and addressform.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            address = addressform.save(commit=False)
+            address.user = user
+            address.is_default = True
+            address.save()
+            consumer = Consumer.objects.create(user=user, grade=1, default_address=address)
+            if user is not None:
+                login(request, user=user)
+                return redirect("farmers:enroll_page2", consumer.pk)
+        ctx = {
+            "form": form,
+            "addressform": addressform,
+        }
+        return render(request, "farmers/enroll/farm_enroll_1.html", ctx)
+
+
+def enroll_page2(request, consumerpk):
+    """입점 등록 2단계 (파머 정보 입력)"""
+
+    if request.method == "GET":
+        if request.user.consumer.pk == consumerpk:
             farm_form = FarmEnrollForm()
             ctx = {
                 "farm_form": farm_form,
             }
-            return render(request, "farmers/farm_enroll_2.html", ctx)
-        elif step == 3:
-            return render(request, "farmers/farm_enroll_3.html")
-        return redirect(reverse("core:main"))
+            return render(request, "farmers/enroll/farm_enroll_2.html", ctx)
+        else:
+            return redirect("core:main")
 
-    def post(self, request, step):
-        form = SignUpForm(request.POST)
-        addressform = AddressForm(request.POST)
-        farmer_form = FarmEnrollForm(request.POST)
+    elif request.method == "POST":
+        consumer = Consumer.objects.get(pk=consumerpk)
+        farm_form = FarmEnrollForm(request.POST, request.FILES)
+        if farm_form.is_valid():
+            farmer = farm_form.save(commit=False)
+            farmer.user = consumer.user
+            farmer.address = consumer.default_address
+            farmer.save()
+            return redirect("farmers:enroll_page3", farmer.pk)
+        ctx = {
+            "farm_form": farm_form,
+        }
+        return render(request, "farmers/enroll/farm_enroll_2.html", ctx)
 
-        # farm enroll step 1
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            # Consumer.objects.create(user=user, grade=1)
-            address = addressform.save(commit=False)
-            # address.user = user
-            # address.is_default = True
-            # address.save()
-            return redirect(reverse("farmers:farm_enroll", kwargs={"step": "step_2"}))
 
-        # farm enroll step 2
-        if farmer_form.is_valid():
-            print("farm enroll 2 form valid")
-            farmer_form.save(commit=False)
-            return redirect(reverse("farmers:farm_enroll", kwargs={"step": "step_3"}))
+def enroll_page3(request, farmerpk):
+    """입점 등록 3단계 (계약서 작성)"""
 
-        # farm enroll step 3
+    farmer = Farmer.objects.get(pk=farmerpk)
+    if request.method == "GET":
+        if request.user.consumer.pk == farmer.user.consumer.pk:
+            return render(request, "farmers/enroll/farm_enroll_3.html")
+        else:
+            return redirect("core:main")
+
+    elif request.method == "POST":
         agree_1 = request.POST.get("agree-1")
         agree_2 = request.POST.get("agree-2")
+        farmer = Farmer.objects.get(pk=farmerpk)
         if agree_1 is not None and agree_2 is not None:
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                form.save()
-                address.save()
-                farmer_form.save()
-                Consumer.objects.create(user=user, grade=1)
-                login(request, user=user)
-                return redirect(reverse("core:main"))
-        else:
-            print("farm enroll form 3까지 못갔어요,,,")
-            return redirect(reverse("core:main"))
+            farmer.contract = True
+            return redirect("farmers:farmer_mypage_product")
+            # return render(request, "farmers/enroll/farm_enroll_complete.html")
+        return render(request, "farmers/enroll/farm_enroll_3.html")
 
-        print("redirect to main")
-        return redirect(reverse("core:main"))
+    return render(request, "farmers/enroll/farm_enroll_3.html")
 
 
 class FarmEnrollLogin(TemplateView):
@@ -356,18 +375,16 @@ class FarmerMyPageBase(ListView):
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
 
-        orders = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).exclude(status="wait")
+        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).exclude(
+            status="wait"
+        )
         context["overall_orders"] = orders
         context["new_orders"] = orders.filter(status="payment_complete")
         context["preparing_orders"] = orders.filter(status="preparing")
         context["shipping_orders"] = orders.filter(status="shipping")
         context["delivered_orders"] = orders.filter(status="delivery_complete")
         context["claimed_orders"] = orders.filter(
-            Q(status="re_ex_recept")
-            | Q(status="re_ex_approve")
-            | Q(status="re_ex_deny")
+            Q(status="re_ex_recept") | Q(status="re_ex_approve") | Q(status="re_ex_deny")
         )
 
         return context
@@ -403,9 +420,7 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
 
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             qs = qs.filter(update_at__lte=converted_end_date, update_at__gte=start_date)
 
@@ -469,14 +484,12 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         end_date = self.request.GET.get("end-date", None)
 
         # 문의
-        questions = Question.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("-id")
+        questions = Question.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             questions = questions.filter(
                 create_at__lte=converted_end_date, create_at__gte=start_date
@@ -488,17 +501,13 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         context["questions"] = questions
 
         # 리뷰
-        reviews = Product_Comment.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("-id")
+        reviews = Product_Comment.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
-            reviews = reviews.filter(
-                create_at__lte=converted_end_date, create_at__gte=start_date
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+            reviews = reviews.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
         page2 = self.request.GET.get("page2")
         paginator2 = Paginator(reviews, 5)
@@ -613,7 +622,7 @@ class FarmerMyPageNotice(FarmerMyPageBase):
 
 
 """
-Mypage Pagination
+Mypage Pagination with AJAX
 """
 
 
@@ -636,18 +645,12 @@ def qna_ajax(request):
     page = request.GET.get("page")
     start_date = request.GET.get("start-date", None)
     end_date = request.GET.get("end-date", None)
-    questions = Question.objects.filter(product__farmer=request.user.farmer).order_by(
-        "-id"
-    )
+    questions = Question.objects.filter(product__farmer=request.user.farmer).order_by("-id")
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
-        converted_end_date = datetime.datetime.strptime(
-            converted_end_date, "%Y-%m-%d %H:%M:%S"
-        )
-        questions = questions.filter(
-            create_at__lte=converted_end_date, create_at__gte=start_date
-        )
+        converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+        questions = questions.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
     paginator = Paginator(questions, 5)
     questions = paginator.get_page(page)
@@ -664,18 +667,12 @@ def review_ajax(request):
     page = request.GET.get("page2")
     start_date = request.GET.get("start-date", None)
     end_date = request.GET.get("end-date", None)
-    reviews = Product_Comment.objects.filter(
-        product__farmer=request.user.farmer
-    ).order_by("-id")
+    reviews = Product_Comment.objects.filter(product__farmer=request.user.farmer).order_by("-id")
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
-        converted_end_date = datetime.datetime.strptime(
-            converted_end_date, "%Y-%m-%d %H:%M:%S"
-        )
-        reviews = reviews.filter(
-            create_at__lte=converted_end_date, create_at__gte=start_date
-        )
+        converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+        reviews = reviews.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
     paginator = Paginator(reviews, 5)
     reviews = paginator.get_page(page)
