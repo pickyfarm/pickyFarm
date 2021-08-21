@@ -94,6 +94,18 @@ color: #b3b3b3;
   margin-right : 20px;
 }
 
+
+/* 상품 수량 관련 부분 */
+.quantity-number{
+  margin:0 13.9px;
+}
+
+#quantity-down, #quantity-up{
+  cursor: pointer;
+}
+
+
+
 /* 삭제하기 버튼 */
 #delete_btn{
   width: 115px;

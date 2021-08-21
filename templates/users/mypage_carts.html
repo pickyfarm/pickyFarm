@@ -50,10 +50,14 @@
 
                 <div class="flex flex-row"></div>
             </div>
-            <div id="cart-button-section" class="flex flex-row w-1/5 mt-4 pl-8 items-center">
-                <div id="quantity-down" name="{{cart.product.pk}}">0</div>
-                <div id="quantity-{{cart.product.pk}}">{{cart.quantity}}</div>
-                <div id="quantity-up" name="{{cart.product.pk}}">0</div>
+            <div id="cart-button-section" class="flex flex-row w-1/5 pl-8 items-center">
+                <div id="quantity-down" name="{{cart.product.pk}}">
+                    <img src="{% static 'images/users/cart_down.svg' %}">
+                </div>
+                <div id="quantity-{{cart.product.pk}}" class="quantity-number">{{cart.quantity}}</div>
+                <div id="quantity-up" name="{{cart.product.pk}}">
+                    <img src="{% static 'images/users/cart_up.svg' %}">
+                </div>
             </div>
         </div>
     </div>

@@ -1,5 +1,9 @@
 
-/* 상단 섹션 */
+/* 
+
+  상단 섹션 
+  
+  */
 #top-section{
     width:990px;
     height:270px;
@@ -10,6 +14,7 @@
     width:400px;
 }
 
+/* 페이지 제목 - My */
 #title_text1{
 
   font-size: 30px;
@@ -22,6 +27,7 @@
   color: #707070;
 }
 
+/* 페이지 제목 - Picky Farm */
 #title_text2{
 
   font-size: 40px;
@@ -34,6 +40,7 @@
   color: #5c6754;
 }
 
+/* 닉네임 */
 #nickname_text1{
   font-family: NotoSansKR;
   font-size: 25px;
@@ -46,6 +53,7 @@
   color: #707070;
 }
 
+/* 닉네임 - 님 */
 #nickname_text2{
   font-family: NotoSansKR;
   font-size: 20px;
@@ -100,7 +108,11 @@
 
 
 
-/* 중간 섹션 */
+/* 
+  
+  중간 섹션 
+  
+*/
 
 #middle-section{
     width:990px;
@@ -136,7 +148,11 @@
 
 
 
+/*
 
+  아래 섹션
+
+*/
 
 
 
@@ -153,25 +169,20 @@
   
 }
 
-/* ******농가 구독 섹션******* */
+/* 
+  농가 구독 섹션
+ */
 
 #subscribe_section{
   width:440px;
 }
 
-#subs_contents{
-  overflow:scroll;
-  width: 395px;
-  height: 400px;
-  padding: 30px;
-  border-radius: 20px;
-  background-color: #ffffff;
-}
 
 #subs_title_box{
   width:105px;
 }
 
+/* 구독 농가 제목 - My */
 #subs_title_text1{
 
   font-size: 20px;
@@ -184,6 +195,8 @@
   color: #5c6754;
 }
 
+
+/* 구독 농가 제목 - Farmer */
 #subs_title_text2{
   font-size: 25px;
   font-weight: 500;
@@ -195,6 +208,18 @@
   color: #5c6754;
   margin-left:8px;
 }
+
+/* 농가 구독 리스트들이 담겨있는 박스 - 스크롤 됨*/
+#subs_contents{
+  overflow:scroll;
+  width: 395px;
+  height: 400px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+
 
 /* [구독한 농가 없는 경우] */
 
@@ -226,9 +251,6 @@
 
 /* [구독한 농가 있는 경우] */
 
-#sub-right-section{
-  margin-left : 20px;
-}
 
 #farm_image{
   width: 60px;
@@ -236,8 +258,16 @@
   margin: 0 10px 30px 0;
   border: solid 1px #5e6656;
   border-radius: 99%;
+  object-fit: cover;
 }
 
+/* 구독 농가 이름 + 지역 + news 섹션 */
+#sub-right-section{
+  margin-left : 20px;
+}
+
+
+/* 구독 농가 관련 태그 */
 #farm_tag{
   padding: 0 7px 0 7px;
   opacity: 0.6;
@@ -249,6 +279,7 @@
   font-size: 10px;
 }
 
+/* 농가 위치 */
 #farm_loc{
   font-family: NotoSansKR;
   font-size: 12px;
@@ -259,6 +290,7 @@
   color: #5c6754;
 }
 
+/* 농가 이름 */
 #farm_name{
   font-family: NotoSansKR;
   font-size: 18px;
@@ -270,6 +302,7 @@
   color: #5c6754;
 }
 
+/* 구독 농가 뉴스 (스피커 모양 부분 ) */
 #sub_farm_news{
   font-family: NotoSansKR;
   width:180px;
@@ -286,6 +319,7 @@
   background-color: #f2f2f2;
 }
 
+/* 구독 취소 버튼 */
 #sub_cancel_btn{
   width: 57px;
   height: 20px;
@@ -316,6 +350,7 @@
   width:550px;
 }
 
+/* qna들이 나열되는 박스 - 스크롤 됨 */
 #qna_box_container{
   overflow:scroll;
 }
