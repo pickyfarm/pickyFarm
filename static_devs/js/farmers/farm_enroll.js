@@ -116,32 +116,13 @@ $('#step2_submit').click(function () {
         alert("농장 이름을 입력해주세요.");
         return;
     }
-    if ($('#id_farmer_profile').val() == "") {
-        alert("프로필 사진을 업로드해주세요.");
-        return;
-    }
-    if ($('#id_farm_profile').val() == "") {
-        alert("농장 사진을 업로드해주세요.");
-        return;
-    }
+
     if ($('#id_profile_title').val() == "") {
         alert("농장 한 줄 소개를 입력해주세요.");
         return;
     }
-    if ($('#id_profile_desc').val() == "") {
-        alert("농장 상세 소개를 입력해주세요.");
-        return;
-    }
-    if ($('#id_farm_thanks_msg').val() == "") {
-        alert("결제 시 보여질 구매 감사 메세지를 작성해주세요.");
-        event.preventDefault();
-        return;
-    }
-    if ($('#id_farm_news').val() == "") {
-        alert("농소비자에게 전달 할 농가뉴스를 작성해주세요.");
-        event.preventDefault();
-        return;
-    }
+
+
     if ($('#id_farm_cat input').is(":checked") == false) {
         alert("카테고리를 선택해주세요.");
         event.preventDefault();
