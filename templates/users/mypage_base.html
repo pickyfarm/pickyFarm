@@ -2,7 +2,9 @@
 {% load static %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/users/mypage_base.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_base.css' %}">
+{% block stylesheet_detail %}
+{% endblock stylesheet_detail %}
 {% endblock stylesheet %}
 
 {% block title_name %}
@@ -13,7 +15,7 @@
 <div class="main-contents flex justify-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
     <div class="flex flex-col">
         <div id="top-section" class="flex flex-row mt-14">
-            <div id="left" class="">
+            <div id="top-section-left" class="">
                 <div class="flex flex-row mt-4">
                     <div id="title_text1">
                         My
@@ -27,7 +29,7 @@
                     <div id="nickname_text2">님</div>
                 </div>
             </div>
-            <div id="right" class="flex flex-row justify-center">
+            <div id="top-section-right" class="flex flex-row justify-center">
                 <div id="preparing" class="mx-10">
                     <div id="status_text" class="mx-auto">
                         배송 준비중
@@ -74,6 +76,9 @@
                 </div>
             </div>
         </div>
+
+
+
         <div id="middle-section" class="flex flex-row">
 
             <div id="menu">
@@ -98,7 +103,6 @@
 
                 {% endblock content %}
             </div>
-
         </div>
 
     </div>

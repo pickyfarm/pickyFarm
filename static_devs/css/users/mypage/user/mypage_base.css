@@ -1,10 +1,12 @@
+
+/* 상단 섹션 */
 #top-section{
     width:990px;
     height:270px;
 }
 
 
-#left{
+#top-section-left{
     width:400px;
 }
 
@@ -58,11 +60,13 @@
 }
 
 
-#right{
+#top-section-right{
     width:100%;
     padding-left:50px;
 }
 
+
+/* 배송분비중, 배송중, 배송완료, 취소반품교환 글씨 */
 #status_text{
   font-family: NotoSansKR;
   font-size: 15px;
@@ -75,6 +79,7 @@
   color: #b3b3b3;
 }
 
+/* 상품 상태 아이콘 */
 #status_icon{
   margin-top:22.1px;
   height: 52px;
@@ -95,16 +100,18 @@
 
 
 
-
+/* 중간 섹션 */
 
 #middle-section{
     width:990px;
 }
 
+/* 구매내역, 찜한 목록, 장바구니, 배송지 관리, 개인정보 수정 메뉴 버튼 섹션 */
 #menu{
     width:150px;
 }
 
+/* 모바일 외주시 해당 태그 HIDE하고 새로 제작 필요 */
 .menu_content{
     width: 145px;
     height: 48px;
@@ -125,89 +132,7 @@
   cursor: pointer;
 }
 
-#filter-section{
-    margin-left : 126px;
-    margin-bottom : 45px;
-}
 
-#filter-section>div:nth-child(2){
-  margin-left:35px;
-}
-
-#filter{
-  margin-left : 126px;
-    margin-bottom : 45px;
-}
-
-#filter-6month{
-  width: 127px;
-  height: 30px;
-  padding: 4px 20px;
-  border-radius: 15px;
-  border: solid 1px #b3b3b3;
-  background-color: #ffffff;
-
-  font-size: 15px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #5c6754;
-  cursor: pointer;
-}
-
-#filter-6month:hover{
-  color:#ffffff;
-  background-color: #5c6754;
-}
-
-#filter>input{
-  width: 151px;
-  height: 30px;
-  border-radius: 15px;
-  padding: 4px 5px 4px 10px;
-  border: solid 1px #b3b3b3;
-  background-color: #ffffff;
-  font-family: NotoSansKR;
-  font-size: 15px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2;
-  letter-spacing: normal;
-  text-align: center;
-  color: #5c6754;
-  margin-left:9px;
-  margin-right:9px;
-}
-
-#filter-until{
-  font-size: 20px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.5;
-  letter-spacing: normal;
-  color: #5c6754;
-}
-
-#filter-submit{
-  width: 106px;
-  height: 30px;
-  border-radius: 15px;
-  background-color: #5c6754;
-
-  font-size: 15px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-  margin-left:21px;
-}
 
 
 
