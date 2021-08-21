@@ -73,7 +73,8 @@
                     {{form.phone_number}}
                     <div class="form-validation-message" id="phone-number-valid"></div>
                 </div>
-                <div class="valid-button button" id="phone-number-check">인증번호 받기</div>
+                <div class="valid-button button" id="phone-number-check" name="{% url 'users:phone_number_validation' %}">인증번호 받기</div>
+                <input type="hidden" id="phonenumValidCheck">
                 {{addressform.full_address.label_tag}}
                 <div>
                     {{addressform.full_address}}

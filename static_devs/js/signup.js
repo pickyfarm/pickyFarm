@@ -87,6 +87,7 @@ $('#id-check').click(function () {
 
 $('#email-check').click(function () {
   let target = $('#id_email').val();
+  console.log(target)
   let url = $(this).attr('name');
   const messageContainer = document.querySelector('#email-valid');
 
@@ -117,6 +118,44 @@ $('#email-check').click(function () {
           !messageContainer.classList.contains('invallid-form')
         );
         $('#emailValidCheck').attr('valid', 'false');
+      }
+    },
+  });
+});
+
+$('#phone-number-check').click(function () {
+  let target = $('#id_phone_number').val();
+  console.log(target)
+  let url = $(this).attr('name');
+  const messageContainer = document.querySelector('#phone-number-valid');
+
+  if (target == '') {
+    messageContainer.innerHTML = '✕ 전화번호를 입력해주세요.';
+    messageContainer.classList.toggle(
+      'invalid-form',
+      !messageContainer.classList.contains('invallid-form')
+    );
+    return;
+  }
+
+  $.ajax({
+    url: url,
+    data: { target: target },
+    success: function (data) {
+      if (data['isValid'] == false) {
+        messageContainer.innerHTML = '인증번호를 입력해주세요.';
+        messageContainer.classList.toggle(
+          'invalid-form',
+          messageContainer.classList.contains('invallid-form')
+        );
+        $('#phonenumValidCheck').attr('valid', 'true');
+      } else {
+        messageContainer.innerHTML = '✕ 이미 등록된 전화번호입니다.';
+        messageContainer.classList.toggle(
+          'invalid-form',
+          !messageContainer.classList.contains('invallid-form')
+        );
+        $('#phonenumValidCheck').attr('valid', 'false');
       }
     },
   });
