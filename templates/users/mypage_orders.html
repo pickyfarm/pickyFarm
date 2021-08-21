@@ -32,10 +32,10 @@
 <div id="products-section" class="mt-5">
   {% for detail in order_details %}
   <div id="product" class="flex flex-row mb-5">
-    <div id="product_img" class="w-3/12">
-      <img src="{{detail.product.main_image.url}}">
+    <div class="w-2/12">
+      <img id="product_img" src="{{detail.product.main_image.url}}">
     </div>
-    <div class="w-6/12">
+    <div id="product-contents" class="w-6/12">
       <div id="product_order_at2">{{detail.order_group.order_at | date}} 주문</div>
       <div class="flex flex-row">
         <div id="product_title">
@@ -50,8 +50,8 @@
         
       </div>
       <div class="flex flex-row">
-        <div class="w-2/5" id="product_price">{{detail.total_price}}원</div>
-        <div class="w-3/5" id="product_quantity">{{detail.quantity}}g</div>
+        <div id="product_price">{{detail.total_price}}원</div>
+        <div id="product_quantity">{{detail.quantity}}g</div>
       </div>
       <div class="flex flex-row" id="delivery_status">
 
@@ -75,7 +75,7 @@
     <div id="cart-button-section" class="flex justify-end items-center w-2/12">
         <div id="cartIn_btn" name="{{detail.product.pk}}" class="transition_element">장바구니 담기</div>
     </div>
-    <div id="buttons-section" class="flex flex-col justify-center w-1/12 pl-6 pt-2">
+    <div id="buttons-section" class="flex flex-col justify-center w-2/12 pl-6 pt-2">
       
         <div id="see-product-btn"class="transition_element">
           <a href="{% url 'products:product_detail' detail.product.pk %}">
