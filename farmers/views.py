@@ -712,16 +712,33 @@ class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
     template_name = "farmers/mypage/product/product_state_update_popup.html"
     context_object_name = "product"
 
+    def get_queryset(self, **kwargs):
+        return Product.objects.filter(pk=self.kwargs["pk"])
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().farmer != self.request.user.farmer:
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, request, **kwargs):
+        product = self.get_queryset()
+
         state = request.POST.get("sell")
-        weight_unit = request.POST.get("weights")
-        quantity = request.POST.get("quantity")
+        weight = request.POST.get("weight", product[0].weight)
+        weight_unit = request.POST.get("weight_unit")
+        quantity = request.POST.get("quantity", product[0].stock)
 
-        product = self.get_object()
+        product.update(
+            **{
+                "status": state,
+                "weight": weight,
+                "weight_unit": weight_unit,
+                "stock": quantity,
+            }
+        )
 
-        product.status = "sale" if state == "sell_start" else "suspended"
-        product.weight_unit = "kg" if weight_unit == "kg" else "g"
-        product.quantity = quantity
+        return redirect("farmer:popup_callback")
 
 
 class FarmerMypagePopupCallback(RedirectView):

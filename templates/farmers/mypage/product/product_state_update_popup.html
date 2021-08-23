@@ -19,11 +19,11 @@
                 <!-- 상품 판매 시작/중지 input -->
                 <div class='product-state-update-radio-wrap flex'>
                     <div class='product-state-update-form-sell-start-wrap'>
-                        <input type='radio' id='sell_start_radio' value='sell_start' name='sell' {% if product.status == 'sale' %}checked{% endif %}>
+                        <input type='radio' id='sell_start_radio' value='sale' name='sell' {% if product.status == 'sale' %}checked{% endif %}>
                         <label for='sell_start_radio' id='sell_start_title'>판매 시작</label>
                     </div>
                     <div class='product-state-update-form-sell-stop-wrap'>
-                        <input type='radio' id='sell_stop_radio' value='sell_stop' name='sell' {% if product.status != 'sale' %}checked{% endif %} required>
+                        <input type='radio' id='sell_stop_radio' value='suspended' name='sell' {% if product.status != 'sale' %}checked{% endif %} required>
                         <label for='sell_stop_radio' id='sell_stop_title'>판매 일시 중지</label>
                     </div>
                 </div>
@@ -33,10 +33,10 @@
                         <div class='product-state-update-weight-title'>상품 중량 / 용량</div>
                         <div class='product-state-update-weight-input-select-wrap flex'>
                             <div class='product-state-update-weight-input-wrap'>
-                                <input type='text' id='product-weight-input' required />
+                                <input type='text' id='product-weight-input' required value="{{product.weight}}" name='weight' />
                             </div>
                             <div class='product-state-update-weight-select-wrap'>
-                                <select name='weights' id='product-weight-unit' required>
+                                <select name='weight_unit' id='product-weight-unit' required>
                                     <option value='kg' {% if product.weigth_unit == 'kg' %}selected{% endif %}>Kg</option>
                                     <option value='g' {% if product.weigth_unit == 'g' %}selected{% endif %}>g</option>
                                 </select>
@@ -49,7 +49,7 @@
                     </div>
                     <div class='product-state-update-quantity-wrap flex'>
                         <label for='product_quantity' id='product_quantity_title'>상품 수량</label>
-                        <input type='text' id='product_quantity' value='{{product.quantity}}' name='quantity' required>
+                        <input type='text' id='product_quantity' value='{{product.stock}}' name='quantity' required>
                         <span class='product-quantity-unit'>개</span>
                     </div>
                 </div>
