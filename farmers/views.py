@@ -472,8 +472,22 @@ class FarmerMyPageProductManage(FarmerMyPageBase):
 
     def get_queryset(self):
         products = Product.objects.filter(farmer=self.request.user.farmer)
+        q = self.request.GET.get("q", None)
+        status = self.request.GET.get("status", None)
+
+        if status:
+            products = products.filter(status=status)
+
+        if q:
+            products = products.filter(title__icontains=q)
 
         return products
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q", None)
+        context["status"] = self.request.GET.get(status, None)
+        return context
 
 
 class FarmerMyPagePaymentManage(FarmerMyPageBase):
