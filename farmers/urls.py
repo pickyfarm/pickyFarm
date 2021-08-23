@@ -68,6 +68,11 @@ urlpatterns = [
         name="farmer_mypage_order_check_popup",
     ),
     path(
+        "mypage/product/update/<int:pk>",
+        views.FarmerMypPageProductStateUpdate.as_view(),
+        name="farmer_mypage_product_state_update",
+    ),
+    path(
         "mypage/popup-callback",
         views.FarmerMypagePopupCallback.as_view(),
         name="popup_callback",

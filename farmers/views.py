@@ -463,35 +463,6 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
         return context
 
 
-class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
-    """주문 확인 팝업"""
-
-    template_name = "farmers/mypage/order/order_confirm_popup.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["products"] = Product.objects.filter(
-            order_details__pk=self.kwargs["pk"]
-        ).order_by("kinds")
-
-        print(context["products"])
-        return context
-
-    def post(self, request, **kwargs):
-        order = self.get_object()
-        order.status = "preparing"
-        order.save()
-
-        return redirect("farmer:popup_callback")
-
-    def render_to_response(self, ctx, **kwargs):
-        order = self.get_object()
-        if order.status != "payment_complete":
-            return redirect("core:main")
-
-        return super().render_to_response(ctx, **kwargs)
-
-
 class FarmerMyPageProductManage(FarmerMyPageBase):
     """농가 상품관리 페이지"""
 
@@ -684,6 +655,59 @@ class FarmerMyPageNotice(FarmerMyPageBase):
         print(context)
 
         return context
+
+
+"""
+Farmer Mypage Popups
+"""
+
+
+class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
+    """주문 확인 팝업"""
+
+    template_name = "farmers/mypage/order/order_confirm_popup.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+
+        print(context["products"])
+        return context
+
+    def post(self, request, **kwargs):
+        order = self.get_object()
+        order.status = "preparing"
+        order.save()
+
+        return redirect("farmer:popup_callback")
+
+    def render_to_response(self, ctx, **kwargs):
+        order = self.get_object()
+        if order.status != "payment_complete":
+            return redirect("core:main")
+
+        return super().render_to_response(ctx, **kwargs)
+
+
+class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
+    """상품 상태 수정 팝업"""
+
+    model = Product
+    template_name = "farmers/mypage/product/product_state_update_popup.html"
+    context_object_name = "product"
+
+    def post(self, request, **kwargs):
+        state = request.POST.get("sell")
+        weight_unit = request.POST.get("weights")
+        quantity = request.POST.get("quantity")
+
+        product = self.get_object()
+
+        product.status = "sale" if state == "sell_start" else "suspended"
+        product.weight_unit = "kg" if weight_unit == "kg" else "g"
+        product.quantity = quantity
 
 
 class FarmerMypagePopupCallback(RedirectView):
