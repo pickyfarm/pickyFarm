@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.db import transaction
 from .forms import Order_Group_Form
-from .models import Order_Group, Order_Detail
+from .models import Order_Group, Order_Detail, RefundExchange
 from django.utils import timezone
 from products.models import Product
 from users.models import Subscribe
@@ -13,6 +13,8 @@ import json
 import os, datetime
 from .BootpayApi import BootpayApi
 import pprint
+from kakaomessages.views import send_kakao_message
+from kakaomessages.template import templateIdList
 
 # Create your views here.
 
@@ -621,3 +623,86 @@ def order_cancel(request, pk):
 
     else:
         return redirect(reverse("core:main"))
+
+@login_required
+@transaction.atomic
+def create_change_or_refund(request):
+    user = request.user
+    order_detail_pk = request.GET.get('order_detail_pk')
+    if request.method == "GET":
+        user = request.user
+        addresses = user.consumer.addresses
+        ctx = {
+            'addresses' : addresses
+        }
+        return render(request, "users/mypage/user/product_refund_popup.html", ctx)
+    elif request.method == "POST": 
+        order_detail = Order_Detail.objects.select_for_update().filter(pk=order_detail_pk)
+        
+        claim_type = request.POST.get('change_or_refund', None)
+        print(claim_type)
+
+        # order_detail status 변경 (환불/반품 접수)
+        if claim_type == "refund":
+            order_detail.status = "re_recept"
+        elif claim_type == "exchange":
+            order_detail.status = "ex_recept"
+        else:
+            return redirect(reverse("core:main"))
+        order_detail.save()
+
+
+        claim_reason = request.POST.get('reason_txt', None)
+        print(claim_reason)
+        image = request.FILES.get('product_image', None)
+        print(image)
+        rev_loc_at = request.POST.get('rev_loc_at', None)
+        print(rev_loc_at)
+        rev_address = request.POST.get('address', None)
+
+        
+        refundExchange = RefundExchange(claim_type=claim_type, claim_status="recept", order_detail=order_detail, 
+                                        reason=claim_reason, image=image, rev_address=rev_address, rev_loc_at=rev_loc_at)
+
+        ctx = {
+            "order_detail" : order_detail
+        }
+        
+        farmer_phonenum = order_detail.product.farmer.user.phone_number
+
+
+        weight = order_detail.product.weight
+        weight_unit = order_detail.product.weight_unit
+        quantity = order_detail.quantity
+
+        kakao_msg_weight = (str)(weight) + weight_unit
+        kakao_msg_quantity = (str)(quantity) + '개'
+
+        args = {
+            "#{order_detail_title}": order_detail.product.title,
+            "#{order_detail_number}": order_detail.order_management_number,
+            "#{weight}": kakao_msg_weight,
+            "#{quantity}" : kakao_msg_quantity,
+            "#{consumer_nickname}" : user.nickname,
+            "#{reason}" : claim_reason,
+        }
+
+        if claim_type == "refund":
+            send_kakao_message(farmer_phonenum, templateIdList["refund_recept"], args)
+            return render(request, "users/mypage/user/product_refund_complete.html", ctx)
+        elif claim_type == "exchange":
+            send_kakao_message(farmer_phonenum, templateIdList["exchange_recept"], args)
+            return render(request, "users/mypage/user/product_exchange_complete.html", ctx)
+        else:
+            return redirect(reverse("core:main"))
+
+
+    else:
+        return redirect(reverse("core:main"))
+        
+
+
+
+
+
+    

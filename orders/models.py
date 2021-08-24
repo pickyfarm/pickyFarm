@@ -1,4 +1,5 @@
 from django.db import models
+from core.models import CompressedImageField
 
 
 # Create your models here.
@@ -109,6 +110,7 @@ class RefundExchange(models.Model):
 
     order_detail = models.ForeignKey("Order_Detail", on_delete=models.PROTECT)
     reason = models.TextField()
+    image = CompressedImageField(upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True)
 
     rev_address = models.TextField(null=True, blank=True)
     rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
