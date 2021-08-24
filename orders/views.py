@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.views.generic import DetailView
 from django.db import transaction
 from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail

@@ -1,6 +1,10 @@
 {% extends "users/mypage_base.html" %}
 {% load static %}
 
+{% block stylesheet_detail %}
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_carts.css' %}">
+{% endblock stylesheet_detail %}
+
 {% block content %}
 {% if carts.exists is True %}
 <div id="filter-section" class="flex flex-row">
@@ -39,17 +43,21 @@
                 </div>
                 <div class="flex flex-row mt-2">
                     <div id="product_weight">{{cart.product.weight}}g / </div>
-                    <div id="product_price_{{cart.product.pk}}" name="{{cart.product.sell_price}}">
+                    <div id="product_price_{{cart.product.pk}}" class="product_price" name="{{cart.product.sell_price}}">
                         {{cart.product.sell_price}}원</div>
 
                 </div>
 
                 <div class="flex flex-row"></div>
             </div>
-            <div id="cart-button-section" class="flex flex-row w-1/5 mt-4 pl-8 items-center">
-                <div id="quantity-down" name="{{cart.product.pk}}">0</div>
-                <div id="quantity-{{cart.product.pk}}">{{cart.quantity}}</div>
-                <div id="quantity-up" name="{{cart.product.pk}}">0</div>
+            <div id="cart-button-section" class="flex flex-row w-1/5 pl-8 items-center">
+                <div id="quantity-down" name="{{cart.product.pk}}">
+                    <img src="{% static 'images/users/cart_down.svg' %}">
+                </div>
+                <div id="quantity-{{cart.product.pk}}" class="quantity-number">{{cart.quantity}}</div>
+                <div id="quantity-up" name="{{cart.product.pk}}">
+                    <img src="{% static 'images/users/cart_up.svg' %}">
+                </div>
             </div>
         </div>
     </div>

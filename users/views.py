@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
+from orders.models import Order_Detail
 from django.db.models import Count
 from django.utils import timezone
 from django.utils.timezone import get_current_timezone, localtime
@@ -832,6 +833,43 @@ def mypage(request, cat):
             return redirect(reverse("core:main"))
 
 
+"""Order Popups"""
+
+
+class OrderCancelPopup(DetailView):
+    """주문 취소 팝업"""
+
+    model = Order_Detail
+    template_name = "users/mypage/user/order_cancel_popup.html"
+    context_object_name = "order"
+
+    def dispatch(self, request, *args, **kwargs):
+        if (
+            self.get_object().status != "payment_complete"
+            or self.get_object().order_group.consumer != self.request.user.consumer
+        ):
+            return redirect("core:popup_callback")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+        return context
+
+    def post(self, request, **kwargs):
+        order = self.get_object()
+        cancel_reason = request.POST.get("cancel_reason", None)
+
+        order.cancel_reason = cancel_reason
+        order.status = "cancel"
+        order.save()
+
+        return redirect("core:popup_callback")
+
+
 # def add_rev_address(request):
 #     if request.method == 'GET':
 #         addressform = AddressForm()
@@ -958,3 +996,16 @@ def testview(request):
 
 def reviewtest(request):
     return render(request, "users/mypage/user/product_review_popup.html")
+
+
+def product_refund(request):
+    addresses = [
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 105동 1901호",
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+        "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
+    ]
+    return render(
+        request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses}
+    )

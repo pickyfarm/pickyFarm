@@ -24,13 +24,12 @@
         </div>
     </div>
     <div class="search-bar-section flex items-center">
-        <div class="search-bar-wrapper flex items-center">
+        <form class="search-bar-wrapper flex items-center" method="GET" action="">
             <div class="search-bar-title">상품명</div>
             <div class="bar"></div>
-            <input type="text" id="product-search">
-            <img src="{% static 'images/farmer_mypage/product/searchicon.svg' %}" alt="검색" id="search-button"
-                class="button">
-        </div>
+            <input type="text" id="product-search" name='q' value="{% if q %} {{q}} {% endif %}" />
+            <button style="background-image: url('{% static 'images/farmer_mypage/order/searchicon.svg' %}');" alt="검색" id="search-button" class="button"></button>
+        </form>
         <div class="search-sort flex items-center">
             <img src="{% static 'images/farmer_mypage/product/sorticon.svg' %}" alt="정렬하기" id="search-icon">
             정렬

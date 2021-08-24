@@ -5,6 +5,7 @@ from farmers.models import Farmer
 from .models import Main_Slider_Image
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.generic import RedirectView
 
 
 def index(request):
@@ -55,3 +56,7 @@ def index(request):
 
 def disclaimer(request):
     return render(request, "base/disclaimer.html")
+
+
+class PopupCallback(RedirectView):
+    pattern_name = "core:main"
