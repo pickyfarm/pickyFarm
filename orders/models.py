@@ -66,6 +66,10 @@ class Order_Detail(models.Model):
 
     PAYMENT_STATUS = (("incoming", "정산예정"), ("progress", "정산 진행"), ("done", "정산 완료"))
 
+    # LOGIS_COMPANY = (
+    #     ()
+    # )
+
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="incoming"

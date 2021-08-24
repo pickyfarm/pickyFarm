@@ -50,7 +50,9 @@ urlpatterns = [
         views.FarmerMyPageReviewQnAManage.as_view(),
         name="farmer_mypage_review_qna",
     ),
-    path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
+    path(
+        "mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"
+    ),
     # mypage pagination ajax url
     path(
         "mypage/notifications/notification_ajax/",
@@ -59,5 +61,25 @@ urlpatterns = [
     ),
     path("mypage/reviews_qnas/qna_ajax/", views.qna_ajax, name="qna_ajax"),
     path("mypage/reviews_qnas/review_ajax/", views.review_ajax, name="review_ajax"),
-    path("test2/", views.testview2, name="testview2"),
+    # mypage popups url
+    path(
+        "mypage/orders/check/<int:pk>",
+        views.FarmerMyPageOrderCheckPopup.as_view(),
+        name="farmer_mypage_order_check_popup",
+    ),
+    path(
+        "mypage/orders/invoice/<int:pk>",
+        views.FarmerMypageInvoiceUpdatePopup.as_view(),
+        name="farmer_mypage_invoice_update_popup",
+    ),
+    path(
+        "mypage/product/update/<int:pk>",
+        views.FarmerMypPageProductStateUpdate.as_view(),
+        name="farmer_mypage_product_state_update",
+    ),
+    path(
+        "mypage/popup-callback",
+        views.FarmerMypagePopupCallback.as_view(),
+        name="popup_callback",
+    ),
 ]

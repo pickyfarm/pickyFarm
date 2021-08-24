@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views import View
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 from django.core import exceptions
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
@@ -667,6 +667,119 @@ class FarmerMyPageNotice(FarmerMyPageBase):
 
 
 """
+Farmer Mypage Popups
+"""
+
+
+class FarmerMyPagePopupBase(DetailView):
+    model = Order_Detail
+    context_object_name = "order"
+
+
+class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
+    """주문 확인 팝업"""
+
+    template_name = "farmers/mypage/order/order_confirm_popup.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+
+        print(context["products"])
+        return context
+
+    def post(self, request, **kwargs):
+        order = self.get_object()
+        order.status = "preparing"
+        order.save()
+
+        return redirect("farmer:popup_callback")
+
+    def render_to_response(self, ctx, **kwargs):
+        order = self.get_object()
+        if order.status != "payment_complete":
+            return redirect("core:main")
+
+        return super().render_to_response(ctx, **kwargs)
+
+
+class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
+    """상품 상태 수정 팝업"""
+
+    model = Product
+    template_name = "farmers/mypage/product/product_state_update_popup.html"
+    context_object_name = "product"
+
+    def get_queryset(self, **kwargs):
+        return Product.objects.filter(pk=self.kwargs["pk"])
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().farmer != self.request.user.farmer:
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, **kwargs):
+        product = self.get_queryset()
+
+        state = request.POST.get("sell")
+        weight = request.POST.get("weight", product[0].weight)
+        weight_unit = request.POST.get("weight_unit")
+        quantity = request.POST.get("quantity", product[0].stock)
+
+        product.update(
+            **{
+                "status": state,
+                "weight": weight,
+                "weight_unit": weight_unit,
+                "stock": quantity,
+            }
+        )
+
+        return redirect("farmer:popup_callback")
+
+
+class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
+    """주문 송장입력 팝업"""
+
+    template_name = "farmers/mypage/order/invoice_info_popup.html"
+    context_object_name = "order"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().product.farmer != self.request.user.farmer:
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+        return context
+
+    def post(self, request, **kwargs):
+        order = self.get_queryset()
+        invoice_number = self.request.POST.get("invoice_number", None)
+        logis_company = self.request.POST.get("invoice-select")
+
+        order.update(**{"invoice_number": invoice_number})
+
+        return redirect("farmer:popup_callback")
+
+
+class FarmerMypagePopupCallback(RedirectView):
+    """팝업 페이지 확인 후 콜백"""
+
+    pattern_name = "core:main"
+
+
+"""
 Mypage Pagination with AJAX
 """
 
@@ -752,7 +865,3 @@ def product_refund(request):
         "farmers/mypage/order/product_refund_popup.html",
         {"addresses": addresses},
     )
-
-
-def testview2(request):
-    return render(request, "farmers/mypage/order/order_confirm_popup.html")
