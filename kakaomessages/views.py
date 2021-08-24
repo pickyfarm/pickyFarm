@@ -1,12 +1,18 @@
 from django.shortcuts import render
 import json
 import sys
+import re
 
 from .message import *
 from django.http import HttpResponse
 
 
-def send_kakao_message(phonenum, args={}):
+def send_kakao_message(
+    phonenum,
+    templateId="",
+    args={},
+):
+    phonenum = re.sub(r"[^0-9]", "", phonenum)
     data = {
         "messages": [
             # 변수가 있는 경우
@@ -17,7 +23,7 @@ def send_kakao_message(phonenum, args={}):
                 "from": "01033688026",
                 "kakaoOptions": {
                     "pfId": "KA01PF210731082631285ecaWbc5i60e",
-                    "templateId": "KA01TP2107310829300073JUsV4IeXxB",
+                    "templateId": templateId,
                     # 변수: 값 형식으로 모든 변수에 대한 변수값 입력
                     # "variables": {},  # 변수가 없는 경우에도 입력
                     "variables": args,

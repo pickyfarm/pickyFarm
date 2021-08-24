@@ -1,41 +1,20 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from django.utils.timezone import get_current_timezone
-import json
-from .models import (
-    Subscribe,
-    Cart,
-    Consumer,
-    Wish,
-    User,
-    Editor,
-)
-from farmers.models import Farmer
-from products.models import Category, Product
-from editor_reviews.models import Editor_Review
-from comments.models import Editor_Review_Comment
-from farmers.models import Farmer
 from orders.models import Order_Detail
 from django.db.models import Count
-from math import ceil
-from datetime import timedelta
 from django.utils import timezone
+from django.utils.timezone import get_current_timezone, localtime
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
-from django.views.decorators.http import require_POST
 from django.views.generic.detail import DetailView
-from .forms import (
-    LoginForm,
-    SignUpForm,
-    MyPasswordResetForm,
-)
+from django.views.decorators.http import require_POST
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.views import (
     PasswordResetView,
     PasswordResetDoneView,
@@ -45,20 +24,36 @@ from django.contrib.auth.views import (
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.db.models import Q
-from addresses.forms import AddressForm
-from addresses.models import Address
-from math import ceil
 from django.conf import settings
-from django.contrib.auth.models import AnonymousUser
 from django.views.generic import DetailView
+
 import datetime
+from datetime import timedelta
 import os
 import requests
 import pprint
+import json
+from math import ceil
+from random import randint
+from kakaomessages.template import templateIdList
+from kakaomessages.views import send_kakao_message
+
+
+# models
+from .models import Subscribe, Cart, Consumer, Wish, User, Editor, PhoneNumberAuth
+from editor_reviews.models import Editor_Review
+from comments.models import Editor_Review_Comment
+from farmers.models import Farmer
+from products.models import Category, Product
+from addresses.models import Address
+
+# forms
+from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
+from addresses.forms import AddressForm
+
+from kakaomessages.views import send_kakao_message
 
 # Exception 선언 SECTION
-
-
 class KakaoException(Exception):
     pass
 
@@ -88,9 +83,7 @@ def CartInAjax(request):
             cart = Cart.objects.get(consumer=user.consumer, product=product)
             message = "이미 장바구니에 있는 무난이 입니다"
         except ObjectDoesNotExist:
-            cart = Cart.objects.create(
-                consumer=user.consumer, product=product, quantity=quantity
-            )
+            cart = Cart.objects.create(consumer=user.consumer, product=product, quantity=quantity)
             message = product.title + "를 장바구니에 담았습니다!"
         print(cart)
 
@@ -387,12 +380,8 @@ class SignUp(View):
         form = SignUpForm(request.POST)
         addressform = AddressForm(request.POST)
         benefit_agree = True if request.POST.get("agree-benefit", False) else False
-        kakao_farmer_agree = (
-            True if request.POST.get("agree-kakao-farmer", False) else False
-        )
-        kakao_comment_agree = (
-            True if request.POST.get("agree-kakao-comment", False) else False
-        )
+        kakao_farmer_agree = True if request.POST.get("agree-kakao-farmer", False) else False
+        kakao_comment_agree = True if request.POST.get("agree-kakao-comment", False) else False
 
         if form.is_valid():
             form.save()
@@ -457,6 +446,68 @@ def nicknameValidation(request):
     return JsonResponse(ctx)
 
 
+def phoneNumberValidation(request):
+    """phone number validation function for AJAX"""
+
+    target = request.GET.get("target")  # 전화번호
+    isValid = User.objects.filter(phone_number=target).exists()  # 유저 존재 여부
+
+    if not isValid:
+        try:  # 재발급
+            userAuth = PhoneNumberAuth.objects.get(phone_num=target)
+            timeOver = timezone.now() - userAuth.update_at > timezone.timedelta(minutes=5)
+            if timeOver:
+                auth_num = randint(100000, 1000000)
+                message = {"#{인증번호}": auth_num}
+                userAuth.auth_num = auth_num
+                userAuth.update_at = timezone.localtime()
+                userAuth.save()
+                print("send kakaomessage", auth_num)
+                # send_kakao_message(target, templateIdList["signup"], message)
+            else:
+                pass
+        except PhoneNumberAuth.DoesNotExist:  # 신규발급
+            auth_num = randint(100000, 1000000)
+            message = {"#{인증번호}": auth_num}
+            userAuth = PhoneNumberAuth.objects.create(phone_num=target, auth_num=auth_num)
+            print("send kakaomessage", auth_num)
+            # send_kakao_message(target, templateIdList["signup"], message)
+
+    ctx = {"target": target, "isValid": isValid}
+    return JsonResponse(ctx)
+
+
+def phoneNumberAuthentication(request):
+    """phone number authentication function for AJAX"""
+
+    phone_num = request.GET.get("phone_num")  # 전화번호
+    auth_num = request.GET.get("auth_num")  # 인증번호
+
+    try:
+        userAuth = PhoneNumberAuth.objects.get(phone_num=phone_num)
+        timeOver = timezone.now() - userAuth.update_at > timezone.timedelta(minutes=5)
+        print("현재 시간", timezone.now())
+        print("마지막 수정 시간", userAuth.update_at)
+        if auth_num != userAuth.auth_num:
+            isValid = False
+        elif (not timeOver) and (auth_num == userAuth.auth_num):
+            timeOver = False
+            isValid = True
+        elif timeOver and auth_num == userAuth.auth_num:
+            timeOver = True
+            isValid = True
+        print(timeOver)
+        print(isValid)
+        ctx = {
+            "isValid": isValid,
+            "timeOver": timeOver,
+        }
+        return JsonResponse(ctx)
+
+    except PhoneNumberAuth.DoesNotExist:
+        pass
+
+
 def terms_of_service_popup(request):
     return render(request, "users/signup/terms_of_service_popup.html")
 
@@ -477,13 +528,9 @@ class MyPasswordResetView(PasswordResetView):
     def form_valid(self, form):
         global user_email
 
-        if User.objects.filter(
+        if User.objects.filter(email=self.request.POST.get("email")).exists() and User.objects.get(
             email=self.request.POST.get("email")
-        ).exists() and User.objects.get(
-            email=self.request.POST.get("email")
-        ).username == self.request.POST.get(
-            "username"
-        ):
+        ).username == self.request.POST.get("username"):
             user_email = form.cleaned_data.get("email")
             return super().form_valid(form)
 
@@ -509,9 +556,7 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
         form.fields["new_password1"].widget.attrs = {"placeholder": "새 비밀번호를 입력해주세요"}
-        form.fields["new_password2"].widget.attrs = {
-            "placeholder": "새 비밀번호를 한번 더 입력해주세요"
-        }
+        form.fields["new_password2"].widget.attrs = {"placeholder": "새 비밀번호를 한번 더 입력해주세요"}
 
         return form
 
@@ -579,9 +624,7 @@ def mypage(request, cat):
         print(one_month_before)
 
         questions = (
-            consumer.questions.filter(create_at__gt=one_month_before)
-            .order_by("-create_at")
-            .all()
+            consumer.questions.filter(create_at__gt=one_month_before).order_by("-create_at").all()
         )
         print((type)(questions))
 
@@ -628,9 +671,7 @@ def mypage(request, cat):
                     # filter start_date input에 아무런 value가 없을 경우
                     start_date = datetime.datetime.now(tz=get_current_timezone()).date()
                 else:
-                    start_date = datetime.datetime.strptime(
-                        start_date, "%Y-%m-%d"
-                    ).date()
+                    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
 
                 if end_date == "":
                     # filter end_date input에 아무런 value가 없음 경우
@@ -649,9 +690,7 @@ def mypage(request, cat):
                     )
 
                 order_groups = (
-                    groups.filter(
-                        order_at__lte=converted_end_date, order_at__gte=start_date
-                    )
+                    groups.filter(order_at__lte=converted_end_date, order_at__gte=start_date)
                     .exclude(status="wait")
                     .order_by("-order_at")
                 )
@@ -713,9 +752,7 @@ def mypage(request, cat):
             ctx.update(ctx_wishes)
             return render(request, "users/mypage_wishes.html", ctx)
         elif cat_name == "cart":
-            carts = (
-                consumer.carts.all().order_by("-create_at").filter(product__open=True)
-            )
+            carts = consumer.carts.all().order_by("-create_at").filter(product__open=True)
             print(carts)
 
             ctx_carts = {
@@ -919,9 +956,7 @@ class EditorMyPage_Comments(ListView):
         comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
 
         for review in reviews:
-            comments = comments.union(
-                Editor_Review_Comment.objects.filter(editor_review=review)
-            )
+            comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
 
         return comments.order_by("is_read")
 

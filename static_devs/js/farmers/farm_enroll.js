@@ -1,3 +1,4 @@
+// farm_enroll PAGE 2
 // 프로필 사진
 function readInputFile_1(input) {
     if ($("#id_farmer_profile")) {
