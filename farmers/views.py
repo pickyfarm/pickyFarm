@@ -413,11 +413,6 @@ class FarmerMyPageBase(ListView):
         return context
 
 
-class FarmerMyPagePopupBase(DetailView):
-    model = Order_Detail
-    context_object_name = "order"
-
-
 class FarmerMyPageOrderManage(FarmerMyPageBase):
     """농가 주문관리 페이지"""
 
@@ -676,6 +671,11 @@ Farmer Mypage Popups
 """
 
 
+class FarmerMyPagePopupBase(DetailView):
+    model = Order_Detail
+    context_object_name = "order"
+
+
 class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
     """주문 확인 팝업"""
 
@@ -737,6 +737,38 @@ class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
                 "stock": quantity,
             }
         )
+
+        return redirect("farmer:popup_callback")
+
+
+class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
+    """주문 송장입력 팝업"""
+
+    template_name = "farmers/mypage/order/invoice_info_popup.html"
+    context_object_name = "order"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().product.farmer != self.request.user.farmer:
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+        return context
+
+    def post(self, request, **kwargs):
+        order = self.get_queryset()
+        invoice_number = self.request.POST.get("invoice_number", None)
+        logis_company = self.request.POST.get("invoice-select")
+
+        order.update(**{"invoice_number": invoice_number})
 
         return redirect("farmer:popup_callback")
 
