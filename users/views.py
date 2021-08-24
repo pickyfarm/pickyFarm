@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
 from django.utils import timezone
-from django.utils.timezone import get_current_timezone
+from django.utils.timezone import get_current_timezone, localtime
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.detail import DetailView
@@ -34,17 +34,12 @@ import pprint
 import json
 from math import ceil
 from random import randint
+from kakaomessages.template import templateIdList
+from kakaomessages.views import send_kakao_message
 
 
 # models
-from .models import (
-    Subscribe,
-    Cart,
-    Consumer,
-    Wish,
-    User,
-    Editor,
-)
+from .models import Subscribe, Cart, Consumer, Wish, User, Editor, PhoneNumberAuth
 from editor_reviews.models import Editor_Review
 from comments.models import Editor_Review_Comment
 from farmers.models import Farmer
@@ -450,19 +445,66 @@ def nicknameValidation(request):
     return JsonResponse(ctx)
 
 
-# phone number validation function for AJAX
 def phoneNumberValidation(request):
-    target = request.GET.get("target")
-    isValid = User.objects.filter(phone_number=int(target)).exists()
-    print(target)
-    print(isValid)
+    """phone number validation function for AJAX"""
+
+    target = request.GET.get("target")  # 전화번호
+    isValid = User.objects.filter(phone_number=target).exists()  # 유저 존재 여부
+
+    if not isValid:
+        try:  # 재발급
+            userAuth = PhoneNumberAuth.objects.get(phone_num=target)
+            timeOver = timezone.now() - userAuth.update_at > timezone.timedelta(minutes=5)
+            if timeOver:
+                auth_num = randint(100000, 1000000)
+                message = {"#{인증번호}": auth_num}
+                userAuth.auth_num = auth_num
+                userAuth.update_at = timezone.localtime()
+                userAuth.save()
+                print("send kakaomessage", auth_num)
+                # send_kakao_message(target, templateIdList["signup"], message)
+            else:
+                pass
+        except PhoneNumberAuth.DoesNotExist:  # 신규발급
+            auth_num = randint(100000, 1000000)
+            message = {"#{인증번호}": auth_num}
+            userAuth = PhoneNumberAuth.objects.create(phone_num=target, auth_num=auth_num)
+            print("send kakaomessage", auth_num)
+            # send_kakao_message(target, templateIdList["signup"], message)
+
     ctx = {"target": target, "isValid": isValid}
     return JsonResponse(ctx)
 
 
-# phone number authentication function for AJAX
 def phoneNumberAuthentication(request):
-    pass
+    """phone number authentication function for AJAX"""
+
+    phone_num = request.GET.get("phone_num")  # 전화번호
+    auth_num = request.GET.get("auth_num")  # 인증번호
+
+    try:
+        userAuth = PhoneNumberAuth.objects.get(phone_num=phone_num)
+        timeOver = timezone.now() - userAuth.update_at > timezone.timedelta(minutes=5)
+        print("현재 시간", timezone.now())
+        print("마지막 수정 시간", userAuth.update_at)
+        if auth_num != userAuth.auth_num:
+            isValid = False
+        elif (not timeOver) and (auth_num == userAuth.auth_num):
+            timeOver = False
+            isValid = True
+        elif timeOver and auth_num == userAuth.auth_num:
+            timeOver = True
+            isValid = True
+        print(timeOver)
+        print(isValid)
+        ctx = {
+            "isValid": isValid,
+            "timeOver": timeOver,
+        }
+        return JsonResponse(ctx)
+
+    except PhoneNumberAuth.DoesNotExist:
+        pass
 
 
 def terms_of_service_popup(request):

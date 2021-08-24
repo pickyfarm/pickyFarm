@@ -35,5 +35,5 @@ class SubscribeAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.PhoneNumberAuth)
-class PhoneNumberAuth(admin.ModelAdmin):
+class PhoneNumberAuthAdmin(admin.ModelAdmin):
     pass

@@ -10,9 +10,11 @@ from config import settings
 import comments
 import os
 import shutil
+import datetime
 from random import randint
 from kakaomessages.template import templateIdList
 from kakaomessages.views import send_kakao_message
+
 
 # Create your models here.
 
@@ -181,13 +183,10 @@ class Subscribe(models.Model):
 
 
 class PhoneNumberAuth(models.Model):
-    user = models.OneToOneField(User, related_name="phone_number_auth", on_delete=models.CASCADE)
-    authnum = models.IntegerField(verbose_name="인증번호")
+    phone_num = models.CharField(max_length=11, verbose_name="전화번호")
+    auth_num = models.CharField(max_length=6, verbose_name="인증번호")
     create_at = models.DateTimeField(default=timezone.now)
     update_at = models.DateTimeField(default=timezone.now)
 
-    def save(self, *args, **kwargs):
-        self.authnum = randint(100000, 1000000)
-        super().save(*args, **kwargs)
-        message = {"#{인증번호}": self.authnum}
-        send_kakao_message(self.user.phone_number, templateIdList["signup"], message)
+    def __str__(self):
+        return self.phone_num
