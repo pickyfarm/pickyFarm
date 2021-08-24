@@ -479,9 +479,16 @@ class FarmerMyPageProductManage(FarmerMyPageBase):
         return products
 
     def get_context_data(self, **kwargs):
+        products = Product.objects.filter(farmer=self.request.user.farmer)
+
         context = super().get_context_data(**kwargs)
         context["q"] = self.request.GET.get("q", None)
         context["status"] = self.request.GET.get("status", None)
+        context["pending"] = products.filter(status="pending")
+        context["sale"] = products.filter(status="sale")
+        context["suspended"] = products.filter(status="suspended")
+        context["soldout"] = products.filter(status="soldout")
+
         return context
 
 
@@ -726,7 +733,7 @@ class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
 
         state = request.POST.get("sell")
         weight = request.POST.get("weight", product[0].weight)
-        weight_unit = request.POST.get("weight_unit")
+        weight_unit = request.POST.get("weight_unit", product[0].weight_unit)
         quantity = request.POST.get("quantity", product[0].stock)
 
         product.update(
