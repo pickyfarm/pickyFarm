@@ -73,6 +73,10 @@ urlpatterns = [
     path("test/", views.testview, name="testview"),
     path("reviewtest/", views.reviewtest, name="reviewtest"),
     path("product_refund_test/", views.product_refund, name="product_refund"),
-
-
+    # mypage popups
+    path(
+        "mypage/orders/cancel/<int:pk>",
+        views.OrderCancelPopup.as_view(),
+        name="mypage_order_cancel_popup",
+    ),
 ]

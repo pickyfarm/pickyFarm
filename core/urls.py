@@ -9,6 +9,7 @@ app_name = "core"
 urlpatterns = [
     path("", views.index, name="main"),
     path("policy/disclaimer", views.disclaimer, name="disclaimer"),
+    path("popup-callback", views.PopupCallback.as_view(), name="popup_callback"),
 ]
 
 if settings.DEBUG:
