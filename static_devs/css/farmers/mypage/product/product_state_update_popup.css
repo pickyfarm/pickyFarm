@@ -1,3 +1,9 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -15,7 +21,7 @@
     cursor: pointer;
 }
 
-input[type="radio"] {
+input[type='radio'] {
     appearance: none;
     border: 1px solid #b3b3b3;
     border-radius: 15px;
@@ -23,7 +29,7 @@ input[type="radio"] {
     height: 15px;
 }
 
-input[type="radio"]:before {
+input[type='radio']:before {
     content: '';
     display: block;
     width: 70%;
@@ -32,11 +38,11 @@ input[type="radio"]:before {
     border-radius: 15px;
 }
 
-input[type="radio"]:checked:before {
+input[type='radio']:checked:before {
     background-color: #5c6754;
 }
 
-input[type="radio"]:checked {
+input[type='radio']:checked {
     border-color: #5c6754;
 }
 
@@ -59,11 +65,9 @@ input[type="radio"]:checked {
     color: #4d4d4d;
 }
 
-
 .product-state-update-form-sell-stop-wrap {
     margin-left: 30px;
 }
-
 
 #sell_start_title {
     position: relative;
@@ -169,7 +173,6 @@ input[type="radio"]:checked {
     border-radius: 20px;
 }
 
-
 #product_quantity:focus {
     outline: none;
 }
@@ -181,14 +184,13 @@ input[type="radio"]:checked {
     align-items: center;
     display: inline-block;
     background-color: transparent;
-    border : 0;
+    border: 0;
     outline: 0;
 }
 
 .product-state-update-submit-wrap:hover {
     cursor: pointer;
 }
-
 
 .product-state-update-submit-text {
     margin-top: 10px;
@@ -203,7 +205,7 @@ input[type="radio"]:checked {
         width: 100%;
     }
 
-    input[type="radio"]:before {
+    input[type='radio']:before {
         content: '';
         display: block;
         width: 74%;
@@ -229,7 +231,6 @@ input[type="radio"]:checked {
     .product-state-update-weight-input-wrap {
         width: 47%;
     }
-
 
     #product-weight-input {
         width: 100%;
@@ -267,12 +268,12 @@ input[type="radio"]:checked {
         top: 1px;
         right: 50px;
     }
-
 }
 
 /* flex-wrap 때문에 label, input 배치가 뒤틀려 추가  */
-@media screen and (max-width: 430px){
-    .product-state-update-weight-input-select-wrap, #product_quantity {
+@media screen and (max-width: 430px) {
+    .product-state-update-weight-input-select-wrap,
+    #product_quantity {
         width: 146.7px;
     }
 }

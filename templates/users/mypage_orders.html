@@ -40,14 +40,14 @@
       <div class="flex flex-row">
         <div id="product_title">
           {% if detail.product.title|length > 16 %}
-            {{detail.product.title|slice:"16"}}..
+          {{detail.product.title|slice:"16"}}..
           {% else %}
-            {{detail.product.title}}
+          {{detail.product.title}}
           {% endif %}
         </div>
         <div id="slash">|</div>
         <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
-        
+
       </div>
       <div class="flex flex-row">
         <div id="product_price">{{detail.total_price}}원</div>
@@ -73,28 +73,29 @@
       <div class="flex flex-row"></div>
     </div>
     <div id="cart-button-section" class="flex justify-end items-center w-2/12">
-        <div id="cartIn_btn" name="{{detail.product.pk}}" class="transition_element">장바구니 담기</div>
+      <div id="cartIn_btn" name="{{detail.product.pk}}" class="transition_element">장바구니 담기</div>
     </div>
     <div id="buttons-section" class="flex flex-col justify-center w-2/12 pl-6 pt-2">
-      
-        <div id="see-product-btn"class="transition_element">
-          <a href="{% url 'products:product_detail' detail.product.pk %}">
-            무난이 보기
-          </a>
-        </div>
-      
-      
-        <div id="reg-review-btn" class="transition_element">
-          <a>
-            리뷰 쓰기
-          </a>
-        </div>
-      
-        <div id="cancel-order-btn" class="transition_element">
-          <a>
-            주문 취소
-          </a>
-        </div>
+
+      <div id="see-product-btn" class="transition_element">
+        <a href="{% url 'products:product_detail' detail.product.pk %}">
+          무난이 보기
+        </a>
+      </div>
+
+
+      <div id="reg-review-btn" class="transition_element">
+        <a>
+          리뷰 쓰기
+        </a>
+      </div>
+      {% if detail.status == 'payment_complete' %}
+      <div id="cancel-order-btn" class="transition_element" onclick="window.open('{% url 'user:mypage_order_cancel_popup' detail.pk %}')">
+        <a>
+          주문 취소
+        </a>
+      </div>
+      {% endif %}
     </div>
   </div>
   {% endfor %}
@@ -144,40 +145,40 @@
   let cartInbtns = document.querySelectorAll('#cartIn_btn')
   console.log(cartInbtns)
   cartInbtns.forEach(item => {
-        item.addEventListener('click', function () {
-            let pk = item.getAttribute('name')
-            console.log(pk);
-            cartIn(pk)
-        })
+    item.addEventListener('click', function () {
+      let pk = item.getAttribute('name')
+      console.log(pk);
+      cartIn(pk)
     })
+  })
 
   let filter6Month = document.getElementById('filter-6month')
 
-  filter6Month.addEventListener('click', function(){
+  filter6Month.addEventListener('click', function () {
     let sDateInput = document.getElementById('filter-start-date')
     let eDateInput = document.getElementById('filter-end-date')
     let submitBtn = document.getElementById('filter-submit')
     const now = new Date()
     console.log(now)
 
-    let nowMonth = now.getMonth() +1
+    let nowMonth = now.getMonth() + 1
     console.log(nowMonth)
-    
+
     let startMonth = nowMonth - 6
     let year = now.getFullYear()
     let startYear = year
-    if(startMonth<=0){
-      if(startMonth == 0){
+    if (startMonth <= 0) {
+      if (startMonth == 0) {
         startMonth = 12
         startYear -= 1
       }
-      else{
+      else {
         startMonth = 12 + startMonth + 1
         startYear -= 1
       }
     }
-    if(startMonth < 10)
-        startMonth = '0' + startMonth
+    if (startMonth < 10)
+      startMonth = '0' + startMonth
 
     startDate = startYear + '-' + startMonth + '-01'
     console.log(startDate)
@@ -185,10 +186,10 @@
     sDateInput.setAttribute('value', startDate)
 
     nowDate = now.getDate()
-    if(nowDate < 10)
+    if (nowDate < 10)
       nowDate = '0' + nowDate
-    
-    if(nowMonth < 10)
+
+    if (nowMonth < 10)
       nowMonth = '0' + nowMonth
 
     endDate = year + '-' + nowMonth + '-' + nowDate
@@ -196,10 +197,9 @@
     eDateInput.setAttribute('value', endDate)
 
     submitBtn.click()
-    
+
   })
 
 </script>
-  
-{% endblock content %}
 
+{% endblock content %}
