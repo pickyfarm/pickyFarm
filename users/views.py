@@ -1009,3 +1009,5 @@ def product_refund(request):
     return render(
         request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses}
     )
+
+

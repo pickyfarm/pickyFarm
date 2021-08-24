@@ -124,3 +124,7 @@ Pipfile.lock
 Pipfile
 
 package-lock.json
+
+
+#kakao message
+kakaomessages/template.py

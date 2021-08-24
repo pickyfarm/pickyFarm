@@ -23,7 +23,7 @@
                             {% csrf_token %}
                             <div class="radio-box">
                                 <div class="radio-change-box">
-                                    <input type="radio" id="radio-change" name="change_or_refund" value="change"><label for="radio-change">교환</label>
+                                    <input type="radio" id="radio-change" name="change_or_refund" value="exchange"><label for="radio-change">교환</label>
                                 </div> 
                                 <div class="radio-refund-box">
                                     <input type="radio" id="radio-refund" name="change_or_refund" value="refund"><label for="radio-refund">반품</label> 
@@ -61,9 +61,9 @@
                                     {% for address in addresses %}
                                     <div class="address-box">
                                             <div class="address-subbox">
-                                                <input type="radio" name="address" id="{{ forloop.counter}}" class="address-radio">
+                                                <input type="radio" name="address" id="{{ forloop.counter}}" class="address-radio" value="{{ address.full_address }}">
                                             </div>
-                                            <label for="{{ forloop.counter }}" class="{{forloop.counter}}"><div >{{ address }}</div></label>
+                                            <label for="{{ forloop.counter }}" class="{{forloop.counter}}"><div >{{ address.full_address }}</div></label>
                                         </div>
                                     {% endfor %}
                                 </div>
@@ -71,32 +71,25 @@
                                 <div class="request-box">
                                         <div class="request-radio-box">
                                             <div class="request-radio-subbox">
-                                                <input type="radio" name="request"  id="door" class="request-radio">
+                                                <input type="radio" name="rev_loc_at"  value="문 앞" class="request-radio">
                                             </div>
                                             <label for="door"><div>문 앞</div></label>
                                         </div>
                                         <div class="request-radio-box">
                                             <div class="request-radio-subbox">
 
-                                                <input type="radio" name="request" id="security" class="request-radio">
+                                                <input type="radio" name="rev_loc_at" value="경비실" class="request-radio">
                                             </div>
                                             <label for="security"><div>경비실</div></label>
                                         </div>
                                         <div class="request-radio-box">
                                             <div class="request-radio-subbox">
 
-                                                <input type="radio" name="request" id="delivery" class="request-radio">
+                                                <input type="radio" name="rev_loc_at" value="사전에 연락 후 문 앞 배송" class="request-radio">
                                             </div>
                                             <label for="delivery"><div>배송기사가 사전에 연락 후 문 앞 배송</div></label>
                                         </div>
-                                        <div class="request-radio-box">
-                                            <div class="request-radio-subbox">
-                                                <input type="radio" name="request" id="etc" class="request-radio">
-
-                                            </div>
-                                            <label for="etc"><div>그 외 요청사항</div></label>
-                                        </div>                                                                                                                        
-                                            <div class="request-txt-box"><input type="text" name="etc_txt"></div>
+                                        
                                 </div>  
                                                          
                             <button class="refund-reason-submit-wrap flex" type="submit">
