@@ -481,7 +481,7 @@ class FarmerMyPageProductManage(FarmerMyPageBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["q"] = self.request.GET.get("q", None)
-        context["status"] = self.request.GET.get(status, None)
+        context["status"] = self.request.GET.get("status", None)
         return context
 
 
@@ -695,7 +695,7 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
         order.status = "preparing"
         order.save()
 
-        return redirect("farmer:popup_callback")
+        return redirect("core:popup_callback")
 
     def render_to_response(self, ctx, **kwargs):
         order = self.get_object()
@@ -738,7 +738,7 @@ class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
             }
         )
 
-        return redirect("farmer:popup_callback")
+        return redirect("core:popup_callback")
 
 
 class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
@@ -770,7 +770,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
 
         order.update(**{"invoice_number": invoice_number})
 
-        return redirect("farmer:popup_callback")
+        return redirect("core:popup_callback")
 
 
 class FarmerMypagePopupCallback(RedirectView):

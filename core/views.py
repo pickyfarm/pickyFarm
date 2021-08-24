@@ -5,7 +5,7 @@ from farmers.models import Farmer
 from .models import Main_Slider_Image
 from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import RedirectView
+from django.views.generic import TemplateView
 
 
 def index(request):
@@ -58,5 +58,5 @@ def disclaimer(request):
     return render(request, "base/disclaimer.html")
 
 
-class PopupCallback(RedirectView):
-    pattern_name = "core:main"
+class PopupCallback(TemplateView):
+    template_name = "base/popup_callback.html"
