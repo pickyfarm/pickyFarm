@@ -47,24 +47,6 @@ $("#id_farm_profile").on('change', function () {
 
 // 해시 태그
 
-// 해시태그 생성
-
-
-function deleteHashtag(id) {
-    var targetTag = id.parentNode;
-    targetTag.remove();
-    tagNum--;
-}
-
-// function createHashtag() {
-//     if (event.keyCode === 13) {
-//         var div = document.createElement("div");
-//         
-//         parent.appendChild(div);
-//     }
-// }
-
-
 // 선택한 카테고리 해시태그 색상 변경
 var checked = document.querySelector('input[name="farm_cat"]:checked')
 checked.parentNode.setAttribute('class', 'sel_bk_color')
@@ -98,18 +80,16 @@ $('#id_farm_news').keyup(function () {
 
 // step2 page form valid check
 $('#step2_submit').click(function () {
-    // let cats = Array.from(document.querySelectorAll('#id_farm_cat input'))
-    // console.log($('#id_farm_cat').val())
-    // cats.forEach(cat => {
-    //     console.log(cat)
-    //     // console.log(cat.is(":checked"))
-    // });
     var categories = document.getElementsByName("farm_cat").length;
+    var hashTagList = new Array();
+    $("input[name=farm_tag]").each(function(index, item) {
+        hashTagList.push($(item).val());
+    });
+    $("#hashtag_list").val(hashTagList);
 
     for (var i = 0; i < categories; i++) {
         if (document.getElementsByName("farm_cat")[i].checked == true) {
             let farm_cat = document.getElementsByName("farm_cat")[i].value;
-            // console.log(farm_cat)
         }
     }
 
@@ -123,10 +103,10 @@ $('#step2_submit').click(function () {
         return;
     }
 
-
     if ($('#id_farm_cat input').is(":checked") == false) {
         alert("카테고리를 선택해주세요.");
         event.preventDefault();
         return;
     }
+
 })
