@@ -17,11 +17,25 @@ document.querySelectorAll('.order-cancel').forEach((elem) => {
 });
 
 const orderConfirm = (pk) => {
-    document.querySelector(
-        `.order-confirm-overlay[name='${pk}']`
-    ).style.display = 'none';
+    $.ajax({
+        url: orderStateUpdateURL,
+        type: 'POST',
+        data: {
+            csrfmiddlewaretoken: CSRFToken,
+            pk: pk,
+            state: 'preparing',
+        },
+        success: (res) => {
+            document.querySelector(
+                `.order-confirm-overlay[name='${pk}']`
+            ).style.display = 'none';
 
-    shootToastMessage('주문을 수락하였습니다.');
+            shootToastMessage(res);
+        },
+        complete: () => {
+            location.reload();
+        },
+    });
 };
 
 const orderCancel = (pk) => {
