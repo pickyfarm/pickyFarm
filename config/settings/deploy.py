@@ -25,7 +25,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 # RDS Setting
 DATABASES = {
     "default": {
-        "ENGINE": "mysql.connector.django",
+        "ENGINE": "django.db.backends.mysql",
         "HOST": os.environ.get("RDS_ENDPOINT_URL"),
         "PORT": os.environ.get("RDS_CONNECTION_PORT"),
         "NAME": os.environ.get("RDS_SCHEMA_NAME"),
