@@ -17,7 +17,9 @@
                 <div class="product-sheet-bar"></div>
                 <div class="product-subtitle">{{product.sub_title}}</div>
             </div>
-            <div class="open-status">{{product.open | yesno:'판매중,판매중지'}}</div>
+            <div class="open-status">
+                {{product.get_status_display}}
+            </div>
             <div class="stocks">{{product.stock}}</div>
             <div class="package-unit">{{product.weight}}{{product.weight_unit}}</div>
             <div class="sell-price">{{product.sell_price | intcomma}}</div>
