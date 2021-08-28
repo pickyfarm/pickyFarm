@@ -41,6 +41,11 @@ urlpatterns = [
         name="farmer_mypage_order",
     ),
     path(
+        "mypage/orders/state",
+        views.farmer_mypage_order_state_update,
+        name="farmer_mypage_order_state_update",
+    ),
+    path(
         "mypage/notifications/",
         views.FarmerMyPageNotificationManage.as_view(),
         name="farmer_mypage_notification",

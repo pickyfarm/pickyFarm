@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Q
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.templatetags.static import static
 from requests.api import get
 from math import ceil
@@ -456,6 +456,18 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
         context["status"] = self.request.GET.get("status", None)
         context["q"] = self.request.GET.get("q", None)
         return context
+
+
+def farmer_mypage_order_state_update(request):
+    if request.is_ajax():
+        pk = request.POST.get("pk", None)
+        state = request.POST.get("state", None)
+
+        order = Order_Detail.objects.get(pk=pk)
+        order.status = state
+        order.save()
+
+        return HttpResponse("주문을 수락하였습니다", status=200)
 
 
 class FarmerMyPageProductManage(FarmerMyPageBase):

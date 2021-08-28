@@ -9,6 +9,8 @@
 <script>
     document.querySelector('#button-order-manage').classList.add('active');
     const DateTime = luxon.DateTime;
+    const orderStateUpdateURL = '{% url "farmer:farmer_mypage_order_state_update" %}'
+    const CSRFToken = "{{csrf_token}}"
 </script>
 <script src="{% static 'js/farmers/mypage/farmer_mypage_order.js'%}"></script>
 {% endblock content %}
