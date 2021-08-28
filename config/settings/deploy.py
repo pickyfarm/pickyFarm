@@ -1,4 +1,5 @@
 from .base import *
+import os
 
 DEBUG = False
 ALLOWED_HOSTS = ["*"]
@@ -19,6 +20,18 @@ AWS_STORAGE_BUCKET_NAME = "pickyfarm"
 AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=86400",
+}
+
+# RDS Setting
+DATABASES = {
+    "default": {
+        "ENGINE": "mysql.connector.django",
+        "HOST": os.environ.get("RDS_ENDPOINT_URL"),
+        "PORT": os.environ.get("RDS_CONNECTION_PORT"),
+        "NAME": os.environ.get("RDS_SCHEMA_NAME"),
+        "USER": os.environ.get("RDS_CLIENT_NAME"),
+        "PASSWORD": os.environ.get("RDS_CONNECT_PW"),
+    }
 }
 
 # AWS_LOCATION = "static"
