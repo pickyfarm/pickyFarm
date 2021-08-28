@@ -37,7 +37,7 @@ from math import ceil
 from random import randint
 from kakaomessages.template import templateIdList
 from kakaomessages.views import send_kakao_message
-
+from config.settings import base
 
 # models
 from .models import Subscribe, Cart, Consumer, Wish, User, Editor, PhoneNumberAuth
@@ -291,7 +291,7 @@ class Login(View):
                 keep_login = self.request.POST.get("auto_login", False)
                 print(keep_login)
                 if keep_login:
-                    settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+                    base.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
                 login(request, user=user)
                 return redirect(reverse("core:main"))
@@ -854,9 +854,9 @@ class OrderCancelPopup(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["products"] = Product.objects.filter(
-            order_details__pk=self.kwargs["pk"]
-        ).order_by("kinds")
+        context["products"] = Product.objects.filter(order_details__pk=self.kwargs["pk"]).order_by(
+            "kinds"
+        )
         return context
 
     def post(self, request, **kwargs):
@@ -1006,8 +1006,6 @@ def product_refund(request):
         "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
         "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
     ]
-    return render(
-        request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses}
-    )
+    return render(request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses})
 
 
