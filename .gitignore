@@ -125,6 +125,8 @@ Pipfile
 
 package-lock.json
 
+mamage.py
+
 
 #kakao message
 kakaomessages/template.py
