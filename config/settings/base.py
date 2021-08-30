@@ -174,16 +174,7 @@ TEMPLATES = [
 #     }
 # }
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "HOST": os.environ.get("RDS_ENDPOINT_URL"),
-        "PORT": os.environ.get("RDS_CONNECTION_PORT"),
-        "NAME": os.environ.get("RDS_SCHEMA_NAME"),
-        "USER": os.environ.get("RDS_CLIENT_NAME"),
-        "PASSWORD": os.environ.get("RDS_CONNECT_PW"),
-    }
-}
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
 # Password validation
