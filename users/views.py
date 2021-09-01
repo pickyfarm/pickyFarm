@@ -1017,7 +1017,6 @@ class ProductCommentCreate(TemplateView):
         product_comment = ProductCommentForm(request.POST, request.FILES)
         consumer = Consumer.objects.get(pk=self.request.user.pk)
 
-        product_comment = ProductCommentForm(request.POST, request.FILES)
         if product_comment.is_valid():
             text = product_comment.cleaned_data.get("text")
             freshness = product_comment.cleaned_data.get("freshness")
@@ -1037,9 +1036,7 @@ class ProductCommentCreate(TemplateView):
             product_comment.get_rating_avg()
 
             # Product_Comment_Image
-            print(self.request.FILES)
-            product_comment_imgs = self.request.FILES.getlist("file")
-            print("product comment images", product_comment_imgs)
+            product_comment_imgs = request.POST.getlist("product_image")
             for img in product_comment_imgs:
                 images = Product_Comment_Image.objects.create(
                     product_comment=product_comment, image=img
