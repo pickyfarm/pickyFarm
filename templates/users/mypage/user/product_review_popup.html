@@ -29,7 +29,7 @@
 						</div>
 						<div class=" review-customer-detail-user-value-wrap ">
 							<div class=" review-customer-detail-address ">
-								해맑은 농가
+								{{detail.product.farmer}}
 							</div>
 						</div>
 					</div>					
@@ -45,14 +45,14 @@
 									<img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt="moonan_harvest_tag"/>
 								</div>
 								<div class="review-product-name">
-									못나지만 맛사과
+									{{detail.product.title}}
 								</div>
 								<div class=" review-product-detail-wrap flex ">
 									<div class=" review-product-weight ">
-										8 kg
+										{{detail.product.weight}} {{detail.product.weight_unit}}
 									</div>
 									<div class=" review-product-quantity ">
-										4
+										{{detail.quantity}}
 									</div>
 									<div class="review-product-quantity-unit ">
 										(개/박스)
@@ -67,7 +67,7 @@
 					</div>
 				</div>
 			</div>
-			<form action="#" method="post">
+			<form action="{% url 'users:product_comment_create' detail.pk %}" method="post">
 				{% csrf_token %}		
 				<div class="refund-main-content-wrap">	
 					<div class="review-reason-wrap">
@@ -92,40 +92,16 @@
 										<div class="rating-title">
 											신선도
 										</div>
-					<!-- 이미지로 평가하는거 input 태그 숨겨서 거기에 value로 받게 했습니다. (얼굴, 별 모두 적용)
-										나중에 DB에 옮길 때 이용하시면 될 듯 합니다. -->
 										<div class="face-rating">
-											<!-- value는 자바스크립트에서 넣어줌 -->
-											<input type="text" name="fresh" value="" class="none-display-rating fresh">											
-											<div class="face-rating-btn gray">
-												<img src="{% static 'images/users/mypage/user/good-gray.svg' %}" alt="good" class="fresh">
-											</div>
-											<div class="face-rating-btn gray">
-												<img src="{% static 'images/users/mypage/user/soso-gray.svg' %}" alt="soso" class="fresh">
-											</div>
-											<div class="face-rating-btn gray">
-												<img src="{% static 'images/users/mypage/user/bad-gray.svg' %}" alt="bad" class="fresh">
-											</div>																
+											{{form.freshness}}
 										</div>
-
 									</div>
 									<div class="rating-sub-box">
 										<div class="rating-title">
 											맛
 										</div>
 										<div class="face-rating">
-											<!-- value는 자바스크립트에서 넣어줌 -->
-											<input type="text" name="flavor" value="" class="none-display-rating flavor">	
-											<div class="face-rating-btn">
-												<img src="{% static 'images/users/mypage/user/good-gray.svg' %}" alt="good" class="flavor">
-											</div>
-											<div class="face-rating-btn">
-												<img src="{% static 'images/users/mypage/user/soso-gray.svg' %}" alt="soso" class="flavor">
-												
-											</div>
-											<div class="face-rating-btn">
-												<img src="{% static 'images/users/mypage/user/bad-gray.svg' %}" alt="bad" class="flavor">
-											</div>																
+											{{form.flavor}}
 										</div>
 									</div>
 									<div class="rating-sub-box">
@@ -133,18 +109,7 @@
 											가성비
 										</div>
 										<div class="face-rating">
-											<!-- value는 자바스크립트에서 넣어줌 -->
-											<input type="text" name="cheap" value="" class="none-display-rating cheap">	
-
-											<div class="face-rating-btn">
-												<img src="{% static 'images/users/mypage/user/good-gray.svg' %}" alt="good" class="cheap">
-											</div>
-											<div class="face-rating-btn">
-												<img src="{% static 'images/users/mypage/user/soso-gray.svg' %}" alt="soso" class="cheap">
-											</div>
-											<div class="face-rating-btn">
-												<img src="{% static 'images/users/mypage/user/bad-gray.svg' %}" alt="bad" class="cheap">
-											</div>																
+											{{form.cost_performance}}
 										</div>
 									</div>
 								</div>
@@ -171,11 +136,7 @@
 								
 								<!-- 리뷰 텍스트 시작 -->
 								<div class="refund-reason-input-wrap">
-									<textarea
-									class="refund-reason-input"
-									type="text"
-									name="reason_txt"
-									></textarea>
+									{{form.text}}
 								</div>
 								<!-- 리뷰 텍스트 끝 -->	
 								
@@ -184,18 +145,18 @@
 									<div class="refund-post-img">
 										<div class="refund-post-img-box">
 											<div class="clip-box">
-												<img src="{% static 'images/farmer_mypage/order/post_img.svg' %}" alt="clip" class="clip-img">
+												<img src="{% static 'images/users/mypage/user/post_img.svg' %}" alt="clip" class="clip-img">
 												<span class="img-txt">
 													사진 첨부하기
 												</span>
-												<img src="{% static 'images/farmer_mypage/order/post_img.svg' %}" alt="clip" class="clip-img">
+												<img src="{% static 'images/users/mypage/user/post_img.svg' %}" alt="clip" class="clip-img">
 											</div>
 										</div>
 									</div>
 									<div class="img-ps">*사유와 연관된 사진이 있다면 첨부해주세요</div>
 								</div>
 								<div class="add-file-box">
-									<input type="file" name="product_image" class="add-file">
+									<input type="file" name="product_image" class="add-file" multiple="multiple"/>
 								</div>
 							</div>
 					</div >
@@ -214,7 +175,79 @@
 				</form>
 			</div>
 </div>
+<style>
+	#id_freshness, #id_flavor, #id_cost_performance {
+		list-style: none;
+		font-size: 0px;
+	}
+
+	li:nth-child(1) label:before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 3.5px;
+        width: 25px;
+        height: 25px;
+		background-repeat: no-repeat;
+        background-image: url("{% static 'images/users/mypage/user/good-gray.svg' %}");
+        margin-right: 60px;
+    }
+	li:nth-child(2) label:before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 3.5px;
+        width: 25px;
+        height: 25px;
+		background-repeat: no-repeat;
+        background-image: url("{% static 'images/users/mypage/user/soso-gray.svg' %}");
+        margin-right: 60px;
+    }
+	li:nth-child(3) label:before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 3.5px;
+        width: 25px;
+        height: 25px;
+		background-repeat: no-repeat;
+        background-image: url("{% static 'images/users/mypage/user/bad-gray.svg' %}");
+        margin-right: 10px;
+    }
+
+	li:nth-child(1) label.checked::before {
+        content: "";
+        background-image: url("{% static 'images/users/mypage/user/good-green.svg' %}") !important;
+    }
+	li:nth-child(2) label.checked::before {
+        content: "";
+        background-image: url("{% static 'images/users/mypage/user/soso-green.svg' %}") !important;
+    }
+	li:nth-child(3) label.checked::before {
+        content: "";
+        background-image: url("{% static 'images/users/mypage/user/bad-green.svg' %}") !important;
+    }
+</style>
+
 <script>
+			$('input:radio').on('change', function () {
+				if (this.value == 5) {
+					$(this).parent().addClass('checked');
+					$(this).parent().parent().siblings().find('input:radio[value=3]').parent().removeClass('checked');
+					$(this).parent().parent().siblings().find('input:radio[value=1]').parent().removeClass('checked');
+				}
+				if (this.value == 3) {
+					$(this).parent().addClass('checked');
+					$(this).parent().parent().siblings().find('input:radio[value=5]').parent().removeClass('checked');
+					$(this).parent().parent().siblings().find('input:radio[value=1]').parent().removeClass('checked');
+				}
+				if (this.value == 1) {
+					$(this).parent().addClass('checked');
+					$(this).parent().parent().siblings().find('input:radio[value=5]').parent().removeClass('checked');
+					$(this).parent().parent().siblings().find('input:radio[value=3]').parent().removeClass('checked');
+				}
+			});
+
 			const clipBox = document.querySelector(".clip-box");
 			const addfile = document.querySelector(".add-file");
 			clipBox.addEventListener("click", () =>{
@@ -223,107 +256,6 @@
 				console.log("click!");
 			});
 
-			// rating
-			const freshRating = document.querySelector(".none-display-rating.fresh");
-			const freshimgs = document.querySelectorAll(".fresh");
-			for(i = 0; i<freshimgs.length; i++){
-				freshimgs[i].addEventListener("click", function(e){
-					const elem = e.target;
-					for(k=0; k<freshimgs.length; k++){
-						if(freshimgs[k]==elem){
-							tempNumber = k;
-						}
-					}
-					if(tempNumber==1){
-						elem.src="{% static 'images/users/mypage/user/good-green.svg' %}";
-						freshRating.value = "good";
-					} else if(tempNumber==2){
-						elem.src="{% static 'images/users/mypage/user/soso-green.svg' %}";
-						freshRating.value = "soso";
-					} else{
-						elem.src="{% static 'images/users/mypage/user/bad-green.svg' %}";
-						freshRating.value = "bad";
-					}
-					for(j = 0; j<freshimgs.length; j++){
-						if(freshimgs[j]!=elem){
-							if(j==1){
-								freshimgs[j].src="{% static 'images/users/mypage/user/good-gray.svg' %}";
-							} else if(j==2){
-								freshimgs[j].src="{% static 'images/users/mypage/user/soso-gray.svg' %}";
-							} else{
-								freshimgs[j].src="{% static 'images/users/mypage/user/bad-gray.svg' %}";
-							}
-						}
-					}
-				})
-			}
-			const flavorRating = document.querySelector(".none-display-rating.flavor");
-			const flavorimgs = document.querySelectorAll(".flavor");
-			for(i = 0; i<flavorimgs.length; i++){
-				flavorimgs[i].addEventListener("click", function(e){
-					const elem = e.target;
-					for(k=0; k<flavorimgs.length; k++){
-						if(flavorimgs[k]==elem){
-							tempNumber = k;
-						}
-					}
-					if(tempNumber==1){
-						elem.src="{% static 'images/users/mypage/user/good-green.svg' %}";
-						flavorRating.value = "good";
-					} else if(tempNumber==2){
-						elem.src="{% static 'images/users/mypage/user/soso-green.svg' %}";
-						flavorRating.value = "soso";
-					} else{
-						elem.src="{% static 'images/users/mypage/user/bad-green.svg' %}";
-						flavorRating.value = "bad";
-					}
-					for(j = 0; j<flavorimgs.length; j++){
-						if(flavorimgs[j]!=elem){
-							if(j==1){
-								flavorimgs[j].src="{% static 'images/users/mypage/user/good-gray.svg' %}";
-							} else if(j==2){
-								flavorimgs[j].src="{% static 'images/users/mypage/user/soso-gray.svg' %}";
-							} else{
-								flavorimgs[j].src="{% static 'images/users/mypage/user/bad-gray.svg' %}";
-							}
-						}
-					}
-				})
-			}
-			const cheapRating = document.querySelector(".none-display-rating.cheap");
-			const cheapimgs = document.querySelectorAll(".cheap");
-			for(i = 0; i<cheapimgs.length; i++){
-				cheapimgs[i].addEventListener("click", function(e){
-					const elem = e.target;
-					for(k=0; k<cheapimgs.length; k++){
-						if(cheapimgs[k]==elem){
-							tempNumber = k;
-						}
-					}
-					if(tempNumber==1){
-						elem.src="{% static 'images/users/mypage/user/good-green.svg' %}";
-						cheapRating.value = "good";
-					} else if(tempNumber==2){
-						elem.src="{% static 'images/users/mypage/user/soso-green.svg' %}";
-						cheapRating.value = "soso";
-					} else{
-						elem.src="{% static 'images/users/mypage/user/bad-green.svg' %}";
-						cheapRating.value = "bad";
-					}
-					for(j = 0; j<cheapimgs.length; j++){
-						if(cheapimgs[j]!=elem){
-							if(j==1){
-								cheapimgs[j].src="{% static 'images/users/mypage/user/good-gray.svg' %}";
-							} else if(j==2){
-								cheapimgs[j].src="{% static 'images/users/mypage/user/soso-gray.svg' %}";
-							} else{
-								cheapimgs[j].src="{% static 'images/users/mypage/user/bad-gray.svg' %}";
-							}
-						}
-					}
-				})
-			}
-			
 
 			// star
 			const starRating = document.querySelector(".starRating");
