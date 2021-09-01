@@ -1,3 +1,4 @@
+from comments.forms import ProductCommentForm
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from orders.models import Order_Detail
@@ -42,7 +43,7 @@ from config.settings import base
 # models
 from .models import Subscribe, Cart, Consumer, Wish, User, Editor, PhoneNumberAuth
 from editor_reviews.models import Editor_Review
-from comments.models import Editor_Review_Comment
+from comments.models import Editor_Review_Comment, Product_Comment, Product_Comment_Image
 from farmers.models import Farmer
 from products.models import Category, Product
 from addresses.models import Address
@@ -994,8 +995,91 @@ def testview(request):
     return render(request, "users/mypage/user/order_cancel_popup.html")
 
 
-def reviewtest(request):
-    return render(request, "users/mypage/user/product_review_popup.html")
+class ProductCommentCreate(TemplateView):
+    template_name = "users/mypage/user/product_review_popup.html"
+
+    def render_to_response(self, context, **response_kwargs):
+        if not Consumer.objects.filter(user=self.request.user).exists():
+            return redirect(reverse("core:main"))
+        else:
+            return super().render_to_response(context, **response_kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+        form = ProductCommentForm()
+        context["detail"] = detail
+        context["form"] = form
+        return context
+
+    def post(self, request, **kwargs):
+        detail = self.get_context_data(**kwargs)["detail"]
+        product_comment = ProductCommentForm(request.POST, request.FILES)
+        consumer = Consumer.objects.get(pk=self.request.user.pk)
+
+        product_comment = ProductCommentForm(request.POST, request.FILES)
+        if product_comment.is_valid():
+            text = product_comment.cleaned_data.get("text")
+            freshness = product_comment.cleaned_data.get("freshness")
+            flavor = product_comment.cleaned_data.get("flavor")
+            cost_performance = product_comment.cleaned_data.get("cost_performance")
+            product_comment = Product_Comment(
+                text=text,
+                freshness=int(freshness),
+                flavor=int(flavor),
+                cost_performance=int(cost_performance),
+            )
+            product_comment.consumer = consumer
+            product_comment.product = detail.product
+            product_comment.save()
+            product_comment.product.reviews += 1
+
+            product_comment.get_rating_avg()
+
+            # Product_Comment_Image
+            print(self.request.FILES)
+            product_comment_imgs = self.request.FILES.getlist("file")
+            print("product comment images", product_comment_imgs)
+            for img in product_comment_imgs:
+                images = Product_Comment_Image.objects.create(
+                    product_comment=product_comment, image=img
+                )
+                images.save()
+
+            # freshness
+            if product_comment.freshness == 1:
+                detail.product.freshness_1 += 1
+            elif product_comment.freshness == 3:
+                detail.product.freshness_3 += 1
+            else:
+                detail.product.freshness_5 += 1
+
+            # flavor
+            if product_comment.flavor == 1:
+                detail.product.flavor_1 += 1
+            elif product_comment.flavor == 3:
+                detail.product.flavor_3 += 1
+            else:
+                detail.product.flavor_5 += 1
+
+            # cost_performance
+            if product_comment.cost_performance == 1:
+                detail.product.cost_performance_1 += 1
+            elif product_comment.cost_performance == 3:
+                detail.product.cost_performance_3 += 1
+            else:
+                detail.product.cost_performance_5 += 1
+
+            # total rating calculate
+            detail.product.calculate_total_rating_sum(product_comment.avg)
+            detail.product.calculate_total_rating_avg()
+
+            # specific rating calculate
+            detail.product.calculate_specific_rating(
+                int(freshness), int(flavor), int(cost_performance)
+            )
+            return redirect(reverse("users:mypage", kwargs={"cat": "orders"}))
+        return redirect("core:popup_callback")
 
 
 def product_refund(request):
@@ -1007,5 +1091,3 @@ def product_refund(request):
         "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
     ]
     return render(request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses})
-
-
