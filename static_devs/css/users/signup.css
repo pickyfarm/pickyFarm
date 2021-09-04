@@ -116,6 +116,11 @@ input:focus {
     margin-right: 75px !important;
 }
 
+#id_auth_number,
+#auth-number-check {
+    display: none;
+}
+
 .valid-button:not(#phone-number-check) {
     width: 65px;
     height: 25px;
