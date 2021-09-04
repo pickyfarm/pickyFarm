@@ -135,6 +135,9 @@ color: #b3b3b3;
 /*
   계속하기 / 주문하기 / 최종금액 관련 섹션 
   */
+.line{
+  display: none;
+}
 
 #order-section{
   width:650px;
