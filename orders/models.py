@@ -72,9 +72,7 @@ class Order_Detail(models.Model):
     # )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    payment_status = models.CharField(
-        max_length=10, choices=PAYMENT_STATUS, default="incoming"
-    )
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default="incoming")
     order_management_number = models.CharField(max_length=20, null=True, blank=True)
     invoice_number = models.CharField(max_length=30, null=True, blank=True)
     quantity = models.IntegerField()
@@ -112,7 +110,9 @@ class RefundExchange(models.Model):
     claim_type = models.CharField(max_length=20, choices=TYPE)
     claim_status = models.CharField(max_length=20, choices=STATUS)
 
-    order_detail = models.ForeignKey("Order_Detail", on_delete=models.PROTECT)
+    order_detail = models.ForeignKey(
+        "Order_Detail", on_delete=models.PROTECT, related_name="refund_exchanges"
+    )
     reason = models.TextField()
     image = CompressedImageField(upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True)
 
@@ -120,3 +120,6 @@ class RefundExchange(models.Model):
     rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
     rev_loc_detail = models.TextField(null=True, blank=True)
     rev_message = models.TextField(null=True, blank=True)
+
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)

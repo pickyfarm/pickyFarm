@@ -20,7 +20,7 @@
 }
 
 .popup_container {
-    padding-top:60px;
+    padding-top: 60px;
     width: 375px;
     /*height: 1130px;*/
     flex-direction: column;
@@ -85,14 +85,10 @@
     margin-bottom: 20px;
 }
 
-
-
 .refund-request-product-information-content-wrap {
     align-items: center;
     margin-bottom: 10px;
 }
-
-
 
 .refund-request-product-information-content-left-section {
     margin-right: 25px;
@@ -104,7 +100,6 @@
     border-radius: 10px;
     background-color: #b3b3b3;
 }
-
 
 .refund-request-product-name {
     font-size: 15px;
@@ -158,8 +153,6 @@
     margin-top: 21px;
 }
 
-
-
 .refund-request-customer-detail-title {
     padding-top: 1.5px;
     font-size: 12px;
@@ -172,18 +165,14 @@
     font-size: 15px;
 }
 
-
 .refund-request-customer-detail-callnum::before {
     content: '|';
     padding: 0 7px;
     color: #707070;
 }
 
-
-
 .refund-request-customer-detail-address-wrap,
-.refund-request-customer-detail-request-message-wrap
-{
+.refund-request-customer-detail-request-message-wrap {
     margin-top: 10px;
 }
 
@@ -195,7 +184,6 @@
 .refund-request-customer-detail-address {
     width: 217px;
     margin-bottom: 3px;
-
 }
 
 .refund-request-customer-detail-plus-wrap {
@@ -203,20 +191,19 @@
     color: #808080;
 }
 
-.refund-request-customer-detail-door-password::before{
+.refund-request-customer-detail-door-password::before {
     content: '|';
     padding: 0 10px;
     color: #707070;
 }
 
-
-.refund-request-customer-detail-request-message{
+.refund-request-customer-detail-request-message {
     margin-left: 24px;
     width: 211px;
     font-size: 15px;
 }
 
-.refund-request-reason-wrap{
+.refund-request-reason-wrap {
     margin-top: 70px;
     position: relative;
     text-align: center;
@@ -229,14 +216,12 @@
 }
 
 .refund-request-reason-title,
-.answer-of-farm-title
-{
+.answer-of-farm-title {
     text-align: left;
     font-size: 18px;
     font-weight: bold;
     color: #4d5548;
 }
-
 
 .refund-request-reason-content-wrap {
     width: 325px;
@@ -248,13 +233,16 @@
 
 .refund-request-reason-photo-wrap {
     width: 291px;
-    height: 291px;
     border-radius: 5px;
     margin: 0 0 20px;
-    background-color: #b3b3b3;
 }
 
-.refund-request-reason-text{
+.refund-request-reason-photo {
+    width: 291px;
+    object-fit: cover;
+}
+
+.refund-request-reason-text {
     text-align: left;
 }
 
@@ -279,14 +267,13 @@
 }
 
 .reject-submit-wrap,
-.commit-submit-wrap
-{
-    margin:60px 0;
+.commit-submit-wrap {
+    margin: 60px 0;
     flex-direction: column;
     align-items: center;
     display: inline-block;
     background-color: transparent;
-    border : 0;
+    border: 0;
     outline: 0;
 }
 
@@ -303,10 +290,8 @@
     cursor: pointer;
 }
 
-
 .reject-submit-text,
-.commit-submit-text
-{
+.commit-submit-text {
     margin-top: 10px;
     font-size: 18px;
     font-weight: 500;
@@ -358,8 +343,7 @@
 
 /* flex-wrap에 의한 배치 깨짐현상을 해결하기 위한 추가 미디어쿼리 */
 @media screen and (max-width: 470px) {
-    .refund-request-customer-detail-callnum
-    {
+    .refund-request-customer-detail-callnum {
         width: 70%;
     }
 
@@ -370,12 +354,11 @@
 
 /* flex-wrap에 의한 배치 깨짐현상을 해결하기 위한 추가 미디어쿼리 */
 @media screen and (max-width: 380px) {
-    .refund-request-customer-detail-callnum
-    {
+    .refund-request-customer-detail-callnum {
         width: 60%;
     }
 
-    .refund-request-customer-detail-address{
+    .refund-request-customer-detail-address {
         width: 100%;
     }
 }
