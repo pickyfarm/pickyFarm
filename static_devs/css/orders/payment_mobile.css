@@ -69,4 +69,32 @@
         padding: 1.5rem;
     }
 
+    /* line */
+    #sub-title-line,
+    #orders-sub-title-line,
+    #sub-title-line3 {
+        width: 80%;
+    }
+    #div-line {
+        width: 100%;
+    }
+    #sub-title-text{
+        min-width: 12rem;
+    }
+    #orders-title-section > #sub-title-text{
+        min-width: 25rem;
+    }
+
+    /* btns section */
+    #go-btn, 
+    #go-back-btn {
+        font-size: 1.5rem;
+        width: 16rem;
+        height: 3rem;
+        padding: 0.5rem;
+        margin: 2rem;
+    }
+
+
+
 }
