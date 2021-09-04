@@ -1,0 +1,72 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    #main {
+        width: 100%;
+        padding: 0 25px;
+    }
+    #title-section {
+        width: 100%;
+    }
+    #info-section,
+    #delivery-section,
+    #orders-section,
+    #pay-section,
+    #personal-info-agree-section {
+        width: 100%;
+    }
+
+    /* info & delivery input */
+    #info-name-section > div,
+    #info-phone-number-section > div, 
+    #delivery-address-section > div, 
+    #delivery-rev-loc-at-section > div, 
+    #delivery-rev-message-section > div, 
+    #delivery-to-farm-message-section > div, 
+    #delivery-rev-loc-at-section > div {
+        width: 25%;
+        min-width: 12rem;
+        margin-bottom: 1rem;
+    }
+    #info-name-section > div + div,
+    #info-phone-number-section > div + div, 
+    #delivery-address-section > div + div, 
+    #delivery-rev-loc-at-section > div + div, 
+    #delivery-rev-message-section > div + div, 
+    #delivery-to-farm-message-section > div + div, 
+    #delivery-rev-loc-at-section > div + div {
+        width: 75%;
+    }
+    #info-name-section > div + div > input, 
+    #info-phone-number-section > div + div > input, 
+    #delivery-address-section > div + div > input, 
+    #delivery-rev-loc-at-section > div + div > input, 
+    #big-form > input, 
+    #delivery-to-farm-message-section > div + div > input, 
+    #delivery-rev-loc-at-section > div + div > input {
+        width: 100%;
+    }
+
+    /* row spacing */
+    #title-text,  
+    #sub-title-text {
+        margin-bottom: 1rem;
+    }
+    #info-section {
+        margin-bottom: 4rem;
+    }
+    #delivery-cat-section {
+        margin-bottom: 1.5rem;
+    }
+    #help-text {
+        margin: 1rem 0;
+        text-align: left;
+    }
+    #small-form > input, 
+    #middle-form > input, 
+    #big-form > input {
+        padding: 1.5rem;
+    }
+
+}
