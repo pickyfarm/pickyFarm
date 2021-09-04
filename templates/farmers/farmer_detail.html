@@ -17,10 +17,14 @@
             <div class="text-xl" id="title_text">파머의 무난이소식을 가장 먼저 받아보세요</div>
         </div>
 
+        <div id="farm_img_mobile">
+            <img src="{{ farmer.farm_profile.url }}" alt="" id="farm_profile_mobile">
+            <img src="{{ farmer.farmer_profile.url }}" alt="" id="farmer_profile_mobile">
+        </div>
         <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
             <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-4" id="farmer_profile">
             <img src="{{ farmer.farm_profile.url }}" alt="" class="mr-16" id="farm_profile">
-            <div class="" id="prof_wrap" style="width: 418px;">
+            <div class="" id="prof_wrap" style="">
                 <div class="flex flex-row mb-3" id="tag_wrap">
                     {% for tag in tags %}
                     <a href="#">

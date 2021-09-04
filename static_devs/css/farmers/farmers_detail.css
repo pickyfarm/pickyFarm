@@ -45,6 +45,9 @@
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     object-fit: cover;
 }
+#farm_img_mobile {
+    display: none;
+}
 
 #farm_name {
     max-width: 230px;
@@ -54,6 +57,9 @@
 }
 #profile_title {
     max-width: 320px;
+}
+#prof_wrap {
+    width: 418px;
 }
 
 #tag_wrap {
