@@ -1,0 +1,353 @@
+/* 
+  날짜별 필터링 관련 CSS
+  */
+#filter{
+  margin-left : 126px;
+    margin-bottom : 45px;
+}
+
+/* 최근 6개월 버튼 */
+#filter-6month{
+  width: 127px;
+  height: 30px;
+  padding: 4px 20px;
+  border-radius: 15px;
+  border: solid 1px #b3b3b3;
+  background-color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+/* 최근 6개월 버튼 hover */
+#filter-6month:hover{
+  color:#ffffff;
+  background-color: #5c6754;
+}
+
+#filter>input{
+  width: 151px;
+  height: 30px;
+  border-radius: 15px;
+  padding: 4px 5px 4px 10px;
+  border: solid 1px #b3b3b3;
+  background-color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  margin-left:9px;
+  margin-right:9px;
+}
+
+/* 필터링 input 두개 사이의 ~ */
+#filter-until{
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #5c6754;
+}
+
+#filter-submit{
+  width: 106px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #5c6754;
+
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  margin-left:21px;
+}
+
+
+
+
+
+
+
+
+/* 
+  상품 아이템 관련 CSS 
+  */
+
+#content{
+  width:840px;
+}
+
+#products-section{
+  margin-left : 126px;
+}
+
+#product{
+  width: 684px;
+  height: 130px;
+  padding: 15px 20px;
+  border-radius: 20px;
+  border: solid 1px #b3b3b3;
+}
+
+#product_img{
+  width: 95px;
+  height: 95px;
+  margin: 0 20px 0 0;
+  border-radius: 20px;
+  object-fit:cover;
+}
+
+
+
+#product_order_at2{
+  font-family: NotoSansKR;
+  font-size: 11px;
+  text-align: left;
+  letter-spacing: normal;
+  color: #5c6754;
+}
+
+
+#product_title{
+  font-family: NotoSansKR;
+font-size: 18px;
+font-weight: bold;
+font-stretch: normal;
+font-style: normal;
+letter-spacing: normal;
+text-align: left;
+color: #5c6754;
+}
+
+/* 상품 제목과 농장 이름 사이의 슬레시 */
+#slash{
+  margin:0 15px;
+color : #5e6656;
+}
+
+#product_farm_name{
+  font-family: NotoSansKR;
+font-size: 18px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+
+letter-spacing: normal;
+text-align: left;
+color: #707070;
+}
+
+#product_price{
+  font-family: NotoSansKR;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+  margin-right : 20px;
+}
+
+/* 주문 상품 중량 */
+#product_quantity{
+  font-family: NotoSansKR;
+font-size: 18px;
+font-weight: normal;
+font-stretch: normal;
+font-style: normal;
+letter-spacing: normal;
+text-align: left;
+color: #b3b3b3;
+}
+
+/* 주문 상품 상태 아이콘 */
+#delivery-status-icon{
+width:16.5px;
+margin-right:13.8px;
+}
+
+/* 주문 상품 상태 글씨 */
+#delivery_status{
+  font-size: 11px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 3;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+
+#product_weight{
+    font-family: NotoSansKR;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+}
+
+
+/* 구매 상품 장바구니 담기 버튼 */
+#cartIn_btn{
+  width: 98px;
+  height: 25px;
+  border-radius: 11px;
+  background-color: #5c6754;
+  font-size: 12px;
+  padding: 3px 14px 4px 12px;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+#cartIn_btn:hover{
+background-color: #ffffff;
+color: #5c6754;
+box-sizing: border-box;
+border: solid 0.5px #b3b3b3;
+}
+
+
+/* 무난이 보기 버튼 */
+#see-product-btn{
+  width: 75px;
+  height: 22px;
+  margin: 0 0 12px 0;
+  padding: 1px 9px 4px 8px;
+  border-radius: 11px;
+  border: solid 0.5px #b3b3b3;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+#see-product-btn:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
+}
+
+/* 리뷰 쓰기 버튼 */
+#reg-review-btn{
+  width: 75px;
+  height: 22px;
+  margin: 0 0 12px 0;
+  padding: 1px 9px 4px 8px;
+  border-radius: 11px;
+  border: solid 0.5px #b3b3b3;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+#reg-review-btn:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
+}
+
+
+/* 주문 취소 버튼 */
+#cancel-order-btn{
+  width: 75px;
+  height: 22px;
+  margin: 0 0 12px 0;
+  padding: 1px 9px 4px 8px;
+  border-radius: 11px;
+  border: solid 0.5px #b3b3b3;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  color: #5c6754;
+  cursor: pointer;
+}
+
+#cancel-order-btn:hover{
+  color: #FFFFFF;
+  background-color: #5c6754;
+}
+
+
+/*
+  pagination 관련 CSS
+  */
+
+#paginator{
+  margin-top:70px;
+  width:650px;
+  margin-left:170px;
+}
+
+#page_btn_sel{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+  margin-right:24px;
+}
+
+#page_btn{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+  margin-right:24px;
+}
+
+
+
+/* 구매 내역이 없을 시, 보여지는 redIRECT MSG 관련 CSS*/
+#redirect_btn{
+    width:170px;
+    height: 30px;
+    padding-top:5px;
+    margin-top:30px;
+    border-radius: 11px;
+    background-color: #5c6754;
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-stretch: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  #redirect_a{
+    width:170px;
+  }
+

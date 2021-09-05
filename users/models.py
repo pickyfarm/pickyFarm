@@ -3,12 +3,18 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import RegexValidator
+from django.utils import timezone
 from editor_reviews.models import Editor_Review
 from core.models import CompressedImageField
 from config import settings
 import comments
 import os
 import shutil
+import datetime
+from random import randint
+from kakaomessages.template import templateIdList
+from kakaomessages.views import send_kakao_message
+
 
 # Create your models here.
 
@@ -30,9 +36,7 @@ class User(AbstractUser):
 
     phone_number = models.CharField(max_length=11)
     account_name = models.CharField(max_length=10)
-    profile_image = CompressedImageField(
-        upload_to="profile_image/%Y/%m/%d/", null=True, blank=True
-    )
+    profile_image = CompressedImageField(upload_to="profile_image/%Y/%m/%d/", null=True, blank=True)
     nickname = models.CharField(max_length=100)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=20)
     birth = models.DateField(null=True)
@@ -75,10 +79,18 @@ class Consumer(models.Model):
     )
 
     user = models.OneToOneField(User, related_name="consumer", on_delete=models.CASCADE)
-
     grade = models.IntegerField(choices=grade, default=1)
+    default_address = models.OneToOneField(
+        "addresses.Address",
+        related_name="consumer",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
 
-    default_address = models.OneToOneField('addresses.Address', related_name="consumer", on_delete=models.SET_NULL, null=True, blank=True)
+    benefit_agree = models.BooleanField(default=False)
+    kakao_farmer_agree = models.BooleanField(default=False)
+    kakao_comment_agree = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.nickname
@@ -114,11 +126,9 @@ class Editor(models.Model):
 
             for review in reviews:
                 try:
-                    unread_comments = (
-                        comments.models.Editor_Review_Comment.objects.filter(
-                            editor_review=review, is_read=False
-                        ).count()
-                    )
+                    unread_comments = comments.models.Editor_Review_Comment.objects.filter(
+                        editor_review=review, is_read=False
+                    ).count()
 
                     count += unread_comments
                 except ObjectDoesNotExist:
@@ -134,12 +144,8 @@ class Editor(models.Model):
 
 
 class Wish(models.Model):
-    consumer = models.ForeignKey(
-        "Consumer", related_name="wishes", on_delete=models.CASCADE
-    )
-    product = models.ForeignKey(
-        "products.Product", related_name="wishes", on_delete=models.CASCADE
-    )
+    consumer = models.ForeignKey("Consumer", related_name="wishes", on_delete=models.CASCADE)
+    product = models.ForeignKey("products.Product", related_name="wishes", on_delete=models.CASCADE)
 
     create_at = models.DateTimeField(auto_now_add=True)
 
@@ -148,12 +154,8 @@ class Wish(models.Model):
 
 
 class Cart(models.Model):
-    consumer = models.ForeignKey(
-        "Consumer", related_name="carts", on_delete=models.CASCADE
-    )
-    product = models.ForeignKey(
-        "products.Product", related_name="carts", on_delete=models.CASCADE
-    )
+    consumer = models.ForeignKey("Consumer", related_name="carts", on_delete=models.CASCADE)
+    product = models.ForeignKey("products.Product", related_name="carts", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1, blank=True)
 
     create_at = models.DateTimeField(auto_now_add=True)
@@ -170,15 +172,21 @@ class Cart(models.Model):
 
 
 class Subscribe(models.Model):
-    farmer = models.ForeignKey(
-        "farmers.Farmer", related_name="subs", on_delete=models.CASCADE
-    )
-    consumer = models.ForeignKey(
-        "users.Consumer", related_name="subs", on_delete=models.CASCADE
-    )
+    farmer = models.ForeignKey("farmers.Farmer", related_name="subs", on_delete=models.CASCADE)
+    consumer = models.ForeignKey("users.Consumer", related_name="subs", on_delete=models.CASCADE)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.consumer.user.nickname} -> {self.farmer.farm_name}"
+
+
+class PhoneNumberAuth(models.Model):
+    phone_num = models.CharField(max_length=11, verbose_name="전화번호")
+    auth_num = models.CharField(max_length=6, verbose_name="인증번호")
+    create_at = models.DateTimeField(default=timezone.now)
+    update_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.phone_num

@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from core.models import NoQuerySet, AuthorNotMatched
 from django.core.files.uploadedfile import SimpleUploadedFile
-from config.settings import BASE_DIR
+from config.settings.base import BASE_DIR
 import os
 from django.utils import timezone
 from django.contrib.auth.models import AnonymousUser

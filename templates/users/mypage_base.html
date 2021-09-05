@@ -2,7 +2,9 @@
 {% load static %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/users/mypage_base.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_base.css' %}">
+{% block stylesheet_detail %}
+{% endblock stylesheet_detail %}
 {% endblock stylesheet %}
 
 {% block title_name %}
@@ -13,7 +15,7 @@
 <div class="main-contents flex justify-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
     <div class="flex flex-col">
         <div id="top-section" class="flex flex-row mt-14">
-            <div id="left" class="">
+            <div id="top-section-left" class="">
                 <div class="flex flex-row mt-4">
                     <div id="title_text1">
                         My
@@ -27,7 +29,7 @@
                     <div id="nickname_text2">님</div>
                 </div>
             </div>
-            <div id="right" class="flex flex-row justify-center">
+            <div id="top-section-right" class="flex flex-row justify-center">
                 <div id="preparing" class="mx-10">
                     <div id="status_text" class="mx-auto">
                         배송 준비중
@@ -74,6 +76,9 @@
                 </div>
             </div>
         </div>
+
+
+
         <div id="middle-section" class="flex flex-row">
 
             <div id="menu">
@@ -98,7 +103,6 @@
 
                 {% endblock content %}
             </div>
-
         </div>
 
     </div>
@@ -129,10 +133,10 @@
                 {% for sub in subs %}
                 <div class="flex flex-row w-100" id="{{sub.pk}}-sub-farmer">
                     <a href="{% url 'farmers:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
-                        <div class="" id="sub-left-section">
+                        <div class="w-1/5" id="sub-left-section">
                             <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
                         </div>
-                        <div class="" id="sub-right-section">
+                        <div class="w-4/5" id="sub-right-section">
                             <div id="farm_tags" class="flex flex-row">
                                 {% for t in sub.farmer.farm_tags.all %}
                                 <div id="farm_tag">

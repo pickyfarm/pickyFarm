@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.views.generic import DetailView
 from django.db import transaction
 from .forms import Order_Group_Form
-from .models import Order_Group, Order_Detail
+from .models import Order_Group, Order_Detail, RefundExchange
 from django.utils import timezone
 from products.models import Product
 from users.models import Subscribe
@@ -13,6 +14,8 @@ import json
 import os, datetime
 from .BootpayApi import BootpayApi
 import pprint
+from kakaomessages.views import send_kakao_message
+from kakaomessages.template import templateIdList
 
 # Create your views here.
 
@@ -31,6 +34,7 @@ def create_order_group_management_number(pk):
         5: "May",
         6: "Jun",
         7: "Jul",
+        8: "Aug",
         9: "Sept",
         10: "Oct",
         11: "Nov",
@@ -94,22 +98,22 @@ def create_order_detail_management_number(pk, farmer_id):
 
 @login_required
 @transaction.atomic
+@require_POST
 def payment_create(request):
 
     """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
-    
+
     user = request.user
     consumer = user.consumer
     # 이름 전화번호 주소지 정보 등
     user_ctx = {
-        "account_name" : user.account_name,
-        "phone_number" : user.phone_number,
-        "default_address" : consumer.default_address.get_full_address(),
-        "addresses" : user.addresses,
+        "account_name": user.account_name,
+        "phone_number": user.phone_number,
+        "default_address": consumer.default_address.get_full_address(),
+        "addresses": user.addresses.all(),
     }
 
-    print(f'기본배송지 : {consumer.default_address.get_full_address()} ')
-
+    print(f"기본배송지 : {consumer.default_address.get_full_address()} ")
 
     if request.method == "POST":
         form = Order_Group_Form()
@@ -319,7 +323,6 @@ def payment_update(request, pk):
                 rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
             )
 
-            order_at = timezone.now()
             print(order_group)
             # 배송 정보 order_group에 업데이트
             order_group.rev_name = rev_name
@@ -329,7 +332,8 @@ def payment_update(request, pk):
             # order_group.rev_loc_detail=rev_loc_detail
             order_group.rev_message = rev_message
             order_group.to_farm_message = to_farm_message
-            order_group.payment_type=payment_type
+            order_group.payment_type = payment_type
+            order_group.order_at = timezone.now()
 
             # order_group status - payment complete로 변경
             order_group.status = "payment_complete"
@@ -421,11 +425,32 @@ def payment_update(request, pk):
 @login_required
 @transaction.atomic
 def payment_fail(request):
-    error_type = request.GET.get("errorType", None)
+    error_type = str(request.GET.get("errorType", None))
+    order_group_pk = request.GET.get("orderGroupPk", None)
+    print(error_type)
 
-    # if error_type == 'error_stock':
-    #     errorMsg = "재고가 부족합니다"
-    
+    if error_type == "error_stock":
+        errorMsg = "재고가 부족합니다"
+    elif error_type == "error_valid":
+        errorMsg = "결제 검증에 오류가 있습니다. 다시 시도해주세요"
+    elif error_type == "error_server":
+        errorMsg = "서버에 오류가 있었습니다. 다시 시도해주세요"
+    else:
+        errorMsg = "알 수 없는 오류가 있습니다. 다시 시도해주세요"
+
+    if order_group_pk is not None:
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+        order_group.status = error_type
+        order_details = order_group.order_details.all()
+
+        for detail in order_details:
+            detail.product.stock += detail.quantity
+            print("[detail] - " + detail.product.title + " stock 복구")
+            detail.status = error_type
+            print("[detail] status - " + detail.status + "변경")
+            detail.save()
+
+        order_group.save()
 
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
@@ -439,18 +464,26 @@ def payment_valid(request):
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
 
         receipt_id = request.POST.get("receipt_id")
-        order = Order_Group.objects.get(pk=int(request.POST.get("orderGroupPk")))
-        total_price = order.total_price
+        order_group_pk = int(request.POST.get("orderGroupPk"))
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+        total_price = order_group.total_price
 
-        orders = Order_Detail.objects.filter(order_group=order)
+        order_details = Order_Detail.objects.filter(order_group=order_group)
 
-        farmers = list(set(map(lambda u: u.product.farmer, orders)))
-        unsubscribed_farmers, subscribed_farmers = list()
+        farmers = list(set(map(lambda u: u.product.farmer, order_details)))
+        unsubscribed_farmers = list()
+        subscribed_farmers = list()
 
         for farmer in farmers:
-            subscribed_farmers.append(farmer) if Subscribe.objects.get(
-                consumer=order.consumer, farmer=farmer
-            ).exists() else unsubscribed_farmers.append(farmer)
+            if Subscribe.objects.filter(
+                consumer=order_group.consumer, farmer=farmer
+            ).exists():
+                subscribed_farmers.append(farmer)
+            else:
+                unsubscribed_farmers.append(farmer)
+
+        order_group.receipt_number = receipt_id
+        order_group.save()
 
         bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
         result = bootpay.get_access_token()
@@ -464,14 +497,14 @@ def payment_valid(request):
                     and verify_result["data"]["status"] == 1
                 ):
                     ctx = {
-                        "order_info": order,
+                        "order_group": order_group,
                         "data": verify_result,
-                        "orders": orders,
+                        "order_details": order_details,
                         "sub_farmers": subscribed_farmers,
                         "unsub_farmers": unsubscribed_farmers,
                     }
 
-                    nowDatetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    nowDatetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
                     print(f"=== PAYMENT VALIDATION SUCCESS : {nowDatetime} ===")
                     print(f"=== RECIPT ID : {receipt_id} ===")
 
@@ -485,7 +518,13 @@ def payment_valid(request):
             if cancel_result["status"] == 200:
                 ctx = {"cancel_result": cancel_result}
                 return redirect(
-                    reverse("orders:payment_fail", kwargs={"errorType": "error_valid"})
+                    reverse(
+                        "orders:payment_fail",
+                        kwargs={
+                            "errorType": "error_valid",
+                            "orderGroupPk": order_group_pk,
+                        },
+                    )
                 )
 
             else:
@@ -493,10 +532,22 @@ def payment_valid(request):
                     "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
                 }
                 return redirect(
-                    reverse("orders:payment_fail", kwargs={"errorType": "error_server"})
+                    reverse(
+                        "orders:payment_fail",
+                        kwargs={
+                            "errorType": "error_server",
+                            "orderGroupPk": order_group_pk,
+                        },
+                    )
                 )
 
     return HttpResponse("잘못된 접근입니다", status=400)
+
+
+# 주문/결제 완료 프론트단을 작업하기 위한 임시 view
+# def temporary_payment_success(request):
+
+#     return render(request, 'orders/payment_success.html',{})
 
 
 # @login_required
@@ -522,3 +573,137 @@ def payment_valid(request):
 #         )
 #         if cancel_result["status"] == 200:
 #             return
+
+# 결제취소 창 테스트용 view
+# def fail_test(request):
+#     errorMsg = request.GET.get("errorType", None)
+#     return render(request, "orders/payment_fail.html", {"errorMsg": errorMsg})
+
+
+@login_required
+@transaction.atomic
+def order_cancel(request, pk):
+    # http referer 참고해서 임의 접근 막는 코드 넣을 예정
+    order = Order_Detail.objects.get(pk=pk)
+
+    if request.method == "GET":
+        ctx = {
+            "order_info": order,
+        }
+
+        return render(request, "users/mypage/user/order_cancel_popup.html", ctx)
+
+    elif request.method == "POST":
+        cancel_reason = request.POST.get("cancel_reason")
+        order.cancel_reason = cancel_reason
+
+        REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
+        PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
+
+        bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
+        result = bootpay.get_access_token()
+
+        if result["status"] == 200:
+            cancel_result = bootpay.cancel(
+                order.order_group.receipt_number,
+                order.total_price,
+                order.order_group.consumer.user.account_name,
+                cancel_reason,
+            )
+
+            if cancel_result["status"] == 200:
+                order.status = "cancel"
+                product = order.product
+                product.stock += order.quantity
+                product.save()
+                order.save()
+
+                return HttpResponse(status=200)
+
+        return HttpResponse("주문 취소를 실패하였습니다. 고객센터에 문의해주시기 바랍니다.", status=200)
+
+    else:
+        return redirect(reverse("core:main"))
+
+@login_required
+@transaction.atomic
+def create_change_or_refund(request):
+    user = request.user
+    order_detail_pk = request.GET.get('order_detail_pk')
+    if request.method == "GET":
+        user = request.user
+        addresses = user.consumer.addresses
+        ctx = {
+            'addresses' : addresses
+        }
+        return render(request, "users/mypage/user/product_refund_popup.html", ctx)
+    elif request.method == "POST": 
+        order_detail = Order_Detail.objects.select_for_update().filter(pk=order_detail_pk)
+        
+        claim_type = request.POST.get('change_or_refund', None)
+        print(claim_type)
+
+        # order_detail status 변경 (환불/반품 접수)
+        if claim_type == "refund":
+            order_detail.status = "re_recept"
+        elif claim_type == "exchange":
+            order_detail.status = "ex_recept"
+        else:
+            return redirect(reverse("core:main"))
+        order_detail.save()
+
+
+        claim_reason = request.POST.get('reason_txt', None)
+        print(claim_reason)
+        image = request.FILES.get('product_image', None)
+        print(image)
+        rev_loc_at = request.POST.get('rev_loc_at', None)
+        print(rev_loc_at)
+        rev_address = request.POST.get('address', None)
+
+        
+        refundExchange = RefundExchange(claim_type=claim_type, claim_status="recept", order_detail=order_detail, 
+                                        reason=claim_reason, image=image, rev_address=rev_address, rev_loc_at=rev_loc_at)
+
+        ctx = {
+            "order_detail" : order_detail
+        }
+        
+        farmer_phonenum = order_detail.product.farmer.user.phone_number
+
+
+        weight = order_detail.product.weight
+        weight_unit = order_detail.product.weight_unit
+        quantity = order_detail.quantity
+
+        kakao_msg_weight = (str)(weight) + weight_unit
+        kakao_msg_quantity = (str)(quantity) + '개'
+
+        args = {
+            "#{order_detail_title}": order_detail.product.title,
+            "#{order_detail_number}": order_detail.order_management_number,
+            "#{weight}": kakao_msg_weight,
+            "#{quantity}" : kakao_msg_quantity,
+            "#{consumer_nickname}" : user.nickname,
+            "#{reason}" : claim_reason,
+        }
+
+        if claim_type == "refund":
+            send_kakao_message(farmer_phonenum, templateIdList["refund_recept"], args)
+            return render(request, "users/mypage/user/product_refund_complete.html", ctx)
+        elif claim_type == "exchange":
+            send_kakao_message(farmer_phonenum, templateIdList["exchange_recept"], args)
+            return render(request, "users/mypage/user/product_exchange_complete.html", ctx)
+        else:
+            return redirect(reverse("core:main"))
+
+
+    else:
+        return redirect(reverse("core:main"))
+        
+
+
+
+
+
+    

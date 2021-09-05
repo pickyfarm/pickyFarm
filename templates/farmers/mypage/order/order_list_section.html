@@ -12,9 +12,7 @@
     {% for order in orders %}
     <div class="order-list-sheet-data-section grid place-items-center relative">
         <div class="order-status {% if order.status == 'shipping' or order.status == 'complete' %} deactivate {% endif %}">
-            {% if order.status == 'wait' %}
-            결제대기
-            {% elif order.status == 'payment_complete' %}
+            {% if order.status == 'payment_complete' %}
             신규주문
             {% elif order.status == 'preparing' %}
             배송대기
@@ -52,12 +50,13 @@
                 사유 확인
             </div>
             {% elif order.status == 'preparing' %}
-            <div class="button order-status-action-button transition_element">
+            <div class="button order-status-action-button transition_element" onclick="window.open('{% url 'farmer:farmer_mypage_invoice_update_popup' order.pk %}')">
                 송장 입력
             </div>
             {% else %}
             {% endif %}
         </div>
+        {% if order.status == 'cancel' or order.status == 'payment_complete' %}
         <div class="absolute order-confirm-overlay flex justify-center items-center" name="{{order.pk}}">
             {% if order.status == 'cancel' %}
             <div class="order-cancelled">취소한 주문건 입니다.</div>
@@ -72,6 +71,7 @@
             </div>
             {% endif %}
         </div>
+        {% endif %}
     </div>
 
     {% endfor %}
@@ -84,5 +84,3 @@
     <a href="?page={{page_num}}" class="page-num {% if page_obj.number == page_num %} current-page {% endif %}">{{page_num}}</a>
     {% endfor %}
 </div>
-
-<script src="{% static 'js/farmers/mypage/farmer_mypage_order.js'%}"></script>

@@ -8,7 +8,11 @@ urlpatterns = [
     path("", views.farmers_page, name="farmers_page"),
     path("farmer_search/", views.farmer_search, name="farmer_search"),
     path("farmer_story_search/", views.farmer_story_search, name="farmer_story_search"),
-    path("farmer_story/detail/<int:pk>/", views.Story_Detail.as_view(), name="farmer_story_detail"),
+    path(
+        "farmer_story/detail/<int:pk>/",
+        views.Story_Detail.as_view(),
+        name="farmer_story_detail",
+    ),
     path(
         "farmer_story/create/", views.farmer_story_create, name="farmer_story_create"
     ),  # 추후 url 경로 수정하기
@@ -16,7 +20,10 @@ urlpatterns = [
     path("farm_tag_search/", views.farm_tag_search, name="farm_tag_search"),
     path("farmer_detail/<int:pk>/", views.farmer_detail, name="farmer_detail"),
     path("apply/", views.farm_apply, name="farm_apply"),
-    path("enroll/step/<int:step>/", views.FarmEnroll.as_view(), name="farm_enroll"),
+    path("enroll/step/1/", views.enroll_page1, name="enroll_page1"),
+    path("enroll/step/2/<int:consumerpk>/", views.enroll_page2, name="enroll_page2"),
+    path("enroll/step/3/<int:farmerpk>/", views.enroll_page3, name="enroll_page3"),
+    path("enroll/login", views.FarmEnrollLogin.as_view(), name="farm_enroll_login"),
     # farmer mypage
     path(
         "mypage/info/update/",
@@ -24,9 +31,20 @@ urlpatterns = [
         name="farmer_mypage_info_update",
     ),
     path(
-        "mypage/products/", views.FarmerMyPageProductManage.as_view(), name="farmer_mypage_product"
+        "mypage/products/",
+        views.FarmerMyPageProductManage.as_view(),
+        name="farmer_mypage_product",
     ),
-    path("mypage/orders", views.FarmerMyPageOrderManage.as_view(), name="farmer_mypage_order"),
+    path(
+        "mypage/orders",
+        views.FarmerMyPageOrderManage.as_view(),
+        name="farmer_mypage_order",
+    ),
+    path(
+        "mypage/orders/state",
+        views.farmer_mypage_order_state_update,
+        name="farmer_mypage_order_state_update",
+    ),
     path(
         "mypage/notifications/",
         views.FarmerMyPageNotificationManage.as_view(),
@@ -37,11 +55,36 @@ urlpatterns = [
         views.FarmerMyPageReviewQnAManage.as_view(),
         name="farmer_mypage_review_qna",
     ),
-    path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
+    path(
+        "mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"
+    ),
     # mypage pagination ajax url
     path(
         "mypage/notifications/notification_ajax/",
         views.notification_ajax,
         name="notification_ajax",
+    ),
+    path("mypage/reviews_qnas/qna_ajax/", views.qna_ajax, name="qna_ajax"),
+    path("mypage/reviews_qnas/review_ajax/", views.review_ajax, name="review_ajax"),
+    # mypage popups url
+    path(
+        "mypage/orders/check/<int:pk>",
+        views.FarmerMyPageOrderCheckPopup.as_view(),
+        name="farmer_mypage_order_check_popup",
+    ),
+    path(
+        "mypage/orders/invoice/<int:pk>",
+        views.FarmerMypageInvoiceUpdatePopup.as_view(),
+        name="farmer_mypage_invoice_update_popup",
+    ),
+    path(
+        "mypage/product/update/<int:pk>",
+        views.FarmerMypPageProductStateUpdate.as_view(),
+        name="farmer_mypage_product_state_update",
+    ),
+    path(
+        "mypage/popup-callback",
+        views.FarmerMypagePopupCallback.as_view(),
+        name="popup_callback",
     ),
 ]

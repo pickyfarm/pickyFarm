@@ -111,8 +111,6 @@ class SignUpForm(forms.Form):
     def save(self):
         username = self.cleaned_data.get("username")
         password_re = self.cleaned_data.get("password_re")
-        last_name = self.cleaned_data.get("last_name")
-        first_name = self.cleaned_data.get("first_name")
         nickname = self.cleaned_data.get("nickname")
         email = self.cleaned_data.get("email")
         gender = self.cleaned_data.get("gender")
@@ -122,8 +120,8 @@ class SignUpForm(forms.Form):
             username, email=email, password=password_re
         )
 
-        user.first_name = first_name
-        user.last_name = last_name
+        user.first_name = ""
+        user.last_name = ""
         user.nickname = nickname
         user.gender = gender
         user.birth = birth

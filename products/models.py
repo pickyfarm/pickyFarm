@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from core.models import CompressedImageField
+from django.utils import timezone
 
 
 # Create your models here.
@@ -16,17 +17,38 @@ def check_rate(rate_num):
 
 
 class Product(models.Model):
+    kinds = (
+        ("ugly", "무난이 작물"),
+        ("normal", "일반 작물"),
+    )
+    weight_unit = (
+        ("g", "g"),
+        ("kg", "kg"),
+    )
+
+    PRODUCT_STATUS = (
+        ("pending", "승인 대기"),
+        ("sale", "판매 중"),
+        ("suspended", "판매 중지"),
+        ("soldout", "품절"),
+    )
 
     title = models.CharField(max_length=50)
     sub_title = models.CharField(max_length=100)
     main_image = CompressedImageField(upload_to="product_main_image/%Y/%m/%d/")
 
-    open = models.BooleanField(default=False)
+    kinds = models.CharField(max_length=100, default="ugly", choices=kinds)
+    status = models.CharField(
+        max_length=10, choices=PRODUCT_STATUS, default=PRODUCT_STATUS[0][0]
+    )
+    open = models.BooleanField(default=False)  # to be deleted
     is_event = models.BooleanField(default=False)
 
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
     weight = models.FloatField(help_text="판매 중량")
-    weight_unit = models.CharField(max_length=5, help_text="판매 중량 단위")
+    weight_unit = models.CharField(
+        max_length=5, choices=weight_unit, help_text="판매 중량 단위"
+    )
     stock = models.IntegerField(default=0, help_text="총 재고 수량")
     sales_count = models.IntegerField(default=0, help_text="총 판매 수량", blank=True)
     sales_rate = models.FloatField(default=0, blank=True)
@@ -75,9 +97,24 @@ class Product(models.Model):
     cost_performance_3 = models.IntegerField(default=0)
     cost_performance_5 = models.IntegerField(default=0)
 
+    # 상품 상세 정보 관련
+    harvest_start_date = models.DateField(
+        default=timezone.now, help_text="제조일(수확일) start"
+    )
+    harvest_end_date = models.DateField(default=timezone.now, help_text="제조일(수확일) end")
+    shelf_life_date = models.CharField(
+        max_length=200, blank=True, null=True, help_text="유통기한 또는 품질보증기한"
+    )
+    storage_method = models.CharField(
+        max_length=200, blank=True, null=True, help_text="보관방법 또는 취급방법"
+    )
+
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
+    related_product = models.OneToOneField(
+        "Product", null=True, blank=True, on_delete=models.SET_NULL
+    )
     farmer = models.ForeignKey(
         "farmers.Farmer", related_name="products", on_delete=models.CASCADE
     )

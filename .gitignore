@@ -107,6 +107,7 @@ static/
 *.pyc
 *.db
 *.pid
+kakaomessages/template.py
 
 # Ignore Django Migrations in Development if you are working on team
 
@@ -123,3 +124,9 @@ Pipfile.lock
 Pipfile
 
 package-lock.json
+
+manage.py
+
+
+#kakao message
+kakaomessages/template.py

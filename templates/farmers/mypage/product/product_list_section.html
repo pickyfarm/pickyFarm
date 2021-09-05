@@ -17,13 +17,15 @@
                 <div class="product-sheet-bar"></div>
                 <div class="product-subtitle">{{product.sub_title}}</div>
             </div>
-            <div class="open-status">{{product.open | yesno:'판매중,판매중지'}}</div>
+            <div class="open-status">
+                {{product.get_status_display}}
+            </div>
             <div class="stocks">{{product.stock}}</div>
-            <div class="package-unit">{{product.weight}}kg</div>
+            <div class="package-unit">{{product.weight}}{{product.weight_unit}}</div>
             <div class="sell-price">{{product.sell_price | intcomma}}</div>
             <div class="event">{{product.is_event | yesno:'○,✕'}}</div>
             <div class="selling-rate">{% widthratio product.sales_rate 1 100 %}%</div>
-            <button class="update-info transition-colors">수정</button>
+            <button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=960')">수정</button>
         </div>
         {% endfor %}
     </div>

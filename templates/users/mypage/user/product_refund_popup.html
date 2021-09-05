@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'css/users/mypage/user/product_refund_popup.css' %}"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>교환 / 반품 신청</title>
+    </head>
+    <body>
+        <div class="popup_container flex">
+            <div class="refund-main-content-wrap">
+                    <div class="refund-reason-wrap">
+                        <div class="refund-reason-title">교환 / 반품 신청</div>
+                        <form action="#" method="post"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="radio-box">
+                                <div class="radio-change-box">
+                                    <input type="radio" id="radio-change" name="change_or_refund" value="exchange"><label for="radio-change">교환</label>
+                                </div> 
+                                <div class="radio-refund-box">
+                                    <input type="radio" id="radio-refund" name="change_or_refund" value="refund"><label for="radio-refund">반품</label> 
+                                </div>
+                            </div>
+                        <div class="refund-reason-title">교환 / 반품 사유</div>
+                            <div class="refund-reason-input-wrap">
+                                <textarea
+                                    class="refund-reason-input"
+                                    type="text"
+                                    name="reason_txt"
+                                ></textarea>
+                            
+                            <div class="refund-post-img">
+                                <div>
+                                <div class="refund-post-img-box">
+                                    <div class="clip-box">
+                                        <img src="{% static 'images/users/mypage/user/post_img.svg' %}" alt="clip" class="clip-img">
+                                        <span class="img-txt">
+                                            사진 첨부하기
+                                        </span>
+                                        <img src="{% static 'images/users/mypage/user/post_img.svg' %}" alt="clip" class="clip-img">
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="img-ps">*사유와 연관된 사진이 있다면 첨부해주세요</div>
+                                <div class="add-file-box">
+                                    <input type="file" name="product_image" class="add-file">
+                                </div>
+                            </div >
+                            <div class="refund-reason-title">배송 / 회수 정보</div>
+                            <div class="retrieve-subtitle">*회수 주소지</div>
+                                <div class="retrieve-box">
+                                    <!-- 임시 radio / 탬플릿 언어 for로 해야함 / forloop.counter로 id 구분 주었음 : label 과의 상호작용 -->
+                                    {% for address in addresses %}
+                                    <div class="address-box">
+                                            <div class="address-subbox">
+                                                <input type="radio" name="address" id="{{ forloop.counter}}" class="address-radio" value="{{ address.full_address }}">
+                                            </div>
+                                            <label for="{{ forloop.counter }}" class="{{forloop.counter}}"><div >{{ address.full_address }}</div></label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            <div class="retrieve-subtitle">*회수 요청사항</div>
+                                <div class="request-box">
+                                        <div class="request-radio-box">
+                                            <div class="request-radio-subbox">
+                                                <input type="radio" name="rev_loc_at"  value="문 앞" class="request-radio">
+                                            </div>
+                                            <label for="door"><div>문 앞</div></label>
+                                        </div>
+                                        <div class="request-radio-box">
+                                            <div class="request-radio-subbox">
+
+                                                <input type="radio" name="rev_loc_at" value="경비실" class="request-radio">
+                                            </div>
+                                            <label for="security"><div>경비실</div></label>
+                                        </div>
+                                        <div class="request-radio-box">
+                                            <div class="request-radio-subbox">
+
+                                                <input type="radio" name="rev_loc_at" value="사전에 연락 후 문 앞 배송" class="request-radio">
+                                            </div>
+                                            <label for="delivery"><div>배송기사가 사전에 연락 후 문 앞 배송</div></label>
+                                        </div>
+                                        
+                                </div>  
+                                                         
+                            <button class="refund-reason-submit-wrap flex" type="submit">
+                                <div class="refund-reason-submit-img-wrap">
+                                    <img
+                                        class="refund-reason-submit-img"
+                                        src="{% static 'images/users/mypage/user/check_nohover.svg' %}"
+                                        alt="check_nohover"
+                                    />
+                                </div>
+                                <div class="refund-reason-submit-text">신청하기</div>
+                            </button>
+                        </form>
+                    </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const clipBox = document.querySelector(".clip-box");
+            const addfile = document.querySelector(".add-file");
+            clipBox.addEventListener("click", () =>{
+                addfile.click();
+                addfile.style.display = "block";
+                console.log("click!");
+            });
+            
+            const addressRadios = document.querySelectorAll(".address-radio");
+            const addressBoxes = document.querySelectorAll(".address-box");
+            for(j=0; j < addressRadios.length; j++){
+                addressRadios[j].addEventListener("click", () =>{
+                    for(i=0; i<addressRadios.length; i++){
+                        if(addressRadios[i].checked){
+                            addressBoxes[i].style.color ="#4d5548";
+                        } else{
+                            addressBoxes[i].style.color ="#b3b3b3";
+                        };
+                    }
+                })
+            }
+
+            const requestRadios = document.querySelectorAll(".request-radio");
+            const requestBoxes = document.querySelectorAll(".request-radio-box");
+            for(j=0; j < requestRadios.length; j++){
+                requestRadios[j].addEventListener("click", () =>{
+                    for(i=0; i<requestRadios.length; i++){
+                        if(requestRadios[i].checked){
+                            requestBoxes[i].style.color ="#4d5548";
+                        } else{
+                            requestBoxes[i].style.color ="#b3b3b3";
+                        };
+                    }
+                })
+            }
+            
+
+            const check_btn = document.querySelector(
+                '.refund-reason-submit-wrap'
+            );
+            const check_img = document.querySelector(
+                '.refund-reason-submit-img'
+            );
+
+            const switchCheckImgHoverIn = function (e) {
+                // setAttribute의 2번째 인자 경로를 템플릿 태그로 고쳐야 할 것 같습니다.
+                check_img.setAttribute(
+                    'src',
+                    "{% static 'images/users/mypage/user/check_hover.svg' %}"
+                );
+            };
+
+            const switchCheckImgHoverOut = function (e) {
+                // setAttribute의 2번째 인자 경로를 템플릿 태그로 고쳐야 할 것 같습니다.
+                check_img.setAttribute(
+                    'src',
+                    "{% static 'images/users/mypage/user/check_nohover.svg' %}"
+                );
+            };
+
+            check_btn.addEventListener('mouseover', switchCheckImgHoverIn);
+            check_btn.addEventListener('mouseleave', switchCheckImgHoverOut);
+        </script>
+    </body>
+</html>

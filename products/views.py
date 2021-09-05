@@ -1,11 +1,13 @@
+from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, redirect, reverse
 from django.http import request, JsonResponse
 from django.core import serializers
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Product, Category, Question, Answer
 from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
-from django.utils import timezone
+from django.utils import timezone, dateformat
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
 from django import template
@@ -137,14 +139,29 @@ def product_detail(request, pk):
         product_pk = pk
         product = Product.objects.get(pk=pk)
         product.calculate_total_rating_avg()
+        kinds = product.kinds
         farmer = product.farmer
+
+        # 상품 리뷰
         comments = product.product_comments.all().order_by("-create_at")
+        total_comments = comments.count()
+        page = request.GET.get("page")
+        paginator = Paginator(comments, 5)
+        comments = paginator.get_page(page)
+
+        # 상품 문의
         questions = product.questions.all().order_by("-create_at")
+        total_questions = questions.count()
+        page2 = request.GET.get("page")
+        paginator2 = Paginator(questions, 5)
+        questions = paginator2.get_page(page2)
+
         total_score = product.calculate_total_rating_avg()
         total_percent = format(total_score / 5 * 100, ".1f")
         recomment_form = ProductRecommentForm()
-        questions_total_pages = ceil(questions.count() / 5)
-        questions = questions[0:5]
+
+        # 연관 일반 작물
+        related_product = product.related_product
 
         # freshness
         if product.reviews != 0:
@@ -176,17 +193,37 @@ def product_detail(request, pk):
         else:
             cost_performance_per = [0, 0, 0]
 
+        
+        #상세 정보
+        product_harvest_start_date = dateformat.format(product.harvest_start_date, 'Y년 m월 d일')
+        product_harvest_end_date = dateformat.format(product.harvest_end_date, 'Y년 m월 d일')
+        product_shelf_life_date = product.shelf_life_date
+
+        if product.related_product is not None:
+            rel_product_harvest_start_date = dateformat.format(product.related_product.harvest_start_date, 'Y년 m월 d일')
+            rel_product_harvest_end_date = dateformat.format(product.related_product.harvest_end_date, 'Y년 m월 d일')
+            rel_product_shelf_life_date = product.related_product.shelf_life_date
+        else :
+            rel_product_harvest_start_date = None
+            rel_product_harvest_end_date = None
+            rel_product_shelf_life_date = None
+
+
+
+
         ctx = {
-            "product_pk" : product_pk,
+            "product_pk": product_pk,
             "product": product,
+            "kinds": kinds,
             "farmer": farmer,
             "comments": comments,
+            "total_comments": total_comments,
             "questions": questions,
+            "total_questions": total_questions,
             "total_score": range(int(total_score)),
             "remainder_score": range(5 - int(total_score)),
             "total_percent": total_percent,
             "recomment_form": recomment_form,
-            "question_total_pages": range(1, questions_total_pages + 1),
             "freshness_1": freshness_per[0],
             "freshness_3": freshness_per[1],
             "freshness_5": freshness_per[2],
@@ -196,12 +233,53 @@ def product_detail(request, pk):
             "cost_1": cost_performance_per[0],
             "cost_3": cost_performance_per[1],
             "cost_5": cost_performance_per[2],
+            "related_product": related_product,
+            "product_harvest_start_date" : product_harvest_start_date,
+            "product_harvest_end_date" : product_harvest_end_date,
+            "product_shelf_life_date" : product_shelf_life_date,
+            "rel_product_harvest_start_date" : rel_product_harvest_start_date,
+            "rel_product_harvest_end_date" : rel_product_harvest_end_date,
+            "rel_product_shelf_life_date" : rel_product_shelf_life_date,
+            
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:
         return redirect("/")
 
 
+def comment_ajax(request, pk):
+    """상품 리뷰 Pagination"""
+    product = Product.objects.get(pk=pk)
+    comments = product.product_comments.all().order_by("-create_at")
+    total_comments = comments.count()
+    page = request.GET.get("page")
+    paginator = Paginator(comments, 5)
+    comments = paginator.get_page(page)
+    ctx = {
+        "product": product,
+        "comments": comments,
+        "total_comments": total_comments,
+    }
+    return render(request, "products/pagination/product_comment_ajax.html", ctx)
+
+
+def question_ajax(request, pk):
+    """상품 문의 Pagination"""
+    product = Product.objects.get(pk=pk)
+    questions = product.questions.all().order_by("-create_at")
+    total_questions = questions.count()
+    page = request.GET.get("page2")
+    paginator2 = Paginator(questions, 5)
+    questions = paginator2.get_page(page)
+    ctx = {
+        "product": product,
+        "questions": questions,
+        "total_questions": total_questions,
+    }
+    return render(request, "products/pagination/product_question_ajax.html", ctx)
+
+
+# 상품 문의 pagination with ajax (수정 전)
 def question_paging(request):
     product_pk = request.POST.get("product_pk", None)
     page_num = (int)(request.POST.get("page_num", None))

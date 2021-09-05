@@ -9,7 +9,7 @@
 
 #title {
     font-size: 17px;
-    color: #000000;
+    color: #5c6754;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
@@ -36,7 +36,7 @@
 #sub_title {
     width: 300px;
     height: 22px;
-    font-family: NotoSansKR;
+
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -98,21 +98,34 @@
     color: #5c6754;
 }
 
+#products {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 60px 32.5px;
+    justify-items: center;
+}
+
 #product_item {
-    height: 40vw;
-    margin-bottom: 100px;
+    height: 520px;
+
+    width: 265px;
 }
 
 .farmer-info-overlay {
-    display: none;
+    display: flex;
+    opacity: 0;
     width: 265px;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 10px;
 }
 
+.product-image-wrapper {
+    margin-bottom: 20px;
+}
+
 .product-image-wrapper:hover .farmer-info-overlay {
-    display: flex;
+    opacity: 1;
 }
 
 .farmer-profile-image {
@@ -141,9 +154,6 @@
     height: 385px;
     border-radius: 10px;
     box-shadow: 10px 10px 10px 0 rgba(170, 170, 170, 0.7);
-    margin-right: 15px;
-    margin-left: 15px;
-
     background-color: #ffffff;
     object-fit: cover;
 }
@@ -162,7 +172,7 @@
 #like_cart_in {
     position: absolute;
     top: 365px;
-    right: 20px;
+    right: 5px;
 }
 
 #cart_in_btn {
@@ -170,6 +180,42 @@
 }
 
 #wish_btn {
+    cursor: pointer;
+}
+
+#tags {
+    margin-top: auto;
+}
+
+#ugly_tag {
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffff;
+    background-color: #5c6754;
+    border: solid 1px #5c6754;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    padding: 2px 9px 2px 8px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#normal_tag {
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5c6754;
+    border: solid 1px #5c6754;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    padding: 2px 15px 2px 14px;
     cursor: pointer;
 }
 

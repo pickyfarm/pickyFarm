@@ -2,7 +2,10 @@
 {% load static %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/orders/payment.css' %}">
+<link rel="stylesheet"
+      href="{% static 'css/orders/payment.css' %}">
+<link rel="stylesheet"
+      href="{% static 'css/orders/payment_mobile.css' %}">
 {% endblock stylesheet %}
 
 {% block title_name %}
@@ -10,258 +13,408 @@
 {% endblock title_name %}
 
 {% block main_content %}
-<div class="main-contents flex flex-col items-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
+<div class="main-contents flex flex-col items-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl"
+     id="main">
 
     <!-- <form action="{% url 'orders:payment_update' order_group_pk %}" method='POST' enctype="multipart/form-data"> -->
-        
-        {% csrf_token %}
-        <div id="title-section">
-            <p id="title-text">주문서 작성 / 결제</p>
-            <div id="requried-section" class="flex flex-row justify-end">
-                <img src="{% static 'images/orders/dot.svg' %}">
-                <div id="required-text">필수입력사항</div>
+
+    {% csrf_token %}
+    <div id="title-section">
+        <p id="title-text">주문서 작성 / 결제</p>
+        <div id="requried-section"
+             class="flex flex-row justify-end">
+            <img src="{% static 'images/orders/dot.svg' %}">
+            <div id="required-text">필수입력사항</div>
+        </div>
+    </div>
+
+    <div id="info-section">
+        <div id="info-title-section"
+             class="flex flex-row ">
+            <div id="sub-title-text">주문자 정보</div>
+            <div id="sub-title-line"></div>
+        </div>
+        <div id="info-name-section"
+             class="flex flex-row mb-5">
+            <div class="flex flex-row w-1/12">
+                <div id="label-text"
+                     class="mt-2">이름</div>
+                <img id="dot"
+                     src="{% static 'images/orders/dot.svg' %}">
             </div>
+
+            <div id="small-form"
+                 class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text"
+                       name="rev_name"
+                       ,
+                       maxlength="10"
+                       ,
+                       id="id_rev_name"
+                       value="{{account_name}}"></div>
+        </div>
+        <div id="info-phone-number-section"
+             class="flex flex-row">
+            <div class="flex flex-row w-1/12">
+                <div id="label-text"
+                     class="mt-2">휴대폰</div>
+                <img id="dot"
+                     src="{% static 'images/orders/dot.svg' %}">
+            </div>
+
+            <div id="small-form"
+                 class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text"
+                       name="rev_phone_number"
+                       ,
+                       maxlength="30"
+                       ,
+                       id="id_rev_phone_number"
+                       value="{{phone_number}}"></div>
+        </div>
+    </div>
+
+    <div id="delivery-section">
+        <div id="delivery-title-section"
+             class="flex flex-row ">
+            <div id="sub-title-text">배송지 정보</div>
+            <div id="sub-title-line"></div>
+        </div>
+        <div id="delivery-cat-section"
+             class="mb-5">
+            <ul id="delivery-cat"
+                class="flex flex-row">
+                <li id="label-text2"
+                    class="mr-5">
+                    <label for="delivery-cat-default"><input type="radio"
+                               name="delivery-cat"
+                               id="delivery-cat-default"
+                               value="기본 배송지"
+                               class="mr-2"
+                               required
+                               checked>기본 배송지</label>
+                </li>
+                <li id="label-text2"
+                    class="mr-5">
+                    <label for="delivery-cat-choice"><input type="radio"
+                               name="delivery-cat"
+                               id="delivery-cat-choice"
+                               value="배송지 선택"
+                               class="mr-2"
+                               required>배송지 선택</label>
+                </li>
+                <li id="label-text2"
+                    class="mr-5">
+                    <label for="delivery-cat-direct"><input type="radio"
+                               name="delivery-cat"
+                               id="delivery-cat-direct"
+                               value="직접입력"
+                               class="mr-2"
+                               required>직접입력</label>
+                </li>
+            </ul>
+
         </div>
 
-        <div id="info-section">
-            <div id="info-title-section" class="flex flex-row ">
-                <div id="sub-title-text">주문자 정보</div>
-                <div id="sub-title-line"></div>
-            </div>
-            <div id="info-name-section" class="flex flex-row mb-5">
-                <div class="flex flex-row w-1/12">
-                    <div id="label-text" class="mt-2">이름</div>
-                    <img id="dot" src="{% static 'images/orders/dot.svg' %}">
-                </div>
+        <div id="delivery-cat-detail-section"
+             class="mb-4">
 
-                <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="rev_name", maxlength="10", id="id_rev_name" value="{{account_name}}"></div>
+        </div>
+        <div id="delivery-address-input-section">
+            <div id="full-address-section"
+                 class="flex flex-row">
+                <input id="id_full_address"
+                       type="text">
+                <div id="address-search-btn"
+                     onclick="getAddress()"><img src="{% static 'images/users/search.svg' %}"></div>
             </div>
-            <div id="info-phone-number-section" class="flex flex-row">
-                <div class="flex flex-row w-1/12">
-                    <div id="label-text" class="mt-2">휴대폰</div>
-                    <img id="dot" src="{% static 'images/orders/dot.svg' %}">
-                </div>
 
-                <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="rev_phone_number", maxlength="30", id="id_rev_phone_number" value="{{phone_number}}"></div>
+            <div class="flex flex-col">
+                <input id='id_detail_address'
+                       type='text'>
+                <div id="add-rev-address-help-text"
+                     class="self-end">*상세주소를 입력하세요</div>
             </div>
+            <input id='id_extra_address'
+                   type='hidden'>
+            <input id='id_sido'
+                   type='hidden'>
+            <input id='id_sigungu'
+                   type='hidden'>
         </div>
 
-        <div id="delivery-section">
-            <div id="delivery-title-section" class="flex flex-row ">
-                <div id="sub-title-text">배송지 정보</div>
-                <div id="sub-title-line"></div>
-            </div>
-            <div id="delivery-cat-section" class="mb-5">
-                <ul id="delivery-cat" class="flex flex-row">
-                    <li id="label-text2" class="mr-5">
-                        <label for="delivery-cat-default" ><input type="radio" name="delivery-cat" id="delivery-cat-default" value="기본 배송지" class="mr-2" required checked>기본 배송지</label>
-                    </li>
-                    <li id="label-text2" class="mr-5">
-                        <label for="delivery-cat-choice"><input type="radio" name="delivery-cat" id="delivery-cat-choice"  value="배송지 선택" class="mr-2" required>배송지 선택</label>
-                    </li>
-                    <li id="label-text2" class="mr-5">
-                        <label for="delivery-cat-direct"><input type="radio" name="delivery-cat" id="delivery-cat-direct"  value="직접입력" class="mr-2" required>직접입력</label>
-                    </li>
-                </ul>
+        <div id="delivery-address-section"
+             class="flex flex-row mb-5">
+            <div class="flex flex-row w-1/12">
+                <div id="label-text"
+                     class="mt-2">배송지</div>
+                <img id="dot"
+                     src="{% static 'images/orders/dot.svg' %}">
 
             </div>
 
-            <div id="delivery-cat-detail-section">
-                <div id="full-address-section" class="flex flex-row">
-                    <input id="id_full_address" type="text">
-                    <div id="address-search-btn" onclick="getAddress()"><img src="{% static 'images/users/search.svg' %}"></div>
-                </div>
-            
-                <div class="flex flex-col">
-                    <input id='id_detail_address' type='text'>
-                    <div id="add-rev-address-help-text" class="self-end">*상세주소를 입력하세요</div>
-                </div>
-                <input id='id_extra_address' type='hidden'>
-                <input id='id_sido' type='hidden'>
-                <input id='id_sigungu' type='hidden'>
-            </div>
-
-            <div id="delivery-address-section" class="flex flex-row mb-5">
-                <div class="flex flex-row w-1/12">
-                    <div id="label-text" class="mt-2">배송지</div>
-                    <img id="dot" src="{% static 'images/orders/dot.svg' %}">
-                    
-                </div>
-
-                <div class="w-11/12">
-                    <div id="middle-form" class="ml-12 pl-3 flex justify-items-start"><input type="text", maxlength="200", id="delivery-address" value="{{default_address}}"></div>
-
-                </div>
+            <div class="w-11/12">
+                <div id="middle-form"
+                     class="ml-12 pl-3 flex justify-items-start"><input type="text"
+                           ,
+                           maxlength="200"
+                           ,
+                           id="delivery-address"
+                           value="{{default_address}}"></div>
 
             </div>
-            <div id="delivery-rev-loc-at-section" class="flex flex-row mb-5">
-                <div class="flex flex-row mr-5">
-                    <div id="label-text">받으실 장소</div>
-                    <img id="dot-rev-loc-at" src="{% static 'images/orders/dot.svg' %}">
-                </div>
 
-                <div id="label-text2" class="ml-9">
-                    <ul id="id_rev_loc_at">
-                        <li class="mb-3">
-                            <label for="id_rev_loc_at_0">
-                                <input type="radio" name="rev_loc_at" value="문 앞" id="id_rev_loc_at_0" required checked> 문 앞
-                            </label>
-                        </li>
-                        <li class="mb-3">
-                            <label for="id_rev_loc_at_1">
-                                <input type="radio" name="rev_loc_at" value="경비실" id="id_rev_loc_at_1" required> 경비실
-                            </label>
-                        </li>
-                        <li class="mb-3">
-                            <label for="id_rev_loc_at_2">
-                                <input type="radio" name="rev_loc_at" value="택배함" id="id_rev_loc_at_2" required> 택배함
-                            </label>
-                        </li>
-                        <li class="mb-3">
-                            <label for="id_rev_loc_at_3">
-                                <input type="radio" name="rev_loc_at" value="기타장소" id="id_rev_loc_at_3" required> 기타장소
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div id="delivery-rev-message-section" class="flex flex-row mb-5">
-                <div id="label-text" class="mr-8 mt-4">배송지 특이사항</div>
-                <div class="ml-4">
-                    <div id="big-form">{{form.rev_message}}</div>
-                    <div id="help-text">* 정확한 배송을 위해서 장소의 출입방법이나 특징 등을 자세하게 작성해주세요</div>
-                </div>
-            </div>
-            <div id="delivery-to-farm-message-section" class="flex flex-row mb-5">
-                <div id="label-text" class="mr-7 mt-2">농가 전달 메세지</div>
-                <div id="middle-form" class="ml-4">{{form.to_farm_message}}</div>
-            </div>
         </div>
+        <div id="delivery-rev-loc-at-section"
+             class="flex flex-row mb-5">
+            <div class="flex flex-row mr-5">
+                <div id="label-text">받으실 장소</div>
+                <img id="dot-rev-loc-at"
+                     src="{% static 'images/orders/dot.svg' %}">
+            </div>
 
-        <div id="orders-section">
-            <div id="orders-title-section" class="flex flex-row ">
-                <div id="sub-title-text">주문 상세 내역 / 결제 금액</div>
-                <div id="orders-sub-title-line"></div>
-            </div>
-            <div id="products-index-section" class="flex flex-row mt-5">
-                <div class="w-2/12"></div>
-                <div class="w-3/12">농장</div>
-                <div class="w-3/12">상품명</div>
-                <div class="w-1/12">수량</div>
-                <div class="w-1/12">Kg</div>
-                <div class="w-2/12">가격</div>
-            </div>
-            <div id="orders-contents-section" class="flex flex-row">
-                <div id="products-section">
-                    
-                    {% for p in products %}
-                    <div id="product" name="{{p.order_number}}" class="flex flex-row items-center">
-                        <div class="w-2/12"><img id="product-img" src="{{product.main_image.url}}"></div>
-                        <div class="w-3/12" id="farm_name">{{p.product.farmer.farm_name}}</div>
-                        <div class="w-3/12" id="title">{{p.product.title}}</div>
-                        <div class="w-1/12" id="orders-num">{{p.order_quantity}}</div>
-                        <div class="w-1/12" id="weight">{{p.weight}}kg</div>
-                        <div class="w-2/12" id="sell-price">{{p.order_price}}원</div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div id="price-check-section">
-                    <div class="flex flex-row mb-8">
-                        <div id="title-line"></div>
-                        <div id="price-check-title">결제금액</div>
-                        <div id="title-line"></div>
-                    </div>
-                    <div class="flex flex-row">
-                        <div class="w-5/12" id="text_ab">총 {{total_quantity}}개의 주문금액</div>
-                        <div class="w-6/12 mr-3" id="price_text_a">{{price_sum}}</div>
-                        <div class="w-1/12" id="price_text_a">원</div>
-                    </div>
-                    <div class="flex flex-row">
-                        <div class="w-5/12 pl-5" id="text_a">-할인금액</div>
-                        <div class="w-6/12 mr-6" id="price_text_c">{{discount}}</div>
-                        <div class="w-1/12 pr-1" id="price_text_c">원</div>
-                    </div>
-                    <div class="flex flex-row">
-                        <div class="w-5/12" id="text_ab">배송비</div>
-                        <div class="w-6/12 mr-3" id="price_text_a">{{delivery_fee}}</div>
-                        <div class="w-1/12" id="price_text_a">원</div>
-                    </div>
-                    <div id="div-line1" class="mb-5 mt-2"></div>
-                    <div class="flex flex-row">
-                        <div class="w-5/12" id="text-b">최종 주문금액</div>
-                        <div class="w-6/12 mr-3" id="price_text_b">{{final_price}}</div>
-                        <div class="w-1/12" id="price_text_b">원</div>
-                    </div>
-                    <div id="div-line2" class="mt-5 mb-5"></div>
-                    <div class="flex flex-row">
-                        <div class="w-5/12" id="text-c">총 주문 Kg</div>
-                        <div class="w-6/12" id="price_text_b">{{total_weight}}</div>
-                        <div class="w-1/12" id="price_text_b">Kg</div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div id="pay-section">
-            <div id="pay-title-section" class="flex flex-row ">
-                <div id="sub-title-text">결제 수단</div>
-                <div id="sub-title-line3"></div>
-            </div>
-            <div id="payment-type-section" class="flex flex-row">
-                <ul class="flex flex-row">
-                    <li>
-                        <label for="id_payment_type_0" class="mr-2">
-                            <input type="radio" name="payment_type" value="card" id="id_payment_type_0" checked>  카드결제
+            <div id="label-text2"
+                 class="ml-9">
+                <ul id="id_rev_loc_at">
+                    <li class="mb-3">
+                        <label for="id_rev_loc_at_0">
+                            <input type="radio"
+                                   name="rev_loc_at"
+                                   value="문 앞"
+                                   id="id_rev_loc_at_0"
+                                   required
+                                   checked> 문 앞
                         </label>
                     </li>
-                    <li>
-                        <label for="id_payment_type_1" class="mr-2">
-                            <input type="radio" name="payment_type" value="kakao" id="id_payment_type_1">  카카오페이
+                    <li class="mb-3">
+                        <label for="id_rev_loc_at_1">
+                            <input type="radio"
+                                   name="rev_loc_at"
+                                   value="경비실"
+                                   id="id_rev_loc_at_1"
+                                   required> 경비실
                         </label>
                     </li>
-                    <li>
-                        <label for="id_payment_type_2" class="mr-2">
-                            <input type="radio" name="payment_type" value="npay" id="id_payment_type_2">  네이버페이
+                    <li class="mb-3">
+                        <label for="id_rev_loc_at_2">
+                            <input type="radio"
+                                   name="rev_loc_at"
+                                   value="택배함"
+                                   id="id_rev_loc_at_2"
+                                   required> 택배함
+                        </label>
+                    </li>
+                    <li class="mb-3">
+                        <label for="id_rev_loc_at_3">
+                            <input type="radio"
+                                   name="rev_loc_at"
+                                   value="기타장소"
+                                   id="id_rev_loc_at_3"
+                                   required> 기타장소
                         </label>
                     </li>
                 </ul>
             </div>
         </div>
-
-        <div id="personal-info-agree-section">
-            <div id="div-line"></div>
-            <div id="personal-info-agree-top-section" class="flex flex-row">
-                <label id="personal-info-agree-label"><input id="personal-info-agree" class="pt-5" type="radio" value="agree">
-                    개인 정보 수집 이용 동의</label>
-                <div id="personal-info-agree-require" class="ml-1">(필수)</div>
-            </div>
-            <div id="personal-info-agree-bottom-section">
-                <div>수집 목적 : 상품 배송</div>
-                <div>개인 정보 항목 : 주소</div>
-                <div>보유기간 : 회원 탈퇴 시 까지</div>
+        <div id="delivery-rev-message-section"
+             class="flex flex-row mb-5">
+            <div id="label-text"
+                 class="mr-8 mt-4">배송지 특이사항</div>
+            <div class="ml-4">
+                <div id="big-form">{{form.rev_message}}</div>
+                <div id="help-text">* 정확한 배송을 위해서 장소의 출입방법이나 특징 등을 자세하게 작성해주세요</div>
             </div>
         </div>
+        <div id="delivery-to-farm-message-section"
+             class="flex flex-row mb-5">
+            <div id="label-text"
+                 class="mr-7 mt-2">농가 전달 메세지</div>
+            <div id="middle-form"
+                 class="ml-4">{{form.to_farm_message}}</div>
+        </div>
+    </div>
 
-        <div id="btns-section" class="flex flex-col items-center">
-            <div id="agree-section" class="mb-2">
-                <label id="final-agree-label"><input id="final-agree" class="pt-5 ml-2" type="radio" value="agree">   구매할 상품의 결제정보를 확인하였으며, 구매진행에
-                    동의합니다</label>
+    <div id="orders-section">
+        <div id="orders-title-section"
+             class="flex flex-row ">
+            <div id="sub-title-text">주문 상세 내역 / 결제 금액</div>
+            <div id="orders-sub-title-line"></div>
+        </div>
+        <div id="products-index-section"
+             class="flex flex-row mt-5">
+            <div class="w-2/12"></div>
+            <div class="w-3/12">농장</div>
+            <div class="w-3/12">상품명</div>
+            <div class="w-1/12">수량</div>
+            <div class="w-1/12">Kg</div>
+            <div class="w-2/12">가격</div>
+        </div>
+        <div id="orders-contents-section"
+             class="flex flex-row">
+            <div id="products-section">
+
+                {% for p in products %}
+                <div id="product"
+                     name="{{p.order_number}}"
+                     class="flex flex-row items-center">
+                    <div class="w-2/12"><img id="product-img"
+                             src="{{p.product.main_image.url}}"></div>
+                    <div class="w-3/12"
+                         id="farm_name">{{p.product.farmer.farm_name}}</div>
+                    <div class="w-3/12"
+                         id="title">{{p.product.title}}</div>
+                    <div id="orders-title">수량: </div>
+                    <div class="w-1/12"
+                         id="orders-num">{{p.order_quantity}}</div>
+                    <div class="w-1/12"
+                         id="weight">{{p.weight}}kg</div>
+                    <div class="w-2/12"
+                         id="sell-price">{{p.order_price}}원</div>
+                </div>
+                {% endfor %}
             </div>
-            <div id="buttons" class="flex flex-row">
-                <div id="go-back-btn">뒤로가기</div>
-                <button id="go-btn" class="ml-6" type="submit">결제하기
+            <div id="price-check-section">
+                <div class="flex flex-row mb-8">
+                    <div id="title-line"></div>
+                    <div id="price-check-title">결제금액</div>
+                    <div id="title-line"></div>
+                </div>
+                <div class="flex flex-row">
+                    <div class="w-5/12"
+                         id="text_ab">총 {{total_quantity}}개의 주문금액</div>
+                    <div class="w-6/12 mr-3"
+                         id="price_text_a">{{price_sum}}</div>
+                    <div class="w-1/12"
+                         id="price_text_a">원</div>
+                </div>
+                <div class="flex flex-row">
+                    <div class="w-5/12 pl-5"
+                         id="text_a">-할인금액</div>
+                    <div class="w-6/12 mr-6"
+                         id="price_text_c">{{discount}}</div>
+                    <div class="w-1/12 pr-1"
+                         id="price_text_c">원</div>
+                </div>
+                <div class="flex flex-row">
+                    <div class="w-5/12"
+                         id="text_ab">배송비</div>
+                    <div class="w-6/12 mr-3"
+                         id="price_text_a">{{delivery_fee}}</div>
+                    <div class="w-1/12"
+                         id="price_text_a">원</div>
+                </div>
+                <div id="div-line1"
+                     class="mb-5 mt-2"></div>
+                <div class="flex flex-row">
+                    <div class="w-5/12"
+                         id="text-b">최종 주문금액</div>
+                    <div class="w-6/12 mr-3"
+                         id="price_text_b">{{final_price}}</div>
+                    <div class="w-1/12"
+                         id="price_text_b">원</div>
+                </div>
+                <div id="div-line2"
+                     class="mt-5 mb-5"></div>
+                <div class="flex flex-row">
+                    <div class="w-5/12"
+                         id="text-c">총 주문 Kg</div>
+                    <div class="w-6/12"
+                         id="price_text_b">{{total_weight}}</div>
+                    <div class="w-1/12"
+                         id="price_text_b">Kg</div>
+                </div>
+
             </div>
         </div>
+    </div>
+
+    <div id="pay-section">
+        <div id="pay-title-section"
+             class="flex flex-row ">
+            <div id="sub-title-text">결제 수단</div>
+            <div id="sub-title-line3"></div>
+        </div>
+        <div id="payment-type-section"
+             class="flex flex-row">
+            <ul class="flex flex-row">
+                <li>
+                    <label for="id_payment_type_0"
+                           class="mr-2">
+                        <input type="radio"
+                               name="payment_type"
+                               value="card"
+                               id="id_payment_type_0"
+                               checked> 카드결제
+                    </label>
+                </li>
+                <li>
+                    <label for="id_payment_type_1"
+                           class="mr-2">
+                        <input type="radio"
+                               name="payment_type"
+                               value="kakao"
+                               id="id_payment_type_1"> 카카오페이
+                    </label>
+                </li>
+                <li>
+                    <label for="id_payment_type_2"
+                           class="mr-2">
+                        <input type="radio"
+                               name="payment_type"
+                               value="npay"
+                               id="id_payment_type_2"> 네이버페이
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="personal-info-agree-section">
+        <div id="div-line"></div>
+        <div id="personal-info-agree-top-section"
+             class="flex flex-row">
+            <label id="personal-info-agree-label"><input id="personal-info-agree"
+                       class="pt-5"
+                       type="radio"
+                       value="agree">
+                개인 정보 수집 이용 동의</label>
+            <div id="personal-info-agree-require"
+                 class="ml-1">(필수)</div>
+        </div>
+        <div id="personal-info-agree-bottom-section">
+            <div>수집 목적 : 상품 배송</div>
+            <div>개인 정보 항목 : 주소</div>
+            <div>보유기간 : 회원 탈퇴 시 까지</div>
+        </div>
+    </div>
+
+    <div id="btns-section"
+         class="flex flex-col items-center">
+        <div id="agree-section"
+             class="mb-2">
+            <label id="final-agree-label"><input id="final-agree"
+                       class="pt-5 ml-2"
+                       type="radio"
+                       value="agree"> 구매할 상품의 결제정보를 확인하였으며, 구매진행에
+                동의합니다</label>
+        </div>
+        <div id="buttons"
+             class="flex flex-row">
+            <div id="go-back-btn">뒤로가기</div>
+            <button id="go-btn"
+                    class="ml-6"
+                    type="submit">결제하기
+        </div>
+    </div>
 
     <!-- </form> -->
- 
+
 
 </div>
-<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
-<script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
+<script type="text/javascript"
+        src="{% static 'js/get_address.js' %}"></script>
+<script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js"
+        type="application/javascript"></script>
 <script>
-  
+
     let totalPrice = document.getElementById('price_text_b').innerHTML
     totalPrice = Number.parseInt(totalPrice)
     console.log(totalPrice)
@@ -270,25 +423,45 @@
     let deliveryCatChoice = document.getElementById('delivery-cat-choice')
     let deliveryCatDirect = document.getElementById('delivery-cat-direct')
     let deliveryAddress = document.getElementById("delivery-address")
-    const deliveryAddressInput = document.getElementById('delivery-cat-detail-section')
+    const deliveryAddressInput = document.getElementById('delivery-address-input-section')
     const mainAddressInput = document.getElementById('id_full_address')
     const subAddressInput = document.getElementById('id_detail_address')
 
-    deliveryCatDefault.addEventListener('click', ()=>{
+    let deliveryCatDetailSection = document.getElementById('delivery-cat-detail-section')
+
+    deliveryCatDefault.addEventListener('click', () => {
+        deliveryCatDetailSection.innerHTML = ""
         deliveryAddress.value = '{{default_address}}'
         deliveryAddressInput.style.display = 'none';
 
     })
 
-    deliveryCatChoice.addEventListener('click', ()=>{
+    deliveryCatChoice.addEventListener('click', () => {
+        add_html = `<div id="delivery-cat-detail-index-section" class="flex flex-row">
+                    <div id="delivery-cat-detail-index-title-section" class="flex flex-row">
+                        <div class="">배송 받으실 주소를 선택해주세요</div>
+                    </div>
+                </div>
+                {% for addr in  addresses%}
+                        <div id="delivery-address-choice" class="transition_element text-center">{{addr.full_address}} {{addr.detail_address}}</div>
+                {% endfor %}`
+        deliveryCatDetailSection.innerHTML = add_html
+
+        let choice = document.querySelectorAll('#delivery-address-choice')
+        choice.forEach(item =>
+            item.addEventListener('click', () => {
+                deliveryAddress.value = item.innerHTML
+            })
+        )
         deliveryAddressInput.style.display = 'none';
 
-        
+
     })
 
-    deliveryCatDirect.addEventListener('click', ()=>{
+    deliveryCatDirect.addEventListener('click', () => {
         deliveryAddress.value = ''
         deliveryAddressInput.style.display = 'block';
+        deliveryCatDetailSection.innerHTML = ""
     })
 
 
@@ -302,13 +475,13 @@
     console.log(goBtn)
     console.log(window.location.origin)
 
-    goBtn.addEventListener('click', ()=>{
+    goBtn.addEventListener('click', () => {
         let revName = document.getElementById('id_rev_name').value
         let revPhoneNumber = document.getElementById('id_rev_phone_number').value
-       
+
         let revLocAt = document.querySelector("input[name='rev_loc_at']:checked").value
         let paymentType = document.querySelector("input[name='payment_type']:checked").value
-       
+
         let revMessage = document.getElementById('id_rev_message').value
         let toFarmMessage = document.getElementById('id_to_farm_message').value
         let items = document.querySelectorAll('#product')
@@ -316,52 +489,52 @@
         console.log(toFarmMessage)
         console.log(revName)
         console.log(revLocAt)
-    
-     
 
-        if(revName == ""){
+
+
+        if (revName == "") {
             alert("주문자 이름을 입력해주세요")
-            return 
+            return
         }
-        else if(revPhoneNumber == ""){
+        else if (revPhoneNumber == "") {
             alert("휴대폰 번호를 입력해주세요")
-            return 
+            return
         }
 
         let personalInfoAgree = document.getElementById("personal-info-agree")
-        if(personalInfoAgree.checked == false){
+        if (personalInfoAgree.checked == false) {
             alert("개인 정보 수집 이용에 동의해주세요")
-            return 
+            return
         }
 
         let finalAgree = document.getElementById("final-agree")
-        if(finalAgree.checked == false){
+        if (finalAgree.checked == false) {
             alert("결제 정보 확인 및 구매 진행에 동의해주세요")
             return
         }
 
         //배송지 관련 로직//
         //배송지 카테고리 selectors
-        
+
         //배송지 폼
         let deliveryAddress = document.getElementById("delivery-address")
-        
+
 
         revAddress = deliveryAddress.value
 
         data = {
-            'rev_name' : revName,
-            'rev_phone_number' : revPhoneNumber,
-            'rev_address' : revAddress,
-            'rev_loc_at' : revLocAt,
-            'rev_message' : revMessage,
-            'to_farm_message' : toFarmMessage,
-            'payment_type' : paymentType,
+            'rev_name': revName,
+            'rev_phone_number': revPhoneNumber,
+            'rev_address': revAddress,
+            'rev_loc_at': revLocAt,
+            'rev_message': revMessage,
+            'to_farm_message': toFarmMessage,
+            'payment_type': paymentType,
         }
 
         let itemsList = []
 
-        items.forEach(item=>{
+        items.forEach(item => {
             const unique = item.getAttribute('name')
             const itemName = item.querySelector('#title').innerHTML
             const qty = item.querySelector('#orders-num').innerHTML
@@ -370,10 +543,10 @@
 
             itemsList = [...itemsList, {
                 item_name: itemName, //상품명
-			    qty: qty, //수량
-			    unique: unique, //해당 상품을 구분짓는 primary key
-			    price: price, //상품 단가
-			    cat1: cat1, // 대표 상품의 카테고리 상, 50글자 이내
+                qty: qty, //수량
+                unique: unique, //해당 상품을 구분짓는 primary key
+                price: price, //상품 단가
+                cat1: cat1, // 대표 상품의 카테고리 상, 50글자 이내
             }]
         })
 
@@ -383,14 +556,14 @@
 	        price: totalPrice, //실제 결제되는 가격
 	        application_id: "60dad0c05b29480021dc523d",
 	        name: '{{order_group_name}}', //결제창에서 보여질 이름
-	        pg: 'nicepay',
+	        pg: 'inicis',
 	        method: paymentType, //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 	        show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
 	        items: itemsList,
 	        user_info: {
 		        username: revName,
-		        addr: '사용자 주소', // 빼는 것을 고려
-		        phone: '{{phone_number}}'
+		        addr: revAddress,
+		        phone: revPhoneNumber
 	        },
 	        order_id: '{{order_group_management_number}}', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
 	        params: {orderName: '{{order_group_name}}', errorMsg : '', orderGroupPk : '{{order_group_pk}}'},
@@ -400,75 +573,77 @@
 		    //     end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
             //     vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
             //     quota: '0,2,3', // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용,
-		    //     theme: 'purple', // [ red, purple(기본), custom ]
-		    //     custom_background: '#00a086', // [ theme가 custom 일 때 background 색상 지정 가능 ]
-		    //     custom_font_color: '#ffffff' // [ theme가 custom 일 때 font color 색상 지정 가능 ]
-	        // }
+            //     theme: 'purple', // [ red, purple(기본), custom ]
+            //     custom_background: '#00a086', // [ theme가 custom 일 때 background 색상 지정 가능 ]
+            //     custom_font_color: '#ffffff' // [ theme가 custom 일 때 font color 색상 지정 가능 ]
+            // }
         }).error(function (data) {
-	        //결제 진행시 에러가 발생하면 수행됩니다.
-            window.location.href = "/order/payment/fail?errorType='server'}";
-	        console.log(data);
+            //결제 진행시 에러가 발생하면 수행됩니다.
+            window.location.href = "/order/payment/fail?errorType=error_server";
+            console.log(data);
         }).cancel(function (data) {
-	        //결제가 취소되면 수행됩니다.
-	        console.log(data);
+            //결제가 취소되면 수행됩니다.
+            console.log(data);
         }).ready(function (data) {
-	        // 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
-	        console.log(data);
+            // 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
+            console.log(data);
         }).confirm(function (data) {
-	        //결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
-	        //주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
+            //결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
+            //주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
             sendData = {
-                'rev_name' : revName,
-                'rev_phone_number' : revPhoneNumber,
-                'rev_loc_at' : revLocAt,
-                'rev_message' : revMessage,
-                'to_farm_message' : toFarmMessage
+                'rev_name': revName,
+                'rev_phone_number': revPhoneNumber,
+                'rev_address': revAddress,
+                'rev_loc_at': revLocAt,
+                'rev_message': revMessage,
+                'to_farm_message': toFarmMessage,
+                'payment_type': paymentType,
             }
 
             console.log(data);
             console.log(sendData);
-            
+
 
             $.ajax({
-                type : "POST",
-                url : "{% url 'orders:payment_update' order_group_pk %}",
-                data : sendData,
-                dataType : "json",
-                success : function(response){
+                type: "POST",
+                url: "{% url 'orders:payment_update' order_group_pk %}",
+                data: sendData,
+                dataType: "json",
+                success: function (response) {
                     let enable = response.valid
 
-                    if (enable == false){
-                        response.invalid_products.forEach(item =>{
+                    if (enable == false) {
+                        response.invalid_products.forEach(item => {
                             data.errorMsg += item
                         })
                         data.params['errorMsg'] += "재고 부족"
                     }
 
                     // 재고 수량 관리 로직 혹은 다른 처리
-	                if (enable) {
-		                BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
-	                } else {
-		                BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
-                        window.location.href = "/order/payment/fail?errorType='error_stock'";
-	                }
+                    if (enable) {
+                        BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
+                    } else {
+                        BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
+                        window.location.href = `/order/payment/fail?errorType=error_stock&orderGroupPk=${data.params['orderGroupPk']}`;
+                    }
                 }
             })
-	        
-	        
+
+
         }).close(function (data) {
-            
+
             // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
             console.log(data);
-            
+
         }).done(function (data) {
-	        //결제가 정상적으로 완료되면 수행됩니다
-	        //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
+            //결제가 정상적으로 완료되면 수행됩니다
+            //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
             //data.prams['orderGroupPk']
             let form = document.createElement("form")
             form.setAttribute("method", "post")
             form.setAttribute("action", "{% url 'orders:payment_valid' %}")
 
-            for(let key in data){
+            for (let key in data) {
                 let hiddenField = document.createElement('input')
                 hiddenField.setAttribute('type', 'hidden')
                 hiddenField.setAttribute('name', key)
@@ -492,19 +667,19 @@
             form.submit()
 
         });
-                // tossPayments.requestPayment('카드', {
-                // amount: totalPrice,
-                // orderId: 'eN4Pv_y8K6RC3WeBdFP-s',
-                // orderName: response.orderName,
-                // customerName: response.customerName,
-                // successUrl: window.location.origin + `/order/payment/success?amount_ready=${totalPrice}`,
-                // failUrl: window.location.origin + '/order/payment/fail',
-                // })
+        // tossPayments.requestPayment('카드', {
+        // amount: totalPrice,
+        // orderId: 'eN4Pv_y8K6RC3WeBdFP-s',
+        // orderName: response.orderName,
+        // customerName: response.customerName,
+        // successUrl: window.location.origin + `/order/payment/success?amount_ready=${totalPrice}`,
+        // failUrl: window.location.origin + '/order/payment/fail',
+        // })
 
-        
+
     })
 
-    
+
 </script>
 
 

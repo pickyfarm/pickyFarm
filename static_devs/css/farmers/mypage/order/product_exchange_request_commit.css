@@ -1,0 +1,381 @@
+* {
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.transition_element {
+    transition: all 15s ease-in;
+}
+
+.button {
+    cursor: pointer;
+}
+
+.wrap_padding {
+    padding: 0 17px;
+}
+
+.popup_container {
+    padding-top:60px;
+    width: 375px;
+    /*height: 1130px;*/
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.exchange-request-main-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4d5548;
+    margin-bottom: 68px;
+}
+
+.exchange-request-sub-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4d5548;
+    margin-bottom: 20px;
+}
+
+.exchange-request-date {
+    font-size: 16px;
+    font-weight: 500;
+    color: #4d4d4d;
+}
+
+.exchange-request-receipt-top-section {
+    width: 325px;
+    overflow: hidden;
+    height: auto;
+    margin: 10px 4px 0 0;
+    border: solid 0.5px #707070;
+    /*padding: 10px 0 20px 0;*/
+    padding-bottom: 20px;
+}
+
+.exchange-request-number-wrap {
+    background-color: #f8f8f8;
+    height: 41px;
+    align-items: center;
+}
+
+.exchange-request-number-title {
+    font-size: 12px;
+    font-weight: 300;
+    color: #5e6656;
+    margin-right: 10px;
+}
+
+.exchange-request-number-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #4d4d4d;
+}
+
+.exchange-request-product-information-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #4d5548;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+
+
+.exchange-request-product-information-content-wrap {
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
+.exchange-request-product-information-content-left-section {
+    margin-right: 25px;
+}
+
+.exchange-request-product-image {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    background-color: #b3b3b3;
+}
+
+
+.exchange-request-product-name {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.exchange-request-product-detail-wrap {
+    color: #808080;
+    align-items: center;
+}
+
+.exchange-request-product-weight {
+    font-size: 15px;
+}
+
+.exchange-request-product-quantity {
+    font-size: 15px;
+}
+
+.exchange-request-product-quantity::before {
+    content: '|';
+    padding: 0 10px;
+    color: #aaaea6;
+}
+
+.exchange-request-product-quantity-unit {
+    font-size: 12px;
+    font-weight: 300;
+    margin-left: 6.8px;
+}
+
+.border-line {
+    width: 291px;
+    height: 1px;
+    margin: 19.5px 17px 9.5px 0;
+    opacity: 0.5;
+    background-color: #b7b7b7;
+}
+
+.exchange-request-customer-wrap {
+    margin-top: 15px;
+}
+
+.exchange-request-customer-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #4d5548;
+}
+
+.exchange-request-customer-detail-wrap {
+    margin-top: 21px;
+}
+
+
+
+.exchange-request-customer-detail-title {
+    padding-top: 1.5px;
+    font-size: 12px;
+    font-weight: 300;
+    color: #5e6656;
+}
+
+.exchange-request-customer-detail-namecall-value-wrap {
+    margin-left: 15px;
+    font-size: 15px;
+}
+
+
+.exchange-request-customer-detail-callnum::before {
+    content: '|';
+    padding: 0 7px;
+    color: #707070;
+}
+
+
+
+.exchange-request-customer-detail-address-wrap,
+.exchange-request-customer-detail-request-message-wrap
+{
+    margin-top: 10px;
+}
+
+.exchange-request-customer-detail-address-value-wrap {
+    margin-left: 35px;
+    font-size: 15px;
+}
+
+.exchange-request-customer-detail-address {
+    width: 217px;
+    margin-bottom: 3px;
+
+}
+
+.exchange-request-customer-detail-plus-wrap {
+    font-size: 13px;
+    color: #808080;
+}
+
+.exchange-request-customer-detail-door-password::before{
+    content: '|';
+    padding: 0 10px;
+    color: #707070;
+}
+
+
+.exchange-request-customer-detail-request-message{
+    margin-left: 24px;
+    width: 211px;
+    font-size: 15px;
+}
+
+.exchange-request-reason-wrap{
+    margin-top: 70px;
+    position: relative;
+    text-align: center;
+}
+
+.answer-of-farm-wrap {
+    margin-top: 70px;
+    position: relative;
+    text-align: center;
+}
+
+.exchange-request-reason-title,
+.answer-of-farm-title
+{
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    color: #4d5548;
+}
+
+
+.exchange-request-reason-content-wrap {
+    width: 325px;
+    height: 393px;
+    padding: 20px 17px;
+    margin: 20px 0 60px;
+    background-color: #f8f8f8;
+}
+
+.exchange-request-reason-photo-wrap {
+    width: 291px;
+    height: 291px;
+    border-radius: 5px;
+    margin: 0 0 20px;
+    background-color: #b3b3b3;
+}
+
+.exchange-request-reason-text{
+    text-align: left;
+}
+
+.answer-of-farm-input-wrap {
+    width: 325px;
+    margin-top: 20px;
+    height: 192px;
+}
+
+.answer-of-farm-input {
+    width: 100%;
+    height: 100%;
+    padding: 20px 30px 126px 18px;
+    background-color: #f8f8f8;
+    border: none;
+    resize: none;
+    font-size: 15px;
+}
+
+.answer-of-farm-input:focus {
+    outline: none;
+}
+
+.reject-submit-wrap,
+.commit-submit-wrap
+{
+    margin:60px 0;
+    flex-direction: column;
+    align-items: center;
+    display: inline-block;
+    background-color: transparent;
+    border : 0;
+    outline: 0;
+}
+
+.reject-submit-wrap {
+    margin-right: 10px;
+}
+
+.commit-submit-wrap {
+    margin-left: 10px;
+}
+
+.reject-submit-wrap:hover,
+.commit-submit-wrap:hover {
+    cursor: pointer;
+}
+
+
+.reject-submit-text,
+.commit-submit-text
+{
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #5c6754;
+}
+
+/* 모바일용 미디어 쿼리 */
+@media screen and (max-width: 768px) {
+    .popup_container {
+        width: 100%;
+    }
+    .exchange-request-main-content-wrap {
+        width: 100%;
+        padding: 0 25px;
+    }
+
+    .exchange-request-receipt-top-section {
+        width: 100%;
+    }
+
+    .border-line {
+        width: 100%;
+    }
+
+    .exchange-request-customer-detail-address {
+        width: 100%;
+    }
+
+    .exchange-request-customer-detail-address-value-wrap {
+        width: 70%;
+    }
+
+    .exchange-request-customer-detail-request-message {
+        width: 70%;
+    }
+
+    .exchange-request-reason-content-wrap {
+        width: 100%;
+    }
+
+    .exchange-request-reason-photo-wrap {
+        width: 100%;
+    }
+
+    .answer-of-farm-input-wrap {
+        width: 100%;
+    }
+}
+
+/* flex-wrap에 의한 배치 깨짐현상을 해결하기 위한 추가 미디어쿼리 */
+@media screen and (max-width: 470px) {
+    .exchange-request-customer-detail-callnum
+    {
+        width: 70%;
+    }
+
+    .exchange-request-customer-detail-address {
+        width: 100%;
+    }
+}
+
+/* flex-wrap에 의한 배치 깨짐현상을 해결하기 위한 추가 미디어쿼리 */
+@media screen and (max-width: 380px) {
+    .exchange-request-customer-detail-callnum
+    {
+        width: 60%;
+    }
+
+    .exchange-request-customer-detail-address{
+        width: 100%;
+    }
+}
