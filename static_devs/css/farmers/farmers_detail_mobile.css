@@ -128,6 +128,51 @@
         display: none;
     }
 
+    /* farmer's story */
+    #main_title {
+        margin-bottom: 0.5rem;
+    }
+    #story_subtitle {
+        margin-bottom: 2rem;
+    }
+    #story_wrap {
+        width: 15.7rem;
+        height: 21.1rem;
+        padding: 1.5rem;
+        margin: 0 0.5rem;
+    }
+    #story_img {
+        width: 12.8rem;
+        height: 13rem;
+    }
+    #story_wrap > div {
+        margin: 0.34rem 0;
+    }
+    #hits {
+        margin-right: 0.53rem;
+    }
+    #farmer_story > div:nth-child(4) {
+        display: none;
+    }
+
+    /* farmer editor */
+    #editor_review {
+        min-width: 32.5rem;
+        max-height: 23.7rem;
+        margin-top: 1.35rem;
+    }
+    #review_img img {
+        min-width: 29.6rem;
+        height: 12.63rem;
+        margin-bottom: 0.35rem;
+    }
+    #editor {
+        margin-right: 0.95rem;
+    }
+    #farmer_editor > div:nth-child(3) {
+        display: none;
+    }
+
     /* font setting */
     #farmer_title,
     #farm_name,
