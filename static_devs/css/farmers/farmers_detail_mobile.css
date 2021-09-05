@@ -100,6 +100,14 @@
         margin-bottom: 2.5rem;
     }
 
+    /* farmer nav */
+    #farmer_nav {
+        height: 2.5rem;
+    }
+    #nav_item {
+        line-height: 2.5rem;
+    }
+
     /* font setting */
     #farmer_title,
     #farm_name,
