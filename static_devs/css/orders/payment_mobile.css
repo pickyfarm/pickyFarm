@@ -75,7 +75,8 @@
     #sub-title-line3 {
         width: 80%;
     }
-    #div-line {
+    #div-line,
+    #div-line1 {
         width: 100%;
     }
     #sub-title-text{
@@ -83,6 +84,9 @@
     }
     #orders-title-section > #sub-title-text{
         min-width: 25rem;
+    }
+    #title-line {
+        width:50%;
     }
 
     /* orders section */
@@ -150,6 +154,31 @@
     #sell-price {
         grid-area: d;
     } 
+
+    /* price section */
+    #price-check-section {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 5rem;
+    }
+    #price-check-title {
+        min-width: 8rem;
+    }
+    #text_ab,
+    #text_a, 
+    #text-b, 
+    #text-c {
+        min-width: 13rem;
+    } 
+    #price-check-section > div:nth-child(1) {
+        margin-top: 2rem;
+    }
+    #price-check-section > div:nth-child(4) {
+        margin: 1.5rem 0;
+    }
+    #price-check-section > div:nth-child(6) {
+        margin: 1.5rem 0;
+    }
 
     /* btns section */
     #go-btn, 
