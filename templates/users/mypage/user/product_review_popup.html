@@ -1,88 +1,90 @@
 <!DOCTYPE html>
 {% load static %} <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
-<link rel="stylesheet" href="{% static 'css/users/mypage/user/product_review_popup.css' %}"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<title>주문확인</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
+	<link rel="stylesheet" href="{% static 'css/users/mypage/user/product_review_popup.css' %}" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<title>주문확인</title>
 </head>
+
 <body>
-<div class="popup_container flex">
-	<div class="review-main-content-wrap">
-		<div class="review-date">
-			상품 리뷰 등록
-		</div>
-		<div class="review-receipt-wrap">
-			<div class="review-receipt-top-section">
-				<div class="review-number-wrap wrap_padding flex">
-					<span class="review-number-title">주문일시</span>
-					<span class="review-number-value">2021.08.10</span>
-				</div>
-				<div class=" review-product-information-wrap wrap_padding ">
-					<div class="review-product-information-title">
-						상품정보
-					</div>
-					<div class=" review-customer-detail-address-wrap flex ">
-						<div class=" review-customer-detail-title ">
-							Farm
-						</div>
-						<div class=" review-customer-detail-user-value-wrap ">
-							<div class=" review-customer-detail-address ">
-								{{detail.product.farmer}}
-							</div>
-						</div>
-					</div>					
-					<div class=" review-product-information-contents-wrap ">
-						<!-- 무난이 작물 시작-->
-						<div class=" review-product-information-content-wrap flex ">
-							<div class=" review-product-information-content-left-section ">
-								<div class="review-product-image">
-								</div>
-							</div>
-							<div class=" review-product-information-content-right-section ">
-								<div class="review-product-tag">
-									<img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt="moonan_harvest_tag"/>
-								</div>
-								<div class="review-product-name">
-									{{detail.product.title}}
-								</div>
-								<div class=" review-product-detail-wrap flex ">
-									<div class=" review-product-weight ">
-										{{detail.product.weight}} {{detail.product.weight_unit}}
-									</div>
-									<div class=" review-product-quantity ">
-										{{detail.quantity}}
-									</div>
-									<div class="review-product-quantity-unit ">
-										(개/박스)
-									</div>
-								</div>
-								<div class="product-cancel">
-									반품신청
-								</div>
-							</div>
-						</div>
-						<!-- 무난이 작물 끝-->
-					</div>
-				</div>
+	<div class="popup_container flex">
+		<div class="review-main-content-wrap">
+			<div class="review-date">
+				상품 리뷰 등록
 			</div>
-			<form action="{% url 'users:product_comment_create' detail.pk %}" method="post">
-				{% csrf_token %}		
-				<div class="refund-main-content-wrap">	
-					<div class="review-reason-wrap">
-						<div class="review-main-title">picky review</div>
-						<div class="downArrow-img-box">
-							<img src="{% static 'images/users/mypage/user/downArrow.svg' %}" alt="downArrow"/>
+			<div class="review-receipt-wrap">
+				<div class="review-receipt-top-section">
+					<div class="review-number-wrap wrap_padding flex">
+						<span class="review-number-title">주문일시</span>
+						<span class="review-number-value">2021.08.10</span>
+					</div>
+					<div class=" review-product-information-wrap wrap_padding ">
+						<div class="review-product-information-title">
+							상품정보
 						</div>
-						<div class="review-main-sub-title-box">
-							<div class="review-main-sub-title">
-								농가에게 힘이 되어줄 수 있는 리뷰입니다.
-							</div>	
-							<div class="review-main-sub-title">
-								따뜻한 관심 부탁드립니다.
-							</div>						
+						<div class=" review-customer-detail-address-wrap flex ">
+							<div class=" review-customer-detail-title ">
+								Farm
+							</div>
+							<div class=" review-customer-detail-user-value-wrap ">
+								<div class=" review-customer-detail-address ">
+									{{detail.product.farmer}}
+								</div>
+							</div>
 						</div>
+						<div class=" review-product-information-contents-wrap ">
+							<!-- 무난이 작물 시작-->
+							<div class=" review-product-information-content-wrap flex ">
+								<div class=" review-product-information-content-left-section ">
+									<div class="review-product-image">
+									</div>
+								</div>
+								<div class=" review-product-information-content-right-section ">
+									<div class="review-product-tag">
+										<img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt="moonan_harvest_tag" />
+									</div>
+									<div class="review-product-name">
+										{{detail.product.title}}
+									</div>
+									<div class=" review-product-detail-wrap flex ">
+										<div class=" review-product-weight ">
+											{{detail.product.weight}} {{detail.product.weight_unit}}
+										</div>
+										<div class=" review-product-quantity ">
+											{{detail.quantity}}
+										</div>
+										<div class="review-product-quantity-unit ">
+											(개/박스)
+										</div>
+									</div>
+									<div class="product-cancel">
+										반품신청
+									</div>
+								</div>
+							</div>
+							<!-- 무난이 작물 끝-->
+						</div>
+					</div>
+				</div>
+				<form action="{% url 'users:product_comment_create' detail.pk %}" method="post" id="product-review-form">
+					{% csrf_token %}
+					<div class="refund-main-content-wrap">
+						<div class="review-reason-wrap">
+							<div class="review-main-title">picky review</div>
+							<div class="downArrow-img-box">
+								<img src="{% static 'images/users/mypage/user/downArrow.svg' %}" alt="downArrow" />
+							</div>
+							<div class="review-main-sub-title-box">
+								<div class="review-main-sub-title">
+									농가에게 힘이 되어줄 수 있는 리뷰입니다.
+								</div>
+								<div class="review-main-sub-title">
+									따뜻한 관심 부탁드립니다.
+								</div>
+							</div>
 
 							<div class="refund-reason-wrap">
 
@@ -114,7 +116,7 @@
 									</div>
 								</div>
 								<!-- 신선도, 맛, 가성비 끝 -->
-								
+
 								<!-- 별점 시작 -->
 								<div class="total-score-box">
 									<div class="start-title">
@@ -123,23 +125,23 @@
 									<div class="star-box">
 										<input type="text" name="star" value="" class="starRating">
 										<div class="star-subbox">
-											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
-											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
-											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
-											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
-											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img"/>
-											
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img" />
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img" />
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img" />
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img" />
+											<img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img" />
+
 										</div>
 									</div>
 								</div>
 								<!-- 별점 끝 -->
-								
+
 								<!-- 리뷰 텍스트 시작 -->
 								<div class="refund-reason-input-wrap">
 									{{form.text}}
 								</div>
-								<!-- 리뷰 텍스트 끝 -->	
-								
+								<!-- 리뷰 텍스트 끝 -->
+
 								<!-- 사진 첨부 시작 -->
 								<div class="review-post-container">
 									<div class="refund-post-img">
@@ -156,155 +158,92 @@
 									<div class="img-ps">*사유와 연관된 사진이 있다면 첨부해주세요</div>
 								</div>
 								<div class="add-file-box">
-									<input type="file" name="product_image" class="add-file" multiple="multiple"/>
+									<input type="file" name="product_image" class="add-file" multiple="multiple" />
 								</div>
 							</div>
-					</div >
-					<!-- 사진 첨부 끝 -->					 
-				</div>
-				<div class="review-btn-box">
-					<button class="review-reason-submit-wrap flex" type="submit">
-					<div class="review-reason-submit-img-wrap">
-						<img class="review-reason-submit-img" src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt="check_nohover"/>
+						</div>
+						<!-- 사진 첨부 끝 -->
 					</div>
-					<div class="review-reason-submit-text">
-						등록하기
+					<div class="review-btn-box">
+						<button class="review-reason-submit-wrap flex" type="submit">
+							<div class="review-reason-submit-img-wrap">
+								<img class="review-reason-submit-img" src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt="check_nohover" />
+							</div>
+							<div class="review-reason-submit-text">
+								등록하기
+							</div>
+						</button>
 					</div>
-					</button>
-				</div>
 				</form>
 			</div>
-</div>
-<style>
-	#id_freshness, #id_flavor, #id_cost_performance {
-		list-style: none;
-		font-size: 0px;
-	}
-
-	li:nth-child(1) label:before {
-        content: "";
-        display: inline-block;
-        position: relative;
-        top: 3.5px;
-        width: 25px;
-        height: 25px;
-		background-repeat: no-repeat;
-        background-image: url("{% static 'images/users/mypage/user/good-gray.svg' %}");
-        margin-right: 60px;
-    }
-	li:nth-child(2) label:before {
-        content: "";
-        display: inline-block;
-        position: relative;
-        top: 3.5px;
-        width: 25px;
-        height: 25px;
-		background-repeat: no-repeat;
-        background-image: url("{% static 'images/users/mypage/user/soso-gray.svg' %}");
-        margin-right: 60px;
-    }
-	li:nth-child(3) label:before {
-        content: "";
-        display: inline-block;
-        position: relative;
-        top: 3.5px;
-        width: 25px;
-        height: 25px;
-		background-repeat: no-repeat;
-        background-image: url("{% static 'images/users/mypage/user/bad-gray.svg' %}");
-        margin-right: 10px;
-    }
-
-	li:nth-child(1) label.checked::before {
-        content: "";
-        background-image: url("{% static 'images/users/mypage/user/good-green.svg' %}") !important;
-    }
-	li:nth-child(2) label.checked::before {
-        content: "";
-        background-image: url("{% static 'images/users/mypage/user/soso-green.svg' %}") !important;
-    }
-	li:nth-child(3) label.checked::before {
-        content: "";
-        background-image: url("{% static 'images/users/mypage/user/bad-green.svg' %}") !important;
-    }
-</style>
-
-<script>
-			$('input:radio').on('change', function () {
-				if (this.value == 5) {
-					$(this).parent().addClass('checked');
-					$(this).parent().parent().siblings().find('input:radio[value=3]').parent().removeClass('checked');
-					$(this).parent().parent().siblings().find('input:radio[value=1]').parent().removeClass('checked');
-				}
-				if (this.value == 3) {
-					$(this).parent().addClass('checked');
-					$(this).parent().parent().siblings().find('input:radio[value=5]').parent().removeClass('checked');
-					$(this).parent().parent().siblings().find('input:radio[value=1]').parent().removeClass('checked');
-				}
-				if (this.value == 1) {
-					$(this).parent().addClass('checked');
-					$(this).parent().parent().siblings().find('input:radio[value=5]').parent().removeClass('checked');
-					$(this).parent().parent().siblings().find('input:radio[value=3]').parent().removeClass('checked');
-				}
-			});
-
-			const clipBox = document.querySelector(".clip-box");
-			const addfile = document.querySelector(".add-file");
-			clipBox.addEventListener("click", () =>{
-				addfile.click();
-				addfile.style.display = "block";
-				console.log("click!");
-			});
-
-
-			// star
-			const starRating = document.querySelector(".starRating");
-			const stars = document.querySelectorAll(".star-img");
-			console.log(stars.length);
-			console.log(stars);
-			for(i = 0; i<stars.length; i++){
-				stars[i].addEventListener("click", function(e){
-					const elem = e.target;
-					for(k=0; k<stars.length; k++){
-						if(stars[k]==elem){
-							tempNumber = k;
-						}
-					}
-
-					for(j=0; j<=tempNumber; j++){
-						stars[j].src="{% static 'images/users/mypage/user/star-yellow.svg' %}";
-						starRating.value = j+1;
-					}
-					if(tempNumber<4){
-						for(l=tempNumber+1; l<=4; l++){
-							stars[l].src="{% static 'images/users/mypage/user/gray-star.svg' %}";
-						}
-
-					}
-				})
+		</div>
+		<style>
+			#id_freshness,
+			#id_flavor,
+			#id_cost_performance {
+				list-style: none;
+				font-size: 0px;
 			}
-			
 
-            const check_btn = document.querySelector(
-                '.review-reason-submit-wrap'
-            );
-            const check_img = document.querySelector(
-                '.review-reason-submit-img'
-            );
-            const switchCheckImgHoverIn = function (e) {
-                check_img.setAttribute(
-                    'src',
-                    "{% static 'images/users/mypage/user/check_hover.svg' %}"
-                );
-            };
-            const switchCheckImgHoverOut = function (e) {
-                check_img.setAttribute(
-                    'src',
-                    "{% static 'images/users/mypage/user/check_nohover.svg' %}"
-                );
-            };
-            check_btn.addEventListener('mouseover', switchCheckImgHoverIn);
-            check_btn.addEventListener('mouseleave', switchCheckImgHoverOut);
-        </script>
+			li:nth-child(1) label:before {
+				content: "";
+				display: inline-block;
+				position: relative;
+				top: 3.5px;
+				width: 25px;
+				height: 25px;
+				background-repeat: no-repeat;
+				background-image: url("{% static 'images/users/mypage/user/good-gray.svg' %}");
+				margin-right: 60px;
+			}
+
+			li:nth-child(2) label:before {
+				content: "";
+				display: inline-block;
+				position: relative;
+				top: 3.5px;
+				width: 25px;
+				height: 25px;
+				background-repeat: no-repeat;
+				background-image: url("{% static 'images/users/mypage/user/soso-gray.svg' %}");
+				margin-right: 60px;
+			}
+
+			li:nth-child(3) label:before {
+				content: "";
+				display: inline-block;
+				position: relative;
+				top: 3.5px;
+				width: 25px;
+				height: 25px;
+				background-repeat: no-repeat;
+				background-image: url("{% static 'images/users/mypage/user/bad-gray.svg' %}");
+				margin-right: 10px;
+			}
+
+			li:nth-child(1) label.checked::before {
+				content: "";
+				background-image: url("{% static 'images/users/mypage/user/good-green.svg' %}") !important;
+			}
+
+			li:nth-child(2) label.checked::before {
+				content: "";
+				background-image: url("{% static 'images/users/mypage/user/soso-green.svg' %}") !important;
+			}
+
+			li:nth-child(3) label.checked::before {
+				content: "";
+				background-image: url("{% static 'images/users/mypage/user/bad-green.svg' %}") !important;
+			}
+		</style>
+
+
 </body>
+<script>
+	const greyStar = "{% static 'images/users/mypage/user/gray-star.svg' %}"
+	const yellowStar = "{% static 'images/users/mypage/user/star-yellow.svg' %}"
+</script>
+<script src="{% static 'js/users/mypage/user/product_review_popup.js' %}"></script>
+
+
 </html>
