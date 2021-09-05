@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="flex items-center top-menu mb-4 w-full" style="background-color: rgba(92, 103, 84, 0.1); height: 50px;">
+<div class="flex items-center top-menu mb-4 w-full header-pc" style="background-color: rgba(92, 103, 84, 0.1); height: 50px;">
     <div class="flex justify-between w-header mx-auto items-center">
         <div class="rounded-full h-4 bg-white" style="border: solid 1px #5e6656; width: 200px; height: 20px;">
             <div class="mx-auto text-center font-medium" style="font-size: 12px;">Picky Farm에 대해 더 알아보기</div>
@@ -23,37 +23,32 @@
             {% endif %}
             <li class=" w-24 text-center">고객센터</li>
             <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'orders' %}">my page</a></li>
-            <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'cart' %}"><img
-                        src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
+            <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'cart' %}"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
             </li>
         </ul>
     </div>
 </div>
-<header class="flex flex-col mx-auto w-header">
+<header class="flex flex-col mx-auto w-header header-pc">
 
     <div class="mx-auto my-12">
-        <a href="{% url 'core:main' %}"><img src="{% static 'images/index/mainlogo.svg' %}" class="w-28"
-                alt="PICKY PICK"></a>
+        <a href="{% url 'core:main' %}"><img src="{% static 'images/index/mainlogo.svg' %}" class="w-28" alt="PICKY PICK"></a>
     </div>
 
 </header>
-<div class="w-full menu-bar h-auto bg-white flex justify-center z-50" style="height: 56px;">
+<div class="w-full menu-bar h-auto bg-white flex justify-center z-50 header-pc" style="height: 56px;">
     <div class="mx-auto w-header flex justify-between py-4 sticky bg-white">
         <div class="main-menu">
             <ul class="flex h-6 header-menu">
                 <li class="header-first ml-0 font-medium w-auto  border-green-700 text-center">카테고리</li>
-                <li class="header-list font-medium w-auto  border-green-700 text-center"><a
-                        href="{% url 'products:store_list' %}">스토어</a></li>
-                <li class="header-list font-medium w-auto  border-green-700 text-center"><a
-                        href="{% url 'editor_reviews:index' %}">Editor's Pick</a></li>
+                <li class="header-list font-medium w-auto  border-green-700 text-center"><a href="{% url 'products:store_list' %}">스토어</a></li>
+                <li class="header-list font-medium w-auto  border-green-700 text-center"><a href="{% url 'editor_reviews:index' %}">Editor's Pick</a></li>
                 <li class="header-last font-medium w-auto mr-0"><a href="{% url 'farmers:farmers_page' %}">Farmer's
                         Page</a></li>
             </ul>
         </div>
         <div class="searchbox">
             <div class="input-form rounded-full h-6 flex justify-around">
-                <input type="text" placeholder="자라나라 머리머리"
-                    class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44" id='header-searchbar'>
+                <input type="text" placeholder="자라나라 머리머리" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44" id='header-searchbar'>
                 <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt="">
             </div>
         </div>

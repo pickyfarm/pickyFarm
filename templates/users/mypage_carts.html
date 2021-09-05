@@ -3,6 +3,7 @@
 
 {% block stylesheet_detail %}
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_carts.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_carts_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
 {% block content %}
@@ -75,6 +76,7 @@
     </div>
 </div>
 
+<div class="line"></div>
 <div id="order-section" class="flex flex-row">
     <div class="flex flex-row w-1/2 justify-start">
         <a href="{% url 'products:store_list' %}">

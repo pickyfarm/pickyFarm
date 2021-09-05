@@ -38,17 +38,13 @@ class Product(models.Model):
     main_image = CompressedImageField(upload_to="product_main_image/%Y/%m/%d/")
 
     kinds = models.CharField(max_length=100, default="ugly", choices=kinds)
-    status = models.CharField(
-        max_length=10, choices=PRODUCT_STATUS, default=PRODUCT_STATUS[0][0]
-    )
+    status = models.CharField(max_length=10, choices=PRODUCT_STATUS, default=PRODUCT_STATUS[0][0])
     open = models.BooleanField(default=False)  # to be deleted
     is_event = models.BooleanField(default=False)
 
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
     weight = models.FloatField(help_text="판매 중량")
-    weight_unit = models.CharField(
-        max_length=5, choices=weight_unit, help_text="판매 중량 단위"
-    )
+    weight_unit = models.CharField(max_length=5, choices=weight_unit, help_text="판매 중량 단위")
     stock = models.IntegerField(default=0, help_text="총 재고 수량")
     sales_count = models.IntegerField(default=0, help_text="총 판매 수량", blank=True)
     sales_rate = models.FloatField(default=0, blank=True)
@@ -58,9 +54,7 @@ class Product(models.Model):
     default_delivery_fee = models.IntegerField(default=0, help_text="기본 배송비")
     additional_delivery_fee_unit = models.IntegerField(default=0, help_text="추가 배송비 단위")
     additional_delivery_fee = models.IntegerField(default=0, help_text="추가 배송비")
-    jeju_mountain_additional_delivery_fee = models.IntegerField(
-        default=0, help_text="제주/사간 추가 배송비"
-    )
+    jeju_mountain_additional_delivery_fee = models.IntegerField(default=0, help_text="제주/사간 추가 배송비")
 
     return_delivery_fee = models.IntegerField(default=0, help_text="반품 배송비(편도)")
     exchange_delivery_fee = models.IntegerField(default=0, help_text="교환 배송비(왕복)")
@@ -98,9 +92,7 @@ class Product(models.Model):
     cost_performance_5 = models.IntegerField(default=0)
 
     # 상품 상세 정보 관련
-    harvest_start_date = models.DateField(
-        default=timezone.now, help_text="제조일(수확일) start"
-    )
+    harvest_start_date = models.DateField(default=timezone.now, help_text="제조일(수확일) start")
     harvest_end_date = models.DateField(default=timezone.now, help_text="제조일(수확일) end")
     shelf_life_date = models.CharField(
         max_length=200, blank=True, null=True, help_text="유통기한 또는 품질보증기한"
@@ -115,12 +107,8 @@ class Product(models.Model):
     related_product = models.OneToOneField(
         "Product", null=True, blank=True, on_delete=models.SET_NULL
     )
-    farmer = models.ForeignKey(
-        "farmers.Farmer", related_name="products", on_delete=models.CASCADE
-    )
-    category = models.ForeignKey(
-        "Category", related_name="products", on_delete=models.CASCADE
-    )
+    farmer = models.ForeignKey("farmers.Farmer", related_name="products", on_delete=models.CASCADE)
+    category = models.ForeignKey("Category", related_name="products", on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         self.weight = round(self.weight, 1)
@@ -175,15 +163,15 @@ class Product(models.Model):
 
             self.freshness_rating_avg = self.freshness_rating_sum / self.reviews
             self.flavor_rating_avg = self.flavor_rating_sum / self.reviews
-            self.cost_performance_rating_avg = (
-                self.cost_performance_rating_sum / self.reviews
-            )
+            self.cost_performance_rating_avg = self.cost_performance_rating_sum / self.reviews
 
             self.save()
 
         except ObjectDoesNotExist:
+            print("specific rating except Object")
             return 0
         except ZeroDivisionError:
+            print("specific rating except ZeroDivision")
             return 0
         # freshness_array = [0, 0, 0]
         # flavor_array = [0, 0, 0]
@@ -219,9 +207,7 @@ class Product(models.Model):
 
 
 class Product_Image(models.Model):
-    product = models.ForeignKey(
-        Product, related_name="product_images", on_delete=models.CASCADE
-    )
+    product = models.ForeignKey(Product, related_name="product_images", on_delete=models.CASCADE)
 
     image = CompressedImageField(upload_to="product_images/%Y/%m/%d/")
 
@@ -252,9 +238,7 @@ class Question(models.Model):
     )
     title = models.CharField(max_length=50)
     content = models.TextField()
-    image = CompressedImageField(
-        upload_to="question_image/%Y/%m/%d/", null=True, blank=True
-    )
+    image = CompressedImageField(upload_to="question_image/%Y/%m/%d/", null=True, blank=True)
 
     status = models.BooleanField(default=False, choices=status)
     is_read = models.BooleanField(default=False)
@@ -265,9 +249,7 @@ class Question(models.Model):
     consumer = models.ForeignKey(
         "users.Consumer", related_name="questions", on_delete=models.CASCADE
     )
-    product = models.ForeignKey(
-        Product, related_name="questions", on_delete=models.CASCADE
-    )
+    product = models.ForeignKey(Product, related_name="questions", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -275,9 +257,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     content = models.TextField()
-    question = models.OneToOneField(
-        Question, related_name="answer", on_delete=models.CASCADE
-    )
+    question = models.OneToOneField(Question, related_name="answer", on_delete=models.CASCADE)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)

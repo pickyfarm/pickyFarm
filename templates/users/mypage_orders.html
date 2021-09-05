@@ -84,7 +84,7 @@
       </div>
 
 
-      <div id="reg-review-btn" class="transition_element">
+      <div id="reg-review-btn" class="transition_element" onclick="productCommentPopup({{detail.pk}})">
         <a>
           리뷰 쓰기
         </a>
@@ -109,7 +109,6 @@
 </div>
 
 {% endif %}
-
 <script>
 
 
@@ -205,6 +204,17 @@
 
   })
 
-</script>
+  var popupX = (document.body.offsetWidth / 2) - (375 / 2);
+  var popupY= (window.screen.height / 2) - (600 / 2);
 
+  function productCommentPopup(pk) {
+    const detailpk = parseInt(pk);
+    {% for detail in order_details %}
+        if (detailpk === {{ detail.pk }}) {
+            window.open("{% url 'user:product_comment_create' detail.pk %}", '', 'height=600, width=375, left='+ popupX + ', top='+ popupY);
+        }
+    {% endfor %}
+  }
+</script>
+<script src="{% static 'js/users/mypage/user/mypage_orders.js' %}"></script>
 {% endblock content %}
