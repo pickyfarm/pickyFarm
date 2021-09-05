@@ -108,6 +108,26 @@
         line-height: 2.5rem;
     }
 
+    /* farmer intro */
+    #farm_desc {
+        width: 100%;
+    }
+    #main_title {
+        margin-bottom: 1.8rem;
+    }
+
+    /* farmer product */
+    #product_img {
+        min-width: 9.5rem;
+        height: 13.35rem;
+    }
+    #product_wrap {
+        margin-bottom: 2rem;
+    }
+    #farmer_product > div:nth-child(3) {
+        display: none;
+    }
+
     /* font setting */
     #farmer_title,
     #farm_name,
