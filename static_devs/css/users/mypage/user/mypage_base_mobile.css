@@ -169,6 +169,33 @@
     }
     
     /* [구독한 농가 있는 경우] */
+    #subs_contents > div {
+        display: none;
+    }
+    #subs_contents .show{
+        display: flex;
+    }
+    #subs_contents #show_more{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: NotoSansKR;
+        font-size: 1.1rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.18;
+        letter-spacing: normal;
+        color: #ffffff;
+        width: 4.7rem;
+        height: 1.7rem;
+        margin: 0 auto;
+        border-radius: 1.5rem;
+        background-color: var(--dark-sage);    
+    }
+    #subs_contents > div:nth-child(1){
+        margin-top: 0.8rem;
+    }
     #subs_contents > div > a, #subs_contents > div > div{
         width: unset;
     }
@@ -218,8 +245,8 @@
     }
     #sub_cancel_btn{
         margin-left: 1.5rem;
-        font-size: 0.9rem;
-        line-height: 1.3rem;
+        font-size: 1rem;
+        line-height: 1.2;
         width: 5rem;
         height: 1.3rem;
         background-color: var(--light-grey);
