@@ -180,6 +180,16 @@
         margin: 1.5rem 0;
     }
 
+    /* pay section */
+    #payment-type-section > ul >li {
+        font-size: 1.5rem;
+    }
+
+    /* agree section */
+    #agree-section {
+        width:30rem;
+    }
+
     /* btns section */
     #go-btn, 
     #go-back-btn {
