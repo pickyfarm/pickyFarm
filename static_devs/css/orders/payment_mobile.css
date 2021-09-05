@@ -85,6 +85,72 @@
         min-width: 25rem;
     }
 
+    /* orders section */
+    #products-index-section {
+        display: none;
+    }    
+    #orders-contents-section {
+        flex-wrap: wrap;
+    }
+    #products-section {
+        height: fit-content;
+        overflow: visible;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    #product {
+        height: 9.5rem;
+        width: 100%; 
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);       
+        margin-bottom: 2rem;
+        display: grid;
+        grid-template-areas: "img a b c"
+                            "img d e c"
+                            "img f h g";
+    }
+    #product > div:first-child,
+    #farm_name,
+    #title,
+    #orders-num,
+    #weight, 
+    #sell-price {
+        width: fit-content;
+    } 
+    #product > div:first-child {
+        grid-area: img;
+    }
+    #product-img {
+        width: 7.4rem;
+        height: 7.4rem;
+        margin-right: 1rem;
+        border-radius: 1rem;
+    }
+    #farm_name {
+        grid-area: a;
+        padding-right: 1rem;
+        border-right: solid 0.5px rgba(112, 112, 112, 0.5);
+    }
+    #title {
+        grid-area: b;
+    }
+    #orders-title {
+        grid-area: h;
+        display: block;
+        text-align: right;
+        margin-right: 1rem;
+    }
+    #orders-num {
+        grid-area: g;
+    }
+    #weight {
+        grid-area: e;
+    }
+    #sell-price {
+        grid-area: d;
+    } 
+
     /* btns section */
     #go-btn, 
     #go-back-btn {
@@ -92,9 +158,6 @@
         width: 16rem;
         height: 3rem;
         padding: 0.5rem;
-        margin: 2rem;
+        margin: 2rem 1.5rem;
     }
-
-
-
 }
