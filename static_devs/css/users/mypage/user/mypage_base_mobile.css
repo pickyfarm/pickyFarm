@@ -95,11 +95,13 @@
         transition: all 0.15s ease-in;
     }
     #selected_line{
+        display: unset;
         width: 5.4rem;
         border-bottom: solid 0.4rem var(--dark-sage);
         border-radius: 0.5rem;
     }
     #background_line{
+        display: unset;
         width: 100%;
         opacity: 0.5;
         border-bottom: solid 0.2rem var(--brown-grey);
