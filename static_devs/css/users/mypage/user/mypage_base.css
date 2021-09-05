@@ -144,7 +144,10 @@
   cursor: pointer;
 }
 
-
+/* 모바일용 메뉴 아래 line */
+#line, #selected_line, #background_line{
+  display: none;
+}
 
 
 
