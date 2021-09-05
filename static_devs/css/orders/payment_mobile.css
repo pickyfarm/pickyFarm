@@ -1,0 +1,202 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    #main {
+        width: 100%;
+        padding: 0 25px;
+    }
+    #title-section {
+        width: 100%;
+    }
+    #info-section,
+    #delivery-section,
+    #orders-section,
+    #pay-section,
+    #personal-info-agree-section {
+        width: 100%;
+    }
+
+    /* info & delivery input */
+    #info-name-section > div,
+    #info-phone-number-section > div, 
+    #delivery-address-section > div, 
+    #delivery-rev-loc-at-section > div, 
+    #delivery-rev-message-section > div, 
+    #delivery-to-farm-message-section > div, 
+    #delivery-rev-loc-at-section > div {
+        width: 25%;
+        min-width: 12rem;
+        margin-bottom: 1rem;
+    }
+    #info-name-section > div + div,
+    #info-phone-number-section > div + div, 
+    #delivery-address-section > div + div, 
+    #delivery-rev-loc-at-section > div + div, 
+    #delivery-rev-message-section > div + div, 
+    #delivery-to-farm-message-section > div + div, 
+    #delivery-rev-loc-at-section > div + div {
+        width: 75%;
+    }
+    #info-name-section > div + div > input, 
+    #info-phone-number-section > div + div > input, 
+    #delivery-address-section > div + div > input, 
+    #delivery-rev-loc-at-section > div + div > input, 
+    #big-form > input, 
+    #delivery-to-farm-message-section > div + div > input, 
+    #delivery-rev-loc-at-section > div + div > input {
+        width: 100%;
+    }
+
+    /* row spacing */
+    #title-text,  
+    #sub-title-text {
+        margin-bottom: 1rem;
+    }
+    #info-section {
+        margin-bottom: 4rem;
+    }
+    #delivery-cat-section {
+        margin-bottom: 1.5rem;
+    }
+    #help-text {
+        margin: 1rem 0;
+        text-align: left;
+    }
+    #small-form > input, 
+    #middle-form > input, 
+    #big-form > input {
+        padding: 1.5rem;
+    }
+
+    /* line */
+    #sub-title-line,
+    #orders-sub-title-line,
+    #sub-title-line3 {
+        width: 80%;
+    }
+    #div-line,
+    #div-line1 {
+        width: 100%;
+    }
+    #sub-title-text{
+        min-width: 12rem;
+    }
+    #orders-title-section > #sub-title-text{
+        min-width: 25rem;
+    }
+    #title-line {
+        width:50%;
+    }
+
+    /* orders section */
+    #products-index-section {
+        display: none;
+    }    
+    #orders-contents-section {
+        flex-wrap: wrap;
+    }
+    #products-section {
+        height: fit-content;
+        overflow: visible;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    #product {
+        height: 9.5rem;
+        width: 100%; 
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);       
+        margin-bottom: 2rem;
+        display: grid;
+        grid-template-areas: "img a b c"
+                            "img d e c"
+                            "img f h g";
+    }
+    #product > div:first-child,
+    #farm_name,
+    #title,
+    #orders-num,
+    #weight, 
+    #sell-price {
+        width: fit-content;
+    } 
+    #product > div:first-child {
+        grid-area: img;
+    }
+    #product-img {
+        width: 7.4rem;
+        height: 7.4rem;
+        margin-right: 1rem;
+        border-radius: 1rem;
+    }
+    #farm_name {
+        grid-area: a;
+        padding-right: 1rem;
+        border-right: solid 0.5px rgba(112, 112, 112, 0.5);
+    }
+    #title {
+        grid-area: b;
+    }
+    #orders-title {
+        grid-area: h;
+        display: block;
+        text-align: right;
+        margin-right: 1rem;
+    }
+    #orders-num {
+        grid-area: g;
+    }
+    #weight {
+        grid-area: e;
+    }
+    #sell-price {
+        grid-area: d;
+    } 
+
+    /* price section */
+    #price-check-section {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 5rem;
+    }
+    #price-check-title {
+        min-width: 8rem;
+    }
+    #text_ab,
+    #text_a, 
+    #text-b, 
+    #text-c {
+        min-width: 13rem;
+    } 
+    #price-check-section > div:nth-child(1) {
+        margin-top: 2rem;
+    }
+    #price-check-section > div:nth-child(4) {
+        margin: 1.5rem 0;
+    }
+    #price-check-section > div:nth-child(6) {
+        margin: 1.5rem 0;
+    }
+
+    /* pay section */
+    #payment-type-section > ul >li {
+        font-size: 1.5rem;
+    }
+
+    /* agree section */
+    #agree-section {
+        width:30rem;
+    }
+
+    /* btns section */
+    #go-btn, 
+    #go-back-btn {
+        font-size: 1.5rem;
+        width: 16rem;
+        height: 3rem;
+        padding: 0.5rem;
+        margin: 2rem 1.5rem;
+    }
+}
