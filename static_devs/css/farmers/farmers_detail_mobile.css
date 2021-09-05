@@ -29,6 +29,7 @@
     #farm_img_mobile {
         display: flex;
         position: relative;
+        justify-content: center;
     }
     #farm_profile_mobile {
         height: 12rem;
@@ -40,7 +41,6 @@
         width: 10rem;
         position: absolute;
         top:4em;
-        left: 40%;
         border-radius: 50%;
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
         object-fit: cover;
@@ -51,7 +51,7 @@
         margin-bottom: 3rem;
     }
     #farm_tag {
-        padding: 0.3rem 1.2rem;
+        padding: 0.4rem 1.2rem 0.3rem;
         margin-right: 1.5rem;
     }
     #farm_name {
@@ -71,11 +71,18 @@
     #prof_wrap {
         width: 100%;
     }
+    #sub_btn_wrap {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-content: center;
+        width: 100%;
+    }
     #sub_btn {
         padding: 0.6rem 1.2rem;
         width: 6.8rem;
         height: 3rem;
-        margin-left: 45%;
+        align-items: center;
     }
     
     /* farmer news */
