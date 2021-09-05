@@ -100,8 +100,90 @@
         margin-bottom: 2.5rem;
     }
 
-    /* navbar font size */
+    /* font setting */
+    #farmer_title,
+    #farm_name,
+    #farmer_name,
+    #news_text_mobile,
+    #intro_title,
+    #main_title {
+        font-size: 1.5rem;
+    }
+    #profile_title,
+    #story_title,
+    #editor,
+    #editor_name,
+    #review_title {
+        font-size: 1.2rem;
+    }
+    #title_text,
+    #farm_tag,
+    #sub_btn,
+    #farm_news,
+    #nav_item,
+    #product_title,
+    #story_subtitle {
+        font-size: 1.1rem;
+    }
+    #create,
+    #hits,
+    #review_date {
+        font-size: 0.8rem;
+    }
+    #farmer_title {
+        font-weight: bold;
+    }
+    #title_text,
+    #farm_tag,
+    #farm_name,
+    #sub_btn,
+    #news_text_mobile,
+    #intro_title,
+    #main_title,
+    #story_subtitle,
+    #story_title,
+    #editor_name,
+    #review_title {
+        font-weight:normal;
+    }
+    #farm_name,
+    #profile_title,
+    #farm_news,
+    #nav_item,
+    #product_title,
+    #create,
+    #hits,
+    #editor,
+    #review_date {
+        font-weight:lighter;
+    }
+    #farmer_title,
+    #editor_name {
+        color: var(--dark-sage);
+    }
+    #intro_title, 
+    #main_title,
+    #story_title,
+    #review_title {
+        color: #000000;
+    }
+    #story_subtitle,
+    #hits {
+        color: #999999;
+    }
+    #title_text {
+        color: #d2d2d2;
+    }
+    #sub_text,
+    #news_text_mobile,
+    #product_title,
+    #create,
+    #editor,
+    #review_date {
+        color: #5e6656;
+    }
     #nav_item {
-        font-size: 12.5px;
-    }    
+        color: #808080;
+    }
+
 }
