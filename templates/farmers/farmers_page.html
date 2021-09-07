@@ -135,7 +135,7 @@ Farmer's page
             {% endfor %}
         </div>
         <!--paginator-->
-        <div class="flex flex-row mx-auto justify-center pb-56" id='content'>
+        <div id="farmer_list_paginator" class="flex flex-row mx-auto justify-center pb-56" id='content'>
             <div class='flex flex-row'>
                 {% if farmers.has_previous %}
                 <img src="{% static 'images/farm/prev.svg' %}" onclick="location.href='?page=1'"

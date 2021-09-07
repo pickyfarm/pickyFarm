@@ -260,6 +260,17 @@
     #product_desc{
         font-size: 0.8rem;
     }
+    #farmer_list_paginator{
+        padding-bottom: 6.1rem;
+    }
+    #farmer_list_paginator img{
+        width: 0.8rem;
+    }
+    #farmer_list_paginator div:nth-child(2){
+        align-items: center;
+        font-size: 0.8rem;
+        margin: 0 0.4rem;
+    }
 
     /* farmers story */
     #header{
