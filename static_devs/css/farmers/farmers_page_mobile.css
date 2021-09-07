@@ -136,4 +136,33 @@
     #sort_list{
         width: 100%;
     }
+
+    /* tag table */
+    #content:nth-child(3){
+        margin-top: 1.7rem;
+    }
+    #content:nth-child(3) div:nth-child(1){
+        font-size: 1.2rem;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        color: #808080;
+    }
+    #content:nth-child(3) div:nth-child(2){
+        margin-top: 0.9rem;
+    }
+    #tag_table{
+        width: 26.1rem;
+        margin: 0 auto;
+    }
+    #tag_table td{
+        padding: 0.6rem 0;
+        color: var(--brown-grey);
+        font-size: 1.1rem;
+    }
+    #tag_table td:hover{
+        color: var(--dark-green);
+        background-color: #ffffff;
+    }
 }
