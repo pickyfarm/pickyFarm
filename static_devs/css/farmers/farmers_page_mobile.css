@@ -102,4 +102,38 @@
         object-fit: contain;
         margin-right: 25px;
     }
+
+    /* search bar, sort(정렬) */
+    #content{
+        width: 100%;
+        margin-top: 4rem;
+        margin-bottom: 1.7rem;
+    }
+    #input-box{
+        width: 100%;
+        border-radius: 10px;
+        background-color: var(--light-grey);
+        margin-right: 1.65rem;
+        align-items: center;
+    }
+    #input-box img{
+        width: 0.89rem;
+        height: 0.89rem;
+    }
+    #search_key, #search_key_2 {
+        width: 100%;
+    }
+    #search_key::placeholder{
+        opacity: 0;
+    }
+    #sort{
+        height: 100%;
+        font-size: 1.1rem;
+    }
+    #sort_img{
+        margin-bottom: 0;
+    }
+    #sort_list{
+        width: 100%;
+    }
 }
