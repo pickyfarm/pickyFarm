@@ -58,7 +58,6 @@ class Product_Comment(Comment):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.get_rating_avg()
-        print(self.avg)
         super(Product_Comment, self).save(*args, **kwargs)
 
     def recomment_count(self):
@@ -86,9 +85,7 @@ class Product_Recomment(Comment):
     comment = models.ForeignKey(
         "Product_Comment", related_name="product_recomments", on_delete=models.CASCADE
     )
-    author = models.ForeignKey(
-        User, related_name="product_recomment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="product_recomment", on_delete=models.CASCADE)
 
     def like_count(self):
         try:
@@ -112,9 +109,7 @@ class Editor_Review_Comment(Comment):
         related_name="editor_review_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(
-        User, related_name="editor_review_comment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="editor_review_comment", on_delete=models.CASCADE)
 
     def like_count(self):
         try:
@@ -159,9 +154,7 @@ class Farmer_Story_Comment(Comment):
         related_name="farmer_story_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(
-        User, related_name="farmer_story_comment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="farmer_story_comment", on_delete=models.CASCADE)
 
     def like_count(self):
         try:
