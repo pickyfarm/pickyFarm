@@ -1,0 +1,64 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    #main {
+        width: 100%;
+        padding: 0 2.5rem;
+    }    
+    #main > div{
+        width: 100%;
+        overflow: hidden;
+    }
+
+    /* mypage base 없어서 일단 숨기기... */
+    #top-section,
+    #menu {
+        display:none
+    }
+
+    /* font */
+    #product_title,
+    #product_farm_name {
+        font-size: 1.5rem;
+    }
+    #filter-section>div:nth-child(2),
+    #product_weight,
+    #product_price,
+    #delete_btn {
+        font-size: 1.1rem;
+    }
+    #cartIn_btn {
+        font-size: 1.0rem;
+    }
+    #filter-section>div:nth-child(2),
+    #product_title,
+    #cartIn_btn {
+        font-weight: bold;
+    }
+    #product_farm_name,
+    #product_weight,
+    #product_price,
+    #delete_btn {
+        font-weight:normal
+    }
+    #filter-section>div:nth-child(2) {
+        color: #5e6656;
+    }
+    #product_farm_name {
+        color: #707070;
+    }
+    #product_weight {
+        color: #b3b3b3;
+    }
+    #cartIn_btn {
+        color: #fefffd;
+    }
+    #product_title,
+    #delete_btn {
+        color: var(--dark-sage);
+    }
+    #product_price {
+        color: var(--brown-grey);
+    }
+
+}
