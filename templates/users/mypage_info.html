@@ -65,6 +65,11 @@
     "color": "white",
   })
 
+  // 모바일에서 메뉴 선택
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    document.getElementById('menu_infos').classList.add('selected');
+    document.getElementById('selected_line').style.gridArea= "line5";
+  }
 
   menuBtns.forEach(item => {
     item.addEventListener('mouseover', function () {
