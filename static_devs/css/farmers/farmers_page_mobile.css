@@ -1,0 +1,105 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px) {
+
+    /* weekly hot */
+    #big-content{
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    #big-content p{
+        text-align: center;
+    }
+    #big-content p:not(#title){
+        font-size: 1.1rem;
+        line-height: 1.55;
+        color: #808080;
+        margin: 0;
+    }
+    #big-content #title{
+        font-size: 1.5rem;
+        line-height: 1.47;
+        margin-bottom: 0.6rem;
+    }
+    .relative{
+        height: 22.8rem;
+    }
+    #best-farmer-img{
+        width: 9.85rem;
+        height: 9.85rem;
+        border: none;
+        border-radius: 0;
+        margin-bottom: 2.74rem;
+    }
+    #farmer-img{
+        width: 9.85rem;
+        height: 9.85rem;
+        border-radius: 100%;
+        border: solid 0.1rem #707070;
+        margin: 0 auto;
+    }
+    #pick-img img{
+        height: 3.62rem;
+    }
+    #best-farmer-desc{
+        top: unset;
+        right: unset;
+        bottom: 0;
+        left: 0;
+        width: 109%;
+        height: 10.3rem;
+        border-left: 0.1rem solid #707070;
+        border-top: 0.1rem solid #707070;
+        border-bottom: 0.1rem solid #707070;
+    }
+    #best-farmer-desc div:nth-child(1){
+        width: 12rem;
+        margin-left: 4.7rem;
+        position: relative;
+    }
+    #best-farmer-desc div:nth-child(1) div:nth-child(1){
+        width: unset;
+        margin: 0;
+        position: absolute;
+        top: -0.5rem;
+        left: 0;
+    }
+    #best-farmer-desc div:nth-child(1) div:nth-child(2){
+        margin: 0 1rem;
+    }
+    #best-farmer-desc div:nth-child(1) div:nth-child(3){
+        position: absolute;
+        bottom: -1.3rem;
+        right: 0;
+    }
+    #best-farmer-desc div:nth-child(1) div:nth-child(1), 
+    #best-farmer-desc div:nth-child(1) div:nth-child(2),
+    #best-farmer-desc div:nth-child(1) div:nth-child(3){
+        font-size: 1.2rem;
+        line-height: 1.33;
+        font-weight: 300;
+    }
+    #best-farmer-desc div:nth-child(2){
+        justify-content: center;
+        align-items: center;
+    }
+    #hot_farm_loc{
+        margin-left: 0 !important;
+        font-size: 1.1rem;
+        font-weight: 300;
+        line-height: 0.73;
+        margin-bottom: 0.8rem;
+    }
+    #farm_name{
+        font-size: 1.1rem;
+        font-weight: 500;
+        line-height: 0.91;
+    }
+    #best-farmer-desc a img{
+        width: 1.58rem;
+        height: 1.29rem;
+        object-fit: contain;
+        margin-right: 25px;
+    }
+}
