@@ -1,6 +1,16 @@
 @import 'base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
+    /* 양 옆 2.5rem */
+    #top{
+        padding: 0;
+    }
+    #content{
+        padding: 0 2.5rem;
+    }
+    .relative{
+        padding-left: 2.5rem;
+    }
 
     /* weekly hot */
     #big-content{
@@ -31,6 +41,7 @@
         border: none;
         border-radius: 0;
         margin-bottom: 2.74rem;
+        margin-right: 2.5rem;
     }
     #farmer-img{
         width: 9.85rem;
@@ -43,11 +54,9 @@
         height: 3.62rem;
     }
     #best-farmer-desc{
-        top: unset;
-        right: unset;
-        bottom: 0;
-        left: 0;
-        width: 109%;
+        justify-content: space-between;
+        position: unset;
+        width: 100%;
         height: 10.3rem;
         border-left: 0.1rem solid #707070;
         border-top: 0.1rem solid #707070;
@@ -113,7 +122,6 @@
         width: 100%;
         border-radius: 10px;
         background-color: var(--light-grey);
-        margin-right: 1.65rem;
         align-items: center;
     }
     #input-box img{
@@ -151,6 +159,7 @@
     }
     #content:nth-child(3) div:nth-child(2){
         margin-top: 0.9rem;
+        margin-bottom: 6rem;
     }
     #tag_table{
         width: 26.1rem;
@@ -164,5 +173,87 @@
     #tag_table td:hover{
         color: var(--dark-green);
         background-color: #ffffff;
+    }
+
+    /* farmer list */
+    #content:nth-child(1){
+        padding-top: 4.08rem;
+    }
+    #content:nth-child(1) > div{
+        margin: 0;
+        margin-bottom: 6.04rem;
+    }
+    #wrapper{
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        justify-content: space-between !important;
+    }
+    #farm_pic{
+        width: 14.24rem;
+        height: 20.7rem;
+        z-index: 0;
+    }
+    #farmer_profile{
+        width: 14.24rem;
+        height: 20.7rem;
+    }
+    #pick_img{
+        right: -15.5px;
+        bottom: -15.5px;
+    }
+    #pick_img img{
+        height: 3.62rem;
+    }
+    #farm_desc_block{
+        width: 16.4rem;
+        margin: 0 !important;
+    }
+    #farm_profile{
+        font-size: 1.2rem;
+        line-height: 1;
+        color: var(--dark-sage);
+        margin-bottom: 0.5rem;
+    }
+    #farm_loc{
+        font-size: 1.1rem;
+        line-height: 1.09;
+        color: var(--dark-sage);
+        margin-bottom: 1rem;
+    }
+    #farm_name{
+        font-size: 1.5rem;
+        line-height: 1.13;
+        color: var(--dark-sage);
+        margin-bottom: 0.8rem;
+    }
+    #tag{
+        font-size: 1.1rem;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    #tag div{
+        width: unset;
+    }
+    #farm_product_wrapper{
+        gap: 1rem;
+    }
+    #farm_product{
+        width: 100%;
+    }
+    #product_img_wrapper{
+        width: 4.7rem;
+        height: 6.6rem;
+        margin: 0;
+        margin-bottom: 0.6rem;
+    }
+    #product_img{
+        width: 4.7rem;
+        height: 6.6rem;
+    }
+    #product_desc{
+        font-size: 0.8rem;
     }
 }
