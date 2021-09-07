@@ -223,14 +223,14 @@ Farmer's page
             </div>
             <!--글쓰기 버튼(farmer login 시에만 보이게)-->
             {% if request.user == farmer %}
-            <div class="flex flex-row justify-end mb-20">
+            <div id="farmer_story_write" class="flex flex-row justify-end mb-20">
                 <a href="{% url 'farmers:farmer_story_create' %}"><img
                         src="{% static 'images/farmers_page/story_write_btn.svg' %}" alt=""></a>
             </div>
             {% endif %}
 
             <!--paginator-->
-            <div class="flex flex-row mx-auto justify-center pb-56">
+            <div id="farmer_story_paginator" class="flex flex-row mx-auto justify-center pb-56">
                 <div class='flex flex-row'>
                     {% if farmer_stories.has_previous %}
                     <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page_2=1'"

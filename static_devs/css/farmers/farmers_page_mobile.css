@@ -61,6 +61,7 @@
         border-left: 0.1rem solid #707070;
         border-top: 0.1rem solid #707070;
         border-bottom: 0.1rem solid #707070;
+        align-items: center;
     }
     #best-farmer-desc div:nth-child(1){
         width: 12rem;
@@ -93,17 +94,18 @@
         justify-content: center;
         align-items: center;
     }
-    #hot_farm_loc{
+    #best-farmer-desc #hot_farm_loc{
         margin-left: 0 !important;
         font-size: 1.1rem;
         font-weight: 300;
         line-height: 0.73;
         margin-bottom: 0.8rem;
     }
-    #farm_name{
+    #best-farmer-desc #farm_name{
         font-size: 1.1rem;
         font-weight: 500;
         line-height: 0.91;
+        margin-bottom: 0;
     }
     #best-farmer-desc a img{
         width: 1.58rem;
@@ -117,6 +119,7 @@
         width: 100%;
         margin-top: 4rem;
         margin-bottom: 1.7rem;
+        align-items: center;
     }
     #input-box{
         width: 100%;
@@ -233,6 +236,7 @@
         margin-bottom: 1rem;
         display: flex;
         flex-wrap: wrap;
+        height: unset;
     }
     #tag div{
         width: unset;
@@ -255,5 +259,122 @@
     }
     #product_desc{
         font-size: 0.8rem;
+    }
+
+    /* farmers story */
+    #header{
+        margin-top: 6rem;
+    }
+    #header img{
+        width: 4.05rem;
+        height: 3.35rem;
+        margin-bottom: 1.2rem;
+    }
+    #story_title{
+        font-size: 1.5rem;
+        color: var(--dark-sage);
+        margin-bottom: 0.65rem;
+        font-weight: bold;
+    }
+    #story_subtitle{
+        font-size: 1.2rem;
+        color: #999;
+        font-weight: normal;
+        margin-bottom: 1.9rem;
+    }
+    #story_search{
+        margin-bottom: 3.68rem;
+        height: 2rem;
+    }
+    #story-search-select{
+        width: 5.1rem;
+        height: 2rem;
+        padding: 0;
+        text-align-last: center;
+        text-align: center;
+        -ms-text-align-last: center;
+        -moz-text-align-last: center;
+        margin-right: 0.9rem;
+    }
+    #story-search-select option{
+        font-size: 1.1rem;
+    }
+    #input-box:nth-child(2){
+        height: 2rem;
+        padding: 0;
+    }
+    #input-box:nth-child(2) input::placeholder{
+        opacity: 0;
+    }
+    #input-box:nth-child(2) img{
+        margin-right: 1.01rem;
+    }
+    #content:nth-child(3){
+        padding: 0;
+        margin-bottom: 7.7rem;
+    }
+    #farmer_story_content{
+        height: 30.14rem;
+        margin-bottom: 0;
+        overflow:scroll;
+    }
+    #farmer_story_table tr:first-child{
+        display: none;
+    }
+    #farmer_story_table tr:nth-child(2){
+        border-top: solid 0.2rem #5e6656;
+    }
+    #farmer_story_table tr{
+        height: 7.32rem;
+        padding: 1.8rem 1rem 2.12rem 1rem;
+        display: grid;
+        grid-template-columns: 1.3fr 0.8fr 1.5fr 1fr;
+        grid-template-areas:
+            'created_at farm farmer blank views'
+            'title title title title title';    
+        align-items: center;
+    }
+    #row_farm, #row_farmer, #row_views, #row_create_at, #row_title{
+        padding: 0;
+    }
+    #row_farm, #row_farmer, #row_views, #row_create_at{
+        font-size: 0.8rem;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #999;
+        margin-bottom: 0.4rem;
+    }
+    #row_farm{
+        grid-area: farm;
+    }
+    #row_farmer{
+        grid-area: farmer;
+    }
+    #row_views{
+        grid-area: views;
+    }
+    #row_views:before {
+        content: "조회수: ";
+      }
+    #row_create_at{
+        grid-area: created_at;
+    }
+    #row_title{
+        grid-area: title;
+        font-size: 1.2rem;
+        color: #000;
+        text-align: left;
+    }
+    #farmer_story_write{
+        width: 73px;
+        height: 25px;
+        margin-top: 0.99rem !important;
+        margin-left: auto;
+    }
+    #farmer_story_paginator{
+        display: none;
     }
 }
