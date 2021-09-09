@@ -22,9 +22,13 @@
     <div id="refund_change_info_detail" class="flex flex-col mx-auto">
         <div id="refund_change_info_detail-row" class="flex flex-row">
             <div id="refund_change_info_detail-left-section" class="w-3/12">반품/교환</div>
-            <div id="refund_change_info_detail-right-section" class="flex flex-row w-9/12">
-                <div>구매자 단순 변심은 상품 수령 후 7일 이내</div>
-                <div id="refund_change_info_detail-sub-desc">(구매자 반품 배송비 부담)</div>
+            <div id="refund_change_info_detail-right-section" class="flex flex-col w-9/12">
+                <div class="flex flex-row">
+                    <div>구매자 단순 변심은 상품 수령 후 7일 이내</div>
+                    <div id="refund_change_info_detail-sub-desc">(구매자 반품 배송비 부담)</div>
+                </div>
+                <div>상품에 대하여 배송, 교환, 반품, 민원 AS 등 {{farmer.farm_name}}에서 처리하며, 모든 책임은 {{farmer.farm_name}}에 있습니다.</div>
+                <div>상품 책임자 : {{farmer.user.account_name}} 연락처 : {{farmer.user.phone_number}}</div>
             </div>
         </div>
 
