@@ -24,7 +24,7 @@ import json
 
 # models
 from .models import *
-from products.models import Product, Question
+from products.models import Product, Question, Category
 from users.models import Consumer, Subscribe, User
 from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group
@@ -778,7 +778,129 @@ class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
 
 
 class FarmerMypageProductUpdatePopup(TemplateView):
-    """상품 등록/수정 팝업"""
+    """상품 등록 팝업"""
+
+    def dispatch(self, request, *args, **kwargs):
+        if Farmer.objects.filter(user=request.user).exists():
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect("core:main")
+
+    def post(self, request, **kwargs):
+        farm_news = request.POST.get("farm-news", None)
+        title = request.POST.get("name", None)
+        sub_title = request.POST.get("subname", None)
+        weight = float(request.POST.get("product-weight", None))
+        weight_unit = request.POST.get("weights", "kg")
+        stock = int(request.POST.get("products", None))
+        sell_price = int(request.POST.get("product-price", None))
+        delivery_fee = int(request.POST.get("product-shipping-fee", None))
+        additional_delivery_fee = request.POST.get("product-shipping-quantity", None)
+        additional_delivery_fee_unit = request.POST.get("product-shipping-price", None)
+        jeju_delivery_fee = request.POST.get("jeju-delivery", None)
+        return_delivery_fee = int(request.POST.get("refund-shipping-fee", None))
+        exchange_delivery_fee = int(
+            request.POST.get("double-refund-shipping-fee", None)
+        )
+        harvest_start_date = request.POST.get("harvest-start-date", None)
+        harvest_end_date = request.POST.get("harvest-end-date", None)
+        storage_method = request.POST.get("etc-save-product-textarea", None)
+        shelf_life_date = request.POST.get("etc-expire-input", None)
+
+        normal_title = request.POST.get("noarmal-name", None)
+        normal_sub_title = request.POST.get("noarmal-subname", None)
+        normal_weight = request.POST.get("noarmal-product-weight", None)
+        normal_weight_unit = request.POST.get("noarmal-weights", "kg")
+        normal_stock = request.POST.get("noarmal-products", None)
+        normal_sell_price = request.POST.get("noarmal-product-price", None)
+        normal_delivery_fee = request.POST.get("noarmal-product-shipping-fee", None)
+        normal_additional_delivery_fee = request.POST.get(
+            "noarmal-product-shipping-quantity", None
+        )
+        normal_additional_delivery_fee_unit = request.POST.get(
+            "noarmal-product-shipping-price", None
+        )
+        normal_jeju_delivery_fee = request.POST.get("normal-jeju-delivery", None)
+        normal_return_delivery_fee = request.POST.get(
+            "normal-refund-shipping-fee", None
+        )
+        normal_exchange_delivery_fee = request.POST.get(
+            "normal-double-refund-shipping-fee", None
+        )
+        normal_harvest_start_date = request.POST.get("normal-harvest-start-date", None)
+        normal_harvest_end_date = request.POST.get("normal-harvest-end-date", None)
+        normal_shelf_life_date = request.POST.get("normal-etc-expire-input", None)
+        normal_storage_method = request.POST.get(
+            "normal-etc-save-product-textarea", None
+        )
+
+        if farm_news:
+            farmer = Farmer.objects.get(user=request.user)
+            farmer.farm_news = farm_news
+            farmer.save()
+
+        new_ugly = Product.objects.create(
+            **{
+                "kinds": "ugly",
+                "status": "pending",
+                "category": "",  # 이부분 제플린에 없는데 어떻게 할지 고민해볼 것
+                "title": title,
+                "sub_title": sub_title,
+                "weight": weight,
+                "weight_unit": weight_unit,
+                "stock": stock,
+                "sell_price": sell_price,
+                "default_delivery_fee": delivery_fee,
+                "additional_delivery_fee": int(additional_delivery_fee)
+                if additional_delivery_fee
+                else 0,
+                "additional_delivery_fee_unit": int(additional_delivery_fee_unit)
+                if additional_delivery_fee_unit
+                else 0,
+                "jeju_mountain_additional_delivery_fee": int(jeju_delivery_fee)
+                if jeju_delivery_fee
+                else 0,
+                "return_delivery_fee": return_delivery_fee,
+                "exchange_delivery_fee": exchange_delivery_fee,
+                "harvest_start_date": harvest_start_date,
+                "harvest_end_date": harvest_end_date,
+                "storage_method": storage_method,
+                "shelf_life_date": shelf_life_date,
+            }
+        )
+
+        if normal_stock:
+            new_normal = Product.objects.create(
+                **{
+                    "kinds": "normal",
+                    "status": "pending",
+                    "title": normal_title,
+                    "sub_title": normal_sub_title,
+                    "weight": float(normal_weight),
+                    "weight_unit": normal_weight_unit,
+                    "stock": int(normal_stock),
+                    "sell_price": int(normal_sell_price),
+                    "default_delivery_fee": int(normal_delivery_fee),
+                    "additional_delivery_fee": int(normal_additional_delivery_fee),
+                    "additional_delivery_fee_unit": int(
+                        normal_additional_delivery_fee_unit
+                    ),
+                    "jeju_mountain_additional_delivery_fee": int(
+                        normal_jeju_delivery_fee
+                    ),
+                    "return_delivery_fee": int(normal_return_delivery_fee),
+                    "exchange_delivery_fee": int(normal_exchange_delivery_fee),
+                    "harvest_start_date": normal_harvest_start_date,
+                    "harvest_end_date": normal_harvest_end_date,
+                    "storage_method": normal_storage_method,
+                    "shelf_life_date": normal_shelf_life_date,
+                }
+            )
+
+            new_ugly.related_product = new_normal
+            new_ugly.save()
+
+        return redirect("farmers:farmer_mypage_product")
 
     template_name = "farmers/mypage/product/product_update.html"
 
