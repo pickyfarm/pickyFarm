@@ -8,7 +8,7 @@
 {% block content %}
 
 {% if wishes.exists is False %}
-<div class="mt-14 flex flex-col justify-center items-center">
+<div class="mt-14 flex flex-col justify-center items-center" id="before_wish">
     <div>
       아직 찜한 무난이가 없습니다
     </div>
@@ -69,6 +69,8 @@
     <div class="flex justify-left">
             <div id="delete_btn" class="transition_element">삭제하기</div>
     </div>
+</div>
+<div id="controll-section2">
     <div id="paginator" class="flex flex-row justify-center">
         {% for p in total_pages %}
         {% if p == page %}

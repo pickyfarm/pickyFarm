@@ -22,7 +22,39 @@
         flex-wrap: wrap;
         justify-content: space-between;
     }
+
+    /* before add wishes */
+    #before_wish {
+        width: 100%;
+    }
+    #redirect_a{
+        width: 13rem;
+    }
+    #redirect_btn{
+        margin-top: 2rem;
+        font-size: 1.1rem;
+        width: 13rem;
+        height: 2.2rem;
+        text-align: center;
+    }
     
+    /* items order */
+    #filter-section {
+        order:1;
+    }
+    #products-section {
+        order:3;
+        width: 100%;
+        margin-top: 0;
+    }
+    #controll-section {
+        order:2;
+    }
+    #controll-section2 {
+        width: 100%;
+        order:5;
+    }
+
     /* mypage base 없어서 일단 숨기기... */
     #top-section,
     #menu {
