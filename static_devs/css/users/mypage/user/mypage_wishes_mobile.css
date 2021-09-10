@@ -22,11 +22,31 @@
         flex-wrap: wrap;
         justify-content: space-between;
     }
-
+    
     /* mypage base 없어서 일단 숨기기... */
     #top-section,
     #menu {
         display:none
+    }
+
+    /* filter section  */
+    #filter-section {
+        margin-bottom: 0;
+    }
+    #total-select {
+        margin-top: 0.25rem;
+    }
+    #filter-section>div:nth-child(2) {
+        margin-left: 0.85rem;
+        line-height: 1.7rem;
+    }
+    #delete_btn {
+        width: 6rem;
+        height: 2rem;
+        padding: 0.4rem 0.5rem;
+        margin-bottom: 1.1rem;
+        border-radius: 1rem;
+        border: solid 0.1rem #5e6656;
     }
 
     /* products section */
@@ -94,6 +114,15 @@
         border-radius: 1.5rem;
         margin-top: 0.4rem;
         padding: 0.5rem;
+    }
+
+    /* control section */
+    #paginator {
+        margin-top: 6rem;
+        width: 100%;
+    }
+    #paginator > a {
+        width: 100%;
     }
 
     /* font */
