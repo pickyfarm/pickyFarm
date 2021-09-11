@@ -13,7 +13,8 @@
     #delivery-section,
     #orders-section,
     #pay-section,
-    #personal-info-agree-section {
+    #personal-info-agree-section,
+    #btns-section {
         width: 100%;
     }
 
@@ -28,6 +29,7 @@
         width: 10%;
         min-width: 10.4rem;
         margin-bottom: 1rem;
+        align-items: center;
     }
     #info-name-section > div + div,
     #info-phone-number-section > div + div, 
@@ -74,28 +76,57 @@
         height: 8rem;
         padding-left: 1.9rem;
     }
+    #personal-info-agree-top-section {
+        margin-top: 2rem;
+    }
+    #btns-section {
+        margin-top: 6rem;
+    }
+    #label-text {
+        margin-top: 0;
+    }
+    #delivery-to-farm-message-section > #label-text {
+        margin-top: 0.7rem;
+    }
+    
 
     /* line */
     #sub-title-line,
     #orders-sub-title-line,
     #sub-title-line3 {
         width: 80%;
+        height: 1.6rem;
     }
     #div-line,
     #div-line1 {
         width: 100%;
     }
+    #div-line {
+        height: 5.8rem;
+    }
     #sub-title-text{
-        min-width: 12rem;
+        min-width: 8rem;
+        line-height: 3rem;
+        text-align: left;
     }
     #orders-title-section > #sub-title-text{
-        min-width: 25rem;
+        min-width: 17rem;
     }
     #title-line {
         width:50%;
+        height: 0.8rem;
+    }
+
+    /* title section */
+    #required-text {
+        margin-right: 0;
+        padding-top: 0;
     }
 
     /* delivery section */
+    #delivery-section {
+        padding-bottom: 2rem;
+    }
     #delivery-rev-loc-at-section > div,
     #label-text {
         margin-right: 0;
@@ -103,6 +134,9 @@
     #middle-form {
         margin-left: 0;
         padding-left: 0;
+    }
+    #dot-rev-loc-at {
+        padding-bottom: 0;
     }
     
     /* orders section */
@@ -178,7 +212,7 @@
         margin-bottom: 5rem;
     }
     #price-check-title {
-        min-width: 8rem;
+        min-width: 6rem;
     }
     #text_ab,
     #text_a, 
@@ -203,7 +237,8 @@
 
     /* agree section */
     #agree-section {
-        width:30rem;
+        width:21.1rem;
+        margin-bottom: 4.7rem;
     }
 
     /* btns section */
@@ -213,9 +248,11 @@
         width: 15.7rem;
         height: 3rem;
         padding: 0.5rem 0 0.7rem;
-        margin: 2rem 1.5rem;
         border-radius: 1.5rem;
         border: solid 0.2rem var(--dark-sage);
+    }
+    #go-btn {
+        margin-left: 1.1rem;
     }
 
     /* font setting */
@@ -257,7 +294,6 @@
     #go-back-btn,
     #go-btn {
         font-size: 1.2rem;
-        margin-top: 0;
     }
     #required-text,
     #personal-info-agree-require,
