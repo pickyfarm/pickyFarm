@@ -199,4 +199,104 @@
         padding: 0.5rem;
         margin: 2rem 1.5rem;
     }
+
+    /* font setting */
+    #price_text_b {
+        font-size: 2.2rem;
+    }
+    #price_text_a {
+        font-size: 2rem;
+    }
+    #title-text,
+    #sub-title-text,
+    #farm_name,
+    #orders-title,
+    #orders-num,
+    #price-check-title {
+        font-size: 1.5rem;
+    }
+    #weight,
+    #sell-price,
+    #text-b {
+        font-size: 1.4rem;
+    }
+    #label-text,
+    #delivery-cat-default,
+    #delivery-cat-choice,
+    #delivery-cat-direct,
+    #id_rev_loc_at,
+    #help-text,
+    #title,
+    #text_ab,
+    #text_a,
+    #text-c,
+    #price_text_c,
+    #id_payment_type_0,
+    #id_payment_type_1,
+    #id_payment_type_2,
+    #personal-info-agree-label,
+    #personal-info-agree-bottom-section,
+    #go-back-btn,
+    #go-btn {
+        font-size: 1.2rem;
+    }
+    #required-text,
+    #personal-info-agree-require,
+    #final-agree-label {
+        font-size: 1.1rem;
+    }
+    #title-text,
+    #required-text,
+    #farm_name {
+        font-weight: bold;
+    }
+    #sub-title-text,
+    #label-text,
+    #delivery-cat-default,
+    #delivery-cat-choice,
+    #delivery-cat-direct,
+    #id_rev_loc_at,
+    #help-text,
+    #title,
+    #weight,
+    #sell-price,
+    #orders-title,
+    #orders-num,
+    #price-check-title {
+        font-weight:normal
+    }
+    #sub-title-text,
+    #label-text {
+        color: #4d4d4d;
+    }
+    #required-text {
+        color: #5e6656;
+    }
+    #id_rev_loc_at,
+    #title {
+        color: #707070;
+    }
+    #delivery-cat-default,
+    #delivery-cat-choice,
+    #delivery-cat-direct,
+    #personal-info-agree-label {
+        color: #808080;
+    }
+    #weight,
+    #sell-price,
+    #final-agree-label {
+        color: var(--brown-grey);
+    }
+    #price_text_c {
+        color: rgba(92, 103, 84, 0.8);
+    }
+    #title-text,
+    #help-text,
+    #farm_name,
+    #orders-title,
+    #orders-num,
+    #price-check-title,
+    #go-back-btn {
+        color: var(--dark-sage);
+    }
 }
