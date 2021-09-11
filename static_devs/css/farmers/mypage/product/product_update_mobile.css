@@ -237,11 +237,159 @@
         font-size: 1rem;
         color: #b3b3b3;
     }
+
+    /* 기타 고려 사항 */
+    .etc-box{
+        margin-top: 2.5rem;
+    }
+    .etc-title{
+        font-size: 1.1rem;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        color: #5c6456;
+        padding-top: 1rem;
+        margin-bottom: 2rem;
+    }
+    .etc-dates{
+        display: grid;
+        grid-template-columns: 3fr 7fr;
+        grid-template-areas: 'title check'
+                            'blank select';
+        align-items: center;
+    }
+    .etc-dates-title, .etc-expire-title, .etc-save-product-title{
+        width: 100%;
+        font-size: 1.1rem;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #4d4d4d;
+        margin-bottom: 0.5rem;
+    }
+    .etc-dates-title{
+        grid-area: title;
+        align-items: center;
+        margin-bottom: 0;
+    }
+    .etc-dates-title > div{
+        font-family: NotoSansKR;
+        font-size: 1rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        text-align: left;
+        color: #b3b3b3;      
+    }
+    .etc-dates-select-wrap{
+        grid-area: select;
+        display: grid;
+        grid-template-areas: 'year1 month1 date1'
+                            'tilde tilde tilde'
+                            'year2 month2 date2';
+        margin-bottom: 1rem;
+    }
+    .number-wrapper:nth-child(1){
+        grid-area: year1;
+    }
+    .number-wrapper:nth-child(2){
+        grid-area: month1;
+    }
+    .number-wrapper:nth-child(3){
+        grid-area: date1;
+    } 
+    .etc-dates-select-wrap span:nth-child(4){
+        grid-area: tilde;
+        font-size: 1.5rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-align: center;
+        color: #5c6456;
+    }
+    .number-wrapper:nth-child(5){
+        grid-area: year2;
+    }
+    .number-wrapper:nth-child(6){
+        grid-area: month2;
+    }
+    .number-wrapper:nth-child(7){
+        grid-area: date2;
+    }
+    .number-wrapper .number-type{
+        width: 7.35rem;
+        height: 2.6rem;
+        padding: 0.45rem 1.05rem 0.45rem 0.95rem;
+        font-size: 1.1rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.73;
+        letter-spacing: normal;
+        text-align: left;
+        color: #808080;
+    }
+    .number-wrapper:nth-child(2) .number-type,
+    .number-wrapper:nth-child(6) .number-type{
+        width: 5.59rem;
+        margin: 0 0.95rem;
+    }
+    .number-wrapper:nth-child(3) .number-type,
+    .number-wrapper:nth-child(7) .number-type{
+        width: 6.24rem;
+    }
+    .etc-dates #id_farm_cat{
+        grid-area: check;
+    }
+    .etc-dates #id_farm_cat label{
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .etc-dates #id_farm_cat label::before{
+        margin: 0;
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 1rem;
+    }
+    .etc-expire-dates{
+        flex-direction: column;
+    }
+    .etc-expire-input::placeholder{
+        font-size: 1.1rem;
+    }
     .etc-expire-input{
         width: 100%;
+        height: 3rem;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        padding-left: 1.5rem;
+    }
+    .etc-save-product{
+        flex-direction: column;
+        padding-bottom: 1rem;
+        margin-bottom: 6rem;
+    }
+    .etc-save-product-wrap{
+        width: 100%;
+        height: 6.7rem;
+        padding: 1.5rem;
+        background-color: #fff;
     }
     #product-textarea{
-        width: 100%;
+        width: 100% !important;
+        height: 100% !important;
+        resize: none !important;
+        background: none !important;
+        padding: 0 !important;
+        font-size: 1.1rem !important;
     }
     .normal-product{
         width: 100%;
