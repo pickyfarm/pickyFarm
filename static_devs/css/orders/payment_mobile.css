@@ -25,8 +25,8 @@
     #delivery-rev-message-section > div, 
     #delivery-to-farm-message-section > div, 
     #delivery-rev-loc-at-section > div {
-        width: 25%;
-        min-width: 12rem;
+        width: 10%;
+        min-width: 10.4rem;
         margin-bottom: 1rem;
     }
     #info-name-section > div + div,
@@ -36,7 +36,9 @@
     #delivery-rev-message-section > div + div, 
     #delivery-to-farm-message-section > div + div, 
     #delivery-rev-loc-at-section > div + div {
-        width: 75%;
+        width: 100%;
+        margin-left: 0;
+        padding-left: 0;
     }
     #info-name-section > div + div > input, 
     #info-phone-number-section > div + div > input, 
@@ -60,13 +62,17 @@
         margin-bottom: 1.5rem;
     }
     #help-text {
-        margin: 1rem 0;
+        margin: 1rem 0 0.25rem;
         text-align: left;
     }
     #small-form > input, 
-    #middle-form > input, 
+    #middle-form > input {
+        padding-left: 1.9rem;
+        height: 2.8rem;
+    }
     #big-form > input {
-        padding: 1.5rem;
+        height: 8rem;
+        padding-left: 1.9rem;
     }
 
     /* line */
@@ -89,6 +95,16 @@
         width:50%;
     }
 
+    /* delivery section */
+    #delivery-rev-loc-at-section > div,
+    #label-text {
+        margin-right: 0;
+    }
+    #middle-form {
+        margin-left: 0;
+        padding-left: 0;
+    }
+    
     /* orders section */
     #products-index-section {
         display: none;
@@ -194,10 +210,12 @@
     #go-btn, 
     #go-back-btn {
         font-size: 1.5rem;
-        width: 16rem;
+        width: 15.7rem;
         height: 3rem;
-        padding: 0.5rem;
+        padding: 0.5rem 0 0.7rem;
         margin: 2rem 1.5rem;
+        border-radius: 1.5rem;
+        border: solid 0.2rem var(--dark-sage);
     }
 
     /* font setting */
@@ -239,6 +257,7 @@
     #go-back-btn,
     #go-btn {
         font-size: 1.2rem;
+        margin-top: 0;
     }
     #required-text,
     #personal-info-agree-require,
