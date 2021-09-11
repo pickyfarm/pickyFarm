@@ -93,7 +93,7 @@
                 <input type='text' class='product_quantity' name="product-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
             </div>                             
-            <div class="flex flex-row mb-5">
+            <div class="flex flex-row mb-5" id="additional-shipping">
             
                 <div class="L-box"></div>
                 <div>
@@ -145,7 +145,7 @@
             <div class="etc-box">
                 <div class="etc-title">기타 고려 사항</div>
                 <div class="etc-dates">
-                    <div class="etc-dates-title">제조일 <div>( 수확일 )</div></div>
+                    <div class="etc-dates-title">제조일 <span>( 수확일 )</span></div>
                     <div class='etc-dates-select-wrap'>
                         <span class="number-wrapper"> 
                             <input class="number-type" id="number-type-year" name="number-type-year" type="number" min="2015" max="2030" value="2021">
@@ -260,7 +260,7 @@
                 <input type='text' class='product_quantity' name="normal-product-shipping-fee"required>
                 <span class='product-quantity-unit'>원</span>
             </div>                             
-            <div class="flex flex-row mb-5">
+            <div class="flex flex-row mb-5" id="additional-shipping">
                 <div class="L-box"></div>
                 <div>
                     <ul id="id_farm_cat">
@@ -311,7 +311,7 @@
             <div class="etc-box">
                 <div class="etc-title">기타 고려 사항</div>
                 <div class="etc-dates">
-                    <div class="etc-dates-title">제조일 <div>( 수확일 )</div></div>
+                    <div class="etc-dates-title">제조일 <span>( 수확일 )</span></div>
                     <div class='etc-dates-select-wrap'>
                         <span class="number-wrapper">
                             <input class="number-type" id="number-type-year" name="normal-number-type-year" type="number" min="2015" max="2030" value="2021">
@@ -428,5 +428,11 @@
         normalBtn.style.display = "none";
     }
     normalBtn.addEventListener("click", addTodo);
+
+    // 모바일에서 버튼 이름 변경
+    if (window.matchMedia("(max-width: 768px)").matches){
+        const submitBtn = document.getElementById("submit_btn");
+        submitBtn.value = "확인";
+    }
 </script>
 {% endblock %}

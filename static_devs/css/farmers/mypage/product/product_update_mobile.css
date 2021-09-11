@@ -11,7 +11,7 @@
         color: #5c6754;
     }
     .subtitle{
-        width: 32.5rem;
+        width: 100%;
         height: 2.8rem;
         padding: 0.5rem 0;
         padding-left: 1rem;
@@ -27,7 +27,7 @@
     .main-line{
         display: none;
     }
-    .product-form > div:not(.subtitle, .normal-product){
+    .product-form > div:not(.subtitle, .normal-product, .normal-product-btn){
         width: 100%;
         padding: 0 1rem;
     }
@@ -136,7 +136,8 @@
     }
     
     /* 추가 배송비 */
-    form > div:nth-child(9) > div:nth-child(2){
+    #additional-shipping > div:nth-child(2),
+    #additional-shipping > div:nth-child(2){
         background-color: #f8f8f8;
         width: 100%;
         padding: 1rem !important;
@@ -240,6 +241,8 @@
 
     /* 기타 고려 사항 */
     .etc-box{
+        width: calc(100% - 2rem) !important;
+        margin: 0 1rem;
         margin-top: 2.5rem;
     }
     .etc-title{
@@ -275,7 +278,8 @@
         align-items: center;
         margin-bottom: 0;
     }
-    .etc-dates-title > div{
+    .etc-dates-title > span{
+        display: flex;
         font-family: NotoSansKR;
         font-size: 1rem;
         font-weight: normal;
@@ -352,6 +356,16 @@
         justify-content: flex-start;
         align-items: center;
         margin-bottom: 1rem;
+        font-size: 1.1rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #b3b3b3;
+    }
+    .etc-dates #id_farm_cat label.checked{
+        color: #4d4d4d;
     }
     .etc-dates #id_farm_cat label::before{
         margin: 0;
@@ -375,7 +389,7 @@
     .etc-save-product{
         flex-direction: column;
         padding-bottom: 1rem;
-        margin-bottom: 6rem;
+        margin-bottom: 19.1rem;
     }
     .etc-save-product-wrap{
         width: 100%;
@@ -391,8 +405,99 @@
         padding: 0 !important;
         font-size: 1.1rem !important;
     }
+
+    /* 일반 작물 */
     .normal-product{
-        width: 100%;
-        height: 100%;
+        left: 50%;
+        transform: translate(-50%, -1rem);
+        width: calc(100% - 5rem);
+        height: 80.1rem;
+    }
+    .normal-product-btn::before{
+        content: '* 정상작물의 경우 못난이 작물을 함께 업로드하는 경우에만 등록 가능합니다. 추가할 경우 상품 추가 버튼을 눌러주세요.';
+        font-family: NotoSansKR;
+        font-size: 1rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.1;
+        letter-spacing: normal;
+        text-align: center;
+        color: #5c6754;
+    }
+    .normal-product-btn{
+        width: 18rem;
+        position: absolute;
+        top: 112rem;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .product-add-btn{
+        top: 0;
+        left: 0;
+        width: 6.3rem;
+        height: 6.3rem;
+        margin-top: 1.1rem;
+    }
+    .subtitle{
+        margin-bottom: 2rem !important;
+    }
+    .legal-box{
+        flex-direction: column;
+        line-height: unset;
+        margin-top: -10rem;
+    }
+    .legal-box > .subtitle{
+        margin-right: 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #5c6754;
+        background: none;
+        border: none;
+        padding: 0;
+        height: 0;
+    }
+    .legal-sub-box{
+        flex-direction: column;
+        margin-top: 2rem;
+    }
+    .legal-sub-box .product-state-update-quantity-wrap{
+        margin-bottom: 0;
+    }
+    .legal-sub-box label{
+        font-size: 1.1rem !important;
+        font-weight: 500 !important;
+        font-stretch: normal !important;
+        font-style: normal !important;
+        letter-spacing: normal !important;
+        text-align: left !important;
+        color: #b3b3b3 !important;
+    }
+    .legal-sub-box label.checked{
+        color: #4d4d4d !important;
+    }
+    #back_btn{
+        display: none;
+    }
+    #submit_btn{
+        width: 6.3rem;
+        height: 3rem;
+        padding: 0.2rem 0.4rem;
+        border-radius: 2.5rem;
+        border: solid 0.1rem #5c6754;
+        background-color: #fff;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #5c6754;
+        margin: 6rem 0;
     }
 }
