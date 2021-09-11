@@ -3,6 +3,7 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/mypage/product/product_update.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/product/product_update_mobile.css' %}">
 <style>
     #delivery,
     #jeju-delivery,
@@ -129,13 +130,13 @@
                     </ul>
                 </div>
             </div>
-            <div class='product-state-update-quantity-wrap flex'>
+            <div class='product-state-update-quantity-wrap flex' id="return-delivery">
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(편도)</span></div>
                 
                 <input type='text' class='product_quantity' name="refund-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
             </div>    
-            <div class='product-state-update-quantity-wrap flex'>
+            <div class='product-state-update-quantity-wrap flex' id="return-delivery">
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(왕복)</span></div>
                 
                 <input type='text' class='product_quantity' name="double-refund-shipping-fee" required>
@@ -295,13 +296,13 @@
                     </ul>
                 </div>
             </div>
-            <div class='product-state-update-quantity-wrap flex'>
+            <div class='product-state-update-quantity-wrap flex' id="return-delivery">
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(편도)</span></div>
                 
                 <input type='text' class='product_quantity' name="normal-refund-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
             </div>    
-            <div class='product-state-update-quantity-wrap flex'>
+            <div class='product-state-update-quantity-wrap flex' id="return-delivery">
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(왕복)</span></div>
                 
                 <input type='text' class='product_quantity' name="normal-double-refund-shipping-fee" required>
