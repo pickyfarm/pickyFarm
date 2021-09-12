@@ -43,4 +43,49 @@
         height: 2.2rem;
         text-align: center;
     }
+
+    /* font */
+    #product_title,
+    #product_farm_name {
+        font-size: 1.5rem;
+    }
+    #filter-6month,
+    #filter > input,
+    #product_price,
+    #product_quantity,
+    #see-product-btn > a,
+    #reg-review-btn > a,
+    #cancel-order-btn > a,
+    #cartIn_btn {
+        font-size: 1.1rem;
+    }
+    #product_order_at2,
+    #delivery_status > div {
+        font-size: 0.8rem;
+    }
+    #filter-6month,
+    #filter > input,
+    #product_title,
+    #delivery_status > div {
+        font-weight: bold;
+    }
+    #see-product-btn > a,
+    #reg-review-btn > a,
+    #cancel-order-btn > a,
+    #cartIn_btn {
+        font-weight:normal
+    }
+    #filter-6month,
+    #filter > input,
+    #see-product-btn > a,
+    #reg-review-btn > a,
+    #cancel-order-btn > a {
+        color: #5e6656;
+    }
+    #cartIn_btn {
+        color: #fefffd;
+    }
+    #product_title {
+        color: var(--dark-sage);
+    }
 }
