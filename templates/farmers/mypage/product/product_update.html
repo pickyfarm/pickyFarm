@@ -3,6 +3,7 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/mypage/product/product_update.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/product/product_update_mobile.css' %}">
 <style>
     #delivery,
     #jeju-delivery,
@@ -91,9 +92,10 @@
 
                 <input type='text' class='product_quantity' name="product-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
-            </div>
-            <div class="flex flex-row mb-5">
 
+            </div>                             
+            <div class="flex flex-row mb-5" id="additional-shipping">
+           
                 <div class="L-box"></div>
                 <div>
                     <ul id="id_farm_cat">
@@ -127,13 +129,15 @@
                     </ul>
                 </div>
             </div>
-            <div class='product-state-update-quantity-wrap flex'>
+            <div class='product-state-update-quantity-wrap flex' id="return-delivery">
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(편도)</span></div>
 
                 <input type='text' class='product_quantity' name="refund-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
-            </div>
-            <div class='product-state-update-quantity-wrap flex'>
+
+            </div>    
+            <div class='product-state-update-quantity-wrap flex' id="return-delivery">
+
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(왕복)</span></div>
 
                 <input type='text' class='product_quantity' name="double-refund-shipping-fee" required>
@@ -142,12 +146,12 @@
             <div class="etc-box">
                 <div class="etc-title">기타 고려 사항</div>
                 <div class="etc-dates">
-                    <div class="etc-dates-title">제조일 ( 수확일 )</div>
+                    <div class="etc-dates-title">제조일 <span>( 수확일 )</span></div>
                     <div class='etc-dates-select-wrap'>
                         <span class="number-wrapper">
                             <input class="number-type" id="number-type-year" name="harvest-start-date" type="date">
                         </span>
-                        ~
+                        <span> ~ </span>
                         <span class="number-wrapper">
                             <input class="number-type" id="number-type-year" name="harvest-end-date" type="date">
                         </span>
@@ -232,8 +236,10 @@
 
                 <input type='text' class='product_quantity' name="normal-product-shipping-fee">
                 <span class='product-quantity-unit'>원</span>
-            </div>
-            <div class="flex flex-row mb-5">
+
+            </div>                             
+            <div class="flex flex-row mb-5" id="additional-shipping">
+
                 <div class="L-box"></div>
                 <div>
                     <ul id="id_farm_cat">
@@ -269,13 +275,15 @@
                     </ul>
                 </div>
             </div>
-            <div class='product-state-update-quantity-wrap flex'>
+            <div class='product-state-update-quantity-wrap flex' id="return-delivery">
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(편도)</span></div>
 
                 <input type='text' class='product_quantity' name="normal-refund-shipping-fee">
                 <span class='product-quantity-unit'>원</span>
-            </div>
-            <div class='product-state-update-quantity-wrap flex'>
+
+            </div>    
+            <div class='product-state-update-quantity-wrap flex' id="return-delivery">
+
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(왕복)</span></div>
 
                 <input type='text' class='product_quantity' name="normal-double-refund-shipping-fee">
@@ -284,12 +292,12 @@
             <div class="etc-box">
                 <div class="etc-title">기타 고려 사항</div>
                 <div class="etc-dates">
-                    <div class="etc-dates-title">제조일 ( 수확일 )</div>
+                    <div class="etc-dates-title">제조일 <span>( 수확일 )</span></div>
                     <div class='etc-dates-select-wrap'>
                         <span class="number-wrapper">
                             <input class="number-type" id="number-type-year" name="normal-harvest-start-date" type="date">
                         </span>
-                        ~
+                        <span> ~ </span>
                         <span class="number-wrapper">
                             <input class="number-type" id="number-type-year" name="normal-harvest-end-date" type="date">
                         </span>
@@ -384,5 +392,11 @@
         normalBtn.style.display = "none";
     }
     normalBtn.addEventListener("click", addTodo);
+
+    // 모바일에서 버튼 이름 변경
+    if (window.matchMedia("(max-width: 768px)").matches){
+        const submitBtn = document.getElementById("submit_btn");
+        submitBtn.value = "확인";
+    }
 </script>
 {% endblock %}
