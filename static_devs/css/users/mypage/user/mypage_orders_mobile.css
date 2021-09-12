@@ -1,0 +1,46 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    #main {
+        width: 100%;
+        padding: 0 2.5rem;
+    }    
+    #main > div{
+        width: 100%;
+    }
+    #filter-section, 
+    #products-section,
+    #delete_btn {
+        margin-left: 0;
+    }
+    #middle-section,
+    #content {
+        width: 100%;
+    }
+    #content {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* mypage base 없어서 일단 숨기기... */
+    #top-section,
+    #menu {
+        display:none
+    }
+
+    /* before make orders */
+    #before_order {
+        width: 100%;
+    }
+    #redirect_a{
+        width: 13rem;
+    }
+    #redirect_btn{
+        margin-top: 2rem;
+        font-size: 1.1rem;
+        width: 13rem;
+        height: 2.2rem;
+        text-align: center;
+    }
+}

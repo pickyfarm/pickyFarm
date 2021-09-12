@@ -2,6 +2,7 @@
 {% load static %}
 {% block stylesheet_detail %}
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
 
@@ -9,7 +10,7 @@
 {% block content %}
 
 {% if order_details.exists is None %}
-<div class="mt-14 flex flex-col justify-center items-center">
+<div class="mt-14 flex flex-col justify-center items-center" id="before_order">
   <div>
     아직 구매한 무난이가 없습니다
   </div>
