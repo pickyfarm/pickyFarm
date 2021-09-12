@@ -43,7 +43,7 @@
                 <div class="farm-news-title">농가 뉴스</div>
                 <div class="farm-news-sub-title">* 소비자에게 새로운 무난이 소식을 알려주세요.</div>
                 <div class="farm-news-text">
-                    <textarea name="" id="news-text-box" placeholder="새로운 농가 뉴스는 이 네모칸 범위에 작성 됩니다!"></textarea>
+                    <textarea name="farm-news" id="news-text-box" placeholder="새로운 농가 뉴스는 이 네모칸 범위에 작성 됩니다!"></textarea>
                 </div>
             </div>
             <div class="flex flex-row mb-7">
@@ -59,7 +59,7 @@
                     <div class='product-theme' id="label">상품 중량 / 용량</div>
                     <div class='product-state-update-weight-input-select-wrap flex'>
                         <div class='product-state-update-weight-input-wrap'>
-                            <input type='text' id='product-weight-input' name="product-weight" required/>
+                            <input type='text' id='product-weight-input' name="product-weight" required />
                         </div>
                         <div class='product-state-update-weight-select-wrap'>
                             <select name='weights' id='product-weight-unit' required>
@@ -70,116 +70,102 @@
                     </div>
                     <span class='product-weight-unit-bar'>|</span>
                     <span class='product-weight-select-arrow'>
-                            <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
-                        </span>
+                        <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
+                    </span>
                 </div>
             </div>
             <div class='product-state-update-quantity-wrap flex'>
                 <div class='product-theme' id="label">상품 수량</div>
-                
+
                 <input type='text' class='product_quantity' name="products" required>
                 <span class='product-quantity-unit'>개</span>
             </div>
             <div class='product-state-update-quantity-wrap flex'>
                 <div class='product-theme' id="label">상품 가격</div>
-                
+
                 <input type='text' class='product_quantity' name="product-price" required>
                 <span class='product-quantity-unit'>원</span>
                 <span class="ps-for-sale">* 피키팜 수수료를 고려한 판매가격을 적어주세요.</span>
             </div>
             <div class='product-state-update-quantity-wrap flex'>
                 <div class='product-theme' id="label">기본 배송비</div>
-            
+
                 <input type='text' class='product_quantity' name="product-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
+
             </div>                             
             <div class="flex flex-row mb-5" id="additional-shipping">
-            
+           
                 <div class="L-box"></div>
                 <div>
                     <ul id="id_farm_cat">
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
-                            <label for="delivery" class="checked">
-                                <input type="radio" id="delivery" value="delivery" name="farm_cat">
-                                추가 배송비
-                            </label>
+                                <label for="delivery" class="checked">
+                                    <input type="radio" id="delivery" value="delivery" name="farm_cat">
+                                    추가 배송비
+                                </label>
                                 <input type='text' class='product_quantity' name="product-shipping-quantity" required>
                                 <span class='product-quantity-unit'>개</span>
                                 <span class="product-quantity-span">당</span>
                                 <input type='text' class='product_quantity' name="product-shipping-price" required>
-                                <span class='product-quantity-unit'>원</span>                                
+                                <span class='product-quantity-unit'>원</span>
                                 <span class="product-quantity-span">추가</span>
-                            </div>    
+                            </div>
                         </li>
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
-                            <label for="jeju-delivery" >
-                                <input type="radio" id="jeju-delivery" value="jeju-delivery" name="farm_cat">
-                                제주/도서 산간 추가 배송비
-                            </label>  
+                                <label for="jeju-delivery">
+                                    <input type="radio" id="jeju-delivery" value="jeju-delivery" name="farm_cat">
+                                    제주/도서 산간 추가 배송비
+                                </label>
                                 <input type='text' class='product_quantity' name="product-jeju-shipping-price" required>
                                 <span class='product-quantity-unit'>원</span>
                                 <div class="product-quantity-plus-box">
                                     <div class="product-quantity-plus">* 배송비는 농가에서 선결제로 진행하고 소비자에게</div>
-                                    <div class="product-quantity-plus2">좌측 배송비 사항이 자동으로 표시됩니다.</div>                                    
+                                    <div class="product-quantity-plus2">좌측 배송비 사항이 자동으로 표시됩니다.</div>
                                 </div>
-                                
-                            </div>                              
+
+                            </div>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class='product-state-update-quantity-wrap flex' id="return-delivery">
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(편도)</span></div>
-                
+
                 <input type='text' class='product_quantity' name="refund-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
+
             </div>    
             <div class='product-state-update-quantity-wrap flex' id="return-delivery">
+
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(왕복)</span></div>
-                
+
                 <input type='text' class='product_quantity' name="double-refund-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
-            </div>    
+            </div>
             <div class="etc-box">
                 <div class="etc-title">기타 고려 사항</div>
                 <div class="etc-dates">
                     <div class="etc-dates-title">제조일 <span>( 수확일 )</span></div>
                     <div class='etc-dates-select-wrap'>
-                        <span class="number-wrapper"> 
-                            <input class="number-type" id="number-type-year" name="number-type-year" type="number" min="2015" max="2030" value="2021">
-                        </span>
                         <span class="number-wrapper">
-                            <input class="number-type" id="number-type-month" name="number-type-month" type="number" min="1" max="12" value="8">
-
-                        </span>
-                        <span class="number-wrapper">
-                            <input class="number-type" id="number-type-date" name="number-type-date" type="number" min="1" max="31" value="21">
-
+                            <input class="number-type" id="number-type-year" name="harvest-start-date" type="date">
                         </span>
                         <span> ~ </span>
                         <span class="number-wrapper">
-
-                            <input class="number-type" id="number-type-year" name="number-type-year2" type="number" min="2015" max="2030" value="2021">
-                        </span>
-                        <span class="number-wrapper">
-
-                            <input class="number-type" id="number-type-month" name="number-type-month2" type="number" min="1" max="12" value="12">
-                        </span>
-                        <span class="number-wrapper">
-
-                            <input class="number-type" id="number-type-date" name="number-type-date2" type="number" min="1" max="31" value="31">
+                            <input class="number-type" id="number-type-year" name="harvest-end-date" type="date">
                         </span>
                     </div>
                     <ul id="id_farm_cat">
                         <li>
-                            <label for="yearly" >
+                            <label for="yearly">
                                 <input type="radio" id="yearly" value="yearly" name="yearly-yield">
                                 연중생산
-                            </label> 
+                            </label>
                         </li>
-                    </ul>                          
+                    </ul>
                 </div>
                 <div class="etc-expire-dates">
                     <div class="etc-expire-title">유통기한 또는 품질유지기한</div>
@@ -197,21 +183,14 @@
 
 
             <!-- 일반 작물 -->
-            
+
             <div class="subtitle">일반 작물</div>
-            <div class="main-line"></div>        
-            
+            <div class="main-line"></div>
+
             <div class="normal-product">
-            </div>  
+            </div>
             <div class="normal-product-btn">
                 <img src="{% static 'images/farmer_mypage/product/product-add-btn.svg' %}" alt="product-add-btn" class="product-add-btn">
-            </div>
-            <div class="farm-news">
-                <div class="farm-news-title">농가 뉴스</div>
-                <div class="farm-news-sub-title">* 소비자에게 새로운 무난이 소식을 알려주세요.</div>
-                <div class="farm-news-text">
-                    <textarea name="" id="news-text-box" placeholder="새로운 농가 뉴스는 이 네모칸 범위에 작성 됩니다!"></textarea>
-                </div>
             </div>
             <div class="flex flex-row mb-7">
                 <div class="product-theme" id="label">상품 제목</div>
@@ -226,10 +205,10 @@
                     <div class='product-theme' id="label">상품 중량 / 용량</div>
                     <div class='product-state-update-weight-input-select-wrap flex'>
                         <div class='product-state-update-weight-input-wrap'>
-                            <input type='text' id='product-weight-input' name="normal-product-weight" required/>
+                            <input type='text' id='product-weight-input' name="normal-product-weight" />
                         </div>
                         <div class='product-state-update-weight-select-wrap'>
-                            <select name='normal-weights' id='product-weight-unit' required>
+                            <select name='normal-weights' id='product-weight-unit'>
                                 <option value='kg'>Kg</option>
                                 <option value='g'>g</option>
                             </select>
@@ -237,115 +216,102 @@
                     </div>
                     <span class='product-weight-unit-bar'>|</span>
                     <span class='product-weight-select-arrow'>
-                            <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
-                        </span>
+                        <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
+                    </span>
                 </div>
             </div>
             <div class='product-state-update-quantity-wrap flex'>
                 <div class='product-theme' id="label">상품 수량</div>
-                
-                <input type='text' class='product_quantity' name="normal-products" required>
+
+                <input type='text' class='product_quantity' name="normal-products">
                 <span class='product-quantity-unit'>개</span>
             </div>
             <div class='product-state-update-quantity-wrap flex'>
                 <div class='product-theme' id="label">상품 가격</div>
-                
-                <input type='text' class='product_quantity' name="normal-product-price" required>
+
+                <input type='text' class='product_quantity' name="normal-product-price">
                 <span class='product-quantity-unit'>원</span>
                 <span class="ps-for-sale">* 피키팜 수수료를 고려한 판매가격을 적어주세요.</span>
             </div>
             <div class='product-state-update-quantity-wrap flex'>
                 <div class='product-theme' id="label">기본 배송비</div>
 
-                <input type='text' class='product_quantity' name="normal-product-shipping-fee"required>
+                <input type='text' class='product_quantity' name="normal-product-shipping-fee">
                 <span class='product-quantity-unit'>원</span>
+
             </div>                             
             <div class="flex flex-row mb-5" id="additional-shipping">
+
                 <div class="L-box"></div>
                 <div>
                     <ul id="id_farm_cat">
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
-                            <label for="delivery" class="checked">
-                                <input type="radio" id="delivery" value="delivery" name="normal_farm_cat">
-                                추가 배송비
-                            </label>
-                                <input type='text' class='product_quantity'  name="normal-product-shipping-quantity" required>
+                                <label for="delivery" class="checked">
+                                    <input type="radio" id="delivery" value="delivery" name="normal_farm_cat">
+                                    추가 배송비
+                                </label>
+                                <input type='text' class='product_quantity' name="normal-product-shipping-quantity">
                                 <span class='product-quantity-unit'>개</span>
                                 <span class="product-quantity-span">당</span>
-                                <input type='text' class='product_quantity' name="normal-product-shipping-price" required>
-                                <span class='product-quantity-unit'>원</span>                                
+                                <input type='text' class='product_quantity' name="normal-product-shipping-price">
+                                <span class='product-quantity-unit'>원</span>
                                 <span class="product-quantity-span">추가</span>
-                            </div>    
+                            </div>
                         </li>
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
-                            <label for="jeju-delivery" >
-                                <input type="radio" id="jeju-delivery" value="jeju-delivery" name="normal_farm_cat">
-                                제주/도서 산간 추가 배송비
-                            </label>  
-                                <input type='text' class='product_quantity' name="normal-product-jeju-shipping-price" required>
+                                <label for="jeju-delivery">
+                                    <input type="radio" id="jeju-delivery" value="jeju-delivery" name="normal_farm_cat">
+                                    제주/도서 산간 추가 배송비
+                                </label>
+                                <input type='text' class='product_quantity' name="normal-product-jeju-shipping-price">
                                 <span class='product-quantity-unit'>원</span>
                                 <div class="product-quantity-plus-box">
                                     <div class="product-quantity-plus">* 배송비는 농가에서 선결제로 진행하고 소비자에게</div>
-                                    <div class="product-quantity-plus2">좌측 배송비 사항이 자동으로 표시됩니다.</div>                                    
+                                    <div class="product-quantity-plus2">좌측 배송비 사항이 자동으로 표시됩니다.</div>
                                 </div>
-                                
-                            </div>                              
+
+                            </div>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class='product-state-update-quantity-wrap flex' id="return-delivery">
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(편도)</span></div>
-                
-                <input type='text' class='product_quantity' name="normal-refund-shipping-fee" required>
+
+                <input type='text' class='product_quantity' name="normal-refund-shipping-fee">
                 <span class='product-quantity-unit'>원</span>
+
             </div>    
             <div class='product-state-update-quantity-wrap flex' id="return-delivery">
+
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(왕복)</span></div>
-                
-                <input type='text' class='product_quantity' name="normal-double-refund-shipping-fee" required>
+
+                <input type='text' class='product_quantity' name="normal-double-refund-shipping-fee">
                 <span class='product-quantity-unit'>원</span>
-            </div>    
+            </div>
             <div class="etc-box">
                 <div class="etc-title">기타 고려 사항</div>
                 <div class="etc-dates">
                     <div class="etc-dates-title">제조일 <span>( 수확일 )</span></div>
                     <div class='etc-dates-select-wrap'>
                         <span class="number-wrapper">
-                            <input class="number-type" id="number-type-year" name="normal-number-type-year" type="number" min="2015" max="2030" value="2021">
-                        </span>
-                        <span class="number-wrapper">
-                            <input class="number-type" id="number-type-month" name="normal-number-type-month" type="number" min="1" max="12" value="8">
-
-                        </span>
-                        <span class="number-wrapper">
-                            <input class="number-type" id="number-type-date" name="normal-number-type-date" type="number" min="1" max="31" value="21">
-
+                            <input class="number-type" id="number-type-year" name="normal-harvest-start-date" type="date">
                         </span>
                         <span> ~ </span>
                         <span class="number-wrapper">
-
-                            <input class="number-type" id="number-type-year" name="normal-number-type-year2" type="number" min="2015" max="2030" value="2021">
-                        </span>
-                        <span class="number-wrapper">
-
-                            <input class="number-type" id="number-type-month" name="normal-number-type-month2" type="number" min="1" max="12" value="12">
-                        </span>
-                        <span class="number-wrapper">
-
-                            <input class="number-type" id="number-type-date" name="normal-number-type-date2" type="number" min="1" max="31" value="31">
+                            <input class="number-type" id="number-type-year" name="normal-harvest-end-date" type="date">
                         </span>
                     </div>
                     <ul id="id_farm_cat">
                         <li>
-                            <label for="yearly" >
+                            <label for="yearly">
                                 <input type="radio" id="yearly" value="yearly" name="normal-yearly-yield">
                                 연중생산
-                            </label> 
+                            </label>
                         </li>
-                    </ul>                          
+                    </ul>
                 </div>
                 <div class="etc-expire-dates">
                     <div class="etc-expire-title">유통기한 또는 품질유지기한</div>
@@ -359,32 +325,32 @@
                         <textarea name="save-product-msg" id="product-textarea" placeholder="예) 밀폐된 봉지에 포장하여 냉장 보관" class="etc-save-product-textarea" name="normal-etc-save-product-textarea"></textarea>
                     </div>
                 </div>
-              
-            </div>        
+
+            </div>
             <div class="legal-box">
                 <div class="subtitle">관련 법상 표시사항</div>
                 <ul id="id_farm_cat">
                     <div class="legal-sub-box">
                         <li>
                             <div class='product-state-update-quantity-wrap'>
-                            <label for="delivery" class="checked">
-                                <input type="radio" id="delivery" value="delivery" name="no">
-                                해당사항 없음
-                            </label>
-                            </div>    
+                                <label for="delivery" class="checked">
+                                    <input type="radio" id="delivery" value="delivery" name="no">
+                                    해당사항 없음
+                                </label>
+                            </div>
                         </li>
                         <li>
                             <div class='product-state-update-quantity-wrap'>
-                            <label for="jeju-delivery" >
-                                <input type="radio" id="jeju-delivery" value="jeju-delivery" name="yes">
-                                해당사항 있음
-                            </label>  
-                            </div>                              
+                                <label for="jeju-delivery">
+                                    <input type="radio" id="jeju-delivery" value="jeju-delivery" name="yes">
+                                    해당사항 있음
+                                </label>
+                            </div>
                         </li>
                     </div>
                 </ul>
             </div>
-            
+
             <div class="text-center">
                 <a href="#"><input type="submit" value="뒤로가기" id="back_btn" /></a>
                 <input type="submit" value="상품 등록" id="submit_btn" />
@@ -411,10 +377,10 @@
     });
 
     $("input:radio[value=yearly]").parent().addClass("checked");
-    $("input:radio[name=yearly-yield]").on('click', function () {      
+    $("input:radio[name=yearly-yield]").on('click', function () {
         if ($("input:radio[value=yearly]").parent().hasClass("checked") === true) {
             $("input:radio[value=yearly]").parent().removeClass("checked");
-        } else{
+        } else {
             $("input:radio[value=yearly]").parent().addClass("checked");
         }
 
