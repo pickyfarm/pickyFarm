@@ -795,13 +795,14 @@ class FarmerMypageProductUpdatePopup(TemplateView):
         stock = int(request.POST.get("products", None))
         sell_price = int(request.POST.get("product-price", None))
         delivery_fee = int(request.POST.get("product-shipping-fee", None))
-        additional_delivery_fee = request.POST.get("product-shipping-quantity", None)
-        additional_delivery_fee_unit = request.POST.get("product-shipping-price", None)
-        jeju_delivery_fee = request.POST.get("jeju-delivery", None)
+        additional_delivery_fee = request.POST.get("product-shipping-quantity", 0)
+        additional_delivery_fee_unit = request.POST.get("product-shipping-price", 0)
+        jeju_delivery_fee = request.POST.get("jeju-delivery", 0)
         return_delivery_fee = int(request.POST.get("refund-shipping-fee", None))
         exchange_delivery_fee = int(
             request.POST.get("double-refund-shipping-fee", None)
         )
+        is_yearly_yield = request.POST.get("yearly-yield", False)
         harvest_start_date = request.POST.get("harvest-start-date", None)
         harvest_end_date = request.POST.get("harvest-end-date", None)
         storage_method = request.POST.get("etc-save-product-textarea", None)
@@ -834,16 +835,19 @@ class FarmerMypageProductUpdatePopup(TemplateView):
             "normal-etc-save-product-textarea", None
         )
 
+        farmer = Farmer.objects.get(user=request.user)
+
         if farm_news:
-            farmer = Farmer.objects.get(user=request.user)
             farmer.farm_news = farm_news
             farmer.save()
 
+        new_ugly = Product()
         new_ugly = Product.objects.create(
             **{
+                "farmer": farmer,
                 "kinds": "ugly",
                 "status": "pending",
-                "category": "",  # 이부분 제플린에 없는데 어떻게 할지 고민해볼 것
+                "category": Category.objects.get(name=farmer.get_farm_cat_display()),
                 "title": title,
                 "sub_title": sub_title,
                 "weight": weight,
@@ -862,8 +866,10 @@ class FarmerMypageProductUpdatePopup(TemplateView):
                 else 0,
                 "return_delivery_fee": return_delivery_fee,
                 "exchange_delivery_fee": exchange_delivery_fee,
-                "harvest_start_date": harvest_start_date,
-                "harvest_end_date": harvest_end_date,
+                "harvest_start_date": harvest_start_date
+                if not is_yearly_yield
+                else None,
+                "harvest_end_date": harvest_end_date if not is_yearly_yield else None,
                 "storage_method": storage_method,
                 "shelf_life_date": shelf_life_date,
             }
@@ -872,8 +878,12 @@ class FarmerMypageProductUpdatePopup(TemplateView):
         if normal_stock:
             new_normal = Product.objects.create(
                 **{
+                    "farmer": farmer,
                     "kinds": "normal",
                     "status": "pending",
+                    "category": Category.objects.get(
+                        name=farmer.get_farm_cat_display()
+                    ),
                     "title": normal_title,
                     "sub_title": normal_sub_title,
                     "weight": float(normal_weight),

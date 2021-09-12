@@ -10,7 +10,7 @@
         display: none;
     }
 
-    #id_farm_cat label::before {
+    label[for="yearly"]::before {
         content: "";
         display: inline-block;
         width: 20px;
@@ -19,7 +19,7 @@
         margin-right: 9px;
     }
 
-    #id_farm_cat label.checked::before {
+    label.checked[for="yearly"]::before {
         content: "";
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
@@ -100,13 +100,12 @@
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
                                 <label for="delivery" class="checked">
-                                    <input type="radio" id="delivery" value="delivery" name="farm_cat">
                                     추가 배송비
                                 </label>
-                                <input type='text' class='product_quantity' name="product-shipping-quantity" required>
+                                <input type='text' class='product_quantity' name="product-shipping-quantity">
                                 <span class='product-quantity-unit'>개</span>
                                 <span class="product-quantity-span">당</span>
-                                <input type='text' class='product_quantity' name="product-shipping-price" required>
+                                <input type='text' class='product_quantity' name="product-shipping-price">
                                 <span class='product-quantity-unit'>원</span>
                                 <span class="product-quantity-span">추가</span>
                             </div>
@@ -114,7 +113,6 @@
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
                                 <label for="jeju-delivery">
-                                    <input type="radio" id="jeju-delivery" value="jeju-delivery" name="farm_cat">
                                     제주/도서 산간 추가 배송비
                                 </label>
                                 <input type='text' class='product_quantity' name="product-jeju-shipping-price" required>
