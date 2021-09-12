@@ -44,6 +44,63 @@
         text-align: center;
     }
 
+    /* filter */
+    #filter {
+        margin: 0 0 6rem;
+        width: 100%;
+    }
+    #filter-6month,
+    #filter > input {
+        height: 2rem;
+        border-radius: 1rem;
+        border: solid 0.1rem #5e6656;
+    }
+    #filter-6month {
+        width: 6.9rem;
+        padding: 0.1rem
+    }
+    #filter > input {
+        padding: 0.1rem 0 0.1rem 1rem;
+        width: 9.4rem;
+        margin: 0 1rem;
+    }
+    input[type="date"] {
+        position: relative;
+    }     
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        color: transparent;
+        background: none;
+        z-index: 1;
+    }    
+    input[type="date"]:before {
+        color: transparent;
+        background: none;
+        display: block;
+        content: '▼';
+        width: 15px;
+        height: 20px;
+        position: absolute;
+        right: 6px;
+        color: var(--dark-sage);
+    }
+    #filter-until {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.55;
+        color: #5e6656;
+    }
+    #filter-submit {
+        width: 2rem;
+        height: 2rem;
+        margin-left: 0;
+    }
+    #filter-submit > span {
+        display: none;
+    }
+    #filter-submit-icon {
+        display: block;
+    }
+    
     /* products section */
     #products-section {
         width: 100%;
@@ -136,6 +193,17 @@
         width: 7.5rem;
     }
 
+    /* paginator */
+    #paginator {
+        margin-top: 6rem;
+        margin-left: 0;
+        width: 100%;
+    }
+    #paginator > a {
+        display: flex;
+        justify-content: center;
+    }
+
     /* font */
     #product_title,
     #product_farm_name {
@@ -158,7 +226,9 @@
     #see-product-btn > a,
     #reg-review-btn > a,
     #cancel-order-btn > a,
-    #cartIn_btn {
+    #cartIn_btn,
+    #filter-6month,
+    #filter > input {
         line-height: 1.7rem;
     }
     #filter-6month,
