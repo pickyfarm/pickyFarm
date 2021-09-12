@@ -44,6 +44,98 @@
         text-align: center;
     }
 
+    /* products section */
+    #products-section {
+        width: 100%;
+        margin-top: 0;
+    }
+    #product {
+        width: 100%;
+        height: 13.5rem;
+        padding: 1rem 1rem 1.5rem;
+        margin-bottom: 2.5rem;
+        border-radius: 0.5rem;
+        border: none;
+        box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
+        display: grid;
+        grid-template-columns: 8.4rem 1fr;
+        grid-template-areas:
+            'img product'
+            'btn btn';
+    }
+    #product > div:nth-child(1) {
+        width: 7.4rem;
+        grid-area: img;
+    }
+    #product_img {
+        height: 7.4rem;
+        margin-right: 0;
+        border-radius: 1.1rem;
+    }
+    #product > div:nth-child(2) {
+        width: 100%;
+        grid-area: product;
+    }
+    #product_order_at2 {
+        margin-top: 0.3rem;
+    }
+    #product-contents > div:nth-child(2) {
+        align-items: center;
+    }
+    #product_title, 
+    #product_farm_name {
+        line-height: 2;
+    }
+    #slash {
+        margin: 0 0.8rem;
+        height: 1.2rem;
+    }   
+    #product-contents > div:nth-child(3) {
+        line-height: 1.4;
+        margin-bottom: 0.15rem;
+    } 
+    #product_price {
+        margin-right: 1.15rem;
+    }
+    #delivery_status {
+        line-height: 1.2;
+        margin-top: 0.25rem;
+        align-items: center;
+    }
+    #delivery-status-icon {
+        margin-right: 0.58rem;
+        width: 1rem;
+        height: 1rem;
+    }
+    #buttons-section {
+        grid-area: btn;
+        width: 100%;
+        padding: 0 8.5rem 0 0;
+        align-items: flex-end;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    #cart-button-section {
+        grid-area: btn;
+        width: 100%;
+        align-items: flex-end;
+        justify-content: end;
+    }
+    #see-product-btn,
+    #reg-review-btn,
+    #cancel-order-btn,
+    #cartIn_btn {
+        width: 6.3rem;
+        height: 2.5rem;
+        border-radius: 1.5rem;
+        margin: 0;
+        padding: 0.4rem;
+    }
+    #see-product-btn,
+    #cartIn_btn {
+        width: 7.5rem;
+    }
+
     /* font */
     #product_title,
     #product_farm_name {
@@ -62,6 +154,12 @@
     #product_order_at2,
     #delivery_status > div {
         font-size: 0.8rem;
+    }
+    #see-product-btn > a,
+    #reg-review-btn > a,
+    #cancel-order-btn > a,
+    #cartIn_btn {
+        line-height: 1.7rem;
     }
     #filter-6month,
     #filter > input,
