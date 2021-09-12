@@ -19,6 +19,15 @@
     }
 
     /* info & delivery input */
+    #info-name-section,
+    #info-phone-number-section, 
+    #delivery-address-section, 
+    #delivery-rev-loc-at-section, 
+    #delivery-rev-message-section, 
+    #delivery-to-farm-message-section, 
+    #delivery-rev-loc-at-section {
+        margin-bottom: 2rem;
+    }
     #info-name-section > div,
     #info-phone-number-section > div, 
     #delivery-address-section > div, 
@@ -28,7 +37,6 @@
     #delivery-rev-loc-at-section > div {
         width: 10%;
         min-width: 10.4rem;
-        margin-bottom: 1rem;
         align-items: center;
     }
     #info-name-section > div + div,
@@ -58,13 +66,13 @@
         margin-bottom: 1rem;
     }
     #info-section {
-        margin-bottom: 4rem;
+        margin-bottom: 3rem;
     }
     #delivery-cat-section {
-        margin-bottom: 1.5rem;
+        margin-bottom: 2.3rem;
     }
     #help-text {
-        margin: 1rem 0 0.25rem;
+        margin-top: 1rem;
         text-align: left;
     }
     #small-form > input, 
@@ -121,10 +129,21 @@
         margin-right: 0;
         padding-top: 0;
     }
+    #dot,
+    #dot-rev-loc-at {
+        width: 1.1rem;
+        height: 1.1rem;
+        object-fit: contain;
+        margin-left: 0.7rem;
+    }
+
 
     /* delivery section */
     #delivery-section {
         padding-bottom: 2rem;
+    }
+    #delivery-cat > li {
+        display: flex;
     }
     #delivery-cat-detail-index-title-section,
     #delivery-address-input-section,
@@ -138,12 +157,23 @@
     #label-text {
         margin-right: 0;
     }
+    #delivery-rev-loc-at-section > div {
+        align-items: flex-start;
+        line-height: 2rem;
+    }
+    #id_rev_loc_at > li {
+        margin-bottom: 2rem;
+    }
+    #id_rev_loc_at > li:last-child {
+        margin-bottom: 0;
+    }
     #middle-form {
         margin-left: 0;
         padding-left: 0;
     }
     #dot-rev-loc-at {
         padding-bottom: 0;
+        margin-top: 0.5rem;
     }
     
     /* orders section */
@@ -250,7 +280,8 @@
 
     /* pay section */
     #payment-type-section > ul >li {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+        margin: 0 2rem 0 0;
     }
 
     /* agree section */
@@ -295,6 +326,7 @@
         font-size: 1.4rem;
     }
     #label-text,
+    #label-text2,
     #delivery-cat-default,
     #delivery-cat-choice,
     #delivery-cat-direct,
