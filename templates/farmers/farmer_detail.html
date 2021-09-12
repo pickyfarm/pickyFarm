@@ -40,11 +40,13 @@
                     <div class="font-light text-lg" id="profile_title">"{{ farmer.profile_title }}"</div>
                 </div>
             </div>
-            {% if sub == False %}
-            <div class="text-lg text-center sub_wrap" id="sub_btn" name={{farmer.pk}}>구독하기</div>
-            {% else %}
-            <div class="text-lg text-center subed_wrap subscribing" id="sub_btn" name={{farmer.pk}}>구독중</div>
-            {% endif %}
+            <div id="sub_btn_wrap">
+                {% if sub == False %}
+                <div class="text-lg text-center sub_wrap" id="sub_btn" name={{farmer.pk}}>구독하기</div>
+                {% else %}
+                <div class="text-lg text-center subed_wrap subscribing" id="sub_btn" name={{farmer.pk}}>구독중</div>
+                {% endif %}
+            </div>
                     
         </div>
 
