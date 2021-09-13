@@ -14,6 +14,14 @@ input::placeholder {
     font-size: 12px;
 }
 
+input:focus {
+    border-color: #5c6754;
+}
+
+input:disabled {
+    color: grey;
+}
+
 #content {
     width: 990px;
     height: 100%;

@@ -828,6 +828,7 @@ class FarmerMypageProductUpdatePopup(TemplateView):
         normal_exchange_delivery_fee = request.POST.get(
             "normal-double-refund-shipping-fee", None
         )
+        normal_is_yearly_yield = (request.POST.get("normal-yearly-yield", False),)
         normal_harvest_start_date = request.POST.get("normal-harvest-start-date", None)
         normal_harvest_end_date = request.POST.get("normal-harvest-end-date", None)
         normal_shelf_life_date = request.POST.get("normal-etc-expire-input", None)
@@ -900,8 +901,12 @@ class FarmerMypageProductUpdatePopup(TemplateView):
                     ),
                     "return_delivery_fee": int(normal_return_delivery_fee),
                     "exchange_delivery_fee": int(normal_exchange_delivery_fee),
-                    "harvest_start_date": normal_harvest_start_date,
-                    "harvest_end_date": normal_harvest_end_date,
+                    "harvest_start_date": normal_harvest_start_date
+                    if not normal_is_yearly_yield
+                    else None,
+                    "harvest_end_date": normal_harvest_end_date
+                    if not normal_is_yearly_yield
+                    else None,
                     "storage_method": normal_storage_method,
                     "shelf_life_date": normal_shelf_life_date,
                 }
