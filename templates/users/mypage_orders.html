@@ -2,6 +2,7 @@
 {% load static %}
 {% block stylesheet_detail %}
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
 
@@ -9,7 +10,7 @@
 {% block content %}
 
 {% if order_details.exists is None %}
-<div class="mt-14 flex flex-col justify-center items-center">
+<div class="mt-14 flex flex-col justify-center items-center" id="before_order">
   <div>
     아직 구매한 무난이가 없습니다
   </div>
@@ -25,7 +26,11 @@
     <input id="filter-start-date" type="date" name="s_date" value="{{start_date}}">
     <div id="filter-until">~</div>
     <input id="filter-end-date" type="date" name="e_date" value="{{end_date}}">
-    <button id="filter-submit" type="submit">조회</button>
+    <button id="filter-submit" type="submit">
+      <span>조회</span>    
+      <img id="filter-submit-icon" src="/static/images/users/search.svg" alt="조회 아이콘">
+    </button>
+    
   </div>
 </form>
 
