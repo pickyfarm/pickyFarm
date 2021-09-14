@@ -45,9 +45,13 @@
     }
 
     /* filter */
+    #content > form {
+        width: 100%;
+    }
     #filter {
         margin: 0 0 6rem;
         width: 100%;
+        display: flex;
     }
     #filter-6month,
     #filter > input {
@@ -57,11 +61,12 @@
     }
     #filter-6month {
         width: 6.9rem;
+        min-width: 6.9rem;
         padding: 0.1rem
     }
     #filter > input {
         padding: 0.1rem 0 0.1rem 1rem;
-        width: 9.4rem;
+        width: 100%;
         margin: 0 1rem;
     }
     input[type="date"] {
@@ -91,6 +96,7 @@
     }
     #filter-submit {
         width: 2rem;
+        min-width: 2rem;
         height: 2rem;
         margin-left: 0;
     }
@@ -164,19 +170,25 @@
         width: 1rem;
         height: 1rem;
     }
-    #buttons-section {
-        grid-area: btn;
-        width: 100%;
-        padding: 0 8.5rem 0 0;
-        align-items: flex-end;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    #cart-button-section {
+    #button-section-container {
         grid-area: btn;
         width: 100%;
         align-items: flex-end;
         justify-content: end;
+    }
+    #cart-button-section {
+        width: fit-content;
+        height: 2.5rem;
+        padding-right: 0;
+        order: 1;
+    }
+    #buttons-section {
+        grid-area: btn;
+        width: 100%;
+        padding: 0;
+        align-items: flex-end;
+        flex-direction: row;
+        justify-content: space-between;
     }
     #see-product-btn,
     #reg-review-btn,
