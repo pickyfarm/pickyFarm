@@ -89,7 +89,7 @@ class Order_Detail(models.Model):
     )
     order_group = models.ForeignKey(
         Order_Group, related_name="order_details", on_delete=models.SET_NULL, null=True
-    )
+    ) 
 
     def __str__(self):
         name = []
