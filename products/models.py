@@ -62,7 +62,8 @@ class Product(models.Model):
         default=0, help_text="제주/사간 추가 배송비"
     )
 
-    return_delivery_fee = models.IntegerField(default=0, help_text="반품 배송비(편도)")
+    #반품/교환 배송비
+    refund_delivery_fee = models.IntegerField(default=0, help_text="반품 배송비(편도)")
     exchange_delivery_fee = models.IntegerField(default=0, help_text="교환 배송비(왕복)")
 
     desc_image = CompressedImageField(

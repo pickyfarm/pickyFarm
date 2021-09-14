@@ -25,12 +25,12 @@
             <div class='exchange-product-receipt-top-section'>
                 <div class='exchange-date-wrap wrap_padding flex'>
                     <span class='exchange-date-title'>주문일시</span>
-                    <span class='exchange-date-value'>2021.08.10</span>
+                    <span class='exchange-date-value'>{{order_date}}</span>
                 </div>
                 <div class='exchange-product-information-wrap wrap_padding'>
                     <div class='farm-information-wrap flex'>
                         <div class='farm-information-title'>Farm</div>
-                        <div class='farm-information-value'>해맑은 농가</div>
+                        <div class='farm-information-value'>{{farm_name}}</div>
                     </div>
                     <div class='exchange-product-information-contents-wrap'>
                         <!-- 무난이 작물 시작-->
@@ -40,42 +40,28 @@
                                 </div>
                             </div>
                             <div class='exchange-product-information-content-right-section'>
-                                <div class='exchange-product-tag'>
+                                {% if product_kinds == "ugly" %}
+                                <div class='refund-product-tag'>
                                     <img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt='moonan_harvest_tag'>
                                 </div>
-                                <div class='exchange-product-name'>못나지만 맛사과</div>
+                                {% else %}
+                                <div class='refund-product-tag'>
+                                    <img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}""" alt='moonan_harvest_tag'>
+                                </div>
+                                {% endif %}
+                                <div class='exchange-product-name'>{{product_title}}</div>
                                 <div class='exchange-product-detail-wrap flex'>
-                                    <div class='exchange-product-price'>40,000원</div>
-                                    <div class='exchange-product-quantity'>4</div>
+                                    <div class='exchange-product-price'>{{product_price}}원</div>
+                                    <div class='exchange-product-quantity'>{{order_detail_quantity}}</div>
                                     <div class='exchange-product-quantity-unit'>(개/박스)</div>
-                                    <div class='exchange-product-weight'>8 kg</div>
+                                    <div class='exchange-product-weight'>{{product_weight}}</div>
                                 </div>
                                 <div class='exchange-product-option'>교환신청</div>
                             </div>
                         </div>
                         <!-- 무난이 작물 끝-->
 
-                        <!-- 일 작물 시작-->
-                        <div class='exchange-product-information-content-wrap flex'>
-                            <div class='exchange-product-information-content-left-section'>
-                                <div class='exchange-product-image'>
-                                </div>
-                            </div>
-                            <div class='exchange-product-information-content-right-section'>
-                                <div class='exchange-product-tag'>
-                                    <img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}""" alt='moonan_harvest_tag'>
-                                </div>
-                                <div class='exchange-product-name'>못나지만 맛사과</div>
-                                <div class='exchange-product-detail-wrap flex'>
-                                    <div class='exchange-product-price'>40,000원</div>
-                                    <div class='exchange-product-quantity'>4</div>
-                                    <div class='exchange-product-quantity-unit'>(개/박스)</div>
-                                    <div class='exchange-product-weight'>8 kg</div>
-                                </div>
-                                <div class='exchange-product-option'>교환신청</div>
-                            </div>
-                        </div>
-                        <!-- 일반 작물 끝-->
+                        
                     </div>
                 </div>
             </div>
@@ -84,20 +70,20 @@
                 <div class='drag-bag-product-content-wrap wrap_padding'>
                     <div class='drag-bag-address-wrap flex'>
                         <div class='drag-bag-address-title'>주소지</div>
-                        <div class='drag-bag-address-value'>경기도 성남시 분당구 기윤이 아파트 너무 조아 인지 아파트는 인천에 있는데 더 조을듯</div>
+                        <div class='drag-bag-address-value'>{{refundExchange.rev_address}}</div>
                     </div>
                     <div class='drag-bag-request-wrap flex'>
                         <div class='drag-bag-request-title'>요청사항</div>
-                        <div class='drag-bag-request-value'>오후 3시 이후에 회수 부탁드립니다.</div>
+                        <div class='drag-bag-request-value'>{{refundExchange.rev_loc_at}}</div>
                     </div>
                     <div class='drag-bag-cost-wrap flex'>
                         <div class='drag-bag-cost-title'>교환 배송비</div>
-                        <div class='drag-bag-cost-value'>5000원</div>
+                        <div class='drag-bag-cost-value'>{{refundExchange.refund_exchange_delivery_fee}}원</div>
                     </div>
                 </div>
                 <div class='return-mypage-btn-wrap flex'>
                     <div class='return-mypage-btn-img-wrap'>
-                        <a href='#'><img class='return-mypage-btn-img' src="{% static 'images/users/mypage/user/goback_mypage_nohover.svg' %}" alt='goback_mypage_nohover'></a>
+                        <img class='return-mypage-btn-img' src="{% static 'images/users/mypage/user/goback_mypage_nohover.svg' %}" alt='goback_mypage_nohover'>
                     </div>
                 </div>
             </div>
@@ -107,6 +93,7 @@
 <script>
     const return_btn = document.querySelector('.return-mypage-btn-wrap');
     const return_img = document.querySelector('.return-mypage-btn-img');
+    const go_back = document.querySelector('.return-mypage-btn-img')
 
     const switchCheckImgHoverIn = function(e){
         return_img.setAttribute('src',"{% static 'images/users/mypage/user/goback_mypage_hover.svg' %}")
@@ -115,6 +102,10 @@
     const switchCheckImgHoverOut = function(e){
         return_img.setAttribute('src',"{% static 'images/users/mypage/user/goback_mypage_nohover.svg' %}")
     }
+
+    go_back.addEventListener('click',function(){
+        window.close()
+    })
 
     return_btn.addEventListener('mouseover',switchCheckImgHoverIn)
     return_btn.addEventListener('mouseleave',switchCheckImgHoverOut)

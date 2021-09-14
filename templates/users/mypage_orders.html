@@ -61,12 +61,24 @@
         {% elif detail.status == 'shipping' %}
         <img id="delivery-status-icon" src="{% static 'images/users/delivering.svg' %}" alt="배송중 아이콘">
         <div>배송중</div>
-        {% elif detail.status == 'complete' %}
+        {% elif detail.status == 'delivery_complete' %}
         <img id="delivery-status-icon" src="{% static 'images/users/complete.svg' %}" alt="배송 완료 아이콘">
         <div>배송 완료</div>
         {% elif detail.status == 'cancel' %}
         <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
         <div>주문 취소</div>
+        {% elif detail.status == 're_recept' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불 접수</div>
+        {% elif detail.status == 'ex_recept' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>교환 접수</div>
+        {% elif detail.status == 're_ex_approve' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불/교환 승인</div>
+        {% elif detail.status == 're_ex_deny' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불/교환 거절</div>
         {% endif %}
 
       </div>
@@ -83,13 +95,24 @@
         </a>
       </div>
 
-
+      {% if detail.status == 'delivery_complete' %}
       <div id="reg-review-btn" class="transition_element">
         <a>
           리뷰 쓰기
         </a>
       </div>
-      {% if detail.status == 'payment_complete' %}
+      {% endif %}
+
+      {% if detail.status == 'delivery_complete' %}
+      <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'orders:change_refund' detail.pk %}')">
+        <a>
+          환불/반품 신청
+        </a>
+      </div>
+      {% endif %}
+      
+      
+      {% if detail.status == 'payment_complete' or detail.status == 'preparing' %}
       <div id="cancel-order-btn" class="transition_element" onclick="window.open('{% url 'user:mypage_order_cancel_popup' detail.pk %}')">
         <a>
           주문 취소
