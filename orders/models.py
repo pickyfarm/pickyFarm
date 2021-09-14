@@ -116,6 +116,8 @@ class RefundExchange(models.Model):
     reason = models.TextField()
     image = CompressedImageField(upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True)
 
+    farmer_answer = models.TextField(null=True, blank=True)
+
     rev_address = models.TextField(null=True, blank=True)
     rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
     rev_loc_detail = models.TextField(null=True, blank=True)

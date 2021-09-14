@@ -809,6 +809,19 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
         )
         return context
 
+    def post(self, request, **kwargs):
+        refund = RefundExchange.objects.filter(order_detail=self.kwargs["pk"])
+        farmer_answer = self.request.POST.get("farmer_answer", None)
+        refund.update(farmer_answer=farmer_answer)
+        if "deny" in self.request.POST:
+            refund.update(claim_status="deny")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        elif "approve" in self.request.POST:
+            refund.update(claim_status="approve")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        else:
+            return redirect("core:popup_callback")
+
 
 class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
     """교환 요청 확인 팝업"""
