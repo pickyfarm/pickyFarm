@@ -1,5 +1,5 @@
 {% load humanize %}
-<div class="product_section_wrapper flex">
+<div class="product_section_wrapper flex flex-col">
     <div class="product-list-sheet">
         <div class="product-list-sheet-index grid justify-items-center">
             <div class="product-list-sheet-index-title">상품명</div>
@@ -25,8 +25,9 @@
             <div class="sell-price">{{product.sell_price | intcomma}}</div>
             <div class="event">{{product.is_event | yesno:'○,✕'}}</div>
             <div class="selling-rate">{% widthratio product.sales_rate 1 100 %}%</div>
-            <button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=960')">수정</button>
+            {% if product.status != 'pending' %}<button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=375')">수정</button>{% endif %}
         </div>
         {% endfor %}
     </div>
+    <a class="self-end" id="new-product-update" href='{% url "farmer:farmer_mypage_product_update" %}'>새 상품 등록</a>
 </div>
