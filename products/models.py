@@ -116,14 +116,13 @@ class Product(models.Model):
         self.sales_count = round(self.sales_count, 2)
         super(Product, self).save(*args, **kwargs)
 
-    def sold(self):
-        if self.stock > 0:
-            self.stock -= 1
-            self.sales_count += 1
-            self.save()
-        else:
+    def sold(self, quantity):
+        self.stock -= quantity
+        self.sales_count += quantity
+        if self.stock == 0:
             self.open = False
-            self.save()
+        
+        self.save()
         return
 
     def calculate_sale_rate(self):

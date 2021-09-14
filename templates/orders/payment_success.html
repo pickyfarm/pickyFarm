@@ -22,10 +22,10 @@
                              src="{{order.product.main_image.url}}" />
                     </div>
                     <div class="order-payment-success-information-list-right-section flex">
-                        <div class="order-payment-success-information-name"> {{order.product.farmer.farm_name}} </div>
+                        <div class="order-payment-success-information-name"> {{order.product.title}} </div>
                         <div class="order-payment-success-information-description-wrap flex">
                             <div class="order-payment-success-information-description-left-section">
-                                <div class="order-payment-success-information-description"> {{product.title}} </div>
+                                <div class="order-payment-success-information-description"> {{order.product.farmer.farm_name}} </div>
                             </div>
                             <div class="order-payment-success-information-description-right-section flex">
                                 <div class="order-payment-success-information-description-amount"> {{order.quantity}} </div>
@@ -180,7 +180,7 @@
     </div>
     <div class="order-payment-success-confirm-btn-section flex">
         <a class="order-payment-success-confirm-btn-anchor"
-           href="#">
+           href="{% url 'products:store_list' %}">
             <div class="order-payment-success-confirm-btn transition_element flex"> 확인 </div>
         </a>
     </div>

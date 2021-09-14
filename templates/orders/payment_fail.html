@@ -15,6 +15,7 @@
     </div>
     <div class="fail-sub-content-2">
         <div class="fail-sub-content-ments">
+            <div>* {{errorMsg}}</div>
             <div>* 주문내역과 결제수단을 확인 후 재시도 해보시기 바랍니다.</div>
             <div>
                 * 지속적으로 결제가 이루어지지 않는 경우 고객상담실로 문의
@@ -24,16 +25,16 @@
         </div>
     </div>
     <div class="fail-sub-content-3">
-        <a href="#">
+        <a href="{% url 'users:mypage' 'cart' %}">
             <input
                 id="fail-return-button"
                 class="transition_element"
                 type="button"
-                value="돌아가기"
+                value="확인"
             />
         </a>
     </div>
 </div>
-{{errorMsg}} {% endblock main_content %} {% block mypage_base_script_section %}
+ {% endblock main_content %} {% block mypage_base_script_section %}
 <script></script>
 {% endblock %}
