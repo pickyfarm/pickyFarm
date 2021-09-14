@@ -365,7 +365,7 @@
                            class="mr-2">
                         <input type="radio"
                                name="payment_type"
-                               value="npay"
+                               value="card"
                                id="id_payment_type_2"> 네이버페이
                     </label>
                 </li>
@@ -618,19 +618,15 @@
                 success: function (response) {
                     let enable = response.valid
 
-                    if (enable == false) {
-                        response.invalid_products.forEach(item => {
-                            data.errorMsg += item
-                        })
-                        data.params['errorMsg'] += "재고 부족"
-                    }
-
-                    // 재고 수량 관리 로직 혹은 다른 처리
                     if (enable) {
                         BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
                     } else {
+                        response.invalid_products.forEach(item => {
+                            data.params['errorMsg'] += item
+                        })
+                        data.params['errorMsg'] += " 재고가 부족합니다"
                         BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
-                        window.location.href = `/order/payment/fail?errorType=error_stock&orderGroupPk=${data.params['orderGroupPk']}`;
+                        window.location.href = `/order/payment/fail?errorType=error_stock&orderGroupPk=${data.params['orderGroupPk']}&errorMsg=${data.params['errorMsg']}`;
                     }
                 }
             })

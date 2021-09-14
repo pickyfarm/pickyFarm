@@ -83,7 +83,7 @@
                 </div>
                 <div class='return-mypage-btn-wrap flex'>
                     <div class='return-mypage-btn-img-wrap'>
-                        <img class='return-mypage-btn-img' src="{% static 'images/users/mypage/user/goback_mypage_nohover.svg' %}" alt='goback_mypage_nohover'>
+                        <a href="{% url 'core:popup_callback' %}"><img class='return-mypage-btn-img' src="{% static 'images/users/mypage/user/goback_mypage_nohover.svg' %}" alt='goback_mypage_nohover'></a>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,6 @@
 <script>
     const return_btn = document.querySelector('.return-mypage-btn-wrap');
     const return_img = document.querySelector('.return-mypage-btn-img');
-    const go_back = document.querySelector('.return-mypage-btn-img')
 
     const switchCheckImgHoverIn = function(e){
         return_img.setAttribute('src',"{% static 'images/users/mypage/user/goback_mypage_hover.svg' %}")
@@ -103,9 +102,7 @@
         return_img.setAttribute('src',"{% static 'images/users/mypage/user/goback_mypage_nohover.svg' %}")
     }
 
-    go_back.addEventListener('click',function(){
-        window.close()
-    })
+
 
     return_btn.addEventListener('mouseover',switchCheckImgHoverIn)
     return_btn.addEventListener('mouseleave',switchCheckImgHoverOut)
