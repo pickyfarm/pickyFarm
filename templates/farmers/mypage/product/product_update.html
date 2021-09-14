@@ -7,11 +7,13 @@
 <style>
     #delivery,
     #jeju-delivery,
-    #yearly {
+    #yearly,
+    #normal-yearly {
         display: none;
     }
 
-    #id_farm_cat label::before {
+    label[for="yearly"]::before,
+    label[for="normal-yearly"]::before {
         content: "";
         display: inline-block;
         width: 20px;
@@ -20,7 +22,8 @@
         margin-right: 9px;
     }
 
-    #id_farm_cat label.checked::before {
+    label.checked[for="yearly"]::before,
+    label.checked[for="normal-yearly"]::before {
         content: "";
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
@@ -93,22 +96,21 @@
                 <input type='text' class='product_quantity' name="product-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
 
-            </div>                             
+            </div>
             <div class="flex flex-row mb-5" id="additional-shipping">
-           
+
                 <div class="L-box"></div>
                 <div>
                     <ul id="id_farm_cat">
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
                                 <label for="delivery" class="checked">
-                                    <input type="radio" id="delivery" value="delivery" name="farm_cat">
                                     추가 배송비
                                 </label>
-                                <input type='text' class='product_quantity' name="product-shipping-quantity" required>
+                                <input type='text' class='product_quantity' name="product-shipping-quantity">
                                 <span class='product-quantity-unit'>개</span>
                                 <span class="product-quantity-span">당</span>
-                                <input type='text' class='product_quantity' name="product-shipping-price" required>
+                                <input type='text' class='product_quantity' name="product-shipping-price">
                                 <span class='product-quantity-unit'>원</span>
                                 <span class="product-quantity-span">추가</span>
                             </div>
@@ -116,7 +118,6 @@
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
                                 <label for="jeju-delivery">
-                                    <input type="radio" id="jeju-delivery" value="jeju-delivery" name="farm_cat">
                                     제주/도서 산간 추가 배송비
                                 </label>
                                 <input type='text' class='product_quantity' name="product-jeju-shipping-price" required>
@@ -137,7 +138,7 @@
                 <input type='text' class='product_quantity' name="refund-shipping-fee" required>
                 <span class='product-quantity-unit'>원</span>
 
-            </div>    
+            </div>
             <div class='product-state-update-quantity-wrap flex' id="return-delivery">
 
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(왕복)</span></div>
@@ -161,7 +162,7 @@
                     <ul id="id_farm_cat">
                         <li>
                             <label for="yearly">
-                                <input type="radio" id="yearly" value="yearly" name="yearly-yield">
+                                <input type="checkbox" id="yearly" value="yearly" name="yearly-yield">
                                 연중생산
                             </label>
                         </li>
@@ -239,7 +240,7 @@
                 <input type='text' class='product_quantity' name="normal-product-shipping-fee">
                 <span class='product-quantity-unit'>원</span>
 
-            </div>                             
+            </div>
             <div class="flex flex-row mb-5" id="additional-shipping">
 
                 <div class="L-box"></div>
@@ -283,7 +284,7 @@
                 <input type='text' class='product_quantity' name="normal-refund-shipping-fee">
                 <span class='product-quantity-unit'>원</span>
 
-            </div>    
+            </div>
             <div class='product-state-update-quantity-wrap flex' id="return-delivery">
 
                 <div class='product-theme' id="label">반품 배송비 <span class="title-type">(왕복)</span></div>
@@ -306,8 +307,8 @@
                     </div>
                     <ul id="id_farm_cat">
                         <li>
-                            <label for="yearly">
-                                <input type="radio" id="yearly" value="yearly" name="normal-yearly-yield">
+                            <label for="normal-yearly">
+                                <input type="checkbox" id="normal-yearly" value="normal-yearly" name="normal-yearly-yield">
                                 연중생산
                             </label>
                         </li>
@@ -359,46 +360,5 @@
 
     </div>
 </div>
-<script>
-    $("input:radio[value=delivery]").parent().addClass("checked");
-
-    $("input:radio[name=farm_cat]").on('change', function () {
-        if (this.value == "delivery") {
-            console.log(this.value)
-            $("input:radio[value=delivery]").parent().addClass("checked");
-            $("input:radio[value=jeju-delivery]").parent().removeClass("checked");
-        }
-
-        if (this.value == "jeju-delivery") {
-            $("input:radio[value=jeju-delivery]").parent().addClass("checked");
-            $("input:radio[value=delivery]").parent().removeClass("checked");
-        }
-
-    });
-
-    $("input:radio[value=yearly]").parent().addClass("checked");
-    $("input:radio[name=yearly-yield]").on('click', function () {
-        if ($("input:radio[value=yearly]").parent().hasClass("checked") === true) {
-            $("input:radio[value=yearly]").parent().removeClass("checked");
-        } else {
-            $("input:radio[value=yearly]").parent().addClass("checked");
-        }
-
-    });
-
-    const normal = document.querySelector(".normal-product")
-    const normalBtn = document.querySelector(".normal-product-btn")
-
-    const addTodo = (e) => {
-        normal.style.display = "none";
-        normalBtn.style.display = "none";
-    }
-    normalBtn.addEventListener("click", addTodo);
-
-    // 모바일에서 버튼 이름 변경
-    if (window.matchMedia("(max-width: 768px)").matches){
-        const submitBtn = document.getElementById("submit_btn");
-        submitBtn.value = "확인";
-    }
-</script>
+<script src="{% static 'js/farmers/mypage/product/product_update.js' %}"></script>
 {% endblock %}
