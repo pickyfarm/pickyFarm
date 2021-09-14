@@ -166,3 +166,13 @@
     background-color: #707070;
     color: white;
 }
+
+#new-product-update {
+    width: fit-content;
+    padding: 3px 10px;
+    border-radius: 99px;
+    background-color: #5c6754;
+    color: white;
+    font-size: 15px;
+    margin-top: 22px;
+}

@@ -865,7 +865,7 @@ class FarmerMypageProductUpdatePopup(TemplateView):
                 "jeju_mountain_additional_delivery_fee": int(jeju_delivery_fee)
                 if jeju_delivery_fee
                 else 0,
-                "return_delivery_fee": return_delivery_fee,
+                "refund_delivery_fee": return_delivery_fee,
                 "exchange_delivery_fee": exchange_delivery_fee,
                 "harvest_start_date": harvest_start_date
                 if not is_yearly_yield
@@ -899,7 +899,7 @@ class FarmerMypageProductUpdatePopup(TemplateView):
                     "jeju_mountain_additional_delivery_fee": int(
                         normal_jeju_delivery_fee
                     ),
-                    "return_delivery_fee": int(normal_return_delivery_fee),
+                    "refund_delivery_fee": int(normal_return_delivery_fee),
                     "exchange_delivery_fee": int(normal_exchange_delivery_fee),
                     "harvest_start_date": normal_harvest_start_date
                     if not normal_is_yearly_yield
