@@ -28,7 +28,9 @@
     text-align: left;
     color: #5c6754;
 }
-
+#picky-store{
+    display: none;
+}
 #content_box {
     width: 990px;
 }
