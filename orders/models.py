@@ -99,6 +99,8 @@ class Order_Detail(models.Model):
         return "-".join(name)
 
 
+
+
 class RefundExchange(models.Model):
     TYPE = (
         ("refund", "환불"),
@@ -120,3 +122,5 @@ class RefundExchange(models.Model):
     rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
     rev_loc_detail = models.TextField(null=True, blank=True)
     rev_message = models.TextField(null=True, blank=True)
+
+    refund_exchange_delivery_fee = models.IntegerField(null=True, blank=True)
