@@ -971,7 +971,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         invoice_number = self.request.POST.get("invoice_number", None)
         logis_company = self.request.POST.get("invoice-select")
 
-        order.update(**{"invoice_number": invoice_number})
+        order.update(**{"invoice_number": invoice_number, "status": "shipping"})
 
         return redirect("core:popup_callback")
 
@@ -994,9 +994,9 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["refund"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
-        context["products"] = Product.objects.filter(order_details__pk=self.kwargs["pk"]).order_by(
-            "kinds"
-        )
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
         context["consumer"] = Consumer.objects.get(
             order_groups__order_details__pk=self.kwargs["pk"]
         )
@@ -1034,9 +1034,9 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["exchange"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
-        context["products"] = Product.objects.filter(order_details__pk=self.kwargs["pk"]).order_by(
-            "kinds"
-        )
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
         context["consumer"] = Consumer.objects.get(
             order_groups__order_details__pk=self.kwargs["pk"]
         )
