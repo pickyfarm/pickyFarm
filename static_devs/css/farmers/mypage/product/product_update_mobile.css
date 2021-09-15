@@ -1,6 +1,9 @@
 @import 'base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
+    .main-contents{
+        width: 100%;
+    }
     #content{
         width: 100%;
     }
@@ -450,7 +453,7 @@
     .legal-box{
         flex-direction: column;
         line-height: unset;
-        margin-top: -10rem;
+        margin-top: -5rem;
     }
     .legal-box > .subtitle{
         margin-right: 0;
@@ -499,5 +502,13 @@
         font-weight: 500;
         color: #5c6754;
         margin: 6rem 0;
+    }
+    .legal-sub-box #delivery,
+    .legal-sub-box #jeju-delivery{
+        display: block !important;
+        margin-right: 1rem;
+    }
+    .legal-sub-box li{
+        margin-bottom: 0.8rem;
     }
 }
