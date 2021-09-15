@@ -1,0 +1,16 @@
+{% extends 'farmers/mypage/farmer_mypage_base.html' %}
+{% load static %}
+{% block stylesheet_farmer_mypage %}
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/payment/farmer_mypage_payment.css' %}" />
+{% endblock stylesheet_farmer_mypage %}
+{% block content %}
+{% include 'farmers/mypage/payment/info_section.html' %}
+{% include 'farmers/mypage/payment/payment_list_section.html' %}
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
+<script>
+    document.querySelector('#button-payment-manage').classList.add('active');
+    const DateTime = luxon.DateTime;
+    const CSRFToken = "{{csrf_token}}"
+</script>
+<script src="{% static 'js/farmers/mypage/payment/farmer_mypage_payment.js' %}"></script>
+{% endblock content %}

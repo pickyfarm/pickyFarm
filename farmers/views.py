@@ -526,13 +526,25 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
 
     model = Order_Detail
     context_object_name = "orders"
-    templagte_name = "farmers/mypage/payment/farmer_mypage_payment.html"
+    template_name = "farmers/mypage/payment/farmer_mypage_payment.html"
 
     def get_queryset(self):
-        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+        qs = Order_Detail.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).order_by("create_at")
         status = self.request.GET.get("status", None)
         q = self.request.GET.get("q", None)
         search_key = self.request.GET.get("searchKey", None)
+        start_date = self.request.GET.get("start-date", None)
+        end_date = self.request.GET.get("end-date", None)
+
+        if start_date and end_date:
+            converted_end_date = end_date + " 23:59:59"
+            converted_end_date = datetime.datetime.strptime(
+                converted_end_date, "%Y-%m-%d %H:%M:%S"
+            )
+
+            qs = qs.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
         if status:
             qs = qs.filter(payment_status=status)
@@ -545,6 +557,18 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
                 qs = qs.filter(product__contains=q)
 
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+        context["incoming"] = qs.filter(payment_status="incoming").count()
+        context["progress"] = qs.filter(payment_status="progress").count()
+        context["done"] = qs.filter(payment_status="done").count()
+        context["status"] = self.request.GET.get("status", None)
+        context["q"] = self.request.GET.get("q", None)
+        context["search-key"] = self.request.GET.get("search-key", None)
+
+        return context
 
 
 class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
