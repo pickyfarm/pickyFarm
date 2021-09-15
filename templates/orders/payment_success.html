@@ -121,21 +121,26 @@
                              src="{% static 'images/orders/subscribe_add.svg' %}"
                              alt="subscribe_add" />
                     </div>
-                    <div class="order-payment-success-unsubfarmer-card-farm-name"> {{farmer.farm_name}} </div>
-                    <div class="order-payment-success-unsubfarmer-card-farmer-name"> {{farmer.farmer_name}} </div>
-                    <div class="order-payment-success-unsubfarmer-card-message-text"> {{farmer.farm_thanks_msg}} </div>
-                    <a class="order-payment-success-unsubfarmer-card-farm-link-section-anchor"
-                       href="#">
-                        <div class="order-payment-success-unsubfarmer-card-farm-link-section transition_element flex">
-                            <div class="order-payment-success-unsubfarmer-card-farm-link-title"> 농가 페이지 방문하기 </div>
-                            <a class="order-payment-success-unsubfarmer-card-farm-link-btn"
-                               href="{% url 'farmers:farmer_detail' farmer.pk %}">
-                                <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow"
-                                     src="{% static 'images/orders/arrow.svg' %}"
-                                     alt="arrow" />
-                            </a>
-                        </div>
-                    </a>
+                    <div class="order-payment-success-unsubfarmer-card-photo-section2">
+                        <div class="order-payment-success-unsubfarmer-card-farm-name"> {{farmer.farm_name}} </div>
+                        <div class="order-payment-success-unsubfarmer-card-farmer-name"> {{farmer.farmer_name}} </div>
+                        <div class="order-payment-success-unsubfarmer-card-message-text"> {{farmer.farm_thanks_msg}} </div>
+                        <a class="order-payment-success-unsubfarmer-card-farm-link-section-anchor"
+                        href="#">
+                            <div class="order-payment-success-unsubfarmer-card-farm-link-section transition_element flex">
+                                <div class="order-payment-success-unsubfarmer-card-farm-link-title"> 농가 페이지 방문하기 </div>
+                                <a class="order-payment-success-unsubfarmer-card-farm-link-btn"
+                                href="{% url 'farmers:farmer_detail' farmer.pk %}">
+                                    <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow"
+                                        src="{% static 'images/orders/arrow.svg' %}"
+                                        alt="arrow" />
+                                    <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow-mobile"
+                                        src="{% static 'images/orders/visit_farmer_page.svg' %}"
+                                        alt="visit_farmer_page" />
+                                </a>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -164,21 +169,26 @@
                                  alt="subscribe" />
                         </div>
                     </div>
-                    <div class="order-payment-success-subfarmer-card-farm-name"> {{farmer.farm_name}} </div>
-                    <div class="order-payment-success-subfarmer-card-farmer-name"> {{farmer.farmer_name}} </div>
-                    <div class="order-payment-success-subfarmer-card-message-text"> {{farmer.farm_thanks_msg}} </div>
-                    <a class="order-payment-success-subfarmer-card-farm-link-section-anchor"
-                       href="#">
-                        <a class="order-payment-success-subfarmer-card-farm-link-section flex"
-                           href="{% url 'farmer:farmer_detail' farmer.pk %}">
-                            <div class="order-payment-success-subfarmer-card-farm-link-title"> 농가 페이지 방문하기 </div>
-                            <div class="order-payment-success-subfarmer-card-farm-link-btn">
-                                <img class="order-payment-success-subfarmer-card-farm-link-btn-arrow"
-                                     src="{% static 'images/orders/arrow.svg' %}"
-                                     alt="arrow" />
-                            </div>
+                    <div class="order-payment-success-subfarmer-card-photo-section2">
+                        <div class="order-payment-success-subfarmer-card-farm-name"> {{farmer.farm_name}} </div>
+                        <div class="order-payment-success-subfarmer-card-farmer-name"> {{farmer.farmer_name}} </div>
+                        <div class="order-payment-success-subfarmer-card-message-text"> {{farmer.farm_thanks_msg}} </div>
+                        <a class="order-payment-success-subfarmer-card-farm-link-section-anchor"
+                        href="#">
+                            <a class="order-payment-success-subfarmer-card-farm-link-section flex"
+                            href="{% url 'farmer:farmer_detail' farmer.pk %}">
+                                <div class="order-payment-success-subfarmer-card-farm-link-title"> 농가 페이지 방문하기 </div>
+                                <div class="order-payment-success-subfarmer-card-farm-link-btn">
+                                    <img class="order-payment-success-subfarmer-card-farm-link-btn-arrow"
+                                        src="{% static 'images/orders/arrow.svg' %}"
+                                        alt="arrow" />
+                                    <img class="order-payment-success-subfarmer-card-farm-link-btn-arrow-mobile"
+                                        src="{% static 'images/orders/visit_farmer_page.svg' %}"
+                                        alt="visit_farmer_page" />
+                                </div>
+                            </a>
                         </a>
-                    </a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
