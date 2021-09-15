@@ -25,14 +25,14 @@ textarea {
 }
 
 /* image upload 관련 */
-/* .filebox input[type='file'] {
+.filebox input[type='file'] {
     position: absolute;
     width: 0;
     height: 0;
     padding: 0;
     overflow: hidden;
     border: 0;
-} */
+}
 .filebox label {
     width: 70px;
     height: 25px;
