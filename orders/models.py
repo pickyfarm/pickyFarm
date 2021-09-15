@@ -17,7 +17,7 @@ class Order_Group(models.Model):
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    order_management_number = models.CharField(max_length=20, null=True, blank=True)
+    order_management_number = models.CharField(max_length=100, null=True, blank=True)
     receipt_number = models.CharField(max_length=60, null=True, blank=True)
     rev_address = models.TextField(null=True, blank=True)
     rev_name = models.CharField(max_length=50, null=True, blank=True)
@@ -75,7 +75,7 @@ class Order_Detail(models.Model):
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="incoming"
     )
-    order_management_number = models.CharField(max_length=20, null=True, blank=True)
+    order_management_number = models.CharField(max_length=100, null=True, blank=True)
     invoice_number = models.CharField(max_length=30, null=True, blank=True)
     quantity = models.IntegerField()
     total_price = models.IntegerField()
@@ -89,7 +89,7 @@ class Order_Detail(models.Model):
     )
     order_group = models.ForeignKey(
         Order_Group, related_name="order_details", on_delete=models.SET_NULL, null=True
-    )
+    ) 
 
     def __str__(self):
         name = []
@@ -114,9 +114,13 @@ class RefundExchange(models.Model):
     claim_type = models.CharField(max_length=20, choices=TYPE)
     claim_status = models.CharField(max_length=20, choices=STATUS)
 
-    order_detail = models.ForeignKey("Order_Detail", on_delete=models.PROTECT)
+    order_detail = models.ForeignKey(
+        "Order_Detail", on_delete=models.PROTECT, related_name="refund_exchanges"
+    )
     reason = models.TextField()
     image = CompressedImageField(upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True)
+
+    farmer_answer = models.TextField(null=True, blank=True)
 
     rev_address = models.TextField(null=True, blank=True)
     rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
@@ -124,3 +128,6 @@ class RefundExchange(models.Model):
     rev_message = models.TextField(null=True, blank=True)
 
     refund_exchange_delivery_fee = models.IntegerField(null=True, blank=True)
+
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)

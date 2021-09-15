@@ -72,6 +72,7 @@ def create_order_group_management_number(pk):
     return order_group_management_number
 
 
+# order_detail 주문 관리 번호 생성 function
 def create_order_detail_management_number(pk, farmer_id):
     now = timezone.localtime()
     year = now.year % 100
@@ -140,7 +141,6 @@ def payment_create(request):
 
         # [PROCESS 3] Order_Group 주문 번호 저장 (결제 단위 구별용 - BootPay 전송)
         order_group.order_management_number = order_group_management_number
-        order_group.save()
 
         # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개
         order_detail_cnt = 0
@@ -300,15 +300,8 @@ def payment_update(request, pk):
 
         print(invalid_products)
 
-        # [PROCESS 4] 재고 확인 성공인 경우, 각 상품 재고 차감 / status 변경
+        # [PROCESS 4] 재고 확인 성공인 경우
         if valid is True:
-            for detail in order_details:
-                # order_detail 재고 차감
-                detail.product.stock -= detail.quantity
-                # order_detail status - payment_complete로 변경
-                detail.status = "payment_complete"
-                detail.product.save()
-                detail.save()
 
             # [PROCESS 5] 주문 정보 Order_Group에 등록
             rev_name = request.POST.get("rev_name")
@@ -335,8 +328,7 @@ def payment_update(request, pk):
             order_group.payment_type = payment_type
             order_group.order_at = timezone.now()
 
-            # order_group status - payment complete로 변경
-            order_group.status = "payment_complete"
+            
             order_group.save()
 
             res_data = {
@@ -350,6 +342,11 @@ def payment_update(request, pk):
 
         # 재고 확인 실패의 경우 부족한 재고 상품 리스트 및 valid값 전송
         else:
+            order_group.status = "error_stock"
+            for detail in order_details:
+                detail.status = "error_stock"
+                detail.save()
+            order_group.save()
             print("[valid 값]" + (str)(valid))
             print("[invalid_products]" + (str)(invalid_products))
             res_data = {
@@ -426,11 +423,12 @@ def payment_update(request, pk):
 @transaction.atomic
 def payment_fail(request):
     error_type = str(request.GET.get("errorType", None))
-    order_group_pk = request.GET.get("orderGroupPk", None)
+    # order_group_pk = request.GET.get("orderGroupPk", None)
+    stock_error_msg = request.GET.get("errorMsg", None)
     print(error_type)
 
     if error_type == "error_stock":
-        errorMsg = "재고가 부족합니다"
+        errorMsg = stock_error_msg
     elif error_type == "error_valid":
         errorMsg = "결제 검증에 오류가 있습니다. 다시 시도해주세요"
     elif error_type == "error_server":
@@ -438,19 +436,6 @@ def payment_fail(request):
     else:
         errorMsg = "알 수 없는 오류가 있습니다. 다시 시도해주세요"
 
-    if order_group_pk is not None:
-        order_group = Order_Group.objects.get(pk=order_group_pk)
-        order_group.status = error_type
-        order_details = order_group.order_details.all()
-
-        for detail in order_details:
-            detail.product.stock += detail.quantity
-            print("[detail] - " + detail.product.title + " stock 복구")
-            detail.status = error_type
-            print("[detail] status - " + detail.status + "변경")
-            detail.save()
-
-        order_group.save()
 
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
@@ -483,7 +468,7 @@ def payment_valid(request):
                 unsubscribed_farmers.append(farmer)
 
         order_group.receipt_number = receipt_id
-        order_group.save()
+        
 
         bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
         result = bootpay.get_access_token()
@@ -494,8 +479,20 @@ def payment_valid(request):
             if verify_result["status"] == 200:
                 if (
                     verify_result["data"]["price"] == total_price
-                    and verify_result["data"]["status"] == 1
-                ):
+                    and verify_result["data"]["status"] == 1):
+
+                    for detail in order_details:
+                         # order_detail 재고 차감
+                        detail.product.sold(detail.quantity)
+                        # order_detail status - payment_complete로 변경
+                        detail.status = "payment_complete"
+                        detail.product.save()
+                        detail.save()
+                    
+                    # order_group status - payment complete로 변경
+                    order_group.status = "payment_complete"
+                    order_group.save()
+
                     ctx = {
                         "order_group": order_group,
                         "data": verify_result,
@@ -514,8 +511,18 @@ def payment_valid(request):
             cancel_result = bootpay.cancel(
                 receipt_id, total_price, request.user.nickname, "결제검증 실패로 인한 결제 취소"
             )
-
+        
+            
             if cancel_result["status"] == 200:
+                # order_group status - 에러 검증실패로 변경
+                order_group.status = "error_valid"
+                order_group.save()
+
+                # order_detail status - 에러 검증실패로 변경
+                for detail in order_details:
+                    detail.status = "error_valid"
+                    detail.save()
+
                 ctx = {"cancel_result": cancel_result}
                 return redirect(
                     reverse(
@@ -528,6 +535,12 @@ def payment_valid(request):
                 )
 
             else:
+                order_group.status = "error_server"
+                order_group.save()
+                # order_detail status - 에러 서버로 변경
+                for detail in order_details:
+                    detail.status = "error_server"
+                    detail.save()
                 ctx = {
                     "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
                 }

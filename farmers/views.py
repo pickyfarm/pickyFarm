@@ -27,7 +27,7 @@ from .models import *
 from products.models import Product, Question, Category
 from users.models import Consumer, Subscribe, User
 from editor_reviews.models import Editor_Review
-from orders.models import Order_Detail, Order_Group
+from orders.models import Order_Detail, Order_Group, RefundExchange
 from comments.models import Farmer_Story_Comment, Product_Comment
 from admins.models import FarmerNotice, FarmerNotification
 
@@ -974,6 +974,86 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         order.update(**{"invoice_number": invoice_number})
 
         return redirect("core:popup_callback")
+
+
+class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
+    """반품 요청 확인 팝업"""
+
+    template_name = "farmers/mypage/order/product_refund_request_commit.html"
+    context_object_name = "order_detail"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().product.farmer != self.request.user.farmer:
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["refund"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
+        context["products"] = Product.objects.filter(order_details__pk=self.kwargs["pk"]).order_by(
+            "kinds"
+        )
+        context["consumer"] = Consumer.objects.get(
+            order_groups__order_details__pk=self.kwargs["pk"]
+        )
+        return context
+
+    def post(self, request, **kwargs):
+        refund = RefundExchange.objects.filter(order_detail=self.kwargs["pk"])
+        farmer_answer = self.request.POST.get("farmer_answer", None)
+        refund.update(farmer_answer=farmer_answer)
+        if "deny" in self.request.POST:
+            refund.update(claim_status="deny")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        elif "approve" in self.request.POST:
+            refund.update(claim_status="approve")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        else:
+            return redirect("core:popup_callback")
+
+
+class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
+    """교환 요청 확인 팝업"""
+
+    template_name = "farmers/mypage/order/product_exchange_request_commit.html"
+    context_object_name = "order_detail"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().product.farmer != self.request.user.farmer:
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["exchange"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
+        context["products"] = Product.objects.filter(order_details__pk=self.kwargs["pk"]).order_by(
+            "kinds"
+        )
+        context["consumer"] = Consumer.objects.get(
+            order_groups__order_details__pk=self.kwargs["pk"]
+        )
+        return context
+
+    def post(self, request, **kwargs):
+        exchange = RefundExchange.objects.filter(order_detail=self.kwargs["pk"])
+        farmer_answer = self.request.POST.get("farmer_answer", None)
+        exchange.update(farmer_answer=farmer_answer)
+        if "deny" in self.request.POST:
+            exchange.update(claim_status="deny")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        elif "approve" in self.request.POST:
+            exchange.update(claim_status="approve")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        else:
+            return redirect("core:popup_callback")
 
 
 class FarmerMypagePopupCallback(RedirectView):
