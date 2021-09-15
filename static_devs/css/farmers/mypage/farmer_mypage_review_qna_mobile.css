@@ -1,0 +1,63 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    .main-content.w-content {
+        width: 100%;
+    }
+    #content  {
+        width: 100%;
+        padding: 0 2.5rem;
+    }    
+    .date-filter-content {
+        width: 100%;
+    }
+
+    /* font */
+    #title-question span,
+    .qna-wrapper > div:nth-child(1),
+    .review-wrapper > div:nth-child(1) {
+        font-size: 1.5rem;
+    }
+    #question-table-row-answer--complete,
+    #question-table-row-answer--yet {
+        font-size: 1.4rem;
+    }
+    .date-filter-search-option--category,
+    #question-table-row-title,
+    #review-table-row-answer > div > span {
+        font-size: 1.2rem;
+    }
+    .date-filter-submit {
+        font-size: 1.1rem;
+    }
+    .date-filter-button,
+    #review-table-row-product, 
+    #question-table-row-product,
+    #review-table-row-date, 
+    #question-table-row-date {
+        font-size: 1.0rem;
+    }
+    #review-table-row-report, 
+    #question-table-row-report {
+        font-size: 0.9rem;
+    }
+    .qna-wrapper > div:nth-child(1),
+    .review-wrapper > div:nth-child(1) {
+        font-weight: bold;
+    }
+    #review-table-row-product, 
+    #question-table-row-product,
+    #review-table-row-date, 
+    #question-table-row-date,
+    #review-table-row-report, 
+    #question-table-row-report,
+    #review-table-row-answer > div > span {
+        font-weight: normal;
+    }
+    .date-filter-search-option--category,
+    .qna-wrapper > div:nth-child(1),
+    .review-wrapper > div:nth-child(1) {
+        color: #5c6754;
+    }
+}
