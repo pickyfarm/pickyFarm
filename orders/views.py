@@ -627,18 +627,17 @@ def order_cancel(request, pk):
 
 @login_required
 @transaction.atomic
-def create_change_or_refund(request):
+def create_change_or_refund(request, pk):
     user = request.user
-    order_detail_pk = request.GET.get('order_detail_pk')
     if request.method == "GET":
         user = request.user
-        addresses = user.consumer.addresses
+        addresses = user.addresses.all
         ctx = {
             'addresses' : addresses
         }
         return render(request, "users/mypage/user/product_refund_popup.html", ctx)
     elif request.method == "POST": 
-        order_detail = Order_Detail.objects.select_for_update().filter(pk=order_detail_pk)
+        order_detail = Order_Detail.objects.get(pk=pk)
         
         claim_type = request.POST.get('change_or_refund', None)
         print(claim_type)
@@ -665,8 +664,38 @@ def create_change_or_refund(request):
         refundExchange = RefundExchange(claim_type=claim_type, claim_status="recept", order_detail=order_detail, 
                                         reason=claim_reason, image=image, rev_address=rev_address, rev_loc_at=rev_loc_at)
 
+
+        #주문 일시
+        order_detail_create_at = order_detail.create_at.date().strftime("%Y.%m.%d")
+        #Product 
+        product = order_detail.product
+        #product kinds (무난이, 일반작물)
+        product_kinds = product.kinds
+        #농장 이름
+        order_detail_farm_name = product.farmer.farm_name
+        #product 이름
+        product_title = product.title
+        #product가격
+        product_price = product.sell_price
+        #product weight
+        product_weight = (str)(product.weight) + (str)(product.weight_unit)
+        #order_detail quantity
+        order_detail_quantity = order_detail.quantity
+        
+
+
+
+
         ctx = {
-            "order_detail" : order_detail
+            "order_date" : order_detail_create_at,
+            "farm_name" : order_detail_farm_name,
+            "product_kinds" : product_kinds,
+            "product_title" : product_title,
+            "product_price" : product_price,
+            "product_weight" : product_weight,
+            "order_detail_quantity" : order_detail_quantity,
+
+            "refundExchange" : refundExchange,
         }
         
         farmer_phonenum = order_detail.product.farmer.user.phone_number
@@ -686,12 +715,17 @@ def create_change_or_refund(request):
             "#{quantity}" : kakao_msg_quantity,
             "#{consumer_nickname}" : user.nickname,
             "#{reason}" : claim_reason,
+            "#{link}" : "www.pickyfarm.com" # 임시
         }
 
         if claim_type == "refund":
+            refundExchange.refund_exchange_delivery_fee = product.refund_delivery_fee
+            refundExchange.save()
             send_kakao_message(farmer_phonenum, templateIdList["refund_recept"], args)
             return render(request, "users/mypage/user/product_refund_complete.html", ctx)
         elif claim_type == "exchange":
+            refundExchange.refund_exchange_delivery_fee = product.exchange_delivery_fee
+            refundExchange.save()
             send_kakao_message(farmer_phonenum, templateIdList["exchange_recept"], args)
             return render(request, "users/mypage/user/product_exchange_complete.html", ctx)
         else:

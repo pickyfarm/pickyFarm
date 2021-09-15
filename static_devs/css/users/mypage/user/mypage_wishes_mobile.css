@@ -1,0 +1,205 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    #main {
+        width: 100%;
+        padding: 0 2.5rem;
+    }    
+    #main > div{
+        width: 100%;
+    }
+    #filter-section, 
+    #products-section,
+    #delete_btn {
+        margin-left: 0;
+    }
+    #middle-section,
+    #content {
+        width: 100%;
+    }
+    #content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    /* before add wishes */
+    #before_wish {
+        width: 100%;
+    }
+    #redirect_a{
+        width: 13rem;
+    }
+    #redirect_btn{
+        margin-top: 2rem;
+        font-size: 1.1rem;
+        width: 13rem;
+        height: 2.2rem;
+        text-align: center;
+    }
+    
+    /* items order */
+    #filter-section {
+        order:1;
+    }
+    #products-section {
+        order:3;
+        width: 100%;
+        margin-top: 0;
+    }
+    #controll-section {
+        order:2;
+    }
+    #controll-section2 {
+        width: 100%;
+        order:5;
+    }
+
+    /* mypage base 없어서 일단 숨기기... */
+    #top-section,
+    #menu {
+        display:none
+    }
+
+    /* filter section  */
+    #filter-section {
+        margin-bottom: 0;
+    }
+    #total-select {
+        margin-top: 0.25rem;
+    }
+    #filter-section>div:nth-child(2) {
+        margin-left: 0.85rem;
+        line-height: 1.7rem;
+    }
+    #delete_btn {
+        width: 6rem;
+        height: 2rem;
+        padding: 0.4rem 0.5rem;
+        margin-bottom: 1.1rem;
+        border-radius: 1rem;
+        border: solid 0.1rem #5e6656;
+    }
+
+    /* products section */
+    #select-section {
+        margin-top: 4rem;
+        padding-right: 0.9rem;
+    }
+    #products-section {
+        width: 100%;
+        margin-top: 0;
+    }
+    #product {
+        width: 100%;
+        height: 9.4rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        box-shadow: 0 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);
+        display: grid;
+        grid-template-columns: 8.4rem 1fr;
+        grid-template-areas:
+            'img product'
+            'img btn';
+    }
+    #product_img_section {
+        width: 7.4rem;
+        grid-area: img;
+    }
+    #product_img {
+        height: 7.4rem;
+        margin-right: 0;
+        border-radius: 1.1rem;
+    }
+    #slash {
+        margin: 0 0.8rem;
+        height: 1.2rem;
+    }
+    #product > div:nth-child(2) {
+        width: 100%;
+        margin-top: 0.4rem;
+        grid-area: product;
+    }
+    #product_weight {
+        order: 2;
+    }
+    #product_weight > span {
+        display: none;
+    }
+    #product_price {
+        order: 1;
+        margin-right: 1.15rem;
+    }
+    #cart-button-section {
+        margin-top: 0.4rem;
+        width: 100%;
+        display: grid;
+        justify-content: end;
+    }
+    #see-product-btn {
+        display: none;
+    }
+    #cartIn_btn {
+        width: 7.5rem;
+        height: 2.5rem;
+        border-radius: 1.5rem;
+        margin-top: 0.4rem;
+        padding: 0.5rem;
+    }
+
+    /* control section */
+    #paginator {
+        margin-top: 6rem;
+        width: 100%;
+    }
+    #paginator > a {
+        width: 100%;
+    }
+
+    /* font */
+    #product_title,
+    #product_farm_name {
+        font-size: 1.5rem;
+    }
+    #filter-section>div:nth-child(2),
+    #product_weight,
+    #product_price,
+    #delete_btn {
+        font-size: 1.1rem;
+    }
+    #cartIn_btn {
+        font-size: 1.0rem;
+    }
+    #filter-section>div:nth-child(2),
+    #product_title,
+    #cartIn_btn {
+        font-weight: bold;
+    }
+    #product_farm_name,
+    #product_weight,
+    #product_price,
+    #delete_btn {
+        font-weight:normal
+    }
+    #filter-section>div:nth-child(2) {
+        color: #5e6656;
+    }
+    #product_farm_name {
+        color: #707070;
+    }
+    #product_weight {
+        color: #b3b3b3;
+    }
+    #cartIn_btn {
+        color: #fefffd;
+    }
+    #product_title,
+    #delete_btn {
+        color: var(--dark-sage);
+    }
+    #product_price {
+        color: var(--brown-grey);
+    }
+
+}

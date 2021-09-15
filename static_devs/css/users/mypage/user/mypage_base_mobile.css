@@ -74,8 +74,12 @@
         border: none;
         border-radius: 0;
     }
-    #menu_deliveries,
-    #menu_infos {
+
+    .menu_content:hover{
+        background-color: #fff !important;
+        color: var(--brown-grey) !important;
+    }
+    #menu_deliveries, #menu_infos{
         font-size: 1rem;
         line-height: 1.2;
     }

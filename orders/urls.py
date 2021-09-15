@@ -13,5 +13,5 @@ urlpatterns = [
     path("payment/valid", views.payment_valid, name="payment_valid"),
     path("payment/cancel/<int:pk>", views.order_cancel, name="payment_cancel"),
     # path('payment_fail', views.fail_test, name="fail_test"), 결제취소 창 테스트용 path
-    path("change-refund/", views.create_change_or_refund, name="change_refund")
+    path("change-refund/<int:pk>", views.create_change_or_refund, name="change_refund")
 ]

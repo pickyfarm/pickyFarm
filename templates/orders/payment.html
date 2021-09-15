@@ -257,17 +257,23 @@
                      class="flex flex-row items-center">
                     <div class="w-2/12"><img id="product-img"
                              src="{{p.product.main_image.url}}"></div>
-                    <div class="w-3/12"
-                         id="farm_name">{{p.product.farmer.farm_name}}</div>
-                    <div class="w-3/12"
-                         id="title">{{p.product.title}}</div>
-                    <div id="orders-title">수량: </div>
-                    <div class="w-1/12"
-                         id="orders-num">{{p.order_quantity}}</div>
-                    <div class="w-1/12"
-                         id="weight">{{p.weight}}kg</div>
-                    <div class="w-2/12"
-                         id="sell-price">{{p.order_price}}원</div>
+                    <div class="w-6/12 flex flex-row items-center">
+                        <div class="w-6/12"
+                            id="farm_name">{{p.product.farmer.farm_name}}</div>
+                        <div class="w-6/12"
+                            id="title">{{p.product.title}}</div>
+                    </div>
+                    <div class="w-1/12 flex flex-row items-center">
+                        <div id="orders-title">수량: </div>
+                        <div
+                            id="orders-num">{{p.order_quantity}}</div>
+                    </div>
+                    <div class="w-3/12 flex flex-row items-center">
+                        <div class="w-4/12"
+                            id="weight">{{p.weight}}kg</div>
+                        <div class="w-8/12"
+                            id="sell-price">{{p.order_price}}원</div>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
