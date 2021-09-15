@@ -121,6 +121,27 @@
         margin-left: 1rem;
     }
 
+    /* customer & address section */
+    .order-payment-success-customer-section, 
+    .order-payment-success-customer-address-section, 
+    .order-payment-success-appreciate-message-section {
+        margin-top: 6rem;
+    }
+    .order-payment-success-customer-information-wrap, 
+    .order-payment-success-customer-address-information-wrap {
+        padding: 0 1rem 0;
+    }
+    .order-payment-success-customer-information-name-wrap, 
+    .order-payment-success-customer-address-information-name-wrap,
+    .order-payment-success-customer-information-tel-wrap, 
+    .order-payment-success-customer-address-information-receive-wrap,
+    .order-payment-success-customer-information-email-wrap,
+    .order-payment-success-customer-address-information-etc-wrap {
+        margin-top: 2rem;
+        margin-bottom: 0;
+        align-items: center;
+    }
+
     /* font */
     .order-payment-success-customer-information-name-title, 
     .order-payment-success-customer-information-tel-title, 
@@ -131,6 +152,7 @@
         color: #4d4d4d;
         font-size: 1.1rem;
         font-weight: normal;
+        width: 35%;
     }
     .order-payment-success-customer-information-name, 
     .order-payment-success-customer-address-information-name,
@@ -142,6 +164,13 @@
         font-size: 1.2rem;
         font-weight: bold;
         line-height: 3rem;
+        margin-left: 0;
+    }
+    .order-payment-success-information-title,
+    .order-payment-success-customer-information-title, 
+    .order-payment-success-customer-address-information-title, 
+    .order-payment-success-appreciate-message-title {
+        line-height: 2.4rem;
     }
     .order-payment-success-title, 
     .order-payment-success-amount-number {
