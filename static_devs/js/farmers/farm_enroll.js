@@ -78,6 +78,7 @@ $('#id_farm_news').keyup(function () {
 });
 
 
+
 // step2 page form valid check
 $('#step2_submit').click(function () {
     var categories = document.getElementsByName("farm_cat").length;
@@ -109,4 +110,13 @@ $('#step2_submit').click(function () {
         return;
     }
 
+})
+
+// farmer_mypage_info_update
+$('#update_btn').click(function () {
+    var hashTagList = new Array();
+    $("input[name=farm_tag]").each(function(index, item) {
+        hashTagList.push($(item).val());
+    });
+    $("#hashtag_list").val(hashTagList);
 })
