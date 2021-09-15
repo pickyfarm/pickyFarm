@@ -481,6 +481,8 @@ def payment_valid(request):
                     verify_result["data"]["price"] == total_price
                     and verify_result["data"]["status"] == 1):
 
+                    phone_number_consumer = order_group.consumer.user.phone_number
+
                     for detail in order_details:
                          # order_detail 재고 차감
                         detail.product.sold(detail.quantity)
@@ -488,10 +490,31 @@ def payment_valid(request):
                         detail.status = "payment_complete"
                         detail.product.save()
                         detail.save()
+
+                        kakao_msg_weight = (str)(detail.product.weight * detail.quantity) + detail.product.weight_unit
+                        
+                        farmer_pk = detail.product.farmer.pk
+
+                        args_consumer = {
+                            "#{farm_name}" : detail.product.farmer.farm_name,
+                            "#{order_detail_number}": detail.order_management_number,
+                            "#{order_detail_title}" : detail.product.title,
+                            "#{farmer_nickname}" : detail.product.farmer.user.nickname,
+                            "#{weight}": kakao_msg_weight,
+                            "#{link_1}" : "www.pickyfarm.com", # 임시
+                            "#{link_2}" : "www.pickyfarm.com" # 임시
+                        }
+
+                        send_kakao_message(phone_number_consumer, templateIdList["payment_complete"], args_consumer)
                     
                     # order_group status - payment complete로 변경
                     order_group.status = "payment_complete"
                     order_group.save()
+
+                    #소비자 결제 완료 카카오 알림톡 전송
+                    
+                    
+                    
 
                     ctx = {
                         "order_group": order_group,
