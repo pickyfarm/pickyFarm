@@ -12,13 +12,113 @@
     }
     .order-payment-success-information-border {
         width: 100%;
-        margin: 0.5rem 0;
+        margin: 0.5rem 0 0;
         background-color: #5c6754;
     }
     .order-payment-success-information-list-border-bottom {
         width: 100%;
         background-color: #5e6656;
         height: 0.05rem;
+        margin: 0;
+    }
+
+    /* info section */
+    .order-payment-success-title {
+        margin: 6rem 0;
+    }
+    .order-payment-success-information-lists-wrap {
+        padding: 0;
+    }
+    .order-payment-success-information-list-wrap {
+        margin: 1rem;        
+    }
+    .order-payment-success-information-list {
+        height: 7.2rem;
+        display: grid;
+        grid-template-columns: 9.7rem 1fr;
+        grid-template-areas:
+            'img tag'
+            'img product';
+    }
+    .order-payment-success-information-list-left-section {
+        margin: 0;
+        grid-area: img;
+    }
+    .order-payment-success-information-image {
+        border-radius: 1rem;
+    }
+    .order-payment-success-information-name,
+    .order-payment-success-information-description-bottom-wrap {
+        display: none;
+    }
+    .order-payment-success-information-list-right-section {
+        margin-top: 0.75rem;
+    }
+    .order-payment-success-information-product-tag {
+        display: block;
+        grid-area: tag;
+    }    
+    .ugly_tag {        
+        color: #ffff;
+        background-color: #5c6754;
+        border: solid 0.1rem #5c6754;        
+    }
+    .normal_tag {
+        color: #5c6754;
+        border: solid 0.1rem #5c6754;
+    }
+    .ugly_tag,
+    .normal_tag {
+        border-top-right-radius: 999.9rem;
+        border-bottom-right-radius: 999.9rem;
+        padding: 0.2rem 0.8rem 0.2rem 0.6rem;
+        cursor: pointer;
+        width: fit-content;
+    }
+    .order-payment-success-information-description-wrap {
+        grid-area: product;
+    }    
+    .order-payment-success-information-description-right-section {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    .order-payment-success-information-description {
+        width: 50%;
+        margin-top: 0.4rem;
+    }
+    .order-payment-success-information-description-amount {
+        order:4;
+        padding-left: 1.1rem;
+    }
+    .order-payment-success-information-description-amount > span {
+        display: inline;
+        margin-left: 0.78rem;
+    }
+    .order-payment-success-information-description-weight {
+        order:3;
+        padding-right: 1.1rem;
+        border-right: solid 0.1rem #aaaea6;
+        height: 1.2rem;
+        margin-top: 0.3rem;
+    }
+    .order-payment-success-information-description-price {
+        order: 2;
+        width: 50%;
+        margin-top: 0.4rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .order-payment-success-amount-wrap {
+        margin-top: 2rem;
+        padding: 0;
+    }
+    .order-payment-success-amount-number {
+        margin-left: 2rem;
+    }
+    .order-payment-success-amount-unit {
+        margin-left: 1rem;
     }
 
     /* font */
@@ -48,7 +148,7 @@
         font-size: 1.5rem;
     }
     .order-payment-success-information-title, 
-    .order-payment-success-information-name,
+    .order-payment-success-information-description,
     .order-payment-success-information-description-price,
     .order-payment-success-information-description-weight,
     .order-payment-success-information-description-amount,
@@ -67,16 +167,16 @@
     .order-payment-success-unsubfarmer-card-message-text {
         font-size: 1.1rem;
     }
-    .order-payment-success-information-name,
-    .order-payment-success-information-description-price,
-    .order-payment-success-information-description-weight,
-    .order-payment-success-information-description-amount,
     .order-payment-success-amount-title,
     .order-payment-success-amount-unit,
     .order-payment-success-amount-number,
     .order-payment-success-subfarmer-card-farm-name,
     .order-payment-success-unsubfarmer-card-farm-name {
         line-height: 3rem;
+    }
+    .order-payment-success-information-description,
+    .order-payment-success-information-description-amount {
+        line-height: 2rem;
     }
     .order-payment-success-title {
         line-height: 2.2rem;
@@ -89,7 +189,7 @@
     }
     .order-payment-success-title, 
     .order-payment-success-information-title, 
-    .order-payment-success-information-name,
+    .order-payment-success-information-description,
     .order-payment-success-information-description-price,
     .order-payment-success-amount-number,
     .order-payment-success-customer-information-title, 

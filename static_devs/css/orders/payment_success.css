@@ -56,6 +56,10 @@
     width: 100%;
 }
 
+.order-payment-success-information-product-tag {
+    display: none;
+}
+
 .order-payment-success-information-description-wrap {
     width: 100%;
     justify-content: space-between;
@@ -64,13 +68,18 @@
 .order-payment-success-information-description {
     font-size: 15px;
     color: #707070;
+    width: 65%;
 }
 
 .order-payment-success-information-description-right-section {
-    width: 200px;
+    width: 100%;
     justify-content: space-between;
     color: #707070;
     font-size: 16px;
+}
+
+.order-payment-success-information-description-amount > span {
+    display: none;
 }
 
 .order-payment-success-information-description-bottom-wrap {

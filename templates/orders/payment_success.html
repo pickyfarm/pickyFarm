@@ -25,12 +25,17 @@
                     </div>
                     <div class="order-payment-success-information-list-right-section flex">
                         <div class="order-payment-success-information-name"> {{order.product.farmer.farm_name}} </div>
-                        <div class="order-payment-success-information-description-wrap flex">
-                            <div class="order-payment-success-information-description-left-section">
-                                <div class="order-payment-success-information-description"> {{product.title}} </div>
-                            </div>
+                        <div class="order-payment-success-information-product-tag">
+                            {% if product.kinds == "ugly" %}
+                            <div class="ugly_tag">무난이 작물</div>
+                            {% else %}
+                            <div class="normal_tag">일반 작물</div>
+                            {% endif %}
+                        </div>
+                        <div class="order-payment-success-information-description-wrap flex">                            
                             <div class="order-payment-success-information-description-right-section flex">
-                                <div class="order-payment-success-information-description-amount"> {{order.quantity}} </div>
+                                <div class="order-payment-success-information-description"> {{product.title}} </div>
+                                <div class="order-payment-success-information-description-amount"> {{order.quantity}} <span>(개/박스)</span> </div>
                                 <div class="order-payment-success-information-description-weight"> {% widthratio order.quantity 1 order.product.weight %} {{order.product.weight_unit}} </div>
                                 <div class="order-payment-success-information-description-price"> {{order.total_price|intcomma}}원 </div>
                             </div>
