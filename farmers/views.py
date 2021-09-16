@@ -36,6 +36,7 @@ from .forms import *
 from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
 from users.forms import SignUpForm, LoginForm
 from addresses.forms import AddressForm
+from products.forms import Answer_Form
 
 from config import settings
 
@@ -515,9 +516,9 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
     template_name = "farmers/mypage/payment/farmer_mypage_payment.html"
 
     def get_queryset(self):
-        qs = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("create_at")
+        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "create_at"
+        )
         status = self.request.GET.get("status", None)
         q = self.request.GET.get("q", None)
         search_key = self.request.GET.get("searchKey", None)
@@ -526,9 +527,7 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
 
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             qs = qs.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
@@ -603,6 +602,42 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         return context
 
 
+class FarmerMypageQuestionAnswer(DetailView):
+    """농가 문의 답변 페이지"""
+
+    template_name = "farmers/mypage/farmer_mypage_question_answer.html"
+    context_object_name = "question"
+    model = Question
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().product.farmer != self.request.user.farmer:
+            return redirect("core:main")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        return Question.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["question"] = Question.objects.get(pk=self.kwargs["pk"])
+        context["farmer"] = Farmer.objects.get(pk=self.request.user.farmer.pk)
+        context["answer_form"] = Answer_Form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        answer_form = Answer_Form(self.request.POST, self.request.FILES)
+        if answer_form.is_valid():
+            question = Question.objects.get(pk=self.kwargs["pk"])
+            answer = answer_form.save(commit=False)
+            answer.farmer = self.request.user.farmer
+            answer.question = question
+            question.is_read = True
+            question.status = True
+            question.save()
+            answer.save()
+            return redirect("farmers:farmer_mypage_order")
+
+
 class FarmerMyPageNotificationManage(FarmerMyPageBase):
     """농가 알림 페이지"""
 
@@ -653,7 +688,9 @@ class FarmerMyPageInfoManage(TemplateView):
         return context
 
     def post(self, request, **kwargs):
-        form = FarmEnrollForm(self.request.POST, self.request.FILES, instance=self.request.user.farmer)
+        form = FarmEnrollForm(
+            self.request.POST, self.request.FILES, instance=self.request.user.farmer
+        )
         farm_tags = Farm_Tag.objects.all().filter(farmer=self.request.user.farmer)
         new_tags = self.request.POST.get("farm_tag[]").split(",")
         farm_tags.delete()
