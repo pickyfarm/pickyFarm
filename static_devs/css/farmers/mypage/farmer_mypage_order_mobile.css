@@ -1,0 +1,65 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    .main-content.w-content {
+        width: 100%;
+        padding: 0 2.5rem;
+    }  
+    .order-status-info-section {
+        width: 100%;
+    }
+
+
+    /* font */
+    .section-title {
+        font-size: 1.2rem;
+    }
+    .order-status-title {
+        font-size: 1.2rem;
+        font-weight: normal;
+        color: #6d8060;
+    }
+    .order-status-count {
+        font-size: 1.8rem;
+        font-weight: normal;
+        color: #5c6754;
+    }
+    .search-bar-title {
+        font-size: 1.1rem;
+        font-weight: lighter;
+        color: #6d8060;
+    }
+    .date-filter-button {
+        font-size: 1rem;
+        font-weight: normal;
+        line-height: 1rem;
+    }
+    .date-filter-submit {
+        font-size: 1.1rem;
+        font-weight: normal;
+    }
+    .order-list-sheet-index {
+        font-size: 1rem;
+        font-weight: lighter;
+        color: #5e6656;
+    }
+    .order-status {
+        font-size: 1.4rem;
+        font-weight: bold;
+        line-height: 1.8rem;
+    }
+    .order-list-sheet-data-section div:not(.order-status, .order-info-data, .order-cancelled) {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #5c6754;
+    }
+    .order-info-data {
+        font-size: 1.2rem;
+        font-weight: lighter;
+        color: #5e6656;
+    }
+    .page-num {
+        font-size: 1.2rem;
+    }
+}
