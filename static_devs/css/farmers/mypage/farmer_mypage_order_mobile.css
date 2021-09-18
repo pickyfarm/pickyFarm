@@ -131,6 +131,85 @@
         margin: 0;
     }
 
+    /* order list */
+    #order-list-sheet-index-section {
+        grid-template-columns: 1fr 1.25fr 0.55fr 0.45fr;
+        border-bottom: 1px solid #5e6656;
+        padding-bottom: 1rem;
+    }
+    #order-list-sheet-index-section > span:nth-child(5),
+    #order-list-sheet-index-section > span:nth-child(6) {
+        display: none;
+    }
+    .order-list-sheet-data-section {
+        grid-template-columns: 1fr 1.25fr 0.55fr 0.45fr;
+        grid-template-rows: 6rem 12.5rem 7.5rem;
+        grid-template-areas:
+            'status name unit quantity'
+            'info info info info'
+            'btn btn btn btn';
+        padding: 0 1rem;
+        height: 26rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 0.3rem 0 rgb(0 0 0 / 16%);
+        margin: 1rem 0;
+    }
+    .order-status,
+    .product-name,
+    .package-unit,
+    .order-quantity {
+        /* margin: 2rem 0; */
+        height: 6rem;
+        display: flex;
+        align-items: center;
+    }
+    .order-status {
+        grid-area: status;
+    }
+    .product-name {
+        grid-area: name;
+    }
+    .package-unit {
+        grid-area: unit;
+    }
+    .order-quantity {
+        grid-area: quantity;
+    }
+    .order-info {
+        grid-area: info;
+        grid-template-columns: 1fr 2.25fr;
+        width: 100%;
+        height: 12.5rem;
+        border-top: solid 0.1rem #b3b3b3;
+        padding-top: 2rem;
+        padding-left: 1.35rem;
+        column-gap: 2.27rem;
+        row-gap: 1rem;
+    }
+    .invoice-info {
+        grid-area: btn;
+        /* padding-top: 2.9rem; */
+    }
+    .order-status-action-button {
+        padding-top: 0.2rem;
+    }
+    .order-confirm-overlay {
+        width: 100%;
+        height: 20rem;
+        bottom: 0;
+        background-color: rgba(243, 244, 243, 0.9);
+        grid-column: none;
+    }
+
+    /* pagination */
+    #paginator-wrapper {
+        margin-top: 5rem;
+        margin-bottom: 6rem;
+    }
+    .page-num {
+        margin: 0 1rem;
+    }
+
     /* font */
     .section-title {
         font-size: 1.2rem;
