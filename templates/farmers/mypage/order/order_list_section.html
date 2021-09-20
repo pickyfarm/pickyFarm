@@ -70,7 +70,7 @@
             </div>
             <div class="button order-confirm-button order-cancel flex flex-col items-center justify-center transition_element">
                 <img src="{% static 'images/farmer_mypage/order/decline.svg' %}" alt="decline">
-                <span>주문취소</span>
+                <span onclick="window.open('{% url "farmer:farmer_mypage_order_cancel_popup" order.pk %}', '_blank',  'height=900 width=375')">주문취소</span>
             </div>
             {% endif %}
         </div>
