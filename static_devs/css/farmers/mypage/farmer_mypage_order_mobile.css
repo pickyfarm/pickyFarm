@@ -1,0 +1,264 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    .main-content.w-content {
+        width: 100%;
+        padding: 0 2.5rem;
+    }  
+    .order-status-info-section {
+        width: 100%;
+    }
+
+    /* info section */
+    .info-section-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        align-items: center;
+    }
+    .section-title {
+        margin: 6rem 0 3rem;
+        text-align: center;
+    }
+    .order-status-info-section {
+        margin: 0;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 9rem 9rem 9rem;
+        justify-content: center;
+    }
+    .selected {
+        border: 1px solid #5c6754;
+    }
+    .order-status-circle {
+        width: 7rem;
+        height: 7rem;
+        margin: 0 1rem 1rem;
+    }
+    .search-bar-section {
+        flex-wrap: wrap;
+        margin-bottom: 5rem;
+    }
+    .search-bar-wrapper {
+        width: 100%;
+        height: 2.5rem;
+        margin: 6rem 0 2rem;
+    }
+    .search-bar-title {
+        margin-left: 2.55rem;
+        margin-right: 2.25rem;
+        min-width: 5.4rem;
+    }
+    #arrow {
+        display: block;
+        fill: #707070;
+        width: 0.84rem;
+        height: 0.84rem;
+        transform: rotate(90deg);
+    }
+    .bar {
+        height: 1.6rem;
+    }
+    #order-search {
+        width: 50%;
+    }
+    #search-button {
+        width: 1.35rem;
+        height: 1.35rem;
+        background-size: 1.35rem 1.35rem;
+        margin-right: 1.3rem;
+        margin: auto 1.3rem auto 0;
+    }    
+    .date-filter-form {
+        flex-wrap: wrap;
+        align-items: baseline;
+        align-items: flex-start;
+        margin-bottom: 0;
+    }
+    .date-filter-button{
+        width: fit-content;
+        height: 2rem;
+        padding: 0.25rem 1rem;
+        border: solid 0.1rem #707070;
+        margin-right: 1rem;
+        align-items: center;
+        line-height: inherit;
+        margin-bottom: 1rem;
+    }
+    .date-input {
+        width: 10.1rem;
+        padding-left: 0;
+        display: flex;
+        align-content: stretch;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    input[type="date"] {
+        position: relative;
+    }     
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        color: transparent;
+        background: none;
+        z-index: 1;
+    }    
+    input[type="date"]:before {
+        color: transparent;
+        background: none;
+        display: block;
+        content: '▼';
+        position: absolute;
+        right: 1rem;
+        color: #5c6754;
+    }
+    #recent-one-month,
+    #recent-three-month {
+        margin-right: 1rem;
+    }
+    #line_enter {
+        flex-basis: 100%;
+    }
+    #end-date {
+        margin-left: 1rem;
+        margin-right: 2rem;
+    }
+    #start-date::after {
+        margin-bottom: 1rem;
+    }
+    .date-filter-submit {
+        width: 3.54rem;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* order list */
+    #order-list-sheet-index-section {
+        grid-template-columns: 1fr 1.25fr 0.55fr 0.45fr;
+        border-bottom: 1px solid #5e6656;
+        padding-bottom: 1rem;
+    }
+    #order-list-sheet-index-section > span:nth-child(5),
+    #order-list-sheet-index-section > span:nth-child(6) {
+        display: none;
+    }
+    .order-list-sheet-data-section {
+        grid-template-columns: 1fr 1.25fr 0.55fr 0.45fr;
+        grid-template-rows: 6rem 12.5rem 7.5rem;
+        grid-template-areas:
+            'status name unit quantity'
+            'info info info info'
+            'btn btn btn btn';
+        padding: 0 1rem;
+        height: 26rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 0.3rem 0 rgb(0 0 0 / 16%);
+        margin: 1rem 0;
+    }
+    .order-status,
+    .product-name,
+    .package-unit,
+    .order-quantity {
+        /* margin: 2rem 0; */
+        height: 6rem;
+        display: flex;
+        align-items: center;
+    }
+    .order-status {
+        grid-area: status;
+    }
+    .product-name {
+        grid-area: name;
+    }
+    .package-unit {
+        grid-area: unit;
+    }
+    .order-quantity {
+        grid-area: quantity;
+    }
+    .order-info {
+        grid-area: info;
+        grid-template-columns: 1fr 2.25fr;
+        width: 100%;
+        height: 12.5rem;
+        border-top: solid 0.1rem #b3b3b3;
+        padding-top: 2rem;
+        padding-left: 1.35rem;
+        column-gap: 2.27rem;
+        row-gap: 1rem;
+    }
+    .invoice-info {
+        grid-area: btn;
+        /* padding-top: 2.9rem; */
+    }
+    .order-status-action-button {
+        padding-top: 0.2rem;
+    }
+    .order-confirm-overlay {
+        width: 100%;
+        height: 20rem;
+        bottom: 0;
+        background-color: rgba(243, 244, 243, 0.9);
+        grid-column: none;
+    }
+
+    /* pagination */
+    #paginator-wrapper {
+        margin-top: 5rem;
+        margin-bottom: 6rem;
+    }
+    .page-num {
+        margin: 0 1rem;
+    }
+
+    /* font */
+    .section-title {
+        font-size: 1.2rem;
+    }
+    .order-status-title {
+        font-size: 1.2rem;
+        font-weight: normal;
+        color: #6d8060;
+    }
+    .order-status-count {
+        font-size: 1.8rem;
+        font-weight: normal;
+        color: #5c6754;
+    }
+    .search-bar-title {
+        font-size: 1.1rem;
+        font-weight: lighter;
+        color: #6d8060;
+    }
+    .date-filter-button {
+        font-size: 1rem;
+        font-weight: normal;
+        line-height: 1rem;
+    }
+    .date-filter-submit {
+        font-size: 1.1rem;
+        font-weight: normal;
+    }
+    .order-list-sheet-index {
+        font-size: 1rem;
+        font-weight: lighter;
+        color: #5e6656;
+    }
+    .order-status {
+        font-size: 1.4rem;
+        font-weight: bold;
+        line-height: 1.8rem;
+    }
+    .order-list-sheet-data-section div:not(.order-status, .order-info-data, .order-cancelled) {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #5c6754;
+    }
+    .order-info-data {
+        font-size: 1.2rem;
+        font-weight: lighter;
+        color: #5e6656;
+    }
+    .page-num {
+        font-size: 1.2rem;
+    }
+}

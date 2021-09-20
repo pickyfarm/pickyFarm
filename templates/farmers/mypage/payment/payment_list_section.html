@@ -1,0 +1,25 @@
+{% load humanize %}
+<div class="payment_section_wrapper flex flex-col">
+    <div class="payment-list-sheet">
+        <div class="payment-list-sheet-index grid justify-items-center">
+            <div class="payment-list-sheet-index-title">정산상태</div>
+            <div class="payment-list-sheet-index-title">주문번호</div>
+            <div class="payment-list-sheet-index-title">상품명</div>
+            <div class="payment-list-sheet-index-title">수량</div>
+            <div class="payment-list-sheet-index-title">결제금액</div>
+            <div class="payment-list-sheet-index-title">수수료</div>
+            <div class="payment-list-sheet-index-title">정산계좌</div>
+        </div>
+        {% for order in orders %}
+        <div class="payment-list-sheet-rows grid">
+            <div class="payment-status {% if order.payment_status == 'done' %} completed-payment {% endif %}">{{order.get_payment_status_display}}</div>
+            <div class="order-number">{{order.order_management_number}}</div>
+            <div class="sheet-data-text product-name">{{order.product.title}}</div>
+            <div class="sheet-data-text order-quantity">{{order.quantity}}</div>
+            <div class="sheet-data-text order-total-price">{{order.total_price | intcomma}}</div>
+            <div class="sheet-data-text commission">면제</div>
+            <div class="sheet-data-text account">account-account</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

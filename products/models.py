@@ -56,7 +56,8 @@ class Product(models.Model):
     additional_delivery_fee = models.IntegerField(default=0, help_text="추가 배송비")
     jeju_mountain_additional_delivery_fee = models.IntegerField(default=0, help_text="제주/사간 추가 배송비")
 
-    return_delivery_fee = models.IntegerField(default=0, help_text="반품 배송비(편도)")
+    # 반품/교환 배송비
+    refund_delivery_fee = models.IntegerField(default=0, help_text="반품 배송비(편도)")
     exchange_delivery_fee = models.IntegerField(default=0, help_text="교환 배송비(왕복)")
 
     desc_image = CompressedImageField(
@@ -92,8 +93,10 @@ class Product(models.Model):
     cost_performance_5 = models.IntegerField(default=0)
 
     # 상품 상세 정보 관련
-    harvest_start_date = models.DateField(default=timezone.now, help_text="제조일(수확일) start")
-    harvest_end_date = models.DateField(default=timezone.now, help_text="제조일(수확일) end")
+    harvest_start_date = models.DateField(
+        default=timezone.now, help_text="제조일(수확일) start", null=True
+    )
+    harvest_end_date = models.DateField(default=timezone.now, help_text="제조일(수확일) end", null=True)
     shelf_life_date = models.CharField(
         max_length=200, blank=True, null=True, help_text="유통기한 또는 품질보증기한"
     )
@@ -115,14 +118,13 @@ class Product(models.Model):
         self.sales_count = round(self.sales_count, 2)
         super(Product, self).save(*args, **kwargs)
 
-    def sold(self):
-        if self.stock > 0:
-            self.stock -= 1
-            self.sales_count += 1
-            self.save()
-        else:
+    def sold(self, quantity):
+        self.stock -= quantity
+        self.sales_count += quantity
+        if self.stock == 0:
             self.open = False
-            self.save()
+
+        self.save()
         return
 
     def calculate_sale_rate(self):
@@ -265,7 +267,7 @@ class Answer(models.Model):
     farmer = models.ForeignKey("farmers.Farmer", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.question.__str__().join("에 대한 답변")
+        return f"'{self.question}' 에 대한 답변"
 
 
 def get_delete_product():

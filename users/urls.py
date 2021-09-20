@@ -17,7 +17,9 @@ urlpatterns = [
         views.terms_of_service_popup,
         name="signup_terms_of_service",
     ),
-    path("signup/personal_info", views.personal_info_popup, name="signup_personal_info"),
+    path(
+        "signup/personal_info", views.personal_info_popup, name="signup_personal_info"
+    ),
     path("signup/id_validation/", views.idValidation, name="id_validation"),
     path(
         "signup/nickname_validation/",
@@ -64,8 +66,12 @@ urlpatterns = [
         name="editor_mypage_info",
     ),
     path("find_my_id/", views.FindMyIdView.as_view(), name="find_my_id"),
-    path("find_my_id/complete", views.FindMyIdView.as_view(), name="find_my_id_complete"),
-    path("find_my_id/failed", views.FindMyIdFailView.as_view(), name="find_my_id_failed"),
+    path(
+        "find_my_id/complete", views.FindMyIdView.as_view(), name="find_my_id_complete"
+    ),
+    path(
+        "find_my_id/failed", views.FindMyIdFailView.as_view(), name="find_my_id_failed"
+    ),
     path("cartIn/", views.CartInAjax, name="cartInAjax"),
     path("cartOut/", views.cartOutAjax, name="cartOutAjax"),
     path("subs/", views.subs, name="subs"),
@@ -77,11 +83,6 @@ urlpatterns = [
     path("test/", views.testview, name="testview"),
     path("product_refund_test/", views.product_refund, name="product_refund"),
     # mypage popups
-    path(
-        "mypage/orders/cancel/<int:pk>",
-        views.OrderCancelPopup.as_view(),
-        name="mypage_order_cancel_popup",
-    ),
     path(
         "mypage/orders/<int:orderpk>/review/create/",
         views.ProductCommentCreate.as_view(),
