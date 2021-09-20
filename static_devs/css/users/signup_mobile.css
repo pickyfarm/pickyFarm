@@ -8,6 +8,7 @@
 
     #signup_form{
         width: 100%;
+        margin-top: 0;
     }
     #signup-title{
         margin-top: 6rem;
