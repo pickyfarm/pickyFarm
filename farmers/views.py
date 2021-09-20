@@ -3,7 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views import View
-from django.views.generic import DetailView, ListView, TemplateView, RedirectView
+from django.views.generic import (
+    DetailView,
+    ListView,
+    TemplateView,
+    RedirectView,
+    FormView,
+)
 from django.core import exceptions
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
@@ -18,10 +24,10 @@ import json
 
 # models
 from .models import *
-from products.models import Product, Question
+from products.models import Product, Question, Category
 from users.models import Consumer, Subscribe, User
 from editor_reviews.models import Editor_Review
-from orders.models import Order_Detail, Order_Group
+from orders.models import Order_Detail, Order_Group, RefundExchange
 from comments.models import Farmer_Story_Comment, Product_Comment
 from admins.models import FarmerNotice, FarmerNotification
 
@@ -30,6 +36,7 @@ from .forms import *
 from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
 from users.forms import SignUpForm, LoginForm
 from addresses.forms import AddressForm
+from products.forms import Answer_Form
 
 from config import settings
 
@@ -506,13 +513,23 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
 
     model = Order_Detail
     context_object_name = "orders"
-    templagte_name = "farmers/mypage/payment/farmer_mypage_payment.html"
+    template_name = "farmers/mypage/payment/farmer_mypage_payment.html"
 
     def get_queryset(self):
-        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "create_at"
+        )
         status = self.request.GET.get("status", None)
         q = self.request.GET.get("q", None)
         search_key = self.request.GET.get("searchKey", None)
+        start_date = self.request.GET.get("start-date", None)
+        end_date = self.request.GET.get("end-date", None)
+
+        if start_date and end_date:
+            converted_end_date = end_date + " 23:59:59"
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+
+            qs = qs.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
         if status:
             qs = qs.filter(payment_status=status)
@@ -525,6 +542,18 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
                 qs = qs.filter(product__contains=q)
 
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+        context["incoming"] = qs.filter(payment_status="incoming").count()
+        context["progress"] = qs.filter(payment_status="progress").count()
+        context["done"] = qs.filter(payment_status="done").count()
+        context["status"] = self.request.GET.get("status", None)
+        context["q"] = self.request.GET.get("q", None)
+        context["search-key"] = self.request.GET.get("search-key", None)
+
+        return context
 
 
 class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
@@ -573,6 +602,42 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         return context
 
 
+class FarmerMypageQuestionAnswer(DetailView):
+    """농가 문의 답변 페이지"""
+
+    template_name = "farmers/mypage/farmer_mypage_question_answer.html"
+    context_object_name = "question"
+    model = Question
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().product.farmer != self.request.user.farmer:
+            return redirect("core:main")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        return Question.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["question"] = Question.objects.get(pk=self.kwargs["pk"])
+        context["farmer"] = Farmer.objects.get(pk=self.request.user.farmer.pk)
+        context["answer_form"] = Answer_Form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        answer_form = Answer_Form(self.request.POST, self.request.FILES)
+        if answer_form.is_valid():
+            question = Question.objects.get(pk=self.kwargs["pk"])
+            answer = answer_form.save(commit=False)
+            answer.farmer = self.request.user.farmer
+            answer.question = question
+            question.is_read = True
+            question.status = True
+            question.save()
+            answer.save()
+            return redirect("farmers:farmer_mypage_order")
+
+
 class FarmerMyPageNotificationManage(FarmerMyPageBase):
     """농가 알림 페이지"""
 
@@ -603,29 +668,43 @@ class FarmerMyPageNotificationManage(FarmerMyPageBase):
         return context
 
 
-class FarmerMyPageInfoManage(FarmerMyPageBase):
+class FarmerMyPageInfoManage(TemplateView):
     """농가 정보 수정 페이지"""
 
-    model = Farmer
     template_name = "farmers/mypage/farmer_mypage_info_update.html"
 
-    def render_to_response(self, context, **response_kwargs):
-        response = super().render_to_response(context, **response_kwargs)
-        if self.request.user != AnonymousUser():
-            try:
-                farmer = self.request.user.farmer
-                if self.request.method == "POST":
-                    farm_form = FarmEnrollForm(
-                        self.request.POST, self.request.FILES, instance=farmer
-                    )
-                elif self.request.method == "GET":
-                    farm_form = FarmEnrollForm(instance=farmer)
-            except ObjectDoesNotExist:
-                return redirect(reverse("core:main"))
+    def dispatch(self, request, *args, **kwargs):
+        if Farmer.objects.filter(user=request.user).exists():
+            return super().dispatch(request, *args, **kwargs)
         else:
-            return redirect(reverse("core:main"))
+            return redirect("core:main")
 
-        return response
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["farmer"] = self.request.user.farmer
+        context["farm_form"] = FarmEnrollForm(instance=self.request.user.farmer)
+        context["tags"] = Farm_Tag.objects.all().filter(farmer=self.request.user.farmer)
+
+        return context
+
+    def post(self, request, **kwargs):
+        form = FarmEnrollForm(
+            self.request.POST, self.request.FILES, instance=self.request.user.farmer
+        )
+        farm_tags = Farm_Tag.objects.all().filter(farmer=self.request.user.farmer)
+        new_tags = self.request.POST.get("farm_tag[]").split(",")
+        farm_tags.delete()
+        if form.is_valid():
+            form.save(commit=False)
+            for tag in new_tags:
+                if tag != "":
+                    farm_tag = Farm_Tag.objects.get_or_create(tag=tag)[0]
+                    farm_tag.farmer.add(self.request.user.farmer)
+            form.save()
+
+            return redirect("farmers:farmer_mypage_order")
+        else:
+            return redirect("core:main")
 
 
 def farm_news_update(request):
@@ -715,6 +794,40 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
         return super().render_to_response(ctx, **kwargs)
 
 
+class FarmerMypageOrderCancelPopup(DetailView):
+    """주문 취소 팝업"""
+
+    model = Order_Detail
+    template_name = "farmers/mypage/order/order_cancel_popup.html"
+    context_object_name = "order"
+
+    def dispatch(self, request, *args, **kwargs):
+        if (
+            self.get_object().status != "payment_complete"
+            or self.get_object().order_group.consumer != self.request.user.consumer
+        ):
+            return redirect("core:popup_callback")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+        return context
+
+    def post(self, request, **kwargs):
+        order = self.get_object()
+        cancel_reason = request.POST.get("cancel_reason", None)
+
+        order.cancel_reason = cancel_reason
+        order.status = "cancel"
+        order.save()
+
+        return redirect("core:popup_callback")
+
+
 class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
     """상품 상태 수정 팝업"""
 
@@ -751,6 +864,131 @@ class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
         return redirect("core:popup_callback")
 
 
+class FarmerMypageProductUpdatePopup(TemplateView):
+    """상품 등록 팝업"""
+
+    def dispatch(self, request, *args, **kwargs):
+        if Farmer.objects.filter(user=request.user).exists():
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect("core:main")
+
+    def post(self, request, **kwargs):
+        farm_news = request.POST.get("farm-news", None)
+        title = request.POST.get("name", None)
+        sub_title = request.POST.get("subname", None)
+        weight = float(request.POST.get("product-weight", None))
+        weight_unit = request.POST.get("weights", "kg")
+        stock = int(request.POST.get("products", None))
+        sell_price = int(request.POST.get("product-price", None))
+        delivery_fee = int(request.POST.get("product-shipping-fee", None))
+        additional_delivery_fee = request.POST.get("product-shipping-quantity", 0)
+        additional_delivery_fee_unit = request.POST.get("product-shipping-price", 0)
+        jeju_delivery_fee = request.POST.get("jeju-delivery", 0)
+        return_delivery_fee = int(request.POST.get("refund-shipping-fee", None))
+        exchange_delivery_fee = int(request.POST.get("double-refund-shipping-fee", None))
+        is_yearly_yield = request.POST.get("yearly-yield", False)
+        harvest_start_date = request.POST.get("harvest-start-date", None)
+        harvest_end_date = request.POST.get("harvest-end-date", None)
+        storage_method = request.POST.get("etc-save-product-textarea", None)
+        shelf_life_date = request.POST.get("etc-expire-input", None)
+
+        normal_title = request.POST.get("noarmal-name", None)
+        normal_sub_title = request.POST.get("noarmal-subname", None)
+        normal_weight = request.POST.get("noarmal-product-weight", None)
+        normal_weight_unit = request.POST.get("noarmal-weights", "kg")
+        normal_stock = request.POST.get("noarmal-products", None)
+        normal_sell_price = request.POST.get("noarmal-product-price", None)
+        normal_delivery_fee = request.POST.get("noarmal-product-shipping-fee", None)
+        normal_additional_delivery_fee = request.POST.get("noarmal-product-shipping-quantity", None)
+        normal_additional_delivery_fee_unit = request.POST.get(
+            "noarmal-product-shipping-price", None
+        )
+        normal_jeju_delivery_fee = request.POST.get("normal-jeju-delivery", None)
+        normal_return_delivery_fee = request.POST.get("normal-refund-shipping-fee", None)
+        normal_exchange_delivery_fee = request.POST.get("normal-double-refund-shipping-fee", None)
+        normal_is_yearly_yield = (request.POST.get("normal-yearly-yield", False),)
+        normal_harvest_start_date = request.POST.get("normal-harvest-start-date", None)
+        normal_harvest_end_date = request.POST.get("normal-harvest-end-date", None)
+        normal_shelf_life_date = request.POST.get("normal-etc-expire-input", None)
+        normal_storage_method = request.POST.get("normal-etc-save-product-textarea", None)
+
+        farmer = Farmer.objects.get(user=request.user)
+
+        if farm_news:
+            farmer.farm_news = farm_news
+            farmer.save()
+
+        new_ugly = Product()
+        new_ugly = Product.objects.create(
+            **{
+                "farmer": farmer,
+                "kinds": "ugly",
+                "status": "pending",
+                "category": Category.objects.get(name=farmer.get_farm_cat_display()),
+                "title": title,
+                "sub_title": sub_title,
+                "weight": weight,
+                "weight_unit": weight_unit,
+                "stock": stock,
+                "sell_price": sell_price,
+                "default_delivery_fee": delivery_fee,
+                "additional_delivery_fee": int(additional_delivery_fee)
+                if additional_delivery_fee
+                else 0,
+                "additional_delivery_fee_unit": int(additional_delivery_fee_unit)
+                if additional_delivery_fee_unit
+                else 0,
+                "jeju_mountain_additional_delivery_fee": int(jeju_delivery_fee)
+                if jeju_delivery_fee
+                else 0,
+                "refund_delivery_fee": return_delivery_fee,
+                "exchange_delivery_fee": exchange_delivery_fee,
+                "harvest_start_date": harvest_start_date if not is_yearly_yield else None,
+                "harvest_end_date": harvest_end_date if not is_yearly_yield else None,
+                "storage_method": storage_method,
+                "shelf_life_date": shelf_life_date,
+            }
+        )
+
+        if normal_stock:
+            new_normal = Product.objects.create(
+                **{
+                    "farmer": farmer,
+                    "kinds": "normal",
+                    "status": "pending",
+                    "category": Category.objects.get(name=farmer.get_farm_cat_display()),
+                    "title": normal_title,
+                    "sub_title": normal_sub_title,
+                    "weight": float(normal_weight),
+                    "weight_unit": normal_weight_unit,
+                    "stock": int(normal_stock),
+                    "sell_price": int(normal_sell_price),
+                    "default_delivery_fee": int(normal_delivery_fee),
+                    "additional_delivery_fee": int(normal_additional_delivery_fee),
+                    "additional_delivery_fee_unit": int(normal_additional_delivery_fee_unit),
+                    "jeju_mountain_additional_delivery_fee": int(normal_jeju_delivery_fee),
+                    "refund_delivery_fee": int(normal_return_delivery_fee),
+                    "exchange_delivery_fee": int(normal_exchange_delivery_fee),
+                    "harvest_start_date": normal_harvest_start_date
+                    if not normal_is_yearly_yield
+                    else None,
+                    "harvest_end_date": normal_harvest_end_date
+                    if not normal_is_yearly_yield
+                    else None,
+                    "storage_method": normal_storage_method,
+                    "shelf_life_date": normal_shelf_life_date,
+                }
+            )
+
+            new_ugly.related_product = new_normal
+            new_ugly.save()
+
+        return redirect("farmers:farmer_mypage_product")
+
+    template_name = "farmers/mypage/product/product_update.html"
+
+
 class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
     """주문 송장입력 팝업"""
 
@@ -778,9 +1016,89 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         invoice_number = self.request.POST.get("invoice_number", None)
         logis_company = self.request.POST.get("invoice-select")
 
-        order.update(**{"invoice_number": invoice_number})
+        order.update(**{"invoice_number": invoice_number, "status": "shipping"})
 
         return redirect("core:popup_callback")
+
+
+class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
+    """반품 요청 확인 팝업"""
+
+    template_name = "farmers/mypage/order/product_refund_request_commit.html"
+    context_object_name = "order_detail"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().product.farmer != self.request.user.farmer:
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["refund"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+        context["consumer"] = Consumer.objects.get(
+            order_groups__order_details__pk=self.kwargs["pk"]
+        )
+        return context
+
+    def post(self, request, **kwargs):
+        refund = RefundExchange.objects.filter(order_detail=self.kwargs["pk"])
+        farmer_answer = self.request.POST.get("farmer_answer", None)
+        refund.update(farmer_answer=farmer_answer)
+        if "deny" in self.request.POST:
+            refund.update(claim_status="deny")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        elif "approve" in self.request.POST:
+            refund.update(claim_status="approve")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        else:
+            return redirect("core:popup_callback")
+
+
+class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
+    """교환 요청 확인 팝업"""
+
+    template_name = "farmers/mypage/order/product_exchange_request_commit.html"
+    context_object_name = "order_detail"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().product.farmer != self.request.user.farmer:
+            return redirect("core:main")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
+        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["exchange"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+        context["consumer"] = Consumer.objects.get(
+            order_groups__order_details__pk=self.kwargs["pk"]
+        )
+        return context
+
+    def post(self, request, **kwargs):
+        exchange = RefundExchange.objects.filter(order_detail=self.kwargs["pk"])
+        farmer_answer = self.request.POST.get("farmer_answer", None)
+        exchange.update(farmer_answer=farmer_answer)
+        if "deny" in self.request.POST:
+            exchange.update(claim_status="deny")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        elif "approve" in self.request.POST:
+            exchange.update(claim_status="approve")
+            return redirect("core:popup_callback")  # 추후 redirect 수정
+        else:
+            return redirect("core:popup_callback")
 
 
 class FarmerMypagePopupCallback(RedirectView):

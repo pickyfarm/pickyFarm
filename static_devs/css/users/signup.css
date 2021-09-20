@@ -1,3 +1,26 @@
+/* 모바일에서만 보임 */
+#required-input-text, #mobile-dot, #mobile-search-btn{
+    display: none;
+}
+#gender-label, #birth-label{
+    text-align: left;
+    grid-column: 1;
+}
+#username-form,
+#email-form,
+#phone-form,
+#address-form,
+#nickname-form{
+    display: grid;
+    grid-template-columns: 300px auto;
+}
+.validation-input-form{
+    text-align: left;
+}
+.valid-button{
+    grid-column: 2;
+}
+
 input:focus {
     outline: none;
 }
@@ -24,7 +47,8 @@ input:focus {
 }
 
 .input_forms {
-    grid-template-columns: 200px 300px auto;
+    grid-template-columns: 200px auto;
+    justify-content: flex-start;
     row-gap: 40px;
     margin-bottom: 50px;
     margin-top: 50px;
@@ -114,6 +138,11 @@ input:focus {
 
 .gender-selection li:nth-child(1) {
     margin-right: 75px !important;
+}
+
+#id_auth_number,
+#auth-number-check {
+    display: none;
 }
 
 .valid-button:not(#phone-number-check) {
@@ -224,3 +253,4 @@ label.opt::after {
     font-weight: 500;
     color: #5c6754;
 }
+

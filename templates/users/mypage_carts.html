@@ -3,6 +3,7 @@
 
 {% block stylesheet_detail %}
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_carts.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_carts_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
 {% block content %}
@@ -75,6 +76,7 @@
     </div>
 </div>
 
+<div class="line"></div>
 <div id="order-section" class="flex flex-row">
     <div class="flex flex-row w-1/2 justify-start">
         <a href="{% url 'products:store_list' %}">
@@ -108,6 +110,11 @@
         "color" : "white",
     })
 
+    // 모바일에서 메뉴 선택
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        document.getElementById('menu_carts').classList.add('selected');
+        document.getElementById('selected_line').style.gridArea= "line3";
+    }
 
     menuBtns.forEach(item=>{
         item.addEventListener('mouseover', function(){

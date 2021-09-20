@@ -1,16 +1,16 @@
 {% load static %}
 
-<div class="footer flex justify-between  w-header mx-auto mt-auto pt-32 pb-24">
+<div class="footer flex justify-between  w-header mx-auto mt-auto pt-32 pb-24 footer-pc">
     <div class="flex">
         <div class="contacts flex flex-col justify-between">
             <div>
                 <div class="text-md">고객 센터</div>
-                <div class=" text-4xl">1644-0000</div>
+                <div class=" text-4xl">010-3368-8026</div>
             </div>
             <div class="flex">
                 <div class="kakao"><img src="{% static 'images/kakao.svg' %}" class="w-16" alt=""></div>
                 <div class="flex flex-col self-center mx-6">
-                    <div class="text-xs font-medium">카카오톡 문의</div>
+                    <div class="text-xs font-medium">플러스 친구 "피키팜 Picky Farm"</div>
                     <div class="text-md font-extralight text-gray-500">오전 9시 ~ 오후 6시</div>
                 </div>
             </div>
@@ -22,8 +22,12 @@
                 </div>
             </div>
         </div>
-        <div class="delivery_info_image flex mx-16">
-            <img src="{% static 'images/tempdelimg.svg' %}" class="w-60 self-center" alt="">
+        <div class="delivery_info_image flex flex-col justify-between" style="width: 280px;">
+            <span>상품에 대하여 배송, 교환, 반품, 민원 AS 등 피키팜 Picky Farm에서 처리하며, 모든책임은 Picky Farm에 있습니다.</span>
+            <div class="flex flex-col">
+                <span>민원담당자 연락처 김기윤 :</span>
+                <span>010-3368-8026</span>
+            </div>
         </div>
     </div>
     <div class=" border-r-2"></div>
@@ -54,7 +58,7 @@
             <div>제휴문의 : pickycorp@gmail.com</div>
         </div>
         <div class="flex my-1 justify-between">
-            <div>FAX : 000-0000-0000</div>
+            <div></div>
             <div>이메일 : pickycorp@gmail.com</div>
         </div>
         <div class=" flex mt-1 justify-between">

@@ -135,4 +135,17 @@
     html {
         font-size: 62.5%;
     }
+
+    .footer {
+        display: none;
+    }
+
+    .main-contents {
+        width: 100vw;
+        padding: 0 2.5rem;
+    }
+
+    .header-pc {
+        display: none;
+    }
 }

@@ -1,0 +1,38 @@
+{% load static %}
+<div class="info-section-wrapper flex flex-col">
+    <div class="section-title" id="payment-list-title">정산 관리</div>
+    <div class="payment-status-info-section flex mx-auto">
+        <a href='?status=' class="payment-status-circle flex flex-col items-center justify-center {% if not status%} selected {% endif %}">
+            <div class="payment-status-title">전체 정산</div>
+            <div class="payment-status-count">{{orders.count}}</div>
+        </a>
+        <a href='?status=incoming' class="payment-status-circle flex flex-col items-center justify-center {% if status == 'incoming' %} selected {% endif %}">
+            <div class="payment-status-title">정산 예정</div>
+            <div class="payment-status-count">{{incoming}}</div>
+        </a>
+        <a href='?status=progress' class="payment-status-circle flex flex-col items-center justify-center {% if status == 'progress' %} selected {% endif %}">
+            <div class="payment-status-title">정산 진행</div>
+            <div class="payment-status-count">{{progress}}</div>
+        </a>
+        <a href='?status=done' class="payment-status-circle flex flex-col items-center justify-center {% if status == 'done' %} selected {% endif %}">
+            <div class="payment-status-title">정산 완료</div>
+            <div class="payment-status-count">{{done}}</div>
+        </a>
+    </div>
+    <div class="search-bar-section flex items-center">
+        <form action="" method="GET" class="search-bar-wrapper flex items-center">
+            <div class="search-bar-title">주문번호</div>
+            <div class="bar"></div>
+            <input type="text" id="payment-search" name='q' value="{% if q %} {{q}} {% endif %}">
+            <button style="background-image: url('{% static 'images/farmer_mypage/payment/searchicon.svg' %}');" alt="검색" id="search-button" class="button"></button>
+        </form>
+        <form action="" method="GET" class="date-filter-form flex items-center">
+            <div class="date-filter-button month-filter button" id="recent-one-month">최근 1개월</div>
+            <div class="date-filter-button month-filter button" id="recent-three-month">최근 3개월</div>
+            <input type="date" name="start-date" id="start-date" class="date-filter-button date-input">
+            &nbsp;~&nbsp;
+            <input type="date" name="end-date" id="end-date" class="date-filter-button date-input">
+            <button class="date-filter-button date-filter-submit">조회</button>
+        </form>
+    </div>
+</div>

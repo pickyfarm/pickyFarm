@@ -360,6 +360,12 @@
     font-size: 15px;
     color: #5c6754;
 }
+#product > div:nth-child(3) {
+    justify-content: center;
+}
+#orders-title {
+    display: none;
+}
 
 #weight,
 #sell-price {

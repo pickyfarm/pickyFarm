@@ -3,6 +3,7 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail_mobile.css' %}">
 {% endblock %}
 
 {% block title_name %}
@@ -16,10 +17,14 @@
             <div class="text-xl" id="title_text">파머의 무난이소식을 가장 먼저 받아보세요</div>
         </div>
 
+        <div id="farm_img_mobile">
+            <img src="{{ farmer.farm_profile.url }}" alt="" id="farm_profile_mobile">
+            <img src="{{ farmer.farmer_profile.url }}" alt="" id="farmer_profile_mobile">
+        </div>
         <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
             <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-4" id="farmer_profile">
             <img src="{{ farmer.farm_profile.url }}" alt="" class="mr-16" id="farm_profile">
-            <div class="" style="width: 418px;">
+            <div class="" id="prof_wrap" style="">
                 <div class="flex flex-row mb-3" id="tag_wrap">
                     {% for tag in tags %}
                     <a href="#">
@@ -35,13 +40,17 @@
                     <div class="font-light text-lg" id="profile_title">"{{ farmer.profile_title }}"</div>
                 </div>
             </div>
-            {% if sub == False %}
-            <div class="text-lg text-center sub_wrap" id="sub_btn" name={{farmer.pk}}>구독하기</div>
-            {% else %}
-            <div class="text-lg text-center subed_wrap subscribing" id="sub_btn" name={{farmer.pk}}>구독중</div>
-            {% endif %}
+            <div id="sub_btn_wrap">
+                {% if sub == False %}
+                <div class="text-lg text-center sub_wrap" id="sub_btn" name={{farmer.pk}}>구독하기</div>
+                {% else %}
+                <div class="text-lg text-center subed_wrap subscribing" id="sub_btn" name={{farmer.pk}}>구독중</div>
+                {% endif %}
+            </div>
                     
         </div>
+
+        <div id="news_text_mobile">농가 News</div>
 
         <div class="flex flex-row items-center p-2" id="farmer_news">
             <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="ml-2" id="">

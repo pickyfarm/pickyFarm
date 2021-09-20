@@ -26,7 +26,7 @@ urlpatterns = [
     path("enroll/login", views.FarmEnrollLogin.as_view(), name="farm_enroll_login"),
     # farmer mypage
     path(
-        "mypage/info/update/",
+        "mypage/info/update",
         views.FarmerMyPageInfoManage.as_view(),
         name="farmer_mypage_info_update",
     ),
@@ -46,26 +46,34 @@ urlpatterns = [
         name="farmer_mypage_order_state_update",
     ),
     path(
-        "mypage/notifications/",
+        "mypage/payment",
+        views.FarmerMyPagePaymentManage.as_view(),
+        name="farmer_mypage_payment",
+    ),
+    path(
+        "mypage/notifications",
         views.FarmerMyPageNotificationManage.as_view(),
         name="farmer_mypage_notification",
     ),
     path(
-        "mypage/reviews_qnas/",
+        "mypage/reviews-qnas",
         views.FarmerMyPageReviewQnAManage.as_view(),
         name="farmer_mypage_review_qna",
     ),
     path(
-        "mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"
+        "mypage/reviews-qnas/<int:pk>/answer",
+        views.FarmerMypageQuestionAnswer.as_view(),
+        name="farmer_mypage_question_answer",
     ),
+    path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
     # mypage pagination ajax url
     path(
         "mypage/notifications/notification_ajax/",
         views.notification_ajax,
         name="notification_ajax",
     ),
-    path("mypage/reviews_qnas/qna_ajax/", views.qna_ajax, name="qna_ajax"),
-    path("mypage/reviews_qnas/review_ajax/", views.review_ajax, name="review_ajax"),
+    path("mypage/reviews-qnas/qna-ajax/", views.qna_ajax, name="qna_ajax"),
+    path("mypage/reviews-qnas/review-ajax/", views.review_ajax, name="review_ajax"),
     # mypage popups url
     path(
         "mypage/orders/check/<int:pk>",
@@ -73,14 +81,34 @@ urlpatterns = [
         name="farmer_mypage_order_check_popup",
     ),
     path(
+        "mypage/orders/cancel/<int:pk>",
+        views.FarmerMypageOrderCancelPopup.as_view(),
+        name="farmer_mypage_order_cancel_popup",
+    ),
+    path(
         "mypage/orders/invoice/<int:pk>",
         views.FarmerMypageInvoiceUpdatePopup.as_view(),
         name="farmer_mypage_invoice_update_popup",
     ),
     path(
+        "mypage/product/update",
+        views.FarmerMypageProductUpdatePopup.as_view(),
+        name="farmer_mypage_product_update",
+    ),
+    path(
         "mypage/product/update/<int:pk>",
         views.FarmerMypPageProductStateUpdate.as_view(),
         name="farmer_mypage_product_state_update",
+    ),
+    path(
+        "mypage/orders/<int:pk>/refund/request/check/",
+        views.FarmerMyPageRefundRequestCheckPopup.as_view(),
+        name="farmer_mypage_refund_check_popup",
+    ),
+    path(
+        "mypage/orders/<int:pk>/exchange/request/check/",
+        views.FarmerMyPageExchangeRequestCheckPopup.as_view(),
+        name="farmer_mypage_exchange_check_popup",
     ),
     path(
         "mypage/popup-callback",
