@@ -1,0 +1,333 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    .order-payment-success-container  {
+        width: 100%;
+        padding: 0 2.5rem;
+    }    
+    .order-payment-success-subfarmer-appreciate-message-card-section,
+    .order-payment-success-unsubfarmer-appreciate-message-card-section {
+        width: 100%;
+    }
+    .order-payment-success-information-border {
+        width: 100%;
+        margin: 0.5rem 0 0;
+        background-color: #5c6754;
+    }
+    .order-payment-success-information-list-border-bottom {
+        width: 100%;
+        background-color: #5e6656;
+        height: 0.05rem;
+        margin: 0;
+    }
+
+    /* info section */
+    .order-payment-success-title {
+        margin: 6rem 0;
+    }
+    .order-payment-success-information-lists-wrap {
+        padding: 0;
+    }
+    .order-payment-success-information-list-wrap {
+        margin: 1rem;        
+    }
+    .order-payment-success-information-list {
+        height: 7.2rem;
+        display: grid;
+        grid-template-columns: 9.7rem 1fr;
+        grid-template-areas:
+            'img tag'
+            'img product';
+    }
+    .order-payment-success-information-list-left-section {
+        margin: 0;
+        grid-area: img;
+    }
+    .order-payment-success-information-image {
+        border-radius: 1rem;
+    }
+    .order-payment-success-information-name,
+    .order-payment-success-information-description-bottom-wrap {
+        display: none;
+    }
+    .order-payment-success-information-list-right-section {
+        margin-top: 0.75rem;
+    }
+    .order-payment-success-information-product-tag {
+        display: block;
+        grid-area: tag;
+    }    
+    .ugly_tag {        
+        color: #ffff;
+        background-color: #5c6754;
+        border: solid 0.1rem #5c6754;        
+    }
+    .normal_tag {
+        color: #5c6754;
+        border: solid 0.1rem #5c6754;
+    }
+    .ugly_tag,
+    .normal_tag {
+        border-top-right-radius: 999.9rem;
+        border-bottom-right-radius: 999.9rem;
+        padding: 0.2rem 0.8rem 0.2rem 0.6rem;
+        cursor: pointer;
+        width: fit-content;
+    }
+    .order-payment-success-information-description-wrap {
+        grid-area: product;
+    }    
+    .order-payment-success-information-description-right-section {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    .order-payment-success-information-description {
+        width: 50%;
+        margin-top: 0.4rem;
+    }
+    .order-payment-success-information-description-amount {
+        order:4;
+        padding-left: 1.1rem;
+    }
+    .order-payment-success-information-description-amount > span {
+        display: inline;
+        margin-left: 0.78rem;
+    }
+    .order-payment-success-information-description-weight {
+        order:3;
+        padding-right: 1.1rem;
+        border-right: solid 0.1rem #aaaea6;
+        height: 1.2rem;
+        margin-top: 0.3rem;
+    }
+    .order-payment-success-information-description-price {
+        order: 2;
+        width: 50%;
+        margin-top: 0.4rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .order-payment-success-amount-wrap {
+        margin-top: 2rem;
+        padding: 0;
+    }
+    .order-payment-success-amount-number {
+        margin-left: 2rem;
+    }
+    .order-payment-success-amount-unit {
+        margin-left: 1rem;
+    }
+
+    /* customer & address section */
+    .order-payment-success-customer-section, 
+    .order-payment-success-customer-address-section, 
+    .order-payment-success-appreciate-message-section {
+        margin-top: 6rem;
+    }
+    .order-payment-success-customer-information-wrap, 
+    .order-payment-success-customer-address-information-wrap {
+        padding: 0 1rem 0;
+    }
+    .order-payment-success-customer-information-name-wrap, 
+    .order-payment-success-customer-address-information-name-wrap,
+    .order-payment-success-customer-information-tel-wrap, 
+    .order-payment-success-customer-address-information-receive-wrap,
+    .order-payment-success-customer-information-email-wrap,
+    .order-payment-success-customer-address-information-etc-wrap {
+        margin-top: 2rem;
+        margin-bottom: 0;
+        align-items: center;
+    }
+
+    /* appreciate message section */
+    .order-payment-success-subfarmer-appreciate-message-card-section, 
+    .order-payment-success-unsubfarmer-appreciate-message-card-section {
+        width: 100%;
+        height: 16.2rem;
+        padding: 0;
+        border-radius: 0.5rem;
+        margin-top: 2rem;
+    }
+    .order-payment-success-subfarmer-appreciate-message-card-wrap, .order-payment-success-subfarmer-appreciate-message-card-wrap,
+    .order-payment-success-unsubfarmer-appreciate-message-card-wrap, .order-payment-success-subfarmer-appreciate-message-card-wrap {
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 2rem 1.5rem 2rem 1rem;
+    }
+    .order-payment-success-unsubfarmer-card-photo-circle, 
+    .order-payment-success-subfarmer-card-photo-circle {
+        width: 7.2rem;
+        min-width: 7.2rem;
+        height: 7.2rem;
+        margin: 0;
+    }
+    .order-payment-success-unsubfarmer-card-photo-section, 
+    .order-payment-success-subfarmer-card-photo-section {
+        margin-bottom: 0;
+    }
+    .order-payment-success-subfarmer-appreciate-message-card-wrap > div:first-child {
+        margin-right: 2.4rem;
+        margin-top: 0.6rem;
+    }
+    .order-payment-success-unsubfarmer-card-photo-subscribe-btn, 
+    .order-payment-success-subfarmer-card-photo-subscribe-btn {
+        left: 5.01rem;
+        top: 3.74rem;
+        width: 3.38rem;
+        height: 3.46rem;
+    }
+    .order-payment-success-unsubfarmer-card-photo-section2, .order-payment-success-subfarmer-card-photo-section2 {
+        align-items: flex-start;
+    }
+    .order-payment-success-unsubfarmer-card-farm-name, 
+    .order-payment-success-subfarmer-card-farm-name {
+        margin-left: 1rem;
+    }
+    .order-payment-success-unsubfarmer-card-farmer-name, 
+    .order-payment-success-subfarmer-card-farmer-name {
+        margin-bottom: 1.4rem;
+        margin-left: 1rem;
+    }
+    .order-payment-success-unsubfarmer-card-message-text, 
+    .order-payment-success-subfarmer-card-message-text {
+        width: 100%;
+        margin-left: 1rem;
+        height: 3.2rem;
+        margin-bottom: 0;
+        padding-right: 1.5rem;
+        overflow: auto;
+    }
+    .order-payment-success-unsubfarmer-card-farm-link-title, 
+    .order-payment-success-subfarmer-card-farm-link-title,
+    .order-payment-success-unsubfarmer-card-farm-link-btn-arrow,
+    .order-payment-success-subfarmer-card-farm-link-btn-arrow {
+        display: none;
+    }
+    .order-payment-success-unsubfarmer-card-farm-link-section, 
+    .order-payment-success-subfarmer-card-farm-link-section {
+        position: inherit;
+        margin-top: 2rem;
+    }
+    .order-payment-success-unsubfarmer-card-farm-link-btn, 
+    .order-payment-success-subfarmer-card-farm-link-btn {
+        width: 13.4rem;
+        height: 1.8rem;
+        background-color: transparent;
+    }
+    .order-payment-success-unsubfarmer-card-farm-link-btn-arrow-mobile,
+    .order-payment-success-subfarmer-card-farm-link-btn-arrow-mobile {
+        display: block;
+    }
+
+    /* btn */
+    .order-payment-success-confirm-btn-section {
+        margin: 6rem 0;
+    }
+    .order-payment-success-confirm-btn {
+        width: 6.3rem;
+        height: 3rem;
+        border-radius: 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    /* font */
+    .order-payment-success-customer-information-name-title, 
+    .order-payment-success-customer-information-tel-title, 
+    .order-payment-success-customer-information-email-title, 
+    .order-payment-success-customer-address-information-name-title, 
+    .order-payment-success-customer-address-information-receive-title, 
+    .order-payment-success-customer-address-information-etc-title {
+        color: #4d4d4d;
+        font-size: 1.1rem;
+        font-weight: normal;
+        width: 35%;
+    }
+    .order-payment-success-customer-information-name, 
+    .order-payment-success-customer-address-information-name,
+    .order-payment-success-customer-information-tel, 
+    .order-payment-success-customer-information-email,
+    .order-payment-success-customer-address-information-receive,
+    .order-payment-success-customer-address-information-etc {
+        color: #000000;
+        font-size: 1.2rem;
+        font-weight: bold;
+        line-height: 3rem;
+        margin-left: 0;
+    }
+    .order-payment-success-information-title,
+    .order-payment-success-customer-information-title, 
+    .order-payment-success-customer-address-information-title, 
+    .order-payment-success-appreciate-message-title {
+        line-height: 2.4rem;
+    }
+    .order-payment-success-title, 
+    .order-payment-success-amount-number {
+        font-size: 1.5rem;
+    }
+    .order-payment-success-information-title, 
+    .order-payment-success-information-description,
+    .order-payment-success-information-description-price,
+    .order-payment-success-information-description-weight,
+    .order-payment-success-information-description-amount,
+    .order-payment-success-customer-information-title, 
+    .order-payment-success-customer-address-information-title, 
+    .order-payment-success-appreciate-message-title,
+    .order-payment-success-subfarmer-card-farm-name,
+    .order-payment-success-unsubfarmer-card-farm-name {
+        font-size: 1.2rem;
+    }
+    .order-payment-success-amount-title,
+    .order-payment-success-amount-unit,
+    .order-payment-success-subfarmer-card-farmer-name, 
+    .order-payment-success-subfarmer-card-message-text,
+    .order-payment-success-unsubfarmer-card-farmer-name, 
+    .order-payment-success-unsubfarmer-card-message-text {
+        font-size: 1.1rem;
+    }
+    .order-payment-success-amount-title,
+    .order-payment-success-amount-unit,
+    .order-payment-success-amount-number {
+        line-height: 3rem;
+    }
+    .order-payment-success-subfarmer-card-farm-name,
+    .order-payment-success-unsubfarmer-card-farm-name,
+    .order-payment-success-information-description,
+    .order-payment-success-information-description-amount {
+        line-height: 2rem;
+    }
+    .order-payment-success-title {
+        line-height: 2.2rem;
+    }
+    .order-payment-success-subfarmer-card-farmer-name, 
+    .order-payment-success-subfarmer-card-message-text,
+    .order-payment-success-unsubfarmer-card-farmer-name, 
+    .order-payment-success-unsubfarmer-card-message-text {
+        line-height: 1.5rem;
+    }
+    .order-payment-success-title, 
+    .order-payment-success-information-title, 
+    .order-payment-success-information-description,
+    .order-payment-success-information-description-price,
+    .order-payment-success-amount-number,
+    .order-payment-success-customer-information-title, 
+    .order-payment-success-customer-address-information-title, 
+    .order-payment-success-appreciate-message-title,
+    .order-payment-success-subfarmer-card-farm-name,
+    .order-payment-success-unsubfarmer-card-farm-name {
+        font-weight: bold;
+    }
+    .order-payment-success-information-description-weight,
+    .order-payment-success-information-description-amount,
+    .order-payment-success-amount-title,
+    .order-payment-success-amount-unit {
+        color: #808080;
+    }
+    .order-payment-success-amount-unit,
+    .order-payment-success-subfarmer-card-farm-name,
+    .order-payment-success-unsubfarmer-card-farm-name {
+        color: #000000;
+    }
+}

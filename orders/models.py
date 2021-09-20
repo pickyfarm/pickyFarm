@@ -17,7 +17,7 @@ class Order_Group(models.Model):
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    order_management_number = models.CharField(max_length=20, null=True, blank=True)
+    order_management_number = models.CharField(max_length=100, null=True, blank=True)
     receipt_number = models.CharField(max_length=60, null=True, blank=True)
     rev_address = models.TextField(null=True, blank=True)
     rev_name = models.CharField(max_length=50, null=True, blank=True)
@@ -72,8 +72,10 @@ class Order_Detail(models.Model):
     # )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default="incoming")
-    order_management_number = models.CharField(max_length=20, null=True, blank=True)
+    payment_status = models.CharField(
+        max_length=10, choices=PAYMENT_STATUS, default="incoming"
+    )
+    order_management_number = models.CharField(max_length=100, null=True, blank=True)
     invoice_number = models.CharField(max_length=30, null=True, blank=True)
     quantity = models.IntegerField()
     total_price = models.IntegerField()
@@ -87,7 +89,7 @@ class Order_Detail(models.Model):
     )
     order_group = models.ForeignKey(
         Order_Group, related_name="order_details", on_delete=models.SET_NULL, null=True
-    )
+    ) 
 
     def __str__(self):
         name = []

@@ -38,6 +38,10 @@
     color: #5c6754;
 }
 
+#arrow {
+    display: none;
+}
+
 .search-bar-section {
     margin-bottom: 100px;
 }

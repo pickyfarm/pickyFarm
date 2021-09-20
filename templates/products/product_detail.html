@@ -3,7 +3,9 @@
 {% load static %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_detail_mobile.css' %}">
 <link rel="stylesheet" href="{% static 'css/products/product_review.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_review_mobile.css' %}">
 <link rel="stylesheet" href="{% static 'css/products/product_refund_change.css' %}">
 <!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -120,7 +122,7 @@
                     <div id="plus_btn">+</div>
                 </div>
             </div>
-            <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10">
+            <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10" id="total_price_section">
                 <div id="total_price_letter" class="mb-4 mr-10">총 상품 금액 :</div>
                 <div id="total_price">{{product.sell_price}}</div>
                 <div id="won" class="mb-2 ml-2">원</div>

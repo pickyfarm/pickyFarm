@@ -30,6 +30,7 @@
     <div class="search-bar-section flex items-center">
         <form action="" method="GET" class="search-bar-wrapper flex items-center">
             <div class="search-bar-title">수령인 이름</div>
+            <img id="arrow", src="{% static 'images/products_list/next.svg' %}">
             <div class="bar"></div>
             <input type="text" id="order-search" name='q' value="{% if q %} {{q}} {% endif %}">
             <button style="background-image: url('{% static 'images/farmer_mypage/order/searchicon.svg' %}');" alt="검색" id="search-button"
@@ -37,7 +38,7 @@
         </form >
         <form action="" method="GET" class="date-filter-form flex items-center">
             <div class="date-filter-button month-filter button" id="recent-one-month">최근 1개월</div>
-            <div class="date-filter-button month-filter button" id="recent-three-month">최근 3개월</div>
+            <div class="date-filter-button month-filter button" id="recent-three-month">최근 3개월</div> <span id="line_enter"></span>
             <input type="date" name="start-date" id="start-date" class="date-filter-button date-input">
             &nbsp;~&nbsp;
             <input type="date" name="end-date" id="end-date" class="date-filter-button date-input">

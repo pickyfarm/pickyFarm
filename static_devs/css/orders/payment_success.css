@@ -56,6 +56,10 @@
     width: 100%;
 }
 
+.order-payment-success-information-product-tag {
+    display: none;
+}
+
 .order-payment-success-information-description-wrap {
     width: 100%;
     justify-content: space-between;
@@ -64,13 +68,18 @@
 .order-payment-success-information-description {
     font-size: 15px;
     color: #707070;
+    width: 65%;
 }
 
 .order-payment-success-information-description-right-section {
-    width: 200px;
+    width: 100%;
     justify-content: space-between;
     color: #707070;
     font-size: 16px;
+}
+
+.order-payment-success-information-description-amount > span {
+    display: none;
 }
 
 .order-payment-success-information-description-bottom-wrap {
@@ -206,6 +215,13 @@
     margin-bottom: 22px;
 }
 
+.order-payment-success-unsubfarmer-card-photo-section2,
+.order-payment-success-subfarmer-card-photo-section2 {
+    align-items: center;   
+    display: flex;
+    flex-direction: column; 
+}
+
 .order-payment-success-unsubfarmer-card-photo-circle,
 .order-payment-success-subfarmer-card-photo-circle {
     width: 150px;
@@ -280,6 +296,11 @@
 .order-payment-success-unsubfarmer-card-farm-link-btn-arrow,
 .order-payment-success-subfarmer-card-farm-link-btn-arrow {
     padding: 6px 0 0 5px;
+}
+
+.order-payment-success-unsubfarmer-card-farm-link-btn-arrow-mobile,
+.order-payment-success-subfarmer-card-farm-link-btn-arrow-mobile {
+    display: none;
 }
 
 .order-payment-success-confirm-btn-section {
