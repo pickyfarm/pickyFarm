@@ -1,6 +1,9 @@
 @import 'base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
+    .main-contents{
+        width: 100%;
+    }
     #content{
         width: 100%;
     }
@@ -27,7 +30,7 @@
     .main-line{
         display: none;
     }
-    .product-form > div:not(.subtitle, .normal-product, .normal-product-btn){
+    .product-form > div:not(.subtitle, #normal){
         width: 100%;
         padding: 0 1rem;
     }
@@ -292,62 +295,31 @@
     }
     .etc-dates-select-wrap{
         grid-area: select;
-        display: grid;
-        grid-template-areas: 'year1 month1 date1'
-                            'tilde tilde tilde'
-                            'year2 month2 date2';
+        display: flex;
+        flex-direction: column;
         margin-bottom: 1rem;
     }
-    .number-wrapper:nth-child(1){
-        grid-area: year1;
-    }
-    .number-wrapper:nth-child(2){
-        grid-area: month1;
-    }
-    .number-wrapper:nth-child(3){
-        grid-area: date1;
-    } 
-    .etc-dates-select-wrap span:nth-child(4){
-        grid-area: tilde;
+    .etc-dates-select-wrap span:nth-child(2){
+        width: 70%;
         font-size: 1.5rem;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
-        line-height: 1.2;
+        line-height: 1.7;
         letter-spacing: normal;
         text-align: center;
         color: #5c6456;
     }
-    .number-wrapper:nth-child(5){
-        grid-area: year2;
-    }
-    .number-wrapper:nth-child(6){
-        grid-area: month2;
-    }
-    .number-wrapper:nth-child(7){
-        grid-area: date2;
-    }
     .number-wrapper .number-type{
-        width: 7.35rem;
+        width: 70%;
         height: 2.6rem;
-        padding: 0.45rem 1.05rem 0.45rem 0.95rem;
         font-size: 1.1rem;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
-        line-height: 2.73;
         letter-spacing: normal;
         text-align: left;
         color: #808080;
-    }
-    .number-wrapper:nth-child(2) .number-type,
-    .number-wrapper:nth-child(6) .number-type{
-        width: 5.59rem;
-        margin: 0 0.95rem;
-    }
-    .number-wrapper:nth-child(3) .number-type,
-    .number-wrapper:nth-child(7) .number-type{
-        width: 6.24rem;
     }
     .etc-dates #id_farm_cat{
         grid-area: check;
@@ -389,7 +361,7 @@
     .etc-save-product{
         flex-direction: column;
         padding-bottom: 1rem;
-        margin-bottom: 19.1rem;
+        margin-bottom: 0;
     }
     .etc-save-product-wrap{
         width: 100%;
@@ -407,11 +379,23 @@
     }
 
     /* 일반 작물 */
+    #normal{
+        margin-top: 19.1rem;
+        position: relative;
+    }
+    #normal > div{
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    #normal > div:not(.subtitle, .normal-product, .normal-product-btn){
+        width: 100%;
+        padding: 0 1rem;
+    }
     .normal-product{
         left: 50%;
         transform: translate(-50%, -1rem);
-        width: calc(100% - 5rem);
-        height: 80.1rem;
+        width: 100%;
+        height: 74rem;
     }
     .normal-product-btn::before{
         content: '* 정상작물의 경우 못난이 작물을 함께 업로드하는 경우에만 등록 가능합니다. 추가할 경우 상품 추가 버튼을 눌러주세요.';
@@ -428,7 +412,7 @@
     .normal-product-btn{
         width: 18rem;
         position: absolute;
-        top: 112rem;
+        top: -9.4rem;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
@@ -450,7 +434,7 @@
     .legal-box{
         flex-direction: column;
         line-height: unset;
-        margin-top: -10rem;
+        margin-top: 6rem;
     }
     .legal-box > .subtitle{
         margin-right: 0;
@@ -499,5 +483,13 @@
         font-weight: 500;
         color: #5c6754;
         margin: 6rem 0;
+    }
+    .legal-sub-box #delivery,
+    .legal-sub-box #jeju-delivery{
+        display: block !important;
+        margin-right: 1rem;
+    }
+    .legal-sub-box li{
+        margin-bottom: 0.8rem;
     }
 }
