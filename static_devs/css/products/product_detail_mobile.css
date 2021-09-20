@@ -141,6 +141,20 @@
         color: #fff;
         padding: 0 1rem;
     }
+    #visit:hover, #sub:hover{
+        height: 2rem;
+        border-radius: 1rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.8;
+        letter-spacing: normal;
+        text-align: left;
+        color: #fff;
+        padding: 0 1rem;
+        background-color: #5e6656;
+    }
     #sub{
         margin-left: 1rem;
     }
@@ -228,6 +242,18 @@
         font-weight: normal;
         line-height: 1;
         text-align: center;
+    }
+    #wish:hover, #cart:hover{
+        height: 3rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 1.5rem;
+        border: solid 0.2rem var(--dark-sage);
+        font-size: 1.2rem;
+        font-weight: normal;
+        line-height: 1;
+        text-align: center;
+        background-color: #fff;
+        color: #5c6754;
     }
     #wish{
         width: 6.9rem;
