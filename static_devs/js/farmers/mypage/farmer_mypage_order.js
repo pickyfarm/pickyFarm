@@ -38,13 +38,6 @@ const orderConfirm = (pk) => {
     });
 };
 
-const orderCancel = (pk) => {
-    document.querySelector(`.order-confirm-overlay[name='${pk}']`).innerHTML =
-        '<div class="order-cancelled">취소한 주문건 입니다.</div>';
-
-    shootToastMessage('주문을 취소하였습니다.');
-};
-
 const startDate = document.querySelector('#start-date');
 const endDate = document.querySelector('#end-date');
 

@@ -794,6 +794,40 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
         return super().render_to_response(ctx, **kwargs)
 
 
+class FarmerMypageOrderCancelPopup(DetailView):
+    """주문 취소 팝업"""
+
+    model = Order_Detail
+    template_name = "farmers/mypage/order/order_cancel_popup.html"
+    context_object_name = "order"
+
+    def dispatch(self, request, *args, **kwargs):
+        if (
+            self.get_object().status != "payment_complete"
+            or self.get_object().order_group.consumer != self.request.user.consumer
+        ):
+            return redirect("core:popup_callback")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
+        return context
+
+    def post(self, request, **kwargs):
+        order = self.get_object()
+        cancel_reason = request.POST.get("cancel_reason", None)
+
+        order.cancel_reason = cancel_reason
+        order.status = "cancel"
+        order.save()
+
+        return redirect("core:popup_callback")
+
+
 class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
     """상품 상태 수정 팝업"""
 
@@ -982,7 +1016,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         invoice_number = self.request.POST.get("invoice_number", None)
         logis_company = self.request.POST.get("invoice-select")
 
-        order.update(**{"invoice_number": invoice_number})
+        order.update(**{"invoice_number": invoice_number, "status": "shipping"})
 
         return redirect("core:popup_callback")
 
@@ -1005,9 +1039,9 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["refund"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
-        context["products"] = Product.objects.filter(order_details__pk=self.kwargs["pk"]).order_by(
-            "kinds"
-        )
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
         context["consumer"] = Consumer.objects.get(
             order_groups__order_details__pk=self.kwargs["pk"]
         )
@@ -1045,9 +1079,9 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["exchange"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
-        context["products"] = Product.objects.filter(order_details__pk=self.kwargs["pk"]).order_by(
-            "kinds"
-        )
+        context["products"] = Product.objects.filter(
+            order_details__pk=self.kwargs["pk"]
+        ).order_by("kinds")
         context["consumer"] = Consumer.objects.get(
             order_groups__order_details__pk=self.kwargs["pk"]
         )
