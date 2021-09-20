@@ -493,7 +493,7 @@ def payment_valid(request):
 
         farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
         farmers_info_len = len(farmers_info)
-        print("Farmer_INFO : " + farmers_info + " len : " + farmers_info_len)
+        print(f"Farmer_INFO len : {farmers_info_len}")
 
         order_group.receipt_number = receipt_id
         
@@ -526,6 +526,7 @@ def payment_valid(request):
                         target_farmer_pk = product.farmer.pk
 
                         target_farmer = farmer_search(farmers_info, target_farmer_pk, 0, farmers_info_len)
+                        print("Farmer!!!" + target_farmer.farm_name)
 
                         args_consumer = {
                             "#{farm_name}" : target_farmer.farm_name,
@@ -542,21 +543,27 @@ def payment_valid(request):
 
 
                         args_farmer = {
-                            "#{order_detail_number}": detail.order_management_number,
                             "#{order_detail_title}" : detail.product.title,
-                            "#{farmer_nickname}" : detail.product.farmer.user.nickname,
-                            "#{weight}": kakao_msg_weight,
+                            "#{order_detail_number}": detail.order_management_number,
+                            "#{weight}": product.weight,
+                            "#{quantity}" : detail.quantity,
+                            "#{rev_name}" : order_group.rev_name,
+                            "#{rev_phone_number}" : phone_number_consumer,
+                            "#{rev_address}" : order_group.rev_address,
+                            "#{rev_loc_at}" : order_group.rev_loc_at,
+                            "#{rev_detail}" : order_group.rev_message,
+                            "#{rev_message}" : order_group.to_farm_message, 
                             "#{link_1}" : "www.pickyfarm.com", # 임시
-                            "#{link_2}" : "www.pickyfarm.com" # 임시
+                            "#{link_2}" : "www.pickyfarm.com", # 임시
+                            "#{link_3}" : "www.pickyfarm.com" # 임시
                         }
+
+                        send_kakao_message(target_farmer.farmer_phone_number, templateIdList["order_recept"], args_farmer)
                     
                     # order_group status - payment complete로 변경
                     order_group.status = "payment_complete"
                     order_group.save()
 
-                    
-                    
-                    
                     
 
                     ctx = {
