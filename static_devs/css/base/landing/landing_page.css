@@ -1,3 +1,11 @@
+:root {
+    --white: #f8f8f8;
+    --light-grey: #f2f2f2;
+    --brown-grey: #b3b3b3;
+    --dark-sage: #5c6754;
+    --dark-green: #4d5548;
+}
+
 .landing-wrapper {
     width: 100%;
     height: calc(100vh - 56px);
@@ -16,3 +24,6 @@
 /* section 3*/
 
 /* section 4*/
+.section4-text-wrapper {
+    color: var(--dark-sage);
+}
