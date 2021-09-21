@@ -48,7 +48,7 @@
         </div>
         <div class="searchbox">
             <div class="input-form rounded-full h-6 flex justify-around">
-                <input type="text" placeholder="자라나라 머리머리" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44" id='header-searchbar'>
+                <input type="text" placeholder="원하는 무난이를 찾아보세요" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44" id='header-searchbar'>
                 <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt="">
             </div>
         </div>
@@ -70,6 +70,11 @@
         border-right: solid 3px #5e6656;
     }
 
+    .menu-bar {
+        position: sticky;
+        top: 0;
+    }
+
     .header-menu li {
         font-size: 15px;
     }
@@ -83,11 +88,11 @@
 <script>
     $(window).scroll(function () {    // this will work when your window scrolled.
         var height = $(window).scrollTop();  //getting the scrolling height of window
-        if (height > 238) {
-            $(".menu-bar").css({ "position": "fixed" });
+        if (height > 273) {
+
             $(".menu-bar").addClass("shadow");
         } else {
-            $(".menu-bar").css({ "position": "relative" });
+
             $(".menu-bar").removeClass("shadow");
         }
     });
