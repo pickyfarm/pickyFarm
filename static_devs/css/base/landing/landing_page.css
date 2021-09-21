@@ -24,6 +24,26 @@
 /* section 3*/
 
 /* section 4*/
+#landing-section4 {
+    min-height: 433px;
+    max-height: inherit;
+}
+
 .section4-text-wrapper {
-    color: var(--dark-sage);
+    color: var(--dark-green);
+}
+
+.section4-main-title {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.section4-sub-title {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+#section4-desc {
+    font-size: 25px;
+    font-weight: 500;
 }

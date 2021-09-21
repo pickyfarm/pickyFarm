@@ -1,16 +1,20 @@
 {% load static %}
 <section class="landing-wrapper" id="section4">
-    <div class="landing-content" id="landing-section4">
-        <div class="section4-logo-wrapper">
-            <img src="{% static 'images/landing/section4-logo.svg' %}" alt="pickyfarm logo">
+    <div class="landing-content grid md:grid-cols-2 md:gap-110" id="landing-section4">
+        <div class="flex items-center section4-logo-wrapper">
+            <img class="section4-logo-img mx-auto" src="{% static 'images/landing/section4-logo.svg' %}" alt="pickyfarm logo">
         </div>
-        <div class="section4-text-wrapper">
-            <h1 class="section4-main-title">까다롭게 선택하다</h1>
-            <h2 class="section4-sub-title">10월 중 OPEN!</h2>
-            <p class="" id="section4-desc">오픈하면 알림톡을 보내드릴게요!</p>
-            <p class="" id="section4-desc">내가 구독한 농가 소식을</p>
-            <p class="" id="section4-desc">쉽고, 빠르게 접해볼 수 있어요!</p>
-            <img src="{% static 'images/landing/section4-kakaoplus.webp' %}" alt="kakao plus pickyfarm">
+        <div class="flex items-center section4-text-wrapper">
+            <div class="flex-col">
+                <h1 class="section4-main-title">까다롭게 선택하다</h1>
+                <h2 class="section4-sub-title">10월 중 OPEN!</h2>
+                <p class="mb-6" id="section4-desc">오픈하면 알림톡을 보내드릴게요!</p>
+                <p class="" id="section4-desc">내가 구독한 농가 소식을</p>
+                <p class="mb-3" id="section4-desc">쉽고, 빠르게 접해볼 수 있어요!</p>
+                <a href="http://pf.kakao.com/_DIexfs">
+                    <img class="section4-kakao-plus-img" src="{% static 'images/landing/section4-kakaoplus.png' %}" alt="kakao plus pickyfarm">
+                </a>
+            </div>
         </div>
     </div>
 </section>
