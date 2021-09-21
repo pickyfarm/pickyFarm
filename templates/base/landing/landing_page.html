@@ -1,0 +1,10 @@
+{% extends 'base/base_for_index.html' %}
+{% load static %}
+
+{% block title %}Pick Pick : 까다롭게 선택하다{% endblock title %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/base/landing/landing_page.css' %}">
+{% endblock stylesheet %}
+{% block main_content %}
+{% extends 'base/landing/landing_page1.html' %}
+{% endblock main_content %}
