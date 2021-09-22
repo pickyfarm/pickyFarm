@@ -145,6 +145,66 @@ mark {
 
 /* section 3*/
 
+#section3 {
+    background-color: #e3e3e3;
+    height: 580px;
+}
+
+#landing-section3 {
+    min-height: 550px;
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+}
+
+#landing-section3-text-group{
+    position: absolute;
+    margin : 90px 0 0 350px;
+}
+
+#landing-section3-main-text-group {
+    /* margin : 107px 100px 26px 0px; */
+    /* position:absolute; */
+    text-align: center;
+
+}
+
+.section3-text {
+    color: #31382c;
+}
+
+#section3-desc-center-img{
+    margin-top:27px;
+}
+
+
+#section3-desc{
+    margin-top:47.7px;
+    /* position: absolute; */
+    text-align: center;
+}
+
+
+#section3-desc-left-img{
+    width: 374px;
+  height: 580px;
+  margin-right:150px;
+}
+
+#section3-desc-right-img{
+    width: 460px;
+  height: 580px;
+  margin-left:150px;
+}
+
+
+
+
+
+
+
 /* section 4*/
 #landing-section4 {
     min-height: 433px;
