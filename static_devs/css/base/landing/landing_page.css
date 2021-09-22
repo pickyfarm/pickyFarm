@@ -8,13 +8,41 @@
 
 .landing-wrapper {
     width: 100%;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 55px);
     display: flex;
     justify-content: center;
 }
 
 .landing-content {
     width: 990px;
+}
+
+.landing-sub-text {
+    font-size: 35px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-top: 30px;
+}
+
+.landing-main-text {
+    font-size: 50px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.landing-desc {
+    font-size: 25px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
 }
 
 /* section 1*/
@@ -40,35 +68,11 @@
     justify-content: space-between;
 }
 
-#section1-title h1 {
-    font-size: 50px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
+.section1-text {
     color: #31382c;
-}
-
-#section1-title h2 {
-    font-size: 35px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #31382c;
-    margin-top: 30px;
 }
 
 #section1-title p {
-    font-size: 25px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #31382c;
     margin-top: 24px;
 }
 #section1-farmer-image-group {
@@ -98,6 +102,46 @@ figcaption {
 }
 
 /* section 2*/
+#section2 {
+    background-color: var(--dark-green);
+    min-height: 580px;
+}
+
+#landing-section2 {
+    min-height: 550px;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.section2-text {
+    color: #ececec;
+}
+
+#landing-section2-text-group {
+    display: flex;
+    margin-bottom: auto;
+    flex: 1;
+    justify-content: space-between;
+}
+
+#landing-section2-main-text-group {
+    margin-left: 90px;
+}
+
+#section2-desc {
+    margin-top: 30px;
+    margin-right: 107px;
+}
+
+mark {
+    background-color: #ececec;
+    color: var(--dark-green);
+    font-weight: bold;
+    padding: auto 5px;
+    line-height: 30px;
+}
 
 /* section 3*/
 
