@@ -1,3 +1,34 @@
+{% load static %}
+
 <section class="landing-wrapper" id="section1">
-    <div class="landing-content" id="landing-section1"></div>
+    <article class="landing-content" id="landing-section1">
+        <div class="section-wrapper">
+            <div class="section-title-group" id="section1-title">
+                <h2>누가, 어떻게 키우는지 알고</h2>
+                <h1>까다롭게 골랐으니까.</h1>
+                <p>농가 미니 홈페이지로<br />작물을 키우는 파머와 만나보세요.</p>
+            </div>
+            <div id="section1-farmer-image-group">
+                <figure>
+                    <img src="{% static 'images/landing/section1/farmer1.webp' %}" alt="" srcset="{% static 'images/landing/section1/farmer1@2x.webp' %} 2x, {% static 'images/landing/section1/farmer1@3x.webp' %} 3x" class="section1-farmer-img">
+                    <figcaption class="section1-image-desc">밝은 농원</figcaption>
+                </figure>
+                <figure>
+                    <img src="{% static 'images/landing/section1/farmer2.webp' %}" alt="" srcset="{% static 'images/landing/section1/farmer2@2x.webp' %} 2x, {% static 'images/landing/section1/farmer2@3x.webp' %} 3x" class="section1-farmer-img">
+                    <figcaption class="section1-image-desc">바로 농원</figcaption>
+                </figure>
+                <figure>
+                    <img src="{% static 'images/landing/section1/farmer3.webp' %}" alt="" srcset="{% static 'images/landing/section1/farmer3@2x.webp' %} 2x, {% static 'images/landing/section1/farmer3@3x.webp' %} 3x" class="section1-farmer-img">
+                    <figcaption class="section1-image-desc">산뜻 농원</figcaption>
+                </figure>
+                <figure>
+                    <img src="{% static 'images/landing/section1/farmer4.webp' %}" alt="" srcset="{% static 'images/landing/section1/farmer4@2x.webp' %} 2x, {% static 'images/landing/section1/farmer4@3x.webp' %} 3x" class="section1-farmer-img">
+                    <figcaption class="section1-image-desc">강둑 농원</figcaption>
+                </figure>
+            </div>
+        </div>
+        <figure>
+            <img src="{% static 'images/landing/section1/sec1desc.webp' %}" alt="" srcset="{% static 'images/landing/section1/sec1desc@2x.webp' %} 2x, {% static 'images/landing/section1/sec1desc@3x.webp' %} 3x" id="section1-desc-img">
+        </figure>
+    </article>
 </section>
