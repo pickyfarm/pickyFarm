@@ -146,9 +146,12 @@ mark {
 /* section 3*/
 
 /* section 4*/
+#section4 {
+    background-color: var(--light-grey);
+    min-height: 580px;
+}
 #landing-section4 {
     min-height: 433px;
-    max-height: inherit;
 }
 
 .section4-text-wrapper {
