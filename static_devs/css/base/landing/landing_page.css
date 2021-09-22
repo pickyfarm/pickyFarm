@@ -111,6 +111,7 @@ figcaption {
 #landing-section2 {
     min-height: 550px;
     margin-top: auto;
+    margin-bottom: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -149,12 +150,14 @@ mark {
 #section3 {
     background-color: #e3e3e3;
     min-height: 580px;
-    align-items: center;
+    display: flex;
+    justify-content: center;
 }
 
 #landing-section3 {
     min-height: 550px;
     margin-top: auto;
+    margin-bottom: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
