@@ -105,6 +105,7 @@ figcaption {
 #section2 {
     background-color: var(--dark-green);
     min-height: 580px;
+    align-items: center;
 }
 
 #landing-section2 {
@@ -147,7 +148,8 @@ mark {
 
 #section3 {
     background-color: #e3e3e3;
-    height: 580px;
+    min-height: 580px;
+    align-items: center;
 }
 
 #landing-section3 {
