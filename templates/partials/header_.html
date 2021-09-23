@@ -34,7 +34,7 @@
                         <div class="main-menu">
                             <ul class="flex h-6 header-menu">
                                 <li class="header-first ml-0 font-medium w-auto  border-green-700 text-center">카테고리</li>
-                                <li class="header-list font-medium w-auto  border-green-700 text-center"><a href="{% url 'products:store_list' %}" id="header-list--store">스토어</a></li>
+                                <li class="header-list font-medium w-auto  border-green-700 text-center"><a href="{% url 'products:store_list' %}" id="header-list--store" name="{{user.pk}}">스토어</a></li>
                                 <li class="header-list font-medium w-auto  border-green-700 text-center"><a href="{% url 'editor_reviews:index' %}" id="header-list--editors-pick">Editor's Pick</a></li>
                                 <li class="header-last font-medium w-auto mr-0">
                                     <a href="{% url 'farmers:farmers_page' %}" id="header-list--farmers-page">Farmer's Page</a>
@@ -122,4 +122,9 @@
 </script>
 
 <!-- JS for landing page -->
+<script>
+    const landingTestURL = "{% url 'users:landing_test' %}"
+    const storePageURL = "{% url 'products:store_list' %}"
+    const CSRF_TOKEN = "{{csrf_token}}"
+</script>
 <script src="{% static 'js/landing/landing_page.js' %}"></script>
