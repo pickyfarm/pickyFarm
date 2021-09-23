@@ -8,23 +8,28 @@
 
         <ul class="flex text-xs divide-x-2 h-3 divide-gray-400">
             {% if user.is_authenticated %}
-            <a href="{% url 'users:logout' %}">
+            <a href="{% url 'users:logout' %}" id="header-logout">
                 <li class=" w-24 text-center">로그아웃</li>
             </a>
             {% else %}
-            <a href="{% url 'users:login' %}">
+            <a href="{% url 'users:login' %}" id="header-login">
                 <li class=" w-24 text-center">로그인</li>
             </a>
             {% endif %}
             {% if user.is_authenticated != True %}
-            <a href="{% url 'users:signup' %}">
+            <a href="{% url 'users:signup' %}" id="header-signup">
                 <li class=" w-24 text-center">회원가입</li>
             </a>
             {% endif %}
-            <li class=" w-24 text-center">고객센터</li>
-            <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'orders' %}">my page</a></li>
-            <li class=" w-24 text-center"><a href="{% url 'users:mypage' 'cart' %}"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
-            </li>
+            <a href="#" id="header-service-center">
+                <li class=" w-24 text-center">고객센터</li>
+            </a>
+            <a href="{% url 'users:mypage' 'orders' %}" id="header-mypage">
+                <li class=" w-24 text-center">my page</li>
+            </a>
+            <a href="{% url 'users:mypage' 'cart' %}" id="header-cart">
+                <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></li>
+            </a>
         </ul>
     </div>
 </div>
@@ -40,10 +45,19 @@
         <div class="main-menu">
             <ul class="flex h-6 header-menu">
                 <li class="header-first ml-0 font-medium w-auto  border-green-700 text-center">카테고리</li>
-                <li class="header-list font-medium w-auto  border-green-700 text-center"><a href="{% url 'products:store_list' %}">스토어</a></li>
-                <li class="header-list font-medium w-auto  border-green-700 text-center"><a href="{% url 'editor_reviews:index' %}">Editor's Pick</a></li>
-                <li class="header-last font-medium w-auto mr-0"><a href="{% url 'farmers:farmers_page' %}">Farmer's
-                        Page</a></li>
+                <li class="header-list font-medium w-auto  border-green-700 text-center">
+                    <a href="{% url 'products:store_list' %}" id="header-list--store" name="{{user.pk}}">스토어</a>
+                </li>
+                <li class="header-list font-medium w-auto  border-green-700 text-center">
+                    <a href="{% url 'editor_reviews:index' %}" id="header-list--editors-pick">
+                        Editor's Pick
+                    </a>
+                </li>
+                <li class="header-last font-medium w-auto mr-0">
+                    <a href="{% url 'farmers:farmers_page' %}" id="header-list--farmers-page">
+                        Farmer's Page
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="searchbox">
@@ -97,3 +111,11 @@
         }
     });
 </script>
+
+<!-- JS for landing page -->
+<script>
+    const landingTestURL = "{% url 'users:landing_test' %}"
+    const storePageURL = "{% url 'products:store_list' %}"
+    const CSRF_TOKEN = "{{csrf_token}}"
+</script>
+<script src="{% static 'js/landing/landing_page.js' %}"></script>
