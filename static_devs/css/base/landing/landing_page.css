@@ -84,6 +84,7 @@
 }
 
 /* section 1*/
+
 #section1 {
     background-color: var(--light-grey);
     min-height: 580px;
@@ -140,6 +141,39 @@ figcaption {
 }
 
 @media screen and (max-width: 768px) {
+    #landing-section1 {
+        flex-direction: column;
+        padding: 0 5.2rem;
+        width: 37.5rem;
+    }
+
+    .section-wrapper {
+        justify-content: normal;
+        min-height: fit-content;
+        flex: 0;
+    }
+
+    #section1-title p {
+        margin-top: 0.8rem;
+    }
+
+    #section1-farmer-image-group {
+        justify-content: space-between;
+        margin-top: 1.2rem;
+    }
+
+    .section1-farmer-img {
+        width: 6rem;
+        height: 6rem;
+    }
+
+    #section1-desc-img {
+        width: 26.3rem;
+    }
+
+    .section1-image-desc {
+        left: 1rem;
+    }
 }
 
 /* section 2*/
@@ -186,7 +220,36 @@ mark {
     line-height: 30px;
 }
 
+#section2-desc-img-mobile {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
+    #section2-desc-img {
+        display: none;
+    }
+
+    #section2-desc-img-mobile {
+        display: block;
+        width: 76.8rem;
+        height: fit-content;
+        align-self: center;
+    }
+
+    #landing-section2-text-group {
+        flex-direction: column;
+    }
+
+    #landing-section2-main-text-group {
+        margin-left: 6rem;
+    }
+
+    #section2-desc {
+        margin-left: auto;
+        margin-right: 6rem;
+        margin-bottom: 3rem;
+        text-align: right;
+    }
 }
 
 /* section 3*/
