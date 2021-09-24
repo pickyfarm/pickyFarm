@@ -65,9 +65,17 @@
         padding: 0.1rem
     }
     #filter > input {
-        padding: 0.1rem 0 0.1rem 1rem;
+        padding: 0.1rem 0 0.1rem;
         width: 100%;
         margin: 0 1rem;
+        text-align: right;
+        padding-inline-end: 0.5rem;
+        inline-size: -webkit-fill-available;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex-direction: column;
     }
     input[type="date"] {
         position: relative;
