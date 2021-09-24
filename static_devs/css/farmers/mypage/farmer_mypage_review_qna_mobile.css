@@ -44,9 +44,10 @@
     }
     .date-input {
         width: 10.1rem;
-        padding-left: 0.4rem;
+        padding-left: 1.6rem;
         display: flex;
-        align-content: stretch;
+        align-content: center;
+        justify-content: center;
         flex-wrap: wrap;
         flex-direction: column;
     }
@@ -64,7 +65,7 @@
         display: block;
         content: '▼';
         position: absolute;
-        right: 1rem;
+        right: 0.4rem;
         color: #5c6754;
     }
     #end-date {
