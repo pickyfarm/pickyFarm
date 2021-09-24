@@ -254,86 +254,83 @@ mark {
 
 /* section 3*/
 
-
-
 #section3 {
-    background-color:#e3e3e3;
+    background-color: #e3e3e3;
     align-items: center;
 }
 
-#landing-section3{
+#landing-section3 {
     position: relative;
-    height:calc(100vh - 56px);
+    height: calc(100vh - 56px);
     justify-content: center;
     align-items: center;
 }
 
-#section3-desc-left-img{
+#section3-desc-left-img {
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
 }
 
-#section3-desc-right-img{
+#section3-desc-right-img {
     position: absolute;
-    bottom:0px;
-    right:0;
+    bottom: 0px;
+    right: 0;
 }
 
-#landing-section3-text-group{
+#landing-section3-text-group {
     text-align: center;
     z-index: 1;
 }
 
-#section3-desc-center-img-wrapper{
-    margin-top : 43.6px;
+#section3-desc-center-img-wrapper {
+    margin-top: 43.6px;
     margin-bottom: 44.1px;
 }
 
 @media screen and (max-width: 768px) {
     /* 각 섹션별로 미디어 쿼리 따로 정의해서 씁시다. 섞이면 짜증남. */
-    #landing-section3{
+    #landing-section3 {
         position: relative;
-        height:575px !important;
-        width:100vw;
+        height: 575px !important;
+        width: 100vw;
         justify-content: center;
         align-items: center;
     }
 
-    #section3-desc-left-img{
+    #section3-desc-left-img {
         position: absolute;
-        top:0;
-        left:-50px;
-        width:150px;
-        height:330px;
+        top: 0;
+        left: -50px;
+        width: 150px;
+        height: 330px;
         z-index: 0;
     }
 
-    #section3-desc-right-img{
+    #section3-desc-right-img {
         position: absolute;
-        bottom:0;
-        right:-50px;
-        width:200px;
+        bottom: 0;
+        right: -50px;
+        width: 200px;
         object-fit: cover;
         z-index: 0;
     }
 
-    #landing-section3-text-group{
+    #landing-section3-text-group {
         text-align: center;
         z-index: 1;
     }
 
-    #section3-desc-center-img{
-        width:242px;
+    #section3-desc-center-img {
+        width: 242px;
         object-fit: cover;
     }
 
-    #section3-desc-center-img-wrapper{
-        margin-top : 43.6px;
+    #section3-desc-center-img-wrapper {
+        margin-top: 43.6px;
         margin-bottom: 44.1px;
     }
 }
-
 
 /* section 4*/
 #section4 {
@@ -367,15 +364,17 @@ mark {
     display: none;
 }
 
-
 @media screen and (max-width: 768px) {
+    #section4 {
+        margin-bottom: 11rem;
+    }
+
     .section4-main-title {
         font-size: 3.2rem;
         text-align: center;
         margin-top: 6.5rem;
         margin-bottom: 2.5rem;
         color: var(--dark-green);
-
     }
     .section4-sub-title {
         font-size: 2.1rem;

@@ -2,11 +2,11 @@
 
 <nav class="fixed bottom-0 flex items-end  md:hidden" id="navbar-mobile">
     <ul class="flex justify-between flex-auto">
-        <a class="navbar-item flex flex-col" href="{% url 'editors_pick:index' %}">
+        <a class="navbar-item flex flex-col" id="navbar-editor">
             <img src="{% static 'images/like.svg' %}" alt="Editor's Pick" class="navbar-icon">
             <div class="navbar-text">에디터</div>
         </a>
-        <a class="navbar-item flex flex-col" href="{% url 'farmers:farmers_page' %}">
+        <a class="navbar-item flex flex-col" id="navbar-farmer">
             <img src="{% static 'images/like.svg' %}" alt="Farmer's Page" class="navbar-icon">
             <div class="navbar-text">파머</div>
         </a>
@@ -14,11 +14,11 @@
             <img src="{% static 'images/like.svg' %}" alt="Home" class="navbar-icon">
             <div class="navbar-text">홈</div>
         </a>
-        <a class="navbar-item flex flex-col" href="{% url 'products:store_list' %}">
+        <a class="navbar-item flex flex-col" id="navbar-store">
             <img src="{% static 'images/like.svg' %}" alt="Store" class="navbar-icon">
             <div class="navbar-text">스토어</div>
         </a>
-        <a class="navbar-item flex flex-col" href="{% url 'users:mypage' 'orders' %}">
+        <a class="navbar-item flex flex-col" id="navbar-mypage">
             <img src="{% static 'images/like.svg' %}" alt="Mypage" class="navbar-icon">
             <div class="navbar-text">마이페이지</div>
         </a>

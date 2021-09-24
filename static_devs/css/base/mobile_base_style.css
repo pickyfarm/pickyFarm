@@ -148,4 +148,12 @@
     .header-pc {
         display: none;
     }
+
+    #main-slider {
+        height: 40vw !important;
+    }
+
+    .slider-img {
+        height: 40vw;
+    }
 }

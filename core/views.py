@@ -35,23 +35,23 @@ def index(request):
     #     pass
 
     # today_farmer_list = Farmer.objects.all()
-    # main_slider_image = Main_Slider_Image.objects.all()
+    main_slider_image = Main_Slider_Image.objects.all()
 
     # if len(today_farmer_list) < 3:
     #     today_farmer_list = (
     #         today_farmer_list | Farmer.objects.all()[: 3 - len(today_farmer_list)]
     #     )
 
-    # ctx = {
-    #     "products": products,
-    #     "today_pick_list": today_pick_list,
-    #     "best_product_list": best_product_list,
-    #     "editor_pick_list": editor_pick_list,
-    #     "today_farmer_list": today_farmer_list,
-    #     "main_slider_image": main_slider_image,
-    # }
+    ctx = {
+        # "products": products,
+        # "today_pick_list": today_pick_list,
+        # "best_product_list": best_product_list,
+        # "editor_pick_list": editor_pick_list,
+        # "today_farmer_list": today_farmer_list,
+        "main_slider_image": main_slider_image,
+    }
 
-    return render(request, "base/landing/landing_page.html")
+    return render(request, "base/landing/landing_page.html", ctx)
 
 
 def disclaimer(request):
