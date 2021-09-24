@@ -88,9 +88,10 @@
     }
     .date-input {
         width: 10.1rem;
-        padding-left: 0;
+        padding-right: 1.6rem;
         display: flex;
-        align-content: stretch;
+        align-content: center;
+        justify-content: center;
         flex-wrap: wrap;
         flex-direction: column;
     }
