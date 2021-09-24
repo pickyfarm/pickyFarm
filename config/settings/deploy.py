@@ -22,7 +22,7 @@ AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=86400",
 }
 
-RDS Setting
+# RDS Setting
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
