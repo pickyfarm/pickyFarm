@@ -27,10 +27,10 @@
     <div id="filter-until">~</div>
     <input id="filter-end-date" type="date" name="e_date" value="{{end_date}}">
     <button id="filter-submit" type="submit">
-      <span>조회</span>    
+      <span>조회</span>
       <img id="filter-submit-icon" src="/static/images/users/search.svg" alt="조회 아이콘">
     </button>
-    
+
   </div>
 </form>
 
@@ -115,10 +115,10 @@
         </a>
       </div>
       {% endif %}
-      
-      
+
+
       {% if detail.status == 'payment_complete' or detail.status == 'preparing' %}
-      <div id="cancel-order-btn" class="transition_element" onclick="window.open('{% url 'user:mypage_order_cancel_popup' detail.pk %}')">
+      <div id="cancel-order-btn" class="transition_element">
         <a>
           주문 취소
         </a>
@@ -155,7 +155,7 @@
   // 모바일에서 메뉴 선택
   if (window.matchMedia("(max-width: 768px)").matches) {
     document.getElementById('menu_boughts').classList.add('selected');
-    document.getElementById('selected_line').style.gridArea= "line1";
+    document.getElementById('selected_line').style.gridArea = "line1";
   }
 
   menuBtns.forEach(item => {
@@ -233,15 +233,16 @@
   })
 
   var popupX = (document.body.offsetWidth / 2) - (375 / 2);
-  var popupY= (window.screen.height / 2) - (600 / 2);
+  var popupY = (window.screen.height / 2) - (600 / 2);
 
   function productCommentPopup(pk) {
     const detailpk = parseInt(pk);
     {% for detail in order_details %}
-        if (detailpk === {{ detail.pk }}) {
-            window.open("{% url 'user:product_comment_create' detail.pk %}", '', 'height=600, width=375, left='+ popupX + ', top='+ popupY);
-        }
-    {% endfor %}
+    if (detailpk === {{ detail.pk }
+  }) {
+    window.open("{% url 'user:product_comment_create' detail.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
+  }
+  {% endfor %}
   }
 </script>
 <script src="{% static 'js/users/mypage/user/mypage_orders.js' %}"></script>
