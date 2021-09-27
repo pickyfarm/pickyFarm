@@ -2,15 +2,16 @@
 
 @media screen and (max-width: 768px) {
     /* 모바일에서만 보임 */
-    #required-input-text, #mobile-dot{
+    #required-input-text,
+    #mobile-dot {
         display: inline-block;
     }
 
-    #signup_form{
+    #signup_form {
         width: 100%;
         margin-top: 0;
     }
-    #signup-title{
+    #signup-title {
         margin-top: 6rem;
         margin-bottom: 0.5rem;
         font-size: 1.5rem;
@@ -22,7 +23,7 @@
         text-align: left;
         color: var(--dark-sage);
     }
-    #required-input-text{
+    #required-input-text {
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -36,20 +37,20 @@
         text-align: left;
         color: #5e6656;
     }
-    #mobile-dot{
+    #mobile-dot {
         width: 1.5rem;
         height: 1.5rem;
     }
-    #required-input-text #mobile-dot{
+    #required-input-text #mobile-dot {
         margin-right: 0.8rem;
     }
-    .horizon-bar{
+    .horizon-bar {
         opacity: 0.5;
         border: solid 0.1rem var(--brown-grey);
         margin-top: 1.45rem;
         margin-bottom: 2rem;
     }
-    .input_forms{
+    .input_forms {
         width: 100%;
         row-gap: 2rem;
         grid-template-columns: 3fr 7fr;
@@ -59,14 +60,21 @@
     }
     #username-form,
     #email-form,
-    #phone-form,
     #address-form,
-    #nickname-form{
+    #nickname-form {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
     }
-    .input_forms label{
+
+    #phone-form {
+        width: 100%;
+        display: grid;
+        column-gap: 1.2rem;
+        grid-template-columns: auto 30%;
+    }
+
+    .input_forms label {
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -81,11 +89,14 @@
         padding-left: 0;
         margin-top: 0;
     }
-    #gender-label, #birth-label{
+    #gender-label,
+    #birth-label {
         grid-column: 1;
     }
-    .input_forms label:not(#gender-label label, #birth-label label, #id_gender label)::after{
-        content: "";
+    .input_forms
+        label:not(#gender-label label, #birth-label label, #id_gender
+            label)::after {
+        content: '';
         display: inline-block;
         height: 1.1rem;
         width: 1.1rem;
@@ -93,21 +104,21 @@
         background-size: 1.1rem 1.1rem;
         margin-left: 0.7rem;
     }
-    .input_forms input{
+    .input_forms input {
         width: 100%;
         height: 2.8rem;
         padding-left: 1rem;
         font-size: 1rem;
     }
-    .input_forms input::placeholder{
+    .input_forms input::placeholder {
         font-size: 1rem;
         color: var(--brown-grey);
     }
-    .validation-input-form{
+    .validation-input-form {
         width: 100%;
         margin-right: 1.2rem;
     }
-    .form-validation-message{
+    .form-validation-message {
         font-size: 1.1rem;
         font-weight: normal;
         font-stretch: normal;
@@ -117,7 +128,7 @@
         margin-top: 0.9rem !important;
         padding-left: 0.9rem !important;
     }
-    .valid-button{
+    .valid-button {
         width: 40% !important;
         height: 2.8rem !important;
         margin: 0 !important;
@@ -135,13 +146,19 @@
         text-align: center !important;
         color: var(--dark-sage) !important;
     }
-    #phone-number-check{
-        width: 60% !important;
+    #phone-number-check,
+    #auth-number-check {
+        width: 100% !important;
     }
-    #search-btn{
+
+    #phone-number-valid {
+        margin-bottom: 0.9rem;
+    }
+
+    #search-btn {
         display: none;
     }
-    #mobile-search-btn{
+    #mobile-search-btn {
         display: block;
         margin-left: 1.2rem !important;
         width: 15% !important;
@@ -150,16 +167,16 @@
         background-color: var(--light-grey) !important;
         border: none !important;
     }
-    #mobile-search-img{
+    #mobile-search-img {
         width: 1.6rem;
         height: 1.6rem;
         object-fit: contain;
         margin: 0 auto;
     }
-    #id_gender{
+    #id_gender {
         align-items: center;
     }
-    .gender-selection label{
+    .gender-selection label {
         align-items: center;
         font-size: 1.2rem;
         font-weight: normal;
@@ -169,22 +186,22 @@
         text-align: left;
         color: #808080;
     }
-    #id_gender label::before{
+    #id_gender label::before {
         margin-bottom: 0.4rem;
         width: 1.5rem !important;
         height: 1.5rem !important;
         background-size: contain;
     }
-    #id_birth{
+    #id_birth {
         padding: 0 1.5rem;
     }
-    #nickname-form{
+    #nickname-form {
         position: relative;
     }
-    #nickname-form input::placeholder{
+    #nickname-form input::placeholder {
         color: transparent;
     }
-    #nickname-form::after{
+    #nickname-form::after {
         position: absolute;
         bottom: -2.5rem;
         left: 0;
@@ -203,12 +220,12 @@
     }
 
     /* 이용약관 동의 */
-    .form_term_agree{
+    .form_term_agree {
         grid-template-columns: 8.7rem auto;
         row-gap: 1.87rem;
         column-gap: 0.8rem;
     }
-    #term-agree{
+    #term-agree {
         font-size: 1.2rem;
         font-weight: 500;
         font-stretch: normal;
@@ -222,17 +239,17 @@
         justify-content: flex-start;
         align-items: center;
     }
-    #term-agree::before{
+    #term-agree::before {
         content: '' !important;
         display: none;
     }
-    .form_term_agree #mobile-dot{
+    .form_term_agree #mobile-dot {
         width: 1.1rem;
         height: 1.1rem;
         margin-left: 0.5rem;
         margin-top: 0.1rem;
     }
-    #all-agree{
+    #all-agree {
         margin-bottom: 0 !important;
         font-size: 1.5rem !important;
         color: #808080 !important;
@@ -243,7 +260,7 @@
         background-size: contain;
         margin-right: 0.8rem !important;
     }
-    .form_term_agree a{
+    .form_term_agree a {
         margin-right: 0;
         font-size: 1.2rem;
         font-weight: 500;
@@ -253,7 +270,7 @@
         text-align: right;
         color: var(--dark-sage);
     }
-    .form_term_agree label{
+    .form_term_agree label {
         font-size: 1.2rem;
         font-weight: normal;
         font-stretch: normal;
@@ -262,13 +279,15 @@
         text-align: left;
         color: #707070;
     }
-    label.mand::after, label.opt::after{
+    label.mand::after,
+    label.opt::after {
         content: '';
     }
-    .agree-term-wrapper, .form_term_agree > div:not(.agree-term-wrapper){
+    .agree-term-wrapper,
+    .form_term_agree > div:not(.agree-term-wrapper) {
         position: relative;
     }
-    .form_term_agree > div:not(.agree-term-wrapper)::before{
+    .form_term_agree > div:not(.agree-term-wrapper)::before {
         position: absolute;
         top: 0.4rem;
         left: 0;
@@ -283,7 +302,7 @@
         margin-left: -3.5rem;
         vertical-align: middle;
     }
-    .agree-term-wrapper::before{
+    .agree-term-wrapper::before {
         position: absolute;
         top: 0.4rem;
         left: 0;
@@ -298,22 +317,22 @@
         margin-left: -3.5rem;
         vertical-align: middle;
     }
-    .form_term_agree input+label::before{
+    .form_term_agree input + label::before {
         width: 1.5rem !important;
         height: 1.5rem !important;
         background-size: contain !important;
         top: 0.2rem !important;
-        margin-right: 0.8rem !important; 
+        margin-right: 0.8rem !important;
     }
-    .term-description{
+    .term-description {
         margin-left: 2.5rem;
         text-align: left;
         line-height: 1.5rem;
     }
-    .agree-term-wrapper{
+    .agree-term-wrapper {
         justify-content: flex-start;
     }
-    .submit{
+    .submit {
         width: 8.7rem;
         height: 4rem;
         border-radius: 2rem;
