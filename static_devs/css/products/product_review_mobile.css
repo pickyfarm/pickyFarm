@@ -224,7 +224,12 @@
         text-align: left;
         color: #000;
     }
+    #review_imgs{
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
     #review_img{
+        flex: 0 0 auto;
         margin-right: 1.06rem;
         margin-bottom: 1.68rem;
     }
