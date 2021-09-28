@@ -1,8 +1,11 @@
 /* 모바일에서만 보임 */
-#required-input-text, #mobile-dot, #mobile-search-btn{
+#required-input-text,
+#mobile-dot,
+#mobile-search-btn {
     display: none;
 }
-#gender-label, #birth-label{
+#gender-label,
+#birth-label {
     text-align: left;
     grid-column: 1;
 }
@@ -10,14 +13,14 @@
 #email-form,
 #phone-form,
 #address-form,
-#nickname-form{
+#nickname-form {
     display: grid;
     grid-template-columns: 300px auto;
 }
-.validation-input-form{
+.validation-input-form {
     text-align: left;
 }
-.valid-button{
+.valid-button {
     grid-column: 2;
 }
 
@@ -70,7 +73,7 @@ input:focus {
     font-weight: normal;
 }
 
-.input_forms input,
+.input_forms input:not(#id_auth_number),
 .form-validation-message,
 .form_term_agree label,
 .form_term_agree div {
@@ -253,4 +256,3 @@ label.opt::after {
     font-weight: 500;
     color: #5c6754;
 }
-

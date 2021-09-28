@@ -161,9 +161,6 @@ $('#phone-number-check').click(function () {
         return;
     }
 
-    document.querySelector('#id_auth_number').style.display = 'block';
-    document.querySelector('#auth-number-check').style.display = 'block';
-
     let time_minutes = 3; // Value in minutes
     let time_seconds = 0; // Value in seconds
 
@@ -182,6 +179,10 @@ $('#phone-number-check').click(function () {
         data: { target: target },
         success: function (data) {
             if (data['isValid'] == false) {
+                document.querySelector('#id_auth_number').style.display =
+                    'block';
+                document.querySelector('#auth-number-check').style.display =
+                    'block';
                 messageContainer.innerHTML = '인증번호를 입력해주세요.';
                 messageContainer.classList.toggle(
                     'invalid-form',
@@ -215,6 +216,10 @@ $('#auth-number-check').click(function () {
         url: url,
         data: { auth_num: auth_num, phone_num: phone_num },
         success: function (data) {
+            const messageContainer = document.querySelector(
+                '#phone-number-valid'
+            );
+
             console.log(data['isValid']);
             if (data['isValid'] == false) {
                 alert('인증번호가 틀렸습니다.');
@@ -226,6 +231,11 @@ $('#auth-number-check').click(function () {
                 alert('인증이 완료되었습니다.');
                 document.querySelector('#id_auth_number').disabled = true;
                 document.querySelector('#id_phone_number').disabled = true;
+                document.querySelector('#id_auth_number').style.display =
+                    'none';
+                document.querySelector('#auth-number-check').style.display =
+                    'none';
+                messageContainer.innerHTML = '';
             }
         },
     });
