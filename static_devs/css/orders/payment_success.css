@@ -40,6 +40,7 @@
 }
 
 .order-payment-success-information-image {
+    object-fit: cover;
     width: 72px;
     height: 72px;
     border-radius: 20px;
@@ -83,16 +84,15 @@
 }
 
 .order-payment-success-information-description-bottom-wrap {
-    width: 110px;
+    width: fit-content;
     justify-content: space-between;
     color: #c7c7c7;
 }
 
-.order-payment-success-information-weight::after {
-    content: '|';
-    color: #c7c7c7;
-    margin-left: 3px;
-    font-size: 12px;
+.divider {
+    border-left: 2px solid #c7c7c7;
+    height: 18px;
+    margin: 0 8px;
 }
 
 .order-payment-success-information-list-border-bottom {
@@ -217,9 +217,9 @@
 
 .order-payment-success-unsubfarmer-card-photo-section2,
 .order-payment-success-subfarmer-card-photo-section2 {
-    align-items: center;   
+    align-items: center;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
 }
 
 .order-payment-success-unsubfarmer-card-photo-circle,
