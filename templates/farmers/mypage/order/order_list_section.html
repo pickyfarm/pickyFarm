@@ -22,8 +22,10 @@
             배송완료
             {% elif order.status == 'cancel' %}
             주문취소
-            {% elif order.status == 're_ex_recept' %}
-            환불/교환 요청
+            {% elif order.status == 'ex_recept' %}
+            교환 요청
+            {% elif order.status == 're_recept' %}
+            환불 요청
             {% elif order.status == 're_ex_approve' %}
             환불/교환 승인
             {% else %}
@@ -45,8 +47,9 @@
         <div class="invoice-info">
             {% if order.status == 'shipping' or order.status == 'complete' %}
             {{order.invoice_number}}
-            {% elif order.status == 're_ex_recept' %}
-            <div class="button order-status-action-button transition_element">
+            {% elif order.status == 're_recept' or order.status == 'ex_recept' %}
+            <div class="button order-status-action-button transition_element" {% if order.status == 're_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_refund_check_popup' order.pk %}')" {% elif order.status == 'ex_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_exchange_check_popup' order.pk %}')" {% endif %}>
+
                 사유 확인
             </div>
             {% elif order.status == 'preparing' %}

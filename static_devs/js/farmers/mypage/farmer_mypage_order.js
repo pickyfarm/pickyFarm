@@ -7,14 +7,14 @@ document.querySelectorAll('.order-confirm').forEach((elem) => {
     });
 });
 
-document.querySelectorAll('.order-cancel').forEach((elem) => {
-    elem.addEventListener('click', (e) => {
-        // AJAX Handler when farmer declines new order
-        orderCancel(
-            e.target.closest('.order-confirm-overlay').getAttribute('name')
-        );
-    });
-});
+// document.querySelectorAll('.order-cancel').forEach((elem) => {
+//     elem.addEventListener('click', (e) => {
+//         // AJAX Handler when farmer declines new order
+//         orderCancel(
+//             e.target.closest('.order-confirm-overlay').getAttribute('name')
+//         );
+//     });
+// });
 
 const orderConfirm = (pk) => {
     $.ajax({
