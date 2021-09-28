@@ -30,25 +30,30 @@
                             </div>
                         </div>
                     </div>
-                    <a href="{% url 'farmers:farmer_mypage_info_update' %}" id="farmer-info-update" class="farmer-link flex justify-between">
-                        내 농가 페이지 수정하기
-                        <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
-                    </a>
-                    <a href="{% url 'farmers:farmer_story_create' %}" id="farmer-info-update" class="farmer-link flex justify-between">
-                        농가일기 쓰러 가기
-                        <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
-                    </a>
-                    <div class="inline-flex items-center" id="deliver-message-update">
-                        <div class="tooltip-box">?</div>
-                        <a href=# class="farmer-link flex justify-between">
-                            배송 감사 메세지 수정하기
+                    <div id="farmer-info-update-links">
+                        <a href="{% url 'farmers:farmer_mypage_info_update' %}" id="farmer-info-update" class="farmer-link flex justify-between">
+                            내 농가 페이지 수정하기
                             <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
                         </a>
+                        <a href="{% url 'farmers:farmer_story_create' %}" id="farmer-info-update" class="farmer-link flex justify-between">
+                            농가일기 쓰러 가기
+                            <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
+                        </a>
+                        <div class="inline-flex items-center" id="deliver-message-update">
+                            <div class="tooltip-box">?</div>
+                            <a href=# class="farmer-link flex justify-between">
+                                배송 감사 메세지 수정하기
+                                <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
+                            </a>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div id="farmer-order-info-section" class="info-section-box">
-                <span class="info-section-title">판매 및 배송 현황</span>
+                <div class="info-box-title-wrapper">
+                    <span class="info-section-title">판매 및 배송 현황</span>
+                </div>
                 <div class="info-section-sheet grid">
                     <div class="info-detail flex justify-between items-center" id="new-orders">
                         <span class="info-detail-title">신규주문</span>
@@ -88,7 +93,9 @@
                 </div>
             </div>
             <div id="farmer-purchase-info-section" class="info-section-box">
-                <span class="info-section-title">클레임 / 정산</span>
+                <div class="info-box-title-wrapper">
+                    <span class="info-section-title">클레임 / 정산</span>
+                </div>
                 <div class="info-section-sheet grid">
                     <div class="info-detail flex justify-between items-center" id="canceled-orders">
                         <span class="info-detail-title">주문 취소</span>
@@ -118,8 +125,8 @@
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
-                    <div class="info-detail flex justify-between items-center">
-                        <span class="info-detail-title">이번 주<br />누적정산</span>
+                    <div class="info-detail flex justify-between items-center" id="info-details-last-child">
+                        <span class="info-detail-title">이번 주 누적정산</span>
                         <span class="info-detail-count flex justify-between items-center">
                             12
                             <span class="info-detail-count-unit">건</span>
@@ -147,6 +154,10 @@
             <a href="#">
                 <div class="farmer-mypage-link-button text-center" id="button-notices">공지사항</div>
             </a>
+            <div id="line">
+                <div id="selected_line"></div>
+                <div id="background_line"></div>
+            </div>
         </nav>
     </section>
     {% block content %} {% endblock content %}
