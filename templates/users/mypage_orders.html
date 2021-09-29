@@ -102,7 +102,7 @@
 
       {% if detail.status == 'delivery_complete' %}
       <div id="reg-review-btn" class="transition_element">
-        <a>
+        <a href="{% url 'users:product_comment_create' detail.pk %}">
           리뷰 쓰기
         </a>
       </div>
