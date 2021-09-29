@@ -728,6 +728,7 @@ def mypage(request, cat):
 
             print("진짜")
             print(order_details)
+
             ctx_orders = {
                 "total_pages": range(1, total_pages + 1),
                 "order_details": order_details,
