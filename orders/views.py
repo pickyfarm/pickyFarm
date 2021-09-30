@@ -15,6 +15,7 @@ import json
 import os, datetime
 from .BootpayApi import BootpayApi
 import pprint
+import cryptocode
 from kakaomessages.views import send_kakao_message
 from kakaomessages.template import templateIdList
 
@@ -633,20 +634,22 @@ def payment_valid(request):
                             args_consumer,
                         )
 
+                        encoded_order_detail_number = cryptocode.encrypt(detail.order_management_number, os.environ.get("SECRET_KEY"))
+
                         args_farmer = {
                             "#{order_detail_title}": detail.product.title,
                             "#{order_detail_number}": detail.order_management_number,
                             "#{weight}": product.weight,
-                            "#{quantity}": detail.quantity,
-                            "#{rev_name}": order_group.rev_name,
-                            "#{rev_phone_number}": phone_number_consumer,
-                            "#{rev_address}": order_group.rev_address,
-                            "#{rev_loc_at}": order_group.rev_loc_at,
-                            "#{rev_detail}": order_group.rev_message,
-                            "#{rev_message}": order_group.to_farm_message,
-                            "#{link_1}": "www.pickyfarm.com",  # 임시
-                            "#{link_2}": "www.pickyfarm.com",  # 임시
-                            "#{link_3}": "www.pickyfarm.com",  # 임시
+                            "#{quantity}" : detail.quantity,
+                            "#{rev_name}" : order_group.rev_name,
+                            "#{rev_phone_number}" : phone_number_consumer,
+                            "#{rev_address}" : order_group.rev_address,
+                            "#{rev_loc_at}" : order_group.rev_loc_at,
+                            "#{rev_detail}" : order_group.rev_message,
+                            "#{rev_message}" : order_group.to_farm_message, 
+                            "#{link_1}" : f'http://127.0.0.1:8000/farmer/mypage/orders/check/{encoded_order_detail_number}', # 임시
+                            "#{link_2}" : "www.pickyfarm.com", # 임시
+                            "#{link_3}" : "www.pickyfarm.com" # 임시
                         }
 
                         send_kakao_message(
