@@ -14,10 +14,11 @@ class Order_Group(models.Model):
         ("error_stock", "결제오류(재고부족)"),
         ("error_valid", "결제오류(검증)"),
         ("error_server", "결제오류(서버)"),
+        ("error_price_match", "결제오류(총가격 불일치)"),
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    order_management_number = models.CharField(max_length=100, null=True, blank=True)
+    order_management_number = models.CharField(max_length=1000, null=True, blank=True)
     receipt_number = models.CharField(max_length=60, null=True, blank=True)
     rev_address = models.TextField(null=True, blank=True)
     rev_name = models.CharField(max_length=50, null=True, blank=True)
@@ -31,6 +32,9 @@ class Order_Group(models.Model):
 
     total_price = models.IntegerField(null=True, blank=True)
     total_quantity = models.IntegerField(null=True, blank=True)
+
+    is_jeju_mountain = models.BooleanField(default=False)
+
     order_at = models.DateTimeField(null=True, blank=True)
 
     update_at = models.DateTimeField(auto_now=True)
@@ -63,6 +67,7 @@ class Order_Detail(models.Model):
         ("error_stock", "결제오류(재고부족)"),
         ("error_valid", "결제오류(검증)"),
         ("error_server", "결제오류(서버)"),
+        ("error_price_match", "결제오류(총가격 불일치)"),
     )
 
     PAYMENT_STATUS = (("incoming", "정산예정"), ("progress", "정산 진행"), ("done", "정산 완료"))
@@ -75,7 +80,7 @@ class Order_Detail(models.Model):
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="incoming"
     )
-    order_management_number = models.CharField(max_length=100, null=True, blank=True)
+    order_management_number = models.CharField(max_length=1000, null=True, blank=True)
     invoice_number = models.CharField(max_length=30, null=True, blank=True)
     quantity = models.IntegerField()
     total_price = models.IntegerField()

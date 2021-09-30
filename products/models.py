@@ -54,7 +54,7 @@ class Product(models.Model):
     default_delivery_fee = models.IntegerField(default=0, help_text="기본 배송비")
     additional_delivery_fee_unit = models.IntegerField(default=0, help_text="추가 배송비 단위")
     additional_delivery_fee = models.IntegerField(default=0, help_text="추가 배송비")
-    jeju_mountain_additional_delivery_fee = models.IntegerField(default=0, help_text="제주/사간 추가 배송비")
+    jeju_mountain_additional_delivery_fee = models.IntegerField(default=0, help_text="제주/산간 추가 배송비")
 
     # 반품/교환 배송비
     refund_delivery_fee = models.IntegerField(default=0, help_text="반품 배송비(편도)")

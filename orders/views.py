@@ -97,6 +97,58 @@ def create_order_detail_management_number(pk, farmer_id):
     return order_detail_management_number
 
 
+
+# 결제 진행 페이지에서 주소 전환 시, 서버 반영 Ajax
+@login_required
+@require_POST
+@transaction.atomic
+def changeAddressAjax(request):
+    if request.method == "POST":
+        order_group_pk = request.POST.get("order_group_pk", None)
+        zip_code = int(request.POST.get("zip_code", 1))
+
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+
+        # !!!!!!zip code를 통해 도서산간인지 확인!!!!!!
+        is_new_addr_jeju_mountain = False # 임시로 false로 세팅 <- 함수 넣어서 reTURN 저기로 시키세요
+
+        fee_to_add = 0 # 주소 변경으로 인한 수정(+/-) 되어야할 배송비
+
+        if is_new_addr_jeju_mountain == True:
+            # 새로운 주소가 제주산간으로 판정되었는데
+            # 원래 제주 산간 추가 배송비가 추가 안되었으르 경우
+            if order_group.is_jeju_mountain == False:
+                order_group.is_jeju_mountain = True
+                for detail in order_group.order_details:
+                    #order_detail 에 제주산간 추가 배송비 더하기
+                    detail.total_price += detail.product.jeju_mountain_additional_delivery_fee
+                    #fee_to_add에 제주산간 추가 배송비 더하기
+                    fee_to_add += detail.product.jeju_mountain_additional_delivery_fee
+                    detail.save()
+                
+        else:
+            # 새로운 주소가 제주산간이 아닌 것으로 판정되었는데
+            # 원래 제주 산간 추가배송비가 더해진 상태인 경우
+            if order_group.is_jeju_mountain == True:
+                order_group.is_jeju_mountain = False
+                for detail in order_group.order_details:
+                    #order_detail 에 제주산간 추가 배송비 차감
+                    detail.total_price -= detail.product.jeju_mountain_additional_delivery_fee
+                    #fee_to_add 에 제주산간 추가 배송비 빼기
+                    fee_to_add -= detail.product.jeju_mountain_additional_delivery_fee
+                    detail.save()
+
+        #order_group total_price에 fee_to_add
+        order_group.total_price += fee_to_add
+        order_group.save()
+        
+        data = {
+            "fee_to_add" : fee_to_add,
+        }
+        
+        return JsonResponse(data)
+
+
 @login_required
 @transaction.atomic
 @require_POST
@@ -178,6 +230,12 @@ def payment_create(request):
                             quantity / product.additional_delivery_fee_unit
                         ) * product.additional_delivery_fee
             # !!!!제주/산간 관련 추가 배송비 코드 추가해야!!!!
+            # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
+
+            # 제주 산간이면 total_delivery_fee에 더하기
+
+            # 제주 산간이 아니념 total_delivery_fee에 안더하기
+            
 
             # order_detail 구매 수량
             total_quantity += quantity
@@ -280,7 +338,23 @@ def payment_update(request, pk):
         order_group_pk = pk
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
-        # [PROCESS 2] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
+        # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
+        client_total_price = int(request.POST.get("total_price"))
+        if order_group.total_price != client_total_price:
+            order_group.status = "error_price_match"
+            for detail in order_group.order_details:
+                detail.status = "error_price_match"
+                detail.save()
+            order_group.save()
+            
+            res_data = {
+                "valid": False,
+                "error_type" : "error_price_match"
+            }
+
+            return JsonResponse(res_data)
+
+        # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
         order_details = order_group.order_details.all()
 
         # 모든 주문 상품 재고량 확인 태그
@@ -288,7 +362,8 @@ def payment_update(request, pk):
         # 재고가 부족한 상품명 리스트
         invalid_products = list()
 
-        # [PROCESS 3] 결제 전 최종 재고 확인
+
+        # [PROCESS 4] 결제 전 최종 재고 확인
         for detail in order_details:
             print("[재고 확인 상품 재고] " + (str)(detail.product.stock))
             print("[재고 확인 주문양] " + (str)(detail.quantity))
@@ -300,10 +375,10 @@ def payment_update(request, pk):
 
         print(invalid_products)
 
-        # [PROCESS 4] 재고 확인 성공인 경우
+        # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
 
-            # [PROCESS 5] 주문 정보 Order_Group에 등록
+            # [PROCESS 6] 주문 정보 Order_Group에 등록
             rev_name = request.POST.get("rev_name")
             rev_phone_number = request.POST.get("rev_phone_number")
             rev_address = request.POST.get("rev_address")
@@ -351,6 +426,7 @@ def payment_update(request, pk):
             print("[invalid_products]" + (str)(invalid_products))
             res_data = {
                 "valid": valid,
+                "error_type" : "error_stock",
                 "invalid_products": invalid_products,
             }
 
