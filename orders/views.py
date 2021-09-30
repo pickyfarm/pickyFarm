@@ -98,55 +98,60 @@ def create_order_detail_management_number(pk, farmer_id):
     return order_detail_management_number
 
 
-
 # 결제 진행 페이지에서 주소 전환 시, 서버 반영 Ajax
 @login_required
 @require_POST
 @transaction.atomic
 def changeAddressAjax(request):
     if request.method == "POST":
-        order_group_pk = request.POST.get("order_group_pk", None)
+        order_group_pk = int(request.POST.get("order_group_pk", None))
         zip_code = int(request.POST.get("zip_code", 1))
 
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
         # !!!!!!zip code를 통해 도서산간인지 확인!!!!!!
-        is_new_addr_jeju_mountain = False # 임시로 false로 세팅 <- 함수 넣어서 reTURN 저기로 시키세요
+        is_new_addr_jeju_mountain = check_address_by_zipcode(
+            zip_code
+        )  # 임시로 false로 세팅 <- 함수 넣어서 reTURN 저기로 시키세요
 
-        fee_to_add = 0 # 주소 변경으로 인한 수정(+/-) 되어야할 배송비
+        fee_to_add = 0  # 주소 변경으로 인한 수정(+/-) 되어야할 배송비
 
         if is_new_addr_jeju_mountain == True:
             # 새로운 주소가 제주산간으로 판정되었는데
             # 원래 제주 산간 추가 배송비가 추가 안되었으르 경우
             if order_group.is_jeju_mountain == False:
                 order_group.is_jeju_mountain = True
-                for detail in order_group.order_details:
-                    #order_detail 에 제주산간 추가 배송비 더하기
-                    detail.total_price += detail.product.jeju_mountain_additional_delivery_fee
-                    #fee_to_add에 제주산간 추가 배송비 더하기
+                for detail in order_group.order_details.all():
+                    # order_detail 에 제주산간 추가 배송비 더하기
+                    detail.total_price += (
+                        detail.product.jeju_mountain_additional_delivery_fee
+                    )
+                    # fee_to_add에 제주산간 추가 배송비 더하기
                     fee_to_add += detail.product.jeju_mountain_additional_delivery_fee
                     detail.save()
-                
+
         else:
             # 새로운 주소가 제주산간이 아닌 것으로 판정되었는데
             # 원래 제주 산간 추가배송비가 더해진 상태인 경우
             if order_group.is_jeju_mountain == True:
                 order_group.is_jeju_mountain = False
-                for detail in order_group.order_details:
-                    #order_detail 에 제주산간 추가 배송비 차감
-                    detail.total_price -= detail.product.jeju_mountain_additional_delivery_fee
-                    #fee_to_add 에 제주산간 추가 배송비 빼기
+                for detail in order_group.order_details.all():
+                    # order_detail 에 제주산간 추가 배송비 차감
+                    detail.total_price -= (
+                        detail.product.jeju_mountain_additional_delivery_fee
+                    )
+                    # fee_to_add 에 제주산간 추가 배송비 빼기
                     fee_to_add -= detail.product.jeju_mountain_additional_delivery_fee
                     detail.save()
 
-        #order_group total_price에 fee_to_add
+        # order_group total_price에 fee_to_add
         order_group.total_price += fee_to_add
         order_group.save()
-        
+
         data = {
-            "fee_to_add" : fee_to_add,
+            "fee_to_add": fee_to_add,
         }
-        
+
         return JsonResponse(data)
 
 
@@ -236,7 +241,6 @@ def payment_create(request):
             # 제주 산간이면 total_delivery_fee에 더하기
 
             # 제주 산간이 아니념 total_delivery_fee에 안더하기
-            
 
             # order_detail 구매 수량
             total_quantity += quantity
@@ -347,11 +351,8 @@ def payment_update(request, pk):
                 detail.status = "error_price_match"
                 detail.save()
             order_group.save()
-            
-            res_data = {
-                "valid": False,
-                "error_type" : "error_price_match"
-            }
+
+            res_data = {"valid": False, "error_type": "error_price_match"}
 
             return JsonResponse(res_data)
 
@@ -362,7 +363,6 @@ def payment_update(request, pk):
         valid = True
         # 재고가 부족한 상품명 리스트
         invalid_products = list()
-
 
         # [PROCESS 4] 결제 전 최종 재고 확인
         for detail in order_details:
@@ -426,7 +426,7 @@ def payment_update(request, pk):
             print("[invalid_products]" + (str)(invalid_products))
             res_data = {
                 "valid": valid,
-                "error_type" : "error_stock",
+                "error_type": "error_stock",
                 "invalid_products": invalid_products,
             }
 
@@ -515,11 +515,12 @@ def payment_fail(request):
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
 
-class payment_valid_farmer():
+
+class payment_valid_farmer:
     farmer_pk = None
-    farm_name=None
-    farmer_nickname=None
-    farmer_phone_number=None
+    farm_name = None
+    farmer_nickname = None
+    farmer_phone_number = None
 
     def __init__(self, pk, farm_name, nicknae, phone_number):
         self.farmer_pk = pk
@@ -527,15 +528,16 @@ class payment_valid_farmer():
         self.farmer_nickname = nicknae
         self.farmer_phone_number = phone_number
 
+
 def farmer_search(farmers, pk, start, end):
-    mid = (start+end)//2
+    mid = (start + end) // 2
     if farmers[mid].farmer_pk == pk:
         return farmers[mid]
     if farmers[mid].farmer_pk < pk:
-        return farmer_search(farmers, pk, mid+1, end)
+        return farmer_search(farmers, pk, mid + 1, end)
     else:
-        return farmer_search(farmers, pk, start, mid-1)
-    
+        return farmer_search(farmers, pk, start, mid - 1)
+
 
 @login_required
 @transaction.atomic
@@ -558,7 +560,14 @@ def payment_valid(request):
         farmers_info = []
 
         for farmer in farmers:
-            farmers_info.append(payment_valid_farmer(farmer.pk, farmer.farm_name, farmer.user.nickname, farmer.user.phone_number))
+            farmers_info.append(
+                payment_valid_farmer(
+                    farmer.pk,
+                    farmer.farm_name,
+                    farmer.user.nickname,
+                    farmer.user.phone_number,
+                )
+            )
             if Subscribe.objects.filter(
                 consumer=order_group.consumer, farmer=farmer
             ).exists():
@@ -589,57 +598,66 @@ def payment_valid(request):
                     for detail in order_details:
 
                         product = detail.product
-                         # order_detail 재고 차감
+                        # order_detail 재고 차감
                         product.sold(detail.quantity)
                         # order_detail status - payment_complete로 변경
                         detail.status = "payment_complete"
                         detail.product.save()
                         detail.save()
 
-                        kakao_msg_weight = (str)(product.weight * detail.quantity) + product.weight_unit
-                        
+                        kakao_msg_weight = (str)(
+                            product.weight * detail.quantity
+                        ) + product.weight_unit
+
                         target_farmer_pk = product.farmer.pk
 
-                        target_farmer = farmer_search(farmers_info, target_farmer_pk, 0, farmers_info_len)
+                        target_farmer = farmer_search(
+                            farmers_info, target_farmer_pk, 0, farmers_info_len
+                        )
                         print("Farmer!!!" + target_farmer.farm_name)
 
                         args_consumer = {
-                            "#{farm_name}" : target_farmer.farm_name,
+                            "#{farm_name}": target_farmer.farm_name,
                             "#{order_detail_number}": detail.order_management_number,
-                            "#{order_detail_title}" : detail.product.title,
-                            "#{farmer_nickname}" : target_farmer.farmer_nickname,
+                            "#{order_detail_title}": detail.product.title,
+                            "#{farmer_nickname}": target_farmer.farmer_nickname,
                             "#{weight}": kakao_msg_weight,
-                            "#{link_1}" : "www.pickyfarm.com", # 임시
-                            "#{link_2}" : "www.pickyfarm.com" # 임시
+                            "#{link_1}": "www.pickyfarm.com",  # 임시
+                            "#{link_2}": "www.pickyfarm.com",  # 임시
                         }
 
-                        #소비자 결제 완료 카카오 알림톡 전송
-                        send_kakao_message(phone_number_consumer, templateIdList["payment_complete"], args_consumer)
-
+                        # 소비자 결제 완료 카카오 알림톡 전송
+                        send_kakao_message(
+                            phone_number_consumer,
+                            templateIdList["payment_complete"],
+                            args_consumer,
+                        )
 
                         args_farmer = {
-                            "#{order_detail_title}" : detail.product.title,
+                            "#{order_detail_title}": detail.product.title,
                             "#{order_detail_number}": detail.order_management_number,
                             "#{weight}": product.weight,
-                            "#{quantity}" : detail.quantity,
-                            "#{rev_name}" : order_group.rev_name,
-                            "#{rev_phone_number}" : phone_number_consumer,
-                            "#{rev_address}" : order_group.rev_address,
-                            "#{rev_loc_at}" : order_group.rev_loc_at,
-                            "#{rev_detail}" : order_group.rev_message,
-                            "#{rev_message}" : order_group.to_farm_message, 
-                            "#{link_1}" : "www.pickyfarm.com", # 임시
-                            "#{link_2}" : "www.pickyfarm.com", # 임시
-                            "#{link_3}" : "www.pickyfarm.com" # 임시
+                            "#{quantity}": detail.quantity,
+                            "#{rev_name}": order_group.rev_name,
+                            "#{rev_phone_number}": phone_number_consumer,
+                            "#{rev_address}": order_group.rev_address,
+                            "#{rev_loc_at}": order_group.rev_loc_at,
+                            "#{rev_detail}": order_group.rev_message,
+                            "#{rev_message}": order_group.to_farm_message,
+                            "#{link_1}": "www.pickyfarm.com",  # 임시
+                            "#{link_2}": "www.pickyfarm.com",  # 임시
+                            "#{link_3}": "www.pickyfarm.com",  # 임시
                         }
 
-                        send_kakao_message(target_farmer.farmer_phone_number, templateIdList["order_recept"], args_farmer)
-                    
+                        send_kakao_message(
+                            target_farmer.farmer_phone_number,
+                            templateIdList["order_recept"],
+                            args_farmer,
+                        )
+
                     # order_group status - payment complete로 변경
                     order_group.status = "payment_complete"
                     order_group.save()
-
-                    
 
                     ctx = {
                         "order_group": order_group,
