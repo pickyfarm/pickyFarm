@@ -1005,8 +1005,11 @@ class ProductCommentCreate(TemplateView):
         detail = self.get_context_data(**kwargs)["detail"]
         product_comment = ProductCommentForm(request.POST, request.FILES)
         consumer = Consumer.objects.get(pk=self.request.user.pk)
+        product_eixst = Product_Comment.objects.filter(
+            product=detail.product, consumer=consumer
+        ).exists()
 
-        if product_comment.is_valid():
+        if product_comment.is_valid() and not product_eixst:
             text = product_comment.cleaned_data.get("text")
             freshness = product_comment.cleaned_data.get("freshness")
             flavor = product_comment.cleaned_data.get("flavor")
@@ -1064,7 +1067,7 @@ class ProductCommentCreate(TemplateView):
             detail.product.calculate_specific_rating(
                 int(freshness), int(flavor), int(cost_performance)
             )
-            return redirect(reverse("users:mypage", kwargs={"cat": "orders"}))
+            return redirect("core:popup_callback")
         return redirect("core:popup_callback")
 
 

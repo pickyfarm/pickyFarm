@@ -106,7 +106,13 @@
     width: 72px;
     height: 72px;
     border-radius: 10px;
-    background-color: #b3b3b3;
+}
+
+.review-product-image img {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
 .review-product-name {

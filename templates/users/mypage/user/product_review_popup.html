@@ -19,7 +19,7 @@
 				<div class="review-receipt-top-section">
 					<div class="review-number-wrap wrap_padding flex">
 						<span class="review-number-title">주문일시</span>
-						<span class="review-number-value">2021.08.10</span>
+						<span class="review-number-value">{{detail.create_at|date:"Y.m.d"}}</span>
 					</div>
 					<div class=" review-product-information-wrap wrap_padding ">
 						<div class="review-product-information-title">
@@ -40,11 +40,16 @@
 							<div class=" review-product-information-content-wrap flex ">
 								<div class=" review-product-information-content-left-section ">
 									<div class="review-product-image">
+										<img src="{{detail.product.main_image.url}}" alt="상품 메인 이미지">
 									</div>
 								</div>
 								<div class=" review-product-information-content-right-section ">
 									<div class="review-product-tag">
+										{% if detail.product.kinds == "ugly" %}
 										<img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt="moonan_harvest_tag" />
+										{% else %}
+										<img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}" alt="normal_harvest_tag" />
+										{% endif %}
 									</div>
 									<div class="review-product-name">
 										{{detail.product.title}}
@@ -59,9 +64,6 @@
 										<div class="review-product-quantity-unit ">
 											(개/박스)
 										</div>
-									</div>
-									<div class="product-cancel">
-										반품신청
 									</div>
 								</div>
 							</div>
@@ -185,7 +187,7 @@
 				font-size: 0px;
 			}
 
-			li:nth-child(1) label:before {
+			li:nth-child(3) label:before {
 				content: "";
 				display: inline-block;
 				position: relative;
@@ -194,7 +196,7 @@
 				height: 25px;
 				background-repeat: no-repeat;
 				background-image: url("{% static 'images/users/mypage/user/good-gray.svg' %}");
-				margin-right: 60px;
+				margin-right: 10px;
 			}
 
 			li:nth-child(2) label:before {
@@ -209,7 +211,7 @@
 				margin-right: 60px;
 			}
 
-			li:nth-child(3) label:before {
+			li:nth-child(1) label:before {
 				content: "";
 				display: inline-block;
 				position: relative;
@@ -218,10 +220,10 @@
 				height: 25px;
 				background-repeat: no-repeat;
 				background-image: url("{% static 'images/users/mypage/user/bad-gray.svg' %}");
-				margin-right: 10px;
+				margin-right: 60px;
 			}
 
-			li:nth-child(1) label.checked::before {
+			li:nth-child(3) label.checked::before {
 				content: "";
 				background-image: url("{% static 'images/users/mypage/user/good-green.svg' %}") !important;
 			}
@@ -231,7 +233,7 @@
 				background-image: url("{% static 'images/users/mypage/user/soso-green.svg' %}") !important;
 			}
 
-			li:nth-child(3) label.checked::before {
+			li:nth-child(1) label.checked::before {
 				content: "";
 				background-image: url("{% static 'images/users/mypage/user/bad-green.svg' %}") !important;
 			}
