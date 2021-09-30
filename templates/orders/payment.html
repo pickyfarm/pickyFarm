@@ -195,7 +195,7 @@
                 </div>
                 <div class="flex flex-row">
                     <div class="w-5/12" id="text_ab">배송비</div>
-                    <div class="w-6/12 mr-3" id="price_text_a">{{delivery_fee}}</div>
+                    <div class="w-6/12 mr-3 delivery-fee" id="price_text_a">{{delivery_fee}}</div>
                     <div class="w-1/12" id="price_text_a">원</div>
                 </div>
                 <div id="div-line1" class="mb-5 mt-2"></div>
@@ -270,11 +270,10 @@
 
 
 </div>
-<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
 <script>
 
-    const productPrice = document.getElementById('price_text_a')
+    const productPrice = document.querySelector('.delivery-fee')
     let totalPrice = document.getElementById('price_text_b').innerHTML
 
     let deliveryCatDefault = document.getElementById('delivery-cat-default')
@@ -292,7 +291,6 @@
         deliveryCatDetailSection.innerHTML = ""
         deliveryAddress.value = '{{default_address}}'
         deliveryAddressInput.style.display = 'none';
-
     })
 
     const updateDeliveryFee = (zipcode) => {
@@ -305,7 +303,6 @@
                 zip_code: zipcode.value
             },
             success: (data) => {
-                const productPrice = document.getElementById('price_text_a')
                 const totalPrice = document.getElementById('price_text_b')
                 const oldPrice = parseInt(productPrice.innerText)
                 const oldTotalPrice = parseInt(totalPrice.innerText)
@@ -346,7 +343,7 @@
         deliveryCatDetailSection.innerHTML = ""
     })
 
-    mainAddressInput.addEventListener('input', () => updateDeliveryFee(zipcode))
+    subAddressInput.addEventListener('focus', () => updateDeliveryFee(zipcode))
 
 
     subAddressInput.addEventListener('input', (e) => {
@@ -568,6 +565,7 @@
 
 
 </script>
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 
 
 {% endblock main_content %}
