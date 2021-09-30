@@ -440,6 +440,27 @@ def payment_fail(request):
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
 
+class payment_valid_farmer():
+    farmer_pk = None
+    farm_name=None
+    farmer_nickname=None
+    farmer_phone_number=None
+
+    def __init__(self, pk, farm_name, nicknae, phone_number):
+        self.farmer_pk = pk
+        self.farm_name = farm_name
+        self.farmer_nickname = nicknae
+        self.farmer_phone_number = phone_number
+
+def farmer_search(farmers, pk, start, end):
+    mid = (start+end)//2
+    if farmers[mid].farmer_pk == pk:
+        return farmers[mid]
+    if farmers[mid].farmer_pk < pk:
+        return farmer_search(farmers, pk, mid+1, end)
+    else:
+        return farmer_search(farmers, pk, start, mid-1)
+    
 
 @login_required
 @transaction.atomic
@@ -459,13 +480,20 @@ def payment_valid(request):
         unsubscribed_farmers = list()
         subscribed_farmers = list()
 
+        farmers_info = []
+
         for farmer in farmers:
+            farmers_info.append(payment_valid_farmer(farmer.pk, farmer.farm_name, farmer.user.nickname, farmer.user.phone_number))
             if Subscribe.objects.filter(
                 consumer=order_group.consumer, farmer=farmer
             ).exists():
                 subscribed_farmers.append(farmer)
             else:
                 unsubscribed_farmers.append(farmer)
+
+        farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
+        farmers_info_len = len(farmers_info)
+        print(f"Farmer_INFO len : {farmers_info_len}")
 
         order_group.receipt_number = receipt_id
         
@@ -481,17 +509,62 @@ def payment_valid(request):
                     verify_result["data"]["price"] == total_price
                     and verify_result["data"]["status"] == 1):
 
+                    phone_number_consumer = order_group.consumer.user.phone_number
+
                     for detail in order_details:
+
+                        product = detail.product
                          # order_detail 재고 차감
-                        detail.product.sold(detail.quantity)
+                        product.sold(detail.quantity)
                         # order_detail status - payment_complete로 변경
                         detail.status = "payment_complete"
                         detail.product.save()
                         detail.save()
+
+                        kakao_msg_weight = (str)(product.weight * detail.quantity) + product.weight_unit
+                        
+                        target_farmer_pk = product.farmer.pk
+
+                        target_farmer = farmer_search(farmers_info, target_farmer_pk, 0, farmers_info_len)
+                        print("Farmer!!!" + target_farmer.farm_name)
+
+                        args_consumer = {
+                            "#{farm_name}" : target_farmer.farm_name,
+                            "#{order_detail_number}": detail.order_management_number,
+                            "#{order_detail_title}" : detail.product.title,
+                            "#{farmer_nickname}" : target_farmer.farmer_nickname,
+                            "#{weight}": kakao_msg_weight,
+                            "#{link_1}" : "www.pickyfarm.com", # 임시
+                            "#{link_2}" : "www.pickyfarm.com" # 임시
+                        }
+
+                        #소비자 결제 완료 카카오 알림톡 전송
+                        send_kakao_message(phone_number_consumer, templateIdList["payment_complete"], args_consumer)
+
+
+                        args_farmer = {
+                            "#{order_detail_title}" : detail.product.title,
+                            "#{order_detail_number}": detail.order_management_number,
+                            "#{weight}": product.weight,
+                            "#{quantity}" : detail.quantity,
+                            "#{rev_name}" : order_group.rev_name,
+                            "#{rev_phone_number}" : phone_number_consumer,
+                            "#{rev_address}" : order_group.rev_address,
+                            "#{rev_loc_at}" : order_group.rev_loc_at,
+                            "#{rev_detail}" : order_group.rev_message,
+                            "#{rev_message}" : order_group.to_farm_message, 
+                            "#{link_1}" : "www.pickyfarm.com", # 임시
+                            "#{link_2}" : "www.pickyfarm.com", # 임시
+                            "#{link_3}" : "www.pickyfarm.com" # 임시
+                        }
+
+                        send_kakao_message(target_farmer.farmer_phone_number, templateIdList["order_recept"], args_farmer)
                     
                     # order_group status - payment complete로 변경
                     order_group.status = "payment_complete"
                     order_group.save()
+
+                    
 
                     ctx = {
                         "order_group": order_group,
