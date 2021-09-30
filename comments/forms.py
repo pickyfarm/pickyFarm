@@ -11,9 +11,9 @@ from .models import Product_Recomment, Editor_Review_Recomment, Farmer_Story_Rec
 class ProductCommentForm(forms.ModelForm):
 
     evaluate = (
-        (5, "good"),
-        (3, "normal"),
         (1, "bad"),
+        (3, "normal"),
+        (5, "good"),
     )
     freshness = forms.ChoiceField(choices=evaluate, label="", widget=forms.RadioSelect)
     flavor = forms.ChoiceField(choices=evaluate, label="", widget=forms.RadioSelect)

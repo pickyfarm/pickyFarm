@@ -79,7 +79,7 @@ urlpatterns = [
     path("landing_test/", views.landing_test, name="landing_test"),
     # mypage popups
     path(
-        "mypage/orders/<int:orderpk>/review/create/",
+        "mypage/orders/<int:orderpk>/review/create",
         views.ProductCommentCreate.as_view(),
         name="product_comment_create",
     ),

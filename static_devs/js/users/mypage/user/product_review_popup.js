@@ -136,13 +136,13 @@ const check_img = document.querySelector('.review-reason-submit-img');
 const switchCheckImgHoverIn = function (e) {
     check_img.setAttribute(
         'src',
-        "{% static 'images/users/mypage/user/check_hover.svg' %}"
+        checkHoverImg
     );
 };
 const switchCheckImgHoverOut = function (e) {
     check_img.setAttribute(
         'src',
-        "{% static 'images/users/mypage/user/check_nohover.svg' %}"
+        checkNohoverImg
     );
 };
 check_btn.addEventListener('mouseover', switchCheckImgHoverIn);

@@ -101,11 +101,21 @@
       </div>
 
       {% if detail.status == 'delivery_complete' %}
-      <div id="reg-review-btn" class="transition_element">
-        <a>
-          리뷰 쓰기
-        </a>
-      </div>
+        {% if detail.product.product_comments.exists == False %}
+        <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> 
+          <a>
+            리뷰 쓰기
+          </a>
+        </div>
+        {% else %}
+        <div id="reg-review-btn" class="transition_element"> 
+          <a>
+            내 리뷰 보기
+          </a>
+        </div>
+        {% endif %}
+        
+      
       {% endif %}
 
       {% if detail.status == 'delivery_complete' %}
@@ -238,11 +248,10 @@
   function productCommentPopup(pk) {
     const detailpk = parseInt(pk);
     {% for detail in order_details %}
-    if (detailpk === {{ detail.pk }
-  }) {
+    if (detailpk === {{ detail.pk }}) {
     window.open("{% url 'user:product_comment_create' detail.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
-  }
-  {% endfor %}
+    }
+    {% endfor %}
   }
 </script>
 <script src="{% static 'js/users/mypage/user/mypage_orders.js' %}"></script>
