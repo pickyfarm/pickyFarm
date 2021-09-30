@@ -76,7 +76,7 @@ urlpatterns = [
     path("mypage/reviews-qnas/review-ajax/", views.review_ajax, name="review_ajax"),
     # mypage popups url
     path(
-        "mypage/orders/check/<int:pk>",
+        "mypage/orders/check/<str:order_management_number>",
         views.FarmerMyPageOrderCheckPopup.as_view(),
         name="farmer_mypage_order_check_popup",
     ),
