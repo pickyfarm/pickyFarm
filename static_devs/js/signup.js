@@ -230,7 +230,6 @@ $('#auth-number-check').click(function () {
                 console.log(data['timeOver']);
                 alert('인증이 완료되었습니다.');
                 document.querySelector('#id_auth_number').disabled = true;
-                document.querySelector('#id_phone_number').disabled = true;
                 document.querySelector('#id_auth_number').style.display =
                     'none';
                 document.querySelector('#auth-number-check').style.display =

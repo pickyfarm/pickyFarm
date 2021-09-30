@@ -9,6 +9,7 @@ from .models import Order_Group, Order_Detail, RefundExchange
 from django.utils import timezone
 from products.models import Product
 from users.models import Subscribe
+from addresses.views import check_address_by_zipcode
 import requests, base64
 import json
 import os, datetime
@@ -328,7 +329,6 @@ def payment_update(request, pk):
             order_group.payment_type = payment_type
             order_group.order_at = timezone.now()
 
-            
             order_group.save()
 
             res_data = {
@@ -436,7 +436,6 @@ def payment_fail(request):
     else:
         errorMsg = "알 수 없는 오류가 있습니다. 다시 시도해주세요"
 
-
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
 
@@ -496,7 +495,6 @@ def payment_valid(request):
         print(f"Farmer_INFO len : {farmers_info_len}")
 
         order_group.receipt_number = receipt_id
-        
 
         bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
         result = bootpay.get_access_token()
@@ -507,7 +505,8 @@ def payment_valid(request):
             if verify_result["status"] == 200:
                 if (
                     verify_result["data"]["price"] == total_price
-                    and verify_result["data"]["status"] == 1):
+                    and verify_result["data"]["status"] == 1
+                ):
 
                     phone_number_consumer = order_group.consumer.user.phone_number
 
@@ -584,8 +583,7 @@ def payment_valid(request):
             cancel_result = bootpay.cancel(
                 receipt_id, total_price, request.user.nickname, "결제검증 실패로 인한 결제 취소"
             )
-        
-            
+
             if cancel_result["status"] == 200:
                 # order_group status - 에러 검증실패로 변경
                 order_group.status = "error_valid"
@@ -711,6 +709,7 @@ def order_cancel(request, pk):
     else:
         return redirect(reverse("core:main"))
 
+
 @login_required
 @transaction.atomic
 def create_change_or_refund(request, pk):
@@ -718,14 +717,12 @@ def create_change_or_refund(request, pk):
     if request.method == "GET":
         user = request.user
         addresses = user.addresses.all
-        ctx = {
-            'addresses' : addresses
-        }
+        ctx = {"addresses": addresses}
         return render(request, "users/mypage/user/product_refund_popup.html", ctx)
-    elif request.method == "POST": 
+    elif request.method == "POST":
         order_detail = Order_Detail.objects.get(pk=pk)
-        
-        claim_type = request.POST.get('change_or_refund', None)
+
+        claim_type = request.POST.get("change_or_refund", None)
         print(claim_type)
 
         # order_detail status 변경 (환불/반품 접수)
@@ -737,93 +734,93 @@ def create_change_or_refund(request, pk):
             return redirect(reverse("core:main"))
         order_detail.save()
 
-
-        claim_reason = request.POST.get('reason_txt', None)
+        claim_reason = request.POST.get("reason_txt", None)
         print(claim_reason)
-        image = request.FILES.get('product_image', None)
+        image = request.FILES.get("product_image", None)
         print(image)
-        rev_loc_at = request.POST.get('rev_loc_at', None)
+        rev_loc_at = request.POST.get("rev_loc_at", None)
         print(rev_loc_at)
-        rev_address = request.POST.get('address', None)
+        rev_address = request.POST.get("address", None)
 
-        
-        refundExchange = RefundExchange(claim_type=claim_type, claim_status="recept", order_detail=order_detail, 
-                                        reason=claim_reason, image=image, rev_address=rev_address, rev_loc_at=rev_loc_at)
+        refundExchange = RefundExchange(
+            claim_type=claim_type,
+            claim_status="recept",
+            order_detail=order_detail,
+            reason=claim_reason,
+            image=image,
+            rev_address=rev_address,
+            rev_loc_at=rev_loc_at,
+        )
 
-
-        #주문 일시
+        # 주문 일시
         order_detail_create_at = order_detail.create_at.date().strftime("%Y.%m.%d")
-        #Product 
+        # Product
         product = order_detail.product
-        #product kinds (무난이, 일반작물)
+        # product kinds (무난이, 일반작물)
         product_kinds = product.kinds
-        #농장 이름
+        # 농장 이름
         order_detail_farm_name = product.farmer.farm_name
-        #product 이름
+        # product 이름
         product_title = product.title
-        #product가격
+        # product가격
         product_price = product.sell_price
-        #product weight
+        # product weight
         product_weight = (str)(product.weight) + (str)(product.weight_unit)
-        #order_detail quantity
+        # order_detail quantity
         order_detail_quantity = order_detail.quantity
-        
-
-
-
 
         ctx = {
-            "order_date" : order_detail_create_at,
-            "farm_name" : order_detail_farm_name,
-            "product_kinds" : product_kinds,
-            "product_title" : product_title,
-            "product_price" : product_price,
-            "product_weight" : product_weight,
-            "order_detail_quantity" : order_detail_quantity,
-
-            "refundExchange" : refundExchange,
+            "order_date": order_detail_create_at,
+            "farm_name": order_detail_farm_name,
+            "product_kinds": product_kinds,
+            "product_title": product_title,
+            "product_price": product_price,
+            "product_weight": product_weight,
+            "order_detail_quantity": order_detail_quantity,
+            "refundExchange": refundExchange,
         }
-        
-        farmer_phonenum = order_detail.product.farmer.user.phone_number
 
+        farmer_phonenum = order_detail.product.farmer.user.phone_number
 
         weight = order_detail.product.weight
         weight_unit = order_detail.product.weight_unit
         quantity = order_detail.quantity
 
         kakao_msg_weight = (str)(weight) + weight_unit
-        kakao_msg_quantity = (str)(quantity) + '개'
+        kakao_msg_quantity = (str)(quantity) + "개"
 
         args = {
             "#{order_detail_title}": order_detail.product.title,
             "#{order_detail_number}": order_detail.order_management_number,
             "#{weight}": kakao_msg_weight,
-            "#{quantity}" : kakao_msg_quantity,
-            "#{consumer_nickname}" : user.nickname,
-            "#{reason}" : claim_reason,
-            "#{link}" : "www.pickyfarm.com" # 임시
+            "#{quantity}": kakao_msg_quantity,
+            "#{consumer_nickname}": user.nickname,
+            "#{reason}": claim_reason,
+            "#{link}": "www.pickyfarm.com",  # 임시
         }
 
         if claim_type == "refund":
             refundExchange.refund_exchange_delivery_fee = product.refund_delivery_fee
             refundExchange.save()
             send_kakao_message(farmer_phonenum, templateIdList["refund_recept"], args)
-            return render(request, "users/mypage/user/product_refund_complete.html", ctx)
+            return render(
+                request, "users/mypage/user/product_refund_complete.html", ctx
+            )
         elif claim_type == "exchange":
             refundExchange.refund_exchange_delivery_fee = product.exchange_delivery_fee
             refundExchange.save()
             send_kakao_message(farmer_phonenum, templateIdList["exchange_recept"], args)
-            return render(request, "users/mypage/user/product_exchange_complete.html", ctx)
+            return render(
+                request, "users/mypage/user/product_exchange_complete.html", ctx
+            )
         else:
             return redirect(reverse("core:main"))
 
-
     else:
         return redirect(reverse("core:main"))
-        
 
 
-
-
-
-    
+def update_jeju_mountain_delivery_fee(order_group_pk):
+    order = Order_Group.get(pk=order_group_pk)
+    order_details = Order_Detail.filter(order_group__pk=order_group_pk)
+    farmers = list(set(map(lambda u: u.product.farmer, order_details)))
