@@ -14,7 +14,7 @@
     <div id='signup_form' class="mt-10 flex flex-col">
         <!-- <img src="{% static 'images/user/login.svg' %}" class="mx-auto mt-12" alt=""> -->
         <div class="mx-auto" id="signup-title">회원가입</div>
-        
+        {{form.errors}}
         <div id="required-input-text">
             <img id="mobile-dot" src="{% static 'images/orders/dot.svg' %}">
             필수입력사항
@@ -68,6 +68,7 @@
                     <div class="valid-button button" id="auth-number-check" name="{% url 'users:phone_number_authentication' %}">확인</div>
                     <input type="hidden" id="phonenumValidCheck">
                 </div>
+                {{addressform.errors}}
                 {{addressform.full_address.label_tag}}
                 <div id="address-form">
                     <div>
@@ -82,6 +83,7 @@
                 {{addressform.sido}}
                 {{addressform.sigungu}}
                 {{addressform.extra_address}}
+                {{addressform.zipcode}}
                 <div id="gender-label">{{form.gender.label_tag}}</div>
                 <div class="flex gender-selection">
                     {{form.gender}}
@@ -104,8 +106,8 @@
             <div class="horizon-bar" style="margin-bottom: 35px;"></div>
             <div class="form_term_agree grid">
                 <div class="mr-auto" id='term-agree'>
-                이용약관 동의
-                <img id="mobile-dot" src="{% static 'images/orders/dot.svg' %}">
+                    이용약관 동의
+                    <img id="mobile-dot" src="{% static 'images/orders/dot.svg' %}">
                 </div>
                 <input type="checkbox" name="agree-all" id="agree-all">
                 <label id="all-agree" for="agree-all" style="font-size: 20px; margin-bottom: 45px;">전체

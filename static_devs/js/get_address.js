@@ -37,6 +37,7 @@ function getAddress() {
             }
             document.getElementById('id_sido').value = data.sido;
             document.getElementById('id_sigungu').value = data.sigungu;
+            document.getElementById('id_zipcode').value = data.zonecode;
 
             document.getElementById('id_detail_address').focus();
         },

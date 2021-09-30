@@ -4,6 +4,8 @@ from django.views.decorators.http import require_POST
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Address
 from django.http import JsonResponse
+from .zipcode import ZIPCODE_LIST
+from bisect import bisect_left
 
 # Create your views here.
 
@@ -15,14 +17,14 @@ class deleteError(Exception):
 @login_required
 @require_POST
 def delete(request):
-    if request.method == 'POST':
-        pk = int(request.POST.get('pk'))
+    if request.method == "POST":
+        pk = int(request.POST.get("pk"))
         try:
             address = Address.objects.get(pk=pk)
         except ObjectDoesNotExist:
             success = False
             data = {
-                'success': success,
+                "success": success,
             }
             return JsonResponse(data)
 
@@ -31,16 +33,18 @@ def delete(request):
     except deleteError:
         success = False
         data = {
-            'success': success,
+            "success": success,
         }
         return JsonResponse(data)
 
     success = True
     data = {
-        'success': success,
+        "success": success,
     }
     return JsonResponse(data)
 
 
+def check_address_by_zipcode(zipcode):
+    idx = bisect_left(ZIPCODE_LIST, zipcode)
 
-
+    return True if ZIPCODE_LIST[idx] == zipcode else False
