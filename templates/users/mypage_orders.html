@@ -101,11 +101,21 @@
       </div>
 
       {% if detail.status == 'delivery_complete' %}
-      <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> 
-        <a>
-          리뷰 쓰기
-        </a>
-      </div>
+        {% if detail.product.product_comments.exists == False %}
+        <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> 
+          <a>
+            리뷰 쓰기
+          </a>
+        </div>
+        {% else %}
+        <div id="reg-review-btn" class="transition_element"> 
+          <a>
+            내 리뷰 보기
+          </a>
+        </div>
+        {% endif %}
+        
+      
       {% endif %}
 
       {% if detail.status == 'delivery_complete' %}
