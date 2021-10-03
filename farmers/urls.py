@@ -86,7 +86,7 @@ urlpatterns = [
         name="farmer_mypage_order_cancel_popup",
     ),
     path(
-        "mypage/orders/invoice/<int:pk>",
+        "mypage/orders/invoice/<str:order_management_number>",
         views.FarmerMypageInvoiceUpdatePopup.as_view(),
         name="farmer_mypage_invoice_update_popup",
     ),

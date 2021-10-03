@@ -138,7 +138,7 @@
                 {% for sub in subs %}
                 <div class="flex flex-row w-100" id="{{sub.pk}}-sub-farmer">
                     <a href="{% url 'farmers:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
-                        <div class="w-1/5" id="sub-left-section">
+                        <div id="sub-left-section">
                             <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
                         </div>
                         <div class="w-4/5" id="sub-right-section">
