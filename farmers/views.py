@@ -817,7 +817,7 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
 
         try:
             context["products"] = Product.objects.filter(
-                order_details__order_management_number=cryptocode.decrypt(
+                order_detail__order_management_number=cryptocode.decrypt(
                     encoded_management_number, os.environ.get("SECRET_KEY")
                 )
             ).order_by("kinds")
@@ -850,10 +850,7 @@ class FarmerMypageOrderCancelPopup(DetailView):
     context_object_name = "order"
 
     def dispatch(self, request, *args, **kwargs):
-        if (
-            self.get_object().status != "payment_complete"
-            or self.get_object().order_group.consumer != self.request.user.consumer
-        ):
+        if self.get_object().status != "payment_complete":
             return redirect("core:popup_callback")
 
         return super().dispatch(request, *args, **kwargs)
