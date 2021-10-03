@@ -813,7 +813,7 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        encoded_management_number = self.kwargs["order_management_number"]
+        encoded_management_number = self.request.GET.get("odmn")
 
         try:
             context["products"] = Product.objects.filter(
@@ -1061,8 +1061,6 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
     template_name = "farmers/mypage/order/invoice_info_popup.html"
     context_object_name = "order"
 
-    
-
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().product.farmer != self.request.user.farmer:
             return redirect("core:main")
@@ -1070,16 +1068,22 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
-        return Order_Detail.objects.filter(order_management_number= cryptocode.decrypt(self.kwargs["order_management_number"], os.environ.get("SECRET_KEY")))
+        return Order_Detail.objects.filter(
+            order_management_number=cryptocode.decrypt(
+                self.kwargs["order_management_number"], os.environ.get("SECRET_KEY")
+            )
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         encoded_management_number = self.kwargs["order_management_number"]
 
-        try :
+        try:
             context["products"] = Product.objects.filter(
-                order_details__order_management_number = cryptocode.decrypt(encoded_management_number, os.environ.get("SECRET_KEY"))
-            ).order_by("kinds") 
+                order_details__order_management_number=cryptocode.decrypt(
+                    encoded_management_number, os.environ.get("SECRET_KEY")
+                )
+            ).order_by("kinds")
         except ObjectDoesNotExist:
             redirect("core:main")
 
@@ -1092,7 +1096,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
 
         order.update(**{"invoice_number": invoice_number, "status": "shipping"})
 
-        #카카오 알림톡 들어가야 함 -> 배송시작알림 카카오톡 알림톡
+        # 카카오 알림톡 들어가야 함 -> 배송시작알림 카카오톡 알림톡
 
         return redirect("core:popup_callback")
 
