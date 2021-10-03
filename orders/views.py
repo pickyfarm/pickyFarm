@@ -622,8 +622,8 @@ def payment_valid(request):
                             "#{order_detail_title}": detail.product.title,
                             "#{farmer_nickname}": target_farmer.farmer_nickname,
                             "#{weight}": kakao_msg_weight,
-                            "#{link_1}": "www.pickyfarm.com",  # 임시
-                            "#{link_2}": "www.pickyfarm.com",  # 임시
+                            "#{link_1}": f'www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}',  # 임시
+                            "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
                         }
 
                         # 소비자 결제 완료 카카오 알림톡 전송
