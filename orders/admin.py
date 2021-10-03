@@ -28,6 +28,7 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
         "status",
         "product",
         "order_group",
+        "delivery_service_company",
         "invoice_number",
         "quantity",
         "total_price",
