@@ -150,10 +150,10 @@
         </div>
         <div id="products-index-section" class="flex flex-row mt-5">
             <div class="w-2/12"></div>
-            <div class="w-3/12">농장</div>
             <div class="w-3/12">상품명</div>
+            <div class="w-3/12">농장</div>
             <div class="w-1/12">수량</div>
-            <div class="w-1/12">Kg</div>
+            <div class="w-1/12">g/kg</div>
             <div class="w-2/12">가격</div>
         </div>
         <div id="orders-contents-section" class="flex flex-row">
@@ -163,8 +163,8 @@
                 <div id="product" name="{{p.order_number}}" class="flex flex-row items-center">
                     <div class="w-2/12"><img id="product-img" src="{{p.product.main_image.url}}"></div>
                     <div class="w-6/12 flex flex-row items-center">
-                        <div class="w-6/12" id="farm_name">{{p.product.farmer.farm_name}}</div>
                         <div class="w-6/12" id="title">{{p.product.title}}</div>
+                        <div class="w-6/12" id="farm_name">{{p.product.farmer.farm_name}}</div>
                     </div>
                     <div class="w-1/12 flex flex-row items-center">
                         <div id="orders-title">수량: </div>
@@ -205,11 +205,7 @@
                     <div class="w-1/12" id="price_text_b">원</div>
                 </div>
                 <div id="div-line2" class="mt-5 mb-5"></div>
-                <div class="flex flex-row">
-                    <div class="w-5/12" id="text-c">총 주문 Kg</div>
-                    <div class="w-6/12" id="price_text_b">{{total_weight}}</div>
-                    <div class="w-1/12" id="price_text_b">Kg</div>
-                </div>
+                <div id="text_ab">배송비는 주소지/단위별 추가 배송비가 고려되어 책정됩니다</div>
 
             </div>
         </div>
@@ -230,11 +226,6 @@
                 <li>
                     <label for="id_payment_type_1" class="mr-2">
                         <input type="radio" name="payment_type" value="kakao" id="id_payment_type_1"> 카카오페이
-                    </label>
-                </li>
-                <li>
-                    <label for="id_payment_type_2" class="mr-2">
-                        <input type="radio" name="payment_type" value="card" id="id_payment_type_2"> 네이버페이
                     </label>
                 </li>
             </ul>
@@ -377,7 +368,7 @@
             alert("주문자 이름을 입력해주세요")
             return
         }
-        else if (revPhoneNumber == "") {
+        if (revPhoneNumber == "") {
             alert("휴대폰 번호를 입력해주세요")
             return
         }
@@ -402,6 +393,10 @@
 
 
         revAddress = deliveryAddress.value
+        if(revAddress == ""){
+            alert("배송지를 입력 혹은 선택해주세요")
+            return
+        }
 
         data = {
             'rev_name': revName,

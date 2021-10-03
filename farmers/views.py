@@ -1061,6 +1061,8 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
     template_name = "farmers/mypage/order/invoice_info_popup.html"
     context_object_name = "order"
 
+    
+
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().product.farmer != self.request.user.farmer:
             return redirect("core:main")
@@ -1068,21 +1070,29 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
-        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+        return Order_Detail.objects.filter(order_management_number= cryptocode.decrypt(self.kwargs["order_management_number"], os.environ.get("SECRET_KEY")))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["products"] = Product.objects.filter(
-            order_details__pk=self.kwargs["pk"]
-        ).order_by("kinds")
+        encoded_management_number = self.kwargs["order_management_number"]
+
+        try :
+            context["products"] = Product.objects.filter(
+                order_details__order_management_number = cryptocode.decrypt(encoded_management_number, os.environ.get("SECRET_KEY"))
+            ).order_by("kinds") 
+        except ObjectDoesNotExist:
+            redirect("core:main")
+
         return context
 
     def post(self, request, **kwargs):
         order = self.get_queryset()
         invoice_number = self.request.POST.get("invoice_number", None)
-        logis_company = self.request.POST.get("invoice-select")
+        delivery_service_company = self.request.POST.get("invoice-select")
 
         order.update(**{"invoice_number": invoice_number, "status": "shipping"})
+
+        #카카오 알림톡 들어가야 함 -> 배송시작알림 카카오톡 알림톡
 
         return redirect("core:popup_callback")
 
