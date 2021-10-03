@@ -66,9 +66,8 @@ def create_order_group_management_number(pk):
 
     print(day)
 
-    order_group_management_number = (
-        str(year) + "_" + month + "_" + day + "_PF" + str(pk)
-    )
+    order_group_management_number = str(year) + month + day + "_PF" + str(pk)
+    
 
     print(order_group_management_number)
     return order_group_management_number
@@ -95,7 +94,7 @@ def create_order_detail_management_number(pk, farmer_id):
     else:
         day = str(day)
 
-    order_detail_management_number = str(year) + month + day + str(pk) + "_" + farmer_id
+    order_detail_management_number = str(year) + month + day + '_' + str(pk) + "_" + farmer_id
     return order_detail_management_number
 
 
@@ -264,7 +263,7 @@ def payment_create(request):
             # [PROCESS 6] Order_detail 주문 번호 저장
             # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
             order_detail_management_number = create_order_detail_management_number(
-                order_group_pk, farmer_id
+                order_detail_pk, farmer_id
             )
             order_detail.order_management_number = order_detail_management_number
             order_detail.save()
