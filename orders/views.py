@@ -143,8 +143,11 @@ def changeAddressAjax(request):
                     )
                     # fee_to_add 에 제주산간 추가 배송비 빼기
                     fee_to_add -= detail.product.jeju_mountain_additional_delivery_fee
+                    print(
+                        f"!!!!!!!1빼기 시전 : {detail.product.jeju_mountain_additional_delivery_fee}"
+                    )
                     detail.save()
-
+        print(f"fee to add : {fee_to_add}")
         # order_group total_price에 fee_to_add
         order_group.total_price += fee_to_add
         order_group.save()
@@ -238,9 +241,15 @@ def payment_create(request):
                         ) * product.additional_delivery_fee
             # !!!!제주/산간 관련 추가 배송비 코드 추가해야!!!!
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
+            is_jeju_mountain = check_address_by_zipcode(
+                int(consumer.default_address.zipcode)
+            )
 
+            print("is jeju: ", is_jeju_mountain)
             # 제주 산간이면 total_delivery_fee에 더하기
-
+            if is_jeju_mountain:
+                order_group.is_jeju_mountain = True
+                total_delivery_fee += product.jeju_mountain_additional_delivery_fee
             # 제주 산간이 아니념 total_delivery_fee에 안더하기
 
             # order_detail 구매 수량
@@ -634,23 +643,31 @@ def payment_valid(request):
                             args_consumer,
                         )
 
-                        encoded_order_detail_number = cryptocode.encrypt(detail.order_management_number, os.environ.get("SECRET_KEY"))
+                        encoded_order_detail_number = cryptocode.encrypt(
+                            detail.order_management_number, os.environ.get("SECRET_KEY")
+                        )
+
+                        kakao_msg_farmer_weight = (str)(
+                            product.weight
+                        ) + product.weight_unit
 
                         args_farmer = {
                             "#{order_detail_title}": detail.product.title,
                             "#{order_detail_number}": detail.order_management_number,
-                            "#{weight}": product.weight,
-                            "#{quantity}" : detail.quantity,
-                            "#{rev_name}" : order_group.rev_name,
-                            "#{rev_phone_number}" : phone_number_consumer,
-                            "#{rev_address}" : order_group.rev_address,
-                            "#{rev_loc_at}" : order_group.rev_loc_at,
-                            "#{rev_detail}" : order_group.rev_message,
-                            "#{rev_message}" : order_group.to_farm_message, 
-                            "#{link_1}" : f'http://127.0.0.1:8000/farmer/mypage/orders/check/{encoded_order_detail_number}', # 임시
-                            "#{link_2}" : "www.pickyfarm.com", # 임시
-                            "#{link_3}" : "www.pickyfarm.com" # 임시
+                            "#{weight}": kakao_msg_farmer_weight,
+                            "#{quantity}": detail.quantity,
+                            "#{rev_name}": order_group.rev_name,
+                            "#{rev_phone_number}": phone_number_consumer,
+                            "#{rev_address}": order_group.rev_address,
+                            "#{rev_loc_at}": order_group.rev_loc_at,
+                            "#{rev_detail}": order_group.rev_message,
+                            "#{rev_message}": order_group.to_farm_message,
+                            "#{link_1}": f"http://127.0.0.1:8000/farmer/mypage/orders/check/{encoded_order_detail_number}",  # 임시
+                            "#{link_2}": "www.pickyfarm.com",  # 임시
+                            "#{link_3}": "www.pickyfarm.com",  # 임시
                         }
+
+                        print(f'주문확인 url : {args_farmer["#{link_1}"]}')
 
                         send_kakao_message(
                             target_farmer.farmer_phone_number,

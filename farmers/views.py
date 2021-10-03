@@ -805,16 +805,22 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
     template_name = "farmers/mypage/order/order_confirm_popup.html"
 
     def get_object(self):
-        return Order_Detail.get(order_management_number= cryptocode.decrypt(self.kwargs["order_management_number"], os.environ.get("SECRET_KEY")))
+        return Order_Detail.objects.get(
+            order_management_number=cryptocode.decrypt(
+                self.request.GET.get("odmn"), os.environ.get("SECRET_KEY")
+            )
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         encoded_management_number = self.kwargs["order_management_number"]
 
-        try :
+        try:
             context["products"] = Product.objects.filter(
-                order_details__order_management_number = cryptocode.decrypt(encoded_management_number, os.environ.get("SECRET_KEY"))
-            ).order_by("kinds") 
+                order_details__order_management_number=cryptocode.decrypt(
+                    encoded_management_number, os.environ.get("SECRET_KEY")
+                )
+            ).order_by("kinds")
         except ObjectDoesNotExist:
             redirect("core:main")
 
