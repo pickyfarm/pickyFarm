@@ -72,16 +72,19 @@ class Order_Detail(models.Model):
 
     PAYMENT_STATUS = (("incoming", "정산예정"), ("progress", "정산 진행"), ("done", "정산 완료"))
 
-    # LOGIS_COMPANY = (
-    #     ()
-    # )
+    COMPANY = (
+        ("CJ", "CJ대한통운")
+    )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="incoming"
     )
     order_management_number = models.CharField(max_length=1000, null=True, blank=True)
-    invoice_number = models.CharField(max_length=30, null=True, blank=True)
+
+    delivery_service_company = models.CharField(max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사")
+    invoice_number = models.CharField(max_length=30, null=True, blank=True, help_text="운송장 번호")
+
     quantity = models.IntegerField()
     total_price = models.IntegerField()
     cancel_reason = models.CharField(max_length=30, null=True, blank=True)
