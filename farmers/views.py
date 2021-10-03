@@ -940,18 +940,18 @@ class FarmerMypageProductUpdatePopup(TemplateView):
         storage_method = request.POST.get("etc-save-product-textarea", None)
         shelf_life_date = request.POST.get("etc-expire-input", None)
 
-        normal_title = request.POST.get("noarmal-name", None)
-        normal_sub_title = request.POST.get("noarmal-subname", None)
-        normal_weight = request.POST.get("noarmal-product-weight", None)
-        normal_weight_unit = request.POST.get("noarmal-weights", "kg")
-        normal_stock = request.POST.get("noarmal-products", None)
-        normal_sell_price = request.POST.get("noarmal-product-price", None)
-        normal_delivery_fee = request.POST.get("noarmal-product-shipping-fee", None)
+        normal_title = request.POST.get("normal-name", None)
+        normal_sub_title = request.POST.get("normal-subname", None)
+        normal_weight = request.POST.get("normal-product-weight", None)
+        normal_weight_unit = request.POST.get("normal-weights", "kg")
+        normal_stock = request.POST.get("normal-products", None)
+        normal_sell_price = request.POST.get("normal-product-price", None)
+        normal_delivery_fee = request.POST.get("normal-product-shipping-fee", None)
         normal_additional_delivery_fee = request.POST.get(
-            "noarmal-product-shipping-quantity", None
+            "normal-product-shipping-quantity", None
         )
         normal_additional_delivery_fee_unit = request.POST.get(
-            "noarmal-product-shipping-price", None
+            "normal-product-shipping-price", None
         )
         normal_jeju_delivery_fee = request.POST.get("normal-jeju-delivery", None)
         normal_return_delivery_fee = request.POST.get(
