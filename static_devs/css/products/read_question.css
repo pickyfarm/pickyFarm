@@ -2,22 +2,7 @@
     width: 990px;
 }
 
-#farmer-info-section {
-    margin-bottom: 38px;
-}
 
-#farm-name-section {
-    font-size: 30px;
-    font-weight: 500;
-    color: #707070;
-}
-
-#farm-name {
-    font-size: 40px;
-    font-weight: 500;
-    color: #5c6754;
-    margin-left: 21px;
-}
 
 /* 문의 section */
 #question-content-section {
@@ -63,12 +48,10 @@
     font-size: 20px;
     color: #5c6754;
 }
-
 #question-content-image-wrap {
     width: 450px;
     margin: 0 auto;
 }
-
 #question-content-image {
     object-fit: cover;
 }
@@ -79,10 +62,10 @@
     margin: 0 auto;
 }
 
-#id_content {
+#answer-content {
     width: 935px;
-    height: 427px;
-    padding: 10px;
+    height: 250px;
+    padding: 20px;
     background-color: #f8f8f8;
     margin: 35px 0px;
     resize: none;
@@ -104,4 +87,20 @@
     color: #5c6754;
     font-weight: 500;
     font-size: 20px;
+}
+
+
+#confirm-button{
+    width: 104px;
+    margin:0 auto;
+  text-align: center;
+  border-radius: 50px;
+  border: solid 1px #5c6854;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+#confirm-button:hover{
+    background-color: #5c6854;
+    color: #fff;
 }
