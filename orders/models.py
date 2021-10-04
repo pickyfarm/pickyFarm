@@ -78,12 +78,12 @@ class Order_Detail(models.Model):
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    payment_status = models.CharField(
-        max_length=10, choices=PAYMENT_STATUS, default="incoming"
-    )
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default="incoming")
     order_management_number = models.CharField(max_length=1000, null=True, blank=True)
 
-    delivery_service_company = models.CharField(max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사")
+    delivery_service_company = models.CharField(
+        max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
+    )
     invoice_number = models.CharField(max_length=30, null=True, blank=True, help_text="운송장 번호")
 
     quantity = models.IntegerField()
@@ -98,7 +98,7 @@ class Order_Detail(models.Model):
     )
     order_group = models.ForeignKey(
         Order_Group, related_name="order_details", on_delete=models.SET_NULL, null=True
-    ) 
+    )
 
     def __str__(self):
         name = []
@@ -106,8 +106,6 @@ class Order_Detail(models.Model):
         name.append(str(self.quantity))
         name.append(str(self.status))
         return "-".join(name)
-
-
 
 
 class RefundExchange(models.Model):
