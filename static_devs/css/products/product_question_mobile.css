@@ -1,0 +1,14 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px) {
+    #question_content {
+        width: 100%;
+    }
+    #q_img {
+        width: 10px;
+        height: 11.5px;
+    }
+    #q_desc {
+        font-size: 1rem;
+    }
+}
