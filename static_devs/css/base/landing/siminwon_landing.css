@@ -1,3 +1,15 @@
+@font-face {
+    font-family: GowunBatang;
+    src: url('fonts/GowunBatang-Bold.ttf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: GowunBatang;
+    src: url('fonts/GowunBatang-Regular.ttf');
+    font-weight: normal;
+}
+
 .landing-wrapper {
     width: 100%;
     display: flex;
