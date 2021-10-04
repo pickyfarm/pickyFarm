@@ -73,7 +73,8 @@ class Order_Detail(models.Model):
     PAYMENT_STATUS = (("incoming", "정산예정"), ("progress", "정산 진행"), ("done", "정산 완료"))
 
     COMPANY = (
-        ("CJ", "CJ대한통운")
+        ("CJ", "CJ대한통운"),
+        ("gohome", "고홈")
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
