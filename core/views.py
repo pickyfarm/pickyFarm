@@ -51,7 +51,7 @@ def index(request):
         "main_slider_image": main_slider_image,
     }
 
-    return render(request, "base/landing/landing_page.html", ctx)
+    return render(request, "base/landing/siminwon/siminwon_landing_page.html", ctx)
 
 
 def disclaimer(request):
