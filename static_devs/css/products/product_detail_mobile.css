@@ -1,33 +1,32 @@
 @import 'base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
-
     /* 상품 사진, 농장 소식 */
-    #product_content{
+    #product_content {
         width: 100%;
         margin-top: 2.5rem;
         flex-direction: column;
     }
-    #left{
+    #left {
         width: 100%;
         padding: 0;
     }
-    #main_image{
+    #main_image {
         width: 100%;
         height: 42.7rem;
     }
-    #left > div:nth-child(2){
+    #left > div:nth-child(2) {
         margin-top: 1rem;
     }
-    #images{
+    #images {
         width: 4.6rem;
         height: 4.6rem;
         margin-right: 0.8rem;
     }
-    #farm_news_letter{
+    #farm_news_letter {
         display: none;
     }
-    #farm_news{
+    #farm_news {
         width: 100%;
         height: 3rem;
         font-size: 1.1rem;
@@ -36,31 +35,32 @@
         padding-left: 3.9rem;
         padding-top: 0.65rem;
     }
-    #farm_news img{
+    #farm_news img {
         width: 1.5rem;
         top: 0.4rem;
         left: 1.4rem;
     }
 
     /* 상품 정보 */
-    #right{
+    #right {
         width: 100%;
         padding: 0;
     }
-    #top_section{
+    #top_section {
         justify-content: space-between;
         align-items: flex-end;
     }
-    #tags{
+    #tags {
         margin-bottom: 0.8rem;
     }
-    #ugly_tag, #normal_tag{
+    #ugly_tag,
+    #normal_tag {
         font-size: 1.1rem;
         font-weight: normal;
         height: 2rem;
         padding: 0.3rem 1rem;
     }
-    #title{
+    #title {
         font-size: 1.5rem;
         font-weight: 500;
         font-stretch: normal;
@@ -71,7 +71,7 @@
         color: var(--dark-green);
         margin-bottom: 0.3rem;
     }
-    #subtitle{
+    #subtitle {
         font-size: 1.1rem;
         font-weight: 500;
         font-stretch: normal;
@@ -81,16 +81,16 @@
         text-align: left;
         color: #5e6656;
     }
-    #share{
+    #share {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-    #share img{
+    #share img {
         width: 3.5rem;
         height: 3.5rem;
     }
-    #share #url_copy{
+    #share #url_copy {
         width: 100%;
         height: 100%;
         line-height: 1.57;
@@ -99,7 +99,7 @@
         -webkit-transform: scale(0.8);
         margin: 0;
     }
-    #cost{
+    #cost {
         font-size: 2rem;
         font-weight: 500;
         font-stretch: normal;
@@ -110,15 +110,17 @@
         color: #4d4d4d;
         padding: 0;
     }
-    #farmer_section{
+    #farmer_section {
         margin-top: 2rem;
         justify-content: space-between;
     }
-    #farmer_image, #farmer_img{
+    #farmer_image,
+    #farmer_img {
         width: 3.67rem;
         height: 3.67rem;
     }
-    #farm_name, #farmer_name{
+    #farm_name,
+    #farmer_name {
         font-size: 1.2rem;
         font-weight: normal;
         font-stretch: normal;
@@ -128,7 +130,8 @@
         text-align: left;
         color: #000;
     }
-    #visit, #sub{
+    #visit,
+    #sub {
         height: 2rem;
         border-radius: 1rem;
         font-size: 1.1rem;
@@ -141,7 +144,8 @@
         color: #fff;
         padding: 0 1rem;
     }
-    #visit:hover, #sub:hover{
+    #visit:hover,
+    #sub:hover {
         height: 2rem;
         border-radius: 1rem;
         font-size: 1.1rem;
@@ -155,44 +159,47 @@
         padding: 0 1rem;
         background-color: #5e6656;
     }
-    #sub{
+    #sub {
         margin-left: 1rem;
     }
-    #info_section{
+    #info_section {
         margin-top: 1.5rem;
         padding: 0;
     }
-    #info_t{
+    #info_t {
         width: 30%;
         font-size: 1.1rem;
         line-height: 1;
     }
-    #shipping-fee, #product-weight, #info_c{
+    #shipping-fee,
+    #product-weight,
+    #info_c {
         width: 100%;
         font-size: 1.1rem;
         font-weight: 300;
         line-height: 1;
     }
-    #shipping-fee-desc{
+    #shipping-fee-desc {
         width: 100%;
         font-size: 1.1rem;
         line-height: 1;
         margin-left: 0;
         margin-bottom: 0.8rem;
     }
-    #purchase_number_section{
+    #purchase_number_section {
         padding: 0;
         height: 6.46rem;
         border-top: solid 0.03rem #005413;
         border-bottom: solid 0.03rem #005413;
     }
-    #quantity_letter{
+    #quantity_letter {
         font-size: 1.1rem;
     }
-    #quantity_num_section{
+    #quantity_num_section {
         margin-left: 4rem;
     }
-    #plus_btn, #minus_btn{
+    #plus_btn,
+    #minus_btn {
         width: 2.43rem;
         height: 2.43rem;
         padding: 0.66rem 0.84rem 0.66rem 0.88rem;
@@ -200,40 +207,42 @@
         line-height: 1.09;
         color: var(--dark-sage);
     }
-    #minus_btn{
+    #minus_btn {
         border-top-left-radius: 0.4rem;
         border-bottom-left-radius: 0.4rem;
     }
-    #plus_btn{
+    #plus_btn {
         border-top-right-radius: 0.4rem;
         border-bottom-right-radius: 0.4rem;
     }
-    #quantity_number{
+    #quantity_number {
         width: calc(8.71rem - 4.86rem);
         height: 2.43rem;
         font-size: 1.1rem;
         padding-top: 0.35rem;
     }
-    #total_price_section{
+    #total_price_section {
         margin: 0;
         margin-bottom: 1.6rem;
         padding: 0;
         align-items: flex-end;
     }
-    #total_price_letter{
+    #total_price_letter {
         font-size: 0.8rem;
         font-weight: 500;
         line-height: 1.25;
         text-align: right;
         margin: 0;
     }
-    #total_price, #won{
+    #total_price,
+    #won {
         font-size: 2rem;
         text-align: right;
         margin: 0;
         margin-left: 0.35rem;
     }
-    #wish, #cart{
+    #wish,
+    #cart {
         height: 3rem;
         padding: 0.6rem 1.2rem;
         border-radius: 1.5rem;
@@ -243,7 +252,8 @@
         line-height: 1;
         text-align: center;
     }
-    #wish:hover, #cart:hover{
+    #wish:hover,
+    #cart:hover {
         height: 3rem;
         padding: 0.6rem 1.2rem;
         border-radius: 1.5rem;
@@ -255,15 +265,15 @@
         background-color: #fff;
         color: #5c6754;
     }
-    #wish{
+    #wish {
         width: 6.9rem;
     }
-    #cart{
+    #cart {
         width: 10.2rem;
         margin-left: 1.2rem;
         margin-right: 0;
     }
-    #purchase{
+    #purchase {
         width: 10.3rem;
         height: 3rem;
         padding: 0.55rem 1.2rem;
@@ -274,71 +284,86 @@
         text-align: center;
         margin-left: auto;
     }
+    /* 상품 상세 정보 */
+    #info_detail {
+        width: 100%;
+        margin-top: 2rem;
+    }
+    #info_detail > div:nth-child(odd) {
+        font-size: 1.4rem;
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid lightgray;
+    }
+    #info_detail > div:nth-child(even) {
+        font-size: 1.1rem;
+        padding: 1.5rem 1.5rem;
+    }
 
     /* menu bar */
     /* 추후 각 menu에 대한 개별 css 파일로 이동 필요 */
-    #product_desc{
+    #product_desc {
         width: 100%;
         padding: 0;
         justify-content: space-between;
         align-items: center;
     }
-    #product_desc a{
+    #product_desc a {
         width: 100%;
         height: 2.5rem;
     }
-    #product_desc a:nth-child(1) > div{
+    #product_desc a:nth-child(1) > div {
         border-left: solid 0.1rem #ccc;
     }
-    #product_desc > div{
+    #product_desc > div {
         display: none;
     }
-    #product_info{
+    #product_info {
         width: 100%;
         padding: 0;
         justify-content: space-between;
         align-items: center;
     }
-    #product_info a{
+    #product_info a {
         width: 100%;
         height: 2.5rem;
     }
-    #product_info a:nth-child(1) > div{
+    #product_info a:nth-child(1) > div {
         border-left: solid 0.1rem #ccc;
     }
-    #product_info > div{
+    #product_info > div {
         display: none;
     }
-    #product_qna{
+    #product_qna {
         width: 100%;
         padding: 0;
         justify-content: space-between;
         align-items: center;
     }
-    #product_qna a{
+    #product_qna a {
         width: 100%;
         height: 2.5rem;
     }
-    #product_qna a:nth-child(1) > div{
+    #product_qna a:nth-child(1) > div {
         border-left: solid 0.1rem #ccc;
     }
-    #product_qna > div{
+    #product_qna > div {
         display: none;
     }
-    #product_refund_change{
+    #product_refund_change {
         width: 100%;
         padding: 0;
         justify-content: space-between;
         align-items: center;
     }
-    #product_refund_change a{
+    #product_refund_change a {
         width: 100%;
         height: 2.5rem;
     }
-    #product_refund_change a:nth-child(1) > div{
+    #product_refund_change a:nth-child(1) > div {
         border-left: solid 0.1rem #ccc;
     }
-    #product_refund_change > div{
+    #product_refund_change > div {
         display: none;
     }
 }
