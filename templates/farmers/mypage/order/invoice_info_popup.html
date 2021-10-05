@@ -33,8 +33,7 @@
                             {% for product in products %}
                             <div class='order-cancel-product-information-content-wrap flex'>
                                 <div class='order-cancel-product-information-content-left-section'>
-                                    <div class='order-cancel-product-image'>
-                                    </div>
+                                    <img class='order-cancel-product-image' src="{{product.main_image.url}}">
                                 </div>
                                 <div class='order-cancel-product-information-content-right-section'>
                                     <div class="order-confirm-product-tag">
@@ -91,7 +90,7 @@
                                         <div class='order-cancel-customer-detail-address'>{{order.order_group.rev_address}}</div>
                                         <div class='order-cancel-customer-detail-plus-wrap flex'>
                                             <div class='order-cancel-customer-detail-delivery-place'>{{order.order_group.rev_loc_at}}</div>
-                                            <div class='order-cancel-customer-detail-door-password'>{{order.order_group.rev_loc_detail}}</div>
+                                            <div class='order-cancel-customer-detail-door-password'>{{order.order_group.rev_message}}</div>
                                         </div>
                                     </div>
                                 </div>

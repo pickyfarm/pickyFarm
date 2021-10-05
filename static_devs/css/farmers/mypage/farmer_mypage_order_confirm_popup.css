@@ -20,7 +20,7 @@
 }
 
 .popup_container {
-    padding-top:60px;
+    padding-top: 60px;
     width: 375px;
     /*height: 1130px;*/
     flex-direction: column;
@@ -34,7 +34,6 @@
     color: #4d5548;
     margin-bottom: 68px;
 }
-
 
 .order-confirm-date {
     font-size: 16px;
@@ -78,14 +77,10 @@
     margin-bottom: 20px;
 }
 
-
-
 .order-confirm-product-information-content-wrap {
     align-items: center;
     margin-bottom: 10px;
 }
-
-
 
 .order-confirm-product-information-content-left-section {
     margin-right: 25px;
@@ -96,8 +91,8 @@
     height: 72px;
     border-radius: 10px;
     background-color: #b3b3b3;
+    object-fit: cover;
 }
-
 
 .order-confirm-product-name {
     font-size: 15px;
@@ -151,8 +146,6 @@
     margin-top: 21px;
 }
 
-
-
 .order-confirm-customer-detail-title {
     padding-top: 1.5px;
     font-size: 12px;
@@ -165,18 +158,14 @@
     font-size: 15px;
 }
 
-
 .order-confirm-customer-detail-callnum::before {
     content: '|';
     padding: 0 7px;
     color: #707070;
 }
 
-
-
 .order-confirm-customer-detail-address-wrap,
-.order-confirm-customer-detail-request-message-wrap
-{
+.order-confirm-customer-detail-request-message-wrap {
     margin-top: 10px;
 }
 
@@ -184,7 +173,6 @@
     margin-left: 45px;
     font-size: 15px;
 }
-
 
 .order-confirm-customer-detail-address-value-wrap {
     margin-left: 35px;
@@ -194,7 +182,6 @@
 .order-confirm-customer-detail-address {
     width: 217px;
     margin-bottom: 3px;
-
 }
 
 .order-confirm-customer-detail-plus-wrap {
@@ -202,16 +189,13 @@
     color: #808080;
 }
 
-.order-confirm-customer-detail-door-password::before{
+.order-confirm-customer-detail-door-password::before {
     content: '|';
     padding: 0 10px;
     color: #707070;
 }
 
-
-
-
-.order-confirm-customer-detail-request-message{
+.order-confirm-customer-detail-request-message {
     margin-left: 24px;
     width: 211px;
     font-size: 15px;
@@ -251,19 +235,18 @@
 }
 
 .order-confirm-reason-submit-wrap {
-    margin:60px 0;
+    margin: 60px 0;
     flex-direction: column;
     align-items: center;
     display: inline-block;
     background-color: transparent;
-    border : 0;
+    border: 0;
     outline: 0;
 }
 
 .order-confirm-reason-submit-wrap:hover {
     cursor: pointer;
 }
-
 
 .order-confirm-reason-submit-text {
     margin-top: 10px;
@@ -272,15 +255,15 @@
     color: #5c6754;
 }
 
-.order-confirm-request-box{
-    background-color:#f8f8f8;
+.order-confirm-request-box {
+    background-color: #f8f8f8;
 }
 
-.order-confirm-request-title{
+.order-confirm-request-title {
     margin: 10px 4px 0 0;
     padding: 10px 17px;
 }
-.order-confirm-request-detail-request-message{
+.order-confirm-request-detail-request-message {
     padding: 10px 17px 20px 17px;
     font-size: 15px;
     font-weight: 300;

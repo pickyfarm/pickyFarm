@@ -20,7 +20,7 @@
 }
 
 .popup_container {
-    padding-top:60px;
+    padding-top: 60px;
     width: 375px;
     /*height: 1130px;*/
     flex-direction: column;
@@ -34,7 +34,6 @@
     color: #4d5548;
     margin-bottom: 68px;
 }
-
 
 .order-cancel-date {
     font-size: 16px;
@@ -79,14 +78,10 @@
     margin-bottom: 20px;
 }
 
-
-
 .order-cancel-product-information-content-wrap {
     align-items: center;
     margin-bottom: 10px;
 }
-
-
 
 .order-cancel-product-information-content-left-section {
     margin-right: 25px;
@@ -97,8 +92,8 @@
     height: 72px;
     border-radius: 10px;
     background-color: #b3b3b3;
+    object-fit: cover;
 }
-
 
 .order-cancel-product-name {
     font-size: 15px;
@@ -152,8 +147,6 @@
     margin-top: 21px;
 }
 
-
-
 .order-cancel-customer-detail-title {
     padding-top: 1.5px;
     font-size: 12px;
@@ -166,18 +159,14 @@
     font-size: 15px;
 }
 
-
 .order-cancel-customer-detail-callnum::before {
     content: '|';
     padding: 0 7px;
     color: #707070;
 }
 
-
-
 .order-cancel-customer-detail-address-wrap,
-.order-cancel-customer-detail-request-message-wrap
-{
+.order-cancel-customer-detail-request-message-wrap {
     margin-top: 10px;
 }
 
@@ -189,7 +178,6 @@
 .order-cancel-customer-detail-address {
     width: 217px;
     margin-bottom: 3px;
-
 }
 
 .order-cancel-customer-detail-plus-wrap {
@@ -197,16 +185,13 @@
     color: #808080;
 }
 
-.order-cancel-customer-detail-door-password::before{
+.order-cancel-customer-detail-door-password::before {
     content: '|';
     padding: 0 10px;
     color: #707070;
 }
 
-
-
-
-.order-cancel-customer-detail-request-message{
+.order-cancel-customer-detail-request-message {
     margin-left: 24px;
     width: 211px;
     font-size: 15px;
@@ -246,19 +231,18 @@
 }
 
 .order-cancel-reason-submit-wrap {
-    margin:60px 0;
+    margin: 60px 0;
     flex-direction: column;
     align-items: center;
     display: inline-block;
     background-color: transparent;
-    border : 0;
+    border: 0;
     outline: 0;
 }
 
 .order-cancel-reason-submit-wrap:hover {
     cursor: pointer;
 }
-
 
 .order-cancel-reason-submit-text {
     margin-top: 10px;

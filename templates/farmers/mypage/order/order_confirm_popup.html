@@ -32,8 +32,7 @@
 							{% for product in products %}
 							<div class=" order-confirm-product-information-content-wrap flex ">
 								<div class=" order-confirm-product-information-content-left-section ">
-									<div class="order-confirm-product-image">
-									</div>
+									<img class="order-confirm-product-image" src="{{product.main_image.url}}">
 								</div>
 								<div class=" order-confirm-product-information-content-right-section ">
 									<div class="order-confirm-product-tag">
@@ -138,7 +137,7 @@
 												{{order.order_group.rev_loc_at}}
 											</div>
 											<div class=" order-confirm-customer-detail-door-password ">
-												{{order.order_group.rev_loc_detail}}
+												{{order.order_group.rev_message}}
 											</div>
 										</div>
 									</div>
