@@ -867,6 +867,14 @@ class FarmerMypageOrderCancelPopup(DetailView):
         ).order_by("kinds")
         return context
 
+    def get_object(self):
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(
+            self.request.GET.get("odmn")
+        )
+        print(f"[POST] url_decode_management_number : {order_management_number}")
+        return Order_Detail.objects.get(order_management_number=order_management_number)
+
     def post(self, request, **kwargs):
         # order_management_number 디코딩
         order_management_number = url_encryption.decode_url_string(
