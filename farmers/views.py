@@ -1186,7 +1186,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
             "#{farmer_nickname}": farmer.user.nickname,
             "#{weight}": kakao_msg_weight,
             "#{quantity}": kakao_msg_quantity,
-            "#{shipping_company}": order.delivery_service_company,
+            "#{shipping_company}": order.get_delivery_service_company_display(),
             "#{invoice_number}": order.invoice_number,
         }
 
