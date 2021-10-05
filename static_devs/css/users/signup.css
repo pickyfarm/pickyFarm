@@ -22,6 +22,7 @@
 }
 .valid-button {
     grid-column: 2;
+    cursor: pointer;
 }
 
 input:focus {

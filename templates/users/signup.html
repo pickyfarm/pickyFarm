@@ -84,15 +84,6 @@
                 {{addressform.sigungu}}
                 {{addressform.extra_address}}
                 {{addressform.zipcode}}
-                <div id="gender-label">{{form.gender.label_tag}}</div>
-                <div class="flex gender-selection">
-                    {{form.gender}}
-                </div>
-
-                <div id="birth-label">{{form.birth.label_tag}}</div>
-                <div class="flex justify-between birth-selection">
-                    {{form.birth}}
-                </div>
                 {{form.nickname.label_tag}}
                 <div id="nickname-form">
                     <div class="validation-input-form">
@@ -115,7 +106,7 @@
                 <div class="flex justify-between items-center">
                     <input type="checkbox" name="terms_of_services" id="terms_of_services" class="signup-terms">
                     <label class="mand" for="terms_of_services">이용약관 동의</label>
-                    <a href="{% url 'user:signup_terms_of_service' %}">약관보기</a>
+                    <a href="{% url 'user:signup_terms_of_service' %}" target="_blank">약관보기</a>
                 </div>
                 <div class="flex justify-between items-center">
                     <input type="checkbox" name="personal_info" id="personal_info" class="signup-terms">
