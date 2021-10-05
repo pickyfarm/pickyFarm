@@ -40,8 +40,14 @@ from products.forms import Answer_Form
 
 from config import settings
 
-import cryptocode
+#encoding / decoding
 import os
+from core import url_encryption
+
+
+#kakao msg
+from kakaomessages.views import send_kakao_message
+from kakaomessages.template import templateIdList
 
 
 # farmer's page
@@ -805,21 +811,21 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
     template_name = "farmers/mypage/order/order_confirm_popup.html"
 
     def get_object(self):
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
+        print(f'[POST] url_decode_management_number : {order_management_number}')
         return Order_Detail.objects.get(
-            order_management_number=cryptocode.decrypt(
-                self.request.GET.get("odmn"), os.environ.get("SECRET_KEY")
-            )
+            order_management_number=order_management_number
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        encoded_management_number = self.request.GET.get("odmn")
-
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
+        print(f'[GET] url_decode_management_number : {order_management_number}')
         try:
             context["products"] = Product.objects.filter(
-                order_detail__order_management_number=cryptocode.decrypt(
-                    encoded_management_number, os.environ.get("SECRET_KEY")
-                )
+                order_detail__order_management_number=order_management_number
             ).order_by("kinds")
         except ObjectDoesNotExist:
             redirect("core:main")
@@ -857,18 +863,52 @@ class FarmerMypageOrderCancelPopup(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
         context["products"] = Product.objects.filter(
-            order_details__pk=self.kwargs["pk"]
+            order_details__order_management_number=order_management_number
         ).order_by("kinds")
         return context
 
     def post(self, request, **kwargs):
-        order = self.get_object()
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
+        try:
+            order = Order_Detail.objects.get(order_management_number=order_management_number)
+        except ObjectDoesNotExist:
+            return redirect("core:main")
         cancel_reason = request.POST.get("cancel_reason", None)
 
         order.cancel_reason = cancel_reason
         order.status = "cancel"
         order.save()
+
+         # 카카오 알림톡 전송을 위한 소비자 번호
+        phone_number_consumer = order.order_group.consumer.user.phone_number
+        print(f"[파머 주문 취소 팝업 - POST] Consumer phone number : {phone_number_consumer}")
+
+        # 주문 상품
+        product = order.product
+
+        kakao_msg_quantity = (str)(
+            order.quantity
+        ) + '개'
+
+        args_consumer = {
+            "#{cancel_reason}": cancel_reason,
+            "#{order_detail_title}": product.title,
+            "#{order_detail_number}": order_management_number,
+            "#{quantity}" : kakao_msg_quantity,
+        }
+
+        # 결제 상품 배송 불가 카카오 알림톡 전송
+        send_kakao_message(
+            phone_number_consumer,
+            templateIdList["delivery_cancel_by_farmer"],
+            args_consumer,
+        )
+
+
 
         return redirect("core:popup_callback")
 
@@ -1074,21 +1114,21 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
-        return Order_Detail.objects.filter(
-            order_management_number=cryptocode.decrypt(
-                self.kwargs["order_management_number"], os.environ.get("SECRET_KEY")
-            )
-        )
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
 
+        return Order_Detail.objects.filter(
+            order_management_number=order_management_number
+        )
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        encoded_management_number = self.kwargs["order_management_number"]
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
 
         try:
             context["products"] = Product.objects.filter(
-                order_details__order_management_number=cryptocode.decrypt(
-                    encoded_management_number, os.environ.get("SECRET_KEY")
-                )
+                order_details__order_management_number=order_management_number
             ).order_by("kinds")
         except ObjectDoesNotExist:
             redirect("core:main")
@@ -1100,9 +1140,41 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         invoice_number = self.request.POST.get("invoice_number", None)
         delivery_service_company = self.request.POST.get("invoice-select")
 
-        order.update(**{"invoice_number": invoice_number, "status": "shipping"})
+        order.update(**{"delivery_service_company" : delivery_service_company, "invoice_number": invoice_number, "status": "shipping"})
 
-        # 카카오 알림톡 들어가야 함 -> 배송시작알림 카카오톡 알림톡
+        # 카카오 알림톡 전송을 위한 소비자 번호
+        phone_number_consumer = order.order_group.consumer.user.phone_number
+        print(f"[송장 입력 팝업 - POST] Consumer phone number : {phone_number_consumer}")
+
+        # 주문 상품
+        product = order.product
+        # 파머
+        farmer = product.farmer
+
+        kakao_msg_weight = (str)(
+            product.weight
+        ) + product.weight_unit
+
+        kakao_msg_quantity = (str)(
+            order.quantity
+        ) + '개'
+
+        args_consumer = {
+            "#{order_detail_title}": product.title,
+            "#{farmer_nickname}": farmer.user.nickname,
+            "#{weight}": kakao_msg_weight,
+            "#{quantity}" : kakao_msg_quantity,
+            "#{shipping_company}": order.delivery_service_company,
+            "#{invoice_number}": order.invoice_number,
+        }
+
+        # 소비자 결제 완료 카카오 알림톡 전송
+        send_kakao_message(
+            phone_number_consumer,
+            templateIdList["delivery_start"],
+            args_consumer,
+        )
+    
 
         return redirect("core:popup_callback")
 
@@ -1120,21 +1192,28 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
-        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+        # url string 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+        return Order_Detail.objects.filter(order_management_number=order_management_number)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["refund"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
+
+        # url string 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+
+        context["refund"] = RefundExchange.objects.get(order_detail__order_management_number = order_management_number)
         context["products"] = Product.objects.filter(
-            order_details__pk=self.kwargs["pk"]
+            order_details__order_management_number = order_management_number
         ).order_by("kinds")
         context["consumer"] = Consumer.objects.get(
-            order_groups__order_details__pk=self.kwargs["pk"]
+            order_groups__order_details__order_management_number=order_management_number
         )
         return context
 
     def post(self, request, **kwargs):
-        refund = RefundExchange.objects.filter(order_detail=self.kwargs["pk"])
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+        refund = RefundExchange.objects.filter(order_detail__order_management_detail = order_management_number)
         farmer_answer = self.request.POST.get("farmer_answer", None)
         refund.update(farmer_answer=farmer_answer)
         order = self.get_queryset()
@@ -1146,6 +1225,34 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
         elif "approve" in self.request.POST:
             refund.update(claim_status="approve")
             order.update(status="re_ex_approve")
+
+            # 카카오 알림톡 전송을 위한 소비자 번호
+            phone_number_consumer = order.order_group.consumer.user.phone_number
+            print(f"[반품 승인 by 파머 - POST] Consumer phone number : {phone_number_consumer}")
+
+            # 주문 상품
+            product = order.product
+
+            kakao_msg_quantity = (str)(
+                order.quantity
+            ) + '개'
+
+            refund_cost = (order.quantity * product.sell_price) - product.refund_delivery_fee
+            print(f'[반품 승인 by 파머 - POST] refund cost : {refund_cost}')
+
+            args_consumer = {
+                "#{order_detail_title}": product.title,
+                "#{order_detail_number}" : order_management_number,
+                "#{quantity}" : kakao_msg_quantity,
+                "#{refund_cost}" : refund_cost,
+            }
+
+            # 소비자 결제 완료 카카오 알림톡 전송
+            send_kakao_message(
+                phone_number_consumer,
+                templateIdList["refund_complete_for_consumer"],
+                args_consumer,
+            )
             return redirect("core:popup_callback")  # 추후 redirect 수정
         else:
             return redirect("core:popup_callback")
@@ -1164,25 +1271,31 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self, **kwargs):
-        return Order_Detail.objects.filter(pk=self.kwargs["pk"])
+        # url string 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+        return Order_Detail.objects.filter(order_management_number=order_management_number)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["exchange"] = RefundExchange.objects.get(order_detail=self.kwargs["pk"])
+        # url string 디코딩
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+
+        context["exchange"] = RefundExchange.objects.get(order_detail__order_management_number = order_management_number)
         context["products"] = Product.objects.filter(
-            order_details__pk=self.kwargs["pk"]
+            order_details__order_management_number = order_management_number
         ).order_by("kinds")
         context["consumer"] = Consumer.objects.get(
-            order_groups__order_details__pk=self.kwargs["pk"]
+            order_groups__order_details__order_management_number=order_management_number
         )
         return context
 
     def post(self, request, **kwargs):
-        exchange = RefundExchange.objects.filter(order_detail=self.kwargs["pk"])
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+        exchange = RefundExchange.objects.filter(order_detail__order_management_number=order_management_number)
         farmer_answer = self.request.POST.get("farmer_answer", None)
         exchange.update(farmer_answer=farmer_answer)
         order = self.get_queryset()
-
+        
         if "deny" in self.request.POST:
             exchange.update(claim_status="deny")
             order.update(status="re_ex_deny")
@@ -1193,6 +1306,30 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
             exchange.update(claim_status="approve")
             order.update(status="re_ex_approve")
 
+            # 카카오 알림톡 전송을 위한 소비자 번호
+            phone_number_consumer = order.order_group.consumer.user.phone_number
+            print(f"[교환 승인 by 파머 - POST] Consumer phone number : {phone_number_consumer}")
+
+            # 주문 상품
+            product = order.product
+
+            kakao_msg_quantity = (str)(
+                order.quantity
+            ) + '개'
+
+            args_consumer = {
+                "#{order_detail_title}": product.title,
+                "#{order_detail_number}" : order_management_number,
+                "#{quantity}" : kakao_msg_quantity
+            }
+
+            # 소비자 결제 완료 카카오 알림톡 전송
+            send_kakao_message(
+                phone_number_consumer,
+                templateIdList["exchange_complete_for_consumer"],
+                args_consumer,
+            )
+    
             return redirect("core:popup_callback")  # 추후 redirect 수정
         else:
             return redirect("core:popup_callback")
