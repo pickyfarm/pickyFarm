@@ -1247,7 +1247,7 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
             self.request.GET.get("odmn")
         )
         refund = RefundExchange.objects.filter(
-            order_detail__order_management_detail=order_management_number
+            order_detail__order_management_number=order_management_number
         )
         farmer_answer = self.request.POST.get("farmer_answer", None)
         refund.update(farmer_answer=farmer_answer)
