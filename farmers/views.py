@@ -856,12 +856,6 @@ class FarmerMypageOrderCancelPopup(DetailView):
     template_name = "farmers/mypage/order/order_cancel_popup.html"
     context_object_name = "order"
 
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().status != "payment_complete":
-            return redirect("core:popup_callback")
-
-        return super().dispatch(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # order_management_number 디코딩
@@ -1110,12 +1104,6 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
     template_name = "farmers/mypage/order/invoice_info_popup.html"
     context_object_name = "order"
 
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().product.farmer != self.request.user.farmer:
-            return redirect("core:main")
-
-        return super().dispatch(request, *args, **kwargs)
-
     def get_object(self, **kwargs):
         # order_management_number 디코딩
         order_management_number = url_encryption.decode_url_string(
@@ -1208,12 +1196,6 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
 
     template_name = "farmers/mypage/order/product_refund_request_commit.html"
     context_object_name = "order_detail"
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().product.farmer != self.request.user.farmer:
-            return redirect("core:main")
-
-        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, **kwargs):
         # order_management_number 디코딩
@@ -1309,12 +1291,6 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
 
     template_name = "farmers/mypage/order/product_exchange_request_commit.html"
     context_object_name = "order_detail"
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_object().product.farmer != self.request.user.farmer:
-            return redirect("core:main")
-
-        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, **kwargs):
         # order_management_number 디코딩
