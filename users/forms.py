@@ -77,13 +77,6 @@ class SignUpForm(forms.Form):
     )
     email = forms.EmailField(label="이메일", label_suffix="")
 
-    gender = forms.ChoiceField(
-        label="성별", choices=GENDER_CHOICES, widget=forms.RadioSelect, label_suffix=""
-    )
-    birth = forms.DateField(
-        label="생년월일", widget=NumberInput(attrs={"type": "date"}), label_suffix=""
-    )
-
     def clean_username(self):
         username = self.cleaned_data.get("username")
         try:
