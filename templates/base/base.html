@@ -47,16 +47,16 @@
             </div>
         </div>
     </div>
+    {% include 'partials/header_mobile.html' %}
     <div class="base-wrap font-sans-kr flex flex-col">
         {% include "partials/header_.html" %}
-        {% include 'partials/header_mobile.html' %}
         {% block main_content %}
 
         {% endblock main_content %}
-        {% include 'partials/navbar_mobile.html' %}
         {% include "partials/footer.html" %}
 
     </div>
+    {% include 'partials/navbar_mobile.html' %}
 
 </body>
 
