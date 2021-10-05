@@ -165,7 +165,7 @@
     {% endfor %}
     {% endif %}
 </div>
-<div class="flex justify-between w-36 mx-auto mb-40">
+<div id="paginator" class="flex justify-between w-36 mx-auto mb-40">
     {% if comments.has_previous %}
         <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
         <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{comments.previous_page_number}}' style="cursor: pointer">
