@@ -26,7 +26,11 @@
                                 <div id="farm-news-update-button" class="button">수정</div>
                             </div>
                             <div id="farm-news-content">
-                                이번주 갓 수확한 무난이 어쩌구 저쩌구,,
+                                {% if farmer.farm_news %}
+                                {{farmer.farm_news}}
+                                {% else %}
+                                설정된 농가 뉴스가 없습니다
+                                {% endif %}
                             </div>
                         </div>
                     </div>
