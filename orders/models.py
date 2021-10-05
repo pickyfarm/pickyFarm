@@ -74,17 +74,31 @@ class Order_Detail(models.Model):
 
     COMPANY = (
         ("CJ", "CJ대한통운"),
-        ("gohome", "고홈")
+        ("POST", "우체국택배"),
+        ("LOGEN", "로젠택배"),
+        ("KG", "KG로지스"),
+        ("ILYANG", "일양로지스"),
+        ("HYUNDAI", "현대택배"),
+        ("GTX", "GTX로지스"),
+        ("FedEx", "FedEx"),
+        ("HANJIN", "한진택배"),
+        ("KYUNG", "경동택배"),
+        ("LOTTE", "롯데택배"),
+        ("HAPDONG", "합동택배"),
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default="incoming")
+    payment_status = models.CharField(
+        max_length=10, choices=PAYMENT_STATUS, default="incoming"
+    )
     order_management_number = models.CharField(max_length=1000, null=True, blank=True)
 
     delivery_service_company = models.CharField(
         max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
     )
-    invoice_number = models.CharField(max_length=30, null=True, blank=True, help_text="운송장 번호")
+    invoice_number = models.CharField(
+        max_length=30, null=True, blank=True, help_text="운송장 번호"
+    )
 
     quantity = models.IntegerField()
     total_price = models.IntegerField()
@@ -125,7 +139,9 @@ class RefundExchange(models.Model):
         "Order_Detail", on_delete=models.PROTECT, related_name="refund_exchanges"
     )
     reason = models.TextField()
-    image = CompressedImageField(upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True)
+    image = CompressedImageField(
+        upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True
+    )
 
     farmer_answer = models.TextField(null=True, blank=True)
 

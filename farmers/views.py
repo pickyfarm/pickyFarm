@@ -823,7 +823,6 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
             ).order_by("kinds")
         except ObjectDoesNotExist:
             redirect("core:main")
-
         print(context["products"])
         return context
 
@@ -1100,7 +1099,13 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         invoice_number = self.request.POST.get("invoice_number", None)
         delivery_service_company = self.request.POST.get("invoice-select")
 
-        order.update(**{"invoice_number": invoice_number, "status": "shipping"})
+        order.update(
+            **{
+                "invoice_number": invoice_number,
+                "delivery_service_company": delivery_service_company,
+                "status": "shipping",
+            }
+        )
 
         # 카카오 알림톡 들어가야 함 -> 배송시작알림 카카오톡 알림톡
 

@@ -105,11 +105,19 @@
                             <div class='order-cancel-invoice-place-wrap'>
                                 <label class='invoice-place-title' for="invoice-place-select">택배사</label>
                                 <select name='invoice-select' id='invoice-place-select'>
-                                    <option value=''>택배사 선택</option>
-                                    <!-- 택배사 dummy data 입니다. -->
-                                    <option value='cj'>대한통운</option>
-                                    <option value='hanjin'>한진택배</option>
-                                    <option value='logen'>로젠택배</option>
+                                    <option value='' disabled selected hidden>택배사 선택</option>
+                                    <option value="CJ">CJ대한통운</option>
+                                    <option value="POST">우체국택배</option>
+                                    <option value="LOGEN">로젠택배</option>
+                                    <option value="KG">KG로지스</option>
+                                    <option value="ILYANG">일양로지스</option>
+                                    <option value="HYUNDAI">현대택배</option>
+                                    <option value="GTX">GTX로지스</option>
+                                    <option value="FedEx">FedEx</option>
+                                    <option value="HANJIN">한진택배</option>
+                                    <option value="KYUNG">경동택배</option>
+                                    <option value="LOTTE">롯데택배</option>
+                                    <option value="HAPDONG">합동택배</option>
                                 </select>
                                 <span class='invoice-select-arrow'>
                                     <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
