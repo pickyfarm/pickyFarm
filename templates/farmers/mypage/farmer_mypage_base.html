@@ -166,5 +166,8 @@
     </section>
     {% block content %} {% endblock content %}
 </div>
-
+<script src="{% static 'js/farmers/mypage/farmer_mypage_base.js' %}"></script>
+<script>
+    prohibitAccessFromMobile(['#button-product-manage', '#button-payment-manage'])
+</script>
 {% endblock main_content %}
