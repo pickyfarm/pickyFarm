@@ -1116,6 +1116,14 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
 
         return super().dispatch(request, *args, **kwargs)
 
+    def get_object(self, **kwargs):
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(
+            self.request.GET.get("odmn")
+        )
+        print(f"[POST] url_decode_management_number : {order_management_number}")
+        return Order_Detail.objects.get(order_management_number=order_management_number)
+
     def get_queryset(self, **kwargs):
         # order_management_number 디코딩
         order_management_number = url_encryption.decode_url_string(
@@ -1206,6 +1214,14 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
             return redirect("core:main")
 
         return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, **kwargs):
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(
+            self.request.GET.get("odmn")
+        )
+        print(f"[POST] url_decode_management_number : {order_management_number}")
+        return Order_Detail.objects.get(order_management_number=order_management_number)
 
     def get_queryset(self, **kwargs):
         # url string 디코딩
@@ -1299,6 +1315,14 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
             return redirect("core:main")
 
         return super().dispatch(request, *args, **kwargs)
+
+    def get_object(self, **kwargs):
+        # order_management_number 디코딩
+        order_management_number = url_encryption.decode_url_string(
+            self.request.GET.get("odmn")
+        )
+        print(f"[POST] url_decode_management_number : {order_management_number}")
+        return Order_Detail.objects.get(order_management_number=order_management_number)
 
     def get_queryset(self, **kwargs):
         # url string 디코딩
