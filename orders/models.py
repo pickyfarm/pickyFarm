@@ -1,5 +1,6 @@
 from django.db import models
 from core.models import CompressedImageField
+from core import url_encryption
 
 
 # Create your models here.
@@ -120,6 +121,9 @@ class Order_Detail(models.Model):
         name.append(str(self.quantity))
         name.append(str(self.status))
         return "-".join(name)
+
+    def encrypt_odmn(self):
+        return url_encryption.encode_string_to_url(self.order_management_number)
 
 
 class RefundExchange(models.Model):

@@ -48,12 +48,12 @@
             {% if order.status == 'shipping' or order.status == 'complete' %}
             {{order.invoice_number}}
             {% elif order.status == 're_recept' or order.status == 'ex_recept' %}
-            <div class="button order-status-action-button transition_element" {% if order.status == 're_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_refund_check_popup' order.pk %}')" {% elif order.status == 'ex_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_exchange_check_popup' order.pk %}')" {% endif %}>
+            <div class="button order-status-action-button transition_element" {% if order.status == 're_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_refund_check_popup'%}?odmn={{order.encrypt_odmn}}')" {% elif order.status == 'ex_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_exchange_check_popup' order.pk %}')" {% endif %}>
 
                 사유 확인
             </div>
             {% elif order.status == 'preparing' %}
-            <div class="button order-status-action-button transition_element" onclick="window.open('{% url 'farmer:farmer_mypage_invoice_update_popup' order.pk %}')">
+            <div class="button order-status-action-button transition_element" onclick="window.open('{% url 'farmer:farmer_mypage_invoice_update_popup' %}?odmn={{order.encrypt_odmn}} ')">
                 송장 입력
             </div>
             {% elif order.status == 'shipping' %}
@@ -74,7 +74,7 @@
             </div>
             <div class="button order-confirm-button order-cancel flex flex-col items-center justify-center transition_element">
                 <img src="{% static 'images/farmer_mypage/order/decline.svg' %}" alt="decline">
-                <span onclick="window.open('{% url "farmer:farmer_mypage_order_cancel_popup" order.pk %}', '_blank',  'height=900 width=375')">주문취소</span>
+                <span onclick="window.open('{% url "farmer:farmer_mypage_order_cancel_popup"%}?odmn={{order.encrypt_odmn}}', '_blank',  'height=900 width=375')">주문취소</span>
             </div>
             {% endif %}
         </div>
