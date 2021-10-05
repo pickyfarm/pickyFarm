@@ -66,6 +66,12 @@ class Product(models.Model):
     desc_image2 = CompressedImageField(
         upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True
     )
+    desc_image3 = CompressedImageField(
+        upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True
+    )
+    desc_image4 = CompressedImageField(
+        upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True
+    )
     desc = models.TextField(blank=True)
 
     # 평점 관련
