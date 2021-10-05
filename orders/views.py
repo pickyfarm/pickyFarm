@@ -18,6 +18,7 @@ import pprint
 import cryptocode
 from kakaomessages.views import send_kakao_message
 from kakaomessages.template import templateIdList
+from urllib import parse
 
 # Create your views here.
 
@@ -646,6 +647,8 @@ def payment_valid(request):
                             detail.order_management_number, os.environ.get("SECRET_KEY")
                         )
 
+                        url_encoded_order_detail_number = parse.quote(encoded_order_detail_number)
+
                         kakao_msg_farmer_weight = (str)(
                             product.weight
                         ) + product.weight_unit
@@ -661,7 +664,7 @@ def payment_valid(request):
                             "#{rev_loc_at}": order_group.rev_loc_at,
                             "#{rev_detail}": order_group.rev_message,
                             "#{rev_message}": order_group.to_farm_message,
-                            "#{link_1}": f"http://127.0.0.1:8000/farmer/mypage/orders/check/{encoded_order_detail_number}",  # 임시
+                            "#{link_1}": f"http://127.0.0.1:8000/farmer/mypage/orders/check/{url_encoded_order_detail_number}",  # 임시
                             "#{link_2}": "www.pickyfarm.com",  # 임시
                             "#{link_3}": "www.pickyfarm.com",  # 임시
                         }
