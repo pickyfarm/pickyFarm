@@ -1168,6 +1168,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         )
 
         # 카카오 알림톡 전송을 위한 소비자 번호
+        order = self.get_object()
         phone_number_consumer = order.order_group.consumer.user.phone_number
         print(f"[송장 입력 팝업 - POST] Consumer phone number : {phone_number_consumer}")
 
@@ -1261,6 +1262,7 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
             order.update(status="re_ex_approve")
 
             # 카카오 알림톡 전송을 위한 소비자 번호
+            order = self.get_object()
             phone_number_consumer = order.order_group.consumer.user.phone_number
             print(
                 f"[반품 승인 by 파머 - POST] Consumer phone number : {phone_number_consumer}"
@@ -1357,6 +1359,8 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
             order.update(status="re_ex_approve")
 
             # 카카오 알림톡 전송을 위한 소비자 번호
+            order = self.get_object()
+
             phone_number_consumer = order.order_group.consumer.user.phone_number
             print(
                 f"[교환 승인 by 파머 - POST] Consumer phone number : {phone_number_consumer}"
