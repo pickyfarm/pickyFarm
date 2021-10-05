@@ -1,4 +1,4 @@
-@import 'static/css/base/mobile_base_style.css';
+@import '/static/css/base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
     /* 상품 사진, 농장 소식 */
