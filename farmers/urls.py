@@ -78,17 +78,17 @@ urlpatterns = [
     path("mypage/reviews-qnas/review-ajax/", views.review_ajax, name="review_ajax"),
     # mypage popups url
     path(
-        "mypage/orders/check/",
+        "mypage/orders/check",
         views.FarmerMyPageOrderCheckPopup.as_view(),
         name="farmer_mypage_order_check_popup",
     ),
     path(
-        "mypage/orders/cancel/<int:pk>",
+        "mypage/orders/cancel",
         views.FarmerMypageOrderCancelPopup.as_view(),
         name="farmer_mypage_order_cancel_popup",
     ),
     path(
-        "mypage/orders/invoice/<str:order_management_number>",
+        "mypage/orders/invoice",
         views.FarmerMypageInvoiceUpdatePopup.as_view(),
         name="farmer_mypage_invoice_update_popup",
     ),
@@ -103,12 +103,12 @@ urlpatterns = [
         name="farmer_mypage_product_state_update",
     ),
     path(
-        "mypage/orders/<int:pk>/refund/request/check/",
+        "mypage/orders/refund/request/check",
         views.FarmerMyPageRefundRequestCheckPopup.as_view(),
         name="farmer_mypage_refund_check_popup",
     ),
     path(
-        "mypage/orders/<int:pk>/exchange/request/check/",
+        "mypage/orders/exchange/request/check",
         views.FarmerMyPageExchangeRequestCheckPopup.as_view(),
         name="farmer_mypage_exchange_check_popup",
     ),
