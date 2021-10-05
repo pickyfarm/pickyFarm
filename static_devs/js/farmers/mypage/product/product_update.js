@@ -13,6 +13,19 @@ $('input:radio[name=farm_cat]').on('change', function () {
     }
 });
 
+$('input:radio[name=legal-box]').on('change', function () {
+    if (this.value == 'delivery') {
+        console.log(this.value);
+        $('input:radio[value=delivery]').parent().addClass('checked');
+        $('input:radio[value=jeju-delivery]').parent().removeClass('checked');
+    }
+
+    if (this.value == 'jeju-delivery') {
+        $('input:radio[value=jeju-delivery]').parent().addClass('checked');
+        $('input:radio[value=delivery]').parent().removeClass('checked');
+    }
+});
+
 $('input:checkbox[name=yearly-yield]').on('click', function () {
     if (
         $('input:checkbox[value=yearly]').parent().hasClass('checked') === true

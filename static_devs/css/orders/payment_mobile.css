@@ -1,6 +1,6 @@
-@import 'base/mobile_base_style.css';
+@import 'static/css/base/mobile_base_style.css';
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     /* base setting */
     #main {
         width: 100%;
@@ -20,48 +20,48 @@
 
     /* info & delivery input */
     #info-name-section,
-    #info-phone-number-section, 
-    #delivery-address-section, 
-    #delivery-rev-loc-at-section, 
-    #delivery-rev-message-section, 
-    #delivery-to-farm-message-section, 
+    #info-phone-number-section,
+    #delivery-address-section,
+    #delivery-rev-loc-at-section,
+    #delivery-rev-message-section,
+    #delivery-to-farm-message-section,
     #delivery-rev-loc-at-section {
         margin-bottom: 2rem;
     }
     #info-name-section > div,
-    #info-phone-number-section > div, 
-    #delivery-address-section > div, 
-    #delivery-rev-loc-at-section > div, 
-    #delivery-rev-message-section > div, 
-    #delivery-to-farm-message-section > div, 
+    #info-phone-number-section > div,
+    #delivery-address-section > div,
+    #delivery-rev-loc-at-section > div,
+    #delivery-rev-message-section > div,
+    #delivery-to-farm-message-section > div,
     #delivery-rev-loc-at-section > div {
         width: 10%;
         min-width: 10.4rem;
         align-items: center;
     }
     #info-name-section > div + div,
-    #info-phone-number-section > div + div, 
-    #delivery-address-section > div + div, 
-    #delivery-rev-loc-at-section > div + div, 
-    #delivery-rev-message-section > div + div, 
-    #delivery-to-farm-message-section > div + div, 
+    #info-phone-number-section > div + div,
+    #delivery-address-section > div + div,
+    #delivery-rev-loc-at-section > div + div,
+    #delivery-rev-message-section > div + div,
+    #delivery-to-farm-message-section > div + div,
     #delivery-rev-loc-at-section > div + div {
         width: 100%;
         margin-left: 0;
         padding-left: 0;
     }
-    #info-name-section > div + div > input, 
-    #info-phone-number-section > div + div > input, 
-    #delivery-address-section > div + div > input, 
-    #delivery-rev-loc-at-section > div + div > input, 
-    #big-form > input, 
-    #delivery-to-farm-message-section > div + div > input, 
+    #info-name-section > div + div > input,
+    #info-phone-number-section > div + div > input,
+    #delivery-address-section > div + div > input,
+    #delivery-rev-loc-at-section > div + div > input,
+    #big-form > input,
+    #delivery-to-farm-message-section > div + div > input,
     #delivery-rev-loc-at-section > div + div > input {
         width: 100%;
     }
 
     /* row spacing */
-    #title-text,  
+    #title-text,
     #sub-title-text {
         margin-bottom: 1rem;
     }
@@ -75,7 +75,7 @@
         margin-top: 1rem;
         text-align: left;
     }
-    #small-form > input, 
+    #small-form > input,
     #middle-form > input {
         padding-left: 1.9rem;
         height: 2.8rem;
@@ -96,7 +96,7 @@
     #delivery-to-farm-message-section > #label-text {
         margin-top: 0.7rem;
     }
-    
+
     /* line */
     #sub-title-line,
     #orders-sub-title-line,
@@ -111,16 +111,16 @@
     #div-line {
         height: 5.8rem;
     }
-    #sub-title-text{
+    #sub-title-text {
         min-width: 8rem;
         line-height: 3rem;
         text-align: left;
     }
-    #orders-title-section > #sub-title-text{
+    #orders-title-section > #sub-title-text {
         min-width: 17rem;
     }
     #title-line {
-        width:50%;
+        width: 50%;
         height: 0.8rem;
     }
 
@@ -136,7 +136,6 @@
         object-fit: contain;
         margin-left: 0.7rem;
     }
-
 
     /* delivery section */
     #delivery-section {
@@ -175,11 +174,11 @@
         padding-bottom: 0;
         margin-top: 0.5rem;
     }
-    
+
     /* orders section */
     #products-index-section {
         display: none;
-    }    
+    }
     #orders-contents-section {
         flex-wrap: wrap;
     }
@@ -191,10 +190,10 @@
     }
     #product {
         height: 9.5rem;
-        width: 100%; 
+        width: 100%;
         padding: 1rem;
         border-radius: 0.5rem;
-        box-shadow: 0 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);       
+        box-shadow: 0 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);
         margin-bottom: 2rem;
         display: grid;
         grid-template-columns: 8.4rem 1fr;
@@ -207,10 +206,10 @@
     #farm_name,
     #title,
     #orders-num,
-    #weight, 
+    #weight,
     #sell-price {
         width: fit-content;
-    } 
+    }
     #product > div:first-child {
         grid-area: img;
     }
@@ -251,7 +250,7 @@
     }
     #sell-price {
         margin-right: 1.15rem;
-    } 
+    }
 
     /* price section */
     #price-check-section {
@@ -263,11 +262,11 @@
         min-width: 6rem;
     }
     #text_ab,
-    #text_a, 
-    #text-b, 
+    #text_a,
+    #text-b,
     #text-c {
         min-width: 13rem;
-    } 
+    }
     #price-check-section > div:nth-child(1) {
         margin-top: 2rem;
     }
@@ -279,19 +278,19 @@
     }
 
     /* pay section */
-    #payment-type-section > ul >li {
+    #payment-type-section > ul > li {
         font-size: 1.2rem;
         margin: 0 2rem 0 0;
     }
 
     /* agree section */
     #agree-section {
-        width:21.1rem;
+        width: 21.1rem;
         margin-bottom: 4.7rem;
     }
 
     /* btns section */
-    #go-btn, 
+    #go-btn,
     #go-back-btn {
         font-size: 1.5rem;
         width: 15.7rem;
@@ -368,7 +367,7 @@
     #orders-title,
     #orders-num,
     #price-check-title {
-        font-weight:normal
+        font-weight: normal;
     }
     #sub-title-text,
     #label-text {

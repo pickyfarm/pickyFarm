@@ -96,8 +96,7 @@ Farmer's Story
     <div class="h-10 mb-56 text-center flex flex-row justify-center items-center" id="paginator">
         <div class="mr-20">
             {% if stories.has_previous %}
-            <a href='?page={{stories.previous_page_number}}'><img id="prev"
-                    src="{% static 'images/farm/prev.svg' %}"></a>
+            <a href='?page={{stories.previous_page_number}}'><img id="prev" src="{% static 'images/farm/prev.svg' %}"></a>
             {% else %}
             <a href="?page=1"><img src="{% static 'images/farm/prev.svg' %}" alt=""></a>
             {% endif %}
@@ -110,13 +109,13 @@ Farmer's Story
             <div onclick="location.href='?page=3'" style="cursor: pointer;">3</div>
             <div onclick="location.href='?page=4'" style="cursor: pointer;">4</div>
             {% endif %}
-    </div>
+        </div>
 
-    <div class="ml-20">
-        {% if stories.has_next %}
-        <a href='?page={{stories.next_page_number}}'><img id="next" src="{% static 'images/farm/next.svg' %}"></a>
-        {% else %}
-        <a href="?page={{stories.paginator.num_pages"><img src="{% static 'images/farm/next.svg' %}" alt=""></a>
+        <div class="ml-20">
+            {% if stories.has_next %}
+            <a href='?page={{stories.next_page_number}}'><img id="next" src="{% static 'images/farm/next.svg' %}"></a>
+            {% else %}
+            <a href="?page={{stories.paginator.num_pages"><img src="{% static 'images/farm/next.svg' %}" alt=""></a>
         {% endif %}
     </div>
 </div>

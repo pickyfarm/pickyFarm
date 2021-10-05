@@ -47,7 +47,7 @@
                 <div class="text-lg text-center subed_wrap subscribing" id="sub_btn" name={{farmer.pk}}>구독중</div>
                 {% endif %}
             </div>
-                    
+
         </div>
 
         <div id="news_text_mobile">농가 News</div>
@@ -107,102 +107,102 @@
             {% endfor %}
         </div>
         {% if products.count <= 3 %} <div class="h-10 mb-48">
+        </div>
+        {% else %}
+        <div class="h-10 bg-gray-200" id="paginator">
+            paginator
+        </div>
+        {% endif %}
     </div>
-    {% else %}
-    <div class="h-10 bg-gray-200" id="paginator">
-        paginator
-    </div>
-    {% endif %}
-</div>
 
-<!--farmer story-->
-<div class="flex flex-row mt-16 mb-24" id="farmer_nav">
-    <a href="#farmer_intro" class="w-1/4">
-        <div class="font-light text-2xl" id="nav_item">농가소개</div>
-    </a>
-    <a href="#farmer_product" class="w-1/4">
-        <div class="font-light text-2xl" id="nav_item">판매 상품</div>
-    </a>
-    <a href="#farmer_story" class="w-1/4">
-        <div class="font-light text-2xl choice" id="nav_item">Farmer's Story</div>
-    </a>
-    <a href="#farmer_editor" class="w-1/4">
-        <div class="font-light text-2xl" id="nav_item">Editor's Page</div>
-    </a>
-</div>
-<div id="farmer_story">
-    <div class="text-3xl mb-5" id="main_title">Farmer's Story</div>
-    <div class="mb-40" id="story_subtitle">파머가 직접 전하는 농가 이야기</div>
-    <div class="flex flex-row justify-center mb-40">
-        {% for story in stories %}
-        <a href="{% url 'farmers:farmer_story_detail' story.pk %}">
-            <div class="p-5 mx-1" id="story_wrap">
-                <img src="{{ story.thumbnail.url }}" alt="" class="" id="story_img">
-                <div class="flex flex-row justify-between text-xs mt-2 mb-1">
-                    <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+    <!--farmer story-->
+    <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+        <a href="#farmer_intro" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">농가소개</div>
+        </a>
+        <a href="#farmer_product" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">판매 상품</div>
+        </a>
+        <a href="#farmer_story" class="w-1/4">
+            <div class="font-light text-2xl choice" id="nav_item">Farmer's Story</div>
+        </a>
+        <a href="#farmer_editor" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">Editor's Page</div>
+        </a>
+    </div>
+    <div id="farmer_story">
+        <div class="text-3xl mb-5" id="main_title">Farmer's Story</div>
+        <div class="mb-40" id="story_subtitle">파머가 직접 전하는 농가 이야기</div>
+        <div class="flex flex-row justify-center mb-40">
+            {% for story in stories %}
+            <a href="{% url 'farmers:farmer_story_detail' story.pk %}">
+                <div class="p-5 mx-1" id="story_wrap">
+                    <img src="{{ story.thumbnail.url }}" alt="" class="" id="story_img">
+                    <div class="flex flex-row justify-between text-xs mt-2 mb-1">
+                        <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+                        <div class="flex flex-row">
+                            <div class="mr-1" id="hits">{{ story.hits }}</div>
+                            <img src="{% static 'images/farmers_detail/hits.svg' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% if stories.count <= 3 %} <div class="h-10 mb-48">
+        </div>
+        {% else %}
+        <div class="h-10 bg-gray-200" id="paginator">
+            paginator
+        </div>
+        {% endif %}
+    </div>
+
+    <!--farmer editor-->
+    <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+        <a href="#farmer_intro" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">농가소개</div>
+        </a>
+        <a href="#farmer_product" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">판매 상품</div>
+        </a>
+        <a href="#farmer_story" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">Farmer's Story</div>
+        </a>
+        <a href="#farmer_editor" class="w-1/4">
+            <div class="font-light text-2xl choice" id="nav_item">Editor's Page</div>
+        </a>
+    </div>
+    <div id="farmer_editor">
+        <div class="text-center text-3xl mb-40" id="main_title">Editor's Page</div>
+        <div class="flex flex-row justify-center mb-40" id="review_wrap">
+            {% for review in editor_reviews %}
+            <div id="editor_review" class="mx-4">
+                <div class="mb-4">
+                    <span id="editor">Editor_</span>
+                    <span id="editor_name">{{ review.author }}</span>
+                </div>
+                <div id="review_img"><img src="{{ review.main_image.url}}" alt=""></div>
+                <div class="flex flex-row justify-between mb-2" id="review_date">
+                    <div>{{ review.create_at.date|date:"Y.m.d" }}</div>
                     <div class="flex flex-row">
-                        <div class="mr-1" id="hits">{{ story.hits }}</div>
+                        <div class="mr-1" id="hits">{{ review.hits }}</div>
                         <img src="{% static 'images/farmers_detail/hits.svg' %}" alt="">
                     </div>
                 </div>
-                <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+                <div id="review_title">{{ review.title }}</div>
             </div>
-        </a>
-        {% endfor %}
-    </div>
-    {% if stories.count <= 3 %} <div class="h-10 mb-48">
-</div>
-{% else %}
-<div class="h-10 bg-gray-200" id="paginator">
-    paginator
-</div>
-{% endif %}
-</div>
-
-<!--farmer editor-->
-<div class="flex flex-row mt-16 mb-24" id="farmer_nav">
-    <a href="#farmer_intro" class="w-1/4">
-        <div class="font-light text-2xl" id="nav_item">농가소개</div>
-    </a>
-    <a href="#farmer_product" class="w-1/4">
-        <div class="font-light text-2xl" id="nav_item">판매 상품</div>
-    </a>
-    <a href="#farmer_story" class="w-1/4">
-        <div class="font-light text-2xl" id="nav_item">Farmer's Story</div>
-    </a>
-    <a href="#farmer_editor" class="w-1/4">
-        <div class="font-light text-2xl choice" id="nav_item">Editor's Page</div>
-    </a>
-</div>
-<div id="farmer_editor">
-    <div class="text-center text-3xl mb-40" id="main_title">Editor's Page</div>
-    <div class="flex flex-row justify-center mb-40" id="review_wrap">
-        {% for review in editor_reviews %}
-        <div id="editor_review" class="mx-4">
-            <div class="mb-4">
-                <span id="editor">Editor_</span>
-                <span id="editor_name">{{ review.author }}</span>
-            </div>
-            <div id="review_img"><img src="{{ review.main_image.url}}" alt=""></div>
-            <div class="flex flex-row justify-between mb-2" id="review_date">
-                <div>{{ review.create_at.date|date:"Y.m.d" }}</div>
-                <div class="flex flex-row">
-                    <div class="mr-1" id="hits">{{ review.hits }}</div>
-                    <img src="{% static 'images/farmers_detail/hits.svg' %}" alt="">
-                </div>
-            </div>
-            <div id="review_title">{{ review.title }}</div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        {% if editor_reviews.count <= 3 %} <div class="h-10 mb-48">
+        </div>
+        {% else %}
+        <div class="h-10 bg-gray-200" id="paginator">
+            paginator
+        </div>
+        {% endif %}
     </div>
-    {% if editor_reviews.count <= 3 %} <div class="h-10 mb-48">
-</div>
-{% else %}
-<div class="h-10 bg-gray-200" id="paginator">
-    paginator
-</div>
-{% endif %}
-</div>
 </div>
 </div>
 

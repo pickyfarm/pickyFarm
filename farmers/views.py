@@ -897,9 +897,16 @@ class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
         weight_unit = request.POST.get("weight_unit", product[0].weight_unit)
         quantity = request.POST.get("quantity", product[0].stock)
 
+        open_status = True
+
+        if (state != "sale") or quantity == "0":
+            open_status = False
+            state = "suspended"
+
         product.update(
             **{
                 "status": state,
+                "open": open_status,
                 "weight": weight,
                 "weight_unit": weight_unit,
                 "stock": quantity,
@@ -929,7 +936,7 @@ class FarmerMypageProductUpdatePopup(TemplateView):
         delivery_fee = int(request.POST.get("product-shipping-fee", None))
         additional_delivery_fee = request.POST.get("product-shipping-quantity", 0)
         additional_delivery_fee_unit = request.POST.get("product-shipping-price", 0)
-        jeju_delivery_fee = request.POST.get("jeju-delivery", 0)
+        jeju_delivery_fee = request.POST.get("product-jeju-shipping-price", 0)
         return_delivery_fee = int(request.POST.get("refund-shipping-fee", None))
         exchange_delivery_fee = int(
             request.POST.get("double-refund-shipping-fee", None)
@@ -953,7 +960,9 @@ class FarmerMypageProductUpdatePopup(TemplateView):
         normal_additional_delivery_fee_unit = request.POST.get(
             "normal-product-shipping-price", None
         )
-        normal_jeju_delivery_fee = request.POST.get("normal-jeju-delivery", None)
+        normal_jeju_delivery_fee = request.POST.get(
+            "normal-product-jeju-shipping-price", None
+        )
         normal_return_delivery_fee = request.POST.get(
             "normal-refund-shipping-fee", None
         )

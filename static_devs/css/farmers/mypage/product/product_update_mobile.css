@@ -1,19 +1,19 @@
-@import 'base/mobile_base_style.css';
+@import 'static/css/base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
-    .main-contents{
+    .main-contents {
         width: 100%;
     }
-    #content{
+    #content {
         width: 100%;
     }
-    #title{
+    #title {
         margin: 6rem 0;
         font-size: 1.5rem;
         font-weight: bold;
         color: #5c6754;
     }
-    .subtitle{
+    .subtitle {
         width: 100%;
         height: 2.8rem;
         padding: 0.5rem 0;
@@ -27,21 +27,21 @@
         border-bottom: solid 0.1rem #5c6754;
         margin-bottom: 2rem;
     }
-    .main-line{
+    .main-line {
         display: none;
     }
-    .product-form > div:not(.subtitle, #normal){
+    .product-form > div:not(.subtitle, #normal) {
         width: 100%;
         padding: 0 1rem;
     }
-    .farm-news{
+    .farm-news {
         display: none;
     }
-    form > div{
+    form > div {
         align-items: center;
         margin-bottom: 1rem !important;
     }
-    #label{
+    #label {
         width: 7.5rem;
         font-family: NotoSansKR;
         font-size: 1.1rem;
@@ -53,41 +53,43 @@
     }
 
     /* 상품 제목, 상품 부제목 */
-    #id_name, #id_subname{
+    #id_name,
+    #id_subname {
         width: 23rem;
         height: 3rem;
         font-size: 1.1rem;
         color: #808080;
     }
-    .product-update-input-txt{
+    .product-update-input-txt {
         width: 23rem;
         height: 3rem;
     }
 
     /* 상품 중량/용량 */
-    .product-state-update-weight-wrap{
+    .product-state-update-weight-wrap {
         margin-bottom: 0;
     }
-    .product-state-update-weight-input-select-wrap{
+    .product-state-update-weight-input-select-wrap {
         width: 11.5rem;
         height: 3rem;
         padding: 0;
     }
-    .product-state-update-weight-select-wrap{
+    .product-state-update-weight-select-wrap {
         width: 5.75rem;
     }
-    #product-weight-input, #product-weight-unit{
+    #product-weight-input,
+    #product-weight-unit {
         width: 5.75rem;
         height: 100%;
         text-align: center;
     }
-    #product-weight-input{
+    #product-weight-input {
         font-size: 1.1rem;
         color: #808080;
         background: none;
         padding: 1rem;
     }
-    #product-weight-unit{
+    #product-weight-unit {
         padding: 0;
         padding-left: 0.4rem;
         background: none;
@@ -95,20 +97,20 @@
         font-weight: 500;
         line-height: 2.6rem;
     }
-    .product-weight-unit-bar{
+    .product-weight-unit-bar {
         left: 12.5rem;
         top: 0.3rem;
     }
-    .product-weight-select-arrow{
+    .product-weight-select-arrow {
         left: 16rem;
         top: 1.3rem;
     }
 
     /* 상품 수량, 상품 가격, 기본 배송비 */
-    .product-state-update-quantity-wrap{
+    .product-state-update-quantity-wrap {
         position: relative;
     }
-    .product_quantity{
+    .product_quantity {
         text-align: center;
         padding: 0;
         margin-bottom: 0;
@@ -118,14 +120,14 @@
         line-height: 1.64;
         color: #808080;
     }
-    .product-quantity-unit{
+    .product-quantity-unit {
         font-size: 1.1rem;
         font-weight: 500;
         position: absolute;
         top: 1rem;
         left: 16rem;
     }
-    .ps-for-sale{
+    .ps-for-sale {
         position: absolute;
         bottom: -4.2rem;
         right: 1rem;
@@ -137,35 +139,36 @@
         height: 2.7rem;
         text-align: right;
     }
-    
+
     /* 추가 배송비 */
     #additional-shipping > div:nth-child(2),
-    #additional-shipping > div:nth-child(2){
+    #additional-shipping > div:nth-child(2) {
         background-color: #f8f8f8;
         width: 100%;
         padding: 1rem !important;
     }
-    .L-box{
+    .L-box {
         display: none;
     }
-    #id_farm_cat{
+    #id_farm_cat {
         margin-left: 0;
     }
-    #id_farm_cat li:nth-child(1) > div{
+    #id_farm_cat li:nth-child(1) > div {
         display: grid;
         grid-template-columns: 1fr 1fr 0.2fr 1fr;
         grid-template-areas: 'label input1 text input2';
         align-items: center;
     }
-    #id_farm_cat li:nth-child(2) > div{
+    #id_farm_cat li:nth-child(2) > div {
         display: grid;
         grid-template-columns: 1fr 1fr 0.2fr 1fr;
-        grid-template-areas: 'label label blank input'
-                            'plus plus plus plus';
+        grid-template-areas:
+            'label label blank input'
+            'plus plus plus plus';
         align-items: center;
         margin-bottom: 0;
     }
-    #id_farm_cat li label{
+    #id_farm_cat li label {
         grid-area: label;
         width: 100%;
         font-size: 1.1rem;
@@ -177,19 +180,19 @@
         background-repeat: no-repeat;
         margin-top: 0.6rem;
     }
-    #id_farm_cat .product_quantity{
+    #id_farm_cat .product_quantity {
         width: 100%;
         height: 2.6rem;
         grid-area: input;
         background: none;
     }
-    #id_farm_cat li:nth-child(1) .product_quantity:first-of-type{
+    #id_farm_cat li:nth-child(1) .product_quantity:first-of-type {
         grid-area: input1;
     }
-    #id_farm_cat li:nth-child(1) .product_quantity:last-of-type{
+    #id_farm_cat li:nth-child(1) .product_quantity:last-of-type {
         grid-area: input2;
     }
-    #id_farm_cat .product-quantity-span{
+    #id_farm_cat .product-quantity-span {
         margin-right: 0;
         line-height: 0;
         grid-area: text;
@@ -198,26 +201,26 @@
         color: #b3b3b3;
         margin: 0 0.4rem;
     }
-    #id_farm_cat .product-quantity-span:last-of-type{
+    #id_farm_cat .product-quantity-span:last-of-type {
         display: none;
     }
-    #id_farm_cat .product-quantity-unit{
+    #id_farm_cat .product-quantity-unit {
         top: 0.8rem;
         left: 92%;
     }
-    #id_farm_cat li:nth-child(1) .product-quantity-unit:first-of-type{
+    #id_farm_cat li:nth-child(1) .product-quantity-unit:first-of-type {
         left: 54%;
     }
-    #id_farm_cat li:nth-child(1) .product-quantity-unit:last-of-type{
+    #id_farm_cat li:nth-child(1) .product-quantity-unit:last-of-type {
         left: 92%;
     }
-    .product-quantity-plus-box{
+    .product-quantity-plus-box {
         visibility: hidden;
         line-height: 0;
         width: 100%;
         grid-area: plus;
     }
-    .product-quantity-plus-box:before{
+    .product-quantity-plus-box:before {
         visibility: visible;
         content: '* 배송비는 농가에서 선결제로 진행하고 소비자에게 상단 배송비 사항이 자동으로 표시됩니다.';
         font-family: NotoSansKR;
@@ -233,22 +236,22 @@
         margin: 0 auto;
         margin-top: 7px;
     }
-    #return-delivery #label{
+    #return-delivery #label {
         display: flex;
-        flex-direction: column-reverse; 
+        flex-direction: column-reverse;
     }
-    .title-type{
+    .title-type {
         font-size: 1rem;
         color: #b3b3b3;
     }
 
     /* 기타 고려 사항 */
-    .etc-box{
+    .etc-box {
         width: calc(100% - 2rem) !important;
         margin: 0 1rem;
         margin-top: 2.5rem;
     }
-    .etc-title{
+    .etc-title {
         font-size: 1.1rem;
         font-weight: 500;
         font-stretch: normal;
@@ -258,14 +261,17 @@
         padding-top: 1rem;
         margin-bottom: 2rem;
     }
-    .etc-dates{
+    .etc-dates {
         display: grid;
         grid-template-columns: 3fr 7fr;
-        grid-template-areas: 'title check'
-                            'blank select';
+        grid-template-areas:
+            'title check'
+            'blank select';
         align-items: center;
     }
-    .etc-dates-title, .etc-expire-title, .etc-save-product-title{
+    .etc-dates-title,
+    .etc-expire-title,
+    .etc-save-product-title {
         width: 100%;
         font-size: 1.1rem;
         font-weight: 500;
@@ -276,12 +282,12 @@
         color: #4d4d4d;
         margin-bottom: 0.5rem;
     }
-    .etc-dates-title{
+    .etc-dates-title {
         grid-area: title;
         align-items: center;
         margin-bottom: 0;
     }
-    .etc-dates-title > span{
+    .etc-dates-title > span {
         display: flex;
         font-family: NotoSansKR;
         font-size: 1rem;
@@ -291,15 +297,15 @@
         line-height: 1.5;
         letter-spacing: normal;
         text-align: left;
-        color: #b3b3b3;      
+        color: #b3b3b3;
     }
-    .etc-dates-select-wrap{
+    .etc-dates-select-wrap {
         grid-area: select;
         display: flex;
         flex-direction: column;
         margin-bottom: 1rem;
     }
-    .etc-dates-select-wrap span:nth-child(2){
+    .etc-dates-select-wrap span:nth-child(2) {
         width: 70%;
         font-size: 1.5rem;
         font-weight: normal;
@@ -310,7 +316,7 @@
         text-align: center;
         color: #5c6456;
     }
-    .number-wrapper .number-type{
+    .number-wrapper .number-type {
         width: 70%;
         height: 2.6rem;
         font-size: 1.1rem;
@@ -321,10 +327,10 @@
         text-align: left;
         color: #808080;
     }
-    .etc-dates #id_farm_cat{
+    .etc-dates #id_farm_cat {
         grid-area: check;
     }
-    .etc-dates #id_farm_cat label{
+    .etc-dates #id_farm_cat label {
         justify-content: flex-start;
         align-items: center;
         margin-bottom: 1rem;
@@ -336,40 +342,40 @@
         text-align: left;
         color: #b3b3b3;
     }
-    .etc-dates #id_farm_cat label.checked{
+    .etc-dates #id_farm_cat label.checked {
         color: #4d4d4d;
     }
-    .etc-dates #id_farm_cat label::before{
+    .etc-dates #id_farm_cat label::before {
         margin: 0;
         width: 1.5rem;
         height: 1.5rem;
         margin-right: 1rem;
     }
-    .etc-expire-dates{
+    .etc-expire-dates {
         flex-direction: column;
     }
-    .etc-expire-input::placeholder{
+    .etc-expire-input::placeholder {
         font-size: 1.1rem;
     }
-    .etc-expire-input{
+    .etc-expire-input {
         width: 100%;
         height: 3rem;
         margin-bottom: 1rem;
         font-size: 1.1rem;
         padding-left: 1.5rem;
     }
-    .etc-save-product{
+    .etc-save-product {
         flex-direction: column;
         padding-bottom: 1rem;
         margin-bottom: 0;
     }
-    .etc-save-product-wrap{
+    .etc-save-product-wrap {
         width: 100%;
         height: 6.7rem;
         padding: 1.5rem;
         background-color: #fff;
     }
-    #product-textarea{
+    #product-textarea {
         width: 100% !important;
         height: 100% !important;
         resize: none !important;
@@ -379,25 +385,25 @@
     }
 
     /* 일반 작물 */
-    #normal{
+    #normal {
         margin-top: 19.1rem;
         position: relative;
     }
-    #normal > div{
+    #normal > div {
         align-items: center;
         margin-bottom: 1rem;
     }
-    #normal > div:not(.subtitle, .normal-product, .normal-product-btn){
+    #normal > div:not(.subtitle, .normal-product, .normal-product-btn) {
         width: 100%;
         padding: 0 1rem;
     }
-    .normal-product{
+    .normal-product {
         left: 50%;
         transform: translate(-50%, -1rem);
         width: 100%;
         height: 74rem;
     }
-    .normal-product-btn::before{
+    .normal-product-btn::before {
         content: '* 정상작물의 경우 못난이 작물을 함께 업로드하는 경우에만 등록 가능합니다. 추가할 경우 상품 추가 버튼을 눌러주세요.';
         font-family: NotoSansKR;
         font-size: 1rem;
@@ -409,7 +415,7 @@
         text-align: center;
         color: #5c6754;
     }
-    .normal-product-btn{
+    .normal-product-btn {
         width: 18rem;
         position: absolute;
         top: -9.4rem;
@@ -421,22 +427,22 @@
         justify-content: center;
         align-items: center;
     }
-    .product-add-btn{
+    .product-add-btn {
         top: 0;
         left: 0;
         width: 6.3rem;
         height: 6.3rem;
         margin-top: 1.1rem;
     }
-    .subtitle{
+    .subtitle {
         margin-bottom: 2rem !important;
     }
-    .legal-box{
+    .legal-box {
         flex-direction: column;
         line-height: unset;
         margin-top: 6rem;
     }
-    .legal-box > .subtitle{
+    .legal-box > .subtitle {
         margin-right: 0;
         font-size: 1.2rem;
         font-weight: bold;
@@ -450,14 +456,14 @@
         padding: 0;
         height: 0;
     }
-    .legal-sub-box{
+    .legal-sub-box {
         flex-direction: column;
         margin-top: 2rem;
     }
-    .legal-sub-box .product-state-update-quantity-wrap{
+    .legal-sub-box .product-state-update-quantity-wrap {
         margin-bottom: 0;
     }
-    .legal-sub-box label{
+    .legal-sub-box label {
         font-size: 1.1rem !important;
         font-weight: 500 !important;
         font-stretch: normal !important;
@@ -466,13 +472,13 @@
         text-align: left !important;
         color: #b3b3b3 !important;
     }
-    .legal-sub-box label.checked{
+    .legal-sub-box label.checked {
         color: #4d4d4d !important;
     }
-    #back_btn{
+    #back_btn {
         display: none;
     }
-    #submit_btn{
+    #submit_btn {
         width: 6.3rem;
         height: 3rem;
         padding: 0.2rem 0.4rem;
@@ -485,11 +491,11 @@
         margin: 6rem 0;
     }
     .legal-sub-box #delivery,
-    .legal-sub-box #jeju-delivery{
+    .legal-sub-box #jeju-delivery {
         display: block !important;
         margin-right: 1rem;
     }
-    .legal-sub-box li{
+    .legal-sub-box li {
         margin-bottom: 0.8rem;
     }
 }

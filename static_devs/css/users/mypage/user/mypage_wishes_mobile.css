@@ -1,14 +1,14 @@
-@import 'base/mobile_base_style.css';
+@import 'static/css/base/mobile_base_style.css';
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     #main {
         width: 100%;
         padding: 0 2.5rem;
-    }    
-    #main > div{
+    }
+    #main > div {
         width: 100%;
     }
-    #filter-section, 
+    #filter-section,
     #products-section,
     #delete_btn {
         margin-left: 0;
@@ -27,38 +27,38 @@
     #before_wish {
         width: 100%;
     }
-    #redirect_a{
+    #redirect_a {
         width: 13rem;
     }
-    #redirect_btn{
+    #redirect_btn {
         margin-top: 2rem;
         font-size: 1.1rem;
         width: 13rem;
         height: 2.2rem;
         text-align: center;
     }
-    
+
     /* items order */
     #filter-section {
-        order:1;
+        order: 1;
     }
     #products-section {
-        order:3;
+        order: 3;
         width: 100%;
         margin-top: 0;
     }
     #controll-section {
-        order:2;
+        order: 2;
     }
     #controll-section2 {
         width: 100%;
-        order:5;
+        order: 5;
     }
 
     /* mypage base 없어서 일단 숨기기... */
     #top-section,
     #menu {
-        display:none
+        display: none;
     }
 
     /* filter section  */
@@ -68,7 +68,7 @@
     #total-select {
         margin-top: 0.25rem;
     }
-    #filter-section>div:nth-child(2) {
+    #filter-section > div:nth-child(2) {
         margin-left: 0.85rem;
         line-height: 1.7rem;
     }
@@ -162,16 +162,16 @@
     #product_farm_name {
         font-size: 1.5rem;
     }
-    #filter-section>div:nth-child(2),
+    #filter-section > div:nth-child(2),
     #product_weight,
     #product_price,
     #delete_btn {
         font-size: 1.1rem;
     }
     #cartIn_btn {
-        font-size: 1.0rem;
+        font-size: 1rem;
     }
-    #filter-section>div:nth-child(2),
+    #filter-section > div:nth-child(2),
     #product_title,
     #cartIn_btn {
         font-weight: bold;
@@ -180,9 +180,9 @@
     #product_weight,
     #product_price,
     #delete_btn {
-        font-weight:normal
+        font-weight: normal;
     }
-    #filter-section>div:nth-child(2) {
+    #filter-section > div:nth-child(2) {
         color: #5e6656;
     }
     #product_farm_name {
@@ -201,5 +201,4 @@
     #product_price {
         color: var(--brown-grey);
     }
-
 }

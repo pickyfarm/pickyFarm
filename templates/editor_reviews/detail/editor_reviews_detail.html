@@ -7,8 +7,7 @@
 
 {% block main_content %}
 <div class="main-contents flex flex-col lg:mx-0 sm:mx-0 bg-white-400 font-4xl" id="main">
-    <div class="mx-auto flex flex-col items-center bg-cover text-center" id="top-section"
-        style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
+    <div class="mx-auto flex flex-col items-center bg-cover text-center" id="top-section" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
         <div id="review-title">{{review.title}}</div>
         <div id="review-subtitle">{{review.sub_title}}</div>
         <div id="review-author">editor_{{review.author.user.nickname}}</div>

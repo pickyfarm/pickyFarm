@@ -12,8 +12,8 @@ Farmer's Story
     <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Story </div>
     <div class="text-center mb-16" style="color: #999999;"> 파머가 직접 전하는 농가 이야기 </div>
     <!--farmer story content-->
-    <form class="relative" method="POST" >
-    {% csrf_token %}
+    <form class="relative" method="POST">
+        {% csrf_token %}
         <div class="pt-11 mb-10" id="story_content">
             <!--title-->
             <div class="flex flex-row ml-16 mb-5">
@@ -38,7 +38,7 @@ Farmer's Story
 </div>
 
 <style>
-    .content{
+    .content {
         width: 990px;
     }
 
@@ -47,6 +47,7 @@ Farmer's Story
         height: 37px;
         background-color: #f2f2f2;
     }
+
     #id_sub_title {
         width: 700px;
         height: 37px;

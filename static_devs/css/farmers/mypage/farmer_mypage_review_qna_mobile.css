@@ -1,14 +1,14 @@
-@import 'base/mobile_base_style.css';
+@import 'static/css/base/mobile_base_style.css';
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     /* base setting */
     .main-content.w-content {
         width: 100%;
     }
-    #content  {
+    #content {
         width: 100%;
         padding: 0 2.5rem;
-    }    
+    }
     .date-filter-content {
         width: 100%;
     }
@@ -33,7 +33,7 @@
         align-items: baseline;
         margin-bottom: 0;
     }
-    .date-filter-button{
+    .date-filter-button {
         width: fit-content;
         height: 2rem;
         padding: 0.25rem 1rem;
@@ -51,15 +51,15 @@
         flex-wrap: wrap;
         flex-direction: column;
     }
-    input[type="date"] {
+    input[type='date'] {
         position: relative;
-    }     
-    input[type="date"]::-webkit-calendar-picker-indicator {
+    }
+    input[type='date']::-webkit-calendar-picker-indicator {
         color: transparent;
         background: none;
         z-index: 1;
-    }    
-    input[type="date"]:before {
+    }
+    input[type='date']:before {
         color: transparent;
         background: none;
         display: block;
@@ -97,11 +97,11 @@
     .bg-dark {
         background-color: #f3f4f3;
     }
-    #question-table-wrapper, 
+    #question-table-wrapper,
     #review-table-wrapper {
         height: fit-content;
     }
-    #question-table-title, 
+    #question-table-title,
     #review-table-title {
         display: none;
         height: 0;
@@ -110,7 +110,7 @@
     #review-list {
         margin-bottom: 0;
     }
-    .qna-wrapper > div:nth-child(1), 
+    .qna-wrapper > div:nth-child(1),
     .review-wrapper > div:nth-child(1) {
         font-weight: bold;
         padding-bottom: 2rem;
@@ -131,25 +131,29 @@
             'first c last'
             'first d last';
     }
-    #question-table-row-answer--complete, 
+    #question-table-row-answer--complete,
     #question-table-row-answer--yet {
         grid-area: first;
         padding: 0;
         width: 100%;
     }
-    #review-table-row-answer, 
+    #review-table-row-answer,
     #question-table-row-answer {
         grid-area: last;
     }
-    #review-table-row-product, #question-table-row-product,
-    #review-table-row-title, #question-table-row-title, 
-    #review-table-row-date, #question-table-row-date,
-    #review-table-row-report, #question-table-row-report {
+    #review-table-row-product,
+    #question-table-row-product,
+    #review-table-row-title,
+    #question-table-row-title,
+    #review-table-row-date,
+    #question-table-row-date,
+    #review-table-row-report,
+    #question-table-row-report {
         text-align: left;
         width: 100%;
-        padding:0;
+        padding: 0;
     }
-    #review-table-row-product, 
+    #review-table-row-product,
     #question-table-row-product {
         grid-area: a;
     }
@@ -161,10 +165,12 @@
         align-items: center;
         margin: 0.7rem 0 0.6rem;
     }
-    #review-table-row-date, #question-table-row-date {
+    #review-table-row-date,
+    #question-table-row-date {
         grid-area: b;
     }
-    #review-table-row-report, #question-table-row-report {
+    #review-table-row-report,
+    #question-table-row-report {
         grid-area: d;
     }
     /* review  */
@@ -235,13 +241,13 @@
         font-size: 1.1rem;
     }
     .date-filter-button,
-    #review-table-row-product, 
+    #review-table-row-product,
     #question-table-row-product,
-    #review-table-row-date, 
+    #review-table-row-date,
     #question-table-row-date {
-        font-size: 1.0rem;
+        font-size: 1rem;
     }
-    #review-table-row-report, 
+    #review-table-row-report,
     #question-table-row-report {
         font-size: 0.9rem;
     }
@@ -249,11 +255,11 @@
     .review-wrapper > div:nth-child(1) {
         font-weight: bold;
     }
-    #review-table-row-product, 
+    #review-table-row-product,
     #question-table-row-product,
-    #review-table-row-date, 
+    #review-table-row-date,
     #question-table-row-date,
-    #review-table-row-report, 
+    #review-table-row-report,
     #question-table-row-report,
     #review-table-row-answer > div > span {
         font-weight: normal;

@@ -1,11 +1,11 @@
-@import 'base/mobile_base_style.css';
+@import 'static/css/base/mobile_base_style.css';
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     /* base setting */
-    .order-payment-success-container  {
+    .order-payment-success-container {
         width: 100%;
         padding: 0 2.5rem;
-    }    
+    }
     .order-payment-success-subfarmer-appreciate-message-card-section,
     .order-payment-success-unsubfarmer-appreciate-message-card-section {
         width: 100%;
@@ -30,7 +30,7 @@
         padding: 0;
     }
     .order-payment-success-information-list-wrap {
-        margin: 1rem;        
+        margin: 1rem;
     }
     .order-payment-success-information-list {
         height: 7.2rem;
@@ -57,11 +57,11 @@
     .order-payment-success-information-product-tag {
         display: block;
         grid-area: tag;
-    }    
-    .ugly_tag {        
+    }
+    .ugly_tag {
         color: #ffff;
         background-color: #5c6754;
-        border: solid 0.1rem #5c6754;        
+        border: solid 0.1rem #5c6754;
     }
     .normal_tag {
         color: #5c6754;
@@ -77,7 +77,7 @@
     }
     .order-payment-success-information-description-wrap {
         grid-area: product;
-    }    
+    }
     .order-payment-success-information-description-right-section {
         width: 100%;
         display: flex;
@@ -89,7 +89,7 @@
         margin-top: 0.4rem;
     }
     .order-payment-success-information-description-amount {
-        order:4;
+        order: 4;
         padding-left: 1.1rem;
     }
     .order-payment-success-information-description-amount > span {
@@ -97,7 +97,7 @@
         margin-left: 0.78rem;
     }
     .order-payment-success-information-description-weight {
-        order:3;
+        order: 3;
         padding-right: 1.1rem;
         border-right: solid 0.1rem #aaaea6;
         height: 1.2rem;
@@ -122,18 +122,18 @@
     }
 
     /* customer & address section */
-    .order-payment-success-customer-section, 
-    .order-payment-success-customer-address-section, 
+    .order-payment-success-customer-section,
+    .order-payment-success-customer-address-section,
     .order-payment-success-appreciate-message-section {
         margin-top: 6rem;
     }
-    .order-payment-success-customer-information-wrap, 
+    .order-payment-success-customer-information-wrap,
     .order-payment-success-customer-address-information-wrap {
         padding: 0 1rem 0;
     }
-    .order-payment-success-customer-information-name-wrap, 
+    .order-payment-success-customer-information-name-wrap,
     .order-payment-success-customer-address-information-name-wrap,
-    .order-payment-success-customer-information-tel-wrap, 
+    .order-payment-success-customer-information-tel-wrap,
     .order-payment-success-customer-address-information-receive-wrap,
     .order-payment-success-customer-information-email-wrap,
     .order-payment-success-customer-address-information-etc-wrap {
@@ -143,7 +143,7 @@
     }
 
     /* appreciate message section */
-    .order-payment-success-subfarmer-appreciate-message-card-section, 
+    .order-payment-success-subfarmer-appreciate-message-card-section,
     .order-payment-success-unsubfarmer-appreciate-message-card-section {
         width: 100%;
         height: 16.2rem;
@@ -151,47 +151,51 @@
         border-radius: 0.5rem;
         margin-top: 2rem;
     }
-    .order-payment-success-subfarmer-appreciate-message-card-wrap, .order-payment-success-subfarmer-appreciate-message-card-wrap,
-    .order-payment-success-unsubfarmer-appreciate-message-card-wrap, .order-payment-success-subfarmer-appreciate-message-card-wrap {
+    .order-payment-success-subfarmer-appreciate-message-card-wrap,
+    .order-payment-success-subfarmer-appreciate-message-card-wrap,
+    .order-payment-success-unsubfarmer-appreciate-message-card-wrap,
+    .order-payment-success-subfarmer-appreciate-message-card-wrap {
         flex-direction: row;
         align-items: flex-start;
         padding: 2rem 1.5rem 2rem 1rem;
     }
-    .order-payment-success-unsubfarmer-card-photo-circle, 
+    .order-payment-success-unsubfarmer-card-photo-circle,
     .order-payment-success-subfarmer-card-photo-circle {
         width: 7.2rem;
         min-width: 7.2rem;
         height: 7.2rem;
         margin: 0;
     }
-    .order-payment-success-unsubfarmer-card-photo-section, 
+    .order-payment-success-unsubfarmer-card-photo-section,
     .order-payment-success-subfarmer-card-photo-section {
         margin-bottom: 0;
     }
-    .order-payment-success-subfarmer-appreciate-message-card-wrap > div:first-child {
+    .order-payment-success-subfarmer-appreciate-message-card-wrap
+        > div:first-child {
         margin-right: 2.4rem;
         margin-top: 0.6rem;
     }
-    .order-payment-success-unsubfarmer-card-photo-subscribe-btn, 
+    .order-payment-success-unsubfarmer-card-photo-subscribe-btn,
     .order-payment-success-subfarmer-card-photo-subscribe-btn {
         left: 5.01rem;
         top: 3.74rem;
         width: 3.38rem;
         height: 3.46rem;
     }
-    .order-payment-success-unsubfarmer-card-photo-section2, .order-payment-success-subfarmer-card-photo-section2 {
+    .order-payment-success-unsubfarmer-card-photo-section2,
+    .order-payment-success-subfarmer-card-photo-section2 {
         align-items: flex-start;
     }
-    .order-payment-success-unsubfarmer-card-farm-name, 
+    .order-payment-success-unsubfarmer-card-farm-name,
     .order-payment-success-subfarmer-card-farm-name {
         margin-left: 1rem;
     }
-    .order-payment-success-unsubfarmer-card-farmer-name, 
+    .order-payment-success-unsubfarmer-card-farmer-name,
     .order-payment-success-subfarmer-card-farmer-name {
         margin-bottom: 1.4rem;
         margin-left: 1rem;
     }
-    .order-payment-success-unsubfarmer-card-message-text, 
+    .order-payment-success-unsubfarmer-card-message-text,
     .order-payment-success-subfarmer-card-message-text {
         width: 100%;
         margin-left: 1rem;
@@ -200,18 +204,18 @@
         padding-right: 1.5rem;
         overflow: auto;
     }
-    .order-payment-success-unsubfarmer-card-farm-link-title, 
+    .order-payment-success-unsubfarmer-card-farm-link-title,
     .order-payment-success-subfarmer-card-farm-link-title,
     .order-payment-success-unsubfarmer-card-farm-link-btn-arrow,
     .order-payment-success-subfarmer-card-farm-link-btn-arrow {
         display: none;
     }
-    .order-payment-success-unsubfarmer-card-farm-link-section, 
+    .order-payment-success-unsubfarmer-card-farm-link-section,
     .order-payment-success-subfarmer-card-farm-link-section {
         position: inherit;
         margin-top: 2rem;
     }
-    .order-payment-success-unsubfarmer-card-farm-link-btn, 
+    .order-payment-success-unsubfarmer-card-farm-link-btn,
     .order-payment-success-subfarmer-card-farm-link-btn {
         width: 13.4rem;
         height: 1.8rem;
@@ -234,20 +238,20 @@
     }
 
     /* font */
-    .order-payment-success-customer-information-name-title, 
-    .order-payment-success-customer-information-tel-title, 
-    .order-payment-success-customer-information-email-title, 
-    .order-payment-success-customer-address-information-name-title, 
-    .order-payment-success-customer-address-information-receive-title, 
+    .order-payment-success-customer-information-name-title,
+    .order-payment-success-customer-information-tel-title,
+    .order-payment-success-customer-information-email-title,
+    .order-payment-success-customer-address-information-name-title,
+    .order-payment-success-customer-address-information-receive-title,
     .order-payment-success-customer-address-information-etc-title {
         color: #4d4d4d;
         font-size: 1.1rem;
         font-weight: normal;
         width: 35%;
     }
-    .order-payment-success-customer-information-name, 
+    .order-payment-success-customer-information-name,
     .order-payment-success-customer-address-information-name,
-    .order-payment-success-customer-information-tel, 
+    .order-payment-success-customer-information-tel,
     .order-payment-success-customer-information-email,
     .order-payment-success-customer-address-information-receive,
     .order-payment-success-customer-address-information-etc {
@@ -258,22 +262,22 @@
         margin-left: 0;
     }
     .order-payment-success-information-title,
-    .order-payment-success-customer-information-title, 
-    .order-payment-success-customer-address-information-title, 
+    .order-payment-success-customer-information-title,
+    .order-payment-success-customer-address-information-title,
     .order-payment-success-appreciate-message-title {
         line-height: 2.4rem;
     }
-    .order-payment-success-title, 
+    .order-payment-success-title,
     .order-payment-success-amount-number {
         font-size: 1.5rem;
     }
-    .order-payment-success-information-title, 
+    .order-payment-success-information-title,
     .order-payment-success-information-description,
     .order-payment-success-information-description-price,
     .order-payment-success-information-description-weight,
     .order-payment-success-information-description-amount,
-    .order-payment-success-customer-information-title, 
-    .order-payment-success-customer-address-information-title, 
+    .order-payment-success-customer-information-title,
+    .order-payment-success-customer-address-information-title,
     .order-payment-success-appreciate-message-title,
     .order-payment-success-subfarmer-card-farm-name,
     .order-payment-success-unsubfarmer-card-farm-name {
@@ -281,9 +285,9 @@
     }
     .order-payment-success-amount-title,
     .order-payment-success-amount-unit,
-    .order-payment-success-subfarmer-card-farmer-name, 
+    .order-payment-success-subfarmer-card-farmer-name,
     .order-payment-success-subfarmer-card-message-text,
-    .order-payment-success-unsubfarmer-card-farmer-name, 
+    .order-payment-success-unsubfarmer-card-farmer-name,
     .order-payment-success-unsubfarmer-card-message-text {
         font-size: 1.1rem;
     }
@@ -301,19 +305,19 @@
     .order-payment-success-title {
         line-height: 2.2rem;
     }
-    .order-payment-success-subfarmer-card-farmer-name, 
+    .order-payment-success-subfarmer-card-farmer-name,
     .order-payment-success-subfarmer-card-message-text,
-    .order-payment-success-unsubfarmer-card-farmer-name, 
+    .order-payment-success-unsubfarmer-card-farmer-name,
     .order-payment-success-unsubfarmer-card-message-text {
         line-height: 1.5rem;
     }
-    .order-payment-success-title, 
-    .order-payment-success-information-title, 
+    .order-payment-success-title,
+    .order-payment-success-information-title,
     .order-payment-success-information-description,
     .order-payment-success-information-description-price,
     .order-payment-success-amount-number,
-    .order-payment-success-customer-information-title, 
-    .order-payment-success-customer-address-information-title, 
+    .order-payment-success-customer-information-title,
+    .order-payment-success-customer-address-information-title,
     .order-payment-success-appreciate-message-title,
     .order-payment-success-subfarmer-card-farm-name,
     .order-payment-success-unsubfarmer-card-farm-name {
