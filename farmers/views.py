@@ -40,12 +40,12 @@ from products.forms import Answer_Form
 
 from config import settings
 
-#encoding / decoding
+# encoding / decoding
 import os
 from core import url_encryption
 
 
-#kakao msg
+# kakao msg
 from kakaomessages.views import send_kakao_message
 from kakaomessages.template import templateIdList
 
@@ -128,13 +128,9 @@ def farmer_story_search(request):
         if select_val == "title":
             search_list = search_list.filter(Q(title__contains=search_key_2))
         elif select_val == "farm":
-            search_list = search_list.filter(
-                Q(farmer__farm_name__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__farm_name__contains=search_key_2))
         elif select_val == "farmer":
-            search_list = search_list.filter(
-                Q(farmer__user__nickname__contains=search_key_2)
-            )
+            search_list = search_list.filter(Q(farmer__user__nickname__contains=search_key_2))
     search_list = search_list.order_by("-id")
     paginator = Paginator(search_list, 10)
     page_2 = request.GET.get("page_2")
@@ -164,9 +160,7 @@ def farmer_story_create(request):
             )
             farmer_story.farmer = user
             farmer_story.save()
-            return redirect(
-                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
-            )
+            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
@@ -243,9 +237,7 @@ def farmer_detail(request, pk):
     stories = Farmer_Story.objects.all().filter(farmer=farmer)
     editor_reviews = Editor_Review.objects.filter(farm=farmer)
     try:
-        sub = Subscribe.objects.get(
-            farmer__pk=farmer.pk, consumer=request.user.consumer
-        )
+        sub = Subscribe.objects.get(farmer__pk=farmer.pk, consumer=request.user.consumer)
     except:
         sub = False
     ctx = {
@@ -300,9 +292,7 @@ def enroll_page1(request):
             address.user = user
             address.is_default = True
             address.save()
-            consumer = Consumer.objects.create(
-                user=user, grade=1, default_address=address
-            )
+            consumer = Consumer.objects.create(user=user, grade=1, default_address=address)
             if user is not None:
                 login(request, user=user)
                 return redirect("farmers:enroll_page2", consumer.pk)
@@ -423,9 +413,9 @@ class FarmerMyPageBase(ListView):
         context = super().get_context_data(**kwargs)
         context["farmer"] = Farmer.objects.get(user=self.request.user)
 
-        orders = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).exclude(status="wait")
+        orders = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).exclude(
+            status="wait"
+        )
         context["overall_orders"] = orders
         context["new_orders"] = orders.filter(status="payment_complete")
         context["preparing_orders"] = orders.filter(status="preparing")
@@ -479,9 +469,7 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
 
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             qs = qs.filter(update_at__lte=converted_end_date, update_at__gte=start_date)
 
@@ -548,9 +536,9 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
     template_name = "farmers/mypage/payment/farmer_mypage_payment.html"
 
     def get_queryset(self):
-        qs = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("create_at")
+        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "create_at"
+        )
         status = self.request.GET.get("status", None)
         q = self.request.GET.get("q", None)
         search_key = self.request.GET.get("searchKey", None)
@@ -559,9 +547,7 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
 
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             qs = qs.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
@@ -602,14 +588,12 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         end_date = self.request.GET.get("end-date", None)
 
         # 문의
-        questions = Question.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("-id")
+        questions = Question.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
 
             questions = questions.filter(
                 create_at__lte=converted_end_date, create_at__gte=start_date
@@ -621,17 +605,13 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
         context["questions"] = questions
 
         # 리뷰
-        reviews = Product_Comment.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("-id")
+        reviews = Product_Comment.objects.filter(product__farmer=self.request.user.farmer).order_by(
+            "-id"
+        )
         if start_date and end_date:
             converted_end_date = end_date + " 23:59:59"
-            converted_end_date = datetime.datetime.strptime(
-                converted_end_date, "%Y-%m-%d %H:%M:%S"
-            )
-            reviews = reviews.filter(
-                create_at__lte=converted_end_date, create_at__gte=start_date
-            )
+            converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+            reviews = reviews.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
         page2 = self.request.GET.get("page2")
         paginator2 = Paginator(reviews, 5)
@@ -675,7 +655,7 @@ class FarmerMypageQuestionAnswer(DetailView):
             question.status = True
             question.save()
             answer.save()
-            return redirect("farmers:farmer_mypage_order")
+            return redirect("core:popup_callback")
 
 
 class FarmerMyPageNotificationManage(FarmerMyPageBase):
@@ -813,16 +793,14 @@ class FarmerMyPageOrderCheckPopup(FarmerMyPagePopupBase):
     def get_object(self):
         # order_management_number 디코딩
         order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
-        print(f'[POST] url_decode_management_number : {order_management_number}')
-        return Order_Detail.objects.get(
-            order_management_number=order_management_number
-        )
+        print(f"[POST] url_decode_management_number : {order_management_number}")
+        return Order_Detail.objects.get(order_management_number=order_management_number)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # order_management_number 디코딩
         order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
-        print(f'[GET] url_decode_management_number : {order_management_number}')
+        print(f"[GET] url_decode_management_number : {order_management_number}")
         try:
             context["products"] = Product.objects.filter(
                 order_detail__order_management_number=order_management_number
@@ -882,22 +860,20 @@ class FarmerMypageOrderCancelPopup(DetailView):
         order.status = "cancel"
         order.save()
 
-         # 카카오 알림톡 전송을 위한 소비자 번호
+        # 카카오 알림톡 전송을 위한 소비자 번호
         phone_number_consumer = order.order_group.consumer.user.phone_number
         print(f"[파머 주문 취소 팝업 - POST] Consumer phone number : {phone_number_consumer}")
 
         # 주문 상품
         product = order.product
 
-        kakao_msg_quantity = (str)(
-            order.quantity
-        ) + '개'
+        kakao_msg_quantity = (str)(order.quantity) + "개"
 
         args_consumer = {
             "#{cancel_reason}": cancel_reason,
             "#{order_detail_title}": product.title,
             "#{order_detail_number}": order_management_number,
-            "#{quantity}" : kakao_msg_quantity,
+            "#{quantity}": kakao_msg_quantity,
         }
 
         # 결제 상품 배송 불가 카카오 알림톡 전송
@@ -906,8 +882,6 @@ class FarmerMypageOrderCancelPopup(DetailView):
             templateIdList["delivery_cancel_by_farmer"],
             args_consumer,
         )
-
-
 
         return redirect("core:popup_callback")
 
@@ -977,9 +951,7 @@ class FarmerMypageProductUpdatePopup(TemplateView):
         additional_delivery_fee_unit = request.POST.get("product-shipping-price", 0)
         jeju_delivery_fee = request.POST.get("product-jeju-shipping-price", 0)
         return_delivery_fee = int(request.POST.get("refund-shipping-fee", None))
-        exchange_delivery_fee = int(
-            request.POST.get("double-refund-shipping-fee", None)
-        )
+        exchange_delivery_fee = int(request.POST.get("double-refund-shipping-fee", None))
         is_yearly_yield = request.POST.get("yearly-yield", False)
         harvest_start_date = request.POST.get("harvest-start-date", None)
         harvest_end_date = request.POST.get("harvest-end-date", None)
@@ -993,28 +965,18 @@ class FarmerMypageProductUpdatePopup(TemplateView):
         normal_stock = request.POST.get("normal-products", None)
         normal_sell_price = request.POST.get("normal-product-price", None)
         normal_delivery_fee = request.POST.get("normal-product-shipping-fee", None)
-        normal_additional_delivery_fee = request.POST.get(
-            "normal-product-shipping-quantity", None
-        )
+        normal_additional_delivery_fee = request.POST.get("normal-product-shipping-quantity", None)
         normal_additional_delivery_fee_unit = request.POST.get(
             "normal-product-shipping-price", None
         )
-        normal_jeju_delivery_fee = request.POST.get(
-            "normal-product-jeju-shipping-price", None
-        )
-        normal_return_delivery_fee = request.POST.get(
-            "normal-refund-shipping-fee", None
-        )
-        normal_exchange_delivery_fee = request.POST.get(
-            "normal-double-refund-shipping-fee", None
-        )
+        normal_jeju_delivery_fee = request.POST.get("normal-product-jeju-shipping-price", None)
+        normal_return_delivery_fee = request.POST.get("normal-refund-shipping-fee", None)
+        normal_exchange_delivery_fee = request.POST.get("normal-double-refund-shipping-fee", None)
         normal_is_yearly_yield = (request.POST.get("normal-yearly-yield", False),)
         normal_harvest_start_date = request.POST.get("normal-harvest-start-date", None)
         normal_harvest_end_date = request.POST.get("normal-harvest-end-date", None)
         normal_shelf_life_date = request.POST.get("normal-etc-expire-input", None)
-        normal_storage_method = request.POST.get(
-            "normal-etc-save-product-textarea", None
-        )
+        normal_storage_method = request.POST.get("normal-etc-save-product-textarea", None)
 
         farmer = Farmer.objects.get(user=request.user)
 
@@ -1047,9 +1009,7 @@ class FarmerMypageProductUpdatePopup(TemplateView):
                 else 0,
                 "refund_delivery_fee": return_delivery_fee,
                 "exchange_delivery_fee": exchange_delivery_fee,
-                "harvest_start_date": harvest_start_date
-                if not is_yearly_yield
-                else None,
+                "harvest_start_date": harvest_start_date if not is_yearly_yield else None,
                 "harvest_end_date": harvest_end_date if not is_yearly_yield else None,
                 "storage_method": storage_method,
                 "shelf_life_date": shelf_life_date,
@@ -1062,9 +1022,7 @@ class FarmerMypageProductUpdatePopup(TemplateView):
                     "farmer": farmer,
                     "kinds": "normal",
                     "status": "pending",
-                    "category": Category.objects.get(
-                        name=farmer.get_farm_cat_display()
-                    ),
+                    "category": Category.objects.get(name=farmer.get_farm_cat_display()),
                     "title": normal_title,
                     "sub_title": normal_sub_title,
                     "weight": float(normal_weight),
@@ -1073,12 +1031,8 @@ class FarmerMypageProductUpdatePopup(TemplateView):
                     "sell_price": int(normal_sell_price),
                     "default_delivery_fee": int(normal_delivery_fee),
                     "additional_delivery_fee": int(normal_additional_delivery_fee),
-                    "additional_delivery_fee_unit": int(
-                        normal_additional_delivery_fee_unit
-                    ),
-                    "jeju_mountain_additional_delivery_fee": int(
-                        normal_jeju_delivery_fee
-                    ),
+                    "additional_delivery_fee_unit": int(normal_additional_delivery_fee_unit),
+                    "jeju_mountain_additional_delivery_fee": int(normal_jeju_delivery_fee),
                     "refund_delivery_fee": int(normal_return_delivery_fee),
                     "exchange_delivery_fee": int(normal_exchange_delivery_fee),
                     "harvest_start_date": normal_harvest_start_date
@@ -1116,10 +1070,8 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         # order_management_number 디코딩
         order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
 
-        return Order_Detail.objects.filter(
-            order_management_number=order_management_number
-        )
-    
+        return Order_Detail.objects.filter(order_management_number=order_management_number)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # order_management_number 디코딩
@@ -1139,8 +1091,6 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
             ).order_by("kinds")
         except ObjectDoesNotExist:
             redirect("core:main")
-
-
 
         return context
 
@@ -1166,19 +1116,15 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         # 파머
         farmer = product.farmer
 
-        kakao_msg_weight = (str)(
-            product.weight
-        ) + product.weight_unit
+        kakao_msg_weight = (str)(product.weight) + product.weight_unit
 
-        kakao_msg_quantity = (str)(
-            order.quantity
-        ) + '개'
+        kakao_msg_quantity = (str)(order.quantity) + "개"
 
         args_consumer = {
             "#{order_detail_title}": product.title,
             "#{farmer_nickname}": farmer.user.nickname,
             "#{weight}": kakao_msg_weight,
-            "#{quantity}" : kakao_msg_quantity,
+            "#{quantity}": kakao_msg_quantity,
             "#{shipping_company}": order.delivery_service_company,
             "#{invoice_number}": order.invoice_number,
         }
@@ -1189,7 +1135,6 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
             templateIdList["delivery_start"],
             args_consumer,
         )
-    
 
         return redirect("core:popup_callback")
 
@@ -1208,18 +1153,20 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
 
     def get_queryset(self, **kwargs):
         # url string 디코딩
-        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
         return Order_Detail.objects.filter(order_management_number=order_management_number)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # url string 디코딩
-        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
 
-        context["refund"] = RefundExchange.objects.get(order_detail__order_management_number = order_management_number)
+        context["refund"] = RefundExchange.objects.get(
+            order_detail__order_management_number=order_management_number
+        )
         context["products"] = Product.objects.filter(
-            order_details__order_management_number = order_management_number
+            order_details__order_management_number=order_management_number
         ).order_by("kinds")
         context["consumer"] = Consumer.objects.get(
             order_groups__order_details__order_management_number=order_management_number
@@ -1227,8 +1174,10 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
         return context
 
     def post(self, request, **kwargs):
-        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
-        refund = RefundExchange.objects.filter(order_detail__order_management_detail = order_management_number)
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
+        refund = RefundExchange.objects.filter(
+            order_detail__order_management_detail=order_management_number
+        )
         farmer_answer = self.request.POST.get("farmer_answer", None)
         refund.update(farmer_answer=farmer_answer)
         order = self.get_queryset()
@@ -1248,18 +1197,16 @@ class FarmerMyPageRefundRequestCheckPopup(FarmerMyPagePopupBase):
             # 주문 상품
             product = order.product
 
-            kakao_msg_quantity = (str)(
-                order.quantity
-            ) + '개'
+            kakao_msg_quantity = (str)(order.quantity) + "개"
 
             refund_cost = (order.quantity * product.sell_price) - product.refund_delivery_fee
-            print(f'[반품 승인 by 파머 - POST] refund cost : {refund_cost}')
+            print(f"[반품 승인 by 파머 - POST] refund cost : {refund_cost}")
 
             args_consumer = {
                 "#{order_detail_title}": product.title,
-                "#{order_detail_number}" : order_management_number,
-                "#{quantity}" : kakao_msg_quantity,
-                "#{refund_cost}" : refund_cost,
+                "#{order_detail_number}": order_management_number,
+                "#{quantity}": kakao_msg_quantity,
+                "#{refund_cost}": refund_cost,
             }
 
             # 소비자 결제 완료 카카오 알림톡 전송
@@ -1287,17 +1234,19 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
 
     def get_queryset(self, **kwargs):
         # url string 디코딩
-        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
         return Order_Detail.objects.filter(order_management_number=order_management_number)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # url string 디코딩
-        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
 
-        context["exchange"] = RefundExchange.objects.get(order_detail__order_management_number = order_management_number)
+        context["exchange"] = RefundExchange.objects.get(
+            order_detail__order_management_number=order_management_number
+        )
         context["products"] = Product.objects.filter(
-            order_details__order_management_number = order_management_number
+            order_details__order_management_number=order_management_number
         ).order_by("kinds")
         context["consumer"] = Consumer.objects.get(
             order_groups__order_details__order_management_number=order_management_number
@@ -1305,12 +1254,14 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
         return context
 
     def post(self, request, **kwargs):
-        order_management_number = url_encryption.decode_url_string(self.request.GET.get('odmn'))
-        exchange = RefundExchange.objects.filter(order_detail__order_management_number=order_management_number)
+        order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
+        exchange = RefundExchange.objects.filter(
+            order_detail__order_management_number=order_management_number
+        )
         farmer_answer = self.request.POST.get("farmer_answer", None)
         exchange.update(farmer_answer=farmer_answer)
         order = self.get_queryset()
-        
+
         if "deny" in self.request.POST:
             exchange.update(claim_status="deny")
             order.update(status="re_ex_deny")
@@ -1328,14 +1279,12 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
             # 주문 상품
             product = order.product
 
-            kakao_msg_quantity = (str)(
-                order.quantity
-            ) + '개'
+            kakao_msg_quantity = (str)(order.quantity) + "개"
 
             args_consumer = {
                 "#{order_detail_title}": product.title,
-                "#{order_detail_number}" : order_management_number,
-                "#{quantity}" : kakao_msg_quantity
+                "#{order_detail_number}": order_management_number,
+                "#{quantity}": kakao_msg_quantity,
             }
 
             # 소비자 결제 완료 카카오 알림톡 전송
@@ -1344,7 +1293,7 @@ class FarmerMyPageExchangeRequestCheckPopup(FarmerMyPagePopupBase):
                 templateIdList["exchange_complete_for_consumer"],
                 args_consumer,
             )
-    
+
             return redirect("core:popup_callback")  # 추후 redirect 수정
         else:
             return redirect("core:popup_callback")
@@ -1380,18 +1329,12 @@ def qna_ajax(request):
     page = request.GET.get("page")
     start_date = request.GET.get("start-date", None)
     end_date = request.GET.get("end-date", None)
-    questions = Question.objects.filter(product__farmer=request.user.farmer).order_by(
-        "-id"
-    )
+    questions = Question.objects.filter(product__farmer=request.user.farmer).order_by("-id")
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
-        converted_end_date = datetime.datetime.strptime(
-            converted_end_date, "%Y-%m-%d %H:%M:%S"
-        )
-        questions = questions.filter(
-            create_at__lte=converted_end_date, create_at__gte=start_date
-        )
+        converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+        questions = questions.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
     paginator = Paginator(questions, 5)
     questions = paginator.get_page(page)
@@ -1408,18 +1351,12 @@ def review_ajax(request):
     page = request.GET.get("page2")
     start_date = request.GET.get("start-date", None)
     end_date = request.GET.get("end-date", None)
-    reviews = Product_Comment.objects.filter(
-        product__farmer=request.user.farmer
-    ).order_by("-id")
+    reviews = Product_Comment.objects.filter(product__farmer=request.user.farmer).order_by("-id")
 
     if start_date and end_date:
         converted_end_date = end_date + " 23:59:59"
-        converted_end_date = datetime.datetime.strptime(
-            converted_end_date, "%Y-%m-%d %H:%M:%S"
-        )
-        reviews = reviews.filter(
-            create_at__lte=converted_end_date, create_at__gte=start_date
-        )
+        converted_end_date = datetime.datetime.strptime(converted_end_date, "%Y-%m-%d %H:%M:%S")
+        reviews = reviews.filter(create_at__lte=converted_end_date, create_at__gte=start_date)
 
     paginator = Paginator(reviews, 5)
     reviews = paginator.get_page(page)
