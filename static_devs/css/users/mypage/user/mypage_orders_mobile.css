@@ -1,15 +1,15 @@
-@import 'base/mobile_base_style.css';
+@import 'static/css/base/mobile_base_style.css';
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     /* base setting */
     #main {
         width: 100%;
         padding: 0 2.5rem;
-    }    
-    #main > div{
+    }
+    #main > div {
         width: 100%;
     }
-    #filter-section, 
+    #filter-section,
     #products-section,
     #delete_btn {
         margin-left: 0;
@@ -26,17 +26,17 @@
     /* mypage base 없어서 일단 숨기기... */
     #top-section,
     #menu {
-        display:none
+        display: none;
     }
 
     /* before make orders */
     #before_order {
         width: 100%;
     }
-    #redirect_a{
+    #redirect_a {
         width: 13rem;
     }
-    #redirect_btn{
+    #redirect_btn {
         margin-top: 2rem;
         font-size: 1.1rem;
         width: 13rem;
@@ -62,7 +62,7 @@
     #filter-6month {
         width: 6.9rem;
         min-width: 6.9rem;
-        padding: 0.1rem
+        padding: 0.1rem;
     }
     #filter > input {
         padding: 0.1rem 0 0.1rem;
@@ -77,15 +77,15 @@
         flex-wrap: wrap;
         flex-direction: column;
     }
-    input[type="date"] {
+    input[type='date'] {
         position: relative;
-    }     
-    input[type="date"]::-webkit-calendar-picker-indicator {
+    }
+    input[type='date']::-webkit-calendar-picker-indicator {
         color: transparent;
         background: none;
         z-index: 1;
-    }    
-    input[type="date"]:before {
+    }
+    input[type='date']:before {
         color: transparent;
         background: none;
         display: block;
@@ -114,7 +114,7 @@
     #filter-submit-icon {
         display: block;
     }
-    
+
     /* products section */
     #products-section {
         width: 100%;
@@ -153,18 +153,18 @@
     #product-contents > div:nth-child(2) {
         align-items: center;
     }
-    #product_title, 
+    #product_title,
     #product_farm_name {
         line-height: 2;
     }
     #slash {
         margin: 0 0.8rem;
         height: 1.2rem;
-    }   
+    }
     #product-contents > div:nth-child(3) {
         line-height: 1.4;
         margin-bottom: 0.15rem;
-    } 
+    }
     #product_price {
         margin-right: 1.15rem;
     }
@@ -261,7 +261,7 @@
     #reg-review-btn > a,
     #cancel-order-btn > a,
     #cartIn_btn {
-        font-weight:normal
+        font-weight: normal;
     }
     #filter-6month,
     #filter > input,

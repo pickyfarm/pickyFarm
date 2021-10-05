@@ -146,9 +146,9 @@
                                 {% for t in sub.farmer.farm_tags.all %}
                                 <div id="farm_tag">
                                     {% if t.tag|length > 4 %}
-                                        #{{t.tag|slice:"5"}}...
+                                    #{{t.tag|slice:"5"}}...
                                     {% else %}
-                                        #{{t.tag}}
+                                    #{{t.tag}}
                                     {% endif %}
                                 </div>
                                 {% endfor %}
@@ -271,8 +271,8 @@
 
     let subCancelBtn = document.getElementById("sub_cancel_btn")
     console.log(subCancelBtn)
-    subCancelBtn.addEventListener('click', ()=>{
-        showModalMessage("구독을 취소하시겠습니까", ()=>{
+    subCancelBtn.addEventListener('click', () => {
+        showModalMessage("구독을 취소하시겠습니까", () => {
             let pk = subCancelBtn.getAttribute('name')
             subscribeCancel(pk)
         })
@@ -280,29 +280,29 @@
     )
 
     // 모바일에서 구독 3개씩 더보기
-    if (window.matchMedia("(max-width: 768px)").matches){
+    if (window.matchMedia("(max-width: 768px)").matches) {
         const subsContents = document.getElementById("subs_contents");
         const showMoreBtn = document.getElementById("show_more");
 
-        for(let i=0; i< subsContents.children.length-1 ; i++){
+        for (let i = 0; i < subsContents.children.length - 1; i++) {
             subsContents.children[i].classList.remove("show");
         }
 
         let j = 0;
-        function showMore(cnt){
-            for(let i =0 ; i< cnt ; i++){
+        function showMore(cnt) {
+            for (let i = 0; i < cnt; i++) {
                 // 존재하는 contents 개수보다 많은 개수 요청 시
-                if( j >= subsContents.children.length-1 ){
+                if (j >= subsContents.children.length - 1) {
                     break;
                 }
                 // 존재하는 contents 개수 내에서 요청 시
-                else{
+                else {
                     subsContents.children[j].classList.add("show");
                     j++;
                 }
             }
         }
-        
+
         // 기본으로 3개 contents 보여줌
         showMore(3);
 

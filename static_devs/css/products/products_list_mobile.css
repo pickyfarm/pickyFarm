@@ -1,7 +1,7 @@
-@import 'base/mobile_base_style.css';
+@import 'static/css/base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
-    #big_category{
+    #big_category {
         position: unset;
         padding: 0 3.5rem;
         margin: 0;
@@ -9,14 +9,17 @@
         width: 100%;
         z-index: 0;
     }
-    #all, #fruit, #vege, #etc{
+    #all,
+    #fruit,
+    #vege,
+    #etc {
         width: 4.4rem;
         height: 4.4rem;
     }
     #cat_all a::after,
     #cat_fruit a::after,
     #cat_vege a::after,
-    #cat_etc a::after{
+    #cat_etc a::after {
         font-size: 1.1rem;
         font-weight: normal;
         font-stretch: normal;
@@ -26,22 +29,22 @@
         text-align: center;
         color: var(--dark-green);
     }
-    #cat_all a::after{
+    #cat_all a::after {
         content: '전체보기';
     }
-    #cat_fruit a::after{
+    #cat_fruit a::after {
         content: '과일류';
     }
-    #cat_vege a::after{
+    #cat_vege a::after {
         content: '채소류';
     }
-    #cat_etc a::after{
+    #cat_etc a::after {
         content: '기타';
     }
-    #content{
+    #content {
         width: 100%;
     }
-    #picky-store{
+    #picky-store {
         display: block;
         height: 2.2rem;
         font-family: NotoSansKR;
@@ -55,18 +58,18 @@
         color: #5e6656;
         margin-top: 1.9rem;
     }
-    #content_box{
+    #content_box {
         width: 100%;
     }
-    #category ul{
+    #category ul {
         margin: 2rem 0;
     }
-    #category ul > div{
+    #category ul > div {
         padding-left: 0;
         margin-left: 0;
         margin-right: 1rem;
     }
-    #category_item{
+    #category_item {
         width: 100%;
         height: 2rem;
         padding: 0.2rem 1rem;
@@ -79,60 +82,60 @@
         letter-spacing: normal;
         text-align: center;
     }
-    #sort{
+    #sort {
         padding-left: 0;
     }
-    #sort_img{
+    #sort_img {
         height: 2rem;
         margin-bottom: 2rem;
     }
-    #sort_list{
+    #sort_list {
         z-index: 1;
     }
-    .block{
+    .block {
         margin-top: 4rem;
         width: 100%;
     }
-    #products{
+    #products {
         width: 100%;
         margin: 0 auto;
         grid-template-columns: 1fr 1fr;
         grid-gap: 0;
     }
-    #product_item{
+    #product_item {
         width: 100%;
         height: 100%;
     }
-    .farmer-info-overlay{
+    .farmer-info-overlay {
         display: none;
     }
-    #product_img{
+    #product_img {
         width: 15.01rem;
         height: 17rem;
         border-radius: 0.5rem;
         box-shadow: 1rem 1rem 1rem 0 rgba(170, 170, 170, 0.25);
     }
-    #like_cart_in{
+    #like_cart_in {
         top: unset;
         right: unset;
         bottom: 0.5rem;
         left: 10.5rem;
     }
-    #wish img{
+    #wish img {
         width: 4rem;
         height: 4rem;
     }
-    #cart{
+    #cart {
         display: none;
     }
-    #almost_sold_out{
+    #almost_sold_out {
         display: none;
     }
-    #product_item > a{
+    #product_item > a {
         order: 3;
         margin-bottom: 5.7rem;
     }
-    #title{
+    #title {
         width: 100%;
         padding-left: 0;
         font-size: 1.2rem;
@@ -154,26 +157,27 @@
         text-align: left;
         color: #5e6656;
     }
-    #sub_title{
+    #sub_title {
         display: none;
     }
-    #tags{
+    #tags {
         margin-bottom: 0.9rem;
     }
-    #ugly_tag, #normal_tag{
+    #ugly_tag,
+    #normal_tag {
         width: 7.3rem;
         height: 2rem;
         font-size: 1.1rem;
         font-weight: 500;
         padding: 0.3rem 0.5rem;
     }
-    #paginator{
+    #paginator {
         margin-top: 0;
         padding-top: 0;
         margin-bottom: 12rem;
         align-items: center;
     }
-    #pagenum{
+    #pagenum {
         font-size: 1.1rem;
         font-weight: normal;
         font-stretch: normal;
@@ -183,7 +187,7 @@
         text-align: left;
         color: #5e6656;
     }
-    #next{
+    #next {
         width: 0.8rem;
         margin-left: 1rem;
     }

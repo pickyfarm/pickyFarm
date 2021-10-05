@@ -52,15 +52,15 @@
 <script>
     const submit_btn = document.querySelector('#answer-submit-button');
     const submit_img = document.querySelector('#answer-submit--img');
-    
-    const switchCommitImgHoverIn = function(e){
-        submit_img.setAttribute('src',"{% static 'images/farmer_mypage/check_hover.svg' %}")
+
+    const switchCommitImgHoverIn = function (e) {
+        submit_img.setAttribute('src', "{% static 'images/farmer_mypage/check_hover.svg' %}")
     }
-    const switchCommitImgHoverOut = function(e){
-        submit_img.setAttribute('src',"{% static 'images/farmer_mypage/check_nohover.svg' %}")
+    const switchCommitImgHoverOut = function (e) {
+        submit_img.setAttribute('src', "{% static 'images/farmer_mypage/check_nohover.svg' %}")
     }
 
-    submit_btn.addEventListener('mouseover',switchCommitImgHoverIn);
-    submit_btn.addEventListener('mouseleave',switchCommitImgHoverOut);
+    submit_btn.addEventListener('mouseover', switchCommitImgHoverIn);
+    submit_btn.addEventListener('mouseleave', switchCommitImgHoverOut);
 </script>
 {% endblock %}

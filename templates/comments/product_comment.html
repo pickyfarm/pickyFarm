@@ -18,8 +18,7 @@
         <!-- {% for comment in product_comments %}
         {{comment}}
         {% endfor %} -->
-        <form action="{% url 'comments:product_comment_create' product.pk %}" method="post"
-            enctype="multipart/form-data">
+        <form action="{% url 'comments:product_comment_create' product.pk %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div>{{product_comment_form.text}}</div>
             <div>{{product_comment_form.freshness}}</div>

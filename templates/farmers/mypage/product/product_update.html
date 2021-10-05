@@ -13,7 +13,9 @@
     }
 
     label[for="yearly"]::before,
-    label[for="normal-yearly"]::before {
+    label[for="normal-yearly"]::before,
+    label[for='delivery']::before,
+    label[for='jeju-delivery']::before {
         content: "";
         display: inline-block;
         width: 20px;
@@ -23,7 +25,9 @@
     }
 
     label.checked[for="yearly"]::before,
-    label.checked[for="normal-yearly"]::before {
+    label.checked[for="normal-yearly"]::before,
+    label.checked[for="delivery"]::before,
+    label.checked[for="jeju-delivery"]::before {
         content: "";
         background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
     }
@@ -104,7 +108,7 @@
                     <ul id="id_farm_cat">
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
-                                <label for="delivery" class="checked">
+                                <label>
                                     추가 배송비
                                 </label>
                                 <input type='text' class='product_quantity' name="product-shipping-quantity">
@@ -117,7 +121,7 @@
                         </li>
                         <li>
                             <div class='product-state-update-quantity-wrap flex'>
-                                <label for="jeju-delivery">
+                                <label>
                                     제주/도서 산간 추가 배송비
                                 </label>
                                 <input type='text' class='product_quantity' name="product-jeju-shipping-price" required>
@@ -249,8 +253,8 @@
                         <ul id="id_farm_cat">
                             <li>
                                 <div class='product-state-update-quantity-wrap flex'>
-                                    <label for="delivery" class="checked">
-                                        <input type="radio" id="delivery" value="delivery" name="normal_farm_cat">
+                                    <label class="checked">
+
                                         추가 배송비
                                     </label>
                                     <input type='text' class='product_quantity' name="normal-product-shipping-quantity">
@@ -263,8 +267,8 @@
                             </li>
                             <li>
                                 <div class='product-state-update-quantity-wrap flex'>
-                                    <label for="jeju-delivery">
-                                        <input type="radio" id="jeju-delivery" value="jeju-delivery" name="normal_farm_cat">
+                                    <label>
+
                                         제주/도서 산간 추가 배송비
                                     </label>
                                     <input type='text' class='product_quantity' name="normal-product-jeju-shipping-price">
@@ -337,7 +341,7 @@
                         <li>
                             <div class='product-state-update-quantity-wrap'>
                                 <label for="delivery" class="checked">
-                                    <input type="radio" id="delivery" value="delivery" name="no">
+                                    <input type="radio" id="delivery" value="delivery" name="legal-box">
                                     해당사항 없음
                                 </label>
                             </div>
@@ -345,7 +349,7 @@
                         <li>
                             <div class='product-state-update-quantity-wrap'>
                                 <label for="jeju-delivery">
-                                    <input type="radio" id="jeju-delivery" value="jeju-delivery" name="yes">
+                                    <input type="radio" id="jeju-delivery" value="jeju-delivery" name="legal-box">
                                     해당사항 있음
                                 </label>
                             </div>
