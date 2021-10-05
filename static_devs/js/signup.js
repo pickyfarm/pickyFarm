@@ -240,6 +240,8 @@ $('#id_nickname').change(function () {
 });
 
 $('.submit').click(function () {
+    let auth_num = $('#id_auth_number').val();
+
     if ($('#idValidCheck').attr('valid') == 'false') {
         alert('ID 중복확인을 해주시기 바랍니다');
         $('#id_username').focus();
@@ -274,8 +276,16 @@ $('.submit').click(function () {
         $('#id_email').focus();
     }
 
+
     if ($('#terms_of_services').is(':checked') == false) {
-        alert('이용약관에 동의해주시기 바랍니다..');
+        alert('이용약관에 동의해주시기 바랍니다.');
+        event.preventDefault();
+        return;
+    }
+
+    if (auth_num == '') {
+        alert('인증번호를 입력하세요.');
+        $('#id_phone_number').focus();
         event.preventDefault();
         return;
     }
