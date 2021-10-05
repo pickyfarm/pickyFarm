@@ -665,9 +665,9 @@ def payment_valid(request):
                             "#{rev_loc_at}": order_group.rev_loc_at,
                             "#{rev_detail}": order_group.rev_message,
                             "#{rev_message}": order_group.to_farm_message,
-                            "#{link_1}": f"http://127.0.0.1:8000/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",  # 임시
-                            "#{link_2}": f"http://127.0.0.1:8000/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",  # 임시
-                            "#{link_3}": f"http://127.0.0.1:8000/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",  # 임시
+                            "#{link_1}": f"www.pickyfarm.com/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",  # 임시
+                            "#{link_2}": f"www.pickyfarm.com/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",  # 임시
+                            "#{link_3}": f"www.pickyfarm.com/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",  # 임시
                         }
 
                         print(f'주문확인 url : {args_farmer["#{link_1}"]}')
