@@ -1141,7 +1141,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
             self.request.GET.get("odmn")
         )
 
-        order = self.get_queryset()
+        order = self.get_object()
 
         # 파머가 주문 확인을 누르지 않은 경우 - order_detail status == preparing인 경우
         if order.status != "preparing":
