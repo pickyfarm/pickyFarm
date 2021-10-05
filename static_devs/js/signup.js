@@ -1,15 +1,3 @@
-$('input:radio[name=gender]').on('change', function () {
-    if (this.value == 'male') {
-        $('input:radio[value=male]').parent().addClass('checked');
-        $('input:radio[value=female]').parent().removeClass('checked');
-    }
-
-    if (this.value == 'female') {
-        $('input:radio[value=female]').parent().addClass('checked');
-        $('input:radio[value=male]').parent().removeClass('checked');
-    }
-});
-
 $('#nickname-check').click(function (e) {
     let target = $('#id_nickname').val();
     let url = $(this).attr('name');

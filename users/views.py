@@ -400,7 +400,7 @@ class SignUp(View):
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
-            Consumer.objects.create(
+            consumer = Consumer.objects.create(
                 user=user,
                 grade=1,
                 benefit_agree=benefit_agree,
@@ -414,6 +414,9 @@ class SignUp(View):
                 address.user = user
                 address.is_default = True
                 address.save()
+
+                consumer.default_address = address
+                consumer.save()
 
             if user is not None:
                 login(request, user=user)
