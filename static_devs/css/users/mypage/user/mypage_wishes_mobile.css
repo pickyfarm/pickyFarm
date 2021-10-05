@@ -55,12 +55,6 @@
         order: 5;
     }
 
-    /* mypage base 없어서 일단 숨기기... */
-    #top-section,
-    #menu {
-        display: none;
-    }
-
     /* filter section  */
     #filter-section {
         margin-bottom: 0;

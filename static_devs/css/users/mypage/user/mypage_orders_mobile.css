@@ -23,12 +23,6 @@
         flex-wrap: wrap;
     }
 
-    /* mypage base 없어서 일단 숨기기... */
-    #top-section,
-    #menu {
-        display: none;
-    }
-
     /* before make orders */
     #before_order {
         width: 100%;
