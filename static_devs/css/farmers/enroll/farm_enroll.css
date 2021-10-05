@@ -144,21 +144,14 @@ textarea {
 }
 
 /* ------------------------------------------ */
-#signup_form,
 #content {
     width: 990px;
 }
-
-.input_forms {
-    grid-template-columns: 302.5px 300px 217.5px;
-    row-gap: 40px;
-    margin-bottom: 38px;
-}
-
+/* 
 .form_term_agree {
     grid-template-columns: 302.5px auto;
     row-gap: 20px;
-}
+} */
 #id_farm_name {
     border: solid 1px #b3b3b3;
     border-radius: 20px;
@@ -235,51 +228,28 @@ textarea {
     text-align: left;
 }
 
-.input_forms input,
+/* .input_forms input,
 .errorlist,
 .form_term_agree label,
 .form_term_agree div:not(#term-agree) {
     grid-column: 2;
-}
+} */
 
-.errorlist li {
+/* .errorlist li {
     font-size: 12px;
     color: red;
     text-align: start;
     margin-top: 5px;
     padding-left: 15px;
-}
-
+} */
+/* 
 .input_forms input::placeholder {
     position: relative;
     right: 7.5px;
     font-size: 15px;
     text-align: center;
     font-weight: normal;
-}
-
-.input_forms label,
-#term-agree {
-    grid-column: 1;
-    margin-right: auto;
-    margin-left: 60.5px;
-    font-size: 15px;
-    font-weight: normal;
-    color: #4d4d4d;
-}
-
-.birth-selection ul,
-.gender-selection ul {
-    display: flex;
-}
-
-.gender-selection label {
-    margin-left: 0;
-}
-
-.gender-selection li:nth-child(1) {
-    margin-right: 75px !important;
-}
+} */
 
 .valid-button {
     width: 110px;
@@ -298,17 +268,6 @@ textarea {
     margin-top: 20px;
 }
 
-#id_gender_0,
-#id_gender_1 {
-    display: none;
-}
-
-.gender-selection label {
-    font-size: 15px;
-    color: #808080;
-    font-weight: normal;
-}
-
 .submit {
     width: 170px;
     height: 50px;
@@ -325,39 +284,6 @@ textarea {
     width: 740px;
     height: 0px;
     border: solid 0.5px rgba(94, 102, 86, 0.5);
-}
-
-.form_term_agree input {
-    display: none;
-}
-
-.form_term_agree label {
-    margin-right: auto;
-    color: #707070;
-    font-size: 15px;
-}
-
-label.mand::after,
-label.opt::after {
-    margin-left: 20px;
-    font-size: 15px;
-    color: #b3b3b3;
-    font-weight: 300;
-}
-
-label.mand::after {
-    content: '(필수)';
-}
-
-label.opt::after {
-    content: '(선택)';
-}
-
-.form_term_agree a {
-    margin-right: 67.5px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #5c6754;
 }
 
 /* form_enroll step3 page */
@@ -400,4 +326,12 @@ label.opt::after {
 /* farm_info update page */
 #update_btn {
     cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    #sub_title,
+    #border {
+        width: 100%;
+        font-size: 1.4rem;
+    }
 }
