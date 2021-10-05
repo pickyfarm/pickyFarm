@@ -31,11 +31,11 @@
             <img id="q_img" src="{%static 'images/product_detail/index_leaf.svg' %}">
             <div id="q_desc" class="ml-3">개인적인 배송관련, 주문 관련 사항들은 1:1 고객상담센터로 문의해주세요</div>
         </div>
-        <div id="q_table_top" class="flex flex-rows py-1">
+        <div id="q_table_top" class="flex flex-rows py-5">
             <div id="q_letter_gray" class="w-2/12">답변상태</div>
-            <div id="q_letter_gray" class="w-6/12">제목</div>
+            <div id="q_letter_gray" class="w-5/12">제목</div>
             <div id="q_letter_gray" class="w-2/12">작성자</div>
-            <div id="q_letter_gray" class="w-2/12">작성일</div>
+            <div id="q_letter_gray" class="w-3/12">작성일</div>
         </div>
         <div id="questions-wrapper">
             <div id="qnas-section">
@@ -44,21 +44,21 @@
                 {% else %}
                 {% for q in questions %}
                 <a href="{% url 'products:question_read' q.pk %}">
-                    <div id="q_table_bottom" class="flex flex-rows py-1">
+                    <div id="q_table_bottom" class="flex flex-rows items-center py-1">
                         {% if q.status is True %}
                         <div id="q_letter_answered" class="w-2/12">답변완료</div>
                         {% else %}
                         <div id="q_letter_gray" class="w-2/12">답변대기</div>
                         {% endif %}
-                        <div id="q_letter_black" class="w-6/12">{{q.title}}</div>
+                        <div id="q_letter_black" class="w-5/12">{{q.title}}</div>
                         <div id="q_letter_black" class="w-2/12">{{q.consumer.user.nickname}}</div>
-                        <div id="q_letter_gray" class="w-2/12">{{q.create_at.date}}</div>
+                        <div id="q_letter_gray" class="w-3/12">{{q.create_at.date}}</div>
                     </div>
                 </a>
                 {% endfor %}
                 {% endif %}
             </div>
-            <div class="flex justify-between w-36 mx-auto mt-8">
+            <div id="paginator" class="flex justify-between w-36 mx-auto mt-8">
                 {% if questions.has_previous %}
                     <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
                     <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{questions.previous_page_number}}' style="cursor: pointer">
@@ -81,12 +81,12 @@
             </div>
         </div>
         <div class="flex flex-row justify-end">
-            <div id="q_write" class="flex flex-rows justify-center mt-10 w-2/12">
-                <a href="/product/question/create?product={{product.pk}}">
+            <a href="/product/question/create?product={{product.pk}}">
+                <div id="q_write" class="flex flex-rows justify-center items-center mt-10 w-2/12">
                     <div>글쓰기</div>
-                </a>
-                <img src="{% static 'images/product_detail/pen.svg' %}">
-            </div>
+                    <img src="{% static 'images/product_detail/pen.svg' %}">
+                </div>
+            </a>
         </div>
     </div>
 </div>

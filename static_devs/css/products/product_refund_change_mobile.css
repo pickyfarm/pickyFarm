@@ -6,7 +6,7 @@
     }
     #refund_change_info_detail-left-section {
         font-size: 1.2rem;
-        padding: 0 1.3rem;
+        padding: 1rem 1.3rem;
     }
     #refund_change_info_detail-right-section {
         padding-left: 0.4rem;
@@ -23,6 +23,7 @@
 
     #responsibility-section {
         width: 100%;
+        margin-bottom: 5rem;
     }
     #responsibility-title {
         padding-bottom: 0rem;
