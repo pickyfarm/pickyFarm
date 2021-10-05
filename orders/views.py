@@ -69,7 +69,6 @@ def create_order_group_management_number(pk):
     print(day)
 
     order_group_management_number = str(year) + month + day + "_PF" + str(pk)
-    
 
     print(order_group_management_number)
     return order_group_management_number
@@ -96,7 +95,9 @@ def create_order_detail_management_number(pk, farmer_id):
     else:
         day = str(day)
 
-    order_detail_management_number = str(year) + month + day + '_' + str(pk) + "_" + farmer_id
+    order_detail_management_number = (
+        str(year) + month + day + "_" + str(pk) + "_" + farmer_id
+    )
     return order_detail_management_number
 
 
@@ -616,14 +617,9 @@ def payment_valid(request):
                         detail.product.save()
                         detail.save()
 
+                        kakao_msg_weight = (str)(product.weight) + product.weight_unit
 
-                        kakao_msg_weight = (str)(
-                            product.weight
-                        ) + product.weight_unit
-
-                        kakao_msg_quantity = (str)(
-                            detail.quantity
-                        ) + '개'
+                        kakao_msg_quantity = (str)(detail.quantity) + "개"
 
                         target_farmer_pk = product.farmer.pk
 
@@ -639,7 +635,7 @@ def payment_valid(request):
                             "#{farmer_nickname}": target_farmer.farmer_nickname,
                             "#{weight}": kakao_msg_weight,
                             "#{quantity}": kakao_msg_quantity,
-                            "#{link_1}": f'www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}',  # 임시
+                            "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",  # 임시
                             "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
                         }
 
@@ -649,10 +645,13 @@ def payment_valid(request):
                             templateIdList["payment_complete"],
                             args_consumer,
                         )
-                        
-                        # order_management_number 인코딩
-                        url_encoded_order_detail_number = url_encryption.encode_string_to_url(detail.order_management_number)
 
+                        # order_management_number 인코딩
+                        url_encoded_order_detail_number = (
+                            url_encryption.encode_string_to_url(
+                                detail.order_management_number
+                            )
+                        )
 
                         args_farmer = {
                             "#{order_detail_title}": detail.product.title,
@@ -909,7 +908,9 @@ def create_change_or_refund(request, pk):
 
         order_management_number = order_detail.order_management_number
 
-        url_encoded_order_management_number = url_encryption.encode_string_to_url(order_management_number)
+        url_encoded_order_management_number = url_encryption.encode_string_to_url(
+            order_management_number
+        )
 
         product_title = order_detail.product.title
 
@@ -923,26 +924,46 @@ def create_change_or_refund(request, pk):
         }
 
         consumer_args = {
-            "#{order_detail_title}" : product_title,
-            "#{order_detail_number}" : order_management_number,
-            "#{quantity}" : kakao_msg_quantity,
+            "#{order_detail_title}": product_title,
+            "#{order_detail_number}": order_management_number,
+            "#{quantity}": kakao_msg_quantity,
         }
 
         if claim_type == "refund":
             refundExchange.refund_exchange_delivery_fee = product.refund_delivery_fee
             refundExchange.save()
-            farmer_args += {"#{link}": f'www.pickyfarm.com/farmer/mypage/orders/refund/request/check?odmn={url_encoded_order_management_number}'}
-            send_kakao_message(farmer_phone_number, templateIdList["refund_recept_for_farmer"], farmer_args)
-            send_kakao_message(consumer_phone_number, templateIdList["refund_recept_for_consumer"], consumer_args)
+            farmer_args[
+                "#{link}"
+            ] = f"www.pickyfarm.com/farmer/mypage/orders/refund/request/check?odmn={url_encoded_order_management_number}"
+            send_kakao_message(
+                farmer_phone_number,
+                templateIdList["refund_recept_for_farmer"],
+                farmer_args,
+            )
+            send_kakao_message(
+                consumer_phone_number,
+                templateIdList["refund_recept_for_consumer"],
+                consumer_args,
+            )
             return render(
                 request, "users/mypage/user/product_refund_complete.html", ctx
             )
         elif claim_type == "exchange":
             refundExchange.refund_exchange_delivery_fee = product.exchange_delivery_fee
             refundExchange.save()
-            farmer_args += {"#{link}": f'www.pickyfarm.com/farmer/mypage/orders/exchange/request/check?odmn={url_encoded_order_management_number}'}
-            send_kakao_message(farmer_phone_number, templateIdList["exchange_recept_for_farmer"], farmer_args)
-            send_kakao_message(consumer_phone_number, templateIdList["exchange_recept_for_consumer"], consumer_args)
+            farmer_args[
+                "#{link}"
+            ] = f"www.pickyfarm.com/farmer/mypage/orders/exchange/request/check?odmn={url_encoded_order_management_number}"
+            send_kakao_message(
+                farmer_phone_number,
+                templateIdList["exchange_recept_for_farmer"],
+                farmer_args,
+            )
+            send_kakao_message(
+                consumer_phone_number,
+                templateIdList["exchange_recept_for_consumer"],
+                consumer_args,
+            )
             return render(
                 request, "users/mypage/user/product_exchange_complete.html", ctx
             )
