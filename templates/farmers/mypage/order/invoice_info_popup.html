@@ -11,6 +11,12 @@
 </head>
 
 <body>
+    {% if avail %}
+    <div id="access-block-warp" class="flex">
+        <span>주문 확인 버튼을 눌러서 주문 상태를 변경 후 송장 번호를 입력할 수 있습니다.</span>
+        <span>카카오 알림톡의 경우 ) 주문 확인 버튼 클릭 -> 확인 완료 버튼 클릭</span>
+    </div>
+    {% else %}
     <div class='popup_container flex'>
         <div class='order-cancel-main-title'>송장번호 입력</div>
         <div class='order-cancel-main-content-wrap'>
@@ -139,6 +145,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <script>
         const check_btn = document.querySelector('.order-cancel-invoice-number-submit-wrap');
         const check_img = document.querySelector('.order-cancel-invoice-number-submit-img');

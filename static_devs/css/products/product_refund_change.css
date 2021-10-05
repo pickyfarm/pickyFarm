@@ -1,4 +1,6 @@
 /* 교환반품 정보 */
+
+@import url('product_refund_change_mobile.css');
 #refund_change_info_detail {
     width: 1024px;
     font-size: 15px;
