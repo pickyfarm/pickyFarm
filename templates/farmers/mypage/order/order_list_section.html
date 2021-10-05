@@ -58,6 +58,7 @@
             </div>
             {% elif order.status == 'shipping' %}
             <div>
+                {{order.get_delivery_service_company_display}}
                 {{order.invoice_number}}
             </div>
             {% endif %}
