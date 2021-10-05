@@ -90,6 +90,9 @@
     font-size: 12px;
     color: #5c6754;
 }
+.question-answer-btn {
+    cursor: pointer;
+}
 
 /* date filter section */
 .date-filter-content {

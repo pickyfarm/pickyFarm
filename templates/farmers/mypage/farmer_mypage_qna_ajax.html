@@ -77,12 +77,25 @@
 </div>
 
 <script>
-    PAGINATION_URL = 'qna_ajax/?page='
+    PAGINATION_URL = 'qna-ajax/?page='
     PAGINATION_SECTION = '#qna-list'
     SEARCH_VAL = '&start-date='+start_date+'&end-date='+end_date
 
-    PAGINATION_URL2 = 'review_ajax/?page2='
+    PAGINATION_URL2 = 'review-ajax/?page2='
     PAGINATION_SECTION2 = '#review-list'
     SEARCH_VAL = '&start-date='+start_date+'&end-date='+end_date
+</script>
+<script>
+    var popupX = (document.body.offsetWidth / 2) - (375 / 2);
+    var popupY = (window.screen.height / 2) - (600 / 2);
+
+    function questionAnswerPopup(pk) {
+        const questionpk = parseInt(pk);
+        {% for question in questions %}
+        if (questionpk === {{ question.pk }}) {
+        window.open("{% url 'farmer:farmer_mypage_question_answer' question.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
+        }
+        {% endfor %}
+    }
 </script>
 <script src="{% static 'js/pagination/pagination.js' %}"></script>
