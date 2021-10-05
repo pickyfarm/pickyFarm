@@ -1126,12 +1126,22 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         # order_management_number 디코딩
         order_management_number = url_encryption.decode_url_string(self.request.GET.get("odmn"))
 
+        order = self.get_queryset()
+
+        # 파머가 주문 확인을 누르지 않은 경우 - order_detail status == preparing인 경우
+        if order.status != "preparing":
+            context["avail"] = False
+            return context
+
         try:
+            context["avail"] = True
             context["products"] = Product.objects.filter(
                 order_details__order_management_number=order_management_number
             ).order_by("kinds")
         except ObjectDoesNotExist:
             redirect("core:main")
+
+
 
         return context
 
