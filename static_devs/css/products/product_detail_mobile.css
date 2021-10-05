@@ -284,6 +284,21 @@
         text-align: center;
         margin-left: auto;
     }
+    /* 상품 상세 정보 */
+    #info_detail {
+        width: 100%;
+        margin-top: 2rem;
+    }
+    #info_detail > div:nth-child(odd) {
+        font-size: 1.4rem;
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid lightgray;
+    }
+    #info_detail > div:nth-child(even) {
+        font-size: 1.1rem;
+        padding: 1.5rem 1.5rem;
+    }
 
     /* menu bar */
     /* 추후 각 menu에 대한 개별 css 파일로 이동 필요 */
