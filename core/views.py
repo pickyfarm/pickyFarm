@@ -9,6 +9,11 @@ from django.views.generic import TemplateView
 
 
 def index(request):
+    """siminwon landing"""
+    try:
+        siminwon = Farmer.objects.get(farm_name="시민원")
+    except ObjectDoesNotExist:
+        siminwon = None
 
     # try:
     #     products = Product.objects.filter(open=True)
@@ -49,6 +54,7 @@ def index(request):
         # "editor_pick_list": editor_pick_list,
         # "today_farmer_list": today_farmer_list,
         "main_slider_image": main_slider_image,
+        "siminwon": siminwon,
     }
 
     return render(request, "base/landing/siminwon/siminwon_landing_page.html", ctx)

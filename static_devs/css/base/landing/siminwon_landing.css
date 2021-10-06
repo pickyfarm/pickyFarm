@@ -300,7 +300,7 @@
 #siminwon-section2 {
     background-color: #eeebe9;
     align-items: center;
-    padding: 40px 0px;
+    padding: 10px 0px;
 }
 #siminwon-section2-product-content {
     width: 905.9px;
@@ -385,7 +385,7 @@
 }
 #siminwon-section2-farmer-content {
     width: 666px;
-    margin: 50px auto 10px;
+    margin: 50px auto 20px;
 }
 #farmer-profile {
     width: 130px;
@@ -423,6 +423,8 @@
     #siminwon-section2-product-content {
         width: 68%;
         padding-bottom: 1rem;
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
     }
     #siminwon-section2-num {
         width: 4rem;
@@ -447,6 +449,7 @@
         flex-direction: row;
         align-items: flex-end;
         margin-bottom: 2rem;
+        width: 150px;
     }
     .product-image-wrapper {
         margin-bottom: 0px;
@@ -481,7 +484,7 @@
     #siminwon-section2-farmer-content {
         width: 68%;
         justify-content: center;
-        margin: 2.5rem auto 1rem;
+        margin: 2.5rem auto 3rem;
     }
     #farmer-profile {
         width: 4rem;
