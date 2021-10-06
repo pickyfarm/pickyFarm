@@ -22,19 +22,24 @@
     <div id="desc_img_box">
         <img id="logo" class="mx-auto" src="{% static 'images/mainlogo_small.svg' %}">
 
-        {% if product.desc_image.exists is True %}
+        {% if product.desc_image %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image.url}}" alt="상품설명1">
         {% endif %}
 
-        {% if product.desc_image2.exists is True %}
+        {% if product.desc_image2 %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image2.url}}" alt="상품설명2">
         {% endif %}
 
-        {% if product.desc_image3.exists is True %}
+        <div id="farmer-site-link-wrap" class="flex justify-center items-center mx-auto">
+            <button id="farmer-site-link-button">자세한 내용은 농가미니홈페이지 바로가기</button>
+            {{product.desc_image.exists}}
+        </div>
+
+        {% if product.desc_image3 %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image3.url}}" alt="상품설명3">
         {% endif %}
 
-        {% if product.desc_image4.exists is True %}
+        {% if product.desc_image4 %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image4.url}}" alt="상품설명4">
         {% endif %}
 

@@ -409,6 +409,27 @@
     width: 990px;
 }
 
+#farmer-site-link-wrap {
+    width: 990px;
+    height: 200px;
+    background-color: #b3c1ad;
+}
+
+#farmer-site-link-button {
+    width: 207px;
+    height: 30px;
+    border-radius: 15px;
+    box-shadow: 0 3px 6px 0 rgba(58, 80, 42, 0.48);
+    background-color: #465144;
+    font-size: 11px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #f4f6e8;
+}
+
 #sel {
     font-weight: 300;
     font-stretch: normal;

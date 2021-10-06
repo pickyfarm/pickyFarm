@@ -386,13 +386,9 @@ class SignUp(View):
     def post(self, request):
         form = SignUpForm(request.POST)
         addressform = AddressForm(request.POST)
-        benefit_agree = True if request.POST.get("agree-benefit", False) else False
-        kakao_farmer_agree = (
-            True if request.POST.get("agree-kakao-farmer", False) else False
-        )
-        kakao_comment_agree = (
-            True if request.POST.get("agree-kakao-comment", False) else False
-        )
+        benefit_agree = True
+        kakao_farmer_agree = True
+        kakao_comment_agree = True
         print(form.is_valid())
         if form.is_valid():
             print("hello")

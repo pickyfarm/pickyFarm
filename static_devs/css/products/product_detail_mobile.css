@@ -1,4 +1,4 @@
-@import '//static/css/base/mobile_base_style.css';
+@import '/static/css/base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
     /* 상품 사진, 농장 소식 */
@@ -23,6 +23,7 @@
         height: 4.6rem;
         margin-right: 0.8rem;
     }
+
     #farm_news_letter {
         display: none;
     }
@@ -42,6 +43,11 @@
     }
 
     /* 상품 정보 */
+    #farmer-site-link-wrap {
+        width: 100%;
+        height: 7.4rem;
+    }
+
     #right {
         width: 100%;
         padding: 0;

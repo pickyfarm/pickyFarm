@@ -1,12 +1,17 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
+{% block meta_keywords %}
+시민원, 사과, 홍로사과, 못난이사과, 못난이홍로사과
+{% endblock %}
+
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail_mobile.css' %}">
 {% endblock %}
 
 {% block title_name %}
+피키팜 : Farmer's Page
 {% endblock title_name %}
 
 {% block main_content %}

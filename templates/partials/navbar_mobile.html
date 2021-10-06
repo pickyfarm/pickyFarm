@@ -6,7 +6,7 @@
             <img src="{% static 'images/base/mobile_navbar/navbar_edtor.png' %}" alt="Editor's Pick" class="navbar-icon" />
             <div class="navbar-text">에디터</div>
         </a>
-        <a class="navbar-item flex flex-col" id="navbar-farmer">
+        <a class="navbar-item flex flex-col" id="navbar-farmer" href="{% url 'farmers:farmers_page' %}">
             <img src="{% static 'images/base/mobile_navbar/navbar_farmer.png' %}" alt="Farmer's Page" class="navbar-icon" />
             <div class="navbar-text">파머</div>
         </a>
@@ -14,20 +14,25 @@
             <img src="{% static 'images/base/mobile_navbar/navbar_home.png' %}" alt="Home" class="navbar-icon" />
             <div class="navbar-text">홈</div>
         </a>
-        <a class="navbar-item flex flex-col" id="navbar-store">
+        <a class="navbar-item flex flex-col" id="navbar-store" href="{% url 'products:store_list' %}">
             <img src="{% static 'images/base/mobile_navbar/navbar_store.png' %}" alt="Store" class="navbar-icon" />
             <div class="navbar-text">스토어</div>
         </a>
-        <a class="navbar-item flex flex-col" id="navbar-mypage">
+        {% if user.is_authenticated %}
+        <a class="navbar-item flex flex-col" id="navbar-mypage" href="{% url 'users:mypage' 'orders' %}">
             <img src="{% static 'images/base/mobile_navbar/navbar_user.png' %}" alt="Mypage" class="navbar-icon" />
             <div class="navbar-text">
-                {% if user.is_authenticated %}
                 마이페이지
-                {% else %}
-                로그인
-                {% endif %}
             </div>
         </a>
+        {% else %}
+        <a class="navbar-item flex flex-col" id="navbar-mypage" href="{% url 'users:login' %}">
+            <img src="{% static 'images/base/mobile_navbar/navbar_user.png' %}" alt="Mypage" class="navbar-icon" />
+            <div class="navbar-text">
+                로그인
+            </div>
+        </a>
+        {% endif %}
     </ul>
 </nav>
 
