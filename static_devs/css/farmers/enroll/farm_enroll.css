@@ -228,29 +228,6 @@ textarea {
     text-align: left;
 }
 
-/* .input_forms input,
-.errorlist,
-.form_term_agree label,
-.form_term_agree div:not(#term-agree) {
-    grid-column: 2;
-} */
-
-/* .errorlist li {
-    font-size: 12px;
-    color: red;
-    text-align: start;
-    margin-top: 5px;
-    padding-left: 15px;
-} */
-/* 
-.input_forms input::placeholder {
-    position: relative;
-    right: 7.5px;
-    font-size: 15px;
-    text-align: center;
-    font-weight: normal;
-} */
-
 .valid-button {
     width: 110px;
     height: 35px;
