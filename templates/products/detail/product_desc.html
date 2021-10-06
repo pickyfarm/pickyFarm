@@ -22,19 +22,19 @@
     <div id="desc_img_box">
         <img id="logo" class="mx-auto" src="{% static 'images/mainlogo_small.svg' %}">
 
-        {% if product.desc_image.exists %}
+        {% if product.desc_image.exists is True %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image.url}}" alt="상품설명1">
         {% endif %}
 
-        {% if product.desc_image2.exists %}
+        {% if product.desc_image2.exists is True %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image2.url}}" alt="상품설명2">
         {% endif %}
 
-        {% if product.desc_image3.exists %}
+        {% if product.desc_image3.exists is True %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image3.url}}" alt="상품설명3">
         {% endif %}
 
-        {% if product.desc_image4.exists %}
+        {% if product.desc_image4.exists is True %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image4.url}}" alt="상품설명4">
         {% endif %}
 
