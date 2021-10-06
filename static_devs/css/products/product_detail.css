@@ -416,16 +416,14 @@
 }
 
 #farmer-site-link-button {
-    width: 207px;
-    height: 30px;
-    border-radius: 15px;
-    box-shadow: 0 3px 6px 0 rgba(58, 80, 42, 0.48);
+    width: 400px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 9999px;
+    box-shadow: 0 3px 6px 0 rgb(58 80 42 / 48%);
     background-color: #465144;
-    font-size: 11px;
+    font-size: 19px;
     font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
     text-align: center;
     color: #f4f6e8;
 }
