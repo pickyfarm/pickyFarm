@@ -24,28 +24,30 @@ Farmer's page
         <div class="relative">
             <div class="flex flex-row mx-auto" id="big-content">
                 <div class="" id="best-farmer-img">
-                    <img id="farmer-img" src="{{best.farmer_profile.url}}" alt="">
+                    <a href="{% url 'farmers:farmer_detail' best.pk %}" class="flex items-center">
+                        <img id="farmer-img" src="{{best.farmer_profile.url}}" alt="">
+                    </a>
                     <div id='pick-img'>
                         <img src="{% static 'images/farm/sub_btn.svg' %}" name={{best.pk}} id="sub_btn" alt="">
                     </div>
                 </div>
             </div>
-            <div class="ml-auto rounded-l-full flex flex-row justify-around" id="best-farmer-desc">
-                <div class=" flex flex-row my-auto">
-                    <div class="text-4xl font-light">“ </div>
-                    <div class="text-4xl font-light mx-10">{{best.profile_title}}</div>
-                    <div class="text-4xl font-light"> ”</div>
-                </div>
-                <div class="flex flex-col my-auto">
+            <a href="{% url 'farmers:farmer_detail' best.pk %}" class="flex items-center">
+                <div class="ml-auto rounded-l-full flex flex-row justify-around" id="best-farmer-desc">
+                    <div class=" flex flex-row my-auto">
+                        <div class="text-4xl font-light">“ </div>
+                        <div class="text-4xl font-light mx-10">{{best.profile_title}}</div>
+                        <div class="text-4xl font-light"> ”</div>
+                    </div>
+                    <div class="flex flex-col my-auto">
 
-                    <div class="text-center font-light" id="hot_farm_loc">{{best.user.addresses.sido}}
-                        {{best.user.addresses.sigungu}}</div>
-                    <div class="text-center font-medium text-2xl" id="farm_name"> {{best.farm_name}} </div>
+                        <div class="text-center font-light" id="hot_farm_loc">{{best.user.addresses.sido}}
+                            {{best.user.addresses.sigungu}}</div>
+                        <div class="text-center font-medium text-2xl" id="farm_name"> {{best.farm_name}} </div>
+                    </div>
+                        <img class="w-12" src="{% static 'images/farmers_page/hot_detail.svg' %}" alt="">
                 </div>
-                <a href="{% url 'farmers:farmer_detail' best.pk %}" class="flex items-center">
-                    <img class="w-12" src="{% static 'images/farmers_page/hot_detail.svg' %}" alt="">
-                </a>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>
