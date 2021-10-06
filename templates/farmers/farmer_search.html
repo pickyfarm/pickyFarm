@@ -5,12 +5,14 @@
         <div class="flex row mx-auto">
             <div class="flex flex-row" id="wrapper">
                 <!--farmer's image-->
-                <div class="block" id="farm_pic">
-                    <img id="farmer_profile" class="object-cover" src="{{farmer.farmer_profile.url}}" alt="">
-                    <div id='pick_img'>
-                        <img src="{% static 'images/farm/sub_btn.svg' %}" id="sub_btn" name={{farmer.pk}} alt="">
+                <a href="{% url 'farmers:farmer_detail' farmer.id %}">
+                    <div class="block" id="farm_pic">
+                        <img id="farmer_profile" class="object-cover" src="{{farmer.farmer_profile.url}}" alt="">
+                        <div id='pick_img'>
+                            <img src="{% static 'images/farm/sub_btn.svg' %}" id="sub_btn" name={{farmer.pk}} alt="">
+                        </div>
                     </div>
-                </div>
+                </a>
                 <!--farmer's desc-->
                 <div class="" id="farm_desc_block">
                     <p class="font-medium text-2xl mb-3" id="farm_profile">{{farmer.profile_title}}</p>

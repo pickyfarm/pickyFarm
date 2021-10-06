@@ -60,7 +60,11 @@
         <div class="flex flex-row items-center p-2" id="farmer_news">
             <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="ml-2" id="">
             <div class="text-2xl" id="news_text">농가 News</div>
+            {% if farmer.farm_news %}
             <div class="font-light text-xl" id="farm_news">{{ farmer.farm_news }}</div>
+            {% else %}
+            <div class="font-light text-xl" id="farm_news">등록된 뉴스가 아직 없습니다.</div>
+            {% endif %}
         </div>
 
         <!--farmer intro-->
@@ -81,7 +85,13 @@
     </div>
     <div id="farmer_intro">
         <div class="text-5xl font-medium mb-10" id="intro_title">{{ farmer.farm_name }}</div>
+        
+        {% if farmer.farm_desc %}
         <div class="" id="farm_desc"><img src="{{ farmer.farm_desc.url }}" alt=""></div>
+        {% else %}
+        <div class="" id="farm_desc">이미지 없음</div>
+        {% endif %}
+            
     </div>
 
     <!--farmer product-->
