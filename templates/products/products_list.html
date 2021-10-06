@@ -38,7 +38,7 @@
 
     </div>
 
-    
+
     <div id="picky-store">PICKY STORE</div>
     <div id="content">
 
@@ -72,14 +72,14 @@
                     {% for product in products %}
                     <div class="z-0 flex flex-col" id="product_item" name="{{product.pk}}">
                         <div class="relative product-image-wrapper">
-                            <div class="farmer-info-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.pk %}">
+                            <!-- <div class="farmer-info-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.pk %}">
                                 <a href="{% url 'farmers:farmer_detail' product.farmer.pk %}" class="flex flex-col items-center">
 
                                     <img class="farmer-profile-image" src="{{product.farmer.farmer_profile.url}}" alt="farmer_profile">
                                     <span class="farmer-info-overlay--farmer-name">{{product.farmer.user.nickname}}</span>
                                     <span class="farmer-info-overlay--farm-name">{{product.farmer.farm_name}}</span>
                                 </a>
-                            </div>
+                            </div> -->
                             <a href="{% url 'products:product_detail' product.pk %}" class="">
                                 <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
                             </a>
