@@ -176,7 +176,6 @@ $('#phone-number-check').click(function () {
                     'invalid-form',
                     messageContainer.classList.contains('invallid-form')
                 );
-                $('#phonenumValidCheck').attr('valid', 'true');
             } else {
                 messageContainer.innerHTML = '✕ 이미 등록된 전화번호입니다.';
                 messageContainer.classList.toggle(
@@ -190,6 +189,7 @@ $('#phone-number-check').click(function () {
 });
 
 // 인증번호 확인
+
 $('#auth-number-check').click(function () {
     let auth_num = $('#id_auth_number').val();
     let phone_num = $('#id_phone_number').val();
@@ -222,6 +222,7 @@ $('#auth-number-check').click(function () {
                 document.querySelector('#auth-number-check').style.display =
                     'none';
                 messageContainer.innerHTML = '';
+                $('#phonenumValidCheck').attr('valid', 'true');
             }
         },
     });
@@ -239,7 +240,7 @@ $('#id_nickname').change(function () {
     $('#nicknameValidCheck').attr('valid', 'false');
 });
 
-$('.submit').click(function () {
+$('.submit').click(function (event) {
     let auth_num = $('#id_auth_number').val();
 
     if ($('#idValidCheck').attr('valid') == 'false') {
@@ -276,7 +277,6 @@ $('.submit').click(function () {
         $('#id_email').focus();
     }
 
-
     if ($('#terms_of_services').is(':checked') == false) {
         alert('이용약관에 동의해주시기 바랍니다.');
         event.preventDefault();
@@ -298,6 +298,12 @@ $('.submit').click(function () {
 
     if ($('#over14').is(':checked') == false) {
         alert('만 14세 이상에 체크해주시기 바랍니다.');
+        event.preventDefault();
+        return;
+    }
+
+    if ($('#phonenumValidCheck').attr('valid') == 'false') {
+        alert('전화번호 인증을 완료해주시기 바랍니다.');
         event.preventDefault();
         return;
     }
