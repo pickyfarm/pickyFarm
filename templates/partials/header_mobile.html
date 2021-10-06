@@ -2,11 +2,17 @@
 
 <header class="sticky top-0 flex items-center md:hidden" id="header-mobile">
     <div id="mobile-header-searchbar-wrapper" class="flex items-center">
-        <img src="{% static 'images/mainlogo_small.svg' %}" alt="피키팜" id='mainlogo-mobile'>
+        <a href="/">
+            <img src="{% static 'images/mainlogo_small.svg' %}" alt="피키팜" id='mainlogo-mobile'>
+        </a>
         <img src="{% static 'images/search.svg' %}" alt="검색하기" id="mobile-header-searchbar-icon">
         <input type="text" id="mobile-header-searchbar" placeholder="PICKY FARM : 까다롭게 선택하다">
     </div>
-    <img class="mobile-header-icons" src="{% static 'images/like.svg' %}" alt="찜한 목록" id="mobile-header-likes">
-    <img class="mobile-header-icons" src="{% static 'images/cart.svg' %}" alt="장바구니" id="mobile-header-cart">
+    <a href="{% url 'users:mypage' 'wishes' %}" id="header-wishes">
+        <img class="mobile-header-icons" src="{% static 'images/like.svg' %}" alt="찜한 목록" id="mobile-header-likes">
+    </a>
+    <a href="{% url 'users:mypage' 'cart' %}" id="header-cart">
+        <img class="mobile-header-icons" src="{% static 'images/cart.svg' %}" alt="장바구니" id="mobile-header-cart">
+    </a>
 </header>
 <link rel="stylesheet" href="{% static 'css/base/header_mobile.css' %}">
