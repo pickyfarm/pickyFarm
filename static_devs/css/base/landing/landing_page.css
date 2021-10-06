@@ -257,6 +257,7 @@ mark {
 #section3 {
     background-color: #e3e3e3;
     align-items: center;
+    overflow: hidden;
 }
 
 #landing-section3 {
@@ -366,7 +367,7 @@ mark {
 
 @media screen and (max-width: 768px) {
     #section4 {
-        margin-bottom: 11rem;
+        /* margin-bottom: 11rem; */
     }
 
     .section4-main-title {
