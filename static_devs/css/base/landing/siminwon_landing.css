@@ -10,7 +10,7 @@
     font-weight: normal;
 }
 
-.landing-wrapper {
+.siminwon-landing-wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -20,7 +20,7 @@
     width: 990px;
 }
 @media screen and (max-width: 768px) {
-    .landing-wrapper {
+    .siminwon-landing-wrapper {
         width: 100%;
         display: flex;
         justify-content: center;
@@ -32,7 +32,7 @@
 
 /* header */
 
-#landing-header {
+#siminwon-landing-header {
     background-color: #eeebe9;
     align-items: center;
 }
@@ -116,7 +116,7 @@
 /* header mobile */
 
 @media screen and (max-width: 768px) {
-    #landing-header {
+    #siminwon-landing-header {
         background-color: #eeebe9;
         align-items: center;
     }
@@ -183,15 +183,15 @@
     }
 }
 
-/* section1 */
+/* siminwon-section1 */
 
-#section1 {
+#siminwon-section1 {
     background-color: #eeebe9;
     align-items: center;
     padding: 40px 0px;
 }
 
-#section1-product-content {
+#siminwon-section1-product-content {
     width: 905.9px;
     border-bottom-left-radius: 24.2px;
     border-bottom-right-radius: 24.2px;
@@ -200,7 +200,7 @@
     padding-bottom: 75px;
 }
 
-#section1-num {
+#siminwon-section1-num {
     width: 61.8px;
     height: 30.9px;
     margin: 0 0 10.6px;
@@ -211,7 +211,7 @@
     border-bottom-right-radius: 999px;
 }
 
-#section1-title {
+#siminwon-section1-title {
     font-size: 40px;
     color: #a61f30;
     font-weight: bold;
@@ -219,7 +219,7 @@
     margin-top: 40px;
 }
 
-.section1-desc {
+.siminwon-section1-desc {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -229,11 +229,11 @@
     border-top: 8px solid #a61f30;
 }
 
-.section1-desc:not(:first-child) {
+.siminwon-section1-desc:not(:first-child) {
     margin-left: 25px;
 }
 
-.section1-desc-number {
+.siminwon-section1-desc-number {
     font-family: GowunBatang;
     font-size: 30px;
     font-weight: normal;
@@ -244,7 +244,7 @@
     margin-top: 30px;
 }
 
-.section1-desc-content {
+.siminwon-section1-desc-content {
     margin: auto;
     text-align: center;
     font-size: 30px;
@@ -256,53 +256,53 @@
     color: #2a1e1b;
 }
 
-/* section1-mobile */
+/* siminwon-section1-mobile */
 @media screen and (max-width: 768px) {
-    #section1-product-content {
+    #siminwon-section1-product-content {
         width: 68%;
         padding-bottom: 2rem;
         border-bottom-left-radius: 6px;
         border-bottom-right-radius: 6px;
     }
-    #section1-num {
+    #siminwon-section1-num {
         width: 4rem;
         height: 2rem;
         font-size: 1.3rem;
     }
 
-    #section1-title {
+    #siminwon-section1-title {
         font-size: 1.2rem;
         margin-top: 1rem;
         margin-bottom: 1.4rem;
     }
 
-    .section1-desc {
+    .siminwon-section1-desc {
         width: 70px;
         height: 78px;
         border-top: 2px solid #a61f30;
     }
 
-    .section1-desc-number {
+    .siminwon-section1-desc-number {
         margin-top: 1rem;
         font-size: 1rem;
     }
 
-    .section1-desc-content {
+    .siminwon-section1-desc-content {
         font-size: 1rem;
     }
 
-    .section1-desc:not(:first-child) {
+    .siminwon-section1-desc:not(:first-child) {
         margin-left: 7px;
     }
 }
 
-/* section2 */
-#section2 {
+/* siminwon-section2 */
+#siminwon-section2 {
     background-color: #eeebe9;
     align-items: center;
     padding: 40px 0px;
 }
-#section2-product-content {
+#siminwon-section2-product-content {
     width: 905.9px;
     border-top-left-radius: 24.2px;
     border-top-right-radius: 24.2px;
@@ -310,7 +310,7 @@
     margin: 0 auto;
     padding-bottom: 75px;
 }
-#section2-num {
+#siminwon-section2-num {
     width: 61.8px;
     height: 30.9px;
     margin: 0 0 10.6px;
@@ -321,12 +321,12 @@
     border-bottom-right-radius: 999px;
 }
 
-#section2-title-wrap #section2-title {
+#siminwon-section2-title-wrap #siminwon-section2-title {
     font-size: 35px;
     color: #382925;
     font-weight: bold;
 }
-#section2-title-wrap #section2-subtitle {
+#siminwon-section2-title-wrap #siminwon-section2-subtitle {
     font-size: 40px;
     color: #a61f30;
     font-weight: bold;
@@ -383,7 +383,7 @@
     padding: 0.2rem 0.8rem 0.2rem 0.6rem;
     width: fit-content;
 }
-#section2-farmer-content {
+#siminwon-section2-farmer-content {
     width: 666px;
     margin: 50px auto 10px;
 }
@@ -418,22 +418,22 @@
     font-size: 26px;
 }
 
-/* section2-mobile */
+/* siminwon-section2-mobile */
 @media screen and (max-width: 768px) {
-    #section2-product-content {
+    #siminwon-section2-product-content {
         width: 68%;
         padding-bottom: 1rem;
     }
-    #section2-num {
+    #siminwon-section2-num {
         width: 4rem;
         height: 2rem;
         font-size: 1.3rem;
     }
-    #section2-title-wrap #section2-title {
+    #siminwon-section2-title-wrap #siminwon-section2-title {
         font-size: 10px;
         margin-bottom: 0.5rem;
     }
-    #section2-title-wrap #section2-subtitle {
+    #siminwon-section2-title-wrap #siminwon-section2-subtitle {
         font-size: 12px;
         margin-bottom: 2rem;
     }
@@ -478,7 +478,7 @@
     .normal_tag {
         width: 100%;
     }
-    #section2-farmer-content {
+    #siminwon-section2-farmer-content {
         width: 68%;
         justify-content: center;
         margin: 2.5rem auto 1rem;
