@@ -15,13 +15,13 @@ class Farmer(models.Model):
         upload_to="farmer_profile/%Y/%m/%d/",
         null=True,
         blank=True,
-        default="..{}images/farm/farmer_default.svg".format(base.STATIC_URL),
+        default="farmer_default.svg",
     )  # 농장주 사진 default icon 설정
     farm_profile = CompressedImageField(
         upload_to="farm_profile/%Y/%m/%d/",
         null=True,
         blank=True,
-        default="..{}images/farm/farm_default.svg".format(base.STATIC_URL),
+        default="farm_default.svg",
     )  # 농장 대표사진 or 로고
     profile_title = models.CharField(max_length=200)  # 농가 한 줄 소개
     farm_desc = CompressedImageField(
