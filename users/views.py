@@ -478,7 +478,7 @@ def phoneNumberValidation(request):
                 userAuth.update_at = timezone.localtime()
                 userAuth.save()
                 print("send kakaomessage", auth_num)
-                # send_kakao_message(target, templateIdList["signup"], message)
+                send_kakao_message(target, templateIdList["signup"], message)
             else:
                 pass
         except PhoneNumberAuth.DoesNotExist:  # 신규발급
@@ -488,7 +488,7 @@ def phoneNumberValidation(request):
                 phone_num=target, auth_num=auth_num
             )
             print("send kakaomessage", auth_num)
-            # send_kakao_message(target, templateIdList["signup"], message)
+            send_kakao_message(target, templateIdList["signup"], message)
 
     ctx = {"target": target, "isValid": isValid}
     return JsonResponse(ctx)
