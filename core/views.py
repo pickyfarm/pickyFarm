@@ -58,5 +58,9 @@ def disclaimer(request):
     return render(request, "base/disclaimer.html")
 
 
+def personal_info_usage(request):
+    return render(request, "users/signup/personal_info_popup.html")
+
+
 class PopupCallback(TemplateView):
     template_name = "base/popup_callback.html"

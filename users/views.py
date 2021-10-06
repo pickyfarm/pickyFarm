@@ -315,7 +315,7 @@ def log_out(request):
 
 def kakao_login(request):
     REST_API_KEY = os.environ.get("KAKAO_KEY")
-    REDIRECT_URI = "http://127.0.0.1:8000/user/login/kakao/callback"
+    REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
 
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code"
@@ -325,7 +325,7 @@ def kakao_login(request):
 def kakao_callback(request):
     REST_API_KEY = os.environ.get("KAKAO_KEY")
     print()
-    REDIRECT_URI = "http://127.0.0.1:8000/user/login/kakao/callback"
+    REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
 
     try:
         code = request.GET.get("code")
