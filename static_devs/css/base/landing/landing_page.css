@@ -367,7 +367,7 @@ mark {
 
 @media screen and (max-width: 768px) {
     #section4 {
-        /* margin-bottom: 11rem; */
+        padding-bottom: 11rem;
     }
 
     .section4-main-title {

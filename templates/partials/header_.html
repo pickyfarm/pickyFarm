@@ -24,7 +24,12 @@
                     </li>
                     {% endif %}
                     <li class="text-center"><a href="#" id="header-service-center">고객센터</a></li>
+                    {% if user.is_authenticated == True %}
                     <li class="text-center"><a href="{% url 'users:mypage' 'orders' %}" id="header-mypage">my page</a></li>
+                    {% endif %}
+                    {% if user.farmer %}
+                    <li class="text-center"><a href="{% url 'farmer:farmer_mypage_order' %}" id="farmer-header-mypage">farmer my page</a></li>
+                    {% endif %}
                     <li class="text-center"><a href="{% url 'users:mypage' 'cart' %}" id="header-cart"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
                     </li>
                 </ul>
