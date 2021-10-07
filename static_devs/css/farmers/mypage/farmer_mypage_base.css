@@ -61,9 +61,6 @@
 }
 
 #farm-news-update-button {
-    /* to be deleted */
-    display: none;
-
     width: 32px;
     height: 14.6px;
     border-radius: 13px;

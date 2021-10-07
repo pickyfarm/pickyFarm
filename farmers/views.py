@@ -764,7 +764,7 @@ class FarmerMyPageInfoManage(TemplateView):
 def farm_news_update(request):
     if request.is_ajax():
         farmer = Farmer.objects.get(user=request.user)
-        farm_news_content = request.POST.get("content")
+        farm_news_content = request.POST.get("farm_news")
 
         farmer.farm_news = farm_news_content
         farmer.save()
