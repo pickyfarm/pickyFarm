@@ -3,7 +3,7 @@ $('#nickname-check').click(function (e) {
     let url = $(this).attr('name');
     const messageContainer = document.querySelector('#nickname-valid');
 
-    if (target == '') {
+    if (target == '' || target.replace(/ /g, '') === '') {
         messageContainer.innerHTML = '✕ 닉네임을 입력해주세요.';
         messageContainer.classList.toggle(
             'invalid-form',
@@ -41,7 +41,7 @@ $('#id-check').click(function () {
     let url = $(this).attr('name');
     const messageContainer = document.querySelector('#id-valid');
 
-    if (target == '') {
+    if (target == '' || target.replace(/ /g, '') === '') {
         messageContainer.innerHTML = '✕ ID를 입력해주세요.';
         messageContainer.classList.toggle(
             'invalid-form',
