@@ -1,0 +1,123 @@
+.input_forms {
+    grid-template-columns: 302.5px 300px 217.5px;
+    row-gap: 40px;
+    margin-bottom: 38px;
+}
+
+#farmer-form-wrapper {
+    width: 740px;
+}
+
+#title-wrap {
+    width: 840px;
+}
+
+#title {
+    font-size: 30px;
+    font-weight: 500;
+    color: #5c6754;
+    margin-bottom: 102px;
+}
+
+#farm {
+    line-height: 37px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #707070;
+    margin-right: 22.8px;
+}
+
+#title-farm-name {
+    font-size: 25px;
+    font-weight: 500;
+    color: #5c6754;
+    margin-right: 14.6px;
+}
+
+#title-line {
+    flex-grow: 1;
+    height: 18px;
+    border-bottom: solid 1px rgba(94, 102, 86, 0.5);
+}
+
+#farm_img_label,
+#farmer_img_label {
+    font-size: 15px;
+    text-align: left;
+}
+
+#farm_img_desc,
+#farmer_img_desc {
+    font-size: 15px;
+    text-align: left;
+    color: #4d4d4d;
+}
+
+#id_farm_cat {
+    width: 436px;
+}
+
+#update-btn {
+    font-size: 34px;
+    font-weight: 500;
+    color: #5c6754;
+}
+
+[contenteditable] {
+    padding: 12px;
+}
+
+[data-placeholder]:empty:before {
+    content: attr(data-placeholder);
+    color: rgba(92, 103, 84, 0.5);
+}
+
+/* sample farmer's page section */
+#sample_wrap {
+    height: 557px;
+    background-color: #e9e9e9;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
+    overflow-y: scroll;
+}
+
+#sample_farm_name,
+#sample_farmer_name,
+#sample_profile_title,
+#sample_farm_news,
+#d_quotes {
+    color: #5e6656;
+}
+#sample_farm_name {
+    max-width: 230px;
+    height: 37px;
+    overflow: hidden;
+    padding-right: 13px;
+    margin-right: 18px;
+    border-right: solid 0.5px rgba(112, 112, 112, 0.5);
+}
+#sample_farm_news {
+    max-width: 415px;
+    overflow: hidden;
+}
+#farm_wrap {
+    height: 37px;
+}
+#profile_title_wrap {
+    max-width: 320px;
+    max-height: 52px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    #title {
+        margin: 10rem auto 1rem;
+        font-size: 2rem;
+    }
+
+    #title-line {
+        display: none;
+    }
+    #title-wrap {
+        width: 100%;
+    }
+}
