@@ -82,7 +82,7 @@
         <a href="{% url 'products:store_list' %}">
             <div id="continue_shop">쇼핑 계속하기</div>
         </a>
-        <a>
+        <a id="order_now_a">
             <div id="order_now">주문하기</div>
         </a>
     </div>
@@ -98,7 +98,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
 
-    document.querySelector('#order_now').addEventListener('click', prohibitInappBrowser)
+    document.querySelector('#order_now_a').addEventListener('click', prohibitInappBrowser)
 
     let menuBtns = []
     menuBtns.push(document.getElementById('menu_boughts'))

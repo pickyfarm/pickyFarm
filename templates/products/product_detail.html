@@ -165,7 +165,6 @@
 
 
 <script>
-    document.querySelector('#purchase').addEventListener('click', prohibitInappBrowser)
 
     let plusBtn = document.getElementById('plus_btn')
     let minusBtn = document.getElementById('minus_btn')
@@ -275,6 +274,18 @@
 
     let purchaseBtn = document.getElementById("purchase")
     purchaseBtn.addEventListener('click', function () {
+        if (
+            navigator.userAgent.match(
+                /inapp|NAVER|KAKAOTALK|Snapchat|Line|WirtschaftsWoche|Thunderbird|Instagram|everytimeApp|WhatsApp|Electron|wadiz|AliApp|zumapp|iPhone(.*)Whale|Android(.*)Whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS/i
+            )
+        ) {
+            alert(
+                '핸드폰 기본 브라우저를 이용해주시기 바랍니다!\n 기본 브라우저외의 브라우저 사용 시 결제가 진행되지 않을 수 있습니다.'
+            );
+
+            return;
+        }
+
         let pk = this.getAttribute("name")
         let quantity = parseInt(document.getElementById("quantity_number").innerHTML)
         console.log(pk)
