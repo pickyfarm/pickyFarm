@@ -113,6 +113,8 @@ $('#email-check').click(function () {
 
 // 전화번호 확인
 
+let countInterval = null;
+
 function paddedFormat(num) {
     return num < 10 ? '0' + num : num;
 }
@@ -122,7 +124,9 @@ function startCountDown(duration, element) {
     let min = 0;
     let sec = 0;
 
-    let countInterval = setInterval(function () {
+    countInterval && clearInterval(countInterval); // reset timer before starts countdown
+
+    countInterval = setInterval(function () {
         min = parseInt(secondsRemaining / 60);
         sec = parseInt(secondsRemaining % 60);
 
