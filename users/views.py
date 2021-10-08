@@ -1032,7 +1032,7 @@ class ProductCommentCreate(TemplateView):
     def post(self, request, **kwargs):
         detail = self.get_context_data(**kwargs)["detail"]
         product_comment = ProductCommentForm(request.POST, request.FILES)
-        consumer = Consumer.objects.get(pk=self.request.user.pk)
+        consumer = Consumer.objects.get(pk=self.request.user.consumer.pk)
         product_eixst = Product_Comment.objects.filter(
             product=detail.product, consumer=consumer
         ).exists()
@@ -1057,11 +1057,21 @@ class ProductCommentCreate(TemplateView):
 
             # Product_Comment_Image
             product_comment_imgs = request.POST.getlist("product_image")
-            for img in product_comment_imgs:
-                images = Product_Comment_Image.objects.create(
-                    product_comment=product_comment, image=img
-                )
-                images.save()
+
+            imgs_len = len(product_comment_imgs)
+            
+            print(f"[POST] product comment imgs len : {imgs_len}")
+            print(product_comment_imgs)
+
+            if imgs_len == 1 and product_comment_imgs[0] == '':
+                img_valid = False
+
+            if img_valid == True:
+                for img in product_comment_imgs:
+                    images = Product_Comment_Image.objects.create(
+                        product_comment=product_comment, image=img
+                    )
+                    images.save()
 
             # freshness
             if product_comment.freshness == 1:
