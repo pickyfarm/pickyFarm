@@ -263,6 +263,17 @@
 </div>
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
 <script>
+    window.onload = () => {
+        if (
+            navigator.userAgent.match(
+                /inapp|NAVER|KAKAOTALK|Snapchat|Line|WirtschaftsWoche|Thunderbird|Instagram|everytimeApp|WhatsApp|Electron|wadiz|AliApp|zumapp|iPhone(.*)Whale|Android(.*)Whale|kakaostory|band|twitter|DaumApps|DaumDevice\/mobile|FB_IAB|FB4A|FBAN|FBIOS|FBSS/i
+            )
+        ) {
+            alert(
+                '[안내]\n기본 브라우저 외에서의 결제 진행은 오류가 있을 수 있으니 피키팜 결제 완료 페이지를 반드시 확인하고 결제 종료해주세요! 결제 오류 문의 : 카카오톡 피키팜 Picky Farm'
+            );
+        }
+    }
 
     const productPrice = document.querySelector('.delivery-fee')
     let totalPrice = document.getElementById('price_text_b').innerHTML
