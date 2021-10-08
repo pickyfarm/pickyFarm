@@ -207,7 +207,6 @@
 #go-btn {
     width: 200px;
     height: 50px;
-    padding: 6.5px 54px;
     border-radius: 25px;
     background-color: #5c6754;
     letter-spacing: normal;
@@ -216,8 +215,6 @@
     font-family: NotoSansKR;
     font-size: 25px;
     font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
 }
 
