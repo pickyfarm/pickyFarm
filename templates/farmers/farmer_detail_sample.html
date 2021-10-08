@@ -3,24 +3,15 @@
     <div class="text-4xl mb-4">Farmer's Page</div>
     <div class="text-lg mb-16" id="title_text">파머의 무난이소식을 가장 먼저 받아보세요</div>
 </div>
-
+<div id="farm_img_mobile">
+    <img src="{{ farmer.farm_profile.url }}" alt="" id="farm_profile_mobile">
+    <img src="{{ farmer.farmer_profile.url }}" alt="" id="farmer_profile_mobile">
+</div>
 <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
-    
-    {% if farmer.farmer_profile %}
     <div class="default_img_1 mr-4" style="background-size: cover; background-position: center; background-image: url('{{ farmer.farmer_profile.url }}');"
     id="farmer_profile"></div>
-    {% else %}
-    <div class="default_img_1 mr-4" style="background-image: url('{% static 'images/farm/farmer_default.svg' %}');"
-    id="farmer_profile"></div>
-    {% endif %}
-    
-    {% if farmer.farm_profile %}
     <div class="default_img_2 mr-4" style="background-size: cover; background-position: center; background-image: url('{{ farmer.farm_profile.url }}');"
-    id="farmer_profile"></div>
-    {% else %}
-    <div class="default_img_2 mr-10" style="background-image: url('{% static 'images/farm/farm_default.svg' %}');"
     id="farm_profile"></div>
-    {% endif %}
 
     <div class="" style="width: 418px;">
         <div class="flex flex-row mb-3" id="tag_wrap">
@@ -34,17 +25,15 @@
             <div class="font-medium text-3xl" id="sample_farm_name">{{ farmer.farm_name }}</div>
             <div class="font-light text-xl" id="sample_farmer_name">{{ farmer.user.nickname }}</div>
         </div>
-        <div class="flex flex-row px-2" id="profile_title_wrap">
-            <div class="mr-2" id="d_quotes"> " </div>
-            <div class="font-light text-xl" id="sample_profile_title">{{farmer.profile_title}}</div>
-            <div class="ml-2" id="d_quotes"> " </div>
+        <div id="profile_title_wrap">
+            <div class="font-light text-lg" id="sample_profile_title">"{{ farmer.profile_title }}"</div>
         </div>
     </div>
     <div id="sub_btn_wrap">
-        <div class="text-lg text-center sub_wrap" id="sub_btn" name={{farmer.pk}}>구독하기</div>
+        <div class="text-lg text-center sub_wrap" id="sub_btn">구독하기</div>
     </div>
 </div>
-
+<div id="news_text_mobile">농가 News</div>
 <div class="flex flex-row items-center p-2" id="farmer_news">
     <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="mr-4" id="">
     <div class="text-2xl" id="news_text"> 농가 News </div>

@@ -3,7 +3,7 @@ $('#nickname-check').click(function (e) {
     let url = $(this).attr('name');
     const messageContainer = document.querySelector('#nickname-valid');
 
-    if (target == '') {
+    if (target == '' || target.replace(/ /g, '') === '') {
         messageContainer.innerHTML = '✕ 닉네임을 입력해주세요.';
         messageContainer.classList.toggle(
             'invalid-form',
@@ -41,7 +41,7 @@ $('#id-check').click(function () {
     let url = $(this).attr('name');
     const messageContainer = document.querySelector('#id-valid');
 
-    if (target == '') {
+    if (target == '' || target.replace(/ /g, '') === '') {
         messageContainer.innerHTML = '✕ ID를 입력해주세요.';
         messageContainer.classList.toggle(
             'invalid-form',
@@ -113,6 +113,8 @@ $('#email-check').click(function () {
 
 // 전화번호 확인
 
+let countInterval = null;
+
 function paddedFormat(num) {
     return num < 10 ? '0' + num : num;
 }
@@ -122,7 +124,9 @@ function startCountDown(duration, element) {
     let min = 0;
     let sec = 0;
 
-    let countInterval = setInterval(function () {
+    countInterval && clearInterval(countInterval); // reset timer before starts countdown
+
+    countInterval = setInterval(function () {
         min = parseInt(secondsRemaining / 60);
         sec = parseInt(secondsRemaining % 60);
 

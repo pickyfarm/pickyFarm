@@ -12,7 +12,7 @@
                     <h2 id="siminwon-section2-subtitle">가격과 품질!</h2>
                 </div>
                 <div class="" id="product-list-wrapper">
-                    <a href="">
+                    <a href="{% url 'products:product_detail' 19 %}">
                         <div class="product-wrapper">
                             <div class="product-image-wrapper">
                                 <img src="{% static 'images/landing/siminwon/apple-small.png' %}" alt="">
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="">
+                    <a href="{% url 'products:product_detail' 18 %}">
                         <div class="product-wrapper">
                             <div class="product-image-wrapper">
                                 <img src="{% static 'images/landing/siminwon/apple-small-medium.png' %}" alt="">
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="">
+                    <a href="{% url 'products:product_detail' 17 %}">
                         <div class="product-wrapper">
                             <div class="product-image-wrapper">
                                 <img src="{% static 'images/landing/siminwon/apple-medium.png' %}" alt="">
@@ -75,10 +75,10 @@
                     <h1 id="farmer-title">사과의 자연스러움을 추구하다, 시민원</h1>
                     {% if siminwon != None %}
                     <a href="{% url 'farmer:farmer_detail' siminwon.pk %}">
-                        <div class="text-center" id="farmer-homepage-btn">홈페이지 보러가기</div>
+                        <div class="text-center" id="farmer-homepage-btn">미니홈페이지 보러가기</div>
                     </a>
                     {% else %}
-                    <div class="text-center" id="farmer-homepage-btn">홈페이지 보러가기</div>
+                    <div class="text-center" id="farmer-homepage-btn">미니홈페이지 보러가기</div>
                     {% endif %}
                 </div>
             </div>

@@ -415,7 +415,7 @@
     box-shadow: 7px 7px 5px 0 rgba(0, 0, 0, 0.3);
     background-color: #4b5448;
     color: #fff;
-    font-size: 26px;
+    font-size: 22px;
 }
 
 /* siminwon-section2-mobile */
@@ -511,6 +511,6 @@
         box-shadow: 7px 7px 5px 0 rgba(0, 0, 0, 0.3);
         background-color: #4b5448;
         color: #fff;
-        font-size: 1.3rem;
+        font-size: 1rem;
     }
 }

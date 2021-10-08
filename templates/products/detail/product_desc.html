@@ -31,7 +31,7 @@
         {% endif %}
 
         <div id="farmer-site-link-wrap" class="flex justify-center items-center mx-auto">
-            <button id="farmer-site-link-button">자세한 내용은 농가미니홈페이지 바로가기</button>
+            <a href="{% url 'farmer:farmer_detail' farmer.pk %}" id="farmer-site-link-button">자세한 내용은 농가미니홈페이지 바로가기</a>
             {{product.desc_image.exists}}
         </div>
 

@@ -15,11 +15,6 @@ def index(request):
     except ObjectDoesNotExist:
         siminwon = None
 
-    try:
-        products = Product.objects.all(farmer=siminwon)
-    except:
-        products = None
-
     # try:
     #     products = Product.objects.filter(open=True)
 
@@ -60,7 +55,6 @@ def index(request):
         # "today_farmer_list": today_farmer_list,
         "main_slider_image": main_slider_image,
         "siminwon": siminwon,
-        "products": products,
     }
 
     return render(request, "base/landing/siminwon/siminwon_landing_page.html", ctx)

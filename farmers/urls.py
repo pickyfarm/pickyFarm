@@ -30,6 +30,7 @@ urlpatterns = [
         views.FarmerMyPageInfoManage.as_view(),
         name="farmer_mypage_info_update",
     ),
+    path("mypage/info/farm_news/", views.farm_news_update, name="farm_news_update"),
     path(
         "mypage/products/",
         views.FarmerMyPageProductManage.as_view(),

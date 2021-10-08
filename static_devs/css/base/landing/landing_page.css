@@ -367,7 +367,7 @@ mark {
 
 @media screen and (max-width: 768px) {
     #section4 {
-        /* margin-bottom: 11rem; */
+        /* padding-bottom: 11rem; */
     }
 
     .section4-main-title {
@@ -405,6 +405,7 @@ mark {
         order: 3;
         display: flex;
         flex-direction: column;
+        height: fit-content;
     }
     #section4-desc {
         font-size: 1.6rem;
