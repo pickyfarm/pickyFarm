@@ -35,6 +35,18 @@ def send_kakao_message(
     sendMany(data)
 
 
+def send_sms(phonenum, authnum):
+    phonenum = re.sub(r"[^0-9]", "", phonenum)
+    data = {
+        "message": {
+            "to": phonenum,
+            "from": "01033688026",
+            "text": f"인증번호 {authnum}\n까다롭게 선택하다: 피키팜 Picky Farm",
+        }
+    }
+    sendOne(data)
+
+
 data = {
     "messages": [
         # 변수가 있는 경우
@@ -66,4 +78,4 @@ def message_test(request):
     res = sendMany(data)
     print(res)
     print(json.dumps(res.json(), indent=2, ensure_ascii=False))
-    return HttpResponse("알림톡 발송 테스트", status=400)
+    return HttpResponse("문자 발송 테스트", status=400)
