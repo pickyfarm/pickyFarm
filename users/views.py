@@ -1025,7 +1025,7 @@ class ProductCommentCreate(TemplateView):
         # 검증
         if order_consumer.pk != consumer.pk:
             print("[PRODUCT COMMENT GET] 올바르지 않은 사용자")
-            return redirect("core:main")
+            return redirect(reverse("core:main"))
         form = ProductCommentForm()
         context["detail"] = detail
         context["form"] = form
@@ -1110,7 +1110,7 @@ class ProductCommentCreate(TemplateView):
             )
             print("[PRODUCT COMMENT POST] Post view 마지막")
             return redirect(reverse("products:product_detail", kwargs={"pk": product_pk}))
-        return redirect("core:popup_callback")
+        return redirect(reverse("core:popup_callback"))
 
 
 def product_refund(request):
