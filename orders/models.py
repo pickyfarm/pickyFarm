@@ -71,7 +71,12 @@ class Order_Detail(models.Model):
         ("error_price_match", "결제오류(총가격 불일치)"),
     )
 
-    PAYMENT_STATUS = (("incoming", "정산예정"), ("progress", "정산 진행"), ("done", "정산 완료"))
+    PAYMENT_STATUS = (
+        ("none", "결제 이전"),
+        ("incoming", "정산예정"),
+        ("progress", "정산 진행"),
+        ("done", "정산 완료"),
+    )
 
     COMPANY = (
         ("CJ", "CJ대한통운"),
@@ -90,7 +95,7 @@ class Order_Detail(models.Model):
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait")
     payment_status = models.CharField(
-        max_length=10, choices=PAYMENT_STATUS, default="incoming"
+        max_length=10, choices=PAYMENT_STATUS, default="none"
     )
     order_management_number = models.CharField(max_length=1000, null=True, blank=True)
 

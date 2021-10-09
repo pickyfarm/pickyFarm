@@ -562,9 +562,11 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
     template_name = "farmers/mypage/payment/farmer_mypage_payment.html"
 
     def get_queryset(self):
-        qs = Order_Detail.objects.filter(
-            product__farmer=self.request.user.farmer
-        ).order_by("create_at")
+        qs = (
+            Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+            .exclude(payment_status="none")
+            .order_by("create_at")
+        )
         status = self.request.GET.get("status", None)
         q = self.request.GET.get("q", None)
         search_key = self.request.GET.get("searchKey", None)
@@ -593,7 +595,10 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        qs = Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
+        qs = Order_Detail.objects.filter(
+            product__farmer=self.request.user.farmer
+        ).exclude(payment_status="none")
+        context["overall"] = qs.count()
         context["incoming"] = qs.filter(payment_status="incoming").count()
         context["progress"] = qs.filter(payment_status="progress").count()
         context["done"] = qs.filter(payment_status="done").count()

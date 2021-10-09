@@ -614,6 +614,7 @@ def payment_valid(request):
                         product.sold(detail.quantity)
                         # order_detail status - payment_complete로 변경
                         detail.status = "payment_complete"
+                        detail.payment_status = "incoming"  # 정산상태 정산예정으로 변경
                         detail.product.save()
                         detail.save()
 

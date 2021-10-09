@@ -17,7 +17,7 @@
             <div class="sheet-data-text product-name">{{order.product.title}}</div>
             <div class="sheet-data-text order-quantity">{{order.quantity}}</div>
             <div class="sheet-data-text order-total-price">{{order.total_price | intcomma}}</div>
-            <div class="sheet-data-text commission">면제</div>
+            <div class="sheet-data-text commission">{% widthratio order.total_price 100 7 as commission %} {{commission | intcomma}}</div>
             <div class="sheet-data-text account">account-account</div>
         </div>
         {% endfor %}

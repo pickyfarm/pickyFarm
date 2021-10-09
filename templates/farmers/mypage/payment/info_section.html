@@ -4,7 +4,7 @@
     <div class="payment-status-info-section flex mx-auto">
         <a href='?status=' class="payment-status-circle flex flex-col items-center justify-center {% if not status%} selected {% endif %}">
             <div class="payment-status-title">전체 정산</div>
-            <div class="payment-status-count">{{orders.count}}</div>
+            <div class="payment-status-count">{{overall}}</div>
         </a>
         <a href='?status=incoming' class="payment-status-circle flex flex-col items-center justify-center {% if status == 'incoming' %} selected {% endif %}">
             <div class="payment-status-title">정산 예정</div>
