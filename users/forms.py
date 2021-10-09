@@ -18,6 +18,7 @@ class LoginForm(forms.Form):
         label="비밀번호", widget=forms.PasswordInput(attrs={"placeholder": "비밀번호를 입력해주세요"})
     )
 
+
     def clean(self):
         username = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
@@ -29,6 +30,8 @@ class LoginForm(forms.Form):
                 raise models.User.DoesNotExist
         except models.User.DoesNotExist:
             raise ValidationError("가입하지 않은 ID거나 비밀번호가 틀렸습니다.")
+
+    
 
 
 GENDER_CHOICES = {
