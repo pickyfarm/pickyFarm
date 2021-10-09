@@ -1024,7 +1024,7 @@ class ProductCommentCreate(TemplateView):
         # 검증
         if order_consumer != consumer:
             print("[PRODUCT COMMENT GET] 올바르지 않은 사용자")
-            return redirect("core:main")
+            return redirect(reverse("core:main"))
         form = ProductCommentForm()
         context["detail"] = detail
         context["form"] = form
