@@ -1059,13 +1059,9 @@ class ProductCommentCreate(TemplateView):
 
             # Product_Comment_Image
             product_comment_imgs = request.POST.getlist("product_image")
-
-            imgs_len = len(product_comment_imgs)
-
-            print(f"[POST] product comment imgs len : {imgs_len}")
-            print(product_comment_imgs)
             img_valid = True
-            if imgs_len == 1 and product_comment_imgs[0] == "":
+
+            if len(product_comment_imgs) == 1 and product_comment_imgs[0] == "":
                 img_valid = False
 
             if img_valid == True:

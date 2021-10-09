@@ -51,13 +51,12 @@
                                 </div>
                                 <div class="img-ps">*사유와 연관된 사진이 있다면 첨부해주세요</div>
                                 <div class="add-file-box">
-                                    <input type="file" name="product_image" class="add-file">
+                                    <input type="file" name="product_image" class="add-file" multiple="multiple">
                                 </div>
                             </div >
                             <div class="refund-reason-title">배송 / 회수 정보</div>
                             <div class="retrieve-subtitle">*회수 주소지</div>
                                 <div class="retrieve-box">
-                                    <!-- 임시 radio / 탬플릿 언어 for로 해야함 / forloop.counter로 id 구분 주었음 : label 과의 상호작용 -->
                                     {% for address in addresses %}
                                     <div class="address-box">
                                             <div class="address-subbox">
