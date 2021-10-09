@@ -104,7 +104,8 @@
 
         {% if detail.status == 'delivery_complete' %}
         {% if detail.product.product_comments.exists == False %}
-        <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})>
+        <!-- <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> -->
+        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
           <a>
             리뷰 쓰기
           </a>
@@ -112,7 +113,7 @@
         {% else %}
         <div id="reg-review-btn" class="transition_element">
           <a>
-            내 리뷰 보기
+            리뷰 보기
           </a>
         </div>
         {% endif %}
@@ -247,16 +248,17 @@
 
   var popupX = (document.body.offsetWidth / 2) - (375 / 2);
   var popupY = (window.screen.height / 2) - (600 / 2);
+  console.log(popupX)
+  console.log(popupY)
 
   function productCommentPopup(pk) {
-    const detailpk = parseInt(pk);
-    {% for detail in order_details %}
-    if (detailpk === {{ detail.pk }
-  }) {
-    window.open("{% url 'user:product_comment_create' detail.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
-  }
-  {% endfor %}
-  }
+      const detailpk = parseInt(pk);
+      {% for detail in order_details %}
+      if ( detailpk === {{ detail.pk }} ) {
+      window.open("{% url 'user:product_comment_create' detail.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
+      }
+      {% endfor %}
+    }
 </script>
 <script src="{% static 'js/users/mypage/user/mypage_orders.js' %}"></script>
 {% endblock content %}

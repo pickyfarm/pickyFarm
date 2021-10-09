@@ -279,14 +279,12 @@ def profileUpdate(request):
 
 
 class Login(View):
-
-
     def get(self, request):
         form = LoginForm()
-        get_next = self.request.GET.get('next', None)
+        get_next = self.request.GET.get("next", None)
         print(f"[LOGIN GET] next url : {get_next}")
         ctx = {
-            "next" : get_next,
+            "next": get_next,
             "form": form,
         }
         return render(request, "users/login.html", ctx)
@@ -295,7 +293,7 @@ class Login(View):
         form = LoginForm(request.POST)
         post_next = self.request.POST.get("next", None)
         print(f"[POST] get_next url : {post_next} / type : {type(post_next)}")
-        
+
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
@@ -308,7 +306,7 @@ class Login(View):
 
                 login(request, user=user)
 
-                if post_next != "None" :
+                if post_next != "None":
                     print("[POST] get next REDIRECT")
                     return redirect(post_next)
                 else:
@@ -1004,7 +1002,8 @@ def landing_test(request):
             }
             return JsonResponse(data)
 
-@method_decorator(login_required, name="dispatch") ##loginrequired 안들어감
+
+@method_decorator(login_required, name="dispatch")  ##loginrequired 안들어감
 class ProductCommentCreate(TemplateView):
     template_name = "users/mypage/user/product_review_popup.html"
 
@@ -1021,7 +1020,7 @@ class ProductCommentCreate(TemplateView):
         print(f"[PRODUCT COMMENT GET] 사용자 : {consumer.user.account_name}")
         detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
         order_consumer = detail.order_group.consumer
-        print(f'[PRODUCT COMMENT GET] order 사용자 : {order_consumer.user.account_name}')
+        print(f"[PRODUCT COMMENT GET] order 사용자 : {order_consumer.user.account_name}")
         # 검증
         if order_consumer.pk != consumer.pk:
             print("[PRODUCT COMMENT GET] 올바르지 않은 사용자")
@@ -1060,13 +1059,9 @@ class ProductCommentCreate(TemplateView):
 
             # Product_Comment_Image
             product_comment_imgs = request.POST.getlist("product_image")
-
-            imgs_len = len(product_comment_imgs)
-            
-            print(f"[POST] product comment imgs len : {imgs_len}")
-            print(product_comment_imgs)
             img_valid = True
-            if imgs_len == 1 and product_comment_imgs[0] == '':
+
+            if len(product_comment_imgs) == 1 and product_comment_imgs[0] == "":
                 img_valid = False
 
             if img_valid == True:
@@ -1109,8 +1104,8 @@ class ProductCommentCreate(TemplateView):
                 int(freshness), int(flavor), int(cost_performance)
             )
             print("[PRODUCT COMMENT POST] Post view 마지막")
-            return redirect(reverse("products:product_detail", kwargs={"pk": product_pk}))
-        
+            return redirect("core:popup_callback")
+
         return redirect("core:main")
 
 
