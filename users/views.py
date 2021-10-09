@@ -1033,12 +1033,13 @@ class ProductCommentCreate(TemplateView):
 
     def post(self, request, **kwargs):
         detail = self.get_context_data(**kwargs)["detail"]
+        product_pk = detail.product.pk
         product_comment = ProductCommentForm(request.POST, request.FILES)
         consumer = Consumer.objects.get(pk=self.request.user.consumer.pk)
         product_eixst = Product_Comment.objects.filter(
             product=detail.product, consumer=consumer
         ).exists()
-
+        print(f"[PRODUCT COMMENT POST] 사용자 : {consumer.user.account_name}")
         if product_comment.is_valid() and not product_eixst:
             text = product_comment.cleaned_data.get("text")
             freshness = product_comment.cleaned_data.get("freshness")
@@ -1107,7 +1108,8 @@ class ProductCommentCreate(TemplateView):
             detail.product.calculate_specific_rating(
                 int(freshness), int(flavor), int(cost_performance)
             )
-            return redirect("core:popup_callback")
+            print("[PRODUCT COMMENT POST] Post view 마지막")
+            return redirect(reverse("products:product_detail", kwargs={"pk": product_pk}))
         return redirect("core:popup_callback")
 
 
