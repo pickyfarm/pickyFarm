@@ -1065,7 +1065,7 @@ class ProductCommentCreate(TemplateView):
             
             print(f"[POST] product comment imgs len : {imgs_len}")
             print(product_comment_imgs)
-
+            img_valid = True
             if imgs_len == 1 and product_comment_imgs[0] == '':
                 img_valid = False
 
@@ -1110,7 +1110,8 @@ class ProductCommentCreate(TemplateView):
             )
             print("[PRODUCT COMMENT POST] Post view 마지막")
             return redirect(reverse("products:product_detail", kwargs={"pk": product_pk}))
-        return redirect(reverse("core:popup_callback"))
+        
+        return redirect("core:main")
 
 
 def product_refund(request):
