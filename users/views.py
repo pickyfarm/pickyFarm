@@ -1017,7 +1017,14 @@ class ProductCommentCreate(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        consumer = Consumer.objects.filter(user=self.request.user)
+
         detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+        order_consumer = detail.order_group.consumer
+        # 검증
+        if order_consumer != consumer:
+            print("[PRODUCT COMMENT GET] 올바르지 않은 사용자")
+            return redirect("core:main")
         form = ProductCommentForm()
         context["detail"] = detail
         context["form"] = form
