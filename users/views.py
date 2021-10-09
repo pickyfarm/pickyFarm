@@ -34,7 +34,7 @@ import os
 import requests
 import pprint
 import json
-from math import ceil
+from math import ceil, log
 from random import randint
 from kakaomessages.template import templateIdList
 from kakaomessages.views import send_kakao_message, send_sms
@@ -279,15 +279,23 @@ def profileUpdate(request):
 
 
 class Login(View):
+
+
     def get(self, request):
         form = LoginForm()
+        get_next = self.request.GET.get('next', None)
+        print(f"[LOGIN GET] next url : {get_next}")
         ctx = {
+            "next" : get_next,
             "form": form,
         }
         return render(request, "users/login.html", ctx)
 
     def post(self, request):
         form = LoginForm(request.POST)
+        post_next = self.request.POST.get("next", None)
+        print(f"[POST] get_next url : {post_next} / type : {type(post_next)}")
+        
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
@@ -299,7 +307,12 @@ class Login(View):
                     base.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
                 login(request, user=user)
-                return redirect(reverse("core:main"))
+
+                if post_next != "None" :
+                    print("[POST] get next REDIRECT")
+                    return redirect(post_next)
+                else:
+                    return redirect(reverse("core:main"))
         ctx = {
             "form": form,
         }
@@ -991,12 +1004,13 @@ def landing_test(request):
             }
             return JsonResponse(data)
 
-
+@method_decorator(login_required, name="dispatch") ##loginrequired 안들어감
 class ProductCommentCreate(TemplateView):
     template_name = "users/mypage/user/product_review_popup.html"
 
     def render_to_response(self, context, **response_kwargs):
         if not Consumer.objects.filter(user=self.request.user).exists():
+            print("[GET] consumer has no user")
             return redirect(reverse("core:main"))
         else:
             return super().render_to_response(context, **response_kwargs)
