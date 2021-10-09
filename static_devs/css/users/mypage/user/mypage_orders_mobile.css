@@ -21,6 +21,7 @@
     #content {
         display: flex;
         flex-wrap: wrap;
+        margin-top: 2rem;
     }
 
     /* before make orders */
@@ -191,6 +192,9 @@
         align-items: flex-end;
         flex-direction: row;
         justify-content: space-between;
+    }
+    #other-button-section {
+        flex-direction: row;
     }
     #see-product-btn,
     #reg-review-btn,
