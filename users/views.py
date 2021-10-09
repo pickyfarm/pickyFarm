@@ -1017,7 +1017,7 @@ class ProductCommentCreate(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        consumer = Consumer.objects.filter(user=self.request.user)
+        consumer = Consumer.objects.get(user=self.request.user)
 
         detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
         order_consumer = detail.order_group.consumer
