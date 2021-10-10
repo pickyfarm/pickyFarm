@@ -1018,7 +1018,10 @@ class ProductCommentCreate(TemplateView):
         context = super().get_context_data(**kwargs)
         consumer = Consumer.objects.get(user=self.request.user)
         print(f"[PRODUCT COMMENT GET] 사용자 : {consumer.user.account_name}")
+        orderpk = self.kwargs["orderpk"]
+        print(f"[PRODUCT COMMENT GET] orderpk : {orderpk}")
         detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+        print(f"[PRODUCT COMMENT GET] Order Detail : {detail}")
         order_consumer = detail.order_group.consumer
         print(f"[PRODUCT COMMENT GET] order 사용자 : {order_consumer.user.account_name}")
         # 검증
@@ -1026,8 +1029,10 @@ class ProductCommentCreate(TemplateView):
             print("[PRODUCT COMMENT GET] 올바르지 않은 사용자")
             return redirect(reverse("core:main"))
         form = ProductCommentForm()
+        print("[PRODUCT COMMENT GET] form")
         context["detail"] = detail
         context["form"] = form
+        print("[PRODUCT COMMENT GET] return 직전")
         return context
 
     def post(self, request, **kwargs):
