@@ -71,7 +71,7 @@
 						</div>
 					</div>
 				</div>
-				<form action="{% url 'users:product_comment_create' detail.pk %}" method="post" id="product-review-form">
+				<form action="{% url 'users:product_comment_create' detail.pk %}" method="post" id="product-review-form" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div class="refund-main-content-wrap">
 						<div class="review-reason-wrap">
