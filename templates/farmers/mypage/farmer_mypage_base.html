@@ -62,21 +62,21 @@
                     <div class="info-detail flex justify-between items-center" id="new-orders">
                         <span class="info-detail-title">신규주문</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            0
+                            {{new_orders.count}}
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center">
                         <span class="info-detail-title">배송 준비중</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            0
+                            {{preparing_orders.count}}
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center">
                         <span class="info-detail-title">배송중</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            0
+                            {{shipping_orders.count}}
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
@@ -90,7 +90,7 @@
                     <div class="info-detail flex justify-between items-center">
                         <span class="info-detail-title">배송완료</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            0
+                            {{delivered_orders.count}}
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
