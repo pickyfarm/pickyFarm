@@ -1171,6 +1171,8 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         except ObjectDoesNotExist:
             redirect("core:main")
 
+        context["delivery_company"] = self.request.user.farmer.delivery_service_company
+        print(self.request.user.farmer.delivery_service_company)
         return context
 
     def post(self, request, **kwargs):

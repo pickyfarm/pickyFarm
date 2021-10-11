@@ -10,6 +10,21 @@ class Farmer(models.Model):
         ("vege", "채소"),
         ("etc", "기타"),
     )
+
+    COMPANY = (
+        ("CJ", "CJ대한통운"),
+        ("POST", "우체국택배"),
+        ("LOGEN", "로젠택배"),
+        ("KG", "KG로지스"),
+        ("ILYANG", "일양로지스"),
+        ("HYUNDAI", "현대택배"),
+        ("GTX", "GTX로지스"),
+        ("FedEx", "FedEx"),
+        ("HANJIN", "한진택배"),
+        ("KYUNG", "경동택배"),
+        ("LOTTE", "롯데택배"),
+        ("HAPDONG", "합동택배"),
+    )
     farm_name = models.CharField(max_length=50)  # 농장 이름
     farmer_profile = CompressedImageField(
         upload_to="farmer_profile/%Y/%m/%d/",
@@ -29,14 +44,21 @@ class Farmer(models.Model):
     )  # 농가 상세 소개
     sub_count = models.IntegerField(default=0)  # 구독자 수
     farm_news = models.CharField(max_length=500, null=True, blank=True)  # 농가 뉴스
-    farm_thanks_msg = models.CharField(max_length=500, null=True, blank=True)  # 농가 구매 감사 메세지
+    farm_thanks_msg = models.CharField(
+        max_length=500, null=True, blank=True
+    )  # 농가 구매 감사 메세지
     farm_cat = models.CharField(choices=CAT_CHOICES, max_length=20, default="fruit")
     contract = models.BooleanField(default=False)  # 계약서 동의 여부
     open = models.BooleanField(default=False)  # 입점 승인 여부
-    user = models.OneToOneField("users.User", related_name="farmer", on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        "users.User", related_name="farmer", on_delete=models.CASCADE
+    )
     address = models.OneToOneField(
         "addresses.Address", related_name="farmer", on_delete=models.CASCADE
     )
+    delivery_service_company = models.CharField(
+        max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
+    )  # 배송 보내는 택배회사
     shipping_description = models.CharField(max_length=100, default="")  # 배송 기간에 대한 안내
 
     # 작물 관련법상 표시사항 정보

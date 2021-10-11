@@ -110,19 +110,19 @@
                             <div class='order-cancel-invoice-place-wrap'>
                                 <label class='invoice-place-title' for="invoice-place-select">택배사</label>
                                 <select name='invoice-select' id='invoice-place-select'>
-                                    <option value='' disabled selected hidden>택배사 선택</option>
-                                    <option value="CJ">CJ대한통운</option>
-                                    <option value="POST">우체국택배</option>
-                                    <option value="LOGEN">로젠택배</option>
-                                    <option value="KG">KG로지스</option>
-                                    <option value="ILYANG">일양로지스</option>
-                                    <option value="HYUNDAI">현대택배</option>
-                                    <option value="GTX">GTX로지스</option>
-                                    <option value="FedEx">FedEx</option>
-                                    <option value="HANJIN">한진택배</option>
-                                    <option value="KYUNG">경동택배</option>
-                                    <option value="LOTTE">롯데택배</option>
-                                    <option value="HAPDONG">합동택배</option>
+                                    <option value='' disabled>택배사 선택</option>
+                                    <option {% if delivery_company == "CJ" %}selected{% endif %} value="CJ">CJ대한통운</option>
+                                    <option {% if delivery_company == "POST" %}selected{% endif %} value="POST">우체국택배</option>
+                                    <option {% if delivery_company == "LOGEN" %}selected{% endif %} value="LOGEN">로젠택배</option>
+                                    <option {% if delivery_company == "KG" %}selected{% endif %} value="KG">KG로지스</option>
+                                    <option {% if delivery_company == "ILYANG" %}selected{% endif %} value="ILYANG">일양로지스</option>
+                                    <option {% if delivery_company == "HYUNDAI" %}selected{% endif %} value="HYUNDAI">현대택배</option>
+                                    <option {% if delivery_company == "GTX" %}selected{% endif %} value="GTX">GTX로지스</option>
+                                    <option {% if delivery_company == "FedEx" %}selected{% endif %} value="FedEx">FedEx</option>
+                                    <option {% if delivery_company == "HANJIN" %}selected{% endif %} value="HANJIN">한진택배</option>
+                                    <option {% if delivery_company == "KYUNG" %}selected{% endif %} value="KYUNG">경동택배</option>
+                                    <option {% if delivery_company == "LOTTE" %}selected{% endif %} value="LOTTE">롯데택배</option>
+                                    <option {% if delivery_company == "HAPDONG" %}selected{% endif %} value="HAPDONG">합동택배</option>
                                 </select>
                                 <span class='invoice-select-arrow'>
                                     <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
