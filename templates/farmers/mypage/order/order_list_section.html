@@ -89,6 +89,6 @@
 
 <div id="paginator-wrapper" class="flex justify-center">
     {% for page_num in paginator.page_range %}
-    <a href="?page={{page_num}}" class="page-num {% if page_obj.number == page_num %} current-page {% endif %}">{{page_num}}</a>
+    <a href="?page={{page_num}}{% if q %}&q={{q}}{% endif %}{% if status %}&status={{status}}{% endif %}" class="page-num {% if page_obj.number == page_num %} current-page {% endif %}">{{page_num}}</a>
     {% endfor %}
 </div>
