@@ -68,7 +68,7 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
             user = order.order_group.consumer.user
 
             consumer_nickname = user.nickname
-            phone_number = order.order_group.rev_phone_number
+            phone_number = user.phone_number
 
             farmer = order.product.farmer
             farmer_pk = farmer.pk
