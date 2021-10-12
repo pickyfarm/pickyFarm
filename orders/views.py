@@ -746,6 +746,7 @@ def payment_valid(request):
 
 
 @login_required
+@require_POST
 @transaction.atomic
 def payment(request, pk):
     
