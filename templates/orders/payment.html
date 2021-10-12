@@ -486,6 +486,7 @@
                 'to_farm_message': toFarmMessage,
                 'payment_type': paymentType,
                 'total_price': totalPrice,
+                'receipt_id' : data[receipt_id]
             }
 
             console.log(data);
@@ -494,14 +495,14 @@
 
             $.ajax({
                 type: "POST",
-                url: "{% url 'orders:payment_update' order_group_pk %}",
+                url: "{% url 'orders:payment' order_group_pk %}",
                 data: sendData,
                 dataType: "json",
                 success: function (response) {
                     let enable = response.valid
 
                     if (enable) {
-                        BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
+                       
                     } else {
                         if (response.error_type == "error_stock") {
                             response.invalid_products.forEach(item => {

@@ -745,6 +745,41 @@ def payment_valid(request):
     return HttpResponse("잘못된 접근입니다", status=400)
 
 
+@login_required
+@transaction.atomic
+def payment(request, pk):
+    
+    """결제 전, 주문 재고 확인"""
+    """Order_Group 주문 정보 등록"""
+
+    consumer = request.user.consumer
+
+    if request.method == "POST":
+        # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
+        order_group_pk = pk
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+
+        # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
+        client_total_price = int(request.POST.get("total_price"))
+        receipt_id = request.POST.get("receipt_id")
+        print(f"[payment receipt 확인] : {receipt_id}")
+        # if order_group.total_price != client_total_price:
+        #     order_group.status = "error_price_match"
+        #     for detail in order_group.order_details:
+        #         detail.status = "error_price_match"
+        #         detail.save()
+        #     order_group.save()
+
+        res_data = {
+                "valid": False,
+                "error_type": "error_stock",
+                "invalid_products": "",
+            }
+
+        return JsonResponse(res_data)
+
+
+
 # 주문/결제 완료 프론트단을 작업하기 위한 임시 view
 # def temporary_payment_success(request):
 
@@ -825,6 +860,11 @@ def order_cancel(request, pk):
 
     else:
         return redirect(reverse("core:main"))
+
+
+
+
+
 
 
 @login_required
