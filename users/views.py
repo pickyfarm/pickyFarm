@@ -372,7 +372,7 @@ def kakao_callback(request):
         phone_number = profile.get("phone_number")
 
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=f'kakao.{email}')
             login(request, user=user)
             return redirect(reverse("core:main"))
 

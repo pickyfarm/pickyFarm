@@ -111,6 +111,9 @@
     }
     body {
         line-height: 1;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
     }
     ol,
     ul {
@@ -143,6 +146,11 @@
     .main-contents {
         width: 100vw;
         padding: 0 2.5rem;
+    }
+
+    .base-wrap {
+        height: auto;
+        flex: 1;
     }
 
     .header-pc {
