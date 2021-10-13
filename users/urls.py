@@ -12,12 +12,15 @@ urlpatterns = [
     path("login/kakao/callback", views.kakao_callback, name="kakao_login_callback"),
     path("logout/", views.log_out, name="logout"),
     path("signup/", views.SignUp.as_view(), name="signup"),
+    path("signup_kakao", views.SocialSignup.as_view(), name="kakao_signup"),
     path(
         "signup/terms_of_service",
         views.terms_of_service_popup,
         name="signup_terms_of_service",
     ),
-    path("signup/personal_info", views.personal_info_popup, name="signup_personal_info"),
+    path(
+        "signup/personal_info", views.personal_info_popup, name="signup_personal_info"
+    ),
     path("signup/id_validation/", views.idValidation, name="id_validation"),
     path(
         "signup/nickname_validation/",
@@ -64,8 +67,12 @@ urlpatterns = [
         name="editor_mypage_info",
     ),
     path("find_my_id/", views.FindMyIdView.as_view(), name="find_my_id"),
-    path("find_my_id/complete", views.FindMyIdView.as_view(), name="find_my_id_complete"),
-    path("find_my_id/failed", views.FindMyIdFailView.as_view(), name="find_my_id_failed"),
+    path(
+        "find_my_id/complete", views.FindMyIdView.as_view(), name="find_my_id_complete"
+    ),
+    path(
+        "find_my_id/failed", views.FindMyIdFailView.as_view(), name="find_my_id_failed"
+    ),
     path("cartIn/", views.CartInAjax, name="cartInAjax"),
     path("cartOut/", views.cartOutAjax, name="cartOutAjax"),
     path("subs/", views.subs, name="subs"),

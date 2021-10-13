@@ -34,6 +34,8 @@ import os
 import requests
 import pprint
 import json
+import string
+import random
 from math import ceil, log
 from random import randint
 from kakaomessages.template import templateIdList
@@ -53,7 +55,13 @@ from products.models import Category, Product
 from addresses.models import Address
 
 # forms
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
+from .forms import (
+    LoginForm,
+    SignUpForm,
+    SocialSignupForm,
+    MyPasswordResetForm,
+    FindMyIdForm,
+)
 from addresses.forms import AddressForm
 
 from kakaomessages.views import send_kakao_message
@@ -326,7 +334,7 @@ def log_out(request):
 
 def kakao_login(request):
     REST_API_KEY = os.environ.get("KAKAO_KEY")
-    REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
+    REDIRECT_URI = "http://127.0.0.1:8000/user/login/kakao/callback"
 
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code"
@@ -336,7 +344,7 @@ def kakao_login(request):
 def kakao_callback(request):
     REST_API_KEY = os.environ.get("KAKAO_KEY")
     print()
-    REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
+    REDIRECT_URI = "http://127.0.0.1:8000/user/login/kakao/callback"
 
     try:
         code = request.GET.get("code")
@@ -357,10 +365,11 @@ def kakao_callback(request):
         )
 
         profile_json = profile_request.json()
-
         profile = profile_json.get("kakao_account")
+
         email = profile.get("email")
         nickname = profile.get("profile").get("nickname")
+        phone_number = profile.get("phone_number")
 
         try:
             user = User.objects.get(email=email)
@@ -370,12 +379,74 @@ def kakao_callback(request):
         except ObjectDoesNotExist:
             pass
 
-        info = {"email": email, "nickname": nickname}
+        info = {
+            "email": email,
+            "nickname": nickname,
+            "phone_number": f'0{"".join(phone_number.split()[1].split("-"))}',
+            "username": f"kakao.{email}",
+            "account_name": nickname,
+            "password": "".join(
+                random.choices(string.ascii_uppercase + string.digits, k=15)
+            ),
+        }
 
-        return SignUp.as_view()(request, info)
+        return SocialSignup.as_view()(request, info)
 
     except KakaoException:
         return redirect("core:main")
+
+
+class SocialSignup(View):
+    def get(self, request, info=None):
+        if info is None:
+            return redirect("users:signup")
+
+        form = SocialSignupForm(info)
+        addressform = AddressForm()
+
+        ctx = {"form": form, "addressform": addressform}
+
+        return render(request, "users/signup_kakao.html", ctx)
+
+    def post(self, request):
+        form = SocialSignupForm(request.POST)
+        addressform = AddressForm(request.POST)
+        benefit_agree = True
+        kakao_farmer_agree = True
+        kakao_comment_agree = True
+
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            print(f"================{user}")
+            consumer = Consumer.objects.create(
+                user=user,
+                grade=1,
+                benefit_agree=benefit_agree,
+                kakao_farmer_agree=kakao_farmer_agree,
+                kakao_comment_agree=kakao_comment_agree,
+            )
+
+            if addressform.is_valid():
+                address = addressform.save(commit=False)
+                address.user = user
+                address.is_default = True
+                address.save()
+
+                consumer.default_address = address
+                consumer.save()
+
+            if user is not None:
+                login(request, user=user)
+                return redirect(reverse("core:main"))
+
+        ctx = {
+            "form": form,
+            "addressform": addressform,
+        }
+        return render(request, "users/signup_kakao.html", ctx)
 
 
 class SignUp(View):
