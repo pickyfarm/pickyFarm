@@ -138,6 +138,21 @@
         object-fit: cover;
     }
 
+    /* farm enroll step 3 */
+    #contract-content,
+    #contract-desc {
+        width: 100%;
+    }
+
+    #contract-announce-content {
+        font-size: 1.2rem;
+    }
+    #contract-item-title {
+        font-size: 1.3rem;
+    }
+    #contract-item-desc {
+        font-size: 1rem;
+    }
     /* submit btn */
     .submit {
         width: 8.7rem;
