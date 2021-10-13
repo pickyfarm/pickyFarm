@@ -120,10 +120,6 @@
     }
     .form-validation-message {
         font-size: 1.1rem;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
         text-align: left;
         margin-top: 0.9rem !important;
         padding-left: 0.9rem !important;
@@ -133,14 +129,11 @@
         height: 2.8rem !important;
         margin: 0 !important;
         margin-bottom: 0 !important;
-        padding: 0 1rem !important;
         border-radius: 2rem !important;
         border: solid 0.1rem var(--dark-sage) !important;
         background-color: #fff !important;
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
         font-weight: normal !important;
-        font-stretch: normal !important;
-        font-style: normal !important;
         line-height: 2.3 !important;
         letter-spacing: normal !important;
         text-align: center !important;
@@ -148,7 +141,7 @@
     }
     #phone-number-check,
     #auth-number-check {
-        width: 100% !important;
+        width: 105% !important;
     }
 
     #phone-number-valid {
@@ -203,7 +196,7 @@
     }
     #nickname-form::after {
         position: absolute;
-        bottom: -2.5rem;
+        bottom: -1.5rem;
         left: 0;
         width: 100%;
         content: '부적절한 닉네임은 제제를 받을 수 있습니다';

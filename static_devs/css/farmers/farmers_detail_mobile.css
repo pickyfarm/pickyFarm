@@ -22,8 +22,8 @@
         flex-wrap: wrap;
         padding-bottom: 20rem;
     }
-    #farmer_profile,
-    #farm_profile {
+    #farmer_info > #farmer_profile,
+    #farmer_info > #farm_profile {
         display: none;
     }
     #farm_img_mobile {
