@@ -3,7 +3,9 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll_mobile.css' %}">
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail_mobile.css' %}">
 {% endblock %}
 
 {% block title_name %}
@@ -13,7 +15,7 @@
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
     <div id='signup_form' class="mt-10 flex flex-col">
-        <div class="mx-auto font-medium text-3xl mt-6" style="color: #5c6754; margin-bottom: 63px;">입점 등록</div>
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 63px;">입점 등록</div>
         <div class="flex flex-row justify-around" id="sub_title">
             <div> 정보 입력 </div>
             <div> 계약서 작성 </div>
@@ -23,7 +25,7 @@
         </div>
         <form method="POST" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
             {% csrf_token %}
-            <div style="width:740px" class="mx-auto">
+            <div class="mx-auto" id="enroll-2-wrapper">
                 <div class="font-medium text-2xl text-left mb-16" style="color:#5c6754">농장 정보 입력</div>
                 <!--농장 이름-->
                 <div class="input_forms grid">
@@ -31,23 +33,25 @@
                     {{farm_form.farm_name}}
                 </div>
                 <!--프로필 사진 & 농장 사진-->
-                <div class="flex flex-row mb-11 items-center">
-                    <div class='flex flex-col'>
-                        <div id="img_label" style="font-size: 15px;">{{farm_form.farmer_profile.label_tag}}</div>
-                        <div class="mb-5" id="img_desc" style="font-size: 12px;">농부님의 사진을 올려주세요</div>
-                        <div class="filebox">
-                            <div class="default_img_1 mb-4 mx-auto" style="background-image: url('{% static 'images/farm/farmer_default.svg' %}');"></div>
-                            <label for="id_farmer_profile">업로드</label>
-                            {{farm_form.farmer_profile}}
+                <div class="flex flex-row mb-11 items-center" id="image-upload-wrapper">
+                    <div class="flex flex-row">
+                        <div class='flex flex-col' id="farmer-profile-upload-wrapper">
+                            <div id="img_label">{{farm_form.farmer_profile.label_tag}}</div>
+                            <div class="mb-5" id="img_desc">농부님의 사진을 올려주세요</div>
+                            <div class="filebox">
+                                <div class="default_img_1 mb-4 mx-auto" style="background-image: url('{% static 'images/farm/farmer_default.svg' %}');"></div>
+                                <label for="id_farmer_profile">업로드</label>
+                                {{farm_form.farmer_profile}}
+                            </div>
                         </div>
-                    </div>
-                    <div class='flex flex-col'>
-                        <div id="img_label" style="font-size: 15px;">{{farm_form.farm_profile.label_tag}}</div>
-                        <div class="mb-5" id="img_desc" style="font-size: 12px;">농장로고나 대표사진을 올려주세요</div>
-                        <div class="filebox">
-                            <div class="default_img_2 mb-4 mx-auto" style="background-image: url('{% static 'images/farm/farm_default.svg' %}');"></div>
-                            <label for="id_farm_profile">업로드</label>
-                            {{farm_form.farm_profile}}
+                        <div class='flex flex-col' id="farm-profile-upload-wrapper">
+                            <div id="img_label">{{farm_form.farm_profile.label_tag}}</div>
+                            <div class="mb-5" id="img_desc">농장로고나 대표사진을 올려주세요</div>
+                            <div class="filebox">
+                                <div class="default_img_2 mb-4 mx-auto" style="background-image: url('{% static 'images/farm/farm_default.svg' %}');"></div>
+                                <label for="id_farm_profile">업로드</label>
+                                {{farm_form.farm_profile}}
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col">
@@ -78,14 +82,16 @@
                     {{farm_form.farm_news}}
                 </div>
                 <!--해시 태그-->
-                <div class="flex flex-row">
+                <div class="flex flex-row" id="hashtag-upload-wrapper">
                     <div class="flex flex-col">
-                        <div class="mr-6" id="cat_label" style="font-size: 15px; margin-bottom: 6px;">
+                        <div class="mr-6" id="cat_label">
                             {{farm_form.farm_cat.label_tag}}</div>
-                        <div class="text-left" style="font-size: 12px; color: #b3b3b3; margin-left: 60.5px;">* 최대 3개 입력
+                        <div class="text-left" id="hashtag-desc">* 최대 3개 입력
                             가능합니다</div>
                     </div>
-                    {{farm_form.farm_cat}}
+                    <div>
+                        {{farm_form.farm_cat}}
+                    </div>
                 </div>
                 <div class="flex gap-4" id="hashtag_wrap">
                     <div class="hashtag-input-wrap flex flex-row">
@@ -102,7 +108,7 @@
                     </div>
                     <input type="hidden" name="farm_tag[]" id="hashtag_list" value=''>
                 </div>
-                <div class="line mx-auto mb-14" style="margin-top: 35px;"></div>
+                <div class="horizon-bar" style="margin-bottom: 35px;"></div>
                 <div class="font-medium text-2xl text-left mb-20" style="color:#5c6754;">나의 농가페이지 미리보기</div>
             </div>
             <div class="p-4" id="sample_wrap">
@@ -114,7 +120,7 @@
 </div>
 <style>
     .input_forms {
-    grid-template-columns: 302.5px 300px 217.5px;
+    grid-template-columns: 300px auto;
     row-gap: 40px;
     margin-bottom: 38px;
 }

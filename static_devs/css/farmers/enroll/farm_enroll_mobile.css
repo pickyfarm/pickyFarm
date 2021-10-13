@@ -1,0 +1,156 @@
+@import '/static/css/base/mobile_base_style.css';
+
+@media screen and (max-width: 768px) {
+    #signup_form {
+        width: 100%;
+        margin-top: 0;
+    }
+
+    #enroll-2-wrapper {
+        width: 100%;
+        overflow: hidden;
+        /* display: none; */
+    }
+    .input_forms {
+        width: 100%;
+        row-gap: 2rem;
+        grid-template-columns: 3fr 7fr !important;
+        align-items: flex-start;
+        margin-top: 0;
+        margin-bottom: 6rem;
+    }
+    .input_forms label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 2.5;
+        text-align: left;
+        color: #4d4d4d;
+        padding-left: 0;
+        margin-top: 0;
+    }
+    .input_forms input,
+    .input_forms textarea,
+    .input_forms select {
+        grid-column: 2;
+        width: 100% !important;
+        height: 2.8rem;
+        padding-left: 1rem;
+        font-size: 1rem;
+    }
+    .input_forms input::placeholder {
+        font-size: 1rem;
+        color: var(--brown-grey);
+    }
+    /* img upload section */
+    #image-upload-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    #image-upload-wrapper > div {
+        width: 100%;
+    }
+    #farmer-profile-upload-wrapper,
+    #farm-profile-upload-wrapper {
+        width: 50%;
+    }
+    .filebox {
+        width: 80%;
+        margin-bottom: 2rem;
+    }
+    .filebox label {
+        margin-left: 0;
+        padding: 0rem 1rem;
+        font-size: 1rem;
+    }
+
+    #img_desc,
+    #img_label {
+        margin-left: 0;
+        font-size: 1rem !important;
+    }
+    #image-upload-wrapper .default_img_1,
+    #image-upload-wrapper .default_img_2 {
+        width: 8rem;
+        height: 8rem;
+    }
+
+    #img-upload-announce {
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .horizon-bar {
+        opacity: 0.5;
+        border: solid 0.1rem var(--brown-grey);
+        margin-top: 1.45rem;
+        margin-bottom: 2rem;
+    }
+    /* hashtag section */
+    #hashtag-upload-wrapper {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    #hashtag_wrap {
+        flex-direction: column;
+        margin-left: 0rem;
+        width: 50%;
+        margin-bottom: 2.5rem;
+    }
+    #cat_label,
+    #hashtag-desc {
+        font-size: 1rem;
+        margin-left: 0;
+        margin-bottom: 0.6rem;
+    }
+    #id_farm_cat li label {
+        height: 1.8rem;
+        line-height: 1.8rem;
+    }
+    .hashtag-input-hashmark {
+        line-height: 24px;
+    }
+
+    /* farmer's page sample section */
+    #sample_wrap {
+        border: 1px solid rgb(223, 223, 223);
+    }
+    #nav_item {
+        font-size: 1rem;
+    }
+
+    #farm_img_mobile > #farm_profile {
+        height: 12rem;
+        width: 100%;
+        object-fit: cover;
+    }
+    #farm_img_mobile > #farmer_profile {
+        height: 10rem;
+        width: 10rem;
+        position: absolute;
+        top: 6rem;
+        border-radius: 50%;
+        border: 1px solid #cccccc;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        object-fit: cover;
+    }
+
+    /* submit btn */
+    .submit {
+        width: 8.7rem;
+        height: 4rem;
+        border-radius: 2rem;
+        border: solid 0.1rem #5c6456;
+        background-color: #fff;
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 1.47;
+        text-align: center;
+        color: #5c6456;
+        margin-top: 2rem;
+        margin-bottom: 6rem;
+    }
+}

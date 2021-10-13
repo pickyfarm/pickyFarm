@@ -37,8 +37,8 @@
     height: 200px;
     background-color: #f2f2f2;
 }
-#farmer_profile,
-#farm_profile {
+#farmer_info > #farmer_profile,
+#farmer_info > #farm_profile {
     width: 148px;
     height: 148px;
     border-radius: 50%;
