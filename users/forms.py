@@ -18,7 +18,6 @@ class LoginForm(forms.Form):
         label="비밀번호", widget=forms.PasswordInput(attrs={"placeholder": "비밀번호를 입력해주세요"})
     )
 
-
     def clean(self):
         username = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
@@ -30,8 +29,6 @@ class LoginForm(forms.Form):
                 raise models.User.DoesNotExist
         except models.User.DoesNotExist:
             raise ValidationError("가입하지 않은 ID거나 비밀번호가 틀렸습니다.")
-
-    
 
 
 GENDER_CHOICES = {
@@ -147,3 +144,39 @@ class MyPasswordResetForm(PasswordResetForm):
             attrs={"autocomplete": "email", "placeholder": "이메일을 입력해주세요"}
         ),
     )
+
+
+class SocialSignupForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ""
+
+    class Meta:
+        model = models.User
+        fields = (
+            "username",
+            "password",
+            "email",
+            "phone_number",
+            "account_name",
+            "nickname",
+        )
+
+        widgets = {
+            "username": forms.HiddenInput,
+            "password": forms.HiddenInput,
+            "email": forms.HiddenInput,
+            "phone_number": forms.HiddenInput,
+            "account_name": forms.TextInput(attrs={"placeholder": "이름을 입력하세요"}),
+            "nickname": forms.TextInput(attrs={"placeholder": "닉네임을 입력하세요"}),
+        }
+
+        labels = {"account_name": "이름", "nickname": "닉네임"}
+
+    def save(self):
+        user = models.User.objects.create_user(**self.cleaned_data)
+
+        user.first_name = ""
+        user.last_name = ""
+
+        user.save()

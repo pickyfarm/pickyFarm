@@ -27,8 +27,9 @@
                     <input type="checkbox" name="auto_login" id="auto_login">
                     <label for="auto_login" style="line-height: 20px;">자동로그인</label>
                 </div>
-                <input type="hidden" name="next" value="{{next}}" >
+                <input type="hidden" name="next" value="{{next}}">
                 <button class="login-button">로그인</button>
+                <button class="login-button" onclick="location.href='/user/login/kakao'; return false"><img src="{% static 'images/user/login-with-kakao.svg' %}"></button>
             </div>
         </form>
         <div class="flex justify-between links">

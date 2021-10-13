@@ -254,7 +254,7 @@ $('.submit').click(function (event) {
         return;
     }
 
-    if ($('#nicknameValidCheck').attr('valid') == 'false') {
+    if ($('#nicknameValidCheck').attr('valid') !== 'true') {
         alert('닉네임 중복확인을 해주시기 바랍니다');
         $('#id_nickname').focus();
         event.preventDefault();
@@ -336,7 +336,7 @@ checkedTerms.forEach((item) => {
     });
 });
 
-document.querySelector('#id_password_re').addEventListener('input', (e) => {
+document.querySelector('#id_password_re')?.addEventListener('input', (e) => {
     const targetValue = document.querySelector('#id_password').value;
     const messageContainer = document.querySelector('#password-valid');
     const validCheck = document.querySelector('#password-re-valid-check');
