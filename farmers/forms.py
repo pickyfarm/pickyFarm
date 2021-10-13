@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.fields import ChoiceField
 from . import models
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
@@ -10,7 +11,6 @@ class FarmEnrollForm(forms.ModelForm):
         self.fields["farmer_profile"].required = False
         self.fields["farm_profile"].required = False
 
-
     class Meta:
         model = models.Farmer
         fields = (
@@ -21,6 +21,7 @@ class FarmEnrollForm(forms.ModelForm):
             "farm_thanks_msg",
             "farm_news",
             "farm_cat",
+            "delivery_service_company",
         )
         widgets = {
             "farm_cat": forms.RadioSelect,
@@ -28,6 +29,7 @@ class FarmEnrollForm(forms.ModelForm):
             "farm_thanks_msg": forms.Textarea(attrs={"placeholder": "결제 시 보여질 구매 감사 메세지를 작성해주세요"}),
             "farm_news": forms.Textarea(attrs={"placeholder": "소비자에게 전달 할 농가뉴스를 작성해주세요"}),
         }
+
         labels = {
             "farm_name": "농장 이름",
             "farmer_profile": "프로필 사진",
@@ -36,6 +38,7 @@ class FarmEnrollForm(forms.ModelForm):
             "farm_thanks_msg": "배송 구매 감사 메세지",
             "farm_news": "농가 뉴스",
             "farm_cat": "해시 태그 선택",
+            "delivery_service_company": "주 사용 택배사",
         }
 
 

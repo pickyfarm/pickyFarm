@@ -133,6 +133,13 @@ textarea {
     font-size: 12px;
     color: #808080;
 }
+#id_delivery_service_company {
+    width: 387.5px;
+    border-radius: 3px;
+    border: 1px solid #b3b3b3;
+    text-align: center;
+    color: #808080;
+}
 #id_farm_thanks_msg {
     width: 387.5px;
     height: 67px;
