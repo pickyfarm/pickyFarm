@@ -31,6 +31,7 @@ DATABASES = {
         "NAME": os.environ.get("RDS_SCHEMA_NAME"),
         "USER": os.environ.get("RDS_CLIENT_NAME"),
         "PASSWORD": os.environ.get("RDS_CONNECT_PW"),
+        "OPTIONS": {"charset": "utf8mb4"},
     }
 }
 
