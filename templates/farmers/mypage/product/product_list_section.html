@@ -12,20 +12,28 @@
         </div>
         {% for product in products %}
         <div class="product-list-sheet-rows grid">
+
             <div class="product-title-section flex items-center">
                 <div class="product-title">{{product.title}}</div>
                 <div class="product-sheet-bar"></div>
                 <div class="product-subtitle">{{product.sub_title}}</div>
             </div>
-            <div class="open-status">
+            <div class="product-sheet-bar-mobile"></div>
+            <div class="open-status product-data">
                 {{product.get_status_display}}
             </div>
-            <div class="stocks">{{product.stock}}</div>
-            <div class="package-unit">{{product.weight}}{{product.weight_unit}}</div>
-            <div class="sell-price">{{product.sell_price | intcomma}}</div>
-            <div class="event">{{product.is_event | yesno:'○,✕'}}</div>
-            <div class="selling-rate">{% widthratio product.sales_rate 1 100 %}%</div>
+            <div class="stocks product-data">{{product.stock}}</div>
+            <div class="package-unit product-data">{{product.weight}}{{product.weight_unit}}</div>
+            <div class="sell-price product-data">{{product.sell_price | intcomma}}</div>
+            <div class="event product-data">{{product.is_event | yesno:'○,✕'}}</div>
+            <div class="selling-rate product-data">{% widthratio product.sales_rate 1 100 %}%</div>
             {% if product.status != 'pending' %}<button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=375')">수정</button>{% endif %}
+            <div class="product-list-sheet-index-title-mobile open-status-m ">판매상태</div>
+            <div class="product-list-sheet-index-title-mobile stocks-m">재고수량</div>
+            <div class="product-list-sheet-index-title-mobile package-unit-m">포장단위</div>
+            <div class="product-list-sheet-index-title-mobile sell-price-m">판매가격</div>
+            <div class="product-list-sheet-index-title-mobile event-m">이벤트 투용여부</div>
+            <div class="product-list-sheet-index-title-mobile selling-rate-m">판매율</div>
         </div>
         {% endfor %}
     </div>
