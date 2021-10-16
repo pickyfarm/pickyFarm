@@ -34,6 +34,8 @@ class CustomOrderGroupAdmin(admin.ModelAdmin):
 class CustomOrderDetailAdmin(admin.ModelAdmin):
     list_display = (
         "status",
+        'payment_status',
+        "order_management_number",
         "product",
         "order_group",
         "delivery_service_company",
@@ -44,6 +46,10 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
         "update_at",
         "create_at",
     )
+
+    list_filter = ('status', 'payment_status', 'product')
+
+    search_fields = ['order_management_number']
 
     actions = ['order_complete']
 
