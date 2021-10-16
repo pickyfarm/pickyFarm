@@ -554,7 +554,7 @@ def phoneNumberValidation(request):
                 userAuth.update_at = timezone.localtime()
                 userAuth.save()
                 print("send sms", auth_num)
-                # send_sms(target, auth_num)
+                send_sms(target, auth_num)
                 # send_kakao_message(target, templateIdList["signup"], message)
             else:
                 pass
@@ -563,7 +563,7 @@ def phoneNumberValidation(request):
             message = {"#{인증번호}": auth_num}
             userAuth = PhoneNumberAuth.objects.create(phone_num=target, auth_num=auth_num)
             print("send sms", auth_num)
-            # send_sms(target, auth_num)
+            send_sms(target, auth_num)
             # send_kakao_message(target, templateIdList["signup"], message)
 
     ctx = {"target": target, "isValid": isValid}
