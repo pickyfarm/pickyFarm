@@ -167,7 +167,6 @@
     {% block content %} {% endblock content %}
 </div>
 <script>
-    prohibitAccessFromMobile(['#button-payment-manage'])
     const csrfToken = "{{csrf_token}}";
     const farmNewsUpdateURL = "{% url 'farmers:farm_news_update' %}"
 </script>

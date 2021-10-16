@@ -26,3 +26,9 @@ const setDateFilter = (month) => {
     startDate.value = pastDate.toISODate();
     endDate.value = today.toISODate();
 };
+
+if (window.matchMedia('(max-width: 768px)').matches) {
+    document.querySelector('#button-payment-manage').classList.add('active');
+
+    document.querySelector('#selected_line').style.gridArea = 'line3';
+}
