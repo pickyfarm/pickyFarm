@@ -24,19 +24,19 @@
     font-size: 18px;
     font-weight: 500;
     color: #707070;
-    margin-right: 22.8px;
+    /* margin-right: 22.8px; */
 }
 
 #title-farm-name {
     font-size: 25px;
     font-weight: 500;
     color: #5c6754;
-    margin-right: 14.6px;
+    /* margin-right: 14.6px; */
 }
 
 #title-line {
     flex-grow: 1;
-    height: 18px;
+    height: 5px;
     border-bottom: solid 1px rgba(94, 102, 86, 0.5);
 }
 
@@ -89,7 +89,6 @@
 }
 #sample_farm_name {
     max-width: 230px;
-    height: 37px;
     overflow: hidden;
     padding-right: 13px;
     margin-right: 18px;
@@ -113,11 +112,22 @@
         margin: 10rem auto 1rem;
         font-size: 2rem;
     }
-
     #title-line {
         display: none;
     }
     #title-wrap {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    #farmer-form-wrapper {
+        width: 100%;
+    }
+    #info-update-form {
+        width: 100%;
+        overflow: hidden;
+    }
+    #id_farm_cat {
         width: 100%;
     }
 }

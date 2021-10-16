@@ -4,8 +4,19 @@
     <div class="text-lg mb-16" id="title_text">파머의 무난이소식을 가장 먼저 받아보세요</div>
 </div>
 <div id="farm_img_mobile">
+    <!-- 농가 사진 -->
+    {% if farmer.farm_profile %}
+    <div class="default_img_2" id="farm_profile" style="background-size: cover; background-position: center; background-image: url('{{ farmer.farm_profile.url }}');">
+    </div>
+    {% else %}    
     <img class="default_img_2" id="farm_profile">
+    {% endif %}
+    <!-- 프로필 사진 -->
+    {% if farmer.farmer_profile %}
+    <div class="default_img_1" id="farmer_profile" style="background-size: cover; background-position: center; background-image: url('{{ farmer.farmer_profile.url }}');"></div>
+    {% else %}
     <img class="default_img_1" id="farmer_profile">
+    {% endif %}
 </div>
 <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
     <div class="default_img_1 mr-4" style="background-size: cover; background-position: center; background-image: url('{{ farmer.farmer_profile.url }}');"
