@@ -510,6 +510,7 @@ def payment_update(request, pk):
 @login_required
 @transaction.atomic
 def payment_fail(request):
+    print("------------PAYMENT FAIL------------")
     error_type = str(request.GET.get("errorType", None))
     # order_group_pk = request.GET.get("orderGroupPk", None)
     stock_error_msg = request.GET.get("errorMsg", None)
@@ -521,8 +522,13 @@ def payment_fail(request):
         errorMsg = "결제 검증에 오류가 있습니다. 다시 시도해주세요"
     elif error_type == "error_server":
         errorMsg = "서버에 오류가 있었습니다. 다시 시도해주세요"
+    elif error_type == "error_price_match":
+        errorMsg = "사용자 결제 금액과 결제 서버의 결제 금액이 일치하지 않습니다"
     else:
         errorMsg = "알 수 없는 오류가 있습니다. 다시 시도해주세요"
+    
+    print(f"[errorMSg] {errorMsg}")
+    
 
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
@@ -756,28 +762,153 @@ def payment(request, pk):
     consumer = request.user.consumer
 
     if request.method == "POST":
+        REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
+        PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
+
+
+        print(f"------------PAYMNET : consumer - {consumer.user.account_name}------------")
         # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
         order_group_pk = pk
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
-        # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
+        # 클라이언트단에서 넘어온 총 결제 금액
         client_total_price = int(request.POST.get("total_price"))
+        
+        # 결제를 위한 receipt_id -> 해당 receipt_id 부트페이 서버로 보낼 시, 실결제 이루어짐
         receipt_id = request.POST.get("receipt_id")
-        print(f"[payment receipt 확인] : {receipt_id}")
-        # if order_group.total_price != client_total_price:
-        #     order_group.status = "error_price_match"
-        #     for detail in order_group.order_details:
-        #         detail.status = "error_price_match"
-        #         detail.save()
-        #     order_group.save()
 
-        res_data = {
-                "valid": False,
-                "error_type": "error_stock",
-                "invalid_products": "",
-            }
 
-        return JsonResponse(res_data)
+        # [PROCESS 2-1] 클라이언트에서 보낸 total_price와 서버의 total price 비교
+        print(f"[payment receipt_id] {receipt_id}")
+
+        # db의 결제 금액과 결제 서버의 결제금액 불일치
+        if order_group.total_price != client_total_price:
+            print(f"[ERROR] error_price_match")
+            order_group.status = "error_price_match"
+            for detail in order_group.order_details:
+                detail.status = "error_price_match"
+                detail.save()
+            order_group.save()
+
+            error_type = "error_price_match"
+
+            res_data = {"valid": False, "error_type": "error_price_match"}
+            
+            # payment_fail로 redirect
+            return redirect(
+                    reverse(
+                        "orders:payment_fail",
+                        kwargs={
+                            "errorType": error_type,
+                            "orderGroupPk": order_group_pk,
+                        }
+                    )
+                )
+        
+        # [PROCESS 2-2] 부트페이 서버에 결제 검증 요청
+        bootpay_valid_server = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
+        valid_access_token = bootpay_valid_server.get_access_token()
+
+        if valid_access_token["status"] == 200:
+            verify_result = bootpay_valid_server.verify(receipt_id)
+            if verify_result["status"] == 200:
+                if (
+                    verify_result["data"]["price"] == client_total_price
+                    and verify_result["data"]["status"] == 2
+                ):
+
+
+                    # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
+                    order_details = order_group.order_details.all()
+
+                    # 모든 주문 상품 재고량 확인 태그
+                    valid = True
+                    # 재고가 부족한 상품명 리스트
+                    invalid_products = list()
+
+                    # [PROCESS 4] 결제 전 최종 재고 확인
+                    for detail in order_details:
+            
+                        if detail.product.stock - detail.quantity < 0:
+                            valid = False
+                            # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
+                            invalid_products.append(detail.product.title)
+                            print(detail.product.title + "재고 부족")
+
+                    print("[재고 valid] " + (str)(valid))
+
+                    # [PROCESS 5-1] 재고 확인 실패인 경우
+                    if valid is False:
+                        print(f"[ERROR] error_stock")
+                        order_group.status = "error_stock"
+                        for detail in order_details:
+                            detail.status = "error_stock"
+                            detail.save()
+                        order_group.save()
+                        print("[재고 부족 상품] " + (str)(invalid_products))
+
+                        error_type = "error_stock"
+            
+                        return redirect(
+                                reverse(
+                                    "orders:payment_fail",
+                                    kwargs={
+                                        "errorType": error_type,
+                                        "orderGroupPk": order_group_pk,
+                                    }
+                                )
+                            )
+                    # [PROCESS 5-2] 재고 확인 성공인 경우
+                    else:
+                        
+                        # [PROCESS 6] 주문 정보 Order_Group에 등록
+                        rev_name = request.POST.get("rev_name")
+                        rev_phone_number = request.POST.get("rev_phone_number")
+                        rev_address = request.POST.get("rev_address")
+                        rev_loc_at = request.POST.get("rev_loc_at")
+                        rev_message = request.POST.get("rev_message")
+                        to_farm_message = request.POST.get("to_farm_message")
+                        payment_type = request.POST.get("payment_type")
+
+
+                        # 배송 정보 order_group에 업데이트
+                        order_group.rev_name = rev_name
+                        order_group.rev_address = rev_address
+                        order_group.rev_phone_number = rev_phone_number
+                        order_group.rev_loc_at = rev_loc_at
+                        # order_group.rev_loc_detail=rev_loc_detail
+                        order_group.rev_message = rev_message
+                        order_group.to_farm_message = to_farm_message
+                        order_group.payment_type = payment_type
+                        order_group.order_at = timezone.now()
+
+                        print(f"[주문 정보 등록] {rev_name} / {rev_phone_number} / {rev_loc_at} / {rev_message} / {to_farm_message}")
+
+                        order_group.save()
+
+                        
+
+                        res_data = {
+                            "valid": valid,
+                            "orderId": "temp",
+                            "orderName": "temp",
+                            "customerName": "nameTemp",
+                        }
+
+                        # !!!!!!!!!!success로 가기!!!!!!!
+
+        else:
+            print("[ERROR] error_valid")
+            return redirect(
+                                reverse(
+                                    "orders:payment_fail",
+                                    kwargs={
+                                        "errorType": "error_valid",
+                                        "orderGroupPk": order_group_pk,
+                                    }
+                                )
+                            )
+        
 
 
 
