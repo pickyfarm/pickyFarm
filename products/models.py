@@ -42,7 +42,10 @@ class Product(models.Model):
     open = models.BooleanField(default=False)  # to be deleted
     is_event = models.BooleanField(default=False)
 
+    # 금액 관련
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
+    commision_rate = models.FloatField(default=0, help_text="수수료율")
+
     weight = models.FloatField(help_text="판매 중량")
     weight_unit = models.CharField(max_length=5, choices=weight_unit, help_text="판매 중량 단위")
     stock = models.IntegerField(default=0, help_text="총 재고 수량")

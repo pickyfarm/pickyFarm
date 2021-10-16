@@ -263,6 +263,7 @@ def payment_create(request):
             order_detail = Order_Detail(
                 status="wait",
                 quantity=quantity,
+                commision_rate=product.commision_rate,
                 total_price=total_price,
                 product=product,
                 order_group=order_group,

@@ -1,6 +1,7 @@
 from django.db import models
 from core.models import CompressedImageField
 from core import url_encryption
+from django.utils import timezone
 
 
 # Create your models here.
@@ -46,10 +47,14 @@ class Order_Group(models.Model):
     )
 
     def __str__(self):
-        name = []
-        name.append(self.consumer.user.nickname)
-        name.append(str(self.create_at) + " 주문")
-        return "-".join(name)
+        if self.order_at is None:
+            order_at = ""
+        else : 
+            datatime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
+            order_at = str(timezone.localtime(self.order_at))
+            order_at += " 주문"
+        title = f'수취인 : {self.rev_name} / 결제자 : {self.consumer.user.account_name} / {order_at}'
+        return title
 
 
 class Order_Detail(models.Model):
@@ -93,11 +98,11 @@ class Order_Detail(models.Model):
         ("HAPDONG", "합동택배"),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS, default="wait")
+    status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="주문 상태")
     payment_status = models.CharField(
-        max_length=10, choices=PAYMENT_STATUS, default="none"
+        max_length=10, choices=PAYMENT_STATUS, default="none", help_text="정산 상태"
     )
-    order_management_number = models.CharField(max_length=1000, null=True, blank=True)
+    order_management_number = models.CharField(max_length=1000, null=True, blank=True, help_text="주문관리번호")
 
     delivery_service_company = models.CharField(
         max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
@@ -106,18 +111,21 @@ class Order_Detail(models.Model):
         max_length=30, null=True, blank=True, help_text="운송장 번호"
     )
 
-    quantity = models.IntegerField()
-    total_price = models.IntegerField()
-    cancel_reason = models.CharField(max_length=30, null=True, blank=True)
+    quantity = models.IntegerField(help_text="수량")
+    
+    total_price = models.IntegerField(help_text="총금액")
+    commision_rate = models.FloatField(help_text="수수료율")
+
+    cancel_reason = models.CharField(max_length=30, null=True, blank=True, help_text="주문 취소 사유")
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     product = models.ForeignKey(
-        "products.Product", related_name="order_details", on_delete=models.CASCADE
+        "products.Product", related_name="order_details", on_delete=models.CASCADE, help_text="구매 상품"
     )
     order_group = models.ForeignKey(
-        Order_Group, related_name="order_details", on_delete=models.SET_NULL, null=True
+        Order_Group, related_name="order_details", on_delete=models.SET_NULL, null=True, help_text="주문 정보 그룹"
     )
 
     def __str__(self):
