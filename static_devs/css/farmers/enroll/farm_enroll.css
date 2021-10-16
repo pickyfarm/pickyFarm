@@ -54,6 +54,7 @@ textarea {
     width: 152px;
     height: 152px;
     background-size: cover;
+    border: 2px solid #5c675463;
 }
 
 /* category 관련 */

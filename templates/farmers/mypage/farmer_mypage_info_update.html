@@ -2,27 +2,27 @@
 {% load static %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_info_update.css' %}">
 <link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll_mobile.css' %}">
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail_mobile.css' %}">
-
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_info_update.css' %}">
 {% endblock stylesheet %}
 
 {% block title_name %}
-Farmer's page Update
+Farmer's page 정보 수정
 {% endblock title_name %}
 
 {% block main_content %}
 <div class="main-contents bg-white-400 mx-auto" id="top">
     <div class="text-center" id="title">Farmer's Page 정보 수정</div>
-    <div class="flex flex-row ml-10 mb-20 justify-center" id="title-wrap">
-        <div id="farm">Farm</div>
-        <div id="title-farm-name">{{ farmer.farm_name }}</div>
+    <div class="md:flex md:flex-row md:ml-10 mb-20 justify-center items-center" id="title-wrap">
+        <div id="farm" class="text-center md:mr-5">Farm</div>
+        <div id="title-farm-name" class="text-center md:mr-3">{{ farmer.farm_name }}</div>
         <div id="title-line"></div>
     </div>
     <div id="content">
-        <form method="post" action="" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+        <form id="info-update-form" method="post" action="" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mx-auto" id="farmer-form-wrapper">
                 <!--농장 이름-->
@@ -31,31 +31,25 @@ Farmer's page Update
                     {{ farm_form.farm_name }}
                 </div>
                 <!--프로필 사진 & 농장 사진-->
-                <div class="flex flex-row mb-11 justify-between">
-                    <div class='flex flex-col'>
-                        <div id="farmer_img_label">{{ farm_form.farmer_profile.label_tag }}</div>
-                        <div id="farmer_img_desc">농부님의 사진을 올려주세요</div>
-                    </div>
-                    <div>
-                        <div class="filebox">
-                            <div class="default_img_1 mb-4" style="background-size:cover; background-position: center;
-                                background-image: url('{{ farmer.farmer_profile.url }}');">
+                <div class="flex flex-row mb-11 justify-between" id="image-upload-wrapper">
+                    <div class="flex flex-row">
+                        <div class='flex flex-col' id="farmer-profile-upload-wrapper">
+                            <div id="img_label">{{farm_form.farmer_profile.label_tag}}</div>
+                            <div class="mb-5" id="img_desc">농부님의 사진을 올려주세요</div>
+                            <div class="filebox">
+                                <div class="default_img_1 mb-4 mx-auto" style="background-image: url('{{ farmer.farmer_profile.url }}');"></div>
+                                <div class="text-center"><label for="id_farmer_profile">사진 변경</label></div>
+                                <div style="display: none;">{{farm_form.farmer_profile}}</div>
                             </div>
-                            <div class="text-center"><label for="id_farmer_profile">사진 변경</label></div>
-                            <div style="display: none;">{{farm_form.farmer_profile}}</div>
                         </div>
-                    </div>
-                    <div class='flex flex-col'>
-                        <div id="farm_img_label">{{farm_form.farm_profile.label_tag}}</div>
-                        <div id="farm_img_desc">농장로고나 대표사진을 올려주세요</div>
-                    </div>
-                    <div>
-                        <div class="filebox">
-                            <div class="default_img_2 mb-4" style="background-size:cover; background-position:center; 
-                                background-image: url('{{ farmer.farm_profile.url }}');">
+                        <div class='flex flex-col' id="farm-profile-upload-wrapper">
+                            <div id="img_label">{{farm_form.farm_profile.label_tag}}</div>
+                            <div class="mb-5" id="img_desc">농장로고나 대표사진을 올려주세요</div>
+                            <div class="filebox">
+                                <div class="default_img_2 mb-4 mx-auto" style="background-image: url('{{ farmer.farm_profile.url }}');"></div>
+                                <div class="text-center"><label for="id_farm_profile">사진 변경</label></div>
+                                <div style="display: none;">{{farm_form.farm_profile}}</div>
                             </div>
-                            <div class="text-center"><label for="id_farm_profile">사진 변경</label></div>
-                            <div style="display: none;">{{farm_form.farm_profile}}</div>
                         </div>
                     </div>
                 </div>
@@ -63,16 +57,14 @@ Farmer's page Update
                 <div class="input_forms grid">
                     {{farm_form.profile_title.label_tag}}
                     {{farm_form.profile_title}}
-                    {{farm_form.profile_desc.label_tag}}
-                    {{farm_form.profile_desc}}
                 </div>
                 <!--해시 태그-->
-                <div class="flex flex-row justify-between mb-3">
+                <div class="flex flex-row justify-between mb-3" id="hashtag-upload-wrapper">
                     <div class="flex flex-col">
-                        <div id="farm_cat_label" style="font-size: 15px; margin-bottom: 6px;">
+                        <div id="cat_label">
                             {{farm_form.farm_cat.label_tag}}
                         </div>
-                        <div class="text-left" style="font-size: 12px; color: #b3b3b3;">
+                        <div class="text-left" id="hashtag-desc">
                             * 최대 3개 입력 가능합니다
                         </div>
                     </div>
@@ -94,7 +86,8 @@ Farmer's page Update
                     <input type="hidden" name="farm_tag[]" id="hashtag_list" value=''>
                 </div>
             </div>
-            <div class="flex flex-row ml-10 mb-20 mt-16" id="title-wrap">
+            <div class="horizon-bar" style="margin-bottom: 35px;"></div>
+            <div class="flex flex-row ml-10 mb-20 mt-16 items-center" id="title-wrap">
                 <div id="title-farm-name">나의 농가 페이지 미리보기</div>
                 <div id="title-line"></div>
             </div>
