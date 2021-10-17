@@ -111,7 +111,7 @@
           </a>
         </div>
         {% else %}
-        <div id="reg-review-btn" class="transition_element">
+        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_detail' detail.pk %}')">
           <a>
             리뷰 보기
           </a>

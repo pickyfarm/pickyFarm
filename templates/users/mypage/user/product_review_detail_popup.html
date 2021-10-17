@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+{% load static %} <html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
+	<link rel="stylesheet" href="{% static 'css/users/mypage/user/product_review_popup.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/products/product_review_mobile.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<title>내가 쓴 리뷰</title>
+</head>
+
+<body>
+	<div class="popup_container flex">
+		<div class="review-main-content-wrap">
+			<div class="review-date">
+				내가 쓴 리뷰 
+			</div>
+			<div class="review-receipt-wrap">
+				<div class="review-receipt-top-section">
+					<div class="review-number-wrap wrap_padding flex">
+						<span class="review-number-title">주문일시</span>
+						<span class="review-number-value">{{detail.create_at|date:"Y.m.d"}}</span>
+					</div>
+					<div class=" review-product-information-wrap wrap_padding ">
+						<div class="review-product-information-title">
+							주문정보
+						</div>
+						<div class=" review-customer-detail-address-wrap flex ">
+							<div class=" review-customer-detail-title ">
+								Farm
+							</div>
+							<div class=" review-customer-detail-user-value-wrap ">
+								<div class=" review-customer-detail-address ">
+									{{detail.product.farmer}}
+								</div>
+							</div>
+						</div>
+						<div class=" review-product-information-contents-wrap ">
+							<!-- 무난이 작물 시작-->
+							<div class=" review-product-information-content-wrap flex ">
+								<div class=" review-product-information-content-left-section ">
+									<div class="review-product-image">
+										<img src="{{detail.product.main_image.url}}" alt="상품 메인 이미지">
+									</div>
+								</div>
+								<div class=" review-product-information-content-right-section ">
+									<div class="review-product-tag">
+										{% if detail.product.kinds == "ugly" %}
+										<img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt="moonan_harvest_tag" />
+										{% else %}
+										<img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}" alt="normal_harvest_tag" />
+										{% endif %}
+									</div>
+									<div class="review-product-name">
+										{{detail.product.title}}
+									</div>
+									<div class=" review-product-detail-wrap flex ">
+										<div class=" review-product-weight ">
+											{{detail.product.weight}} {{detail.product.weight_unit}}
+										</div>
+										<div class=" review-product-quantity ">
+											{{detail.quantity}}
+										</div>
+										<div class="review-product-quantity-unit ">
+											(개/박스)
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- 무난이 작물 끝-->
+						</div>
+					</div>
+				</div>
+                <div class="refund-main-content-wrap">
+                    <div class="review-reason-wrap">
+                        <div class="review-main-title">picky review</div>
+                        <div class="downArrow-img-box">
+                            <img src="{% static 'images/users/mypage/user/downArrow.svg' %}" alt="downArrow" />
+                        </div>
+                        <div class="">
+                            <!-- 신선도, 맛, 가성비 시작 -->
+                            <div class="mb-12" id="score_table_wrap">
+                                <table id="score_table">
+                                    <tr>
+                                        <td class="py-2 text-center"> 신선도 </td>
+                                        <td class="py-2 text-center"> 맛 </td>
+                                        <td class="py-2 text-center"> 가성비 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {% if review.freshness == 1 %}
+                                            <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                                            {% elif review.freshness == 3 %}
+                                            <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                                            {% else %}
+                                            <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if review.flavor == 1 %}
+                                            <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                                            {% elif review.flavor == 3 %}
+                                            <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                                            {% else %}
+                                            <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if review.cost_performance == 1 %}
+                                            <img src="{% static 'images/product_detail/score_1.svg' %}" class="mx-auto" alt="">
+                                            {% elif review.cost_performance == 3 %}
+                                            <img src="{% static 'images/product_detail/score_3.svg' %}" class="mx-auto" alt="">
+                                            {% else %}
+                                            <img src="{% static 'images/product_detail/score_5.svg' %}" class="mx-auto" alt="">
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!-- 신선도, 맛, 가성비 끝 -->
+
+                            <!-- 별점 시작 -->
+                            <div class="total-score-box">
+                                <div class="start-title">
+                                    총점
+                                </div>
+                                <div class="star-box">
+                                    <div id="stars">
+                                        {% for i in total_range %}
+                                            {% if i < review.avg %}
+                                            <img src="{% static 'images/users/mypage/user/star-yellow.svg' %}" alt="yellow-star" class="star-img" />
+                                            {% else %}
+                                            <img src="{% static 'images/users/mypage/user/gray-star.svg' %}" alt="gray-star" class="star-img" />
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 별점 끝 -->
+
+                            <!-- 리뷰 텍스트 시작 -->
+                            <div class="review-text-wrap">
+                                {{review.text}}
+                            </div>
+                            <!-- 리뷰 텍스트 끝 -->
+
+                            <!-- 리뷰 이미지 시작 -->
+                            <div class="review-image-container">
+                                <div class="review-img-wrap">
+                                    <div class="review-img-box flex flex-row" >
+                                        {% for img in review.product_comment_images.all %}
+                                            <img src="{{img.image.url}}" alt="" class="review-img">
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-btn-box">
+                    <button class="review-reason-submit-wrap flex" onClick="window.close()">
+                        <div class="review-reason-submit-img-wrap">
+                            <img class="review-reason-submit-img" src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt="check_nohover" />
+                        </div>
+                        <div class="review-reason-submit-text">
+                            닫기
+                        </div>
+                    </button>
+                </div>
+			</div>
+		</div>
+		<style>
+            .review-text-wrap {
+                width: 100%;
+                padding: 21px;
+                background-color: #f8f8f8;
+                border: none;
+                text-align: left;
+                font-size: 15px;
+                margin-top: 2rem;
+            }
+            #score_table_wrap {
+                width: 100%;
+            }
+
+            #score_table {
+                width: 100%;
+                height: 5.5rem;
+                border: 1px solid #707070;
+            }
+
+            #score_table td {
+                width: 33%;
+                border: 1px solid #707070;
+            }
+
+            .review-img-box  {
+                width: 100%;
+                margin-top: 2rem;
+            }
+            .review-img {
+                width: 6rem;
+                height: 6rem;
+                object-fit: cover;
+            }
+            .review-img:not(:last-child) {
+                margin-right: 1rem;
+            }
+		</style>
+</body>
+<script>
+	const greyStar = "{% static 'images/users/mypage/user/gray-star.svg' %}"
+	const yellowStar = "{% static 'images/users/mypage/user/star-yellow.svg' %}"
+	const checkHoverImg = "{% static 'images/users/mypage/user/check_hover.svg' %}"
+	const checkNohoverImg = "{% static 'images/users/mypage/user/check_nohover.svg' %}"
+</script>
+<script src="{% static 'js/users/mypage/user/product_review_popup.js' %}"></script>
+
+
+</html>
