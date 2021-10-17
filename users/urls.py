@@ -18,9 +18,7 @@ urlpatterns = [
         views.terms_of_service_popup,
         name="signup_terms_of_service",
     ),
-    path(
-        "signup/personal_info", views.personal_info_popup, name="signup_personal_info"
-    ),
+    path("signup/personal_info", views.personal_info_popup, name="signup_personal_info"),
     path("signup/id_validation/", views.idValidation, name="id_validation"),
     path(
         "signup/nickname_validation/",
@@ -67,12 +65,8 @@ urlpatterns = [
         name="editor_mypage_info",
     ),
     path("find_my_id/", views.FindMyIdView.as_view(), name="find_my_id"),
-    path(
-        "find_my_id/complete", views.FindMyIdView.as_view(), name="find_my_id_complete"
-    ),
-    path(
-        "find_my_id/failed", views.FindMyIdFailView.as_view(), name="find_my_id_failed"
-    ),
+    path("find_my_id/complete", views.FindMyIdView.as_view(), name="find_my_id_complete"),
+    path("find_my_id/failed", views.FindMyIdFailView.as_view(), name="find_my_id_failed"),
     path("cartIn/", views.CartInAjax, name="cartInAjax"),
     path("cartOut/", views.cartOutAjax, name="cartOutAjax"),
     path("subs/", views.subs, name="subs"),
@@ -89,5 +83,10 @@ urlpatterns = [
         "mypage/orders/<int:orderpk>/review/create",
         views.ProductCommentCreate.as_view(),
         name="product_comment_create",
+    ),
+    path(
+        "mypage/orders/<int:orderpk>/review",
+        views.productCommentDetail.as_view(),
+        name="product_comment_detail",
     ),
 ]

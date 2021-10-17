@@ -1184,6 +1184,33 @@ class ProductCommentCreate(TemplateView):
         return redirect("core:main")
 
 
+@method_decorator(login_required, name="dispatch")
+class productCommentDetail(TemplateView):
+    template_name = "users/mypage/user/product_review_detail_popup.html"
+
+    def render_to_response(self, context, **response_kwargs):
+        if not Consumer.objects.filter(user=self.request.user).exists():
+            return redirect(reverse("core:main"))
+        else:
+            return super().render_to_response(context, **response_kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        consumer = Consumer.objects.get(user=self.request.user)
+        orderpk = self.kwargs["orderpk"]
+        detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+        order_consumer = detail.order_group.consumer
+        product = Product.objects.get(order_details__pk=orderpk)
+        review = Product_Comment.objects.get(consumer=order_consumer, product=product)
+        # 검증
+        if order_consumer.pk != consumer.pk:
+            return redirect(reverse("core:main"))
+        context["total_range"] = range(0, 5)
+        context["detail"] = detail
+        context["review"] = review
+        return context
+
+
 def product_refund(request):
     addresses = [
         "서울 동작구 장승배기로 11가길 11(상도파크자이) 105동 1901호",
