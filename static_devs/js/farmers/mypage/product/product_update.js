@@ -54,14 +54,25 @@ $('input:checkbox[name=normal-yearly-yield]').on('click', function () {
     }
 });
 
+const normalProductCheckbox = document.querySelector('#submit-normal');
+const uglyProductCheckbox = document.querySelector('#submit-ugly');
 const normal = document.querySelector('.normal-product');
-const normalBtn = document.querySelector('.normal-product-btn');
+const ugly = document.querySelector('.ugly-product');
 
-const addTodo = (e) => {
-    normal.style.display = 'none';
-    normalBtn.style.display = 'none';
+const addTodo = (e, target) => {
+    target.style.display = e.target.checked ? 'none' : 'block';
 };
-normalBtn.addEventListener('click', addTodo);
+
+normalProductCheckbox.addEventListener('click', (e) => addTodo(e, normal));
+uglyProductCheckbox.addEventListener('click', (e) => addTodo(e, ugly));
+
+document.querySelector('.product-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    !normalProductCheckbox &&
+        !uglyProductCheckbox &&
+        alert('상품을 한개 이상 등록해주세요!');
+});
 
 // 모바일에서 버튼 이름 변경
 if (window.matchMedia('(max-width: 768px)').matches) {

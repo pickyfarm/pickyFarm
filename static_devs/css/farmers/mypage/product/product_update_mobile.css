@@ -13,23 +13,32 @@
         font-weight: bold;
         color: #5c6754;
     }
+
+    .product-submit-checkbox-wrapper {
+        background-color: #f8f8f8;
+        border-top: solid 0.1rem #5c6754;
+        border-bottom: solid 0.1rem #5c6754;
+    }
+
     .subtitle {
         width: 100%;
         height: 2.8rem;
         padding: 0.5rem 0;
         padding-left: 1rem;
-        background-color: #f8f8f8;
         font-size: 1.2rem;
         font-weight: bold;
         text-align: left;
         color: #5c6754;
-        border-top: solid 0.1rem #5c6754;
-        border-bottom: solid 0.1rem #5c6754;
-        margin-bottom: 2rem;
+        margin-bottom: 0;
     }
     .main-line {
         display: none;
     }
+
+    .product-form {
+        position: relative;
+    }
+
     .product-form > div:not(.subtitle, #normal) {
         width: 100%;
         padding: 0 1rem;
@@ -434,9 +443,7 @@
         height: 6.3rem;
         margin-top: 1.1rem;
     }
-    .subtitle {
-        margin-bottom: 2rem !important;
-    }
+
     .legal-box {
         flex-direction: column;
         line-height: unset;

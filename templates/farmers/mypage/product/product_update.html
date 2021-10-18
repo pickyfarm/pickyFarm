@@ -42,9 +42,15 @@
 <div class="main-contents bg-white-400 mx-auto" id="top">
     <div class="mx-auto" id="content">
         <div class="text-3xl text-center font-bold mb-11" id="title">새 상품 등록</div>
-        <div class="subtitle">무난이 작물</div>
-        <div class="main-line"></div>
+
         <form action="" method="POST" class="product-form">
+            <div class="flex items-center product-submit-checkbox-wrapper">
+                <input type="checkbox" name="is-submit-ugly" id="submit-ugly" class="product-submit-checkbox">
+                <label for="submit-ugly" class="subtitle">무난이 작물 등록하기</label for="submit-ugly">
+            </div>
+            <div class="main-line"></div>
+            <div class="ugly-product">
+            </div>
             {% csrf_token %}
             <div class="farm-news">
                 <div class="farm-news-title">농가 뉴스</div>
@@ -190,13 +196,13 @@
             <!-- 일반 작물 -->
 
             <div id="normal">
-                <div class="subtitle">일반 작물</div>
+                <div class="flex items-center product-submit-checkbox-wrapper">
+                    <input type="checkbox" name="is-submit-normal" id="submit-normal" class="product-submit-checkbox">
+                    <label for="submit-normal" class="subtitle">일반 작물 등록하기</label>
+                </div>
                 <div class="main-line"></div>
 
                 <div class="normal-product">
-                </div>
-                <div class="normal-product-btn">
-                    <img src="{% static 'images/farmer_mypage/product/product-add-btn.svg' %}" alt="product-add-btn" class="product-add-btn">
                 </div>
                 <div class="flex flex-row mb-7">
                     <div class="product-theme" id="label">상품 제목</div>
