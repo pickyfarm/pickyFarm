@@ -5,7 +5,6 @@ app_name = "comments"
 
 urlpatterns = [
     # product comment
-    path("product_comment/<int:pk>/", views.product_comment_detail, name="product_comment_detail"),
     path(
         "product_comment/<int:pk>/recomment/",
         views.product_recomment_detail,

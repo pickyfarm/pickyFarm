@@ -85,12 +85,13 @@
     font-size: 12px;
     color: #b3b3b3;
 }
-#review-table-row-answer,
+#review-table-row-review-detail,
 #question-table-row-answer {
     font-size: 12px;
     color: #5c6754;
 }
-.question-answer-btn {
+.question-answer-btn,
+#review-table-row-review-detail {
     cursor: pointer;
 }
 

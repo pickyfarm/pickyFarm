@@ -22,23 +22,6 @@ product comments(reviews)
 """
 
 
-def product_comment_detail(request, pk):
-    """Product 댓글 보기"""
-    product = Product.objects.get(pk=pk)
-    product_comments = product.product_comments.all()
-    product_comment_form = ProductCommentForm()
-    product_recomment_form = ProductRecommentForm()
-
-    ctx = {
-        "product": product,
-        "product_comments": product_comments,
-        "product_comment_form": product_comment_form,
-        "product_recomment_form": product_recomment_form,
-    }
-
-    return render(request, "comments/product_comment.html", ctx)
-
-
 def product_comment_update(request, pk):
     """Product 댓글 수정"""
 
