@@ -43,6 +43,13 @@ input:disabled {
     margin-bottom: 100px;
 }
 
+.product-submit-checkbox {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
 .subtitle {
     font-size: 23px;
     font-weight: bold;
@@ -513,6 +520,14 @@ form {
 .normal-product {
     width: 990px;
     height: 1050px;
+    background-color: rgba(243, 244, 243, 0.7);
+    z-index: 1;
+    position: absolute;
+}
+
+.ugly-product {
+    width: 990px;
+    height: 940px;
     background-color: rgba(243, 244, 243, 0.7);
     z-index: 1;
     position: absolute;
