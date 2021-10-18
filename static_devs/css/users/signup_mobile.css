@@ -16,10 +16,7 @@
         margin-bottom: 0.5rem;
         font-size: 1.5rem;
         font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
         line-height: 1.47;
-        letter-spacing: normal;
         text-align: left;
         color: var(--dark-sage);
     }
@@ -30,10 +27,7 @@
         font-family: NotoSansKR;
         font-size: 1.1rem;
         font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
         line-height: 1.55;
-        letter-spacing: normal;
         text-align: left;
         color: #5e6656;
     }
@@ -80,10 +74,7 @@
         justify-content: flex-start;
         font-size: 1.2rem;
         font-weight: 500;
-        font-stretch: normal;
-        font-style: normal;
         line-height: 2.5;
-        letter-spacing: normal;
         text-align: left;
         color: #4d4d4d;
         padding-left: 0;
@@ -172,10 +163,6 @@
     .gender-selection label {
         align-items: center;
         font-size: 1.2rem;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
         text-align: left;
         color: #808080;
     }
@@ -204,11 +191,7 @@
         margin-top: 1.1rem;
         font-family: NotoSansKR;
         font-size: 1.1rem;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
         line-height: 2;
-        letter-spacing: normal;
         color: var(--brown-grey);
     }
 
@@ -221,9 +204,6 @@
     #term-agree {
         font-size: 1.2rem;
         font-weight: 500;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
         text-align: left;
         color: #4d4d4d;
         padding: 0;
@@ -257,18 +237,11 @@
         margin-right: 0;
         font-size: 1.2rem;
         font-weight: 500;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
         text-align: right;
         color: var(--dark-sage);
     }
     .form_term_agree label {
         font-size: 1.2rem;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
         text-align: left;
         color: #707070;
     }
@@ -286,10 +259,6 @@
         left: 0;
         content: '(필수)' !important;
         font-size: 1rem;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
         text-align: left;
         color: var(--brown-grey);
         margin-left: -3.5rem;
@@ -301,10 +270,6 @@
         left: 0;
         content: '(선택)' !important;
         font-size: 1rem;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
         text-align: left;
         color: var(--brown-grey);
         margin-left: -3.5rem;
@@ -333,10 +298,7 @@
         background-color: #fff;
         font-size: 1.5rem;
         font-weight: 500;
-        font-stretch: normal;
-        font-style: normal;
         line-height: 1.47;
-        letter-spacing: normal;
         text-align: center;
         color: #5c6456;
         margin-top: 2rem;

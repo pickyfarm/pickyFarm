@@ -35,13 +35,9 @@ input:focus {
 }
 
 #signup-title {
-    font-family: NotoSansKR;
     font-size: 30px;
     font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1;
-    letter-spacing: normal;
     color: #5c6754;
     margin-bottom: 60px;
 }
@@ -71,7 +67,6 @@ input:focus {
     padding-left: 15px;
     font-size: 12px;
     color: #808080;
-    font-weight: normal;
 }
 
 .input_forms input:not(#id_auth_number),
@@ -114,7 +109,6 @@ input:focus {
     right: 7.5px;
     font-size: 15px;
     text-align: center;
-    font-weight: normal;
 }
 
 .input_forms label,
@@ -122,9 +116,6 @@ input:focus {
     grid-column: 1;
     font-size: 15px;
     font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
     color: #4d4d4d;
     text-align: start;
     margin-top: 7.5px;
@@ -189,7 +180,6 @@ input:focus {
 .gender-selection label {
     font-size: 15px;
     color: #808080;
-    font-weight: normal;
 }
 
 .birth-selection select {
