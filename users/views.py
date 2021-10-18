@@ -368,9 +368,10 @@ def kakao_callback(request):
         email = profile.get("email")
         nickname = profile.get("profile").get("nickname")
         phone_number = profile.get("phone_number")
-
+        print(email)
         try:
             user = User.objects.get(username=f"kakao.{email}")
+            print(user)
             login(request, user=user)
             return redirect(reverse("core:main"))
 
