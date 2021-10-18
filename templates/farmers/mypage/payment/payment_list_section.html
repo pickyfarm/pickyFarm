@@ -17,7 +17,7 @@
             <div class="sheet-data-text product-name">{{order.product.title}}</div>
             <div class="sheet-data-text order-quantity">{{order.quantity}}</div>
             <div class="sheet-data-text order-total-price">{{order.total_price | intcomma}}</div>
-            <div class="sheet-data-text commission">{% widthratio order.total_price 100 7 as commission %} {{commission | intcomma}}</div>
+            <div class="sheet-data-text commission">{% widthratio order.total_price 100 order.commision_rate as commission %} {{commission | intcomma}}</div>
             <div class="sheet-data-text account">{% widthratio commission 1 -1 as res %} {{ order.total_price | add:res | intcomma }}</div>
             <div class="payment-sheet-bar-mobile"></div>
             <div class="payment-list-sheet-index-title-mobile">주문번호</div>
@@ -26,5 +26,6 @@
             <div class="payment-list-sheet-index-title-mobile">정산금액</div>
         </div>
         {% endfor %}
+        정산진행금액: {{progress_amount | intcomma}}원
     </div>
 </div>
