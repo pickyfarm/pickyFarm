@@ -67,8 +67,6 @@ normalProductCheckbox.addEventListener('click', (e) => addTodo(e, normal));
 uglyProductCheckbox.addEventListener('click', (e) => addTodo(e, ugly));
 
 document.querySelector('.product-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-
     !normalProductCheckbox &&
         !uglyProductCheckbox &&
         alert('상품을 한개 이상 등록해주세요!');
