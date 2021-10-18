@@ -2,11 +2,13 @@
 {% load static %}
 
 {% block stylesheet_farmer_mypage %}
-<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_notification.css' %}" />
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_order_mobile.css' %}" />
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/notify/farmer_mypage_notification.css' %}" />
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/notify/farmer_mypage_notification_mobile.css' %}" />
 {% endblock stylesheet_farmer_mypage %}
 
 {% block content %}
-<div class="mx-auto" id="content">
+<div class="mx-auto" id="w-content">
     <div id="content-title" class="flex flex-row">
         <div id="title-notification" class="mr-3">
             <span>알림</span>
@@ -18,17 +20,16 @@
             <span>새 알림 {{ new_notifications }}개</span>
         </div>
     </div>
-    <!-- table section -->
-    <!-- <div id="notifications">
-        {% for i in first_page %}
-        <h2>{{i.message}}</h2>
-        {% endfor %}
-    </div> -->
     <div id="noti-list">
         <div id="notification-table" class="w-full">
             <div class="flex flex-row text-center" id="notification-table-title">
                 <div class="w-2/12">알림 종류</div>
                 <div class="w-6/12">제목</div>
+                <div class="w-3/12">알림 날짜</div>
+                <div class="w-1/12"></div>
+            </div>
+            <div class="flex flex-row text-center" id="mobile-notification-table-title">
+                <div class="w-8/12">제목</div>
                 <div class="w-3/12">알림 날짜</div>
                 <div class="w-1/12"></div>
             </div>
@@ -51,30 +52,63 @@
                 </div>
                 {% endfor %}
             </div>
+            <div class="" id="mobile-notifications">
+                {% for notification in notifications %}
+                <div class="collapsible">
+                    <div class="flex flex-row" id="notification-table-rows">
+                        <div class="w-8/12" id="table-row-title">
+                            {% if notification.message|length > 20 %}
+                            {{ notification.message|slice:":20" }}...
+                            {% else %}
+                            {{ notification.message }}
+                            {% endif %}
+                        </div>
+                        <div class="w-3/12" id="table-row-date">{{ notification.create_at|date:"Y-m-d" }}</div>
+                        {% if notification.is_read == False %}
+                        <div class="1/12" id="table-row-new">N</div>
+                        {% else %}
+                        <div id="table-row-new"> </div>
+                        {% endif %}
+                    </div>
+                    <div class="text-center" id="noti-content">
+                        content accordion test
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
         <!-- pagination section -->
-        <div class="flex justify-between w-36 mx-auto mt-8">
-            <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
-            {% if notifications.has_previous %}
-            <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{notifications.previous_page_number}}' style="cursor: pointer">
-            {% else %}
-            <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
-            {% endif %}
+        <div id="paginator-wrapper">
+            <div class="flex justify-between w-36 mx-auto mt-8">
+                <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                {% if notifications.has_previous %}
+                <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{notifications.previous_page_number}}' style="cursor: pointer">
+                {% else %}
+                <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                {% endif %}
 
-            <div>{{notifications.number}}</div>
-            <div>/</div>
-            <div>{{notifications.paginator.num_pages}}</div>
+                <div>{{notifications.number}}</div>
+                <div>/</div>
+                <div>{{notifications.paginator.num_pages}}</div>
 
-            {% if notifications.has_next %}
-            <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{notifications.next_page_number}}' style="cursor: pointer">
-            {% else %}
-            <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer"> 
-            {% endif %}
-            <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer">
+                {% if notifications.has_next %}
+                <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{notifications.next_page_number}}' style="cursor: pointer">
+                {% else %}
+                <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer"> 
+                {% endif %}
+                <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer">
+            </div>
         </div>
     </div>
 </div>
 <script>
+    document.querySelector('#button-notifications').classList.add('active');
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('#button-product-manage').classList.add('active');
+
+        document.querySelector('#selected_line').style.gridArea = "line5"
+    }
+    
     // accordion menu script
     $(document).ready(function () {
         // 클릭 이벤트 처리

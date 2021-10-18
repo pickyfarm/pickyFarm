@@ -86,7 +86,7 @@
                     <div class="valid-button button" id="phone-number-check" name="{% url 'users:phone_number_validation' %}">인증번호 받기</div>
                     <input type="text" name="auth_number" placeholder="인증번호" maxlength="6" required="" id="id_auth_number">
                     <div class="valid-button button" id="auth-number-check" name="{% url 'users:phone_number_authentication' %}">확인</div>
-                    <input type="hidden" id="phonenumValidCheck">
+                    <input type="hidden" id="phonenumValidCheck" valid='false'>
                 </div>
                 {{addressform.errors}}
                 {{addressform.full_address.label_tag}}

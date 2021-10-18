@@ -33,11 +33,14 @@
     .input_forms input,
     .input_forms textarea,
     .input_forms select {
-        grid-column: 2;
         width: 100% !important;
         height: 2.8rem;
         padding-left: 1rem;
         font-size: 1rem;
+    }
+    .input_forms textarea,
+    .input_forms select {
+        grid-column: 2;
     }
     .input_forms input::placeholder {
         font-size: 1rem;

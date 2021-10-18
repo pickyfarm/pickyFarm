@@ -23,6 +23,9 @@
     font-weight: 500;
     color: #999999;
 }
+#mobile-notification-table-title {
+    display: none;
+}
 
 #notification-table-rows {
     width: 100%;
@@ -33,6 +36,7 @@
 
 #notification-table-rows div {
     height: 78px;
+    line-height: 78px;
     border-bottom: 1px solid #5e665681;
 }
 
@@ -43,6 +47,10 @@
 #notifications {
     height: 400px;
 }
+#mobile-notifications {
+    display: none;
+}
+
 #noti-content {
     display: none;
 }
