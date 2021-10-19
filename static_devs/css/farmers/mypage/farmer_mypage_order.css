@@ -224,6 +224,7 @@
     grid-template-columns: 74px 310px;
     column-gap: 24px;
     row-gap: 6px;
+    grid-auto-flow: row dense;
 }
 
 .order-info-index {
@@ -232,18 +233,6 @@
 
 .order-info-data {
     grid-column: 2;
-}
-
-.consumer-info {
-    grid-row: 1;
-}
-
-.shipping-address {
-    grid-row: 2;
-}
-
-.order-memo {
-    grid-row: 4;
 }
 
 .order-status-action-button {
