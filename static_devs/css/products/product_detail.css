@@ -21,6 +21,16 @@
     letter-spacing: normal;
 }
 
+#product-option {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#product-option:focus {
+    outline: none;
+}
+
 #farm_news {
     width: 395px;
     font-size: 13px;
