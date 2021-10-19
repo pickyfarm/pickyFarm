@@ -47,9 +47,10 @@
         </div>
         <div class="invoice-info">
             {% if order.status == 'shipping' or order.status == 'complete' %}
+            {{order.get_delivery_service_company_display}}
             {{order.invoice_number}}
             {% elif order.status == 're_recept' or order.status == 'ex_recept' %}
-            <div class="button order-status-action-button transition_element" {% if order.status == 're_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_refund_check_popup'%}?odmn={{order.encrypt_odmn}}')" {% elif order.status == 'ex_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_exchange_check_popup' %}')" {% endif %}>
+            <div class="button order-status-action-button transition_element" {% if order.status == 're_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_refund_check_popup'%}?odmn={{order.encrypt_odmn}}')" {% elif order.status == 'ex_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_exchange_check_popup' %}?odmn={{order.encrypt_odmn}}')" {% endif %}>
 
                 사유 확인
             </div>

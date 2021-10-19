@@ -14,7 +14,7 @@ from django.core import exceptions
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Q, F, Aggregate, Sum
+from django.db.models import Q, F, Aggregate, Sum, Value
 from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.templatetags.static import static
 from requests.api import get
@@ -601,7 +601,12 @@ class FarmerMyPagePaymentManage(FarmerMyPageBase):
         context["overall"] = qs.count()
         context["incoming"] = qs.filter(payment_status="incoming").count()
         context["progress_amount"] = qs.filter(payment_status="progress").aggregate(
-            total=Sum(F("total_price") * F("commision_rate"))
+            total=Sum(
+                (
+                    F("total_price")
+                    * ((Value(100.0) - F("commision_rate")) / Value(100.0))
+                )
+            )
         )["total"]
         context["progress"] = qs.filter(payment_status="progress").count()
         context["done"] = qs.filter(payment_status="done").count()

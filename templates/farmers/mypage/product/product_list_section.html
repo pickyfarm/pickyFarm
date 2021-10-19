@@ -27,7 +27,8 @@
             <div class="sell-price product-data">{{product.sell_price | intcomma}}</div>
             <div class="event product-data">{{product.is_event | yesno:'○,✕'}}</div>
             <div class="selling-rate product-data">{% widthratio product.sales_rate 1 100 %}%</div>
-            {% if product.status != 'pending' %}<button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=375')">수정</button>{% endif %}
+            {% if product.status == 'suspended' or product.status == 'sale' %}<button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=375')">수정</button>
+            {% elif product.status == 'soldout' %}<button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=375')">판매 재시작</button>{% endif %}
             <div class="product-list-sheet-index-title-mobile open-status-m ">판매상태</div>
             <div class="product-list-sheet-index-title-mobile stocks-m">재고수량</div>
             <div class="product-list-sheet-index-title-mobile package-unit-m">포장단위</div>

@@ -154,9 +154,10 @@
 }
 
 .update-info {
-    width: 53px;
+    width: fit-content;
     height: 25px;
     border: 1px solid #707070;
+    padding: 0 8px;
     border-radius: 13px;
     text-align: center;
     font-size: 14px;
