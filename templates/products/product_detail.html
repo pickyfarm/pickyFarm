@@ -122,6 +122,13 @@
                     <div id="info_c" class="w-4/5 text-left">{{product.instruction}}</div>
                 </div> {% endcomment %}
             </div>
+            <div id="product-option-section" class="border-b flex py-3">
+                <select name="product-option" id="product-option" class="w-full" onchange="if(this.value) location.href=this.value;">
+                    {% for sibling in siblings %}
+                    <option value="{% url 'products:product_detail' sibling.pk %}" {% if sibling.pk == product_pk %}selected{% endif %}>{{sibling.option_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div id="purchase_number_section" class="flex flex-row items-center py-10 mb-5 border-b">
                 <div id="quantity_letter" class="mr-12">구매수량</div>
                 <div id="quantity_num_section" class="flex flex-row items-center">

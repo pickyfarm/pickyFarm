@@ -72,6 +72,7 @@
                     {% for product in products %}
                     <div class="z-0 flex flex-col" id="product_item" name="{{product.pk}}">
                         <div class="relative product-image-wrapper">
+                            {% comment %}
                             <!-- <div class="farmer-info-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.pk %}">
                                 <a href="{% url 'farmers:farmer_detail' product.farmer.pk %}" class="flex flex-col items-center">
 
@@ -79,8 +80,8 @@
                                     <span class="farmer-info-overlay--farmer-name">{{product.farmer.user.nickname}}</span>
                                     <span class="farmer-info-overlay--farm-name">{{product.farmer.farm_name}}</span>
                                 </a>
-                            </div> -->
-                            <a href="{% url 'products:product_detail' product.pk %}" class="">
+                            </div> --> {% endcomment %}
+                            <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
                                 <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
                             </a>
                             <div id="like_cart_in" class="flex flex-row">
@@ -94,10 +95,10 @@
                             <img class="absolute -top-5 left-1 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out2.svg' %}">
                             <img class="absolute top-1 left-4 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out.svg' %}">
                         </div>
-                        <a href="{% url 'products:product_detail' product.pk %}" class="">
+                        <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
                             <div class="mt-1">
                                 <p class="" id="title">{{product.title}}</p>
-                                <p class="" id="sell_price">{{product.sell_price}}원</p>
+                                <p class="" id="sell_price">{{product.get_main_product.sell_price}}원</p>
                                 <p class="" id="sub_title">{{product.sub_title}}</p>
                             </div>
                         </a>
@@ -105,7 +106,7 @@
 
                             {% if product.kinds == "ugly" %}
                             <div id="ugly_tag">무난이 작물</div>
-                            {% else %}
+                            {% elif product.kinds == "normal" %}
                             <div id="normal_tag">일반 작물</div>
                             {% endif %}
                         </div>

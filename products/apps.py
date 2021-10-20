@@ -7,3 +7,5 @@ class ProductsConfig(AppConfig):
     # django signal
     def ready(self):
         import products.signals
+
+
