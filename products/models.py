@@ -15,6 +15,22 @@ def check_rate(rate_num):
     else:
         return 0
 
+class Product_Group(models.Model):
+    kinds = (
+        ("ugly", "무난이 작물"),
+        ("normal", "일반 작물"),
+    )
+
+    title = models.CharField(max_length=50, help_text="상품 그룹명")
+    sub_title = models.CharField(max_length=100, help_text="상품 그룹 서브명")
+    kinds = models.CharField(max_length=100, default="ugly", choices=kinds)
+
+    open = models.BooleanField(default=False, help_text="상품 리스트에 공개 여부")
+
+    main_image = CompressedImageField(upload_to="product_main_image/%Y/%m/%d/")
+    category = models.ForeignKey("Category", related_name="product_groups", on_delete=models.CASCADE)
+
+
 
 class Product(models.Model):
     kinds = (
@@ -33,9 +49,13 @@ class Product(models.Model):
         ("soldout", "품절"),
     )
 
-    title = models.CharField(max_length=50)
-    sub_title = models.CharField(max_length=100)
+    title = models.CharField(max_length=50, help_text="상품명")
+    sub_title = models.CharField(max_length=100, help_text="상품 서브명")
     main_image = CompressedImageField(upload_to="product_main_image/%Y/%m/%d/")
+
+    #option 관련 
+    option_name = models.CharField(max_length=50, null=True, blank=True, help_text="옵션 이름")
+    main_product = models.BooleanField(default=False, help_text="상품 그룹에서의 메인 상품 여부")
 
     kinds = models.CharField(max_length=100, default="ugly", choices=kinds)
     status = models.CharField(max_length=10, choices=PRODUCT_STATUS, default=PRODUCT_STATUS[0][0])
@@ -119,8 +139,11 @@ class Product(models.Model):
     related_product = models.OneToOneField(
         "Product", null=True, blank=True, on_delete=models.SET_NULL
     )
+
+
     farmer = models.ForeignKey("farmers.Farmer", related_name="products", on_delete=models.CASCADE)
     category = models.ForeignKey("Category", related_name="products", on_delete=models.CASCADE)
+    product_group = models.ForeignKey("Product_Group", related_name="products", on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):
         self.weight = round(self.weight, 1)
@@ -214,7 +237,7 @@ class Product(models.Model):
         #     return result
 
     def __str__(self):
-        return self.title
+        return self.title + self.option_name
 
 
 class Product_Image(models.Model):

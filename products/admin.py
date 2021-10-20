@@ -10,6 +10,10 @@ class CustomProductAdmin(admin.ModelAdmin):
 		'title', 'sell_price', 
 	)
 
+@admin.register(models.Product_Group)
+class CustomProductGroupAdmin(admin.ModelAdmin):
+	pass
+
 @admin.register(models.Product_Image)
 class CustomProduct_ImageAdmin(admin.ModelAdmin):
 	pass
