@@ -62,7 +62,6 @@
                     <div class="absolute flex flex-col none z-10" id='sort_list'>
                         <a href="?sort=최신순">최신순</a>
                         <a href="?sort=인기순">인기순</a>
-                        <a href="?sort=마감임박순">마감임박순</a>
                     </div>
                 </div>
             </div>
@@ -92,8 +91,8 @@
                                     <img class="ml-1" id="cart_in_btn" , src="{% static 'images/products_list/cart_in.svg' %}">
                                 </div>
                             </div>
-                            <img class="absolute -top-5 left-1 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out2.svg' %}">
-                            <img class="absolute top-1 left-4 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                            <!-- <img class="absolute -top-5 left-1 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out2.svg' %}">
+                            <img class="absolute top-1 left-4 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out.svg' %}"> -->
                         </div>
                         <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
                             <div class="mt-1">

@@ -83,7 +83,9 @@ def store_list_cat(request, cat):
         cat_name = big_cat_name[categories.parent.name]
         print(cat_name)
         try:
-            products = categories.products.filter(open=True).order_by("-create_at")
+            products = categories.product_groups.filter(open=True).order_by(
+                "-create_at"
+            )
             categories = categories.parent.children.all().order_by("name")
         except ObjectDoesNotExist:
             ctx = {
