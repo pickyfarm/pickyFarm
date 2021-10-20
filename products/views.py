@@ -67,9 +67,9 @@ def store_list_cat(request, cat):
         print(big_category)
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product_Group.objects.filter(category__parent__slug=cat, open=True).order_by(
-                "create_at"
-            )
+            products = Product_Group.objects.filter(
+                category__parent__slug=cat, open=True
+            ).order_by("create_at")
         except ObjectDoesNotExist:
             ctx = {
                 "cat_name": cat_name,
@@ -139,6 +139,8 @@ def product_detail(request, pk):
     try:
         product_pk = pk
         product = Product.objects.get(pk=pk)
+        print(f"======={product_pk} {product.pk}")
+
         product.calculate_total_rating_avg()
         kinds = product.kinds
         farmer = product.farmer
@@ -146,8 +148,8 @@ def product_detail(request, pk):
         # 상품 리뷰
         siblings = Product.objects.filter(product_group=product.product_group)
         comments = Product_Comment.objects.filter(product=siblings[0])
-        for product in siblings[1:]:
-            comments = comments | product.product_comments.all()
+        for p in siblings[1:]:
+            comments = comments | p.product_comments.all()
         comments = comments.order_by("-create_at")
         total_comments = comments.count()
         page = request.GET.get("page")
@@ -197,10 +199,15 @@ def product_detail(request, pk):
             ]
         else:
             cost_performance_per = [0, 0, 0]
+        print(f"======={product_pk} {product.pk}")
 
         # 상세 정보
-        product_harvest_start_date = dateformat.format(product.harvest_start_date, "Y년 m월 d일")
-        product_harvest_end_date = dateformat.format(product.harvest_end_date, "Y년 m월 d일")
+        product_harvest_start_date = dateformat.format(
+            product.harvest_start_date, "Y년 m월 d일"
+        )
+        product_harvest_end_date = dateformat.format(
+            product.harvest_end_date, "Y년 m월 d일"
+        )
         product_shelf_life_date = product.shelf_life_date
 
         if product.related_product is not None:
@@ -215,7 +222,7 @@ def product_detail(request, pk):
             rel_product_harvest_start_date = None
             rel_product_harvest_end_date = None
             rel_product_shelf_life_date = None
-
+        print(f"======={product_pk} {product.pk}")
         ctx = {
             "product_pk": product_pk,
             "product": product,

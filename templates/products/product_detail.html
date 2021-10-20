@@ -125,7 +125,7 @@
             <div id="product-option-section" class="border-b flex py-3">
                 <select name="product-option" id="product-option" class="w-full" onchange="if(this.value) location.href=this.value;">
                     {% for sibling in siblings %}
-                    <option value="{% url 'products:product_detail' sibling.pk %}" {% if sibling.pk == product.pk %}selected{% endif %}>{{sibling.option_name}}</option>
+                    <option value="{% url 'products:product_detail' sibling.pk %}" {% if sibling.pk == product_pk %}selected{% endif %}>{{sibling.option_name}}</option>
                     {% endfor %}
                 </select>
             </div>
