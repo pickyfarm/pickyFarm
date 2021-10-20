@@ -278,8 +278,8 @@ class Product(models.Model):
         #     result.append(cost_performance_array)
         #     return result
 
-    # def __str__(self):
-    #     return self.title + self.option_name
+    def __str__(self):
+        return self.title
 
     def get_sibling_products(self):
         return Product.objects.filter(product_group=self.product_group)
