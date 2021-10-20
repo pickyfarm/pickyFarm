@@ -5,7 +5,7 @@
             <div class="product-list-sheet-index-title">상품명</div>
             <div class="product-list-sheet-index-title">판매상태</div>
             <div class="product-list-sheet-index-title">재고수량</div>
-            <div class="product-list-sheet-index-title">포장단위</div>
+            <div class="product-list-sheet-index-title">옵션</div>
             <div class="product-list-sheet-index-title">판매가격</div>
             <div class="product-list-sheet-index-title">이벤트 투용여부</div>
             <div class="product-list-sheet-index-title justify-self-start">판매율</div>
@@ -23,7 +23,7 @@
                 {{product.get_status_display}}
             </div>
             <div class="stocks product-data">{{product.stock}}</div>
-            <div class="package-unit product-data">{{product.weight}}{{product.weight_unit}}</div>
+            <div class="package-unit product-data">{{product.option_name}}</div>
             <div class="sell-price product-data">{{product.sell_price | intcomma}}</div>
             <div class="event product-data">{{product.is_event | yesno:'○,✕'}}</div>
             <div class="selling-rate product-data">{% widthratio product.sales_rate 1 100 %}%</div>
@@ -31,7 +31,7 @@
             {% elif product.status == 'soldout' %}<button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=375')">판매 재시작</button>{% endif %}
             <div class="product-list-sheet-index-title-mobile open-status-m ">판매상태</div>
             <div class="product-list-sheet-index-title-mobile stocks-m">재고수량</div>
-            <div class="product-list-sheet-index-title-mobile package-unit-m">포장단위</div>
+            <div class="product-list-sheet-index-title-mobile package-unit-m">옵션</div>
             <div class="product-list-sheet-index-title-mobile sell-price-m">판매가격</div>
             <div class="product-list-sheet-index-title-mobile event-m">이벤트 투용여부</div>
             <div class="product-list-sheet-index-title-mobile selling-rate-m">판매율</div>

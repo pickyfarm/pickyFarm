@@ -3,7 +3,7 @@
     <div id="order-list-sheet-index-section" class="grid place-items-center">
         <span class="order-list-sheet-index">주문상태</span>
         <span class="order-list-sheet-index">상품명</span>
-        <span class="order-list-sheet-index">포장단위</span>
+        <span class="order-list-sheet-index">옵션</span>
         <span class="order-list-sheet-index">수량</span>
         <span class="order-list-sheet-index">배송정보</span>
         <span class="order-list-sheet-index">송장정보</span>
@@ -33,7 +33,7 @@
             {% endif %}
         </div>
         <div class="product-name">{{order.product.title}}</div>
-        <div class="package-unit">{{order.product.weight}}kg</div>
+        <div class="package-unit">{{order.product.option_name}}</div>
         <div class="order-quantity">{{order.quantity}}</div>
         <div class="order-info grid">
             <div class="order-info-index">주문번호</div>
