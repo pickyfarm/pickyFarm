@@ -33,11 +33,28 @@ class Product_Group(models.Model):
         "Category", related_name="product_groups", on_delete=models.CASCADE
     )
 
+    sales_rate = models.FloatField(default=0, help_text="상품 전체 판매율")
+
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     def get_main_product(self):
         return self.products.get(main_product=True)
+
+    def get_sales_rate(self):
+        self.calculate_sales_rate()
+
+        return self.sales_rate
+
+    def calculate_sales_rate(self):
+        sales_rate = 0
+
+        for product in self.products.all():
+            product.calculate_sale_rate()
+            sales_rate += product.sales_rate
+
+        self.sales_rate = sales_rate
+        self.save()
 
 
 class Product(models.Model):
