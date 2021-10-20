@@ -34,7 +34,7 @@ def store_list_all(request):
     products = Product_Group.objects.filter(open=True).order_by("-create_at")
     if sort == "인기순":
         for product in products:
-            product.calculate_sale_rate()
+            product.calculate_sales_rate()
         products = products.order_by("sales_rate")
     elif sort == "마감임박순":
         products = products.order_by("stock")
