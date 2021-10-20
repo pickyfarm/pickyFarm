@@ -140,14 +140,14 @@
                         <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">
                             {{ comment.consumer.user.nickname }}</div>
                         <div class="text-center" style="width: 340px; border-right: solid 3px #999999; color:#989898;">
-                            {{ comment.create_at|date:"Y. m. d h:i" }}</div>
+                            {{ comment.create_at|date:"Y. m. d H:i" }}</div>
                         <div class="flex flex-row" id="report" style="margin-left:87.8px">
                             <img src="{% static 'images/report.svg' %}" alt="">
                             <div class="text-black text-opacity-40 pl-2">신고하기</div>
                         </div>
                     </div>
                     <div class="flex flex-row pb-5 items-center">
-                        <div class="text-black text-opacity-40 mr-16">{{ product.title }} 구매</div>
+                        <div class="text-black text-opacity-40 mr-16">{{ comment.product.title }} 구매</div>
                         <div id="stars" class='flex flex-row items-center'>
                             {% for i in comment.avg|rjust:comment.avg %}
                             <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}"
