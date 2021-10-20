@@ -5,6 +5,7 @@ from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Product_Group, Product, Category, Question, Answer
+from comments.models import Product_Comment
 from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
 from django.utils import timezone, dateformat
@@ -66,9 +67,9 @@ def store_list_cat(request, cat):
         print(big_category)
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product_Group.objects.filter(
-                category__parent__slug=cat, open=True
-            ).order_by("create_at")
+            products = Product_Group.objects.filter(category__parent__slug=cat, open=True).order_by(
+                "create_at"
+            )
         except ObjectDoesNotExist:
             ctx = {
                 "cat_name": cat_name,
@@ -143,7 +144,11 @@ def product_detail(request, pk):
         farmer = product.farmer
 
         # 상품 리뷰
-        comments = product.product_comments.all().order_by("-create_at")
+        siblings = Product.objects.filter(product_group=product.product_group)
+        comments = Product_Comment.objects.filter(product=siblings[0])
+        for product in siblings[1:]:
+            comments = comments | product.product_comments.all()
+        comments = comments.order_by("-create_at")
         total_comments = comments.count()
         page = request.GET.get("page")
         paginator = Paginator(comments, 5)
@@ -194,12 +199,8 @@ def product_detail(request, pk):
             cost_performance_per = [0, 0, 0]
 
         # 상세 정보
-        product_harvest_start_date = dateformat.format(
-            product.harvest_start_date, "Y년 m월 d일"
-        )
-        product_harvest_end_date = dateformat.format(
-            product.harvest_end_date, "Y년 m월 d일"
-        )
+        product_harvest_start_date = dateformat.format(product.harvest_start_date, "Y년 m월 d일")
+        product_harvest_end_date = dateformat.format(product.harvest_end_date, "Y년 m월 d일")
         product_shelf_life_date = product.shelf_life_date
 
         if product.related_product is not None:
@@ -254,7 +255,11 @@ def product_detail(request, pk):
 def comment_ajax(request, pk):
     """상품 리뷰 Pagination"""
     product = Product.objects.get(pk=pk)
-    comments = product.product_comments.all().order_by("-create_at")
+    siblings = Product.objects.filter(product_group=product.product_group)
+    comments = Product_Comment.objects.filter(product=siblings[0])
+    for product in siblings[1:]:
+        comments = comments | product.product_comments.all()
+    comments = comments.order_by("-create_at")
     total_comments = comments.count()
     page = request.GET.get("page")
     paginator = Paginator(comments, 5)
