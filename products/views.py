@@ -98,7 +98,7 @@ def store_list_cat(request, cat):
     print(products)
     if sort == "인기순":
         for product in products:
-            product.calculate_sale_rate()
+            product.calculate_sales_rate()
         products = products.order_by("sales_rate")
     elif sort == "마감임박순":
         products = products.order_by("stock")
