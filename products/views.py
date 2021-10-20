@@ -4,7 +4,7 @@ from django.http import request, JsonResponse
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from .models import Product, Category, Question, Answer
+from .models import Product_Group, Product, Category, Question, Answer
 from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
 from django.utils import timezone, dateformat
@@ -30,8 +30,8 @@ def store_list_all(request):
     page_size = 15
     limit = page_size * page
     offset = limit - page_size
-    products_count = Product.objects.filter(open=True).count()
-    products = Product.objects.filter(open=True).order_by("-create_at")
+    products_count = Product_Group.objects.filter(open=True).count()
+    products = Product_Group.objects.filter(open=True).order_by("-create_at")
     if sort == "인기순":
         for product in products:
             product.calculate_sale_rate()
@@ -66,9 +66,9 @@ def store_list_cat(request, cat):
         print(big_category)
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product.objects.filter(category__parent__slug=cat, open=True).order_by(
-                "create_at"
-            )
+            products = Product_Group.objects.filter(
+                category__parent__slug=cat, open=True
+            ).order_by("create_at")
         except ObjectDoesNotExist:
             ctx = {
                 "cat_name": cat_name,
@@ -193,27 +193,32 @@ def product_detail(request, pk):
         else:
             cost_performance_per = [0, 0, 0]
 
-        
-        #상세 정보
-        product_harvest_start_date = dateformat.format(product.harvest_start_date, 'Y년 m월 d일')
-        product_harvest_end_date = dateformat.format(product.harvest_end_date, 'Y년 m월 d일')
+        # 상세 정보
+        product_harvest_start_date = dateformat.format(
+            product.harvest_start_date, "Y년 m월 d일"
+        )
+        product_harvest_end_date = dateformat.format(
+            product.harvest_end_date, "Y년 m월 d일"
+        )
         product_shelf_life_date = product.shelf_life_date
 
         if product.related_product is not None:
-            rel_product_harvest_start_date = dateformat.format(product.related_product.harvest_start_date, 'Y년 m월 d일')
-            rel_product_harvest_end_date = dateformat.format(product.related_product.harvest_end_date, 'Y년 m월 d일')
+            rel_product_harvest_start_date = dateformat.format(
+                product.related_product.harvest_start_date, "Y년 m월 d일"
+            )
+            rel_product_harvest_end_date = dateformat.format(
+                product.related_product.harvest_end_date, "Y년 m월 d일"
+            )
             rel_product_shelf_life_date = product.related_product.shelf_life_date
-        else :
+        else:
             rel_product_harvest_start_date = None
             rel_product_harvest_end_date = None
             rel_product_shelf_life_date = None
 
-
-
-
         ctx = {
             "product_pk": product_pk,
             "product": product,
+            "siblings": Product.objects.filter(product_group=product.product_group),
             "kinds": kinds,
             "farmer": farmer,
             "comments": comments,
@@ -234,13 +239,12 @@ def product_detail(request, pk):
             "cost_3": cost_performance_per[1],
             "cost_5": cost_performance_per[2],
             "related_product": related_product,
-            "product_harvest_start_date" : product_harvest_start_date,
-            "product_harvest_end_date" : product_harvest_end_date,
-            "product_shelf_life_date" : product_shelf_life_date,
-            "rel_product_harvest_start_date" : rel_product_harvest_start_date,
-            "rel_product_harvest_end_date" : rel_product_harvest_end_date,
-            "rel_product_shelf_life_date" : rel_product_shelf_life_date,
-            
+            "product_harvest_start_date": product_harvest_start_date,
+            "product_harvest_end_date": product_harvest_end_date,
+            "product_shelf_life_date": product_shelf_life_date,
+            "rel_product_harvest_start_date": rel_product_harvest_start_date,
+            "rel_product_harvest_end_date": rel_product_harvest_end_date,
+            "rel_product_shelf_life_date": rel_product_shelf_life_date,
         }
         return render(request, "products/product_detail.html", ctx)
     except ObjectDoesNotExist:
@@ -413,7 +417,9 @@ def create_answer(request, pk):
         form = Answer_Form(request.POST)
         if form.is_valid():
             answer = Answer(
-                content=form.cleaned_data.get("content"), question=question, farmer=farmer
+                content=form.cleaned_data.get("content"),
+                question=question,
+                farmer=farmer,
             )
             answer.save()
         else:
