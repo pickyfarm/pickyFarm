@@ -951,7 +951,7 @@ class FarmerMypageOrderCancelPopup(DetailView):
         return redirect("core:popup_callback")
 
 
-class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
+class FarmerMyPageProductStateUpdate(FarmerMyPagePopupBase):
     """상품 상태 수정 팝업"""
 
     model = Product
@@ -992,6 +992,12 @@ class FarmerMypPageProductStateUpdate(FarmerMyPagePopupBase):
         )
 
         return redirect("core:popup_callback")
+
+
+class FarmerMypageProductSaleRestartPopup(FarmerMyPageProductStateUpdate):
+    """상품 재판매 시작 팝업"""
+
+    template_name = "farmers/mypage/product/product_sale_restart_popup.html"
 
 
 class FarmerMypageProductUpdatePopup(TemplateView):
