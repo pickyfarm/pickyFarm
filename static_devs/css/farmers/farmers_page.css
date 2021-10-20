@@ -1,5 +1,5 @@
 #content {
-    width:990px;
+    width: 990px;
 }
 
 #big-content {
@@ -22,9 +22,9 @@
     object-fit: cover;
 }
 #pick-img {
-    position:absolute;
-    bottom:0;
-    right:0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     z-index: 1;
     cursor: pointer;
 }
@@ -34,37 +34,38 @@
     top: 0;
     right: 0;
     height: 250px;
-    width:68%;
-    border-left:1px solid black;
-    border-top:1px solid black;
-    border-bottom:1px solid black;
+    width: 68%;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 /* --------------------------------------- */
 
 #input-box {
     width: 740px;
 }
-#search_key, #search_key_2 {
+#search_key,
+#search_key_2 {
     width: 680px;
 }
 
 /* sort(정렬) */
-#sort{
+#sort {
     margin-right: 0;
 }
-#sort_list{
+#sort_list {
     width: 63px;
     height: 93px;
     padding: 14px 0px;
     border-radius: 30px;
     border: solid 1px #5e6656;
     background-color: #ffffff;
-    display:none;
+    display: none;
 }
-#sort:hover #sort_list{
+#sort:hover #sort_list {
     display: inline-flex;
 }
-#sort_list > a{
+#sort_list > a {
     font-family: NotoSansKR;
     font-size: 11px;
     font-weight: 500;
@@ -80,7 +81,7 @@
 #tag_table {
     width: 100%;
     border: 1px solid #707070;
-  }
+}
 #tag_table td {
     cursor: pointer;
     padding: 33px 142px;
@@ -100,7 +101,7 @@
 }
 
 .row {
-    margin:178px 0px;
+    margin: 178px 0px;
 }
 .row:nth-child(odd) {
     justify-content: flex-start;
@@ -108,7 +109,7 @@
 .row:nth-child(even) {
     justify-content: flex-end;
 }
-.row:nth-child(even) #wrapper{
+.row:nth-child(even) #wrapper {
     justify-content: flex-end;
 }
 .row:nth-child(even) #wrapper > div:first-child {
@@ -116,7 +117,7 @@
 }
 
 #wrapper {
-    width:736px
+    width: 736px;
 }
 
 /* farm list image */
@@ -136,23 +137,33 @@
 
 #pick_img {
     position: absolute;
-    bottom:-27.5px; right:-27.5px;
+    bottom: -27.5px;
+    right: -27.5px;
     cursor: pointer;
 }
 
 #farm_desc_block {
-    width:330px;
+    width: 330px;
 }
-.row:nth-child(odd) #farm_desc_block{
+.row:nth-child(odd) #farm_desc_block {
     margin-left: 81px;
 }
-.row:nth-child(even) #farm_desc_block{
+.row:nth-child(even) a {
+    order: 2;
+}
+.row:nth-child(even) #farm_desc_block {
     margin-right: 81px;
+    order: 1;
 }
 
 /* font color */
-#farm_profile, #farm_loc, #farm_name, #tag, #product_desc, #row_farm {
-    color:#5e6656;
+#farm_profile,
+#farm_loc,
+#farm_name,
+#tag,
+#product_desc,
+#row_farm {
+    color: #5e6656;
 }
 #hot_farm_loc {
     color: #4d4d4d;
@@ -160,7 +171,10 @@
 #story_title {
     color: #808080;
 }
-#story_subtitle, #table_header, #row_views, #row_create_at {
+#story_subtitle,
+#table_header,
+#row_views,
+#row_create_at {
     color: #999999;
 }
 
@@ -173,11 +187,13 @@
 }
 #product_img_wrapper {
     box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
-    width: 90px; height: 130px;
+    width: 90px;
+    height: 130px;
 }
 
 #product_img {
-    width: 90px; height: 130px;
+    width: 90px;
+    height: 130px;
     object-fit: cover;
 }
 /* ------------------------------------------- */
@@ -189,7 +205,7 @@ select {
     border-radius: 18px;
 }
 
-#farmer_story_content{
+#farmer_story_content {
     height: 640px;
     margin-bottom: 30px;
 }
