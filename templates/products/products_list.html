@@ -84,10 +84,10 @@
                                 <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
                             </a>
                             <div id="like_cart_in" class="flex flex-row">
-                                <div id="wish" name="{{product.pk}}" class="z-10">
+                                <div id="wish" name="{{product.get_main_product.pk}}" class="z-10">
                                     <img class="mr-1" , id="wish_btn" src="{% static 'images/products_list/like.svg' %}">
                                 </div>
-                                <div id="cart" name="{{product.pk}}">
+                                <div id="cart" name="{{product.get_main_product.pk}}">
                                     <img class="ml-1" id="cart_in_btn" , src="{% static 'images/products_list/cart_in.svg' %}">
                                 </div>
                             </div>
