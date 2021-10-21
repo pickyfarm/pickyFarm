@@ -207,6 +207,8 @@ def payment_create(request):
         # [PROCESS 4] 소비자 주문목록에서 각 주문 사항 order_detail로 생성
         for order in orders:
 
+            delivery_fee = 0
+
             order_detail_cnt += 1
 
             pk = (int)(order["pk"])
@@ -216,7 +218,8 @@ def payment_create(request):
             product = Product.objects.get(pk=pk)
 
             # 기본 배송비 total_delivery_fee에 추가
-            total_delivery_fee += product.default_delivery_fee
+            delivery_fee += product.default_delivery_fee
+            # total_delivery_fee += product.default_delivery_fee
 
             # 단위별 추가 배송비 total_delivery_fee에 추가
             if product.additional_delivery_fee_unit != 0:
@@ -224,14 +227,22 @@ def payment_create(request):
 
                 if (float)(quantity_per_unit) > 1:
                     if quantity % product.additional_delivery_fee_unit == 0:
-                        total_delivery_fee += (
+                        delivery_fee += (
                             (int)(quantity_per_unit - 1)
                         ) * product.addtional_delivery_fee
+
+                        # total_delivery_fee += (
+                        #     (int)(quantity_per_unit - 1)
+                        # ) * product.addtional_delivery_fee
                     else:
-                        total_delivery_fee += (int)(
+                        delivery_fee += (int)(
                             quantity / product.additional_delivery_fee_unit
                         ) * product.additional_delivery_fee
-            # !!!!제주/산간 관련 추가 배송비 코드 추가해야!!!!
+
+                        # total_delivery_fee += (int)(
+                        #     quantity / product.additional_delivery_fee_unit
+                        # ) * product.additional_delivery_fee
+            
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
             is_jeju_mountain = check_address_by_zipcode(int(consumer.default_address.zipcode))
 
@@ -239,9 +250,13 @@ def payment_create(request):
             # 제주 산간이면 total_delivery_fee에 더하기
             if is_jeju_mountain:
                 order_group.is_jeju_mountain = True
-                total_delivery_fee += product.jeju_mountain_additional_delivery_fee
-            # 제주 산간이 아니념 total_delivery_fee에 안더하기
+                delivery_fee += product.jeju_mountain_additional_delivery_fee
+                # total_delivery_fee += product.jeju_mountain_additional_delivery_fee
 
+            # total_delivery_fee 에 order_detail delivery_fee 더하기
+            total_delivery_fee += delivery_fee
+            # 제주 산간이 아니면 total_delivery_fee에 안더하기
+            
             # order_detail 구매 수량
             total_quantity += quantity
             # order_detail 구매 총액
@@ -252,7 +267,7 @@ def payment_create(request):
                 status="wait",
                 quantity=quantity,
                 commision_rate=product.commision_rate,
-                total_price=total_price,
+                total_price= delivery_fee + total_price,
                 product=product,
                 order_group=order_group,
             )
