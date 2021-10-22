@@ -139,8 +139,55 @@
         font-size: 62.5%;
     }
 
+    /* mobile footer */
+
     .footer {
-        display: none;
+        width: 100vw;
+        margin-top: 2rem;
+        padding: 0 1.8rem;
+        flex-direction: column;
+    }
+
+    .footer *:not(.contact-info-index) {
+        color: #919191;
+    }
+
+    .kakao,
+    .phone {
+        width: 2.1rem;
+        height: 2.1rem;
+    }
+
+    .contacts {
+        width: 19rem;
+    }
+
+    .delivery_info_image {
+        width: auto;
+        flex: 1;
+    }
+
+    .info {
+        margin-top: 2rem;
+    }
+
+    .contact-info-wrap {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .contact-info {
+        margin-left: 1rem;
+    }
+
+    #legal-links {
+        margin: auto;
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    #legal-links ul {
+        justify-content: space-between;
     }
 
     .main-contents {
@@ -151,6 +198,7 @@
     .base-wrap {
         height: auto;
         flex: 1;
+        padding-bottom: 13rem;
     }
 
     .header-pc {

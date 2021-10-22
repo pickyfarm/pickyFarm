@@ -7,17 +7,17 @@
                 <div class="text-md">고객 센터</div>
                 <div class=" text-4xl">010-3368-8026</div>
             </div>
-            <div class="flex">
+            <div class="flex contact-info-wrap">
                 <div class="kakao"><img src="{% static 'images/kakao.svg' %}" class="w-16" alt=""></div>
-                <div class="flex flex-col self-center mx-6">
-                    <div class="text-xs font-medium">플러스 친구 "피키팜 Picky Farm"</div>
+                <div class="flex flex-col self-center mx-6 contact-info">
+                    <div class="text-xs font-medium contact-info-index">플러스 친구 "피키팜 Picky Farm"</div>
                     <div class="text-md font-extralight text-gray-500">오전 9시 ~ 오후 6시</div>
                 </div>
             </div>
             <div class="flex">
                 <div class="phone"><img src="{% static 'images/phone.svg' %}" class="w-16" alt=""></div>
-                <div class="self-center mx-6">
-                    <div class="text-xs font-medium">1대1 문의</div>
+                <div class="self-center mx-6 contact-info">
+                    <div class="text-xs font-medium contact-info-index">1대1 문의</div>
                     <div class="text-md font-extralight text-gray-500">오전 10시 ~ 오후 6시</div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
     </div>
     <div class=" border-r-2"></div>
     <div class="info flex flex-col text-xs justify-between">
-        <div class="ml-auto mb-8">
+        <div class="ml-auto mb-8" id="legal-links">
             <ul class="flex">
                 <li class="mx-4 font-medium"><a href="{% url 'user:signup_terms_of_service' %}" target="_top">이용약관</a></li>
                 <li class="mx-4 font-medium"> <a href="{% url 'core:personal-info' %}">개인정보처리방침</a> </li>
