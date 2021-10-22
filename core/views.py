@@ -60,6 +60,15 @@ def index(request):
     return render(request, "base/landing/siminwon/siminwon_landing_page.html", ctx)
 
 
+def landing_test(request):
+    farmers = Farmer.objects.all()
+    slider_images = Main_Slider_Image.objects.all()
+
+    ctx = {"farmers": farmers, "main_slider_image": slider_images}
+
+    return render(request, "base/index_new/index_new.html", ctx)
+
+
 def disclaimer(request):
     return render(request, "base/disclaimer.html")
 

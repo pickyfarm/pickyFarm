@@ -1,0 +1,50 @@
+/* 
+공통되는 css 속성만 (background-color 등 PC와 모바일 모두 같은 값을 가지는 속성) 먼저 적은 뒤에, 
+PC, mobile 순으로 작성할 것 -> 코드 중복 최대한 막기 위함임
+*/
+
+/* base styles */
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Section 1 - base */
+
+/* Section 2 - base */
+
+/* Section 3 (Farmer 미니홈페이지 링크) - base */
+#index-section3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: #ecf3e7;
+}
+
+/* for PC */
+
+.index-section-container {
+    width: 990px;
+}
+
+/****** Section 1 - PC ******/
+
+/****** Section 2 - PC ******/
+
+/****** Section 3 (Farmer 미니홈페이지 링크) - PC ******/
+
+/* for mobile */
+@media screen and (max-width: 768px) {
+    #content {
+        width: 100vw;
+        padding: 0 2.5rem;
+    }
+
+    /* Section 1 - PC */
+
+    /* Section 2 - PC */
+
+    /* Section 3 (Farmer 미니홈페이지 링크) - PC */
+}
