@@ -316,7 +316,7 @@ class Login(View):
 
                 login(request, user=user)
 
-                if post_next != "None":
+                if post_next != ("None" or None):
                     print("[POST] get next REDIRECT")
                     return redirect(post_next)
                 else:
