@@ -691,6 +691,8 @@ def mypage(request, cat):
     if request.method == "GET":
         consumer_nickname = consumer.user.nickname
         sub_farmers = consumer.subs.all()  # pagenation 필요
+
+        preparing_num, delivery_num, complete_num, cancel_num  = 0, 0, 0, 0
         print(sub_farmers)
         if sub_farmers.exists() is False:
             print("구독자는 없다")
@@ -705,14 +707,15 @@ def mypage(request, cat):
                 print("여기안와?")
                 raise NoRelatedInstance
             for group in groups:
-                details = group.order_details
-                preparing_num = details.filter(status="preparing").count()
-                print(preparing_num)
-                delivery_num = details.filter(status="shipping").count()
-                print(delivery_num)
-                complete_num = details.filter(status="complete").count()
-                print(complete_num)
-                cancel_num = details.filter(status="cancel").count()
+                details = group.order_details.all()
+                print(details)
+                preparing_num += details.filter(status="preparing").count()
+                # print(preparing_num)
+                delivery_num += details.filter(status="shipping").count()
+                # print(delivery_num)
+                complete_num == details.filter(status="complete").count()
+                # print(complete_num)
+                cancel_num += details.filter(status="cancel").count()
         except NoRelatedInstance:
             preparing_num = 0
             delivery_num = 0
