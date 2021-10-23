@@ -13,6 +13,79 @@ PC, mobile 순으로 작성할 것 -> 코드 중복 최대한 막기 위함임
 /* Section 1 - base */
 
 /* Section 2 - base */
+#index-section2 {
+    display: flex;
+    align-items: center;
+
+    background-color: white;
+}
+
+#hot-crops {
+    display: flex;
+    flex-direction: column;
+}
+
+#hot-crops-title {
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: #374f34;
+}
+
+#crops-desc-wrap {
+    display: flex;
+}
+
+.crop-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hot-crop-image {
+    object-fit: cover;
+}
+
+.hot-crop-title,
+.hot-crop-price {
+    color: #30372b;
+}
+
+.hot-crop-title {
+    font-weight: normal;
+}
+
+.hot-crop-price {
+    font-weight: 500;
+}
+
+.ugly-tag {
+    width: fit-content;
+
+    background-color: #4a5448;
+    color: white;
+
+    border-radius: 0 100px 100px 0;
+}
+
+#click-message {
+    display: flex;
+    align-items: center;
+    align-self: center;
+
+    color: #374f34;
+}
+
+#section2-main-phrase {
+    text-align: right;
+    color: #728152;
+}
+
+#section2-main-phrase b {
+    color: #374f34;
+}
 
 /* Section 3 (Farmer 미니홈페이지 링크) - base */
 #index-section3 {
@@ -32,6 +105,62 @@ PC, mobile 순으로 작성할 것 -> 코드 중복 최대한 막기 위함임
 /****** Section 1 - PC ******/
 
 /****** Section 2 - PC ******/
+#index-section2 {
+    justify-content: space-between;
+
+    height: 593px;
+}
+
+#hot-crops-title {
+    font-size: 25px;
+}
+
+#crops-desc-wrap {
+    gap: 22px;
+    margin-top: 30px;
+}
+
+.hot-crop-image {
+    width: 135px;
+    height: 196px;
+    border-radius: 12px;
+}
+
+.hot-crop-title {
+    font-size: 20px;
+    margin-top: 12px;
+}
+
+.hot-crop-price {
+    font-size: 24px;
+}
+
+.ugly-tag {
+    margin-top: 12px;
+    font-size: 20px;
+    font-weight: lighter;
+    padding: 0 10px;
+}
+
+#click-message {
+    margin-top: 44px;
+
+    font-size: 25px;
+}
+
+#click-message-leaf {
+    margin-right: 5px;
+}
+
+#section2-main-phrase {
+    font-size: 40px;
+    line-height: 56px;
+}
+
+.big {
+    font-size: 26px;
+    padding: 0 15px;
+}
 
 /****** Section 3 (Farmer 미니홈페이지 링크) - PC ******/
 
