@@ -91,6 +91,14 @@ img {
     color: #374f34;
 }
 
+#section2-image-wrap {
+    display: flex;
+    flex-direction: column;
+}
+#section2-image-wrap .ugly-tag {
+    align-self: flex-end;
+}
+
 /* Section 3 (Farmer 미니홈페이지 링크) - base */
 #index-section3 {
     display: flex;
@@ -196,123 +204,125 @@ img {
 /****** Section 1 - PC ******/
 
 /****** Section 2 - PC ******/
-#index-section2 {
-    justify-content: space-between;
+@media screen and (min-width: 769px) {
+    #index-section2 {
+        justify-content: space-between;
 
-    height: 593px;
-}
+        height: 593px;
+    }
 
-#hot-crops-title {
-    font-size: 25px;
-}
+    #hot-crops-title {
+        font-size: 25px;
+    }
 
-#crops-desc-wrap {
-    gap: 22px;
-    margin-top: 30px;
-}
+    #crops-desc-wrap {
+        gap: 22px;
+        margin-top: 30px;
+    }
 
-.hot-crop-image {
-    width: 135px;
-    height: 196px;
-    border-radius: 12px;
-}
+    .hot-crop-image {
+        width: 135px;
+        height: 196px;
+        border-radius: 12px;
+    }
 
-.hot-crop-title {
-    font-size: 20px;
-    margin-top: 12px;
-}
+    .hot-crop-title {
+        font-size: 20px;
+        margin-top: 12px;
+    }
 
-.hot-crop-price {
-    font-size: 24px;
-}
+    .hot-crop-price {
+        font-size: 24px;
+    }
 
-.ugly-tag {
-    margin-top: 12px;
-    font-size: 20px;
-    font-weight: 300;
-    padding: 0 10px;
-}
+    .ugly-tag {
+        margin-top: 12px;
+        font-size: 20px;
+        font-weight: 300;
+        padding: 0 10px;
+    }
 
-#click-message {
-    margin-top: 44px;
+    #click-message {
+        margin-top: 44px;
 
-    font-size: 25px;
-}
+        font-size: 25px;
+    }
 
-#click-message-leaf {
-    margin-right: 5px;
-}
+    #click-message-leaf {
+        margin-right: 5px;
+    }
 
-#section2-main-phrase {
-    font-size: 40px;
-    line-height: 56px;
-}
+    #section2-main-phrase {
+        font-size: 40px;
+        line-height: 56px;
+    }
 
-.big {
-    font-size: 26px;
-    padding: 0 15px;
-}
+    .big {
+        font-size: 26px;
+        padding: 0 15px;
+    }
 
-/****** Section 3 (Farmer 미니홈페이지 링크) - PC ******/
-#index-section3 {
-    height: 672px;
-    width: 100%;
-}
+    /****** Section 3 (Farmer 미니홈페이지 링크) - PC ******/
+    #index-section3 {
+        height: 672px;
+        width: 100%;
+    }
 
-#section3-title {
-    font-size: 40px;
+    #section3-title {
+        font-size: 40px;
 
-    margin-top: 80px;
-}
+        margin-top: 80px;
+    }
 
-.section3-title-button {
-    padding: 0 45px;
-    margin-right: 15px;
-}
+    .section3-title-button {
+        padding: 0 45px;
+        margin-right: 15px;
+    }
 
-#section3-farmer-list-wrap {
-    width: auto;
+    #section3-farmer-list-wrap {
+        width: auto;
 
-    margin-top: 57px;
-}
+        margin-top: 57px;
+    }
 
-.farmer-slider-button {
-    width: 18px;
-    height: 32px;
+    .farmer-slider-button {
+        width: 18px;
+        height: 32px;
 
-    margin-bottom: 135px;
-}
+        margin-bottom: 135px;
+    }
 
-#section3-farmer-list-slider {
-    column-gap: 122px;
-    width: 900px;
-}
+    #section3-farmer-list-slider {
+        column-gap: 122px;
+        width: 900px;
+    }
 
-.farmer-figure-wrap {
-    width: 260px;
-}
+    .farmer-figure-wrap {
+        width: 260px;
+    }
 
-.farmer-profile-image {
-    width: 184px;
-    height: 184px;
-    border-width: 4px;
-}
+    .farmer-profile-image {
+        width: 184px;
+        height: 184px;
+        border-width: 4px;
+    }
 
-.farm-name {
-    font-weight: 400;
-    font-size: 30px;
+    .farm-name {
+        font-weight: 400;
+        font-size: 30px;
 
-    margin-top: 10px;
-}
+        margin-top: 10px;
+    }
 
-.farmer-page-link {
-    width: 260px;
+    .farmer-page-link {
+        width: 260px;
 
-    font-size: 25px;
-    font-weight: 400;
+        font-size: 25px;
+        font-weight: 400;
 
-    margin-top: 30px;
-    padding: 5px 0;
+        margin-top: 30px;
+        padding: 5px 0;
+    }
 }
 
 /* for mobile */
@@ -324,7 +334,95 @@ img {
 
     /* Section 1 - PC */
 
-    /* Section 2 - PC */
+    /* Section 2 - mobile */
+    #index-section2 {
+        flex-direction: column-reverse;
+        width: 100%;
+        height: auto;
+    }
 
-    /* Section 3 (Farmer 미니홈페이지 링크) - PC */
+    #hot-crops {
+        width: inherit;
+        padding: 0 2.4rem;
+    }
+
+    #hot-crops-title {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    #crops-desc-wrap {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .hot-crop-image {
+        width: 8.3rem;
+        height: 12rem;
+
+        border-radius: 7.2px;
+    }
+
+    .hot-crop-title {
+        font-size: 1.3rem;
+
+        margin-top: 0.8rem;
+    }
+
+    .hot-crop-price {
+        font-size: 1.4rem;
+        margin-top: 0.5rem;
+    }
+
+    .ugly-tag {
+        font-size: 1rem;
+        font-weight: 300;
+        text-align: center;
+
+        margin-top: 0.7rem;
+        padding: 0.5rem 0;
+
+        width: 6.4rem;
+    }
+
+    #click-message {
+        margin-top: 1.8rem;
+        margin-bottom: 3.3rem;
+
+        font-size: 1.3rem;
+    }
+
+    #click-message-leaf {
+        width: 1rem;
+        height: 1rem;
+
+        margin-right: 0.5rem;
+    }
+
+    #section2-phrase {
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        margin-top: 5rem;
+        padding-left: 2.4rem;
+    }
+
+    #section2-main-phrase {
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-align: right;
+
+        width: 11.4rem;
+        line-height: 1.5;
+    }
+
+    #section2-phrase-img {
+        width: 15.5rem;
+        height: 13.8rem;
+    }
+
+    /* Section 3 (Farmer 미니홈페이지 링크) - mobile */
 }
