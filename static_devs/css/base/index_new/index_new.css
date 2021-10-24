@@ -155,7 +155,8 @@ img {
 .farmer-profile-image {
     border-radius: 100%;
     border-color: #374f34;
-    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.51);
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.51),
+        0px 0px 33px 4px rgba(0, 0, 0, 0.45) inset;
 }
 
 .farm-name {
