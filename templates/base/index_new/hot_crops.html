@@ -9,7 +9,7 @@
             {% for crop in hot_crops %}
             <a href="{% url 'products:product_detail' crop.pk %}">
                 <div class="crop-desc">
-                    <img src="{{crop.main_image.url}}" alt="무난이작물" class="hot-crop-image">
+                    <img src="{{crop.main_image.url}}" alt="무난이작물" class="hot-crop-image zoom-on-hover">
                     <h2 class="hot-crop-title">홍로 {{crop.weight | intcomma}}{{crop.weight_unit}}</h2>
                     <h2 class="hot-crop-price">{{crop.sell_price | intcomma}}원</h2>
                     <div class="ugly-tag">무난이 작물</div>

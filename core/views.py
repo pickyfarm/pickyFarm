@@ -63,7 +63,6 @@ def index(request):
 def landing_test(request):
     farmers = Farmer.objects.all()
     hot_crops = Product.objects.filter(farmer__farm_name="시민원")
-    print(f"{hot_crops}***************")
     slider_images = Main_Slider_Image.objects.all()
 
     ctx = {
