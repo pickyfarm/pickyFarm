@@ -46,6 +46,11 @@ img {
     line-height: 2rem;
 }
 
+.todays-crop-title {
+    width: 135px;
+    word-break: keep-all;
+}
+
 #todays-crops-btn {
     box-shadow: 2px 2px 3px 0 rgba(71, 83, 48, 0.38);
     background-color: #dfe4c7;
@@ -99,6 +104,7 @@ img {
 .todays-crop-title {
     font-weight: normal;
 }
+
 
 .hot-crop-price {
     font-weight: 500;
@@ -270,8 +276,8 @@ img {
         margin-bottom: 30px;
     }
 
-    #todays-crop-title {
-        font-size: 18px;
+    .todays-crop-title {
+        font-size: 16px;
         margin-top: 12px;
     }
 
@@ -461,7 +467,9 @@ img {
     }
 
     .todays-crop-title {
+        width: 8.3rem;
         font-size: 1rem;
+        line-height: 1.4rem;
         margin-top: 0.8rem;
     }
 

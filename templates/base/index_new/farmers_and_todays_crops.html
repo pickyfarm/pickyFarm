@@ -21,9 +21,9 @@
                 <a href="{% url 'farmers:farmer_detail' 9 %}">
                     <img class="farmer-img zoom-on-hover" src="{% static 'images/index_new/section1/farmer3.webp' %}" alt="">
                 </a>
-                <a href="{% url 'farmers:farmer_detail' 10 %}">
+                <!-- <a href="{% url 'farmers:farmer_detail' 10 %}"> -->
                     <img class="farmer-img zoom-on-hover" src="{% static 'images/index_new/section1/farmer4.webp' %}" alt="">
-                </a>
+                <!-- </a> -->
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
                 <div id="todays-crops-wrap" class="p-5">
                     <div class="crop-desc">
                         <img src="{{crop.main_image.url}}" alt="무난이작물" class="hot-crop-image">
-                        <h2 class="hot-crop-title">{{crop.title}} <br> {{crop.weight | intcomma}}{{crop.weight_unit}}</h2>
+                        <h2 class="todays-crop-title">{{crop.title}}</h2>
                         <h2 class="hot-crop-price">{{crop.sell_price | intcomma}}원</h2>
                         {% if crop.kinds == "ugly" %}
                         <div class="ugly-tag">무난이 작물</div>
@@ -56,7 +56,7 @@
                 <div id="todays-crops-wrap" class="p-5">
                     <div class="crop-desc">
                         <img src="{{crop.main_image.url}}" alt="무난이작물" class="hot-crop-image">
-                        <h2 class="todays-crop-title">{{crop.title}} {{crop.weight | intcomma}}{{crop.weight_unit}}</h2>
+                        <h2 class="todays-crop-title">{{crop.title}}</h2>
                         <h2 class="hot-crop-price">{{crop.sell_price | intcomma}}원</h2>
                         {% if crop.kinds == "ugly" %}
                         <div class="ugly-tag">무난이 작물</div>
