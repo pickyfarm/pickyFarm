@@ -59,6 +59,9 @@ class Farmer(models.Model):
     delivery_service_company = models.CharField(
         max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
     )  # 배송 보내는 택배회사
+    farm_account = models.CharField(
+        max_length=25, default="계좌번호", help_text="정산 받을 계좌번호"
+    )
     shipping_description = models.CharField(max_length=100, default="")  # 배송 기간에 대한 안내
 
     # 작물 관련법상 표시사항 정보
