@@ -15,6 +15,42 @@ img {
 }
 
 /* Section 1 - base */
+#index-section1 {
+    width: 100%;
+    overflow: hidden;
+    background-color: #f2f2f2;
+}
+
+#section1-title {
+    line-height: 3.2rem;
+    font-weight: bold;
+    color: #728152;
+}
+
+#section1-title b {
+    color: #374f34;
+}
+
+#section1-farmers-wrap {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    background-color: #dfe4c7;
+}
+#todays-crops-wrap {
+    background-color: #fff;
+    border-radius: 12px;
+}
+#todays-crops-title {
+    font-weight: bold;
+    color: #484f39;
+}
+
+#todays-crops-btn {
+    box-shadow: 2px 2px 3px 0 rgba(71, 83, 48, 0.38);
+    background-color: #dfe4c7;
+    color: #535940;
+    font-weight: bold;
+}
 
 /* Section 2 - base */
 #index-section2 {
@@ -53,11 +89,12 @@ img {
 }
 
 .hot-crop-title,
-.hot-crop-price {
+.hot-crop-price,
+.todays-crop-title {
     color: #30372b;
 }
 
-.hot-crop-title {
+.hot-crop-title, .todays-crop-title {
     font-weight: normal;
 }
 
@@ -104,7 +141,6 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     background-color: #ecf3e7;
 }
 
@@ -112,7 +148,6 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     color: #728152;
     font-weight: bold;
 }
@@ -203,6 +238,49 @@ img {
 }
 
 /****** Section 1 - PC ******/
+@media screen and (min-width: 769px) {
+    #section1-title {
+        width: 100%;
+        font-size: 40px;
+        margin-top: 90px;
+        margin-bottom: 50px;
+    }
+    #section1-farmers-wrap {
+        width: fit-content;
+        padding: 43px 350px 43px 100px;
+    }
+    .farmer-img {
+        width: auto;
+        height: 250px;
+    }
+    #section1-todays-crops-wrap {
+        padding-bottom: 80px;
+    }
+
+    #todays-crops-title {
+        font-size: 22px;
+        margin-top: 80px;
+        margin-bottom: 30px;
+    }
+
+    #todays-crop-title {
+        font-size: 18px;
+        margin-top: 12px;
+    }
+
+    #todays-crops-btn {
+        width: 143.8px;
+        height: 44px;
+        line-height: 44px;
+        border-radius: 15.6px;
+        font-size: 18px;
+        margin-top: 17px;
+    }
+
+    #todays-crops-mobile {
+        display: none;
+    }
+}
 
 /****** Section 2 - PC ******/
 @media screen and (min-width: 769px) {
@@ -333,7 +411,66 @@ img {
         padding: 0 2.5rem;
     }
 
-    /* Section 1 - PC */
+    /* Section 1 - mobile */
+    #section1-title {
+        font-size: 2.5rem;
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        padding-left: 6rem;
+    }
+
+    #section1-farmers-wrap {
+        width: 100%;
+        height: 30rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        position: relative;
+    }
+    #section1-farmers-wrap div:nth-child(1) {
+        position: absolute;
+        top: 0rem;
+        left: 5rem;
+    }
+    #section1-farmers-wrap div:nth-child(2) {
+        position: absolute;
+        bottom: 2rem;
+        right: 0rem;
+    }
+
+    .farmer-img {
+        width: auto;
+        height: 15rem;
+    }
+    #section1-todays-crops-wrap {
+        width: 92% !important;
+        padding-bottom: 6.4rem;
+    }
+    #todays-crops-title {
+        font-size: 1.5rem;
+        margin-top: 6.7rem;
+        margin-bottom: 1.7rem;
+        padding-left: 1rem;
+    }
+
+    .todays-crop-title {
+        font-size: 1rem;
+        margin-top: 0.8rem;
+    }
+
+    #todays-crops-btn {
+        width: 7.6rem;
+        height: 2.3rem;
+        line-height: 2.3rem;
+        border-radius: 9999px;
+        margin-top: 0.7rem;
+    }
+
+    #todays-crops-pc {
+        display: none;
+    }
+    #todays-crops-mobile {
+        display: block;
+    }
 
     /* Section 2 - mobile */
     #index-section2 {
@@ -366,7 +503,6 @@ img {
 
     .hot-crop-title {
         font-size: 1.3rem;
-
         margin-top: 0.8rem;
     }
 
