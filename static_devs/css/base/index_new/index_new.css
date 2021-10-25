@@ -183,9 +183,9 @@ img {
 }
 
 #section3-farmer-list-slider {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; */
 }
 
 .farmer-figure-wrap {
