@@ -26,6 +26,7 @@
             <div class="payment-list-sheet-index-title-mobile">정산금액</div>
         </div>
         {% endfor %}
-        정산진행금액: {{progress_amount | intcomma}}원
+        <div>정산진행금액: {{progress_amount | intcomma}}원</div>
+        <div>정산계좌: {{farmer.farm_account}}</div>
     </div>
 </div>
