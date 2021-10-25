@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import TemplateView
 from django.db.models import Q
 
+
 def index(request):
     """siminwon landing"""
     try:
@@ -63,7 +64,9 @@ def index(request):
 def landing_test(request):
     farmers = Farmer.objects.all()
     hot_crops = Product.objects.filter(farmer__farm_name="시민원")
-    todays_crops = Product.objects.filter(Q(farmer__farm_name="시민원")|Q(farmer__farm_name="더머쉬룸팩토리")).order_by("?")
+    todays_crops = Product.objects.filter(
+        Q(farmer__farm_name="시민원") | Q(farmer__farm_name="더머쉬룸팩토리")
+    ).order_by("?")
     slider_images = Main_Slider_Image.objects.all()
 
     ctx = {
@@ -71,6 +74,7 @@ def landing_test(request):
         "main_slider_image": slider_images,
         "hot_crops": hot_crops,
         "todays_crops": todays_crops,
+        "siminwon": farmers.get(farm_name="시민원"),
     }
 
     return render(request, "base/index_new/index_new.html", ctx)
