@@ -1,0 +1,69 @@
+{% load static %}
+{% load humanize %}
+
+<section id="index-section1">
+    <div class="index-section-container mx-auto">
+        <h1 id="section1-title">
+            <p>파머를 알고 <br/> <b>"까다롭게 골랐으니까"</b></p>
+        </h1>
+    </div>
+    <div class="flex flex-row justify-end w-100">
+        <div id="section1-farmers-wrap" class="md:flex md:flex-row md:justify-end">
+            <div class="flex flex-row justify-end">
+                <a href="{% url 'farmers:farmer_detail' 1 %}">
+                    <img class="farmer-img zoom-on-hover" src="{% static 'images/index_new/section1/farmer1.webp' %}" alt="">
+                </a> 
+                <a href="{% url 'farmers:farmer_detail' 2 %}">
+                    <img class="farmer-img zoom-on-hover" src="{% static 'images/index_new/section1/farmer2.webp' %}" alt="">
+                </a>
+            </div>
+            <div class="flex flex-row justify-end">
+                <a href="{% url 'farmers:farmer_detail' 3 %}">
+                    <img class="farmer-img zoom-on-hover" src="{% static 'images/index_new/section1/farmer3.webp' %}" alt="">
+                </a>
+                <a href="{% url 'farmers:farmer_detail' 4 %}">
+                    <img class="farmer-img zoom-on-hover" src="{% static 'images/index_new/section1/farmer4.webp' %}" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="section1-todays-crops-wrap" class="index-section-container mx-auto">
+        <h1 id="todays-crops-title" class="w-100">today's <br/>오늘의 산지직송 추천 농산물 </h1>
+        <div id="crops-desc-wrap">
+            {% for crop in todays_crops %}
+            <div id="todays-crops-pc">
+                <div id="todays-crops-wrap" class="p-5">
+                    <div class="crop-desc">
+                        <img src="{{crop.main_image.url}}" alt="무난이작물" class="hot-crop-image">
+                        <h2 class="hot-crop-title">홍로 {{crop.weight | intcomma}}{{crop.weight_unit}}</h2>
+                        <h2 class="hot-crop-price">{{crop.sell_price | intcomma}}원</h2>
+                        <div class="ugly-tag">무난이 작물</div>
+                    </div>
+                </div>
+                <div class="text-center mx-auto zoom-on-hover" id="todays-crops-btn">
+                    <a href="{% url 'products:product_detail' crop.pk %}">
+                        바로가기
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% for crop in todays_crops|slice:":3" %}
+            <div id="todays-crops-mobile">
+                <div id="todays-crops-wrap" class="p-5">
+                    <div class="crop-desc">
+                        <img src="{{crop.main_image.url}}" alt="무난이작물" class="hot-crop-image">
+                        <h2 class="todays-crop-title">{{crop.title}} {{crop.weight | intcomma}}{{crop.weight_unit}}</h2>
+                        <h2 class="hot-crop-price">{{crop.sell_price | intcomma}}원</h2>
+                        <div class="ugly-tag">무난이 작물</div>
+                    </div>
+                </div>
+                <div class="text-center mx-auto zoom-on-hover" id="todays-crops-btn">
+                    <a href="{% url 'products:product_detail' crop.pk %}">
+                        바로가기
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

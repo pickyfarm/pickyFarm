@@ -11,7 +11,7 @@
             {% for farmer in farmers %}
             <div class="farmer-figure-wrap">
                 <figure>
-                    <img src="{{farmer.farm_profile.url}}" alt="{{farmer.farm_name}}" class="farmer-profile-image">
+                    <img src="{{farmer.farmer_profile.url}}" alt="{{farmer.farm_name}}" class="farmer-profile-image">
                     <figcaption class="farm-name">{{farmer.farm_name}}</figcaption>
                 </figure>
                 <a href="{% url 'farmers:farmer_detail' farmer.pk %}"><button class="farmer-page-link">미니홈페이지 가기</button></a>
