@@ -35,11 +35,17 @@ class Product_Comment(Comment):
         (3, "normal"),
         (1, "bad"),
     )
+    
+    status = (
+        (True, "답변 완료"),
+        (False, "답변 대기"),
+    )
 
     freshness = models.IntegerField(choices=evaluate)
     flavor = models.IntegerField(choices=evaluate)
     cost_performance = models.IntegerField(choices=evaluate)
     avg = models.IntegerField(default=0)
+    status = models.BooleanField(default=False, choices=status)
 
     product = models.ForeignKey(
         "products.Product", related_name="product_comments", on_delete=models.CASCADE
