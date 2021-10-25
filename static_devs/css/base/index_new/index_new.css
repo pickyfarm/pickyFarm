@@ -104,10 +104,15 @@ img {
 
 .ugly-tag {
     width: fit-content;
-
     background-color: #4a5448;
     color: white;
-
+    border-radius: 0 100px 100px 0;
+}
+.normal-tag {
+    width: fit-content;
+    border: 1px solid #4a5448;
+    color: #4a5448;
+    font-weight: 500 !important;
     border-radius: 0 100px 100px 0;
 }
 
@@ -314,7 +319,7 @@ img {
         font-size: 24px;
     }
 
-    .ugly-tag {
+    .ugly-tag, .normal-tag {
         margin-top: 12px;
         font-size: 20px;
         font-weight: 300;
@@ -511,7 +516,7 @@ img {
         margin-top: 0.5rem;
     }
 
-    .ugly-tag {
+    .ugly-tag, .normal-tag {
         font-size: 1rem;
         font-weight: 300;
         text-align: center;
