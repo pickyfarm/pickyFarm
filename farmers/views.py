@@ -28,7 +28,7 @@ from products.models import Product, Question, Category
 from users.models import Consumer, Subscribe, User
 from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group, RefundExchange
-from comments.models import Farmer_Story_Comment, Product_Comment
+from comments.models import Farmer_Story_Comment, Product_Comment, Product_Comment_Image
 from admins.models import FarmerNotice, FarmerNotification
 
 # forms
@@ -723,17 +723,19 @@ class FarmerMypageReviewAnswer(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["review"] = Product_Comment.objects.get(pk=self.kwargs["pk"])
+        review = Product_Comment.objects.get(pk=self.kwargs["pk"])
+        context["review"] = review
+        context["review_imgs"] = Product_Comment_Image.objects.filter(product_comment=review)
         context["farmer"] = Farmer.objects.get(pk=self.request.user.farmer.pk)
         context["recomment_form"] = ProductRecommentForm()
         return context
 
     def post(self, request, *args, **kwargs):
-        recomment_form = Answer_Form(self.request.POST, self.request.FILES)
+        recomment_form = ProductRecommentForm(self.request.POST, self.request.FILES)
         if recomment_form.is_valid():
             review = Product_Comment.objects.get(pk=self.kwargs["pk"])
             answer = recomment_form.save(commit=False)
-            answer.author = self.request.user.farmer
+            answer.author = self.request.user
             answer.comment = review
             review.status = True
             review.save()

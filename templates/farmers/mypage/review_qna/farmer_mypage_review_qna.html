@@ -207,8 +207,8 @@
                             {% else %}
                             <td id="review-table-row-answer">
                                 <div class="flex flex-row justify-center items-center">
-                                    <span class="mr-1">답변완료</span>
-                                    <img src="{% static 'images/farmer_mypage/answer-create.svg' %}" alt="">
+                                    <span class="mx-auto">답변완료</span>
+                                    <!-- <img src="{% static 'images/farmer_mypage/answer-create.svg' %}" alt=""> -->
                                 </div>
                             </td>
                             {% endif %}
@@ -260,14 +260,14 @@
     SEARCH_VAL = '&start-date='+start_date+'&end-date='+end_date
 </script>
 <script>
-    var popupX = (document.body.offsetWidth / 2) - (375 / 2);
+    var popupX = (document.body.offsetWidth / 2) - (400 / 2);
     var popupY = (window.screen.height / 2) - (600 / 2);
 
     function questionAnswerPopup(pk) {
         const questionpk = parseInt(pk);
         {% for question in questions %}
         if (questionpk === {{ question.pk }}) {
-        window.open("{% url 'farmer:farmer_mypage_question_answer' question.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
+        window.open("{% url 'farmer:farmer_mypage_question_answer' question.pk %}", '', 'height=600, width=400, left=' + popupX + ', top=' + popupY);
         }
         {% endfor %}
     }
@@ -276,7 +276,7 @@
         const reviewpk = parseInt(pk);
         {% for review in reviews %}
         if (reviewpk === {{ review.pk }}) {
-            window.open("{% url 'farmer:farmer_mypage_review_answer' review.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
+            window.open("{% url 'farmer:farmer_mypage_review_answer' review.pk %}", '', 'height=600, width=400, left=' + popupX + ', top=' + popupY);
         }
         {% endfor %}
     }
