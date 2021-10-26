@@ -71,7 +71,7 @@
                             <th>답변여부</th>
                             <th>상품명</th>
                             <th>제목</th>
-                            <th>문의일시</th>
+                            <th>문의일자</th>
                             <th>
                                 <img class="mx-auto" src="{% static 'images/farmer_mypage/report.svg' %}" alt="신고하기">
                             </th>
@@ -85,9 +85,9 @@
                         {% endif %}
                             <!-- 답변여부 -->
                             {% if question.status == False %}
-                            <td class="px-3" id="question-table-row-answer--yet">미답변</td>
+                            <td class="px-1" id="question-table-row-answer--yet">미답변</td>
                             {% else %}
-                            <td class="px-3" id="question-table-row-answer--complete">답변 완료</td>
+                            <td class="px-1" id="question-table-row-answer--complete">답변 완료</td>
                             {% endif %}
                             <!-- 상품명 -->
                             {% if question.product.title|length > 12 %}
@@ -159,6 +159,7 @@
                             <th>
                                 <img class="mx-auto" src="{% static 'images/farmer_mypage/report.svg' %}" alt="신고하기">
                             </th>
+                            <th>리뷰 답변</th>
                         </tr>
                         {% for review in reviews %}
                         {% if review.status == False %}                        
@@ -188,14 +189,22 @@
                             {% if review.text|length > 25 %}
                             <td class="px-3" id="review-table-row-title">{{ review.text|slice:":25" }}...</td>
                             {% else %}
-                            <td class="px-3" id="review-table-row-title">{{ review.text }}...</td>
+                            <td class="px-3" id="review-table-row-title">{{ review.text }}</td>
                             {% endif %}
                             <!-- 게시일자 -->
                             <td class="px-3" id="review-table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
                             <!-- 신고하기 -->
                             <td class="px-3" id="review-table-row-report">신고하기</td>
                             <!-- 답변 -->
-                            
+                            {% if review.status == False %}
+                            <td id="review-table-row-answer">
+                                <a href="">작성하기</a>
+                            </td>
+                            {% else %}
+                            <td id="review-table-row-answer">
+                                <a href="">보기</a>
+                            </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </table>

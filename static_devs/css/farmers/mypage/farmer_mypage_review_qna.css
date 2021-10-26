@@ -94,6 +94,10 @@
     cursor: pointer;
 }
 
+.bg-dark {
+    background-color: #f3f4f3;
+}
+
 /* date filter section */
 .date-filter-content {
     width: 880px;

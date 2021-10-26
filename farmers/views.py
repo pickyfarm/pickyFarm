@@ -627,7 +627,7 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
     """농가 문의/리뷰관리 페이지"""
 
     model = Farmer
-    template_name = "farmers/mypage/farmer_mypage_review_qna.html"
+    template_name = "farmers/mypage/review_qna/farmer_mypage_review_qna.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -678,7 +678,7 @@ class FarmerMyPageReviewQnAManage(FarmerMyPageBase):
 class FarmerMypageQuestionAnswer(DetailView):
     """농가 문의 답변 페이지"""
 
-    template_name = "farmers/mypage/farmer_mypage_question_answer.html"
+    template_name = "farmers/mypage/review_qna/farmer_mypage_question_answer.html"
     context_object_name = "question"
     model = Question
 
@@ -1493,7 +1493,7 @@ def qna_ajax(request):
     ctx = {
         "questions": questions,
     }
-    return render(request, "farmers/mypage/farmer_mypage_qna_ajax.html", ctx)
+    return render(request, "farmers/mypage/review_qna/farmer_mypage_qna_ajax.html", ctx)
 
 
 def review_ajax(request):
@@ -1520,7 +1520,7 @@ def review_ajax(request):
     ctx = {
         "reviews": reviews,
     }
-    return render(request, "farmers/mypage/farmer_mypage_review_ajax.html", ctx)
+    return render(request, "farmers/mypage/review_qna/farmer_mypage_review_ajax.html", ctx)
 
 
 def product_refund(request):
