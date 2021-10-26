@@ -114,8 +114,9 @@
                             {% else %}
                             <td class="px-3" id="review-table-row-answer">
                                 <div class="flex items-center">
-                                    <span class="mr-1">답변수정</span>
-                                    <img src="{% static 'images/farmer_mypage/answer-update.svg' %}" alt="">
+                                    <span class="mx-auto">답변완료</span> 
+                                    <!-- <span class="mr-1">답변수정</span> -->
+                                    <!-- <img src="{% static 'images/farmer_mypage/answer-update.svg' %}" alt=""> -->
                                 </div>
                             </td>
                             {% endif %}
@@ -197,12 +198,18 @@
                             <td class="px-3" id="review-table-row-report">신고하기</td>
                             <!-- 답변 -->
                             {% if review.status == False %}
-                            <td id="review-table-row-answer">
-                                <a href="">작성하기</a>
+                            <td id="review-table-row-answer" onclick="reviewAnswerPopup({{review.pk}})">
+                                <div class="flex flex-row justify-center items-center">
+                                    <span class="mr-1">작성하기</span>
+                                    <img src="{% static 'images/farmer_mypage/answer-create.svg' %}" alt="">
+                                </div>
                             </td>
                             {% else %}
                             <td id="review-table-row-answer">
-                                <a href="">보기</a>
+                                <div class="flex flex-row justify-center items-center">
+                                    <span class="mr-1">답변완료</span>
+                                    <img src="{% static 'images/farmer_mypage/answer-create.svg' %}" alt="">
+                                </div>
                             </td>
                             {% endif %}
                         </tr>
@@ -261,6 +268,15 @@
         {% for question in questions %}
         if (questionpk === {{ question.pk }}) {
         window.open("{% url 'farmer:farmer_mypage_question_answer' question.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
+        }
+        {% endfor %}
+    }
+
+    function reviewAnswerPopup(pk) {
+        const reviewpk = parseInt(pk);
+        {% for review in reviews %}
+        if (reviewpk === {{ review.pk }}) {
+            window.open("{% url 'farmer:farmer_mypage_review_answer' review.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
         }
         {% endfor %}
     }

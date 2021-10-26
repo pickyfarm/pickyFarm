@@ -33,7 +33,7 @@ from admins.models import FarmerNotice, FarmerNotification
 
 # forms
 from .forms import *
-from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm
+from comments.forms import FarmerStoryCommentForm, FarmerStoryRecommentForm, ProductRecommentForm
 from users.forms import SignUpForm, LoginForm
 from addresses.forms import AddressForm
 from products.forms import Answer_Form
@@ -707,6 +707,36 @@ class FarmerMypageQuestionAnswer(DetailView):
             question.is_read = True
             question.status = True
             question.save()
+            answer.save()
+            return redirect("core:popup_callback")
+
+
+class FarmerMypageReviewAnswer(DetailView):
+    """농가 리뷰 답변 페이지"""
+
+    template_name = "farmers/mypage/review_qna/farmer_mypage_review_answer.html"
+    context_object_name = "review"
+    model = Product_Comment
+
+    def get_queryset(self, **kwargs):
+        return Product_Comment.objects.filter(pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["review"] = Product_Comment.objects.get(pk=self.kwargs["pk"])
+        context["farmer"] = Farmer.objects.get(pk=self.request.user.farmer.pk)
+        context["recomment_form"] = ProductRecommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        recomment_form = Answer_Form(self.request.POST, self.request.FILES)
+        if recomment_form.is_valid():
+            review = Product_Comment.objects.get(pk=self.kwargs["pk"])
+            answer = recomment_form.save(commit=False)
+            answer.author = self.request.user.farmer
+            answer.comment = review
+            review.status = True
+            review.save()
             answer.save()
             return redirect("core:popup_callback")
 
