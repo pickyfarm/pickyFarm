@@ -1206,7 +1206,6 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         context[
             "delivery_company"
         ] = self.get_object().product.farmer.delivery_service_company
-        print(self.request.user.farmer.delivery_service_company)
         return context
 
     def post(self, request, **kwargs):
