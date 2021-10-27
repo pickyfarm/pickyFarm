@@ -1,6 +1,11 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
+{% block og_url %}{% url 'farmers:farmer_detail' farmer.pk %}{% endblock %}
+{% block og_title %}{{farmer.farm_name}}의 미니홈페이지{% endblock %}
+{% block og_desc %}농가가 마음에 든다면 [구독하기] 버튼을 눌러서 구독하세요!{% endblock %}
+{% block og_image %}{{farmer.farmer_profile.url}}{% endblock %}
+
 {% block meta_keywords %}
 시민원, 사과, 홍로사과, 못난이사과, 못난이홍로사과
 {% endblock %}
@@ -11,7 +16,7 @@
 {% endblock %}
 
 {% block title_name %}
-피키팜 : Farmer's Page
+{{farmer.farm_name}} : Farmer's Page
 {% endblock title_name %}
 
 {% block main_content %}
@@ -85,13 +90,13 @@
     </div>
     <div id="farmer_intro">
         <div class="text-5xl font-medium mb-10" id="intro_title">{{ farmer.farm_name }}</div>
-        
+
         {% if farmer.farm_desc %}
         <div class="" id="farm_desc"><img src="{{ farmer.farm_desc.url }}" alt=""></div>
         {% else %}
         <div class="" id="farm_desc">이미지 없음</div>
         {% endif %}
-            
+
     </div>
 
     <!--farmer product-->

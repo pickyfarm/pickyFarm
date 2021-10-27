@@ -1,4 +1,9 @@
 {% extends "base/base.html" %}
+{% block og_url %}{% url 'products:product_detail' product.pk %}{% endblock %}
+{% block og_title %}{{product.title}}{% endblock %}
+{% block og_desc %}{{product.sub_title}}{% endblock %}
+{% block og_image %}{{product.main_image.url}}{% endblock %}
+{% block title_name %}{{product.title}}{% endblock %}
 
 {% load static %}
 {% block stylesheet %}
