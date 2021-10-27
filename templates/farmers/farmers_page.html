@@ -1,5 +1,9 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% block og_url %}{% url 'farmers:farmers_page' %}{% endblock %}
+{% block og_title %}Farmer's page{% endblock %}
+{% block og_desc %}피키팜의 매력있는 농가들을 만나보세요{% endblock %}
+{% block og_image %}{% static 'images/mainlogo_small.svg' %}{% endblock %}
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_page.css' %}">
@@ -45,7 +49,7 @@ Farmer's page
                             {{best.user.addresses.sigungu}}</div>
                         <div class="text-center font-medium text-2xl" id="farm_name"> {{best.farm_name}} </div>
                     </div>
-                        <img class="w-12" src="{% static 'images/farmers_page/hot_detail.svg' %}" alt="">
+                    <img class="w-12" src="{% static 'images/farmers_page/hot_detail.svg' %}" alt="">
                 </div>
             </a>
         </div>
