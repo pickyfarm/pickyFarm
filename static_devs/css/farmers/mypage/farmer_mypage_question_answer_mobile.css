@@ -96,4 +96,9 @@
     #answer-submit--text {
         font-size: 1.8rem;
     }
+
+    #reviewer_img {
+        object-fit: cover;
+        border-radius: 50%;
+    }
 }

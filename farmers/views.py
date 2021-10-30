@@ -724,6 +724,7 @@ class FarmerMypageReviewAnswer(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         review = Product_Comment.objects.get(pk=self.kwargs["pk"])
+        context["total_range"] = range(0, 5)
         context["review"] = review
         context["review_imgs"] = Product_Comment_Image.objects.filter(product_comment=review)
         context["farmer"] = Farmer.objects.get(pk=self.request.user.farmer.pk)
