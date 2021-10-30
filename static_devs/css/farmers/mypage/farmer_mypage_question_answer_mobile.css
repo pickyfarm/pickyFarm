@@ -79,7 +79,7 @@
         margin: 0 auto;
     }
 
-    #id_content {
+    #id_content, #id_text {
         width: 100%;
         height: 30rem;
         padding: 1rem;
@@ -89,15 +89,16 @@
         font-size: 2rem;
     }
 
-    #id_content:focus {
-        outline: none;
-    }
-
     #answer-submit-button-wrap {
         text-align: center;
     }
 
     #answer-submit--text {
         font-size: 1.8rem;
+    }
+
+    #reviewer_img {
+        object-fit: cover;
+        border-radius: 50%;
     }
 }
