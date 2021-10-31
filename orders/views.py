@@ -634,7 +634,7 @@ def payment_valid(request):
                             "#{order_detail_number}": detail.order_management_number,
                             "#{order_detail_title}": detail.product.title,
                             "#{farmer_nickname}": target_farmer.farmer_nickname,
-                            "#{weight}": detail.product.option_name,
+                            "#{option_name}": detail.product.option_name,
                             "#{quantity}": kakao_msg_quantity,
                             "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",  # 임시
                             "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
@@ -655,7 +655,7 @@ def payment_valid(request):
                         args_farmer = {
                             "#{order_detail_title}": detail.product.title,
                             "#{order_detail_number}": detail.order_management_number,
-                            "#{weight}": detail.product.option_name,
+                            "#{option_name}": detail.product.option_name,
                             "#{quantity}": kakao_msg_quantity,
                             "#{rev_name}": order_group.rev_name,
                             "#{rev_phone_number}": phone_number_consumer,
@@ -914,7 +914,7 @@ def create_change_or_refund(request, pk):
         farmer_args = {
             "#{order_detail_title}": product_title,
             "#{order_detail_number}": order_management_number,
-            "#{weight}": order_detail.product.option_name,
+            "#{option_name}": order_detail.product.option_name,
             "#{quantity}": kakao_msg_quantity,
             "#{consumer_nickname}": user.nickname,
             "#{reason}": claim_reason,

@@ -1271,7 +1271,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
         args_consumer = {
             "#{order_detail_title}": product.title,
             "#{farmer_nickname}": farmer.user.nickname,
-            "#{weight}": product.option_name,
+            "#{option_name}": product.option_name,
             "#{quantity}": kakao_msg_quantity,
             "#{shipping_company}": order.get_delivery_service_company_display(),
             "#{invoice_number}": order.invoice_number,
