@@ -295,6 +295,10 @@ class Product_Image(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        product_name = self.product.title
+        return str(product_name + ' (' + str(self.pk)+ ')')
+
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
