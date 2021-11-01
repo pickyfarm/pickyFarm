@@ -53,7 +53,7 @@ from kakaomessages.template import templateIdList
 # farmer's page
 def farmers_page(request):
     # farmer list
-    farmer = Farmer.objects.all().order_by("-id")
+    farmer = Farmer.objects.filter(open=True).order_by("-id")
     paginator = Paginator(farmer, 3)
     page = request.GET.get("page")
     farmers = paginator.get_page(page)
