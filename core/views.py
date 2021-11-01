@@ -64,7 +64,7 @@ from django.db.models import Q
 def index(request):
     farmers = Farmer.objects.all()
     hot_crops = Product.objects.filter(farmer__farm_name="시민원")
-    todays_crops = Product.objects.all().order_by("?")
+    todays_crops = Product.objects.filter(status="sale", open=True).order_by("?")[:5]
     slider_images = Main_Slider_Image.objects.all()
 
     ctx = {

@@ -105,7 +105,6 @@ img {
     font-weight: normal;
 }
 
-
 .hot-crop-price {
     font-weight: 500;
 }
@@ -114,6 +113,7 @@ img {
     width: fit-content;
     background-color: #4a5448;
     color: white;
+    border: 1px solid #4a5448;
     border-radius: 0 100px 100px 0;
 }
 .normal-tag {
@@ -279,6 +279,7 @@ img {
     .todays-crop-title {
         font-size: 16px;
         margin-top: 12px;
+        height: 54px;
     }
 
     #todays-crops-btn {
@@ -468,6 +469,7 @@ img {
 
     .todays-crop-title {
         width: 8.3rem;
+        height: 3rem;
         font-size: 1rem;
         line-height: 1.4rem;
         margin-top: 0.8rem;
