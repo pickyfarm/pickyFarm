@@ -131,9 +131,6 @@
     #product_wrap {
         margin-bottom: 2rem;
     }
-    #farmer_product > div:nth-child(3) {
-        display: none;
-    }
 
     /* farmer's story */
     #main_title {
