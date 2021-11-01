@@ -13,6 +13,7 @@ urlpatterns = [
     path("policy/disclaimer", views.disclaimer, name="disclaimer"),
     path("policy/personal-info", views.personal_info_usage, name="personal-info"),
     path("popup-callback", views.PopupCallback.as_view(), name="popup_callback"),
+    path("completed_alert", views.CompletedAlert.as_view(), name="completed_alert"),
     path(
         "robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),

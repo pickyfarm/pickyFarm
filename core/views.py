@@ -88,3 +88,7 @@ def personal_info_usage(request):
 
 class PopupCallback(TemplateView):
     template_name = "base/popup_callback.html"
+
+
+class CompletedAlert(TemplateView):
+    template_name = "base/completed_alert.html"

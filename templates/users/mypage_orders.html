@@ -103,22 +103,20 @@
         </div>
 
         {% if detail.status == 'delivery_complete' %}
-        {% if detail.product.product_comments.exists == False %}
-        <!-- <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> -->
-        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
-          <a>
-            리뷰 쓰기
-          </a>
-        </div>
-        {% else %}
-        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_detail' detail.pk %}')">
-          <a>
-            리뷰 보기
-          </a>
-        </div>
-        {% endif %}
-
-
+          {% if detail.product.product_comments.exists == False %}
+          <!-- <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> -->
+          <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
+            <a>
+              리뷰 쓰기
+            </a>
+          </div>
+          {% else %}
+          <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_detail' detail.pk %}')">
+            <a>
+              리뷰 보기
+            </a>
+          </div>
+          {% endif %}
         {% endif %}
 
         {% if detail.status == 'delivery_complete' %}
