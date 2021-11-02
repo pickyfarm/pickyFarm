@@ -243,7 +243,7 @@
         width: unset;
     }
     #farm_product_wrapper {
-        gap: 1rem;
+        gap: 0.7rem;
     }
     #farm_product {
         width: 100%;
@@ -251,7 +251,6 @@
     #product_img_wrapper {
         width: 4.7rem;
         height: 6.6rem;
-        margin: 0;
         margin-bottom: 0.6rem;
     }
     #product_img {
