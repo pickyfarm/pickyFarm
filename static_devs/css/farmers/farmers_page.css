@@ -164,6 +164,7 @@
 #product_desc,
 #row_farm {
     color: #5e6656;
+    word-break: keep-all;
 }
 #hot_farm_loc {
     color: #4d4d4d;
@@ -183,7 +184,7 @@
     background-color: #ffffff;
 }
 #farm_product {
-    width: 90px;
+    width: 100px;
 }
 #product_img_wrapper {
     box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.16);
