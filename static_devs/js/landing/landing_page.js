@@ -10,7 +10,7 @@ const farmerPageButton = document.querySelector('a#header-list--farmers-page');
 
 function alertBasicAnnounce(e) {
     e.preventDefault();
-    alert('10월 중순 오픈 예정입니다! 카톡 친추를 통해 알림을 받아보세요!');
+    alert('곧 오픈 예정입니다! 카톡 친추를 통해 알림을 받아보세요!');
 }
 // 회원가입
 // if (signupButton !== null) {

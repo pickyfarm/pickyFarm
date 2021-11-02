@@ -121,17 +121,21 @@ Farmer's page
                         <!--farmer's products-->
                         <div class=" grid grid-cols-3 gap-2 justify-around" id="farm_product_wrapper">
                             {% for product in farmer.products.all|slice:":3" %}
+                            
+                            {% if product.status == 'sale' and product.open == True %}
                             <a href="{% url 'products:product_detail' product.pk %}">
                                 <div id="farm_product">
-                                    <div class="mb-3 w-full" id="product_img_wrapper">
+                                    <div class="mb-3 w-full mx-auto" id="product_img_wrapper">
                                         <img class="object-cover" id="product_img" src="{{product.main_image.url}}" alt="">
                                     </div>
-                                    <div class="text-xs font-light text-center" id="product_desc">{{product.title}}
+                                    <div class="text-xs font-light text-center mb-1" id="product_desc">{{product.title}}
                                     </div>
                                     <div class="text-xs font-light text-center" id="product_desc">
                                         {{product.sell_price}}원</div>
                                 </div>
                             </a>
+                            {% endif %}
+
                             {% endfor %}
                         </div>
                     </div>

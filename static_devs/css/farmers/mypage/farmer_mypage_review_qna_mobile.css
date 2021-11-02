@@ -94,9 +94,6 @@
     }
 
     /* qna & review section */
-    .bg-dark {
-        background-color: #f3f4f3;
-    }
     #question-table-wrapper,
     #review-table-wrapper {
         height: fit-content;
