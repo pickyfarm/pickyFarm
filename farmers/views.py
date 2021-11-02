@@ -235,7 +235,7 @@ def farmer_detail(request, pk):
     tags = Farm_Tag.objects.all().filter(farmer=farmer)
     # 상품
     page = request.GET.get("page")
-    products = Product.objects.all().filter(farmer=farmer)
+    products = Product.objects.all().filter(farmer=farmer, open=True, status="sale")
     paginator = Paginator(products, 3)
     products = paginator.get_page(page)
 
@@ -267,7 +267,7 @@ def products_ajax(request, pk):
     farmer = Farmer.objects.get(pk=pk)
 
     page = request.GET.get("page")
-    products = Product.objects.all().filter(farmer=farmer)
+    products = Product.objects.all().filter(farmer=farmer, open=True, status="sale")
     paginator = Paginator(products, 3)
     products = paginator.get_page(page)
     ctx = {
