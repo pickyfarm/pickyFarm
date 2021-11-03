@@ -1273,11 +1273,11 @@ class productCommentDetail(TemplateView):
             answer.author = self.request.user
             answer.comment = review
             answer.save()
-            
+
             farmer_args = {
                 "#{consumer_nickname}": self.request.user.nickname,
                 "#{farmer_nickname}": review.product.farmer.user.nickname,
-                "#{link1}": f"127.0.0.1:8000/farmer/mypage/review-qnas/review/{review.pk}/answer",
+                "#{link1}": f"127.0.0.1:8000/farmer/mypage/reviews-qnas/review/{review.pk}/answer",
             }
             # 농가 카카오 알림톡 전송
             send_kakao_message(
@@ -1285,7 +1285,7 @@ class productCommentDetail(TemplateView):
                 templateIdList["new_recomment_CF"],
                 farmer_args,
             )
-            
+
             return redirect("core:popup_callback")
 
 
