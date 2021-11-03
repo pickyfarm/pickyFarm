@@ -1165,7 +1165,7 @@ class ProductCommentCreate(TemplateView):
             )
             product_comment.consumer = consumer
             product_comment.product = detail.product
-            new_comment = product_comment.save()
+            product_comment.save()
             product_comment.product.reviews += 1
 
             product_comment.get_rating_avg()
@@ -1220,9 +1220,9 @@ class ProductCommentCreate(TemplateView):
 
             # send kakao message to farmer
             message_args = {
-                "#{link}": f"127.0.0.1:8000/farmer/mypage/review-qnas/review/{new_comment.pk}/answer",
-                "#{product_title}": {{detail.product.title}},
-                "#{review_cnt}": 0,
+                "#{link}": f"127.0.0.1:8000/farmer/mypage/reviews-qnas/review/{product_comment.pk}/answer",
+                "#{product_title}": "{{detail.product.title}}",
+                "#{review_cnt}": "0",
             }
 
             send_kakao_message(
@@ -1263,7 +1263,7 @@ class productCommentDetail(TemplateView):
         context["review"] = review
         context["recomment_form"] = recomment_form
         return context
-    
+
     def post(self, request, *args, **kwargs):
         recomment_form = ProductRecommentForm(self.request.POST, self.request.FILES)
         if recomment_form.is_valid():
