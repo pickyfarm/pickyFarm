@@ -72,7 +72,7 @@ def index(request):
         "main_slider_image": slider_images,
         "hot_crops": hot_crops,
         "todays_crops": todays_crops,
-        # "siminwon": farmers.get(farm_name="시민원"),
+        "siminwon": farmers.get(farm_name="시민원"),
     }
 
     return render(request, "base/index_new/index_new.html", ctx)
