@@ -774,10 +774,9 @@ class FarmerMypageReviewAnswer(DetailView):
             review.status = True
             review.save()
             answer.save()
-
             consumer_args = {
-                "#{link1}": "consumer mypage product review popup url",
-                "#{link2}": f"www.pickyfarm.com/farmers/farmer_detail/{self.request.user.farmer.pk}",
+                "#{link1}": f"127.0.0.1:8000/user/mypage/orders/review/{review.pk}",
+                "#{link2}": f"127.0.0.1:8000/farmer/farmer_detail/{self.request.user.farmer.pk}",
             }
 
             # 농가 카카오 알림톡 전송

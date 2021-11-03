@@ -85,7 +85,7 @@ urlpatterns = [
         name="product_comment_create",
     ),
     path(
-        "mypage/orders/<int:orderpk>/review",
+        "mypage/orders/review/<int:reviewpk>",
         views.productCommentDetail.as_view(),
         name="product_comment_detail",
     ),

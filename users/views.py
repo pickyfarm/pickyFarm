@@ -1249,17 +1249,17 @@ class productCommentDetail(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         consumer = Consumer.objects.get(user=self.request.user)
-        orderpk = self.kwargs["orderpk"]
-        detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
-        order_consumer = detail.order_group.consumer
-        product = Product.objects.get(order_details__pk=orderpk)
-        review = Product_Comment.objects.get(consumer=order_consumer, product=product)
+        reviewpk = self.kwargs["reviewpk"]
+        # detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+        # order_consumer = detail.order_group.consumer
+        # product = Product.objects.get(order_details__pk=orderpk)
+        review = Product_Comment.objects.get(pk=reviewpk)
         recomment_form = ProductRecommentForm()
-        # 검증
-        if order_consumer.pk != consumer.pk:
-            return redirect(reverse("core:main"))
+        # # 검증
+        # if order_consumer.pk != consumer.pk:
+        #     return redirect(reverse("core:main"))
         context["total_range"] = range(0, 5)
-        context["detail"] = detail
+        # context["detail"] = detail
         context["review"] = review
         context["recomment_form"] = recomment_form
         return context
@@ -1267,11 +1267,8 @@ class productCommentDetail(TemplateView):
     def post(self, request, *args, **kwargs):
         recomment_form = ProductRecommentForm(self.request.POST, self.request.FILES)
         if recomment_form.is_valid():
-            orderpk = self.kwargs["orderpk"]
-            detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
-            order_consumer = detail.order_group.consumer
-            product = Product.objects.get(order_details__pk=orderpk)
-            review = Product_Comment.objects.get(consumer=order_consumer, product=product)
+            reviewpk = self.kwargs["reviewpk"]
+            review = Product_Comment.objects.get(pk=reviewpk)
             answer = recomment_form.save(commit=False)
             answer.author = self.request.user
             answer.comment = review
