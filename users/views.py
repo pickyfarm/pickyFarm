@@ -63,6 +63,7 @@ from .forms import (
     FindMyIdForm,
 )
 from addresses.forms import AddressForm
+from comments.forms import ProductRecommentForm
 
 from kakaomessages.views import send_kakao_message
 
@@ -1253,13 +1254,29 @@ class productCommentDetail(TemplateView):
         order_consumer = detail.order_group.consumer
         product = Product.objects.get(order_details__pk=orderpk)
         review = Product_Comment.objects.get(consumer=order_consumer, product=product)
+        recomment_form = ProductRecommentForm()
         # 검증
         if order_consumer.pk != consumer.pk:
             return redirect(reverse("core:main"))
         context["total_range"] = range(0, 5)
         context["detail"] = detail
         context["review"] = review
+        context["recomment_form"] = recomment_form
         return context
+    
+    def post(self, request, *args, **kwargs):
+        recomment_form = ProductRecommentForm(self.request.POST, self.request.FILES)
+        if recomment_form.is_valid():
+            orderpk = self.kwargs["orderpk"]
+            detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+            order_consumer = detail.order_group.consumer
+            product = Product.objects.get(order_details__pk=orderpk)
+            review = Product_Comment.objects.get(consumer=order_consumer, product=product)
+            answer = recomment_form.save(commit=False)
+            answer.author = self.request.user
+            answer.comment = review
+            answer.save()
+            return redirect("core:popup_callback")
 
 
 def product_refund(request):

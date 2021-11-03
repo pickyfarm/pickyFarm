@@ -155,9 +155,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- 리뷰 이미지 끝 -->
                         </div>
                     </div>
                 </div>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div>{{recomment_form}}</div>
+                    <div id="answer-submit-button-wrap">
+                        <button type="submit" id="answer-submit-button">
+                            <img id="answer-submit--img" src="{% static 'images/farmer_mypage/check_nohover.svg' %}" alt="">
+                            <div id="answer-submit--text">등록하기</div>
+                        </button>
+                    </div>
+                </form>
                 <div class="review-btn-box">
                     <button class="review-reason-submit-wrap flex" onClick="window.close()">
                         <div class="review-reason-submit-img-wrap">
