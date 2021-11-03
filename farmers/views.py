@@ -782,7 +782,7 @@ class FarmerMypageReviewAnswer(DetailView):
 
             # 농가 카카오 알림톡 전송
             send_kakao_message(
-                review.consumer.user.phone_number
+                review.consumer.user.phone_number,
                 templateIdList["new_recomment_C"],
                 consumer_args,
             )
