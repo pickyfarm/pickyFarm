@@ -316,12 +316,16 @@ class Login(View):
                     base.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
                 login(request, user=user)
+                print(post_next == ("None" or ""))
 
-                if post_next != ("None" or None):
+                print(f"post_next : {post_next}")
+                print(f"type : {type(post_next)}")
+
+                if post_next == "" or post_next == "None":
+                    return redirect(reverse("core:main"))
+                else:
                     print("[POST] get next REDIRECT")
                     return redirect(post_next)
-                else:
-                    return redirect(reverse("core:main"))
         ctx = {
             "form": form,
         }
