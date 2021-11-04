@@ -1,0 +1,41 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    #main {
+        width: 100%;
+        padding: 0 2.5rem;
+    }  
+    #main > div{
+        width: 100%;
+    }
+    #contents-container {
+        margin-left: 0;
+    }
+    #content,
+    #middle-section {
+        width: 100%;
+    }
+    #top-section,
+    #menu {
+        display:none
+    }
+
+    /* font setting */
+    #top-btn-section>:nth-child(1) {
+        font-size: 1.1rem;
+    }    
+    #add-rev-address-btn {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }    
+    #index-title-section > div {
+        font-size: 1.2rem;
+        color: #5c6754;
+    }    
+    #addr > div {
+        font-size: 1.1rem;
+        font-weight: lighter;
+        color: #000000;
+    }        
+}
