@@ -1,0 +1,44 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    #main {
+        width: 100%;
+        padding: 0 2.5rem;
+    }  
+    #main > div{
+        width: 100%;
+    }
+    #contents-container {
+        margin-left: 0;
+    }
+    #content,
+    #middle-section {
+        width: 100%;
+    }
+    #top-section,
+    #menu {
+        display:none
+    }
+
+    #id_full_address, 
+    #id_detail_address {
+        width: 100%;
+    }
+
+    /* font */    
+    #add-rev-address-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    #add-rev-address-sub-title,
+    #add-rev-address-help-text {
+        font-size: 1.1rem;
+        color: #b3b3b3;
+    }
+    #submit-rev-address-btn {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #5c6754;
+    }    
+}
