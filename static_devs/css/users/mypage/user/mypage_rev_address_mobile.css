@@ -48,11 +48,17 @@
     #addr > div:nth-child(3) {
         width: 12%;
     }
+    #index-section,
+    #rev-address-section {
+        justify-content: center;
+    }
     #index-title-section {
         padding-bottom: 0.85rem;
+        width: 94%;
     }
     #addr-section {
         margin-top: 1.85rem;
+        width: 94%;
     }
     #addr {
         margin-bottom: 1.8rem;
