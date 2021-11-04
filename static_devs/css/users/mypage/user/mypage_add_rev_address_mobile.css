@@ -21,6 +21,32 @@
         display:none
     }
 
+    /* title section */
+    #leaf {
+        display: none;
+    }
+    #leaf_mobile {
+        width: 1.76rem;
+        height: 1.46rem;
+        display: block;
+    }
+    #add-rev-address-title-section > div:nth-child(1),
+    #add-rev-address-title-section > div:nth-child(3) {
+        width: 0;
+    }
+    #add-rev-address-title-section > div:nth-child(2) {
+        width: 100%;
+    }
+    #add-rev-address-title-section > div > div {
+        align-items: center;
+    }
+    #add-rev-address-title {
+        margin: 0 1.52rem;
+    }
+    #add-rev-address-sub-title {
+        margin-top: 0.29rem;
+    }
+
     #id_full_address, 
     #id_detail_address {
         width: 100%;
@@ -30,6 +56,7 @@
     #add-rev-address-title {
         font-size: 1.5rem;
         font-weight: bold;
+        line-height: 1.4;
     }
     #add-rev-address-sub-title,
     #add-rev-address-help-text {
