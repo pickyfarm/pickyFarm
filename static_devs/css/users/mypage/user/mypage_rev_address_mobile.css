@@ -21,6 +21,52 @@
         display:none
     }
 
+    /* top btn section */
+    #top-btn-section {
+        justify-content: space-between;
+    }
+    #top-btn-section>:nth-child(2) {
+        margin-left: 0;
+        width: 8.73rem;
+        height: 2rem;
+        border-radius: 1rem;
+        background-color: #5e6656;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* index section */    
+    #index-title-section > div:nth-child(1),
+    #addr > div:nth-child(1) {
+        width: 76%;
+    }
+    #index-title-section > div:nth-child(2),
+    #index-title-section > div:nth-child(3),
+    #addr > div:nth-child(2),
+    #addr > div:nth-child(3) {
+        width: 12%;
+    }
+    #index-title-section {
+        padding-bottom: 0.85rem;
+    }
+    #addr-section {
+        margin-top: 1.85rem;
+    }
+    #addr {
+        margin-bottom: 1.8rem;
+        align-items: center;
+    }
+    #modify {
+        width: 0.71rem;
+        height: 1.03rem;
+    }
+    #delete {
+        width: 1rem;
+        height: 1rem;
+    }
+
     /* font setting */
     #top-btn-section>:nth-child(1) {
         font-size: 1.1rem;
