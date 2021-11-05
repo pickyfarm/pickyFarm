@@ -1224,7 +1224,7 @@ class ProductCommentCreate(TemplateView):
 
             # send kakao message to farmer
             message_args = {
-                "#{link}": f"https://www.pickyfarm.com/farmer/mypage/reviews-qnas/review/{product_comment.pk}/answer",
+                "#{link}": f"www.pickyfarm.com/farmer/mypage/reviews-qnas/review/{product_comment.pk}/answer",
                 "#{product_title}": f"{detail.product.title}",
             }
 
@@ -1281,7 +1281,7 @@ class productCommentDetail(TemplateView):
             farmer_args = {
                 "#{consumer_nickname}": self.request.user.nickname,
                 "#{farmer_nickname}": review.product.farmer.user.nickname,
-                "#{link1}": f"https://www.pickyfarm.com/farmer/mypage/reviews-qnas/review/{review.pk}/answer",
+                "#{link1}": f"www.pickyfarm.com/farmer/mypage/reviews-qnas/review/{review.pk}/answer",
             }
             # 농가 카카오 알림톡 전송
             send_kakao_message(

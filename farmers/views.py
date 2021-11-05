@@ -776,8 +776,8 @@ class FarmerMypageReviewAnswer(DetailView):
             answer.save()
             consumer_args = {
                 "#{nick_name}": review.consumer.user.nickname,
-                "#{link1}": f"https://www.pickyfarm.com/user/mypage/orders/review/{review.pk}",
-                "#{link2}": f"https://www.pickyfarm.com/farmer/farmer_detail/{self.request.user.farmer.pk}",
+                "#{link1}": f"www.pickyfarm.com/user/mypage/orders/review/{review.pk}",
+                "#{link2}": f"www.pickyfarm.com/farmer/farmer_detail/{self.request.user.farmer.pk}",
             }
 
             # 농가 카카오 알림톡 전송
