@@ -768,6 +768,9 @@ class FarmerMypageReviewAnswer(DetailView):
         recomment_form = ProductRecommentForm(self.request.POST, self.request.FILES)
         if recomment_form.is_valid():
             review = Product_Comment.objects.get(pk=self.kwargs["pk"])
+            order_detail = Order_Detail.objects.get(
+                product=review.product, order_group__consumer=review.consumer
+            )
             answer = recomment_form.save(commit=False)
             answer.author = self.request.user
             answer.comment = review
@@ -776,7 +779,7 @@ class FarmerMypageReviewAnswer(DetailView):
             answer.save()
             consumer_args = {
                 "#{nick_name}": review.consumer.user.nickname,
-                "#{link1}": f"www.pickyfarm.com/user/mypage/orders/review/{review.pk}",
+                "#{link1}": f"www.pickyfarm.com/user/mypage/orders/review/{order_detail.pk}",
                 "#{link2}": f"www.pickyfarm.com/farmer/farmer_detail/{self.request.user.farmer.pk}",
             }
 
