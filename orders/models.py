@@ -31,6 +31,10 @@ class Order_Group(models.Model):
     to_farm_message = models.TextField(null=True, blank=True)
 
     payment_type = models.CharField(max_length=20, null=True, blank=True)
+    v_bank = models.CharField(max_length=200, null=True, blank=True, help_text="가상계좌 은행명")
+    v_bank_account = models.CharField(max_length=500, null=True, blank=True, help_text="가상계좌 번호")
+    v_bank_account_holder = models.CharField(max_length=500, null=True, blank=True, help_text="가삼계좌 예금주")
+    v_bank_expire_date = models.DateTimeField(null=True, blank=True, help_text="가상계좌 입금 마감기한")
 
     total_price = models.IntegerField(null=True, blank=True)
     total_quantity = models.IntegerField(null=True, blank=True)
