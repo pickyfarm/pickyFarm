@@ -22,10 +22,9 @@
 .popup_container {
     padding-top: 60px;
     width: 375px;
-    /*height: 1130px;*/
+    /* height: 1130px; */
     flex-direction: column;
     align-items: center;
-    border: 1px solid black;
 }
 
 .review-main-title {
@@ -46,7 +45,8 @@
     color: #5c6754;
 }
 
-.review-date {
+.review-date,
+.comment-detail-title {
     font-size: 16px;
     font-weight: 500;
     color: #4d4d4d;
