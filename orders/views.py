@@ -930,7 +930,8 @@ def vbank_progess(request):
             return render(request, "orders/payment_success.html", ctx)
 
             
-
+def vbank_template_test(request):
+    return render(request, 'orders/vbank/payment_success_vbank.html')
 
 # 주문/결제 완료 프론트단을 작업하기 위한 임시 view
 # def temporary_payment_success(request):
