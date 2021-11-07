@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth.password_validation import validate_password
 from django.forms.widgets import NumberInput
 from django.contrib.auth.forms import PasswordResetForm
+from django.templatetags.static import static
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
@@ -76,13 +77,6 @@ class SignUpForm(forms.Form):
     )
     email = forms.EmailField(label="이메일", label_suffix="")
 
-    gender = forms.ChoiceField(
-        label="성별", choices=GENDER_CHOICES, widget=forms.RadioSelect, label_suffix=""
-    )
-    birth = forms.DateField(
-        label="생년월일", widget=NumberInput(attrs={"type": "date"}), label_suffix=""
-    )
-
     def clean_username(self):
         username = self.cleaned_data.get("username")
         try:
@@ -111,10 +105,10 @@ class SignUpForm(forms.Form):
     def save(self):
         username = self.cleaned_data.get("username")
         password_re = self.cleaned_data.get("password_re")
+        account_name = self.cleaned_data.get("account_name")
+        phone_number = self.cleaned_data.get("phone_number")
         nickname = self.cleaned_data.get("nickname")
         email = self.cleaned_data.get("email")
-        gender = self.cleaned_data.get("gender")
-        birth = self.cleaned_data.get("birth")
 
         user = models.User.objects.create_user(
             username, email=email, password=password_re
@@ -122,9 +116,9 @@ class SignUpForm(forms.Form):
 
         user.first_name = ""
         user.last_name = ""
+        user.account_name = account_name
+        user.phone_number = phone_number
         user.nickname = nickname
-        user.gender = gender
-        user.birth = birth
 
         user.save()
 
@@ -150,3 +144,39 @@ class MyPasswordResetForm(PasswordResetForm):
             attrs={"autocomplete": "email", "placeholder": "이메일을 입력해주세요"}
         ),
     )
+
+
+class SocialSignupForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ""
+
+    class Meta:
+        model = models.User
+        fields = (
+            "username",
+            "password",
+            "email",
+            "phone_number",
+            "account_name",
+            "nickname",
+        )
+
+        widgets = {
+            "username": forms.HiddenInput,
+            "password": forms.HiddenInput,
+            "email": forms.HiddenInput,
+            "phone_number": forms.HiddenInput,
+            "account_name": forms.TextInput(attrs={"placeholder": "이름을 입력하세요"}),
+            "nickname": forms.TextInput(attrs={"placeholder": "닉네임을 입력하세요"}),
+        }
+
+        labels = {"account_name": "이름", "nickname": "닉네임"}
+
+    def save(self):
+        user = models.User.objects.create_user(**self.cleaned_data)
+
+        user.first_name = ""
+        user.last_name = ""
+
+        user.save()

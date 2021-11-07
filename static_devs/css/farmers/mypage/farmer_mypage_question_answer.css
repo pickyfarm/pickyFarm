@@ -1,0 +1,107 @@
+.main-content {
+    width: 990px;
+}
+
+#farmer-info-section {
+    margin-bottom: 38px;
+}
+
+#farm-name-section {
+    font-size: 30px;
+    font-weight: 500;
+    color: #707070;
+}
+
+#farm-name {
+    font-size: 40px;
+    font-weight: 500;
+    color: #5c6754;
+    margin-left: 21px;
+}
+
+/* 문의 section */
+#question-content-section {
+    width: 935px;
+    margin: 0 auto 80px;
+}
+
+#question-content-header,
+#answer-content-header {
+    font-size: 23px;
+    font-weight: bold;
+    text-align: left;
+    color: #5c6754;
+}
+
+#question-content-sub-header {
+    font-size: 12px;
+    text-align: left;
+    color: #5c6754;
+    margin-bottom: 35px;
+}
+#question-content-detail {
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-template-rows: 66px 66px 300px;
+    margin-bottom: 40px;
+}
+
+#question-content-detail > div:not(:nth-child(6), :nth-child(5)) {
+    border-bottom: solid 1px #5c68546b;
+}
+#question-content-detail--header {
+    background-color: #f8f8f8;
+    color: #5c6754;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 20px;
+}
+#question-title,
+#question-consumer,
+#question-content {
+    padding: 20px 0px 0px 90px;
+    font-size: 20px;
+    color: #5c6754;
+}
+
+#question-content-image-wrap {
+    width: 450px;
+    margin: 0 auto;
+}
+
+#question-content-image {
+    object-fit: cover;
+}
+
+/* 답변 section */
+#answer-content-section {
+    width: 935px;
+    margin: 0 auto;
+}
+
+#id_content, #id_text {
+    width: 935px;
+    height: 427px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    margin: 35px 0px;
+    resize: none;
+}
+
+#id_content:focus, #id_text:focus {
+    outline: none;
+}
+
+#answer-submit-button-wrap {
+    text-align: center;
+}
+
+#answer-submit--img {
+    margin: 0rem auto 0.5rem;
+}
+
+#answer-submit--text {
+    color: #5c6754;
+    font-weight: 500;
+    font-size: 20px;
+}

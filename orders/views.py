@@ -9,13 +9,17 @@ from .models import Order_Group, Order_Detail, RefundExchange
 from django.utils import timezone
 from products.models import Product
 from users.models import Subscribe
+from addresses.views import check_address_by_zipcode
 import requests, base64
 import json
 import os, datetime
 from .BootpayApi import BootpayApi
 import pprint
+import cryptocode
 from kakaomessages.views import send_kakao_message
 from kakaomessages.template import templateIdList
+from urllib import parse
+from core import url_encryption
 
 # Create your views here.
 
@@ -64,14 +68,13 @@ def create_order_group_management_number(pk):
 
     print(day)
 
-    order_group_management_number = (
-        str(year) + "_" + month + "_" + day + "_PF" + str(pk)
-    )
+    order_group_management_number = str(year) + month + day + "_PF" + str(pk)
 
     print(order_group_management_number)
     return order_group_management_number
 
 
+# order_detail 주문 관리 번호 생성 function
 def create_order_detail_management_number(pk, farmer_id):
     now = timezone.localtime()
     year = now.year % 100
@@ -92,8 +95,62 @@ def create_order_detail_management_number(pk, farmer_id):
     else:
         day = str(day)
 
-    order_detail_management_number = str(year) + month + day + str(pk) + "_" + farmer_id
+    order_detail_management_number = str(year) + month + day + "_" + str(pk) + "_" + farmer_id
     return order_detail_management_number
+
+
+# 결제 진행 페이지에서 주소 전환 시, 서버 반영 Ajax
+@login_required
+@require_POST
+@transaction.atomic
+def changeAddressAjax(request):
+    if request.method == "POST":
+        order_group_pk = int(request.POST.get("order_group_pk", None))
+        zip_code = int(request.POST.get("zip_code", 1))
+
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+
+        # !!!!!!zip code를 통해 도서산간인지 확인!!!!!!
+        is_new_addr_jeju_mountain = check_address_by_zipcode(
+            zip_code
+        )  # 임시로 false로 세팅 <- 함수 넣어서 reTURN 저기로 시키세요
+
+        fee_to_add = 0  # 주소 변경으로 인한 수정(+/-) 되어야할 배송비
+
+        if is_new_addr_jeju_mountain == True:
+            # 새로운 주소가 제주산간으로 판정되었는데
+            # 원래 제주 산간 추가 배송비가 추가 안되었으르 경우
+            if order_group.is_jeju_mountain == False:
+                order_group.is_jeju_mountain = True
+                for detail in order_group.order_details.all():
+                    # order_detail 에 제주산간 추가 배송비 더하기
+                    detail.total_price += detail.product.jeju_mountain_additional_delivery_fee
+                    # fee_to_add에 제주산간 추가 배송비 더하기
+                    fee_to_add += detail.product.jeju_mountain_additional_delivery_fee
+                    detail.save()
+
+        else:
+            # 새로운 주소가 제주산간이 아닌 것으로 판정되었는데
+            # 원래 제주 산간 추가배송비가 더해진 상태인 경우
+            if order_group.is_jeju_mountain == True:
+                order_group.is_jeju_mountain = False
+                for detail in order_group.order_details.all():
+                    # order_detail 에 제주산간 추가 배송비 차감
+                    detail.total_price -= detail.product.jeju_mountain_additional_delivery_fee
+                    # fee_to_add 에 제주산간 추가 배송비 빼기
+                    fee_to_add -= detail.product.jeju_mountain_additional_delivery_fee
+                    print(f"!!!!!!!1빼기 시전 : {detail.product.jeju_mountain_additional_delivery_fee}")
+                    detail.save()
+        print(f"fee to add : {fee_to_add}")
+        # order_group total_price에 fee_to_add
+        order_group.total_price += fee_to_add
+        order_group.save()
+
+        data = {
+            "fee_to_add": fee_to_add,
+        }
+
+        return JsonResponse(data)
 
 
 @login_required
@@ -134,13 +191,10 @@ def payment_create(request):
         order_group_pk = order_group.pk
 
         # [PROCESS 2] order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
-        order_group_management_number = create_order_group_management_number(
-            order_group_pk
-        )
+        order_group_management_number = create_order_group_management_number(order_group_pk)
 
         # [PROCESS 3] Order_Group 주문 번호 저장 (결제 단위 구별용 - BootPay 전송)
         order_group.order_management_number = order_group_management_number
-        order_group.save()
 
         # 부트페이 API로 보내기 위한 name parameter 뒤에 들어갈 숫자 정보 ex) 맛있는 딸기 외 3개
         order_detail_cnt = 0
@@ -153,6 +207,8 @@ def payment_create(request):
         # [PROCESS 4] 소비자 주문목록에서 각 주문 사항 order_detail로 생성
         for order in orders:
 
+            delivery_fee = 0
+
             order_detail_cnt += 1
 
             pk = (int)(order["pk"])
@@ -162,7 +218,8 @@ def payment_create(request):
             product = Product.objects.get(pk=pk)
 
             # 기본 배송비 total_delivery_fee에 추가
-            total_delivery_fee += product.default_delivery_fee
+            delivery_fee += product.default_delivery_fee
+            # total_delivery_fee += product.default_delivery_fee
 
             # 단위별 추가 배송비 total_delivery_fee에 추가
             if product.additional_delivery_fee_unit != 0:
@@ -170,15 +227,36 @@ def payment_create(request):
 
                 if (float)(quantity_per_unit) > 1:
                     if quantity % product.additional_delivery_fee_unit == 0:
-                        total_delivery_fee += (
+                        delivery_fee += (
                             (int)(quantity_per_unit - 1)
                         ) * product.addtional_delivery_fee
+
+                        # total_delivery_fee += (
+                        #     (int)(quantity_per_unit - 1)
+                        # ) * product.addtional_delivery_fee
                     else:
-                        total_delivery_fee += (int)(
+                        delivery_fee += (int)(
                             quantity / product.additional_delivery_fee_unit
                         ) * product.additional_delivery_fee
-            # !!!!제주/산간 관련 추가 배송비 코드 추가해야!!!!
 
+                        # total_delivery_fee += (int)(
+                        #     quantity / product.additional_delivery_fee_unit
+                        # ) * product.additional_delivery_fee
+            
+            # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
+            is_jeju_mountain = check_address_by_zipcode(int(consumer.default_address.zipcode))
+
+            print("is jeju: ", is_jeju_mountain)
+            # 제주 산간이면 total_delivery_fee에 더하기
+            if is_jeju_mountain:
+                order_group.is_jeju_mountain = True
+                delivery_fee += product.jeju_mountain_additional_delivery_fee
+                # total_delivery_fee += product.jeju_mountain_additional_delivery_fee
+
+            # total_delivery_fee 에 order_detail delivery_fee 더하기
+            total_delivery_fee += delivery_fee
+            # 제주 산간이 아니면 total_delivery_fee에 안더하기
+            
             # order_detail 구매 수량
             total_quantity += quantity
             # order_detail 구매 총액
@@ -188,7 +266,8 @@ def payment_create(request):
             order_detail = Order_Detail(
                 status="wait",
                 quantity=quantity,
-                total_price=total_price,
+                commision_rate=product.commision_rate,
+                total_price= delivery_fee + total_price,
                 product=product,
                 order_group=order_group,
             )
@@ -200,7 +279,7 @@ def payment_create(request):
             # [PROCESS 6] Order_detail 주문 번호 저장
             # order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
             order_detail_management_number = create_order_detail_management_number(
-                order_group_pk, farmer_id
+                order_detail_pk, farmer_id
             )
             order_detail.order_management_number = order_detail_management_number
             order_detail.save()
@@ -280,7 +359,20 @@ def payment_update(request, pk):
         order_group_pk = pk
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
-        # [PROCESS 2] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
+        # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
+        client_total_price = int(request.POST.get("total_price"))
+        if order_group.total_price != client_total_price:
+            order_group.status = "error_price_match"
+            for detail in order_group.order_details:
+                detail.status = "error_price_match"
+                detail.save()
+            order_group.save()
+
+            res_data = {"valid": False, "error_type": "error_price_match"}
+
+            return JsonResponse(res_data)
+
+        # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
         order_details = order_group.order_details.all()
 
         # 모든 주문 상품 재고량 확인 태그
@@ -288,7 +380,7 @@ def payment_update(request, pk):
         # 재고가 부족한 상품명 리스트
         invalid_products = list()
 
-        # [PROCESS 3] 결제 전 최종 재고 확인
+        # [PROCESS 4] 결제 전 최종 재고 확인
         for detail in order_details:
             print("[재고 확인 상품 재고] " + (str)(detail.product.stock))
             print("[재고 확인 주문양] " + (str)(detail.quantity))
@@ -300,17 +392,10 @@ def payment_update(request, pk):
 
         print(invalid_products)
 
-        # [PROCESS 4] 재고 확인 성공인 경우, 각 상품 재고 차감 / status 변경
+        # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
-            for detail in order_details:
-                # order_detail 재고 차감
-                detail.product.stock -= detail.quantity
-                # order_detail status - payment_complete로 변경
-                detail.status = "payment_complete"
-                detail.product.save()
-                detail.save()
 
-            # [PROCESS 5] 주문 정보 Order_Group에 등록
+            # [PROCESS 6] 주문 정보 Order_Group에 등록
             rev_name = request.POST.get("rev_name")
             rev_phone_number = request.POST.get("rev_phone_number")
             rev_address = request.POST.get("rev_address")
@@ -319,9 +404,7 @@ def payment_update(request, pk):
             to_farm_message = request.POST.get("to_farm_message")
             payment_type = request.POST.get("payment_type")
 
-            print(
-                rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
-            )
+            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
 
             print(order_group)
             # 배송 정보 order_group에 업데이트
@@ -335,8 +418,6 @@ def payment_update(request, pk):
             order_group.payment_type = payment_type
             order_group.order_at = timezone.now()
 
-            # order_group status - payment complete로 변경
-            order_group.status = "payment_complete"
             order_group.save()
 
             res_data = {
@@ -350,10 +431,16 @@ def payment_update(request, pk):
 
         # 재고 확인 실패의 경우 부족한 재고 상품 리스트 및 valid값 전송
         else:
+            order_group.status = "error_stock"
+            for detail in order_details:
+                detail.status = "error_stock"
+                detail.save()
+            order_group.save()
             print("[valid 값]" + (str)(valid))
             print("[invalid_products]" + (str)(invalid_products))
             res_data = {
                 "valid": valid,
+                "error_type": "error_stock",
                 "invalid_products": invalid_products,
             }
 
@@ -426,11 +513,12 @@ def payment_update(request, pk):
 @transaction.atomic
 def payment_fail(request):
     error_type = str(request.GET.get("errorType", None))
-    order_group_pk = request.GET.get("orderGroupPk", None)
+    # order_group_pk = request.GET.get("orderGroupPk", None)
+    stock_error_msg = request.GET.get("errorMsg", None)
     print(error_type)
 
     if error_type == "error_stock":
-        errorMsg = "재고가 부족합니다"
+        errorMsg = stock_error_msg
     elif error_type == "error_valid":
         errorMsg = "결제 검증에 오류가 있습니다. 다시 시도해주세요"
     elif error_type == "error_server":
@@ -438,22 +526,31 @@ def payment_fail(request):
     else:
         errorMsg = "알 수 없는 오류가 있습니다. 다시 시도해주세요"
 
-    if order_group_pk is not None:
-        order_group = Order_Group.objects.get(pk=order_group_pk)
-        order_group.status = error_type
-        order_details = order_group.order_details.all()
-
-        for detail in order_details:
-            detail.product.stock += detail.quantity
-            print("[detail] - " + detail.product.title + " stock 복구")
-            detail.status = error_type
-            print("[detail] status - " + detail.status + "변경")
-            detail.save()
-
-        order_group.save()
-
     ctx = {"errorMsg": errorMsg}
     return render(request, "orders/payment_fail.html", ctx)
+
+
+class payment_valid_farmer:
+    farmer_pk = None
+    farm_name = None
+    farmer_nickname = None
+    farmer_phone_number = None
+
+    def __init__(self, pk, farm_name, nicknae, phone_number):
+        self.farmer_pk = pk
+        self.farm_name = farm_name
+        self.farmer_nickname = nicknae
+        self.farmer_phone_number = phone_number
+
+
+def farmer_search(farmers, pk, start, end):
+    mid = (start + end) // 2
+    if farmers[mid].farmer_pk == pk:
+        return farmers[mid]
+    if farmers[mid].farmer_pk < pk:
+        return farmer_search(farmers, pk, mid + 1, end)
+    else:
+        return farmer_search(farmers, pk, start, mid - 1)
 
 
 @login_required
@@ -474,16 +571,27 @@ def payment_valid(request):
         unsubscribed_farmers = list()
         subscribed_farmers = list()
 
+        farmers_info = []
+
         for farmer in farmers:
-            if Subscribe.objects.filter(
-                consumer=order_group.consumer, farmer=farmer
-            ).exists():
+            farmers_info.append(
+                payment_valid_farmer(
+                    farmer.pk,
+                    farmer.farm_name,
+                    farmer.user.nickname,
+                    farmer.user.phone_number,
+                )
+            )
+            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
                 subscribed_farmers.append(farmer)
             else:
                 unsubscribed_farmers.append(farmer)
 
+        farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
+        farmers_info_len = len(farmers_info)
+        print(f"Farmer_INFO len : {farmers_info_len}")
+
         order_group.receipt_number = receipt_id
-        order_group.save()
 
         bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
         result = bootpay.get_access_token()
@@ -496,6 +604,82 @@ def payment_valid(request):
                     verify_result["data"]["price"] == total_price
                     and verify_result["data"]["status"] == 1
                 ):
+
+                    phone_number_consumer = order_group.consumer.user.phone_number
+
+                    for detail in order_details:
+
+                        product = detail.product
+                        # order_detail 재고 차감
+                        product.sold(detail.quantity)
+                        # order_detail status - payment_complete로 변경
+                        detail.status = "payment_complete"
+                        detail.payment_status = "incoming"  # 정산상태 정산예정으로 변경
+                        detail.product.save()
+                        detail.save()
+
+                        # kakao_msg_weight = (str)(product.weight) + product.weight_unit
+
+                        kakao_msg_quantity = (str)(detail.quantity) + "개"
+
+                        target_farmer_pk = product.farmer.pk
+
+                        target_farmer = farmer_search(
+                            farmers_info, target_farmer_pk, 0, farmers_info_len
+                        )
+                        print("Farmer!!!" + target_farmer.farm_name)
+
+                        args_consumer = {
+                            "#{farm_name}": target_farmer.farm_name,
+                            "#{order_detail_number}": detail.order_management_number,
+                            "#{order_detail_title}": detail.product.title,
+                            "#{farmer_nickname}": target_farmer.farmer_nickname,
+                            "#{option_name}": detail.product.option_name,
+                            "#{quantity}": kakao_msg_quantity,
+                            "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",  # 임시
+                            "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
+                        }
+
+                        # 소비자 결제 완료 카카오 알림톡 전송
+                        send_kakao_message(
+                            phone_number_consumer,
+                            templateIdList["payment_complete"],
+                            args_consumer,
+                        )
+
+                        # order_management_number 인코딩
+                        url_encoded_order_detail_number = url_encryption.encode_string_to_url(
+                            detail.order_management_number
+                        )
+
+                        args_farmer = {
+                            "#{order_detail_title}": detail.product.title,
+                            "#{order_detail_number}": detail.order_management_number,
+                            "#{option_name}": detail.product.option_name,
+                            "#{quantity}": kakao_msg_quantity,
+                            "#{rev_name}": order_group.rev_name,
+                            "#{rev_phone_number}": phone_number_consumer,
+                            "#{rev_address}": order_group.rev_address,
+                            "#{rev_loc_at}": order_group.rev_loc_at,
+                            "#{rev_detail}": order_group.rev_message,
+                            "#{rev_message}": order_group.to_farm_message,
+                            "#{link_1}": f"www.pickyfarm.com/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",  # 임시
+                            "#{link_2}": f"www.pickyfarm.com/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",  # 임시
+                            "#{link_3}": f"www.pickyfarm.com/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",  # 임시
+                        }
+
+                        print(f'주문확인 url : {args_farmer["#{link_1}"]}')
+
+                        send_kakao_message(
+                            target_farmer.farmer_phone_number,
+                            templateIdList["order_recept"],
+                            args_farmer,
+                        )
+
+                    # order_group status - payment complete로 변경
+                    order_group.status = "payment_complete"
+                    order_group.save()
+
                     ctx = {
                         "order_group": order_group,
                         "data": verify_result,
@@ -516,6 +700,15 @@ def payment_valid(request):
             )
 
             if cancel_result["status"] == 200:
+                # order_group status - 에러 검증실패로 변경
+                order_group.status = "error_valid"
+                order_group.save()
+
+                # order_detail status - 에러 검증실패로 변경
+                for detail in order_details:
+                    detail.status = "error_valid"
+                    detail.save()
+
                 ctx = {"cancel_result": cancel_result}
                 return redirect(
                     reverse(
@@ -528,9 +721,13 @@ def payment_valid(request):
                 )
 
             else:
-                ctx = {
-                    "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
-                }
+                order_group.status = "error_server"
+                order_group.save()
+                # order_detail status - 에러 서버로 변경
+                for detail in order_details:
+                    detail.status = "error_server"
+                    detail.save()
+                ctx = {"cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"}
                 return redirect(
                     reverse(
                         "orders:payment_fail",
@@ -625,22 +822,20 @@ def order_cancel(request, pk):
     else:
         return redirect(reverse("core:main"))
 
+
 @login_required
 @transaction.atomic
-def create_change_or_refund(request):
+def create_change_or_refund(request, pk):
     user = request.user
-    order_detail_pk = request.GET.get('order_detail_pk')
     if request.method == "GET":
         user = request.user
-        addresses = user.consumer.addresses
-        ctx = {
-            'addresses' : addresses
-        }
+        addresses = user.addresses.all
+        ctx = {"addresses": addresses}
         return render(request, "users/mypage/user/product_refund_popup.html", ctx)
-    elif request.method == "POST": 
-        order_detail = Order_Detail.objects.select_for_update().filter(pk=order_detail_pk)
-        
-        claim_type = request.POST.get('change_or_refund', None)
+    elif request.method == "POST":
+        order_detail = Order_Detail.objects.get(pk=pk)
+
+        claim_type = request.POST.get("change_or_refund", None)
         print(claim_type)
 
         # order_detail status 변경 (환불/반품 접수)
@@ -652,58 +847,127 @@ def create_change_or_refund(request):
             return redirect(reverse("core:main"))
         order_detail.save()
 
-
-        claim_reason = request.POST.get('reason_txt', None)
+        claim_reason = request.POST.get("reason_txt", None)
         print(claim_reason)
-        image = request.FILES.get('product_image', None)
+        image = request.FILES.get("product_image", None)
         print(image)
-        rev_loc_at = request.POST.get('rev_loc_at', None)
+        rev_loc_at = request.POST.get("rev_loc_at", None)
         print(rev_loc_at)
-        rev_address = request.POST.get('address', None)
+        rev_address = request.POST.get("address", None)
 
-        
-        refundExchange = RefundExchange(claim_type=claim_type, claim_status="recept", order_detail=order_detail, 
-                                        reason=claim_reason, image=image, rev_address=rev_address, rev_loc_at=rev_loc_at)
+        refundExchange = RefundExchange(
+            claim_type=claim_type,
+            claim_status="recept",
+            order_detail=order_detail,
+            reason=claim_reason,
+            image=image,
+            rev_address=rev_address,
+            rev_loc_at=rev_loc_at,
+        )
+
+        # 주문 일시
+        order_detail_create_at = order_detail.create_at.date().strftime("%Y.%m.%d")
+        # Product
+        product = order_detail.product
+        # product kinds (무난이, 일반작물)
+        product_kinds = product.kinds
+        # 농장 이름
+        order_detail_farm_name = product.farmer.farm_name
+        # product 이름
+        product_title = product.title
+        # product가격
+        product_price = product.sell_price
+        # product weight
+        product_weight = (str)(product.weight) + (str)(product.weight_unit)
+        # order_detail quantity
+        order_detail_quantity = order_detail.quantity
 
         ctx = {
-            "order_detail" : order_detail
+            "order_date": order_detail_create_at,
+            "farm_name": order_detail_farm_name,
+            "product_kinds": product_kinds,
+            "product_title": product_title,
+            "product_price": product_price,
+            "product_weight": product_weight,
+            "order_detail_quantity": order_detail_quantity,
+            "refundExchange": refundExchange,
         }
-        
-        farmer_phonenum = order_detail.product.farmer.user.phone_number
 
+        farmer_phone_number = order_detail.product.farmer.user.phone_number
+        consumer_phone_number = order_detail.order_group.consumer.user.phone_number
 
         weight = order_detail.product.weight
         weight_unit = order_detail.product.weight_unit
         quantity = order_detail.quantity
 
-        kakao_msg_weight = (str)(weight) + weight_unit
-        kakao_msg_quantity = (str)(quantity) + '개'
+        # kakao_msg_weight = (str)(weight) + weight_unit
+        kakao_msg_quantity = (str)(quantity) + "개"
 
-        args = {
-            "#{order_detail_title}": order_detail.product.title,
-            "#{order_detail_number}": order_detail.order_management_number,
-            "#{weight}": kakao_msg_weight,
-            "#{quantity}" : kakao_msg_quantity,
-            "#{consumer_nickname}" : user.nickname,
-            "#{reason}" : claim_reason,
+        order_management_number = order_detail.order_management_number
+
+        url_encoded_order_management_number = url_encryption.encode_string_to_url(
+            order_management_number
+        )
+
+        product_title = order_detail.product.title
+
+        farmer_args = {
+            "#{order_detail_title}": product_title,
+            "#{order_detail_number}": order_management_number,
+            "#{option_name}": order_detail.product.option_name,
+            "#{quantity}": kakao_msg_quantity,
+            "#{consumer_nickname}": user.nickname,
+            "#{reason}": claim_reason,
+        }
+
+        consumer_args = {
+            "#{order_detail_title}": product_title,
+            "#{order_detail_number}": order_management_number,
+            "#{quantity}": kakao_msg_quantity,
         }
 
         if claim_type == "refund":
-            send_kakao_message(farmer_phonenum, templateIdList["refund_recept"], args)
+            refundExchange.refund_exchange_delivery_fee = product.refund_delivery_fee
+            refundExchange.save()
+            farmer_args[
+                "#{link}"
+            ] = f"www.pickyfarm.com/farmer/mypage/orders/refund/request/check?odmn={url_encoded_order_management_number}"
+            send_kakao_message(
+                farmer_phone_number,
+                templateIdList["refund_recept_for_farmer"],
+                farmer_args,
+            )
+            send_kakao_message(
+                consumer_phone_number,
+                templateIdList["refund_recept_for_consumer"],
+                consumer_args,
+            )
             return render(request, "users/mypage/user/product_refund_complete.html", ctx)
         elif claim_type == "exchange":
-            send_kakao_message(farmer_phonenum, templateIdList["exchange_recept"], args)
+            refundExchange.refund_exchange_delivery_fee = product.exchange_delivery_fee
+            refundExchange.save()
+            farmer_args[
+                "#{link}"
+            ] = f"www.pickyfarm.com/farmer/mypage/orders/exchange/request/check?odmn={url_encoded_order_management_number}"
+            send_kakao_message(
+                farmer_phone_number,
+                templateIdList["exchange_recept_for_farmer"],
+                farmer_args,
+            )
+            send_kakao_message(
+                consumer_phone_number,
+                templateIdList["exchange_recept_for_consumer"],
+                consumer_args,
+            )
             return render(request, "users/mypage/user/product_exchange_complete.html", ctx)
         else:
             return redirect(reverse("core:main"))
 
-
     else:
         return redirect(reverse("core:main"))
-        
 
 
-
-
-
-    
+def update_jeju_mountain_delivery_fee(order_group_pk):
+    order = Order_Group.get(pk=order_group_pk)
+    order_details = Order_Detail.filter(order_group__pk=order_group_pk)
+    farmers = list(set(map(lambda u: u.product.farmer, order_details)))

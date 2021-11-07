@@ -4,6 +4,7 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/users/signup.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/signup_mobile.css' %}">
 {% endblock stylesheet %}
 
 {% block title_name %}회원가입{% endblock title_name %}
@@ -13,17 +14,24 @@
     <div id='signup_form' class="mt-10 flex flex-col">
         <!-- <img src="{% static 'images/user/login.svg' %}" class="mx-auto mt-12" alt=""> -->
         <div class="mx-auto" id="signup-title">회원가입</div>
+        {{form.errors}}
+        <div id="required-input-text">
+            <img id="mobile-dot" src="{% static 'images/orders/dot.svg' %}">
+            필수입력사항
+        </div>
         <div class="horizon-bar"></div>
         <form method="POST" action="{% url 'users:signup' %}">
             {% csrf_token %}
             <div class="input_forms grid">
                 {{form.username.label_tag}}
-                <div class="validation-input-form">
-                    {{form.username}}
-                    <div class="form-validation-message" id="id-valid"></div>
+                <div id="username-form">
+                    <div class="validation-input-form">
+                        {{form.username}}
+                        <div class="form-validation-message" id="id-valid"></div>
+                    </div>
+                    <div class="valid-button" id="id-check" name="{% url 'users:id_validation' %}">중복확인</div>
+                    <input type="hidden" id="idValidCheck">
                 </div>
-                <div class="valid-button" id="id-check" name="{% url 'users:id_validation' %}">중복확인</div>
-                <input type="hidden" id="idValidCheck">
                 {{form.password.label_tag}}
                 <div class="validation-input-form">
                     {{form.password}}
@@ -41,62 +49,76 @@
                 {{form.account_name.label_tag}}
                 {{form.account_name}}
                 {{form.email.label_tag}}
-                <div class="validation-input-form">
-                    {{form.email}}
-                    <div class="form-validation-message" id="email-valid"></div>
+                <div id="email-form">
+                    <div class="validation-input-form">
+                        {{form.email}}
+                        <div class="form-validation-message" id="email-valid"></div>
+                    </div>
+                    <div class="valid-button button" id="email-check" name="{% url 'users:email_validation' %}">중복확인</div>
+                    <input type="hidden" id="emailValidCheck">
                 </div>
-                <div class="valid-button button" id="email-check" name="{% url 'users:email_validation' %}">중복확인</div>
-                <input type="hidden" id="emailValidCheck">
                 {{form.phone_number.label_tag}}
-                <div class="validation-input-form">
-                    {{form.phone_number}}
-                    <div class="form-validation-message" id="phone-number-valid"></div>
+                <div id="phone-form">
+                    <div class="validation-input-form">
+                        {{form.phone_number}}
+                        <div class="form-validation-message" id="phone-number-valid"></div>
+                    </div>
+                    <div class="valid-button button" id="phone-number-check" name="{% url 'users:phone_number_validation' %}">인증번호 받기</div>
+                    <input type="text" name="auth_number" placeholder="인증번호" maxlength="6" required="" id="id_auth_number">
+                    <div class="valid-button button" id="auth-number-check" name="{% url 'users:phone_number_authentication' %}">확인</div>
+                    <input type="hidden" id="phonenumValidCheck" valid='false'>
                 </div>
-                <div class="valid-button button" id="phone-number-check">인증번호 받기</div>
+                {{addressform.errors}}
                 {{addressform.full_address.label_tag}}
-                <div>
-                    {{addressform.full_address}}
-                    {{addressform.detail_address}}
+                <div id="address-form">
+                    <div>
+                        {{addressform.full_address}}
+                        {{addressform.detail_address}}
+                    </div>
+                    <div class="valid-button" id="search-btn" onclick="getAddress()">검색</div>
+                    <div class="valid-button" id="mobile-search-btn" onclick="getAddress()">
+                        <img id="mobile-search-img" src="{% static 'images/search.svg' %}">
+                    </div>
                 </div>
-                <div class="valid-button" onclick="getAddress()">검색</div>
                 {{addressform.sido}}
                 {{addressform.sigungu}}
                 {{addressform.extra_address}}
-                {{form.gender.label_tag}}
-                <div class="flex gender-selection">
-                    {{form.gender}}
-                </div>
-
-                {{form.birth.label_tag}}
-                <div class="flex justify-between birth-selection">
-                    {{form.birth}}
-                </div>
+                {{addressform.zipcode}}
                 {{form.nickname.label_tag}}
-                <div class="validation-input-form">
-                    {{form.nickname}}
-                    <div class="form-validation-message" id="nickname-valid"></div>
+                <div id="nickname-form">
+                    <div class="validation-input-form">
+                        {{form.nickname}}
+                        <div class="form-validation-message" id="nickname-valid"></div>
+                    </div>
+                    <div class="valid-button button" id="nickname-check" name="{% url 'users:nickname_validation' %}">중복확인</div>
+                    <input type="hidden" id="nicknameValidCheck">
                 </div>
-                <div class="valid-button button" id="nickname-check" name="{% url 'users:nickname_validation' %}">중복확인</div>
-                <input type="hidden" id="nicknameValidCheck">
             </div>
             <div class="horizon-bar" style="margin-bottom: 35px;"></div>
             <div class="form_term_agree grid">
-                <div class="mr-auto" id='term-agree'>이용약관 동의</div>
+                <div class="mr-auto" id='term-agree'>
+                    이용약관 동의
+                    <img id="mobile-dot" src="{% static 'images/orders/dot.svg' %}">
+                </div>
                 <input type="checkbox" name="agree-all" id="agree-all">
-                <label id="all-agree" for="agree-all" style="font-size: 20px !important; margin-bottom: 45px;">전체
+                <label id="all-agree" for="agree-all" style="font-size: 20px; margin-bottom: 45px;">전체
                     동의합니다</label>
                 <div class="flex justify-between items-center">
                     <input type="checkbox" name="terms_of_services" id="terms_of_services" class="signup-terms">
                     <label class="mand" for="terms_of_services">이용약관 동의</label>
-                    <a href="{% url 'user:signup_terms_of_service' %}">약관보기</a>
+                    <a href="{% url 'user:signup_terms_of_service' %}" target="_blank">약관보기</a>
                 </div>
                 <div class="flex justify-between items-center">
                     <input type="checkbox" name="personal_info" id="personal_info" class="signup-terms">
                     <label class="mand" for="personal_info">개인정보처리방침 동의</label>
-                    <a href="#">약관보기</a>
+                    <a href="{% url 'core:personal-info' %}">약관보기</a>
                 </div>
-                <input type="checkbox" name="agree-benefit" id="agree-benefit" class="signup-terms" value="checked">
-                <label class="opt" for="agree-benefit">무료배송, 할인쿠폰 등 혜택/정보 수신동의</label>
+                <div class="flex flex-col agree-term-wrapper">
+                    <div class='agree-wrapper'>
+                        <input type="checkbox" name="agree-benefit" id="agree-benefit" class="signup-terms" value="checked">
+                        <label class="opt" for="agree-benefit">무료배송, 할인쿠폰 등 혜택/정보 수신동의</label>
+                    </div>
+                </div>
                 <div class="flex flex-col agree-term-wrapper">
                     <div class='agree-wrapper'>
                         <input type="checkbox" name="agree-kakao-farmer" id="agree-kakao-farmer" class="signup-terms" value="checked">

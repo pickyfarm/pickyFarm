@@ -36,10 +36,13 @@ class User(AbstractUser):
 
     phone_number = models.CharField(max_length=11)
     account_name = models.CharField(max_length=10)
-    profile_image = CompressedImageField(upload_to="profile_image/%Y/%m/%d/", null=True, blank=True)
+    profile_image = CompressedImageField(
+        upload_to="profile_image/%Y/%m/%d/",
+        null=True,
+        blank=True,
+        default="mainlogo_small.svg",
+    )
     nickname = models.CharField(max_length=100)
-    gender = models.CharField(choices=GENDER_CHOICES, max_length=20)
-    birth = models.DateField(null=True)
     # location = models.ForeignKey(Product,
     #                              related_name="consumers", on_delete=models.SET_NULL)
     # number = models.CharField(max_length=20)
@@ -126,9 +129,11 @@ class Editor(models.Model):
 
             for review in reviews:
                 try:
-                    unread_comments = comments.models.Editor_Review_Comment.objects.filter(
-                        editor_review=review, is_read=False
-                    ).count()
+                    unread_comments = (
+                        comments.models.Editor_Review_Comment.objects.filter(
+                            editor_review=review, is_read=False
+                        ).count()
+                    )
 
                     count += unread_comments
                 except ObjectDoesNotExist:
@@ -144,8 +149,12 @@ class Editor(models.Model):
 
 
 class Wish(models.Model):
-    consumer = models.ForeignKey("Consumer", related_name="wishes", on_delete=models.CASCADE)
-    product = models.ForeignKey("products.Product", related_name="wishes", on_delete=models.CASCADE)
+    consumer = models.ForeignKey(
+        "Consumer", related_name="wishes", on_delete=models.CASCADE
+    )
+    product = models.ForeignKey(
+        "products.Product", related_name="wishes", on_delete=models.CASCADE
+    )
 
     create_at = models.DateTimeField(auto_now_add=True)
 
@@ -154,8 +163,12 @@ class Wish(models.Model):
 
 
 class Cart(models.Model):
-    consumer = models.ForeignKey("Consumer", related_name="carts", on_delete=models.CASCADE)
-    product = models.ForeignKey("products.Product", related_name="carts", on_delete=models.CASCADE)
+    consumer = models.ForeignKey(
+        "Consumer", related_name="carts", on_delete=models.CASCADE
+    )
+    product = models.ForeignKey(
+        "products.Product", related_name="carts", on_delete=models.CASCADE
+    )
     quantity = models.IntegerField(default=1, blank=True)
 
     create_at = models.DateTimeField(auto_now_add=True)
@@ -172,8 +185,12 @@ class Cart(models.Model):
 
 
 class Subscribe(models.Model):
-    farmer = models.ForeignKey("farmers.Farmer", related_name="subs", on_delete=models.CASCADE)
-    consumer = models.ForeignKey("users.Consumer", related_name="subs", on_delete=models.CASCADE)
+    farmer = models.ForeignKey(
+        "farmers.Farmer", related_name="subs", on_delete=models.CASCADE
+    )
+    consumer = models.ForeignKey(
+        "users.Consumer", related_name="subs", on_delete=models.CASCADE
+    )
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)

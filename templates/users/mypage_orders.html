@@ -2,6 +2,7 @@
 {% load static %}
 {% block stylesheet_detail %}
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
 
@@ -9,7 +10,7 @@
 {% block content %}
 
 {% if order_details.exists is None %}
-<div class="mt-14 flex flex-col justify-center items-center">
+<div class="mt-14 flex flex-col justify-center items-center" id="before_order">
   <div>
     아직 구매한 무난이가 없습니다
   </div>
@@ -25,7 +26,11 @@
     <input id="filter-start-date" type="date" name="s_date" value="{{start_date}}">
     <div id="filter-until">~</div>
     <input id="filter-end-date" type="date" name="e_date" value="{{end_date}}">
-    <button id="filter-submit" type="submit">조회</button>
+    <button id="filter-submit" type="submit">
+      <span>조회</span>
+      <img id="filter-submit-icon" src="/static/images/users/search.svg" alt="조회 아이콘">
+    </button>
+
   </div>
 </form>
 
@@ -51,7 +56,7 @@
       </div>
       <div class="flex flex-row">
         <div id="product_price">{{detail.total_price}}원</div>
-        <div id="product_quantity">{{detail.quantity}}g</div>
+        <div id="product_quantity">{{detail.quantity}}개</div>
       </div>
       <div class="flex flex-row" id="delivery_status">
 
@@ -61,55 +66,89 @@
         {% elif detail.status == 'shipping' %}
         <img id="delivery-status-icon" src="{% static 'images/users/delivering.svg' %}" alt="배송중 아이콘">
         <div>배송중</div>
-        {% elif detail.status == 'complete' %}
+        {% elif detail.status == 'delivery_complete' %}
         <img id="delivery-status-icon" src="{% static 'images/users/complete.svg' %}" alt="배송 완료 아이콘">
         <div>배송 완료</div>
         {% elif detail.status == 'cancel' %}
         <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
         <div>주문 취소</div>
+        {% elif detail.status == 're_recept' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불 접수</div>
+        {% elif detail.status == 'ex_recept' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>교환 접수</div>
+        {% elif detail.status == 're_ex_approve' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불/교환 승인</div>
+        {% elif detail.status == 're_ex_deny' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불/교환 거절</div>
         {% endif %}
 
       </div>
       <div class="flex flex-row"></div>
     </div>
-    <div id="cart-button-section" class="flex justify-end items-center w-2/12">
-      <div id="cartIn_btn" name="{{detail.product.pk}}" class="transition_element">장바구니 담기</div>
-    </div>
-    <div id="buttons-section" class="flex flex-col justify-center w-2/12 pl-6 pt-2">
-
-      <div id="see-product-btn" class="transition_element">
-        <a href="{% url 'products:product_detail' detail.product.pk %}">
-          무난이 보기
-        </a>
+    <div id="buttons-section" class="flex flex-col justify-center w-4/12 pl-6 pt-2">
+      <div id="cart-button-section" class="flex justify-end items-center w-2/12">
+        <div id="cartIn_btn" name="{{detail.product.pk}}" class="transition_element">장바구니 담기</div>
       </div>
 
+      <div id="other-button-section" class="flex flex-col">
 
-      <div id="reg-review-btn" class="transition_element">
-        <a>
-          리뷰 쓰기
-        </a>
+        <div id="see-product-btn" class="transition_element">
+          <a href="{% url 'products:product_detail' detail.product.pk %}">
+            무난이 보기
+          </a>
+        </div>
+
+        {% if detail.status == 'delivery_complete' %}
+          {% if detail.product.product_comments.exists == False %}
+          <!-- <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> -->
+          <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
+            <a>
+              리뷰 쓰기
+            </a>
+          </div>
+          {% else %}
+          <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_detail' detail.pk %}')">
+            <a>
+              리뷰 보기
+            </a>
+          </div>
+          {% endif %}
+        {% endif %}
+
+        {% if detail.status == 'delivery_complete' %}
+        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'orders:change_refund' detail.pk %}')">
+          <a>
+            환불/반품
+          </a>
+        </div>
+        {% endif %}
+
+
+        {% if detail.status == 'payment_complete' or detail.status == 'preparing' %}
+        <div id="cancel-order-btn" class="transition_element">
+          <a>
+            주문 취소
+          </a>
+        </div>
+        {% endif %}
       </div>
-      {% if detail.status == 'payment_complete' %}
-      <div id="cancel-order-btn" class="transition_element" onclick="window.open('{% url 'user:mypage_order_cancel_popup' detail.pk %}')">
-        <a>
-          주문 취소
-        </a>
-      </div>
-      {% endif %}
     </div>
   </div>
   {% endfor %}
-</div>
-<div id="paginator" class="flex flex-row justify-center">
-  {% for page in total_pages %}
-  <a href='?page={{page}}&s_date={{start_date}}&e_date={{end_date}}'>
-    <div id="page_btn" name="{{page}}">{{page}}</div>
-  </a>
-  {% endfor %}
+  <div id="paginator" class="flex flex-row justify-center">
+    {% for page in total_pages %}
+    <a href='?page={{page}}&s_date={{start_date}}&e_date={{end_date}}'>
+      <div id="page_btn" name="{{page}}">{{page}}</div>
+    </a>
+    {% endfor %}
+  </div>
 </div>
 
 {% endif %}
-
 <script>
 
 
@@ -125,6 +164,11 @@
     "color": "white",
   })
 
+  // 모바일에서 메뉴 선택
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    document.getElementById('menu_boughts').classList.add('selected');
+    document.getElementById('selected_line').style.gridArea = "line1";
+  }
 
   menuBtns.forEach(item => {
     item.addEventListener('mouseover', function () {
@@ -200,6 +244,19 @@
 
   })
 
-</script>
+  var popupX = (document.body.offsetWidth / 2) - (375 / 2);
+  var popupY = (window.screen.height / 2) - (600 / 2);
+  console.log(popupX)
+  console.log(popupY)
 
+  function productCommentPopup(pk) {
+      const detailpk = parseInt(pk);
+      {% for detail in order_details %}
+      if ( detailpk === {{ detail.pk }} ) {
+      window.open("{% url 'user:product_comment_create' detail.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
+      }
+      {% endfor %}
+    }
+</script>
+<script src="{% static 'js/users/mypage/user/mypage_orders.js' %}"></script>
 {% endblock content %}

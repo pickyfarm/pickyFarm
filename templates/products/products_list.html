@@ -1,8 +1,15 @@
 {% extends "base/base.html" %}
+{% block og_url %}{% url 'products:store_list' %}{% endblock %}
+{% block og_title %}상품목록{% endblock %}
+{% block og_desc %}피키팜의 무난이들을 만나보세요{% endblock %}
+{% block og_image %}{{products.first.main_image.url}}{% endblock %}
+{% block title_name %}상품목록{% endblock %}
+
 
 {% load static %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/products/products_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/products_list_mobile.css' %}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
@@ -37,6 +44,8 @@
 
     </div>
 
+
+    <div id="picky-store">PICKY STORE</div>
     <div id="content">
 
         <div class="flex flex-col w-full" id="content_box">
@@ -59,7 +68,6 @@
                     <div class="absolute flex flex-col none z-10" id='sort_list'>
                         <a href="?sort=최신순">최신순</a>
                         <a href="?sort=인기순">인기순</a>
-                        <a href="?sort=마감임박순">마감임박순</a>
                     </div>
                 </div>
             </div>
@@ -69,32 +77,33 @@
                     {% for product in products %}
                     <div class="z-0 flex flex-col" id="product_item" name="{{product.pk}}">
                         <div class="relative product-image-wrapper">
-                            <div class="farmer-info-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.pk %}">
+                            {% comment %}
+                            <!-- <div class="farmer-info-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.pk %}">
                                 <a href="{% url 'farmers:farmer_detail' product.farmer.pk %}" class="flex flex-col items-center">
 
                                     <img class="farmer-profile-image" src="{{product.farmer.farmer_profile.url}}" alt="farmer_profile">
                                     <span class="farmer-info-overlay--farmer-name">{{product.farmer.user.nickname}}</span>
                                     <span class="farmer-info-overlay--farm-name">{{product.farmer.farm_name}}</span>
                                 </a>
-                            </div>
-                            <a href="{% url 'products:product_detail' product.pk %}" class="">
+                            </div> --> {% endcomment %}
+                            <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
                                 <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
                             </a>
                             <div id="like_cart_in" class="flex flex-row">
-                                <div id="wish" name="{{product.pk}}" class="z-10">
+                                <div id="wish" name="{{product.get_main_product.pk}}" class="z-10">
                                     <img class="mr-1" , id="wish_btn" src="{% static 'images/products_list/like.svg' %}">
                                 </div>
-                                <div id="cart" name="{{product.pk}}">
+                                <div id="cart" name="{{product.get_main_product.pk}}">
                                     <img class="ml-1" id="cart_in_btn" , src="{% static 'images/products_list/cart_in.svg' %}">
                                 </div>
                             </div>
-                            <img class="absolute -top-5 left-1 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out2.svg' %}">
-                            <img class="absolute top-1 left-4 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                            <!-- <img class="absolute -top-5 left-1 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out2.svg' %}">
+                            <img class="absolute top-1 left-4 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out.svg' %}"> -->
                         </div>
-                        <a href="{% url 'products:product_detail' product.pk %}" class="">
+                        <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
                             <div class="mt-1">
                                 <p class="" id="title">{{product.title}}</p>
-                                <p class="" id="sell_price">{{product.sell_price}}원</p>
+                                <p class="" id="sell_price">{{product.get_main_product.sell_price}}원</p>
                                 <p class="" id="sub_title">{{product.sub_title}}</p>
                             </div>
                         </a>
@@ -102,7 +111,7 @@
 
                             {% if product.kinds == "ugly" %}
                             <div id="ugly_tag">무난이 작물</div>
-                            {% else %}
+                            {% elif product.kinds == "normal" %}
                             <div id="normal_tag">일반 작물</div>
                             {% endif %}
                         </div>

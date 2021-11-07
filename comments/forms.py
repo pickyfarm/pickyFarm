@@ -9,6 +9,16 @@ from .models import Product_Recomment, Editor_Review_Recomment, Farmer_Story_Rec
 
 
 class ProductCommentForm(forms.ModelForm):
+
+    evaluate = (
+        (1, "bad"),
+        (3, "normal"),
+        (5, "good"),
+    )
+    freshness = forms.ChoiceField(choices=evaluate, label="", widget=forms.RadioSelect)
+    flavor = forms.ChoiceField(choices=evaluate, label="", widget=forms.RadioSelect)
+    cost_performance = forms.ChoiceField(choices=evaluate, label="", widget=forms.RadioSelect)
+
     class Meta:
         model = Product_Comment
         fields = (
@@ -17,6 +27,12 @@ class ProductCommentForm(forms.ModelForm):
             "flavor",
             "cost_performance",
         )
+        widgets = {
+            "text": forms.Textarea(attrs={"placeholder": ""}),
+            "freshness": forms.RadioSelect,
+            "flavor": forms.RadioSelect,
+            "cost_performance": forms.RadioSelect,
+        }
 
 
 class ProductRecommentForm(forms.ModelForm):

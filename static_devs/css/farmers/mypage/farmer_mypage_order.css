@@ -38,6 +38,10 @@
     color: #5c6754;
 }
 
+#arrow {
+    display: none;
+}
+
 .search-bar-section {
     margin-bottom: 100px;
 }
@@ -144,7 +148,7 @@
 }
 
 #order-list-sheet-index-section {
-    grid-template-columns: 145px 180px 90px 70px 380px 125px;
+    grid-template-columns: 100px 180px 90px 70px 425px 125px;
     padding-bottom: 21px;
     border-bottom: 1px solid #707070;
 }
@@ -166,7 +170,7 @@
 }
 
 .order-list-sheet-data-section {
-    grid-template-columns: 145px 180px 90px 70px 380px 125px;
+    grid-template-columns: 100px 180px 90px 70px 425px 125px;
     padding: 23.5px 0;
     border-bottom: 1px solid rgba(94, 102, 86, 0.5);
     background-origin: border-box;
@@ -179,7 +183,7 @@
 }
 
 .order-confirm-overlay {
-    width: 505px;
+    width: 550px;
     height: 100%;
     background-color: rgba(243, 244, 243, 0.9);
     grid-column: 5 / 7;
@@ -217,9 +221,10 @@
 }
 
 .order-info {
-    grid-template-columns: 74px 260px;
+    grid-template-columns: 74px 310px;
     column-gap: 24px;
     row-gap: 6px;
+    grid-auto-flow: row dense;
 }
 
 .order-info-index {
@@ -228,18 +233,6 @@
 
 .order-info-data {
     grid-column: 2;
-}
-
-.consumer-info {
-    grid-row: 1;
-}
-
-.shipping-address {
-    grid-row: 2;
-}
-
-.order-memo {
-    grid-row: 4;
 }
 
 .order-status-action-button {

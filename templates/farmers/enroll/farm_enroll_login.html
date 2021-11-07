@@ -2,10 +2,8 @@
 {% load static %}
 
 {% block stylesheet %}
-<link rel="stylesheet"
-      href="{% static 'css/farmers/enroll/farm_enroll_login.css' %}">
-<link rel="stylesheet"
-      href="{% static 'css/users/user_auth_input.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll_login.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/user_auth_input.css' %}">
 
 {% endblock %}
 
@@ -13,8 +11,7 @@
 {% endblock title_name %}
 
 {% block main_content %}
-<div id="main-content"
-     class=" flex flex-col justify-center items-center place-self-center">
+<div id="main-content" class=" flex flex-col justify-center items-center place-self-center">
     <div class="section-title">입점 등록</div>
     <div class="section-subtitle">피키팜 입점을 환영합니다</div>
     <div class="login-form-section flex justify-between">
@@ -22,9 +19,7 @@
             <div class="section-description">
                 이미 피키팜 회원이시라면
             </div>
-            <form action="{% url 'farmer:farm_enroll_login' %}"
-                  method="post"
-                  class="flex flex-col">
+            <form action="{% url 'farmer:farm_enroll_login' %}" method="post" class="flex flex-col">
                 {% csrf_token %}
                 {% for field in form %}
                 {{field}}

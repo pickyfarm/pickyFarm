@@ -11,6 +11,12 @@
 </head>
 
 <body>
+    {% if not avail %}
+    <div id="access-block-warp" class="flex">
+        <span>주문 확인 버튼을 눌러서 주문 상태를 변경 후 송장 번호를 입력할 수 있습니다.</span>
+        <span>카카오 알림톡의 경우 ) 주문 확인 버튼 클릭 -> 확인 완료 버튼 클릭</span>
+    </div>
+    {% else %}
     <div class='popup_container flex'>
         <div class='order-cancel-main-title'>송장번호 입력</div>
         <div class='order-cancel-main-content-wrap'>
@@ -27,8 +33,7 @@
                             {% for product in products %}
                             <div class='order-cancel-product-information-content-wrap flex'>
                                 <div class='order-cancel-product-information-content-left-section'>
-                                    <div class='order-cancel-product-image'>
-                                    </div>
+                                    <img class='order-cancel-product-image' src="{{product.main_image.url}}">
                                 </div>
                                 <div class='order-cancel-product-information-content-right-section'>
                                     <div class="order-confirm-product-tag">
@@ -75,8 +80,8 @@
                                 <div class='order-cancel-customer-detail-name-callnum-wrap flex'>
                                     <div class='order-cancel-customer-detail-title'>이름 / 번호</div>
                                     <div class='order-cancel-customer-detail-namecall-value-wrap flex'>
-                                        <div class='order-cancel-customer-detail-name'>{{order.order_group.consumer.user.account_name}}</div>
-                                        <div class='order-cancel-customer-detail-callnum'>{{order.order_group.consumer.user.phone_number}}</div>
+                                        <div class='order-cancel-customer-detail-name'>{{order.order_group.rev_name}}</div>
+                                        <div class='order-cancel-customer-detail-callnum'>{{order.order_group.rev_phone_number}}</div>
                                     </div>
                                 </div>
                                 <div class='order-cancel-customer-detail-address-wrap flex'>
@@ -85,7 +90,7 @@
                                         <div class='order-cancel-customer-detail-address'>{{order.order_group.rev_address}}</div>
                                         <div class='order-cancel-customer-detail-plus-wrap flex'>
                                             <div class='order-cancel-customer-detail-delivery-place'>{{order.order_group.rev_loc_at}}</div>
-                                            <div class='order-cancel-customer-detail-door-password'>{{order.order_group.rev_loc_detail}}</div>
+                                            <div class='order-cancel-customer-detail-door-password'>{{order.order_group.rev_message}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -105,11 +110,19 @@
                             <div class='order-cancel-invoice-place-wrap'>
                                 <label class='invoice-place-title' for="invoice-place-select">택배사</label>
                                 <select name='invoice-select' id='invoice-place-select'>
-                                    <option value=''>택배사 선택</option>
-                                    <!-- 택배사 dummy data 입니다. -->
-                                    <option value='cj'>대한통운</option>
-                                    <option value='hanjin'>한진택배</option>
-                                    <option value='logen'>로젠택배</option>
+                                    <option value='' disabled>택배사 선택</option>
+                                    <option {% if delivery_company == "CJ" %}selected{% endif %} value="CJ">CJ대한통운</option>
+                                    <option {% if delivery_company == "POST" %}selected{% endif %} value="POST">우체국택배</option>
+                                    <option {% if delivery_company == "LOGEN" %}selected{% endif %} value="LOGEN">로젠택배</option>
+                                    <option {% if delivery_company == "KG" %}selected{% endif %} value="KG">KG로지스</option>
+                                    <option {% if delivery_company == "ILYANG" %}selected{% endif %} value="ILYANG">일양로지스</option>
+                                    <option {% if delivery_company == "HYUNDAI" %}selected{% endif %} value="HYUNDAI">현대택배</option>
+                                    <option {% if delivery_company == "GTX" %}selected{% endif %} value="GTX">GTX로지스</option>
+                                    <option {% if delivery_company == "FedEx" %}selected{% endif %} value="FedEx">FedEx</option>
+                                    <option {% if delivery_company == "HANJIN" %}selected{% endif %} value="HANJIN">한진택배</option>
+                                    <option {% if delivery_company == "KYUNG" %}selected{% endif %} value="KYUNG">경동택배</option>
+                                    <option {% if delivery_company == "LOTTE" %}selected{% endif %} value="LOTTE">롯데택배</option>
+                                    <option {% if delivery_company == "HAPDONG" %}selected{% endif %} value="HAPDONG">합동택배</option>
                                 </select>
                                 <span class='invoice-select-arrow'>
                                     <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
@@ -124,13 +137,14 @@
                             <div class='order-cancel-invoice-number-submit-img-wrap'>
                                 <img class='order-cancel-invoice-number-submit-img' src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt='check_nohover'>
                             </div>
-                            <div class='order-cancel-invoice-number-submit-text'>취소 완료</div>
+                            <div class='order-cancel-invoice-number-submit-text'>완료</div>
                         </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    {% endif %}
     <script>
         const check_btn = document.querySelector('.order-cancel-invoice-number-submit-wrap');
         const check_img = document.querySelector('.order-cancel-invoice-number-submit-img');

@@ -1,0 +1,418 @@
+:root {
+    --white: #f8f8f8;
+    --light-grey: #f2f2f2;
+    --brown-grey: #b3b3b3;
+    --dark-sage: #5c6754;
+    --dark-green: #4d5548;
+}
+
+.landing-wrapper {
+    width: 100%;
+    height: calc(100vh - 55px);
+    display: flex;
+    justify-content: center;
+}
+
+.landing-content {
+    width: 990px;
+}
+
+.landing-sub-text {
+    font-size: 35px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-top: 30px;
+}
+
+.landing-main-text {
+    font-size: 50px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.landing-desc {
+    font-size: 25px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+@media screen and (max-width: 768px) {
+    .landing-wrapper {
+        height: 57.5rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* color는 각 섹션별 id 부여해서 따로 설정할 것 */
+
+    .landing-main-text {
+        font-size: 3rem;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+    }
+
+    .landing-sub-text {
+        font-size: 2rem;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+    }
+
+    .landing-desc {
+        font-size: 1.6rem;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+    }
+}
+
+/* section 1*/
+
+#section1 {
+    background-color: var(--light-grey);
+    min-height: 580px;
+    align-items: center;
+}
+
+.section-wrapper {
+    min-height: 486px;
+    max-height: 580px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#landing-section1 {
+    min-height: 486px;
+    max-height: 580px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.section1-text {
+    color: #31382c;
+}
+
+#section1-title p {
+    margin-top: 24px;
+}
+#section1-farmer-image-group {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.section1-farmer-img {
+    width: 108px;
+    height: 107px;
+}
+
+figcaption {
+    left: 15px;
+    position: relative;
+    font-size: 19px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #7b7c79;
+}
+
+#section1-desc-img {
+    object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+    #landing-section1 {
+        flex-direction: column;
+        padding: 0 5.2rem;
+        width: 37.5rem;
+    }
+
+    .section-wrapper {
+        justify-content: normal;
+        min-height: fit-content;
+        flex: 0;
+    }
+
+    #section1-title p {
+        margin-top: 0.8rem;
+    }
+
+    #section1-farmer-image-group {
+        justify-content: space-between;
+        margin-top: 1.2rem;
+    }
+
+    .section1-farmer-img {
+        width: 6rem;
+        height: 6rem;
+    }
+
+    #section1-desc-img {
+        width: 26.3rem;
+    }
+
+    .section1-image-desc {
+        left: 1rem;
+    }
+}
+
+/* section 2*/
+#section2 {
+    background-color: var(--dark-green);
+    min-height: 580px;
+    align-items: center;
+}
+
+#landing-section2 {
+    min-height: 550px;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.section2-text {
+    color: #ececec;
+}
+
+#landing-section2-text-group {
+    display: flex;
+    margin-bottom: auto;
+    flex: 1;
+    justify-content: space-between;
+}
+
+#landing-section2-main-text-group {
+    margin-left: 90px;
+}
+
+#section2-desc {
+    margin-top: 30px;
+    margin-right: 107px;
+}
+
+mark {
+    background-color: #ececec;
+    color: var(--dark-green);
+    font-weight: bold;
+    padding: auto 5px;
+    line-height: 30px;
+}
+
+#section2-desc-img-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    #section2-desc-img {
+        display: none;
+    }
+
+    #section2-desc-img-mobile {
+        display: block;
+        width: 37.5rem;
+        height: fit-content;
+        align-self: center;
+    }
+
+    #landing-section2-text-group {
+        flex-direction: column;
+    }
+
+    #landing-section2-main-text-group {
+        margin-left: 6rem;
+    }
+
+    #section2-desc {
+        margin-left: auto;
+        margin-right: 6rem;
+        margin-bottom: 3rem;
+        text-align: right;
+    }
+}
+
+/* section 3*/
+
+#section3 {
+    background-color: #e3e3e3;
+    align-items: center;
+    overflow: hidden;
+}
+
+#landing-section3 {
+    position: relative;
+    height: calc(100vh - 56px);
+    justify-content: center;
+    align-items: center;
+}
+
+#section3-desc-left-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#section3-desc-right-img {
+    position: absolute;
+    bottom: 0px;
+    right: 0;
+}
+
+#landing-section3-text-group {
+    text-align: center;
+    z-index: 1;
+}
+
+#section3-desc-center-img-wrapper {
+    margin-top: 43.6px;
+    margin-bottom: 44.1px;
+}
+
+@media screen and (max-width: 768px) {
+    /* 각 섹션별로 미디어 쿼리 따로 정의해서 씁시다. 섞이면 짜증남. */
+    #landing-section3 {
+        position: relative;
+        height: 575px !important;
+        width: 100vw;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #section3-desc-left-img {
+        position: absolute;
+        top: 0;
+        left: -50px;
+        width: 150px;
+        height: 330px;
+        z-index: 0;
+    }
+
+    #section3-desc-right-img {
+        position: absolute;
+        bottom: 0;
+        right: -50px;
+        width: 200px;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    #landing-section3-text-group {
+        text-align: center;
+        z-index: 1;
+    }
+
+    #section3-desc-center-img {
+        width: 242px;
+        object-fit: cover;
+    }
+
+    #section3-desc-center-img-wrapper {
+        margin-top: 43.6px;
+        margin-bottom: 44.1px;
+    }
+}
+
+/* section 4*/
+#section4 {
+    background-color: var(--light-grey);
+    min-height: 580px;
+}
+#landing-section4 {
+    min-height: 433px;
+}
+
+.section4-text-wrapper {
+    color: var(--dark-green);
+}
+
+.section4-main-title {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.section4-sub-title {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+#section4-desc {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+#section4-kakao-plus-section-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    #section4 {
+        /* padding-bottom: 11rem; */
+    }
+
+    .section4-main-title {
+        font-size: 3.2rem;
+        text-align: center;
+        margin-top: 6.5rem;
+        margin-bottom: 2.5rem;
+        color: var(--dark-green);
+    }
+    .section4-sub-title {
+        font-size: 2.1rem;
+        text-align: center;
+        margin-bottom: 0.6rem;
+        color: var(--dark-green);
+    }
+
+    .section4-logo-wrapper {
+        order: 2;
+    }
+    .section4-logo-img {
+        width: 19.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .section4-text-wrapper {
+        order: 1;
+        color: #31382c;
+    }
+
+    .section4-kakao-plus-section {
+        display: none;
+    }
+    #section4-kakao-plus-section-mobile {
+        order: 3;
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+    }
+    #section4-desc {
+        font-size: 1.6rem;
+        line-height: 2rem;
+        text-align: center;
+    }
+    #section4-kakao-plus-img-mobile {
+        width: 23.5rem;
+        margin-bottom: 0.4rem;
+    }
+}

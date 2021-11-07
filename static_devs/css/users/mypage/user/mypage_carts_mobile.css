@@ -1,0 +1,207 @@
+@import '/static/css/base/mobile_base_style.css';
+
+@media screen and (max-width: 768px) {
+    #content {
+        width: 100%;
+        display: grid;
+        grid-template-areas:
+            'filter control'
+            'products products'
+            'line line'
+            'order order';
+    }
+
+    /* [cart 없는 경우] */
+    #redirect_a {
+        width: 13rem;
+    }
+    #redirect_btn {
+        margin-top: 2rem;
+        font-size: 1.1rem;
+        width: 13rem;
+        height: 2.2rem;
+        text-align: center;
+    }
+
+    /* [cart 있는 경우] */
+
+    /*
+        전체 상품 선택 셀렉터, 삭제하기 버튼
+    */
+    #filter-section {
+        margin: 0;
+        margin-top: 2.25rem;
+        width: 100%;
+        height: 2rem;
+        grid-area: filter;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    #filter-section > div:nth-child(1) {
+        padding-right: 0.95rem;
+    }
+    #filter-section > div:nth-child(2) {
+        margin-left: 0;
+    }
+    #controll-section {
+        margin-top: 2.25rem;
+        width: 100%;
+        grid-area: control;
+    }
+    #controll-section > div {
+        justify-content: flex-end;
+    }
+    #delete_btn {
+        width: 6rem;
+        height: 2rem;
+        margin: 0;
+        padding: 0.4rem;
+        border-radius: 1rem;
+        border: solid 1px #5e6656;
+        font-size: 1.1rem;
+    }
+
+    /* 
+        찜한 상품 아이템 관련
+    */
+    #products-section {
+        margin-left: 0;
+        margin-top: 1.3rem;
+        min-height: 7rem;
+        grid-area: products;
+    }
+    #products-section > div {
+        align-items: center;
+        margin-bottom: 2.1rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+    #select-section {
+        padding-right: 0.95rem;
+        margin-top: 0;
+    }
+    #product {
+        width: 100%;
+        height: 9.4rem;
+        padding: 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        background-color: #ffffff;
+        margin-bottom: 0;
+        display: grid;
+        grid-template-columns: 7.4rem 2fr 1fr;
+        grid-template-areas:
+            'product_img product product'
+            'product_img cart cart';
+        grid-gap: 1rem;
+    }
+    #product > div:nth-child(2) {
+        width: 100%;
+        grid-area: product;
+        margin-top: 0.8rem;
+    }
+    #product_img_section {
+        width: 7.4rem;
+        grid-area: product_img;
+    }
+    #product_img {
+        width: 7.4rem;
+        height: 7.4rem;
+        border-radius: 1.1rem;
+        margin: 0;
+    }
+    #product_farm_name {
+        font-size: 1.5rem;
+        color: var(--dark-sage);
+        font-weight: bold;
+    }
+    #slash {
+        height: 1.2rem;
+        margin: 0 0.8rem;
+    }
+    #product_title {
+        font-size: 1.5rem;
+        color: #707070;
+        font-weight: 500;
+    }
+    #product_weight,
+    .product_price {
+        font-size: 1.1rem;
+    }
+    .product_price {
+        margin-left: 0.5rem;
+    }
+    #cart-button-section {
+        width: 100%;
+        grid-area: cart;
+        justify-content: flex-end;
+        padding: 0;
+    }
+    .quantity-number {
+        font-size: 1.2rem;
+        color: var(--dark-sage);
+        font-weight: normal;
+    }
+    #quantity-up,
+    #quantity-down {
+        width: 1.08rem;
+        height: 0.56rem;
+    }
+
+    /*
+        계속하기 / 주문하기 / 최종금액 관련 섹션 
+    */
+    .line {
+        grid-area: line;
+        display: flex;
+        width: 100%;
+        margin: 1rem 0;
+        opacity: 0.5;
+        border-bottom: solid 2px var(--brown-grey);
+    }
+    #order-section {
+        width: 100%;
+        margin-left: 0;
+        flex-direction: column;
+        margin-bottom: 3.9rem;
+        margin-top: 0;
+        grid-area: order;
+    }
+    #order-section > div:nth-child(1) {
+        width: 100%;
+        order: 2;
+        justify-content: space-between;
+    }
+    #order-section > div:nth-child(1) a {
+        width: 48%;
+    }
+    #order-section > div:nth-child(2) {
+        width: 100%;
+        order: 1;
+        margin-bottom: 2rem;
+    }
+    #total_order_text {
+        font-size: 1.2rem;
+        padding-top: 0;
+        line-height: 2.5;
+    }
+    #total_order_price,
+    #won_text {
+        font-size: 2rem;
+        line-height: 1.4;
+    }
+    #total_order_price {
+        margin-left: 0.9rem;
+    }
+    #won_text {
+        margin-left: 0.4rem;
+    }
+    #continue_shop,
+    #order_now {
+        width: 100%;
+        font-size: 1.2rem;
+        line-height: 2;
+        margin: 0;
+    }
+}

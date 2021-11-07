@@ -1,0 +1,516 @@
+@font-face {
+    font-family: GowunBatang;
+    src: url('fonts/GowunBatang-Bold.ttf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: GowunBatang;
+    src: url('fonts/GowunBatang-Regular.ttf');
+    font-weight: normal;
+}
+
+.siminwon-landing-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.landing-content {
+    width: 990px;
+}
+@media screen and (max-width: 768px) {
+    .siminwon-landing-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .landing-content {
+        width: 100%;
+    }
+}
+
+/* header */
+
+#siminwon-landing-header {
+    background-color: #eeebe9;
+    align-items: center;
+}
+
+#landing-header-content {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+#landing-header-content-wrap {
+    width: 545px;
+    position: relative;
+}
+
+#landing-header-tag {
+    width: fit-content;
+    height: 50.6px;
+    line-height: 50.6px;
+    border-radius: 18.2px;
+    background-color: #a61f30;
+    font-family: NotoSansKR;
+    font-size: 30px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #eeebe9;
+    margin-top: 120px;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+
+.landing-header-main-text {
+    font-family: GowunBatang;
+    font-size: 54px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #382925;
+}
+
+#strong {
+    font-weight: bold;
+}
+
+#landing-header-duration {
+    font-size: 30px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: center;
+    color: #2a1e1b;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.landing-header-img {
+    position: absolute;
+}
+
+#apple-single {
+    top: -131px;
+    left: -59px;
+}
+
+#apple-double {
+    bottom: -120px;
+    right: 0;
+}
+
+#underline-star {
+    top: 165px;
+    right: -34px;
+}
+
+/* header mobile */
+
+@media screen and (max-width: 768px) {
+    #siminwon-landing-header {
+        background-color: #eeebe9;
+        align-items: center;
+    }
+
+    #landing-header-content {
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+
+    #landing-header-content-wrap {
+        width: 170px;
+        position: relative;
+    }
+
+    #landing-header-tag {
+        height: 1.6rem;
+        border-radius: 5.1px;
+        font-size: 1rem;
+        margin-top: 3rem;
+        margin-bottom: 0.6rem;
+        line-height: 1.6rem;
+    }
+
+    .landing-header-main-text {
+        font-size: 1.5rem;
+        line-height: 1.52;
+    }
+
+    #strong {
+        font-weight: bold;
+    }
+
+    #landing-header-duration {
+        font-size: 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+    }
+
+    .landing-header-img {
+        position: absolute;
+    }
+
+    #apple-single {
+        width: 95px;
+        height: 90.7px;
+        top: -24px;
+        left: 5%;
+    }
+
+    #apple-double {
+        width: 118.1px;
+        height: 100.9px;
+        bottom: -69px;
+        right: 11%;
+    }
+
+    #underline-star {
+        width: 84.5px;
+        height: 30.3px;
+        top: 44px;
+        right: 0;
+    }
+}
+
+/* siminwon-section1 */
+
+#siminwon-section1 {
+    background-color: #eeebe9;
+    align-items: center;
+    padding: 40px 0px;
+}
+
+#siminwon-section1-product-content {
+    width: 905.9px;
+    border-bottom-left-radius: 24.2px;
+    border-bottom-right-radius: 24.2px;
+    background-color: #fff;
+    margin: 0 auto;
+    padding-bottom: 75px;
+}
+
+#siminwon-section1-num {
+    width: 61.8px;
+    height: 30.9px;
+    margin: 0 0 10.6px;
+    background-color: #4b5448;
+    color: #fff;
+    text-align: center;
+    border-bottom-left-radius: 999px;
+    border-bottom-right-radius: 999px;
+}
+
+#siminwon-section1-title {
+    font-size: 40px;
+    color: #a61f30;
+    font-weight: bold;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+.siminwon-section1-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 247.9px;
+    height: 277.8px;
+    background-color: #f4f4f4;
+    border-top: 8px solid #a61f30;
+}
+
+.siminwon-section1-desc:not(:first-child) {
+    margin-left: 25px;
+}
+
+.siminwon-section1-desc-number {
+    font-family: GowunBatang;
+    font-size: 30px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: #beb7b5;
+    margin-top: 30px;
+}
+
+.siminwon-section1-desc-content {
+    margin: auto;
+    text-align: center;
+    font-size: 30px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.4;
+    letter-spacing: normal;
+    color: #2a1e1b;
+}
+
+/* siminwon-section1-mobile */
+@media screen and (max-width: 768px) {
+    #siminwon-section1-product-content {
+        width: 68%;
+        padding-bottom: 2rem;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+    #siminwon-section1-num {
+        width: 4rem;
+        height: 2rem;
+        font-size: 1.3rem;
+    }
+
+    #siminwon-section1-title {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+        margin-bottom: 1.4rem;
+    }
+
+    .siminwon-section1-desc {
+        width: 70px;
+        height: 78px;
+        border-top: 2px solid #a61f30;
+    }
+
+    .siminwon-section1-desc-number {
+        margin-top: 1rem;
+        font-size: 1rem;
+    }
+
+    .siminwon-section1-desc-content {
+        font-size: 1rem;
+    }
+
+    .siminwon-section1-desc:not(:first-child) {
+        margin-left: 7px;
+    }
+}
+
+/* siminwon-section2 */
+#siminwon-section2 {
+    background-color: #eeebe9;
+    align-items: center;
+    padding: 10px 0px;
+}
+#siminwon-section2-product-content {
+    width: 905.9px;
+    border-top-left-radius: 24.2px;
+    border-top-right-radius: 24.2px;
+    background-color: #fff;
+    margin: 0 auto;
+    padding-bottom: 75px;
+}
+#siminwon-section2-num {
+    width: 61.8px;
+    height: 30.9px;
+    margin: 0 0 10.6px;
+    background-color: #4b5448;
+    color: #fff;
+    text-align: center;
+    border-bottom-left-radius: 999px;
+    border-bottom-right-radius: 999px;
+}
+
+#siminwon-section2-title-wrap #siminwon-section2-title {
+    font-size: 35px;
+    color: #382925;
+    font-weight: bold;
+}
+#siminwon-section2-title-wrap #siminwon-section2-subtitle {
+    font-size: 40px;
+    color: #a61f30;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+#product-list-wrapper {
+    width: 790px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.product-wrapper {
+    width: 227px;
+}
+
+.product-image-wrapper {
+    height: 330.4px;
+    margin-bottom: 28px;
+}
+
+.product-image-wrapper img {
+    width: 790px;
+    height: 330.4px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    box-shadow: 10px 10px 10px rgba(211, 211, 211, 0.397);
+}
+
+.product-title {
+    font-size: 20px;
+    color: #2a1e1b;
+}
+
+.product-price {
+    font-size: 3rem;
+    color: #382925;
+    margin-bottom: 16px;
+}
+
+.ugly_tag {
+    color: #ffff;
+    background-color: #4b5448;
+    border: solid 0.1rem #4b5448;
+}
+.normal_tag {
+    color: #4b5448;
+    border: solid 0.1rem #4b5448;
+}
+.ugly_tag,
+.normal_tag {
+    border-top-right-radius: 999.9rem;
+    border-bottom-right-radius: 999.9rem;
+    padding: 0.2rem 0.8rem 0.2rem 0.6rem;
+    width: fit-content;
+}
+#siminwon-section2-farmer-content {
+    width: 666px;
+    margin: 50px auto 20px;
+}
+#farmer-profile {
+    width: 130px;
+    height: 130px;
+    border-radius: 999px;
+    margin-right: 40px;
+}
+#farmer-profile img {
+    width: 130px;
+    height: 130px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: solid 3px #4b5448;
+}
+#farmer-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    text-align: center;
+    color: #382925;
+    margin-bottom: 1rem;
+}
+#farmer-homepage-btn {
+    width: 235.6px;
+    height: 43.4px;
+    line-height: 43.4px;
+    border-radius: 21.7px;
+    box-shadow: 7px 7px 5px 0 rgba(0, 0, 0, 0.3);
+    background-color: #4b5448;
+    color: #fff;
+    font-size: 22px;
+}
+
+/* siminwon-section2-mobile */
+@media screen and (max-width: 768px) {
+    #siminwon-section2-product-content {
+        width: 68%;
+        padding-bottom: 1rem;
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+    }
+    #siminwon-section2-num {
+        width: 4rem;
+        height: 2rem;
+        font-size: 1.3rem;
+    }
+    #siminwon-section2-title-wrap #siminwon-section2-title {
+        font-size: 10px;
+        margin-bottom: 0.5rem;
+    }
+    #siminwon-section2-title-wrap #siminwon-section2-subtitle {
+        font-size: 12px;
+        margin-bottom: 2rem;
+    }
+    #product-list-wrapper {
+        flex-direction: column;
+        width: 50%;
+        margin: 0 auto;
+    }
+    .product-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        margin-bottom: 2rem;
+        width: 150px;
+    }
+    .product-image-wrapper {
+        margin-bottom: 0px;
+        height: 93px;
+        margin-right: 1.2rem;
+    }
+
+    .product-image-wrapper img {
+        width: 64px;
+        height: 93px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        box-shadow: 10px 10px 10px rgba(211, 211, 211, 0.397);
+    }
+    .product-title {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+    .product-price {
+        font-size: 1.2rem;
+        margin-bottom: 0.7rem;
+    }
+    .product-tag-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .ugly_tag,
+    .normal_tag {
+        width: 100%;
+    }
+    #siminwon-section2-farmer-content {
+        width: 68%;
+        justify-content: center;
+        margin: 2.5rem auto 3rem;
+    }
+    #farmer-profile {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 999px;
+        margin-right: 1rem;
+    }
+    #farmer-profile img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 999px;
+        object-fit: cover;
+        border: solid 1px #4b5448;
+    }
+    #farmer-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    #farmer-homepage-btn {
+        width: 12rem;
+        height: 2rem;
+        line-height: 2rem;
+        border-radius: 21.7px;
+        box-shadow: 7px 7px 5px 0 rgba(0, 0, 0, 0.3);
+        background-color: #4b5448;
+        color: #fff;
+        font-size: 1rem;
+    }
+}

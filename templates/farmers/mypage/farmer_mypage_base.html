@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_base.css' %}" />
 {% block stylesheet_farmer_mypage %} {% endblock stylesheet_farmer_mypage %}
 {%endblock stylesheet %}
-{% block title_name %} 피키팜 | Farmer 관리 {% endblock title_name %}
+{% block title_name %}Farmer 관리{% endblock title_name %}
 {% block main_content %}
 <div class="main-content w-content mx-auto">
     <section id="farmer-mypage-info-section">
@@ -20,110 +20,119 @@
                 <div id="farmer-links-section">
                     <div id="farm-news-update" class="flex items-center">
                         <img src="{% static '/images/farmers_detail/news.svg' %}" id="farm-news-icon" alt="news">
-                        <div id="" class="flex flex-col">
+                        <div id="" class="flex flex-col flex-1">
                             <div id="farm-news-update-header" class="inline-flex items-center">
                                 농가 News
                                 <div id="farm-news-update-button" class="button">수정</div>
                             </div>
                             <div id="farm-news-content">
-                                이번주 갓 수확한 무난이 어쩌구 저쩌구,,
+                                {% if farmer.farm_news %}
+                                {{farmer.farm_news}}
+                                {% else %}
+                                설정된 농가 뉴스가 없습니다
+                                {% endif %}
                             </div>
                         </div>
                     </div>
-                    <a href="{% url 'farmers:farmer_mypage_info_update' %}" id="farmer-info-update"
-                        class="farmer-link flex justify-between">
-                        내 농가 페이지 수정하기
-                        <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
-                    </a>
-                    <a href="{% url 'farmers:farmer_story_create' %}" id="farmer-info-update"
-                        class="farmer-link flex justify-between">
-                        농가일기 쓰러 가기
-                        <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
-                    </a>
-                    <div class="inline-flex items-center" id="deliver-message-update">
-                        <div class="tooltip-box">?</div>
-                        <a href=# class="farmer-link flex justify-between">
-                            배송 감사 메세지 수정하기
+                    <div id="farmer-info-update-links">
+                        <a href="{% url 'farmers:farmer_mypage_info_update' %}" id="farmer-info-update" class="farmer-link flex justify-between">
+                            내 농가 페이지 수정하기
                             <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
                         </a>
+                        <a href="{% url 'farmers:farmer_story_create' %}" id="farmer-info-update" class="farmer-link flex justify-between">
+                            농가일기 쓰러 가기
+                            <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
+                        </a>
+                        <div class="inline-flex items-center" id="deliver-message-update">
+                            <div class="tooltip-box">?</div>
+                            <a href=# class="farmer-link flex justify-between">
+                                배송 감사 메세지 수정하기
+                                <img src="{% static '/images/farmer_mypage/arrow.svg' %}" alt="" class="link-arrow" />
+                            </a>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div id="farmer-order-info-section" class="info-section-box">
-                <span class="info-section-title">판매 및 배송 현황</span>
+                <div class="info-box-title-wrapper">
+                    <span class="info-section-title">판매 및 배송 현황</span>
+                </div>
                 <div class="info-section-sheet grid">
                     <div class="info-detail flex justify-between items-center" id="new-orders">
                         <span class="info-detail-title">신규주문</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            {{new_orders.count}}
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center">
                         <span class="info-detail-title">배송 준비중</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            {{preparing_orders.count}}
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center">
                         <span class="info-detail-title">배송중</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            {{shipping_orders.count}}
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center" id="wait-for-purchase">
                         <span class="info-detail-title">결제대기</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            0
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center">
                         <span class="info-detail-title">배송완료</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            {{delivered_orders.count}}
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                 </div>
             </div>
             <div id="farmer-purchase-info-section" class="info-section-box">
-                <span class="info-section-title">클레임 / 정산</span>
+                <div class="info-box-title-wrapper">
+                    <span class="info-section-title">클레임 / 정산</span>
+                </div>
                 <div class="info-section-sheet grid">
                     <div class="info-detail flex justify-between items-center" id="canceled-orders">
                         <span class="info-detail-title">주문 취소</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            0
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center" id="requested-refunds">
                         <span class="info-detail-title">반품 요청</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            0
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center">
                         <span class="info-detail-title">구매 확정</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            0
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
                     <div class="info-detail flex justify-between items-center">
                         <span class="info-detail-title">오늘 정산</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            0
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
-                    <div class="info-detail flex justify-between items-center">
-                        <span class="info-detail-title">이번 주<br />누적정산</span>
+                    <div class="info-detail flex justify-between items-center" id="info-details-last-child">
+                        <span class="info-detail-title">이번 주 누적정산</span>
                         <span class="info-detail-count flex justify-between items-center">
-                            12
+                            0
                             <span class="info-detail-count-unit">건</span>
                         </span>
                     </div>
@@ -137,7 +146,7 @@
             <a href="{% url 'farmers:farmer_mypage_product' %}">
                 <div class="farmer-mypage-link-button text-center" id="button-product-manage">상품관리</div>
             </a>
-            <a href="#">
+            <a href="{% url 'farmers:farmer_mypage_payment' %}">
                 <div class="farmer-mypage-link-button text-center" id="button-payment-manage">정산관리</div>
             </a>
             <a href="{% url 'farmers:farmer_mypage_review_qna' %}">
@@ -149,9 +158,17 @@
             <a href="#">
                 <div class="farmer-mypage-link-button text-center" id="button-notices">공지사항</div>
             </a>
+            <div id="line">
+                <div id="selected_line"></div>
+                <div id="background_line"></div>
+            </div>
         </nav>
     </section>
     {% block content %} {% endblock content %}
 </div>
-
+<script>
+    const csrfToken = "{{csrf_token}}";
+    const farmNewsUpdateURL = "{% url 'farmers:farm_news_update' %}"
+</script>
+<script src="{% static 'js/farmers/mypage/farmer_mypage_base.js' %}"></script>
 {% endblock main_content %}

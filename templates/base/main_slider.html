@@ -1,20 +1,22 @@
-<div class="slick-container w-full shadow" style="height:643px;">
+<div class="slick-container w-full shadow" style="height:fit-content" id="main-slider">
     {% for main_image in main_slider_image %}
-    <div><img src="{{main_image.image.url}}" class="w-full object-cover" alt=""></div>
+    <a href='/product/list'><img src="{{main_image.image.url}}" class="w-full object-cover slider-img" alt="" /></a>
     {% endfor %}
 </div>
 
 <script>
-    $(function(){
+    $(function () {
         $('.slick-container').slick({
-            dots: true
+            dots: true,
+            autoplay: true,
+            autoplaySpeed: 3500,
+            nextArrow: null,
         });
     });
 </script>
 
 <style>
-
-    .slick-dots{
-        color:darkgreen;
+    .slick-dots {
+        color: darkgreen;
     }
 </style>

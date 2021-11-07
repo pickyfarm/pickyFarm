@@ -3,6 +3,7 @@
 
 {% block stylesheet_detail %}
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_carts.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_carts_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
 {% block content %}
@@ -75,12 +76,13 @@
     </div>
 </div>
 
+<div class="line"></div>
 <div id="order-section" class="flex flex-row">
     <div class="flex flex-row w-1/2 justify-start">
         <a href="{% url 'products:store_list' %}">
             <div id="continue_shop">쇼핑 계속하기</div>
         </a>
-        <a>
+        <a id="order_now_a">
             <div id="order_now">주문하기</div>
         </a>
     </div>
@@ -96,6 +98,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
 
+
     let menuBtns = []
     menuBtns.push(document.getElementById('menu_boughts'))
     menuBtns.push(document.getElementById('menu_likes'))
@@ -104,23 +107,28 @@
     console.log(menuBtns)
 
     $('#menu_carts').css({
-        "background-color" : "#5c6754",
-        "color" : "white",
+        "background-color": "#5c6754",
+        "color": "white",
     })
 
+    // 모바일에서 메뉴 선택
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        document.getElementById('menu_carts').classList.add('selected');
+        document.getElementById('selected_line').style.gridArea = "line3";
+    }
 
-    menuBtns.forEach(item=>{
-        item.addEventListener('mouseover', function(){
+    menuBtns.forEach(item => {
+        item.addEventListener('mouseover', function () {
             $(this).css({
-                "background-color" : "#5c6754",
-                "color" : "white",
-                
+                "background-color": "#5c6754",
+                "color": "white",
+
             })
         })
-        item.addEventListener('mouseout', function(){
+        item.addEventListener('mouseout', function () {
             $(this).css({
-                "background-color" : "white",
-                "color" : "#5c6754"
+                "background-color": "white",
+                "color": "#5c6754"
             })
         })
     })
@@ -196,9 +204,9 @@
                 }
             })
         }
-        else{
-            selectors.forEach(item=>{
-                if(item.checked == true){
+        else {
+            selectors.forEach(item => {
+                if (item.checked == true) {
                     item.checked = false
 
                     let pk = item.getAttribute('name')
@@ -242,17 +250,17 @@
 
     selectors.forEach(item => {
         item.addEventListener('click', function () {
-            if(totalSelector.checked == true && item.checked == false){
+            if (totalSelector.checked == true && item.checked == false) {
                 totalSelector.checked = false
             }
 
-            if(totalSelector.checked == false && item.checked == true){
+            if (totalSelector.checked == false && item.checked == true) {
                 let cnt = 0
-                selectors.forEach(item=>{
-                    if(item.checked == true)
-                        cnt+=1
+                selectors.forEach(item => {
+                    if (item.checked == true)
+                        cnt += 1
                 })
-                if(cnt == selectors.length){
+                if (cnt == selectors.length) {
                     totalSelector.checked = true
                 }
             }
@@ -338,6 +346,7 @@
 
 
     $('#order_now').click(function () {
+
         console.log(selectors)
         let products = [];
         selectors.forEach(item => {
@@ -346,8 +355,8 @@
                 let pk = item.getAttribute('name');
                 let quantity = parseInt(document.getElementById(`quantity-${pk}`).innerText)
                 let product = {
-                    'pk':pk,
-                    'quantity':quantity
+                    'pk': pk,
+                    'quantity': quantity
                 }
                 products.push(product)
             }
@@ -357,15 +366,15 @@
             alert("주문할 무난이를 선택해주세요!")
 
         data = {
-            'orders':JSON.stringify(products),
+            'orders': JSON.stringify(products),
             "csrfmiddlewaretoken": "{{csrf_token}}"
         }
-        
+
         let form = document.createElement("form")
         form.setAttribute("method", "post")
         form.setAttribute("action", "{% url 'orders:payment_create' %}")
 
-        for(let key in data){
+        for (let key in data) {
             let hiddenField = document.createElement('input')
             hiddenField.setAttribute('type', 'hidden')
             hiddenField.setAttribute('name', key)
@@ -373,7 +382,7 @@
 
             form.appendChild(hiddenField)
         }
-        
+
         document.body.appendChild(form)
         form.submit()
 
@@ -433,11 +442,11 @@
     //     });
     //   })
     // });
-    
+
     // let orderBtn = document.getElementById('order_now')
-    
+
     // let orderProducts = []
-    
+
     // orderBtn.addEventListener('click', function(){
     //     let carts = document.querySelectorAll('#product')
     //     carts.forEach(item=>{
@@ -451,7 +460,7 @@
     //     })
     //     console.log(orderProducts);
     // })
-    
+
 
 </script>
 

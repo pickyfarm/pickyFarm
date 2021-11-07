@@ -1,10 +1,21 @@
 {% extends "base/base.html" %}
+{% block og_url %}{% url 'products:product_detail' product.pk %}{% endblock %}
+{% block og_title %}{{product.title}}{% endblock %}
+{% block og_desc %}{{product.sub_title}}{% endblock %}
+{% block og_image %}{{product.main_image.url}}{% endblock %}
+{% block title_name %}{{product.title}}{% endblock %}
 
 {% load static %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_detail_mobile.css' %}">
 <link rel="stylesheet" href="{% static 'css/products/product_review.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_review_mobile.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_question_mobile.css' %}">
 <link rel="stylesheet" href="{% static 'css/products/product_refund_change.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_refund_change_mobile.css' %}">
+
+
 <!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -29,9 +40,13 @@
             <div class="ml-7 mt-10 text-left" id="farm_news_letter">
                 농가 소식
             </div>
-            <div id="farm_news" class="relative mt-1 py-2 pl-8">
+            <div id="farm_news" class="relative mt-1 py-2">
                 <img class="absolute -top-6 -left-2" src="{% static 'images/product_detail/bell.svg' %}">
+                {% if farmer.farm_news %}
                 {{farmer.farm_news}}
+                {% else %}
+                <div class="font-light text-center">등록된 뉴스가 아직 없습니다.</div>
+                {% endif %}
             </div>
         </div>
         <div id="right" class="w-3/5 pr-10 pl-12">
@@ -70,7 +85,7 @@
 
             <div id="farmer_section" class="flex flex-row items-center mt-3">
                 <div id="farmer_image">
-                    <img src="{{farmer.user.profile_image.url}}" id="farmer_img" alt="농장주사진">
+                    <img src="{{farmer.farmer_profile.url}}" id="farmer_img" alt="농장주사진">
                 </div>
                 <div id="farm_name" class="ml-4 pt-1">
                     {{farmer.farm_name}}
@@ -112,6 +127,13 @@
                     <div id="info_c" class="w-4/5 text-left">{{product.instruction}}</div>
                 </div> {% endcomment %}
             </div>
+            <div id="product-option-section" class="border-b flex py-3">
+                <select name="product-option" id="product-option" class="w-full" onchange="if(this.value) location.href=this.value;">
+                    {% for sibling in siblings %}
+                    <option value="{% url 'products:product_detail' sibling.pk %}" {% if sibling.pk == product_pk %}selected{% endif %}>{{sibling.option_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div id="purchase_number_section" class="flex flex-row items-center py-10 mb-5 border-b">
                 <div id="quantity_letter" class="mr-12">구매수량</div>
                 <div id="quantity_num_section" class="flex flex-row items-center">
@@ -120,7 +142,7 @@
                     <div id="plus_btn">+</div>
                 </div>
             </div>
-            <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10">
+            <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10" id="total_price_section">
                 <div id="total_price_letter" class="mb-4 mr-10">총 상품 금액 :</div>
                 <div id="total_price">{{product.sell_price}}</div>
                 <div id="won" class="mb-2 ml-2">원</div>
@@ -160,14 +182,9 @@
     let minusBtn = document.getElementById('minus_btn')
     let totalPrice = document.getElementById('total_price')
     let quantityNum = document.getElementById('quantity_number')
-    console.log(quantityNum)
 
     let pricePerOne = parseInt(totalPrice.innerHTML)
 
-    console.log(pricePerOne)
-    console.log(plusBtn)
-    console.log(minusBtn)
-    console.log(totalPrice)
 
     function addCalTotalPrice(price, quantity) {
         let nowTotalPrice = totalPrice.innerHTML
@@ -264,6 +281,8 @@
 
     let purchaseBtn = document.getElementById("purchase")
     purchaseBtn.addEventListener('click', function () {
+
+
         let pk = this.getAttribute("name")
         let quantity = parseInt(document.getElementById("quantity_number").innerHTML)
         console.log(pk)
@@ -419,82 +438,82 @@
     let law_location = document.getElementById("law_location")
     let law_livestock = document.getElementById("law_livestock")
 
-    uglyTag.addEventListener('click', function () {
-        shootToastMessage("무난이 작물로 전환합니다", '2')
+    // uglyTag.addEventListener('click', function () {
+    //     shootToastMessage("무난이 작물로 전환합니다", '2')
 
-        title.innerHTML = '{{product.title}}'
-        subTitle.innerHTML = '{{product.sub_title}}'
-        cost.innerHTML = '{{product.sell_price}}원'
-        weight.innerHTML = '{{product.weight}}{{product.weight_unit}}'
-        totalCost.innerHTML = '{{product.sell_price}}'
-        quantity_number.innerHTML = '1'
-        if ('{{product.default_delivery_fee}}' == '0') {
-            shippingFee.innerHTML = '무료'
-            shippingFee.style.color = "#ff0000"
-            shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
-        }
-        else {
-            shippingFee.innerHTML = '{{product.default_delivery_fee}}원'
-            shippingFee.style.color = "#5c6854"
-            shippingFeeDesc.innerHTML = '{{product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
-        }
-
-
-        //메인 이미지 변경
-        mainImage.setAttribute('sec', '{{product.main_image.url}}')
-
-        //바로 구매하기 name pk 변경
-        purchaseBtn.setAttribute('name', '{{product.pk}}')
-
-        //버튼 색 변경
-        this.style.color = "#fff"
-        this.style.backgroundColor = "#5c6754"
-        normalTag.style.color = "#5c6754"
-        normalTag.style.backgroundColor = "#fff"
-
-        //삼품 상세
-        harvestDate.innerHTML = "{{product_harvest_start_date}} ~ {{product_harvest_end_date}}"
-        shelfLifeDate.innerHTML = "{{product_shelf_life_date}}"
-    })
-
-    normalTag.addEventListener('click', function () {
-        shootToastMessage("일반 작물로 전환합니다", '2')
-
-        title.innerHTML = '{{related_product.title}}'
-        subTitle.innerHTML = '{{related_product.sub_title}}'
-        cost.innerHTML = '{{related_product.sell_price}}원'
-        weight.innerHTML = '{{related_product.weight}}{{product.weight_unit}}'
-        totalCost.innerHTML = '{{related_product.sell_price}}'
-        quantity_number.innerHTML = '1'
-        if ('{{related_product.default_delivery_fee}}' == '0') {
-            shippingFee.innerHTML = "무료"
-            shippingFee.style.color = "#ff0000"
-            shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
-        }
-        else {
-            shippingFee.innerHTML = '{{related_product.default_delivery_fee}}원'
-            shippingFee.style.color = "#5c6854"
-            shippingFeeDesc.innerHTML = '{{related_product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
-        }
+    //     title.innerHTML = '{{product.title}}'
+    //     subTitle.innerHTML = '{{product.sub_title}}'
+    //     cost.innerHTML = '{{product.sell_price}}원'
+    //     weight.innerHTML = '{{product.weight}}{{product.weight_unit}}'
+    //     totalCost.innerHTML = '{{product.sell_price}}'
+    //     quantity_number.innerHTML = '1'
+    //     if ('{{product.default_delivery_fee}}' == '0') {
+    //         shippingFee.innerHTML = '무료'
+    //         shippingFee.style.color = "#ff0000"
+    //         shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
+    //     }
+    //     else {
+    //         shippingFee.innerHTML = '{{product.default_delivery_fee}}원'
+    //         shippingFee.style.color = "#5c6854"
+    //         shippingFeeDesc.innerHTML = '{{product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+    //     }
 
 
-        //메인 이미지 변경
-        mainImage.setAttribute('sec', '{{related_product.main_image.url}}')
+    //     //메인 이미지 변경
+    //     mainImage.setAttribute('sec', '{{product.main_image.url}}')
 
-        //바로 구매하기 name pk 변경
-        purchaseBtn.setAttribute('name', '{{related_product.pk}}')
+    //     //바로 구매하기 name pk 변경
+    //     purchaseBtn.setAttribute('name', '{{product.pk}}')
 
-        //버튼 색 변경
-        this.style.color = "#fff"
-        this.style.backgroundColor = "#5c6754"
-        uglyTag.style.color = "#5c6754"
-        uglyTag.style.backgroundColor = "#fff"
+    //     //버튼 색 변경
+    //     this.style.color = "#fff"
+    //     this.style.backgroundColor = "#5c6754"
+    //     normalTag.style.color = "#5c6754"
+    //     normalTag.style.backgroundColor = "#fff"
 
-        //상세 정보
-        harvestDate.innerHTML = "{{rel_product_harvest_start_date}} ~ {{product_harvest_end_date}}"
-        shelfLifeDate.innerHTML = "{{rel_product_shelf_life_date}}"
+    //     //삼품 상세
+    //     harvestDate.innerHTML = "{{product_harvest_start_date}} ~ {{product_harvest_end_date}}"
+    //     shelfLifeDate.innerHTML = "{{product_shelf_life_date}}"
+    // })
 
-    })
+    // normalTag.addEventListener('click', function () {
+    //     shootToastMessage("일반 작물로 전환합니다", '2')
+
+    //     title.innerHTML = '{{related_product.title}}'
+    //     subTitle.innerHTML = '{{related_product.sub_title}}'
+    //     cost.innerHTML = '{{related_product.sell_price}}원'
+    //     weight.innerHTML = '{{related_product.weight}}{{product.weight_unit}}'
+    //     totalCost.innerHTML = '{{related_product.sell_price}}'
+    //     quantity_number.innerHTML = '1'
+    //     if ('{{related_product.default_delivery_fee}}' == '0') {
+    //         shippingFee.innerHTML = "무료"
+    //         shippingFee.style.color = "#ff0000"
+    //         shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
+    //     }
+    //     else {
+    //         shippingFee.innerHTML = '{{related_product.default_delivery_fee}}원'
+    //         shippingFee.style.color = "#5c6854"
+    //         shippingFeeDesc.innerHTML = '{{related_product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+    //     }
+
+
+    //     //메인 이미지 변경
+    //     mainImage.setAttribute('sec', '{{related_product.main_image.url}}')
+
+    //     //바로 구매하기 name pk 변경
+    //     purchaseBtn.setAttribute('name', '{{related_product.pk}}')
+
+    //     //버튼 색 변경
+    //     this.style.color = "#fff"
+    //     this.style.backgroundColor = "#5c6754"
+    //     uglyTag.style.color = "#5c6754"
+    //     uglyTag.style.backgroundColor = "#fff"
+
+    //     //상세 정보
+    //     harvestDate.innerHTML = "{{rel_product_harvest_start_date}} ~ {{product_harvest_end_date}}"
+    //     shelfLifeDate.innerHTML = "{{rel_product_shelf_life_date}}"
+
+    // })
 
 
 

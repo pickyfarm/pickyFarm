@@ -5,21 +5,21 @@
     {% else %}
     {% for q in questions %}
     <a href="{% url 'products:question_read' q.pk %}">
-        <div id="q_table_bottom" class="flex flex-rows py-1">
+        <div id="q_table_bottom" class="flex flex-rows items-center py-1">
             {% if q.status is True %}
             <div id="q_letter_answered" class="w-2/12">답변완료</div>
             {% else %}
             <div id="q_letter_gray" class="w-2/12">답변대기</div>
             {% endif %}
-            <div id="q_letter_black" class="w-6/12">{{q.title}}</div>
+            <div id="q_letter_black" class="w-5/12">{{q.title}}</div>
             <div id="q_letter_black" class="w-2/12">{{q.consumer.user.nickname}}</div>
-            <div id="q_letter_gray" class="w-2/12">{{q.create_at.date}}</div>
+            <div id="q_letter_gray" class="w-3/12">{{q.create_at.date}}</div>
         </div>
     </a>
     {% endfor %}
     {% endif %}
 </div>
-<div class="flex justify-between w-36 mx-auto mt-8">
+<div id="paginator" class="flex justify-between w-36 mx-auto mt-8">
     {% if questions.has_previous %}
         <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
         <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{questions.previous_page_number}}' style="cursor: pointer">

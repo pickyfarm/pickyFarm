@@ -1,0 +1,407 @@
+@import '/static/css/base/mobile_base_style.css';
+
+@media screen and (max-width: 768px) {
+    /* base setting */
+    #main {
+        width: 100%;
+        padding: 0 25px;
+    }
+    #title-section {
+        width: 100%;
+    }
+    #info-section,
+    #delivery-section,
+    #orders-section,
+    #pay-section,
+    #personal-info-agree-section,
+    #btns-section {
+        width: 100%;
+    }
+
+    /* info & delivery input */
+    #info-name-section,
+    #info-phone-number-section,
+    #delivery-address-section,
+    #delivery-rev-loc-at-section,
+    #delivery-rev-message-section,
+    #delivery-to-farm-message-section,
+    #delivery-rev-loc-at-section {
+        margin-bottom: 2rem;
+    }
+    #info-name-section > div,
+    #info-phone-number-section > div,
+    #delivery-address-section > div,
+    #delivery-rev-loc-at-section > div,
+    #delivery-rev-message-section > div,
+    #delivery-to-farm-message-section > div,
+    #delivery-rev-loc-at-section > div {
+        width: 10%;
+        min-width: 10.4rem;
+        align-items: center;
+    }
+    #info-name-section > div + div,
+    #info-phone-number-section > div + div,
+    #delivery-address-section > div + div,
+    #delivery-rev-loc-at-section > div + div,
+    #delivery-rev-message-section > div + div,
+    #delivery-to-farm-message-section > div + div,
+    #delivery-rev-loc-at-section > div + div {
+        width: 100%;
+        margin-left: 0;
+        padding-left: 0;
+    }
+    #info-name-section > div + div > input,
+    #info-phone-number-section > div + div > input,
+    #delivery-address-section > div + div > input,
+    #delivery-rev-loc-at-section > div + div > input,
+    #big-form > input,
+    #delivery-to-farm-message-section > div + div > input,
+    #delivery-rev-loc-at-section > div + div > input {
+        width: 100%;
+    }
+
+    /* row spacing */
+    #title-text,
+    #sub-title-text {
+        margin-bottom: 1rem;
+    }
+    #info-section {
+        margin-bottom: 3rem;
+    }
+    #delivery-cat-section {
+        margin-bottom: 2.3rem;
+    }
+    #help-text {
+        margin-top: 1rem;
+        text-align: left;
+    }
+    #small-form > input,
+    #middle-form > input {
+        padding-left: 1.9rem;
+        height: 2.8rem;
+    }
+    #big-form > input {
+        height: 8rem;
+        padding-left: 1.9rem;
+    }
+    #personal-info-agree-top-section {
+        margin-top: 2rem;
+    }
+    #btns-section {
+        margin-top: 6rem;
+    }
+    #label-text {
+        margin-top: 0;
+    }
+    #delivery-to-farm-message-section > #label-text {
+        margin-top: 0.7rem;
+    }
+
+    /* line */
+    #sub-title-line,
+    #orders-sub-title-line,
+    #sub-title-line3 {
+        width: 80%;
+        height: 1.6rem;
+    }
+    #div-line,
+    #div-line1 {
+        width: 100%;
+    }
+    #div-line {
+        height: 5.8rem;
+    }
+    #sub-title-text {
+        min-width: 8rem;
+        line-height: 3rem;
+        text-align: left;
+    }
+    #orders-title-section > #sub-title-text {
+        min-width: 17rem;
+    }
+    #title-line {
+        width: 50%;
+        height: 0.8rem;
+    }
+
+    /* title section */
+    #required-text {
+        margin-right: 0;
+        padding-top: 0;
+    }
+    #dot,
+    #dot-rev-loc-at {
+        width: 1.1rem;
+        height: 1.1rem;
+        object-fit: contain;
+        margin-left: 0.7rem;
+    }
+
+    /* delivery section */
+    #delivery-section {
+        padding-bottom: 2rem;
+    }
+    #delivery-cat > li {
+        display: flex;
+    }
+    #delivery-cat-detail-index-title-section,
+    #delivery-address-input-section,
+    #id_detail_address {
+        width: 100%;
+    }
+    #add-rev-address-help-text {
+        margin-right: 0;
+    }
+    #delivery-rev-loc-at-section > div,
+    #label-text {
+        margin-right: 0;
+    }
+    #delivery-rev-loc-at-section > div {
+        align-items: flex-start;
+        line-height: 2rem;
+    }
+    #id_rev_loc_at > li {
+        margin-bottom: 2rem;
+    }
+    #id_rev_loc_at > li:last-child {
+        margin-bottom: 0;
+    }
+    #middle-form {
+        margin-left: 0;
+        padding-left: 0;
+    }
+    #dot-rev-loc-at {
+        padding-bottom: 0;
+        margin-top: 0.5rem;
+    }
+
+    /* orders section */
+    #products-index-section {
+        display: none;
+    }
+    #orders-contents-section {
+        flex-wrap: wrap;
+    }
+    #products-section {
+        height: fit-content;
+        overflow: visible;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    #product {
+        height: 9.5rem;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.3rem 0.6rem 0 rgba(0, 0, 0, 0.16);
+        margin-bottom: 2rem;
+        display: grid;
+        grid-template-columns: 8.4rem 1fr;
+        grid-template-areas:
+            'img product'
+            'img info'
+            'img count';
+    }
+    #product > div:first-child,
+    #farm_name,
+    #title,
+    #orders-num,
+    #weight,
+    #sell-price {
+        width: fit-content;
+    }
+    #product > div:first-child {
+        grid-area: img;
+    }
+    #product > div:nth-child(2) {
+        grid-area: product;
+        width: 100%;
+    }
+    #product > div:nth-child(3) {
+        grid-area: count;
+        width: 100%;
+        margin-top: 1rem;
+        justify-content: end;
+    }
+    #product > div:nth-child(4) {
+        grid-area: info;
+        width: 100%;
+    }
+    #product-img {
+        width: 7.4rem;
+        height: 7.4rem;
+        margin-left: 0;
+        margin-right: 1rem;
+        border-radius: 1rem;
+    }
+    #farm_name {
+        padding-right: 0.9rem;
+        border-right: solid 0.1rem #5e6656;
+        order: 1;
+    }
+    #title {
+        padding-left: 0.8rem;
+        order: 2;
+    }
+    #orders-title {
+        display: block;
+        margin-right: 0.5rem;
+    }
+    #weight {
+        order: 1;
+    }
+    #sell-price {
+        margin-right: 1.15rem;
+    }
+
+    /* price section */
+    #price-check-section {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 5rem;
+    }
+    #price-check-title {
+        min-width: 6rem;
+    }
+    #text_ab,
+    #text_a,
+    #text-b,
+    #text-c {
+        min-width: 13rem;
+    }
+    #price-check-section > div:nth-child(1) {
+        margin-top: 2rem;
+    }
+    #price-check-section > div:nth-child(4) {
+        margin: 1.5rem 0;
+    }
+    #price-check-section > div:nth-child(6) {
+        margin: 1.5rem 0;
+    }
+
+    /* pay section */
+    #payment-type-section > ul > li {
+        font-size: 1.2rem;
+        margin: 0 2rem 0 0;
+    }
+
+    /* agree section */
+    #agree-section {
+        width: 21.1rem;
+        margin-bottom: 4.7rem;
+    }
+
+    /* btns section */
+    #go-btn,
+    #go-back-btn {
+        font-size: 1.5rem;
+        width: 15.7rem;
+        height: 3rem;
+        border-radius: 1.5rem;
+        border: solid 0.2rem var(--dark-sage);
+    }
+    #go-btn {
+        margin-left: 1.1rem;
+    }
+
+    /* font setting */
+    #price_text_b {
+        font-size: 2.2rem;
+    }
+    #price_text_a {
+        font-size: 2rem;
+    }
+    #title-text,
+    #sub-title-text,
+    #title,
+    #farm_name,
+    #orders-title,
+    #orders-num,
+    #price-check-title {
+        font-size: 1.5rem;
+    }
+    #weight,
+    #sell-price,
+    #text-b {
+        font-size: 1.4rem;
+    }
+    #label-text,
+    #label-text2,
+    #delivery-cat-default,
+    #delivery-cat-choice,
+    #delivery-cat-direct,
+    #id_rev_loc_at,
+    #help-text,
+    #text_ab,
+    #text_a,
+    #text-c,
+    #price_text_c,
+    #id_payment_type_0,
+    #id_payment_type_1,
+    #id_payment_type_2,
+    #personal-info-agree-label,
+    #personal-info-agree-bottom-section,
+    #go-back-btn,
+    #go-btn {
+        font-size: 1.2rem;
+    }
+    #required-text,
+    #personal-info-agree-require,
+    #final-agree-label {
+        font-size: 1.1rem;
+    }
+    #title-text,
+    #required-text,
+    #farm_name {
+        font-weight: bold;
+    }
+    #sub-title-text,
+    #label-text,
+    #delivery-cat-default,
+    #delivery-cat-choice,
+    #delivery-cat-direct,
+    #id_rev_loc_at,
+    #help-text,
+    #title,
+    #weight,
+    #sell-price,
+    #orders-title,
+    #orders-num,
+    #price-check-title {
+        font-weight: normal;
+    }
+    #sub-title-text,
+    #label-text {
+        color: #4d4d4d;
+    }
+    #required-text {
+        color: #5e6656;
+    }
+    #id_rev_loc_at,
+    #title {
+        color: #707070;
+    }
+    #delivery-cat-default,
+    #delivery-cat-choice,
+    #delivery-cat-direct,
+    #personal-info-agree-label {
+        color: #808080;
+    }
+    #weight,
+    #sell-price,
+    #final-agree-label {
+        color: var(--brown-grey);
+    }
+    #price_text_c {
+        color: rgba(92, 103, 84, 0.8);
+    }
+    #title-text,
+    #help-text,
+    #farm_name,
+    #orders-title,
+    #orders-num,
+    #price-check-title,
+    #go-back-btn {
+        color: var(--dark-sage);
+    }
+}

@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_question_answer.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_question_answer_mobile.css' %}">
+
+{%endblock stylesheet %}
+{% block title_name %} 피키팜 | 문의 답변 {% endblock title_name %}
+
+{% block main_content %}
+<div class="main-content mx-auto">
+    <section id="farmer-info-section">
+        <div id="farm-name-section" class="flex items-center">
+            Farm
+            <h1 id="farm-name">{{farmer.farm_name}}</h1>
+        </div>
+    </section>
+    <section id="question-content-section">
+        <div id="question-content-header-wrap">
+            <div id="question-content-header">문의 답변하기</div>
+            <div id="question-content-sub-header">밑으로 내리시면 답변 칸이 있습니다.</div>
+        </div>
+        <div id="question-content-detail">
+            <div id="question-content-detail--header">제목</div>
+            <div id="question-title">{{question.title}}</div>
+            <div id="question-content-detail--header">작성자</div>
+            <div id="question-consumer" class="font-thin">{{question.consumer}}</div>
+            <div id="question-content-detail--header">내용</div>
+            <div id="question-content">{{question.content}}</div>
+        </div>
+        <div id="question-content-image-wrap">
+            {% if question.image %}
+            <img id="question-content-image" src="{{question.image.url}}" alt="문의 첨부사진">
+            {% endif %}
+        </div>
+    </section>
+    <section id="answer-content-section">
+        <div id="answer-content-header">농가의 답변</div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div>{{answer_form}}</div>
+            <div id="answer-submit-button-wrap">
+                <button type="submit" id="answer-submit-button">
+                    <img id="answer-submit--img" src="{% static 'images/farmer_mypage/check_nohover.svg' %}" alt="">
+                    <div id="answer-submit--text">등록하기</div>
+                </button>
+            </div>
+        </form>
+    </section>
+</div>
+
+<script>
+    const submit_btn = document.querySelector('#answer-submit-button');
+    const submit_img = document.querySelector('#answer-submit--img');
+
+    const switchCommitImgHoverIn = function (e) {
+        submit_img.setAttribute('src', "{% static 'images/farmer_mypage/check_hover.svg' %}")
+    }
+    const switchCommitImgHoverOut = function (e) {
+        submit_img.setAttribute('src', "{% static 'images/farmer_mypage/check_nohover.svg' %}")
+    }
+
+    submit_btn.addEventListener('mouseover', switchCommitImgHoverIn);
+    submit_btn.addEventListener('mouseleave', switchCommitImgHoverOut);
+</script>
+{% endblock %}

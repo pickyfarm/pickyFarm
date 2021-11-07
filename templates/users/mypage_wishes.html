@@ -2,12 +2,13 @@
 {% load static %}
 {% block stylesheet_detail %}
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_wishes.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_wishes_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
 {% block content %}
 
 {% if wishes.exists is False %}
-<div class="mt-14 flex flex-col justify-center items-center">
+<div class="mt-14 flex flex-col justify-center items-center" id="before_wish">
     <div>
       아직 찜한 무난이가 없습니다
     </div>
@@ -43,8 +44,8 @@
                     <div id="slash">|</div>
                     <div id="product_farm_name">{{wish.product.farmer.farm_name}}</div>    
                 </div>
-                <div class="flex flex-row mt-2">
-                    <div id="product_weight">{{wish.product.weight}}g / </div>
+                <div class="flex flex-row mt-2"> 
+                    <div id="product_weight">{{wish.product.weight}}g <span>/</span> </div>
                     <div id="product_price"> {{wish.product.sell_price}}원</div>
 
                 </div>
@@ -68,6 +69,8 @@
     <div class="flex justify-left">
             <div id="delete_btn" class="transition_element">삭제하기</div>
     </div>
+</div>
+<div id="controll-section2">
     <div id="paginator" class="flex flex-row justify-center">
         {% for p in total_pages %}
         {% if p == page %}
@@ -101,6 +104,11 @@
         "color": "white",
     })
 
+    // 모바일에서 메뉴 선택
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        document.getElementById('menu_likes').classList.add('selected');
+        document.getElementById('selected_line').style.gridArea= "line2";
+    }
 
     menuBtns.forEach(item => {
         item.addEventListener('mouseover', function () {

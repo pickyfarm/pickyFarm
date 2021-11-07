@@ -24,6 +24,10 @@ textarea {
     background-color: rgb(172, 178, 168);
 }
 
+#enroll-2-wrapper {
+    width: 740px;
+}
+
 /* image upload 관련 */
 .filebox input[type='file'] {
     position: absolute;
@@ -44,12 +48,13 @@ textarea {
     cursor: pointer;
 }
 
-.default_img_1,
-.default_img_2 {
+#image-upload-wrapper .default_img_1,
+#image-upload-wrapper .default_img_2 {
     border-radius: 50%;
     width: 152px;
     height: 152px;
     background-size: cover;
+    border: 2px solid #5c675463;
 }
 
 /* category 관련 */
@@ -68,6 +73,7 @@ textarea {
     left: 0;
     width: 70px;
     height: 25px;
+    line-height: 25px;
     padding: 0px 15px;
     cursor: pointer;
     border: 1px solid #b3b3b3;
@@ -91,6 +97,7 @@ textarea {
 #hashtag_wrap {
     margin-left: 304.5px;
     flex-wrap: wrap;
+    margin-bottom: 100px;
 }
 
 .hashtag-input-wrap {
@@ -99,66 +106,27 @@ textarea {
     border: solid 1px #b3b3b3;
     padding: 0px 10px;
 }
+#hashtag-desc {
+    font-size: 12px;
+    color: #b3b3b3;
+    margin-left: 60.5px;
+}
 
 #new_tag {
     padding: 0px 5px;
-
     overflow-x: auto;
     outline: none;
 }
 
-/* sample farmer page */
-#sample_wrap {
-    height: 557px;
-    background-color: #e9e9e9;
-    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
-    overflow-y: scroll;
-}
-
-#sample_farm_name,
-#sample_farmer_name,
-#sample_profile_title,
-#sample_farm_news,
-#d_quotes {
-    color: #5e6656;
-}
-#sample_farm_name {
-    max-width: 230px;
-    height: 37px;
-    overflow: hidden;
-    padding-right: 13px;
-    margin-right: 18px;
-    border-right: solid 0.5px rgba(112, 112, 112, 0.5);
-}
-#sample_farm_news {
-    max-width: 415px;
-    overflow: hidden;
-}
-#farm_wrap {
-    height: 37px;
-}
-#profile_title_wrap {
-    max-width: 320px;
-    max-height: 52px;
-    overflow: hidden;
-}
-
 /* ------------------------------------------ */
-#signup_form,
 #content {
     width: 990px;
 }
-
-.input_forms {
-    grid-template-columns: 302.5px 300px 217.5px;
-    row-gap: 40px;
-    margin-bottom: 38px;
-}
-
+/* 
 .form_term_agree {
     grid-template-columns: 302.5px auto;
     row-gap: 20px;
-}
+} */
 #id_farm_name {
     border: solid 1px #b3b3b3;
     border-radius: 20px;
@@ -175,6 +143,13 @@ textarea {
     border-radius: 3px;
     border: solid 1px #b3b3b3;
     font-size: 12px;
+    color: #808080;
+}
+#id_delivery_service_company {
+    width: 387.5px;
+    border-radius: 3px;
+    border: 1px solid #b3b3b3;
+    text-align: center;
     color: #808080;
 }
 #id_farm_thanks_msg {
@@ -199,7 +174,7 @@ textarea {
 #img_label,
 #cat_label {
     margin-left: 60.5px;
-    font-size: 25px;
+    font-size: 15px;
     text-align: left;
     color: #4d4d4d;
     width: 220px;
@@ -233,52 +208,7 @@ textarea {
     margin-left: 60.5px;
     color: #b3b3b3;
     text-align: left;
-}
-
-.input_forms input,
-.errorlist,
-.form_term_agree label,
-.form_term_agree div:not(#term-agree) {
-    grid-column: 2;
-}
-
-.errorlist li {
     font-size: 12px;
-    color: red;
-    text-align: start;
-    margin-top: 5px;
-    padding-left: 15px;
-}
-
-.input_forms input::placeholder {
-    position: relative;
-    right: 7.5px;
-    font-size: 15px;
-    text-align: center;
-    font-weight: normal;
-}
-
-.input_forms label,
-#term-agree {
-    grid-column: 1;
-    margin-right: auto;
-    margin-left: 60.5px;
-    font-size: 15px;
-    font-weight: normal;
-    color: #4d4d4d;
-}
-
-.birth-selection ul,
-.gender-selection ul {
-    display: flex;
-}
-
-.gender-selection label {
-    margin-left: 0;
-}
-
-.gender-selection li:nth-child(1) {
-    margin-right: 75px !important;
 }
 
 .valid-button {
@@ -298,17 +228,6 @@ textarea {
     margin-top: 20px;
 }
 
-#id_gender_0,
-#id_gender_1 {
-    display: none;
-}
-
-.gender-selection label {
-    font-size: 15px;
-    color: #808080;
-    font-weight: normal;
-}
-
 .submit {
     width: 170px;
     height: 50px;
@@ -325,39 +244,6 @@ textarea {
     width: 740px;
     height: 0px;
     border: solid 0.5px rgba(94, 102, 86, 0.5);
-}
-
-.form_term_agree input {
-    display: none;
-}
-
-.form_term_agree label {
-    margin-right: auto;
-    color: #707070;
-    font-size: 15px;
-}
-
-label.mand::after,
-label.opt::after {
-    margin-left: 20px;
-    font-size: 15px;
-    color: #b3b3b3;
-    font-weight: 300;
-}
-
-label.mand::after {
-    content: '(필수)';
-}
-
-label.opt::after {
-    content: '(선택)';
-}
-
-.form_term_agree a {
-    margin-right: 67.5px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #5c6754;
 }
 
 /* form_enroll step3 page */
@@ -397,7 +283,19 @@ label.opt::after {
     margin-bottom: 12px;
 }
 
+.horizon-bar {
+    border-top: solid 1px #5e6656;
+}
+
 /* farm_info update page */
 #update_btn {
     cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    #sub_title,
+    #border {
+        width: 100%;
+        font-size: 1.4rem;
+    }
 }

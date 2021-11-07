@@ -89,6 +89,14 @@
 #question-table-row-answer {
     font-size: 12px;
     color: #5c6754;
+    cursor: pointer;
+}
+.question-answer-btn {
+    cursor: pointer;
+}
+
+.bg-dark {
+    background-color: #f3f4f3;
 }
 
 /* date filter section */

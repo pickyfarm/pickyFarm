@@ -3,12 +3,13 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_base.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_base_mobile.css' %}">
 {% block stylesheet_detail %}
 {% endblock stylesheet_detail %}
 {% endblock stylesheet %}
 
 {% block title_name %}
-피키팜 | My Picky Farm
+My Picky Farm
 {% endblock title_name %}
 
 {% block main_content %}
@@ -97,6 +98,10 @@
                 <a href="{% url 'users:mypage' 'info'%}">
                     <div class="menu_content transition_element" id="menu_infos">개인 정보 수정</div>
                 </a>
+                <div id="line">
+                    <div id="selected_line"></div>
+                    <div id="background_line"></div>
+                </div>
             </div>
             <div id="content">
                 {% block content %}
@@ -109,7 +114,7 @@
 
 </div>
 <div id="bottom_section" class="z-0 mt-8">
-    <di id="bottom_contents" class="flex flex-row mx-auto">
+    <div id="bottom_contents" class="flex flex-row mx-auto">
         <div id="subscribe_section">
             <div class="mx-auto mt-8 mb-1">
                 <img src="{% static 'images/users/farmer_icon.svg' %}" class="mx-auto">
@@ -133,7 +138,7 @@
                 {% for sub in subs %}
                 <div class="flex flex-row w-100" id="{{sub.pk}}-sub-farmer">
                     <a href="{% url 'farmers:farmer_detail' sub.farmer.pk %}" class="flex flex-row w-4/5">
-                        <div class="w-1/5" id="sub-left-section">
+                        <div id="sub-left-section">
                             <img id="farm_image" src="{{sub.farmer.farmer_profile.url}}">
                         </div>
                         <div class="w-4/5" id="sub-right-section">
@@ -141,9 +146,9 @@
                                 {% for t in sub.farmer.farm_tags.all %}
                                 <div id="farm_tag">
                                     {% if t.tag|length > 4 %}
-                                        #{{t.tag|slice:"5"}}...
+                                    #{{t.tag|slice:"5"}}...
                                     {% else %}
-                                        #{{t.tag}}
+                                    #{{t.tag}}
                                     {% endif %}
                                 </div>
                                 {% endfor %}
@@ -175,6 +180,7 @@
                 </div>
 
                 {% endfor %}
+                <div id="show_more">더보기</div>
 
                 {% endif %}
             </div>
@@ -246,7 +252,7 @@
 
             </div>
         </div>
-</div>
+    </div>
 </div>
 
 
@@ -265,14 +271,49 @@
 
     let subCancelBtn = document.getElementById("sub_cancel_btn")
     console.log(subCancelBtn)
-    subCancelBtn.addEventListener('click', ()=>{
-        showModalMessage("구독을 취소하시겠습니까", ()=>{
+    subCancelBtn.addEventListener('click', () => {
+        showModalMessage("구독을 취소하시겠습니까", () => {
             let pk = subCancelBtn.getAttribute('name')
             subscribeCancel(pk)
         })
     }
     )
 
+    // 모바일에서 구독 3개씩 더보기
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        const subsContents = document.getElementById("subs_contents");
+        const showMoreBtn = document.getElementById("show_more");
+
+        for (let i = 0; i < subsContents.children.length - 1; i++) {
+            subsContents.children[i].classList.remove("show");
+        }
+
+        let j = 0;
+        function showMore(cnt) {
+            for (let i = 0; i < cnt; i++) {
+                // 존재하는 contents 개수보다 많은 개수 요청 시
+                if (j >= subsContents.children.length - 1) {
+                    break;
+                }
+                // 존재하는 contents 개수 내에서 요청 시
+                else {
+                    subsContents.children[j].classList.add("show");
+                    j++;
+                }
+            }
+        }
+
+        // 기본으로 3개 contents 보여줌
+        showMore(3);
+
+        // 더보기 클릭 시 3개씩 추가로 보여줌
+        showMoreBtn.addEventListener('click', () => {
+            showMore(3);
+        })
+    }
+
+
+    prohibitAccessFromMobile(["#menu_deliveries_btn", "#menu_infos"])
 
 </script>
 {% endblock %}

@@ -3,7 +3,7 @@
 }
 
 input[type='password'],
-input[type='text']:not(#header-searchbar),
+input[type='text']:not(#header-searchbar, #mobile-header-searchbar),
 input[type='email'] {
     width: 340px;
     height: 35px;

@@ -1,165 +1,154 @@
 <!doctype html>
 {% load static %}
 <html lang='en'>
+
 <head>
     <meta charset='UTF-8'>
-    <meta name='viewport'
-          content='width=device-width, user-scalable=no, initial-scale=1.0'>
+    <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0'>
     <link rel="stylesheet" href="{% static 'css/farmers/mypage/order/product_exchange_request_commit.css' %}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>교환 요청 확인</title>
 </head>
+
 <body>
-<div class='popup_container flex'>
-    <div class='exchange-request-main-title'>교환요청</div>
-    <div class='exchange-request-main-content-wrap'>
-        <div class='exchange-request-sub-title'>주문내역</div>
-        <div class='exchange-request-date'>2021.07.27</div>
-        <div class='exchange-request-receipt-wrap'>
-            <div class='exchange-request-receipt-top-section'>
-                <div class='exchange-request-number-wrap wrap_padding flex'>
-                    <span class='exchange-request-number-title'>주문번호</span>
-                    <span class='exchange-request-number-value'>012345678910</span>
-                </div>
-                <div class='exchange-request-product-information-wrap wrap_padding'>
-                    <div class='exchange-request-product-information-title'>상품정보</div>
-                    <div class='exchange-request-product-information-contents-wrap'>
-                        <!-- 무난이 작물 시작-->
-                        <div class='exchange-request-product-information-content-wrap flex'>
-                            <div class='exchange-request-product-information-content-left-section'>
-                                <div class='exchange-request-product-image'>
-                                </div>
-                            </div>
-                            <div class='exchange-request-product-information-content-right-section'>
-                                <div class='exchange-request-product-tag'>
-                                    <img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt='moonan_harvest_tag'>
-                                </div>
-                                <div class='exchange-request-product-name'>못나지만 맛사과</div>
-                                <div class='exchange-request-product-detail-wrap flex'>
-                                    <div class='exchange-request-product-weight'>8 kg</div>
-                                    <div class='exchange-request-product-quantity'>4</div>
-                                    <div class='exchange-request-product-quantity-unit'>(개/박스)</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 무난이 작물 끝-->
-
-                        <!-- 일 작물 시작-->
-                        <div class='exchange-request-product-information-content-wrap flex'>
-                            <div class='exchange-request-product-information-content-left-section'>
-                                <div class='exchange-request-product-image'>
-                                </div>
-                            </div>
-                            <div class='exchange-request-product-information-content-right-section'>
-                                <div class='exchange-request-product-tag'>
-                                    <img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}""" alt='moonan_harvest_tag'>
-                                </div>
-                                <div class='exchange-request-product-name'>못나지만 맛사과</div>
-                                <div class='exchange-request-product-detail-wrap flex'>
-                                    <div class='exchange-request-product-weight'>8 kg</div>
-                                    <div class='exchange-request-product-quantity'>4</div>
-                                    <div class='exchange-request-product-quantity-unit'>(개/박스)</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 일반 작물 끝-->
+    <div class='popup_container flex'>
+        <div class='exchange-request-main-title'>교환요청</div>
+        <div class='exchange-request-main-content-wrap'>
+            <div class='exchange-request-sub-title'>주문내역</div>
+            <div class='exchange-request-date'>{{exchange.order_detail.create_at|date:"Y.m.d"}}</div>
+            <div class='exchange-request-receipt-wrap'>
+                <div class='exchange-request-receipt-top-section'>
+                    <div class='exchange-request-number-wrap wrap_padding flex'>
+                        <span class='exchange-request-number-title'>주문번호</span>
+                        <span class='exchange-request-number-value'>{{exchange.order_detail.order_management_number}}</span>
                     </div>
-                    <div class='border-line'></div>
-                    <div class='exchange-request-customer-wrap'>
-                        <div class='exchange-request-customer-title'>주문자 정보</div>
-                        <div class='exchange-request-customer-detail-wrap'>
-                            <div class='exchange-request-customer-detail-name-callnum-wrap flex'>
-                                <div class='exchange-request-customer-detail-title'>이름 / 번호</div>
-                                <div class='exchange-request-customer-detail-namecall-value-wrap flex'>
-                                    <div class='exchange-request-customer-detail-name'>선다영</div>
-                                    <div class='exchange-request-customer-detail-callnum'>010.5767.4799</div>
+                    <div class='exchange-request-product-information-wrap wrap_padding'>
+                        <div class='exchange-request-product-information-title'>상품정보</div>
+                        <div class='exchange-request-product-information-contents-wrap'>
+                            {% for product in products  %}
+                            <!-- 무난이 작물 시작-->
+                            <div class='exchange-request-product-information-content-wrap flex'>
+                                <div class='exchange-request-product-information-content-left-section'>
+                                    <div class='exchange-request-product-image'>
+                                    </div>
+                                </div>
+                                <div class='exchange-request-product-information-content-right-section'>
+                                    <div class='exchange-request-product-tag'>
+                                        {% if product.kinds == "ugly" %}
+                                        <img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt='moonan_harvest_tag'>
+                                        {% elif product.kinds == "normal" %}
+                                        <img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}" alt='normal_harvest_tag'>
+                                        {% endif %}
+                                    </div>
+                                    <div class='exchange-request-product-name'>{{product.title}}</div>
+                                    <div class='exchange-request-product-detail-wrap flex'>
+                                        <div class='exchange-request-product-weight'>{{product.weight}} {{product.weight_unit}}</div>
+                                        <div class='exchange-request-product-quantity'>{{exchange.order_detail.quantity}}</div>
+                                        <div class='exchange-request-product-quantity-unit'>(개/박스)</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class='exchange-request-customer-detail-address-wrap flex'>
-                                <div class='exchange-request-customer-detail-title'>배송지</div>
-                                <div class='exchange-request-customer-detail-address-value-wrap'>
-                                    <div class='exchange-request-customer-detail-address'>경기도 성남시 분당구 서현동 13-5번지 삼광빌라 532동 1003호</div>
-<!--                                    <div class='order-cancel-customer-detail-plus-wrap flex'>-->
-<!--                                        <div class='order-cancel-customer-detail-delivery-place'>문앞</div>-->
-<!--                                        <div class='order-cancel-customer-detail-door-password'>현관비밀번호 없음</div>-->
-<!--                                    </div>-->
+                            <!-- 무난이 작물 끝-->
+                            {% endfor %}
+                        </div>
+                        <div class='border-line'></div>
+                        <div class='exchange-request-customer-wrap'>
+                            <div class='exchange-request-customer-title'>주문자 정보</div>
+                            <div class='exchange-request-customer-detail-wrap'>
+                                <div class='exchange-request-customer-detail-name-callnum-wrap flex'>
+                                    <div class='exchange-request-customer-detail-title'>이름 / 번호</div>
+                                    <div class='exchange-request-customer-detail-namecall-value-wrap flex'>
+                                        <div class='exchange-request-customer-detail-name'>{{consumer.user.account_name}}</div>
+                                        <div class='exchange-request-customer-detail-callnum'>
+                                            {{consumer.user.phone_number|slice:"0:3"}}.
+                                            {{consumer.user.phone_number|slice:"3:7"}}.
+                                            {{consumer.user.phone_number|slice:"7:"}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='exchange-request-customer-detail-address-wrap flex'>
+                                    <div class='exchange-request-customer-detail-title'>배송지</div>
+                                    <div class='exchange-request-customer-detail-address-value-wrap'>
+                                        <div class='exchange-request-customer-detail-address'>
+                                            {{exchange.rev_address}}
+                                            {{exchange.rev_loc_at}}
+                                            {{exchange.rev_loc_detail}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-<!--                            <div class='order-cancel-customer-detail-request-message-wrap flex'>-->
-<!--                                <div class='order-cancel-customer-detail-title'>요청사항</div>-->
-<!--                                <div class='order-cancel-customer-detail-request-message'>포장 예쁘게 부탁드립니다. 포장 예쁘게 부탁드립니다. 포장 예쁘게</div>-->
-<!--                            </div>-->
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class='exchange-request-reason-wrap'>
-                <div class='exchange-request-reason-title'>교환 요청 사유</div>
+                <div class='exchange-request-reason-wrap'>
+                    <div class='exchange-request-reason-title'>교환 요청 사유</div>
                     <div class='exchange-request-reason-content-wrap'>
+                        {% if exchange.image is not None %}
                         <div class='exchange-request-reason-photo-wrap'>
-<!--                            여기에 img 태그를 넣으면 될 거 같습니다. -->
+                            <img class="exchange-request-reason-photo" src="{{exchange.image.url}}" alt="교환 사유 사진">
                         </div>
-                        <div class='exchange-request-reason-text'>여기에는 소비자가 작성한 교환 요청 사유가 들어갑니다!</div>
+                        {% endif %}
+                        <div class='exchange-request-reason-text'>{{exchange.reason}}</div>
                     </div>
-            </div>
+                </div>
 
-            <div class='answer-of-farm-wrap'>
-                <div class='answer-of-farm-title'>농가의 답변</div>
-                <form action='#' method='post'>
-                    {% csrf_token %}
-                    <div class='answer-of-farm-input-wrap'>
-                        <textarea class='answer-of-farm-input' type='text'></textarea>
-                    </div>
-                    <div class='exchange-btn-wrap'>
-                        <!-- 교환 거절 버튼 -->
-                        <button class='reject-submit-wrap flex' type='submit'>
-                            <div class='reject-submit-img-wrap'>
-                                <img class='reject-submit-img' src="{% static 'images/farmer_mypage/order/reject_nohover.svg' %}" alt='reject_nohover'>
-                            </div>
-                            <div class='reject-submit-text'>교환 거절</div>
-                        </button>
-
-                        <!-- 교환 확인 버튼 -->
-                        <button class='commit-submit-wrap flex' type='submit'>
-                            <div class='commit-submit-img-wrap'>
-                                <img class='commit-submit-img' src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt='commit_nohover'>
-                            </div>
-                            <div class='commit-submit-text'>교환 확인</div>
-                        </button>
-                    </div>
-                </form>
+                <div class='answer-of-farm-wrap'>
+                    <div class='answer-of-farm-title'>농가의 답변</div>
+                    <form action='' method='post'>
+                        {% csrf_token %}
+                        <div class='answer-of-farm-input-wrap'>
+                            <textarea class='answer-of-farm-input' type='text' name="farmer_answer"></textarea>
+                        </div>
+                        <div class='exchange-btn-wrap'>
+                            <!-- 교환 거절 버튼 -->
+                            <button class='reject-submit-wrap flex' type='submit' name="deny">
+                                <div class='reject-submit-img-wrap'>
+                                    <img class='reject-submit-img' src="{% static 'images/farmer_mypage/order/reject_nohover.svg' %}" alt='reject_nohover'>
+                                </div>
+                                <div class='reject-submit-text'>교환 거절</div>
+                            </button>
+                            <!-- 교환 확인 버튼 -->
+                            <button class='commit-submit-wrap flex' type='submit' name="approve">
+                                <div class='commit-submit-img-wrap'>
+                                    <img class='commit-submit-img' src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt='commit_nohover'>
+                                </div>
+                                <div class='commit-submit-text'>교환 확인</div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    const reject_btn = document.querySelector('.reject-submit-wrap');
-    const reject_img = document.querySelector('.reject-submit-img');
-    const commit_btn = document.querySelector('.commit-submit-wrap');
-    const commit_img = document.querySelector('.commit-submit-img');
+    <script>
+        const reject_btn = document.querySelector('.reject-submit-wrap');
+        const reject_img = document.querySelector('.reject-submit-img');
+        const commit_btn = document.querySelector('.commit-submit-wrap');
+        const commit_img = document.querySelector('.commit-submit-img');
 
-    const switchRejectImgHoverIn = function(e){
-        reject_img.setAttribute('src',"{% static 'images/farmer_mypage/order/reject_hover.svg' %}")
-    }
+        const switchRejectImgHoverIn = function (e) {
+            reject_img.setAttribute('src', "{% static 'images/farmer_mypage/order/reject_hover.svg' %}")
+        }
 
-    const switchRejectImgHoverOut = function(e){
-        reject_img.setAttribute('src',"{% static 'images/farmer_mypage/order/reject_nohover.svg' %}")
-    }
+        const switchRejectImgHoverOut = function (e) {
+            reject_img.setAttribute('src', "{% static 'images/farmer_mypage/order/reject_nohover.svg' %}")
+        }
 
 
-    const switchCommitImgHoverIn = function(e){
-        commit_img.setAttribute('src',"{% static 'images/users/mypage/user/check_hover.svg' %}")
-    }
+        const switchCommitImgHoverIn = function (e) {
+            commit_img.setAttribute('src', "{% static 'images/users/mypage/user/check_hover.svg' %}")
+        }
 
-    const switchCommitImgHoverOut = function(e){
-        commit_img.setAttribute('src',"{% static 'images/users/mypage/user/check_nohover.svg' %}")
-    }
+        const switchCommitImgHoverOut = function (e) {
+            commit_img.setAttribute('src', "{% static 'images/users/mypage/user/check_nohover.svg' %}")
+        }
 
-    reject_btn.addEventListener('mouseover',switchRejectImgHoverIn);
-    reject_btn.addEventListener('mouseleave',switchRejectImgHoverOut);
-    commit_btn.addEventListener('mouseover',switchCommitImgHoverIn);
-    commit_btn.addEventListener('mouseleave',switchCommitImgHoverOut);
-</script>
+        reject_btn.addEventListener('mouseover', switchRejectImgHoverIn);
+        reject_btn.addEventListener('mouseleave', switchRejectImgHoverOut);
+        commit_btn.addEventListener('mouseover', switchCommitImgHoverIn);
+        commit_btn.addEventListener('mouseleave', switchCommitImgHoverOut);
+    </script>
 </body>
+
 </html>

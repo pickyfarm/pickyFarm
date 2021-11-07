@@ -37,13 +37,16 @@
     height: 200px;
     background-color: #f2f2f2;
 }
-#farmer_profile,
-#farm_profile {
+#farmer_info > #farmer_profile,
+#farmer_info > #farm_profile {
     width: 148px;
     height: 148px;
     border-radius: 50%;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     object-fit: cover;
+}
+#farm_img_mobile {
+    display: none;
 }
 
 #farm_name {
@@ -55,13 +58,16 @@
 #profile_title {
     max-width: 320px;
 }
+#prof_wrap {
+    width: 418px;
+}
 
 #tag_wrap {
     height: 20px;
 }
 #farm_tag {
     height: 20px;
-    padding: 3px 7px;
+    padding: 1px 7px;
     border-radius: 20px;
     background-color: rgb(191, 185, 165);
     font-size: 12px;
@@ -104,6 +110,9 @@
     padding-top: 4px;
     margin: 0 27.5px;
     border-right: solid 1px rgba(112, 112, 112, 0.6);
+}
+#news_text_mobile {
+    display: none;
 }
 #farm_news {
     max-width: 409px;

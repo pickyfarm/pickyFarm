@@ -13,18 +13,26 @@
     width: 76px;
     height: 76px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 #farm_news_letter {
-
     font-size: 15px;
-
     letter-spacing: normal;
+}
+
+#product-option {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#product-option:focus {
+    outline: none;
 }
 
 #farm_news {
     width: 395px;
-
     font-size: 13px;
     font-weight: 300;
     letter-spacing: normal;
@@ -35,28 +43,28 @@
     background-color: #ffffff;
 }
 
-#tags{
-    margin-bottom:10px;
+#tags {
+    margin-bottom: 10px;
 }
 
-#ugly_tag{
+#ugly_tag {
     font-size: 13px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffff;
-  background-color: #5c6754;
-  border : solid 1px #5c6754;
-  border-top-right-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  padding:2px 9px 2px 8px;
-  margin-right:10px;
-  cursor: pointer;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffff;
+    background-color: #5c6754;
+    border: solid 1px #5c6754;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    padding: 2px 9px 2px 8px;
+    margin-right: 10px;
+    cursor: pointer;
 }
 
-#normal_tag{
+#normal_tag {
     font-size: 13px;
     font-weight: bold;
     font-stretch: normal;
@@ -64,16 +72,14 @@
     letter-spacing: normal;
     text-align: center;
     color: #5c6754;
-    border : solid 1px #5c6754;
+    border: solid 1px #5c6754;
     border-top-right-radius: 9999px;
     border-bottom-right-radius: 9999px;
-    padding:2px 15px 2px 14px;
+    padding: 2px 15px 2px 14px;
     cursor: pointer;
 }
 
-
 #title {
-
     font-size: 35px;
     font-weight: 500;
     font-stretch: normal;
@@ -176,7 +182,7 @@
 #visit:hover {
     font-size: 15px;
     font-weight: 500;
- 
+
     font-stretch: normal;
     font-style: normal;
     line-height: 1.6;
@@ -222,12 +228,7 @@
 
 #info_t {
     font-size: 15px;
- 
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
 }
@@ -235,71 +236,51 @@
 #info_c {
     width: 346px;
     height: 22px;
-
     font-size: 15px;
     font-weight: 300;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
 }
 
-#shipping-fee{
+#shipping-fee {
     width: 346px;
     height: 22px;
-
     font-size: 15px;
     font-weight: 300;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
 }
 
-#shipping-fee-desc{
+#shipping-fee-desc {
     font-size: 15px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.2;
-  letter-spacing: normal;
-  text-align: left;
-  color: #5c6854;
-  margin-left : 102px;
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: left;
+    color: #5c6854;
+    margin-left: 102px;
 }
 
-#product-weight{
+#product-weight {
     width: 346px;
     height: 22px;
     font-size: 15px;
     font-weight: 300;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
 }
 
 #farmer_name {
     font-size: 19px;
-    font-weight: normal;
-
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
 }
 
 #quantity_letter {
     font-size: 15px;
- 
 }
 
 #quantity_num_section {
@@ -314,11 +295,7 @@
     background-color: #d9d9d9;
     font-family: YDIYGO330;
     font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: center;
     color: #005413;
     cursor: pointer;
@@ -328,13 +305,8 @@
     width: 60px;
     height: 35px;
     padding-top: 8px;
-
     font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: center;
     color: #000000;
     border-top: solid 1px #d9d9d9;
@@ -344,39 +316,25 @@
 #total_price_letter {
     font-size: 15px;
     font-weight: 500;
-
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
 }
 
 #cost {
-    
 }
 
 #total_price {
     font-size: 67.9px;
     font-weight: 500;
-
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
 }
 
 #won {
     font-size: 35px;
-    font-weight: normal;
-
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.2;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
 }
@@ -400,11 +358,7 @@
 #wish:hover {
     font-size: 15px;
     font-weight: bold;
-    font-stretch: normal;
-
-    font-style: normal;
     line-height: 1.04;
-    letter-spacing: normal;
     text-align: left;
     color: #ffffff;
     background-color: #5c6754;
@@ -421,10 +375,7 @@
     border: solid 3px #5c6754;
     font-size: 15px;
     font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.04;
-    letter-spacing: normal;
     text-align: left;
     color: #5c6754;
     cursor: pointer;
@@ -434,16 +385,12 @@
     padding: 16.5px 14.5px 16.7px 15.5px;
     border-radius: 27.6px;
     border: solid 3px #5c6754;
-
     font-size: 15px;
     font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.04;
-    letter-spacing: normal;
     text-align: left;
     color: #ffffff;
-    background-color:#5c6754;
+    background-color: #5c6754;
     transition: ease-in;
     cursor: pointer;
 }
@@ -451,11 +398,7 @@
 #purchase {
     font-size: 20px;
     font-weight: bold;
-    font-stretch: normal;
-
-    font-style: normal;
     line-height: 0.9;
-    letter-spacing: normal;
     text-align: left;
     color: #ffffff;
     padding: 15px 55px 12.7px 58px;
@@ -464,8 +407,6 @@
     background-color: #5c6754;
     cursor: pointer;
 }
-
-
 
 #logo {
     margin-bottom: 30px;
@@ -476,6 +417,25 @@
 
 #desc_img {
     width: 990px;
+}
+
+#farmer-site-link-wrap {
+    width: 990px;
+    height: 200px;
+    background-color: #b3c1ad;
+}
+
+#farmer-site-link-button {
+    width: 400px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 9999px;
+    box-shadow: 0 3px 6px 0 rgb(58 80 42 / 48%);
+    background-color: #465144;
+    font-size: 19px;
+    font-weight: 500;
+    text-align: center;
+    color: #f4f6e8;
 }
 
 #sel {
@@ -510,7 +470,6 @@
 }
 
 #info_detail {
-
     font-size: 15px;
     color: #000000;
     width: 990px;
@@ -534,7 +493,6 @@
 }
 
 #q_title {
-
     font-size: 20px;
     font-weight: bold;
     font-stretch: normal;
@@ -556,7 +514,6 @@
 }
 
 #q_desc {
-
     font-size: 15px;
 
     font-stretch: normal;
@@ -577,37 +534,24 @@
 }
 
 #q_letter_gray {
-
     font-size: 12px;
     font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 4.43;
-    letter-spacing: normal;
     text-align: center;
     color: #999999;
 }
 
 #q_letter_black {
-
     font-size: 12px;
     font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 4.43;
-    letter-spacing: normal;
     text-align: center;
     color: black;
 }
 
 #q_letter_answered {
-
     font-size: 12px;
     font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 4.43;
-    letter-spacing: normal;
     text-align: center;
     color: #004818;
 }
@@ -615,16 +559,13 @@
 #q_write {
     width: 110px;
     height: 36px;
-
     font-size: 15px;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
     text-align: center;
     color: #ffffff;
     border-radius: 24px;
     background-color: #5c6754;
     padding: 7px 0;
+    margin-bottom: 70px;
 }
 
 #q_write > img {
@@ -633,13 +574,9 @@
 }
 
 #paginator {
-
     font-size: 20px;
     font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
     line-height: 1.62;
-    letter-spacing: normal;
     text-align: left;
     color: #b3b3b3;
 }
@@ -810,8 +747,3 @@ div {
     font-weight: 300;
     color: #707070;
 }
-
-
-
-
-

@@ -1,3 +1,4 @@
+from comments.forms import ProductCommentForm
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from orders.models import Order_Detail
@@ -33,23 +34,36 @@ import os
 import requests
 import pprint
 import json
-from math import ceil
+import string
+import random
+from math import ceil, log
 from random import randint
 from kakaomessages.template import templateIdList
-from kakaomessages.views import send_kakao_message
+from kakaomessages.views import send_kakao_message, send_sms
 from config.settings import base
 
 # models
 from .models import Subscribe, Cart, Consumer, Wish, User, Editor, PhoneNumberAuth
 from editor_reviews.models import Editor_Review
-from comments.models import Editor_Review_Comment
+from comments.models import (
+    Editor_Review_Comment,
+    Product_Comment,
+    Product_Comment_Image,
+)
 from farmers.models import Farmer
 from products.models import Category, Product
 from addresses.models import Address
 
 # forms
-from .forms import LoginForm, SignUpForm, MyPasswordResetForm, FindMyIdForm
+from .forms import (
+    LoginForm,
+    SignUpForm,
+    SocialSignupForm,
+    MyPasswordResetForm,
+    FindMyIdForm,
+)
 from addresses.forms import AddressForm
+from comments.forms import ProductRecommentForm
 
 from kakaomessages.views import send_kakao_message
 
@@ -81,10 +95,12 @@ def CartInAjax(request):
 
         try:
             cart = Cart.objects.get(consumer=user.consumer, product=product)
-            message = "이미 장바구니에 있는 무난이 입니다"
+            message = "이미 장바구니에 있는 상품입니다"
         except ObjectDoesNotExist:
-            cart = Cart.objects.create(consumer=user.consumer, product=product, quantity=quantity)
-            message = product.title + "를 장바구니에 담았습니다!"
+            cart = Cart.objects.create(
+                consumer=user.consumer, product=product, quantity=quantity
+            )
+            message = "상품을 장바구니에 담았습니다!"
         print(cart)
 
         message = str(message)
@@ -276,13 +292,19 @@ def profileUpdate(request):
 class Login(View):
     def get(self, request):
         form = LoginForm()
+        get_next = self.request.GET.get("next", None)
+        print(f"[LOGIN GET] next url : {get_next}")
         ctx = {
+            "next": get_next,
             "form": form,
         }
         return render(request, "users/login.html", ctx)
 
     def post(self, request):
         form = LoginForm(request.POST)
+        post_next = self.request.POST.get("next", None)
+        print(f"[POST] get_next url : {post_next} / type : {type(post_next)}")
+
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
@@ -294,7 +316,16 @@ class Login(View):
                     base.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
                 login(request, user=user)
-                return redirect(reverse("core:main"))
+                print(post_next == ("None" or ""))
+
+                print(f"post_next : {post_next}")
+                print(f"type : {type(post_next)}")
+
+                if post_next == "" or post_next == "None":
+                    return redirect(reverse("core:main"))
+                else:
+                    print("[POST] get next REDIRECT")
+                    return redirect(post_next)
         ctx = {
             "form": form,
         }
@@ -308,7 +339,7 @@ def log_out(request):
 
 def kakao_login(request):
     REST_API_KEY = os.environ.get("KAKAO_KEY")
-    REDIRECT_URI = "http://127.0.0.1:8000/user/login/kakao/callback"
+    REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
 
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code"
@@ -318,7 +349,7 @@ def kakao_login(request):
 def kakao_callback(request):
     REST_API_KEY = os.environ.get("KAKAO_KEY")
     print()
-    REDIRECT_URI = "http://127.0.0.1:8000/user/login/kakao/callback"
+    REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
 
     try:
         code = request.GET.get("code")
@@ -339,25 +370,89 @@ def kakao_callback(request):
         )
 
         profile_json = profile_request.json()
-
         profile = profile_json.get("kakao_account")
+
         email = profile.get("email")
         nickname = profile.get("profile").get("nickname")
-
+        phone_number = profile.get("phone_number")
+        print(email)
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=f"kakao.{email}")
+            print(user)
             login(request, user=user)
             return redirect(reverse("core:main"))
 
         except ObjectDoesNotExist:
             pass
 
-        info = {"email": email, "nickname": nickname}
+        info = {
+            "email": email,
+            "nickname": nickname,
+            "phone_number": f'0{"".join(phone_number.split()[1].split("-"))}',
+            "username": f"kakao.{email}",
+            "account_name": nickname,
+            "password": "".join(
+                random.choices(string.ascii_uppercase + string.digits, k=15)
+            ),
+        }
 
-        return SignUp.as_view()(request, info)
+        return SocialSignup.as_view()(request, info)
 
     except KakaoException:
         return redirect("core:main")
+
+
+class SocialSignup(View):
+    def get(self, request, info=None):
+        if info is None:
+            return redirect("users:signup")
+
+        form = SocialSignupForm(info)
+        addressform = AddressForm()
+
+        ctx = {"form": form, "addressform": addressform}
+
+        return render(request, "users/signup_kakao.html", ctx)
+
+    def post(self, request):
+        form = SocialSignupForm(request.POST)
+        addressform = AddressForm(request.POST)
+        benefit_agree = True
+        kakao_farmer_agree = True
+        kakao_comment_agree = True
+
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            print(f"================{user}")
+            consumer = Consumer.objects.create(
+                user=user,
+                grade=1,
+                benefit_agree=benefit_agree,
+                kakao_farmer_agree=kakao_farmer_agree,
+                kakao_comment_agree=kakao_comment_agree,
+            )
+
+            if addressform.is_valid():
+                address = addressform.save(commit=False)
+                address.user = user
+                address.is_default = True
+                address.save()
+
+                consumer.default_address = address
+                consumer.save()
+
+            if user is not None:
+                login(request, user=user)
+                return redirect(reverse("core:main"))
+
+        ctx = {
+            "form": form,
+            "addressform": addressform,
+        }
+        return render(request, "users/signup_kakao.html", ctx)
 
 
 class SignUp(View):
@@ -379,16 +474,17 @@ class SignUp(View):
     def post(self, request):
         form = SignUpForm(request.POST)
         addressform = AddressForm(request.POST)
-        benefit_agree = True if request.POST.get("agree-benefit", False) else False
-        kakao_farmer_agree = True if request.POST.get("agree-kakao-farmer", False) else False
-        kakao_comment_agree = True if request.POST.get("agree-kakao-comment", False) else False
-
+        benefit_agree = True
+        kakao_farmer_agree = True
+        kakao_comment_agree = True
+        print(form.is_valid())
         if form.is_valid():
+            print("hello")
             form.save()
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
-            Consumer.objects.create(
+            consumer = Consumer.objects.create(
                 user=user,
                 grade=1,
                 benefit_agree=benefit_agree,
@@ -396,10 +492,15 @@ class SignUp(View):
                 kakao_comment_agree=kakao_comment_agree,
             )
 
-            address = addressform.save(commit=False)
-            address.user = user
-            address.is_default = True
-            address.save()
+            if addressform.is_valid():
+                print(addressform.cleaned_data["is_jeju_mountain"])
+                address = addressform.save(commit=False)
+                address.user = user
+                address.is_default = True
+                address.save()
+
+                consumer.default_address = address
+                consumer.save()
 
             if user is not None:
                 login(request, user=user)
@@ -455,22 +556,28 @@ def phoneNumberValidation(request):
     if not isValid:
         try:  # 재발급
             userAuth = PhoneNumberAuth.objects.get(phone_num=target)
-            timeOver = timezone.now() - userAuth.update_at > timezone.timedelta(minutes=5)
+            timeOver = timezone.now() - userAuth.update_at > timezone.timedelta(
+                minutes=5
+            )
             if timeOver:
                 auth_num = randint(100000, 1000000)
                 message = {"#{인증번호}": auth_num}
                 userAuth.auth_num = auth_num
                 userAuth.update_at = timezone.localtime()
                 userAuth.save()
-                print("send kakaomessage", auth_num)
+                print("send sms", auth_num)
+                send_sms(target, auth_num)
                 # send_kakao_message(target, templateIdList["signup"], message)
             else:
                 pass
         except PhoneNumberAuth.DoesNotExist:  # 신규발급
             auth_num = randint(100000, 1000000)
             message = {"#{인증번호}": auth_num}
-            userAuth = PhoneNumberAuth.objects.create(phone_num=target, auth_num=auth_num)
-            print("send kakaomessage", auth_num)
+            userAuth = PhoneNumberAuth.objects.create(
+                phone_num=target, auth_num=auth_num
+            )
+            print("send sms", auth_num)
+            send_sms(target, auth_num)
             # send_kakao_message(target, templateIdList["signup"], message)
 
     ctx = {"target": target, "isValid": isValid}
@@ -523,14 +630,19 @@ class MyPasswordResetView(PasswordResetView):
     template_name = "users/password_reset.html"
     email_template_name = "users/password_reset_email.html"
     success_url = reverse_lazy("users:password_reset_done")
+    subject_template_name = "users/password_reset_subject.txt"
     form_class = MyPasswordResetForm
 
     def form_valid(self, form):
         global user_email
 
-        if User.objects.filter(email=self.request.POST.get("email")).exists() and User.objects.get(
+        if User.objects.filter(
             email=self.request.POST.get("email")
-        ).username == self.request.POST.get("username"):
+        ).exists() and User.objects.get(
+            email=self.request.POST.get("email")
+        ).username == self.request.POST.get(
+            "username"
+        ):
             user_email = form.cleaned_data.get("email")
             return super().form_valid(form)
 
@@ -556,7 +668,9 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
         form.fields["new_password1"].widget.attrs = {"placeholder": "새 비밀번호를 입력해주세요"}
-        form.fields["new_password2"].widget.attrs = {"placeholder": "새 비밀번호를 한번 더 입력해주세요"}
+        form.fields["new_password2"].widget.attrs = {
+            "placeholder": "새 비밀번호를 한번 더 입력해주세요"
+        }
 
         return form
 
@@ -582,6 +696,8 @@ def mypage(request, cat):
     if request.method == "GET":
         consumer_nickname = consumer.user.nickname
         sub_farmers = consumer.subs.all()  # pagenation 필요
+
+        preparing_num, delivery_num, complete_num, cancel_num = 0, 0, 0, 0
         print(sub_farmers)
         if sub_farmers.exists() is False:
             print("구독자는 없다")
@@ -596,14 +712,15 @@ def mypage(request, cat):
                 print("여기안와?")
                 raise NoRelatedInstance
             for group in groups:
-                details = group.order_details
-                preparing_num = details.filter(status="preparing").count()
-                print(preparing_num)
-                delivery_num = details.filter(status="shipping").count()
-                print(delivery_num)
-                complete_num = details.filter(status="complete").count()
-                print(complete_num)
-                cancel_num = details.filter(status="cancel").count()
+                details = group.order_details.all()
+                print(details)
+                preparing_num += details.filter(status="preparing").count()
+                # print(preparing_num)
+                delivery_num += details.filter(status="shipping").count()
+                # print(delivery_num)
+                complete_num == details.filter(status="complete").count()
+                # print(complete_num)
+                cancel_num += details.filter(status="cancel").count()
         except NoRelatedInstance:
             preparing_num = 0
             delivery_num = 0
@@ -624,7 +741,9 @@ def mypage(request, cat):
         print(one_month_before)
 
         questions = (
-            consumer.questions.filter(create_at__gt=one_month_before).order_by("-create_at").all()
+            consumer.questions.filter(create_at__gt=one_month_before)
+            .order_by("-create_at")
+            .all()
         )
         print((type)(questions))
 
@@ -671,7 +790,9 @@ def mypage(request, cat):
                     # filter start_date input에 아무런 value가 없을 경우
                     start_date = datetime.datetime.now(tz=get_current_timezone()).date()
                 else:
-                    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+                    start_date = datetime.datetime.strptime(
+                        start_date, "%Y-%m-%d"
+                    ).date()
 
                 if end_date == "":
                     # filter end_date input에 아무런 value가 없음 경우
@@ -690,7 +811,9 @@ def mypage(request, cat):
                     )
 
                 order_groups = (
-                    groups.filter(order_at__lte=converted_end_date, order_at__gte=start_date)
+                    groups.filter(
+                        order_at__lte=converted_end_date, order_at__gte=start_date
+                    )
                     .exclude(status="wait")
                     .order_by("-order_at")
                 )
@@ -723,6 +846,7 @@ def mypage(request, cat):
 
             print("진짜")
             print(order_details)
+
             ctx_orders = {
                 "total_pages": range(1, total_pages + 1),
                 "order_details": order_details,
@@ -752,7 +876,9 @@ def mypage(request, cat):
             ctx.update(ctx_wishes)
             return render(request, "users/mypage_wishes.html", ctx)
         elif cat_name == "cart":
-            carts = consumer.carts.all().order_by("-create_at").filter(product__open=True)
+            carts = (
+                consumer.carts.all().order_by("-create_at").filter(product__open=True)
+            )
             print(carts)
 
             ctx_carts = {
@@ -834,40 +960,6 @@ def mypage(request, cat):
 
 
 """Order Popups"""
-
-
-class OrderCancelPopup(DetailView):
-    """주문 취소 팝업"""
-
-    model = Order_Detail
-    template_name = "users/mypage/user/order_cancel_popup.html"
-    context_object_name = "order"
-
-    def dispatch(self, request, *args, **kwargs):
-        if (
-            self.get_object().status != "payment_complete"
-            or self.get_object().order_group.consumer != self.request.user.consumer
-        ):
-            return redirect("core:popup_callback")
-
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["products"] = Product.objects.filter(order_details__pk=self.kwargs["pk"]).order_by(
-            "kinds"
-        )
-        return context
-
-    def post(self, request, **kwargs):
-        order = self.get_object()
-        cancel_reason = request.POST.get("cancel_reason", None)
-
-        order.cancel_reason = cancel_reason
-        order.status = "cancel"
-        order.save()
-
-        return redirect("core:popup_callback")
 
 
 # def add_rev_address(request):
@@ -956,7 +1048,9 @@ class EditorMyPage_Comments(ListView):
         comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
 
         for review in reviews:
-            comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
+            comments = comments.union(
+                Editor_Review_Comment.objects.filter(editor_review=review)
+            )
 
         return comments.order_by("is_read")
 
@@ -994,8 +1088,209 @@ def testview(request):
     return render(request, "users/mypage/user/order_cancel_popup.html")
 
 
-def reviewtest(request):
-    return render(request, "users/mypage/user/product_review_popup.html")
+def landing_test(request):
+    """landing page AJAX before service open"""
+    if request.method == "POST":
+        user_pk = request.POST.get("user_pk", None)
+        tester = User.objects.get(pk=user_pk)
+
+        if (user_pk is not None) and (tester.username == "kakaotest"):
+            data = {
+                "status": 1,
+            }
+            return JsonResponse(data)
+        else:
+            data = {
+                "status": 0,
+            }
+            return JsonResponse(data)
+
+
+@method_decorator(login_required, name="dispatch")  ##loginrequired 안들어감
+class ProductCommentCreate(TemplateView):
+    template_name = "users/mypage/user/product_review_popup.html"
+
+    def render_to_response(self, context, **response_kwargs):
+        if not Consumer.objects.filter(user=self.request.user).exists():
+            print("[GET] consumer has no user")
+            return redirect(reverse("core:main"))
+        else:
+            # 리뷰 작성 여부
+            detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+            order_consumer = detail.order_group.consumer
+            product_comment_eixst = Product_Comment.objects.filter(
+                product=detail.product, consumer=order_consumer
+            ).exists()
+            if product_comment_eixst:
+                return redirect("core:completed_alert")
+
+            return super().render_to_response(context, **response_kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        consumer = Consumer.objects.get(user=self.request.user)
+        print(f"[PRODUCT COMMENT GET] 사용자 : {consumer.user.account_name}")
+        orderpk = self.kwargs["orderpk"]
+        print(f"[PRODUCT COMMENT GET] orderpk : {orderpk}")
+        detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+        print(f"[PRODUCT COMMENT GET] Order Detail : {detail}")
+        order_consumer = detail.order_group.consumer
+        print(f"[PRODUCT COMMENT GET] order 사용자 : {order_consumer.user.account_name}")
+        # 검증
+        if order_consumer.pk != consumer.pk:
+            print("[PRODUCT COMMENT GET] 올바르지 않은 사용자")
+            return redirect(reverse("core:main"))
+        form = ProductCommentForm()
+        print("[PRODUCT COMMENT GET] form")
+        context["detail"] = detail
+        context["form"] = form
+        print("[PRODUCT COMMENT GET] return 직전")
+        return context
+
+    def post(self, request, **kwargs):
+        detail = self.get_context_data(**kwargs)["detail"]
+        product_pk = detail.product.pk
+        product_comment = ProductCommentForm(request.POST, request.FILES)
+        consumer = Consumer.objects.get(pk=self.request.user.consumer.pk)
+        product_comment_eixst = Product_Comment.objects.filter(
+            product=detail.product, consumer=consumer
+        ).exists()
+        print(f"[PRODUCT COMMENT POST] 사용자 : {consumer.user.account_name}")
+        if product_comment.is_valid() and not product_comment_eixst:
+            text = product_comment.cleaned_data.get("text")
+            freshness = product_comment.cleaned_data.get("freshness")
+            flavor = product_comment.cleaned_data.get("flavor")
+            cost_performance = product_comment.cleaned_data.get("cost_performance")
+            product_comment = Product_Comment(
+                text=text,
+                freshness=int(freshness),
+                flavor=int(flavor),
+                cost_performance=int(cost_performance),
+            )
+            product_comment.consumer = consumer
+            product_comment.product = detail.product
+            product_comment.save()
+            product_comment.product.reviews += 1
+
+            product_comment.get_rating_avg()
+
+            # Product_Comment_Image
+            product_comment_imgs = request.FILES.getlist("product_image")
+            img_valid = True
+
+            if len(product_comment_imgs) == 1 and product_comment_imgs[0] == "":
+                img_valid = False
+
+            if img_valid == True:
+                for img in product_comment_imgs:
+                    images = Product_Comment_Image.objects.create(
+                        product_comment=product_comment, image=img
+                    )
+                    images.save()
+
+            # freshness
+            if product_comment.freshness == 1:
+                detail.product.freshness_1 += 1
+            elif product_comment.freshness == 3:
+                detail.product.freshness_3 += 1
+            else:
+                detail.product.freshness_5 += 1
+
+            # flavor
+            if product_comment.flavor == 1:
+                detail.product.flavor_1 += 1
+            elif product_comment.flavor == 3:
+                detail.product.flavor_3 += 1
+            else:
+                detail.product.flavor_5 += 1
+
+            # cost_performance
+            if product_comment.cost_performance == 1:
+                detail.product.cost_performance_1 += 1
+            elif product_comment.cost_performance == 3:
+                detail.product.cost_performance_3 += 1
+            else:
+                detail.product.cost_performance_5 += 1
+
+            # total rating calculate
+            detail.product.calculate_total_rating_sum(product_comment.avg)
+            detail.product.calculate_total_rating_avg()
+
+            # specific rating calculate
+            detail.product.calculate_specific_rating(
+                int(freshness), int(flavor), int(cost_performance)
+            )
+            print("[PRODUCT COMMENT POST] Post view 마지막")
+
+            # send kakao message to farmer
+            message_args = {
+                "#{link}": f"www.pickyfarm.com/farmer/mypage/reviews-qnas/review/{product_comment.pk}/answer",
+                "#{product_title}": f"{detail.product.title}",
+            }
+
+            send_kakao_message(
+                detail.product.farmer.user.phone_number,
+                templateIdList["new_product_review"],
+                message_args,
+            )
+
+            return redirect("core:popup_callback")
+
+        return redirect("core:main")
+
+
+@method_decorator(login_required, name="dispatch")
+class productCommentDetail(TemplateView):
+    template_name = "users/mypage/user/product_review_detail_popup.html"
+
+    def render_to_response(self, context, **response_kwargs):
+        if not Consumer.objects.filter(user=self.request.user).exists():
+            return redirect(reverse("core:main"))
+        else:
+            return super().render_to_response(context, **response_kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reviewpk = self.kwargs["reviewpk"]
+        consumer = Consumer.objects.get(user=self.request.user)
+        product = Product.objects.get(order_details__pk=reviewpk)
+        # detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
+        review = Product_Comment.objects.get(product=product, consumer=consumer)
+        recomment_form = ProductRecommentForm()
+        # # 검증
+        # if order_consumer.pk != consumer.pk:
+        #     return redirect(reverse("core:main"))
+        context["total_range"] = range(0, 5)
+        # context["detail"] = detail
+        context["review"] = review
+        context["recomment_form"] = recomment_form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        recomment_form = ProductRecommentForm(self.request.POST, self.request.FILES)
+        if recomment_form.is_valid():
+            reviewpk = self.kwargs["reviewpk"]
+            consumer = Consumer.objects.get(user=self.request.user)
+            product = Product.objects.get(order_details__pk=reviewpk)
+            review = Product_Comment.objects.get(consumer=consumer, product=product)
+            answer = recomment_form.save(commit=False)
+            answer.author = self.request.user
+            answer.comment = review
+            answer.save()
+
+            farmer_args = {
+                "#{consumer_nickname}": self.request.user.nickname,
+                "#{farmer_nickname}": review.product.farmer.user.nickname,
+                "#{link1}": f"www.pickyfarm.com/farmer/mypage/reviews-qnas/review/{review.pk}/answer",
+            }
+            # 농가 카카오 알림톡 전송
+            send_kakao_message(
+                review.consumer.user.phone_number,
+                templateIdList["new_recomment_CF"],
+                farmer_args,
+            )
+
+            return redirect("core:popup_callback")
 
 
 def product_refund(request):
@@ -1006,6 +1301,6 @@ def product_refund(request):
         "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
         "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
     ]
-    return render(request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses})
-
-
+    return render(
+        request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses}
+    )

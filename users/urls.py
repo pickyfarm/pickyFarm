@@ -12,6 +12,7 @@ urlpatterns = [
     path("login/kakao/callback", views.kakao_callback, name="kakao_login_callback"),
     path("logout/", views.log_out, name="logout"),
     path("signup/", views.SignUp.as_view(), name="signup"),
+    path("signup_kakao", views.SocialSignup.as_view(), name="kakao_signup"),
     path(
         "signup/terms_of_service",
         views.terms_of_service_popup,
@@ -75,12 +76,17 @@ urlpatterns = [
     path("infoUpdate/", views.infoUpdate, name="infoUpdate"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
     path("test/", views.testview, name="testview"),
-    path("reviewtest/", views.reviewtest, name="reviewtest"),
     path("product_refund_test/", views.product_refund, name="product_refund"),
+    path("landing_test/", views.landing_test, name="landing_test"),
     # mypage popups
     path(
-        "mypage/orders/cancel/<int:pk>",
-        views.OrderCancelPopup.as_view(),
-        name="mypage_order_cancel_popup",
+        "mypage/orders/<int:orderpk>/review/create",
+        views.ProductCommentCreate.as_view(),
+        name="product_comment_create",
+    ),
+    path(
+        "mypage/orders/review/<int:reviewpk>",
+        views.productCommentDetail.as_view(),
+        name="product_comment_detail",
     ),
 ]

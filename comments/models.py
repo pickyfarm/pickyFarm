@@ -35,11 +35,17 @@ class Product_Comment(Comment):
         (3, "normal"),
         (1, "bad"),
     )
+    
+    status = (
+        (True, "답변 완료"),
+        (False, "답변 대기"),
+    )
 
     freshness = models.IntegerField(choices=evaluate)
     flavor = models.IntegerField(choices=evaluate)
     cost_performance = models.IntegerField(choices=evaluate)
     avg = models.IntegerField(default=0)
+    status = models.BooleanField(default=False, choices=status)
 
     product = models.ForeignKey(
         "products.Product", related_name="product_comments", on_delete=models.CASCADE
@@ -58,7 +64,6 @@ class Product_Comment(Comment):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.get_rating_avg()
-        print(self.avg)
         super(Product_Comment, self).save(*args, **kwargs)
 
     def recomment_count(self):
@@ -86,9 +91,7 @@ class Product_Recomment(Comment):
     comment = models.ForeignKey(
         "Product_Comment", related_name="product_recomments", on_delete=models.CASCADE
     )
-    author = models.ForeignKey(
-        User, related_name="product_recomment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="product_recomment", on_delete=models.CASCADE)
 
     def like_count(self):
         try:
@@ -112,9 +115,7 @@ class Editor_Review_Comment(Comment):
         related_name="editor_review_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(
-        User, related_name="editor_review_comment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="editor_review_comment", on_delete=models.CASCADE)
 
     def like_count(self):
         try:
@@ -159,9 +160,7 @@ class Farmer_Story_Comment(Comment):
         related_name="farmer_story_comments",
         on_delete=models.CASCADE,
     )
-    author = models.ForeignKey(
-        User, related_name="farmer_story_comment", on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(User, related_name="farmer_story_comment", on_delete=models.CASCADE)
 
     def like_count(self):
         try:

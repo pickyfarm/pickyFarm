@@ -79,6 +79,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    "django_crontab",
 ]
 
 PICKY_APPS = [
@@ -207,7 +208,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = True # model 저장시 한국 시간이 들어가기 위해서는 False 로 수정해야함
 
 ### User Setting
 AUTH_USER_MODEL = "users.User"

@@ -1,47 +1,80 @@
 /* 교환반품 정보 */
-#refund_change_info_detail{
-    width:1024px;
+
+@import url('product_refund_change_mobile.css');
+#refund_change_info_detail {
+    width: 1024px;
     font-size: 15px;
-  
 }
 
-#refund_change_info_detail-row{
+#refund_change_info_detail-row {
     border-top: solid 1px #b3b3b3;
 }
+#refund_change_info_detail-row:last-child {
+    border-bottom: solid 1px #b3b3b3;
+}
 
-#refund_change_info_detail-left-section{
+#refund_change_info_detail-left-section {
     background-color: #f2f2f2;
     font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2;
-  letter-spacing: normal;
-  text-align: center;
-  color: #333;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333;
+    padding: 10px;
 }
 
-#refund_change_info_detail-right-section{
+#refund_change_info_detail-right-section {
     font-size: 15px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2;
-  letter-spacing: normal;
-  text-align: left;
-  color: #333;
-  padding-left: 60px;
-  padding-top : 18px;
-  padding-bottom : 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333;
+    padding-left: 60px;
+    padding-top: 18px;
+    padding-bottom: 18px;
 }
 
-#refund_change_info_detail-sub-desc{
+#refund_change_info_detail-sub-desc {
     font-size: 13px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 2;
-  letter-spacing: normal;
-  text-align: left;
-  color:#b3b3b3;
-  margin-left: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #b3b3b3;
+    margin-left: 15px;
+}
+
+#responsibility-section {
+    width: 1024px;
+}
+
+#responsibility-title {
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+#responsibility-content {
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #b3b3b3;
 }

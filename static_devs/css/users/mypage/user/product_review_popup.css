@@ -20,7 +20,7 @@
 }
 
 .popup_container {
-    padding-top:60px;
+    padding-top: 60px;
     width: 375px;
     /*height: 1130px;*/
     flex-direction: column;
@@ -33,17 +33,17 @@
     font-weight: bold;
     color: #4d5548;
     margin-bottom: 39px;
-    margin-top :60px;
+    margin-top: 60px;
 }
 
-.downArrow-img-box{
-    margin-bottom:42px;
+.downArrow-img-box {
+    margin-bottom: 42px;
 }
 
-.review-main-sub-title{
+.review-main-sub-title {
     font-size: 12px;
     font-weight: 300;
-    color:#5c6754;
+    color: #5c6754;
 }
 
 .review-date {
@@ -88,18 +88,15 @@
     margin-bottom: 20px;
 }
 
-.product-cancel{
+.product-cancel {
     font-size: 10px;
-    color:#808080;
+    color: #808080;
 }
-
 
 .review-product-information-content-wrap {
     align-items: center;
     margin-bottom: 10px;
 }
-
-
 
 .review-product-information-content-left-section {
     margin-right: 25px;
@@ -109,9 +106,14 @@
     width: 72px;
     height: 72px;
     border-radius: 10px;
-    background-color: #b3b3b3;
 }
 
+.review-product-image img {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    object-fit: cover;
+}
 
 .review-product-name {
     font-size: 15px;
@@ -147,7 +149,6 @@
     margin-top: 15px;
 }
 
-
 .review-customer-title {
     font-size: 15px;
     font-weight: 500;
@@ -157,8 +158,6 @@
 .review-customer-detail-wrap {
     margin-top: 21px;
 }
-
-
 
 .review-customer-detail-title {
     padding-top: 1.5px;
@@ -172,27 +171,21 @@
     font-size: 15px;
 }
 
-
 .review-customer-detail-callnum::before {
     content: '|';
     padding: 0 7px;
     color: #707070;
 }
 
-
-
 .review-customer-detail-address-wrap,
-.review-customer-detail-request-message-wrap
-{
+.review-customer-detail-request-message-wrap {
     margin-top: 10px;
 }
 
 .review-customer-detail-user-value-wrap {
     margin-left: 10px;
     font-size: 15px;
-
 }
-
 
 .review-customer-detail-address-value-wrap {
     margin-left: 35px;
@@ -204,8 +197,7 @@
     margin-bottom: 3px;
     font-size: 15px;
     font-weight: bold;
-    color:#5c6754;
-
+    color: #5c6754;
 }
 
 .review-customer-detail-plus-wrap {
@@ -213,16 +205,13 @@
     color: #808080;
 }
 
-.review-customer-detail-door-password::before{
+.review-customer-detail-door-password::before {
     content: '|';
     padding: 0 10px;
     color: #707070;
 }
 
-
-
-
-.review-customer-detail-request-message{
+.review-customer-detail-request-message {
     margin-left: 24px;
     width: 211px;
     font-size: 15px;
@@ -262,19 +251,18 @@
 }
 
 .review-reason-submit-wrap {
-    margin:60px 0;
+    margin: 60px 0;
     flex-direction: column;
     align-items: center;
     display: inline-block;
     background-color: transparent;
-    border : 0;
+    border: 0;
     outline: 0;
 }
 
 .review-reason-submit-wrap:hover {
     cursor: pointer;
 }
-
 
 .review-reason-submit-text {
     margin-top: 10px;
@@ -283,59 +271,78 @@
     color: #5c6754;
 }
 
-.review-request-box{
-    background-color:#f8f8f8;
+.review-request-box {
+    background-color: #f8f8f8;
 }
 
-.review-request-title{
+.review-request-title {
     margin: 10px 4px 0 0;
     padding: 10px 17px;
 }
-.review-request-detail-request-message{
+.review-request-detail-request-message {
     padding: 10px 17px 20px 17px;
     font-size: 15px;
     font-weight: 300;
     color: #000000;
 }
 /* rating(평가) */
-.rating-box{
-    display:flex;
+.rating-box {
+    display: flex;
     flex-direction: column;
 }
 
-.rating-sub-box{
+.rating-sub-box {
     display: flex;
 }
-
-.face-rating{
-    display:flex;
-
+.face-rating,
+.face-rating ul {
+    display: flex;
+    margin: 0px;
 }
 
-
-.rating-title{
+.rating-title {
     font-size: 11px;
     font-weight: 500;
-    color:#5c6754;
-    width:67px;
-    height:41px;
+    color: #5c6754;
+    width: 67px;
+    height: 41px;
     background-color: #f8f8f8;
     text-align: center;
     line-height: 41px;
 }
 
-.face-rating-btn{
+.face-rating-btn {
     margin-left: 50px;
     margin-top: 5px;
 }
 
-.fresh:hover, .flavor:hover, .cheap:hover,
-.star-img:hover{
+.fresh:hover,
+.flavor:hover,
+.cheap:hover,
+.star-img:hover {
     cursor: pointer;
 }
 
-.none-display-rating{
-    display:none;
+.none-display-rating {
+    display: none;
+}
+
+#id_freshness_0,
+#id_freshness_1,
+#id_freshness_2 {
+    display: none;
+}
+
+#id_flavor_0,
+#id_flavor_1,
+#id_flavor_2 {
+    display: none;
+}
+
+#id_cost_performance_0,
+#id_cost_performance_1,
+#id_cost_performance_2 {
+    display: none;
 }
 
 /* 리뷰 박스 */
@@ -346,51 +353,47 @@
 }
 
 /* 총점(별점) */
-.start-title{
+.start-title {
     font-size: 15px;
     font-weight: 500;
-    color:#5c6754;
+    color: #5c6754;
     margin-bottom: 11px;
     margin-top: 24px;
 }
 
-.star-img{
+.star-img {
     margin-right: 7px;
     margin-left: 7px;
 }
 
-.starRating{
-    display:none;
+.starRating {
+    display: none;
 }
-
-
 
 /* 텍스트 박스 */
 .refund-reason-input-wrap {
     width: 325px;
     margin-top: 20px;
     height: auto;
-
 }
 
-.refund-reason-input {
+#id_text {
     width: 100%;
     height: 396px;
     padding: 21px 21px 20px 21px;
     background-color: #f8f8f8;
     border: none;
     resize: none;
-    font-size: 15px;  
+    font-size: 15px;
 }
 
-.refund-reason-input:focus {
+#id_text:focus {
     outline: none;
 }
 
-
 /* 사진 첨부 */
-.review-post-container{
-    position:relative;
+.review-post-container {
+    position: relative;
     text-align: center;
 }
 .refund-post-img {
@@ -445,7 +448,7 @@
 }
 
 /* button */
-.review-btn-box{
+.review-btn-box {
     text-align: center;
 }
 
@@ -491,14 +494,11 @@
         width: 100%;
     }
 
-    .face-rating-subbox{
+    .face-rating-subbox {
         width: 100%;
     }
 
-    .rating-title{
+    .rating-title {
         width: 60%;
     }
-
 }
-
-

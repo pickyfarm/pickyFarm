@@ -3,138 +3,101 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll_mobile.css' %}">
 <link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
-<style>
-    #title-wrap {
-        width: 840px;
-    }
-
-    #title {
-        font-size: 30px;
-        font-weight: 500;
-        color: #5c6754;
-        margin-bottom: 102px;
-    }
-
-    #farm {
-        line-height: 37px;
-        font-size: 18px;
-        font-weight: 500;
-        color: #707070;
-        margin-right: 22.8px;
-    }
-
-    #title-farm-name {
-        font-size: 25px;
-        font-weight: 500;
-        color: #5c6754;
-        margin-right: 14.6px;
-    }
-
-    #title-line {
-        flex-grow: 1;
-        height: 18px;
-        border-bottom: solid 1px rgba(94, 102, 86, 0.5);
-    }
-
-    #update-btn {
-        font-size: 34px;
-        font-weight: 500;
-        color: #5c6754;
-    }
-
-    [contenteditable] {
-        padding: 12px;
-    }
-
-    [data-placeholder]:empty:before {
-        content: attr(data-placeholder);
-        color: rgba(92, 103, 84, 0.5);
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail_mobile.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_info_update.css' %}">
 {% endblock stylesheet %}
 
 {% block title_name %}
-Farmer's page Update
+Farmer's page 정보 수정
 {% endblock title_name %}
 
 {% block main_content %}
 <div class="main-contents bg-white-400 mx-auto" id="top">
     <div class="text-center" id="title">Farmer's Page 정보 수정</div>
-    <div class="flex flex-row ml-10 mb-20" id="title-wrap">
-        <div id="farm">Farm</div>
-        <div id="title-farm-name">{{ farmer.farm_name }}</div>
+    <div class="md:flex md:flex-row md:ml-10 mb-20 justify-center items-center" id="title-wrap">
+        <div id="farm" class="text-center md:mr-5">Farm</div>
+        <div id="title-farm-name" class="text-center md:mr-3">{{ farmer.farm_name }}</div>
         <div id="title-line"></div>
     </div>
     <div id="content">
-        <form method="POST" onkeydown="return event.key != 'Enter';">
+        <form id="info-update-form" method="post" action="" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
             {% csrf_token %}
-            <!--농장 이름-->
-            <div class="input_forms grid">
-                {{ farm_form.farm_name.label_tag }}
-                {{ farm_form.farm_name }}
-            </div>
-            <!--프로필 사진 & 농장 사진-->
-            <div class="flex flex-row mb-11">
-                <div class='flex flex-col'>
-                    <div id="img_label" style="font-size: 15px;">{{ farm_form.farmer_profile.label_tag }}</div>
-                    <div class="" id="img_desc" style="font-size: 15px;">농부님의 사진을 올려주세요</div>
+            <div class="mx-auto" id="farmer-form-wrapper">
+                <!--농장 이름-->
+                <div class="input_forms grid">
+                    {{ farm_form.farm_name.label_tag }}
+                    {{ farm_form.farm_name }}
                 </div>
-                <div>
-                    <div class="filebox">
-                        <div class="default_img_1 mb-4" style="background-size:cover; background-position: center;
-                            background-image: url('{{ farmer.farmer_profile.url }}');">
+                <!--프로필 사진 & 농장 사진-->
+                <div class="flex flex-row mb-11 justify-between" id="image-upload-wrapper">
+                    <div class="flex flex-row">
+                        <div class='flex flex-col' id="farmer-profile-upload-wrapper">
+                            <div id="img_label">{{farm_form.farmer_profile.label_tag}}</div>
+                            <div class="mb-5" id="img_desc">농부님의 사진을 올려주세요</div>
+                            <div class="filebox">
+                                <div class="default_img_1 mb-4 mx-auto" style="background-image: url('{{ farmer.farmer_profile.url }}');"></div>
+                                <div class="text-center"><label for="id_farmer_profile">사진 변경</label></div>
+                                <div style="display: none;">{{farm_form.farmer_profile}}</div>
+                            </div>
                         </div>
-                        <div class="text-center"><label for="id_farmer_profile">사진 변경</label></div>
-                        {{farm_form.farmer_profile}}
+                        <div class='flex flex-col' id="farm-profile-upload-wrapper">
+                            <div id="img_label">{{farm_form.farm_profile.label_tag}}</div>
+                            <div class="mb-5" id="img_desc">농장로고나 대표사진을 올려주세요</div>
+                            <div class="filebox">
+                                <div class="default_img_2 mb-4 mx-auto" style="background-image: url('{{ farmer.farm_profile.url }}');"></div>
+                                <div class="text-center"><label for="id_farm_profile">사진 변경</label></div>
+                                <div style="display: none;">{{farm_form.farm_profile}}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class='flex flex-col'>
-                    <div id="img_label" style="font-size: 15px;">{{farm_form.farm_profile.label_tag}}</div>
-                    <div class="" id="img_desc" style="font-size: 15px;">농장로고나 대표사진을 올려주세요</div>
+                <!--농장 소개-->
+                <div class="input_forms grid">
+                    {{farm_form.profile_title.label_tag}}
+                    {{farm_form.profile_title}}
                 </div>
-                <div>
-                    <div class="filebox">
-                        <div class="default_img_2 mb-4" style="background-size:cover; background-position:center; 
-                            background-image: url('{{ farmer.farm_profile.url }}');">
+                <!--해시 태그-->
+                <div class="flex flex-row justify-between mb-3" id="hashtag-upload-wrapper">
+                    <div class="flex flex-col">
+                        <div id="cat_label">
+                            {{farm_form.farm_cat.label_tag}}
                         </div>
-                        <div class="text-center"><label for="id_farm_profile">사진 변경</label></div>
-                        {{farm_form.farm_profile}}
+                        <div class="text-left" id="hashtag-desc">
+                            * 최대 3개 입력 가능합니다
+                        </div>
                     </div>
+                    {{farm_form.farm_cat}}
+                </div>
+                <div class="flex gap-4" id="hashtag_wrap">
+                    <div class="hashtag-input-wrap flex flex-row">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" id="new_tag" name="farm_tag" value="{{tags.0}}" />
+                    </div>
+                    <div class="hashtag-input-wrap flex">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" id="new_tag" name="farm_tag" value="{{tags.1}}" />
+                    </div>
+                    <div class="hashtag-input-wrap flex">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" id="new_tag" name="farm_tag" value="{{tags.2}}" />
+                    </div>
+                    <input type="hidden" name="farm_tag[]" id="hashtag_list" value=''>
                 </div>
             </div>
-            <!--농장 소개-->
-            <div class="input_forms grid">
-                {{farm_form.profile_title.label_tag}}
-                {{farm_form.profile_title}}
-                {{farm_form.profile_desc.label_tag}}
-                {{farm_form.profile_desc}}
-            </div>
-            <!--해시 태그-->
-            <div class="flex flex-row">
-                <div class="flex flex-col">
-                    <div class="mr-6" id="cat_label" style="font-size: 15px; margin-bottom: 6px;">
-                        {{farm_form.farm_cat.label_tag}}</div>
-                    <div class="text-left" style="font-size: 12px; color: #b3b3b3; margin-left: 60.5px;">* 최대 3개 입력
-                        가능합니다</div>
-                </div>
-                {{farm_form.farm_cat}}
-            </div>
-            <div class="flex flex-row" id="hashtag_wrap">
-                <div class="flex flex-row items-center mr-5">
-                    <div class="input" role="textbox" contenteditable data-placeholder="# 직접입력" id="new_tag"
-                        onKeyDown="createHashtag()"></div>
-                </div>
-            </div>
-            <div class="flex flex-row ml-10 mb-20 mt-16" id="title-wrap">
-                <div id="title-farm-name">농가 페이지 미리보기</div>
+            <div class="horizon-bar" style="margin-bottom: 35px;"></div>
+            <div class="flex flex-row ml-10 mb-20 mt-16 items-center" id="title-wrap">
+                <div id="title-farm-name">나의 농가 페이지 미리보기</div>
                 <div id="title-line"></div>
             </div>
             <div class="p-4" id="sample_wrap">
                 {% include 'farmers/farmer_detail_sample.html' %}
             </div>
             <div class="text-center mt-28">
-                <img class="mx-auto" id="update_btn" src="{% static 'images/farm/update_btn.svg' %}" alt="">
+                <button type="submit" name="update_submit">
+                    <img class="mx-auto" id="update_btn" src="{% static 'images/farm/update_btn.svg' %}" alt="">
+                </button>
             </div>
         </form>
     </div>
@@ -149,26 +112,5 @@ Farmer's page Update
     update_btn.addEventListener('mouseout', function () {
         update_btn.setAttribute('src', "{% static 'images/farm/update_btn.svg' %}");
     })
-
-    var tagNum = 1;
-    var maxField = 3;
-    // var wrapper = document.getElementById('hashtag_wrap');
-    var wrapper = $('#hashtag_wrap');
-
-    function createHashtag() {
-        // var newTag = document.createElement("div");
-        if (event.keyCode === 13 && tagNum < maxField) {
-            tagNum++;
-            var newTag = `<div class="flex flex-row items-center mr-5"><div class="input mr-1" role="textbox" contenteditable data-placeholder="# 직접입력" id="new_tag"onKeyDown="createHashtag()"></div><img class="w-2 h-2" src="{% static 'images/farm/cancel.svg' %}" onClick="deleteHashtag(this)"></div >`
-            // newTag.setAttribute('class', 'input');
-            // newTag.setAttribute('role', 'textbox');
-            // newTag.setAttribute('contenteditable', 'true');
-            // newTag.setAttribute('data-placeholder', '# 직접입력');
-            // newTag.setAttribute('id', 'new_tag');
-            // newTag.setAttribute('onKeyDown', 'createHashtag()');
-            wrapper.append(newTag);
-        }
-    }
-
 </script>
 {% endblock main_content %}

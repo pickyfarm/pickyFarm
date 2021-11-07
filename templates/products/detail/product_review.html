@@ -140,14 +140,14 @@
                         <div class="text-left" style="width: 175px; border-right: solid 3px #999999;">
                             {{ comment.consumer.user.nickname }}</div>
                         <div class="text-center" style="width: 340px; border-right: solid 3px #999999; color:#989898;">
-                            {{ comment.create_at|date:"Y. m. d h:i" }}</div>
+                            {{ comment.create_at|date:"Y. m. d H:i" }}</div>
                         <div class="flex flex-row" id="report" style="margin-left:87.8px">
                             <img src="{% static 'images/report.svg' %}" alt="">
                             <div class="text-black text-opacity-40 pl-2">신고하기</div>
                         </div>
                     </div>
                     <div class="flex flex-row pb-5 items-center">
-                        <div class="text-black text-opacity-40 mr-16">{{ product.title }} 구매</div>
+                        <div class="text-black text-opacity-40 mr-16">{{ comment.product.title }} 구매</div>
                         <div id="stars" class='flex flex-row items-center'>
                             {% for i in comment.avg|rjust:comment.avg %}
                             <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}"
@@ -225,10 +225,10 @@
                                 </div>
                             </div>
                             <textarea type="text" class="recomment-input-box" name='{{comment.pk}}'></textarea>
-                            <button class="recomment-submit-button mx-auto"
+                            <button id="recomment-btn" class="recomment-submit-button mx-auto"
                                 onclick="recommentSubmit({{comment.pk}})">등록하기</button>
                         </div>
-                        <div class="horizon-bar mx-auto"></div>
+                        <div id="horizon-bar1" class="horizon-bar mx-auto"></div>
                         {% endif %}
                         {% for recomment in comment.product_recomments.all %}
                         <div class="recomment relative" name={{recomment.pk}}>
@@ -291,7 +291,7 @@
         {% endfor %}
         {% endif %}
     </div>
-    <div class="flex justify-between w-36 mx-auto mb-40">
+    <div id="paginator" class="flex justify-between w-36 mx-auto mb-40">
         {% if comments.has_previous %}
             <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
             <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{comments.previous_page_number}}' style="cursor: pointer">
@@ -334,7 +334,17 @@
     // for pagination with AJAX
     PAGINATION_URL = `comment_ajax/?page=`
     PAGINATION_SECTION = '#comments-wrapper'
+
+    // 모바일에서 버튼 이름 변경
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        const recommentBtn = document.querySelectorAll('#recomment-btn');
+        
+        for(let i=0; i< recommentBtn.length ; i++){
+            recommentBtn[i].innerText = "댓글작성";
+        }
+    }
 </script>
+<script src="{% static 'js/comment/Components/Comment.js' %}"></script>
 <script src="{% static 'js/products/comment_submit.js' %}"></script>
 <script src="{% static 'js/products/comment_edit.js' %}"></script>
 <script src="{% static 'js/products/comment_delete.js' %}"></script>
