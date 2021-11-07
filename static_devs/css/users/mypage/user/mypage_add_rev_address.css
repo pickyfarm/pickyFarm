@@ -34,6 +34,10 @@
   #leaf{
     width:36.2px;
   }
+
+  #leaf_mobile {
+    display: none;
+  }
   
   #full-address-section{
     margin-top:80px;
