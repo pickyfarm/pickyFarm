@@ -228,6 +228,11 @@
                         <input type="radio" name="payment_type" value="kakao" id="id_payment_type_1"> 카카오페이
                     </label>
                 </li>
+                <li>
+                    <label for="id_payment_type_1" class="mr-2">
+                        <input type="radio" name="payment_type" value="vbank" id="id_payment_type_2"> 계좌이체
+                    </label>
+                </li>
             </ul>
         </div>
     </div>
@@ -473,7 +478,45 @@
             console.log(data);
         }).ready(function (data) {
             // 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
-            console.log(data);
+            sendData = {
+                'rev_name': revName,
+                'rev_phone_number': revPhoneNumber,
+                'rev_address': revAddress,
+                'rev_loc_at': revLocAt,
+                'rev_message': revMessage,
+                'to_farm_message': toFarmMessage,
+                'payment_type': paymentType,
+                'total_price': totalPrice,
+                'order_group_pk' : '{{order_group_pk}}'
+                'v_bank' : data['bankname'],
+                'v_bank_account' : data['account'],
+                'v_bank_account_holder' : data['accounthodler'],
+                'v_bank_expire_date' : data['expiredate']
+            }
+
+            let form = document.createElement("form")
+            form.setAttribute("method", "post")
+            form.setAttribute("action", "{% url 'orders:vbank_progess' %}")
+
+            for (let key in sendData) {
+                let hiddenField = document.createElement('input')
+                hiddenField.setAttribute('type', 'hidden')
+                hiddenField.setAttribute('name', key)
+                hiddenField.setAttribute('value', data[key])
+
+                form.appendChild(hiddenField)
+            }
+           
+            let csrfHiddenField = document.createElement('input')
+            csrfHiddenField.setAttribute('type', 'hidden')
+            csrfHiddenField.setAttribute('name', 'csrfmiddlewaretoken')
+            csrfHiddenField.setAttribute('value', csrftoken)
+
+            form.appendChild(csrfHiddenField)
+            document.body.appendChild(form)
+            form.submit()
+
+            
         }).confirm(function (data) {
             //결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
             //주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
