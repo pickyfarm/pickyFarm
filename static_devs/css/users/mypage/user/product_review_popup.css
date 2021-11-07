@@ -45,7 +45,8 @@
     color: #5c6754;
 }
 
-.review-date {
+.review-date,
+.comment-detail-title {
     font-size: 16px;
     font-weight: 500;
     color: #4d4d4d;

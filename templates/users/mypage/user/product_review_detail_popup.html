@@ -95,6 +95,49 @@
                     {% endfor %}
                 </div>
             </div>
+            {% for recomment in review.product_recomments.all %}
+            <div class="recomment relative w-full" name={{recomment.pk}}>
+                <div class="flex items-center recomment-info">
+                    <div class="recomment-arrow"></div>
+                    <div class="recomment-author flex items-center">
+                        <img src="{{recomment.author.profile_image.url}}" class="comment-author--profile-image">
+                        <div class="comment-author--id">{{recomment.author.nickname}}</div>
+                    </div>
+                    <div class="bar"></div>
+                    <div class="comment-create text-center recomment-create">
+                        {{recomment.create_at|date:"Y. m.d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recomment.create_at|date:"H : i"}}
+                    </div>
+                    <div class="bar"></div>
+                    <div class="recomment-report flex items-center ml-auto">
+                        <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
+                            alt="">
+                        <div class="comment-report--report button">신고하기</div>
+                    </div>
+                </div>
+                <div class="absolute recomment-like-button-wrap button">
+                    <div class="recomment-like-button relative"
+                        style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
+                        <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
+                    </div>
+                </div>
+                <div class="recomment-content flex flex-col">
+                    <div class="recomment-text">
+                        <div class="recomment-text--text">{{recomment.text}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="horizon-bar mx-auto"></div>
+        {% endfor %}
+        <div class="comment-detail-title mt-20">댓글 달기</div>
+            <form class="mt-10" action="" method="POST">
+                {% csrf_token %}
+                <div class="mb-1">{{recomment_form}}</div>
+                <div class="text-center py-5" id="answer-submit-button-wrap">
+                    <button type="submit" id="answer-submit-button">
+                        <img id="answer-submit--img" src="{% static 'images/farmer_mypage/check_nohover.svg' %}" alt="">
+                    </button>
+                </div>
+            </form>
 		</div>
     </div>
 </body>
