@@ -11,6 +11,7 @@ class Order_Group(models.Model):
 
     STATUS = (
         ("wait", "결제대기"),
+        ("wait_vbank", "결제대기(가상계좌)")
         ("payment_complete", "결제완료"),
         ("cancel", "결제취소"),
         ("error_stock", "결제오류(재고부족)"),
