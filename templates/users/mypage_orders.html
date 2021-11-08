@@ -84,6 +84,8 @@
         {% elif detail.status == 're_ex_deny' %}
         <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
         <div>환불/교환 거절</div>
+        {% elif detail.status == 'wait' and detail.order_group.status == 'wait_vbank' %}
+        <div>입금 대기</div>
         {% endif %}
 
       </div>
@@ -135,6 +137,13 @@
           </a>
         </div>
         {% endif %}
+
+        {% if detail.status == 'wait' and detail.order_group.status == 'wait_vbank' %}
+        <div id="vbank_confirm_btn" class="transition_element" onclick="window.open('{% url 'user:vbank_account_confirm' detail.order_group.pk %}')">
+          <a>가상계좌 확인</a>
+        </div>
+        {% endif %}
+          
       </div>
     </div>
   </div>

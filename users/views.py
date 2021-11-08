@@ -1,7 +1,7 @@
 from comments.forms import ProductCommentForm
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from orders.models import Order_Detail
+from orders.models import Order_Detail, Order_Group
 from django.db.models import Count
 from django.utils import timezone
 from django.utils.timezone import get_current_timezone, localtime
@@ -1267,6 +1267,14 @@ class productCommentDetail(TemplateView):
             )
 
             return redirect("core:popup_callback")
+
+
+def vbank_account_confirm(request, grouppk):
+    order_group = Order_Group.objects.get(pk=grouppk)
+    ctx = {
+        "order_group": order_group,
+    }
+    return render(request, "orders/vbank/vbank_info.html", ctx)
 
 
 def product_refund(request):
