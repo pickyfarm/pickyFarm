@@ -592,6 +592,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
     order_group.receipt_number = receipt_id
 
     for detail in order_details:
+        product = detail.product
         detail.status = "payment_complete"
         detail.payment_status = "incoming"  # 정산상태 정산예정으로 변경
         detail.save()
@@ -922,7 +923,6 @@ def vbank_progess(request):
                 print(detail.product.title + "재고 부족")
             else:
                 # 재고가 있는 경우 재고 차감
-                detail.product.stock -= detail.quantity
                 detail.product.sold(detail.quantity)
                 detail.save()
 
@@ -1044,11 +1044,9 @@ def vbank_progess(request):
 
 @csrf_exempt
 def vbank_deposit(request):
-    receipt_id = request.POST.get("receipt_id")
-    print(request.POST.lists())
-    print(f"====receipt id : {receipt_id} ===")
-    method = request.POST.get("method")
-    status = int(request.POST.get("status", "0"))
+    receipt_id = json.loads(request.body)["receipt_id"]
+    method = json.loads(request.body)["method"]
+    status = int(json.loads(request.body)["status"])
 
     order_group = Order_Group.objects.get(receipt_number=receipt_id)
     if order_group.payment_type == "vbank":
@@ -1062,7 +1060,7 @@ def vbank_deposit(request):
             for detail in order_group.order_details.all():
                 detail.product.sold(-detail.quantity)
 
-    return HttpResponse("OK")
+    return HttpResponse("OK", content_type="text/plain")
 
 
 def vbank_template_test(request):
