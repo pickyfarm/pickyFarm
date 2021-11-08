@@ -19,8 +19,8 @@
         <div class="order-payment-success-information-lists-wrap">
             <div class="order-payment-success-vbank-information-account-wrap flex">
                 <div class="order-payment-success-vbank-information-account-title"> 계좌정보 </div>
-                <div class="order-payment-success-vbank-information-account flex"> 
-                    <div class="order-payment-success-vbank-information-account-bank">국민은행 60519014678208</div> 
+                <div class="order-payment-success-vbank-information-account flex">
+                    <div class="order-payment-success-vbank-information-account-bank">국민은행 60519014678208</div>
                     <div class="order-payment-success-vbank-information-account-holder">예금주 : 주식회사 아임웹</div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <div class="order-payment-success-information-wrap">
+    {% comment %} <div class="order-payment-success-information-wrap">
         <div class="order-payment-success-information-title"> 주문 상품 정보 </div>
         <div class="order-payment-success-information-border"></div>
         <div class="order-payment-success-information-lists-wrap">
@@ -179,13 +179,14 @@
         </div>
     </div>
     <div class="order-payment-success-confirm-btn-section flex">
-        <a class="order-payment-success-confirm-btn-anchor" href="#"> <!-- 추후 링크 연결 필요 -->
+        <a class="order-payment-success-confirm-btn-anchor" href="#">
+            <!-- 추후 링크 연결 필요 -->
             <div class="order-payment-success-confirm-btn transition_element flex"> 확인 </div>
         </a>
-    </div>
+    </div> {% endcomment %}
 </div>
 
-{% endblock main_content %} 
+{% endblock main_content %}
 {% block mypage_base_script_section %}
 <script></script>
 {% endblock %}

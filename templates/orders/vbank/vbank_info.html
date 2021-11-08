@@ -1,0 +1,29 @@
+{% load static %} {% load humanize %} {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/orders/vbank/payment_success_vbank.css' %}" />
+{% endblock stylesheet %}
+
+<div class="order-payment-success-subtitle text-center">
+    <p>아래의 가상계좌로 입금해 주시면 정상적으로</p>
+    <p><b>결제 완료</b> 처리가 됩니다.</p>
+</div>
+<div class="order-payment-success-vbank-section">
+    <div class="order-payment-success-vbank-information-title"> 가상계좌 정보</div>
+    <div class="order-payment-success-information-border"></div>
+    <div class="order-payment-success-information-lists-wrap">
+        <div class="order-payment-success-vbank-information-account-wrap flex">
+            <div class="order-payment-success-vbank-information-account-title"> 계좌정보 </div>
+            <div class="order-payment-success-vbank-information-account flex">
+                <div class="order-payment-success-vbank-information-account-bank">국민은행 60519014678208</div>
+                <div class="order-payment-success-vbank-information-account-holder">예금주 : 주식회사 아임웹</div>
+            </div>
+        </div>
+        <div class="order-payment-success-vbank-information-price-wrap flex">
+            <div class="order-payment-success-vbank-information-price-title"> 결제금액 </div>
+            <div class="order-payment-success-vbank-information-price"> 000,000원 </div>
+        </div>
+        <div class="order-payment-success-vbank-information-duration-wrap flex">
+            <div class="order-payment-success-vbank-information-duration-title"> 입금기간 </div>
+            <div class="order-payment-success-vbank-information-duration"> 2021-01-01 17:17 까지 </div>
+        </div>
+    </div>
+</div>
