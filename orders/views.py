@@ -242,7 +242,7 @@ def payment_create(request):
                         # total_delivery_fee += (int)(
                         #     quantity / product.additional_delivery_fee_unit
                         # ) * product.additional_delivery_fee
-            
+
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
             is_jeju_mountain = check_address_by_zipcode(int(consumer.default_address.zipcode))
 
@@ -256,7 +256,7 @@ def payment_create(request):
             # total_delivery_fee 에 order_detail delivery_fee 더하기
             total_delivery_fee += delivery_fee
             # 제주 산간이 아니면 total_delivery_fee에 안더하기
-            
+
             # order_detail 구매 수량
             total_quantity += quantity
             # order_detail 구매 총액
@@ -267,7 +267,7 @@ def payment_create(request):
                 status="wait",
                 quantity=quantity,
                 commision_rate=product.commision_rate,
-                total_price= delivery_fee + total_price,
+                total_price=delivery_fee + total_price,
                 product=product,
                 order_group=order_group,
             )
@@ -745,6 +745,7 @@ class priceMatchError(Exception):
     def __str__(self):
         return "클라이언트 요청 금액과 DB에 저장된 금액이 일치하지 않습니다."
 
+
 class stockLackError(Exception):
     def __str__(self):
         return "재고가 부족합니다."
@@ -785,7 +786,6 @@ def vbank_progess(request):
         farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
         farmers_info_len = len(farmers_info)
 
-
         # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
         client_total_price = int(request.POST.get("total_price"))
         try:
@@ -803,19 +803,16 @@ def vbank_progess(request):
                 detail.save()
             order_group.save()
             return redirect(
-                    reverse(
-                        "orders:payment_fail",
-                        kwargs={
-                            "errorType": "error_price_match",
-                            "orderGroupPk": order_group_pk,
-                        },
-                    )
+                reverse(
+                    "orders:payment_fail",
+                    kwargs={
+                        "errorType": "error_price_match",
+                        "orderGroupPk": order_group_pk,
+                    },
                 )
-
-
+            )
 
         # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
-        
 
         # 모든 주문 상품 재고량 확인 태그
         valid = True
@@ -839,7 +836,6 @@ def vbank_progess(request):
 
         print(invalid_products)
 
-
         try:
             # 재고가 없어서 valid가 False인경우 Exception 발생
             if valid is False:
@@ -860,16 +856,15 @@ def vbank_progess(request):
             }
 
             return redirect(
-                    reverse(
-                        "orders:payment_fail",
-                        kwargs={
-                            "errorType": "error_stock",
-                            "errorMsg" : (str)(invalid_products) + "의 재고가 부족합니다",
-                            "orderGroupPk": order_group_pk,
-                        },
-                    )
+                reverse(
+                    "orders:payment_fail",
+                    kwargs={
+                        "errorType": "error_stock",
+                        "errorMsg": (str)(invalid_products) + "의 재고가 부족합니다",
+                        "orderGroupPk": order_group_pk,
+                    },
                 )
-
+            )
 
         # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
@@ -882,15 +877,15 @@ def vbank_progess(request):
             rev_message = request.POST.get("rev_message")
             to_farm_message = request.POST.get("to_farm_message")
             payment_type = request.POST.get("payment_type")
-            
+
             # 가상계좌 관련 정보
             v_bank = request.POST.get("v_bank")
             v_bank_account = request.POST.get("v_bank_account")
             v_bank_account_holder = request.POST.get("v_bank_account_holder")
             v_bank_expire_date = request.POST.get("v_bank_expire_date")
             # 가상계좌 입금 마감 기한 datetime 변환
-            v_bank_expire_date = timezone.datetime.strftime(v_bank_expire_date, '%Y-%m-%d %H:%M:%S')
-            print(f'-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------')
+            v_bank_expire_date = timezone.datetime.strftime(v_bank_expire_date, "%Y-%m-%d %H:%M:%S")
+            print(f"-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------")
 
             print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
 
@@ -914,7 +909,6 @@ def vbank_progess(request):
 
             order_group.save()
 
-            
             # !!!!!!(추가 필요) 카카오 알림톡 전송 (가상 계좌 안내) !!!!!!
 
             ctx = {
@@ -929,9 +923,11 @@ def vbank_progess(request):
 
             return render(request, "orders/payment_success.html", ctx)
 
-            
+
 def vbank_template_test(request):
-    return render(request, 'orders/vbank/payment_success_vbank.html')
+    # return render(request, 'orders/vbank/payment_success_vbank.html')
+    return render(request, "orders/vbank/vbank_confirm.html")
+
 
 # 주문/결제 완료 프론트단을 작업하기 위한 임시 view
 # def temporary_payment_success(request):
@@ -1013,9 +1009,6 @@ def order_cancel(request, pk):
 
     else:
         return redirect(reverse("core:main"))
-
-
-
 
 
 @login_required

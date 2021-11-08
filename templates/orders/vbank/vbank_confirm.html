@@ -8,7 +8,7 @@
 {% endblock stylesheet %} {% block main_content %}
 
 <div class="order-payment-success-container mx-auto flex">
-    <div class="order-payment-success-title flex">주문 완료</div>
+    <div class="order-payment-success-title flex">가상계좌 확인</div>
     <div class="order-payment-success-subtitle text-center">
         <p>아래의 가상계좌로 입금해 주시면 정상적으로</p>
         <p><b>결제 완료</b> 처리가 됩니다.</p>
@@ -114,68 +114,6 @@
                 <div class="order-payment-success-customer-address-information-etc-title"> 특이사항 </div>
                 <div class="order-payment-success-customer-address-information-etc"> {{order_group.rev_loc_detail}} </div>
             </div>
-        </div>
-    </div>
-
-    <div class="order-payment-success-appreciate-message-section">
-        <div class="order-payment-success-appreciate-message-title"> 농가가 전하는 구매 감사 메시지 </div>
-        <div class="order-payment-success-information-border"></div>
-
-        <div class="order-payment-success-appreciate-message-card-section-container flex">
-            <!-- 여기서부터 구독하지 않은 농장 정보 -->
-            {% for farmer in unsub_farmers %}
-            <div class="order-payment-success-unsubfarmer-appreciate-message-card-section">
-                <div class="order-payment-success-unsubfarmer-appreciate-message-card-wrap flex">
-                    <div class="order-payment-success-unsubfarmer-card-photo-section relative">
-                        <img class="order-payment-success-unsubfarmer-card-photo-circle" src="{{farmer.farmer_profile.url}}" />
-                        <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn absolute" src="{% static 'images/orders/subscribe_add.svg' %}" alt="subscribe_add" />
-                    </div>
-                    <div class="order-payment-success-unsubfarmer-card-photo-section2">
-                        <div class="order-payment-success-unsubfarmer-card-farm-name"> {{farmer.farm_name}} </div>
-                        <div class="order-payment-success-unsubfarmer-card-farmer-name"> {{farmer.farmer_name}} </div>
-                        <div class="order-payment-success-unsubfarmer-card-message-text"> {{farmer.farm_thanks_msg}} </div>
-                        <a class="order-payment-success-unsubfarmer-card-farm-link-section-anchor" href="#">
-                            <div class="order-payment-success-unsubfarmer-card-farm-link-section transition_element flex">
-                                <div class="order-payment-success-unsubfarmer-card-farm-link-title"> 농가 페이지 방문하기 </div>
-                                <a class="order-payment-success-unsubfarmer-card-farm-link-btn" href="{% url 'farmers:farmer_detail' farmer.pk %}">
-                                    <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow" src="{% static 'images/orders/arrow.svg' %}" alt="arrow" />
-                                    <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow-mobile" src="{% static 'images/orders/visit_farmer_page.svg' %}" alt="visit_farmer_page" />
-                                </a>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            <!-- 여기까지 구독하지 않은 농장 정보 -->
-            <!-- 여기서부터 구독한 농장 정보 -->
-            {% for farmer in sub_farmers %}
-            <div class="order-payment-success-subfarmer-appreciate-message-card-section">
-                <div class="order-payment-success-subfarmer-appreciate-message-card-wrap flex">
-                    <div class="order-payment-success-subfarmer-card-photo-section relative">
-                        <div class="order-payment-success-subfarmer-card-photo-section relative">
-                            <img class="order-payment-success-subfarmer-card-photo-circle" src="{{farmer.farmer_profile.url}}" />
-                            <img class="transition_element order-payment-success-subfarmer-card-photo-subscribe-btn absolute" src="{% static 'images/orders/subscribe.svg' %}" alt="subscribe" />
-                        </div>
-                    </div>
-                    <div class="order-payment-success-subfarmer-card-photo-section2">
-                        <div class="order-payment-success-subfarmer-card-farm-name"> {{farmer.farm_name}} </div>
-                        <div class="order-payment-success-subfarmer-card-farmer-name"> {{farmer.farmer_name}} </div>
-                        <div class="order-payment-success-subfarmer-card-message-text"> {{farmer.farm_thanks_msg}} </div>
-                        <a class="order-payment-success-subfarmer-card-farm-link-section-anchor" href="#">
-                            <a class="order-payment-success-subfarmer-card-farm-link-section flex" href="{% url 'farmer:farmer_detail' farmer.pk %}">
-                                <div class="order-payment-success-subfarmer-card-farm-link-title"> 농가 페이지 방문하기 </div>
-                                <div class="order-payment-success-subfarmer-card-farm-link-btn">
-                                    <img class="order-payment-success-subfarmer-card-farm-link-btn-arrow" src="{% static 'images/orders/arrow.svg' %}" alt="arrow" />
-                                    <img class="order-payment-success-subfarmer-card-farm-link-btn-arrow-mobile" src="{% static 'images/orders/visit_farmer_page.svg' %}" alt="visit_farmer_page" />
-                                </div>
-                            </a>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            <!-- 여기까지 구독한 농장 정보 -->
         </div>
     </div>
     <div class="order-payment-success-confirm-btn-section flex">
