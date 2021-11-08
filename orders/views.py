@@ -970,6 +970,7 @@ def vbank_progess(request):
             v_bank_account = request.POST.get("v_bank_account")
             v_bank_account_holder = request.POST.get("v_bank_account_holder")
             v_bank_expire_date_str = request.POST.get("v_bank_expire_date")
+            receipt_id = request.POST.get("receipt_id")
             print(f"--------vbank : {v_bank} account : {v_bank_account}---------")
             # 가상계좌 입금 마감 기한 datetime 변환
             v_bank_expire_date = datetime.strptime(
@@ -996,6 +997,7 @@ def vbank_progess(request):
             order_group.v_bank_account = v_bank_account
             order_group.v_bank_account_holder = v_bank_account_holder
             order_group.v_bank_expire_date = v_bank_expire_date
+            order_group.receipt_number = receipt_id
 
             order_group.order_at = timezone.now()
 
