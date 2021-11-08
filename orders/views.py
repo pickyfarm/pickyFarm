@@ -966,13 +966,9 @@ def vbank_progess(request):
             }
 
             return redirect(
-                f'{reverse(
-                    "orders:payment_fail"
-                )}?errorType=error_stock&orderGroupPK={order_group_pk}&errorMsg={(str)(invalid_products)}의 재고가 부족합니다'
+                f'{reverse("orders:payment_fail")}?errorType="error_stock"&orderGroupPK={order_group_pk}&errorMsg="{(str)(invalid_products)}의 재고가 부족합니다"'
             )
 
-
-            
         # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
             print(f"--------재고 확인 성공 ---------")
