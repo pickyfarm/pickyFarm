@@ -1044,6 +1044,7 @@ def vbank_progess(request):
 @csrf_exempt
 def vbank_deposit(request):
     receipt_id = request.POST.get("receipt_id")
+    print(f"====receipt id : {receipt_id} ===")
     method = request.POST.get("method")
     status = int(request.POST.get("status", "0"))
 
