@@ -1,22 +1,43 @@
 {% extends "base/base.html" %} {% load static %} {% load humanize %} {% block stylesheet %}
-<!-- <link rel="stylesheet" href="{% static 'css/products/create_question.css' %}"> -->
 <link rel="stylesheet" href="{% static 'css/orders/payment_success.css' %}" />
 <link rel="stylesheet" href="{% static 'css/orders/payment_success_mobile.css' %}" />
+<link rel="stylesheet" href="{% static 'css/orders/vbank/payment_success_vbank.css' %}" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 {% endblock stylesheet %} {% block main_content %}
 
 <div class="order-payment-success-container mx-auto flex">
-    {% if order_group.payment_type == 'vbank' %}
-    {% include "orders/vbank/vbank_info.html" %}
-    {% endif %}
-    <div class="order-payment-success-title flex">주문 / 결제 완료</div>
-    <div class="order-payment-success-information-wrap">
+    <div class="order-payment-success-title flex">주문 완료</div>
+    <div class="order-payment-success-subtitle text-center">
+        <p>아래의 가상계좌로 입금해 주시면 정상적으로</p>
+        <p><b>결제 완료</b> 처리가 됩니다.</p>
+    </div>
+    <div class="order-payment-success-vbank-section">
+        <div class="order-payment-success-vbank-information-title"> 가상계좌 정보</div>
+        <div class="order-payment-success-information-border"></div>
+        <div class="order-payment-success-information-lists-wrap">
+            <div class="order-payment-success-vbank-information-account-wrap flex">
+                <div class="order-payment-success-vbank-information-account-title"> 계좌정보 </div>
+                <div class="order-payment-success-vbank-information-account flex">
+                    <div class="order-payment-success-vbank-information-account-bank">국민은행 60519014678208</div>
+                    <div class="order-payment-success-vbank-information-account-holder">예금주 : 주식회사 아임웹</div>
+                </div>
+            </div>
+            <div class="order-payment-success-vbank-information-price-wrap flex">
+                <div class="order-payment-success-vbank-information-price-title"> 결제금액 </div>
+                <div class="order-payment-success-vbank-information-price"> 000,000원 </div>
+            </div>
+            <div class="order-payment-success-vbank-information-duration-wrap flex">
+                <div class="order-payment-success-vbank-information-duration-title"> 입금기간 </div>
+                <div class="order-payment-success-vbank-information-duration"> 2021-01-01 17:17 까지 </div>
+            </div>
+        </div>
+    </div>
+    {% comment %} <div class="order-payment-success-information-wrap">
         <div class="order-payment-success-information-title"> 주문 상품 정보 </div>
         <div class="order-payment-success-information-border"></div>
         <div class="order-payment-success-information-lists-wrap">
-            <!-- 여기서부터 for문 돌리면 됨 -->
             {% for order in order_details %}
             <div class="order-payment-success-information-list-wrap">
                 <div class="order-payment-success-information-list flex">
@@ -52,7 +73,6 @@
             </div>
             <div class="order-payment-success-information-list-border-bottom"></div>
             {% endfor %}
-            <!-- 여기까지 for문 돌리면 됩니다. -->
         </div>
     </div>
     <div class="order-payment-success-amount-wrap flex">
@@ -108,17 +128,6 @@
                 <div class="order-payment-success-unsubfarmer-appreciate-message-card-wrap flex">
                     <div class="order-payment-success-unsubfarmer-card-photo-section relative">
                         <img class="order-payment-success-unsubfarmer-card-photo-circle" src="{{farmer.farmer_profile.url}}" />
-                        <!-- <div class="order-payment-success-unsubfarmer-card-photo-wrap">
-                                <img class="order-payment-success-unsubfarmer-card-photo"
-                                     src="{% static 'images/orders/farmer_photo.svg' %}"
-                                     alt="farmer_photo" />
-                            </div>
-                            <div class="order-payment-success-unsubfarmer-card-photo-subscribe-wrap">
-                                <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn"
-                                     src="{% static 'images/orders/subscribe_add.svg' %}"
-                                     alt="subscribe_add" />
-                            </div> -->
-
                         <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn absolute" src="{% static 'images/orders/subscribe_add.svg' %}" alt="subscribe_add" />
                     </div>
                     <div class="order-payment-success-unsubfarmer-card-photo-section2">
@@ -146,17 +155,6 @@
                     <div class="order-payment-success-subfarmer-card-photo-section relative">
                         <div class="order-payment-success-subfarmer-card-photo-section relative">
                             <img class="order-payment-success-subfarmer-card-photo-circle" src="{{farmer.farmer_profile.url}}" />
-                            <!-- <div class="order-payment-success-unsubfarmer-card-photo-wrap">
-                                    <img class="order-payment-success-unsubfarmer-card-photo"
-                                         src="{% static 'images/orders/farmer_photo.svg' %}"
-                                         alt="farmer_photo" />
-                                </div>
-                                <div class="order-payment-success-unsubfarmer-card-photo-subscribe-wrap">
-                                    <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn"
-                                         src="{% static 'images/orders/subscribe_add.svg' %}"
-                                         alt="subscribe_add" />
-                                </div> -->
-
                             <img class="transition_element order-payment-success-subfarmer-card-photo-subscribe-btn absolute" src="{% static 'images/orders/subscribe.svg' %}" alt="subscribe" />
                         </div>
                     </div>
@@ -181,12 +179,14 @@
         </div>
     </div>
     <div class="order-payment-success-confirm-btn-section flex">
-        <a class="order-payment-success-confirm-btn-anchor" href="{% url 'products:store_list' %}">
+        <a class="order-payment-success-confirm-btn-anchor" href="#">
+            <!-- 추후 링크 연결 필요 -->
             <div class="order-payment-success-confirm-btn transition_element flex"> 확인 </div>
         </a>
-    </div>
+    </div> {% endcomment %}
 </div>
 
-{% endblock main_content %} {% block mypage_base_script_section %}
+{% endblock main_content %}
+{% block mypage_base_script_section %}
 <script></script>
 {% endblock %}

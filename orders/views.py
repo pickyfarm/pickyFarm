@@ -95,7 +95,9 @@ def create_order_detail_management_number(pk, farmer_id):
     else:
         day = str(day)
 
-    order_detail_management_number = str(year) + month + day + "_" + str(pk) + "_" + farmer_id
+    order_detail_management_number = (
+        str(year) + month + day + "_" + str(pk) + "_" + farmer_id
+    )
     return order_detail_management_number
 
 
@@ -124,7 +126,9 @@ def changeAddressAjax(request):
                 order_group.is_jeju_mountain = True
                 for detail in order_group.order_details.all():
                     # order_detail 에 제주산간 추가 배송비 더하기
-                    detail.total_price += detail.product.jeju_mountain_additional_delivery_fee
+                    detail.total_price += (
+                        detail.product.jeju_mountain_additional_delivery_fee
+                    )
                     # fee_to_add에 제주산간 추가 배송비 더하기
                     fee_to_add += detail.product.jeju_mountain_additional_delivery_fee
                     detail.save()
@@ -136,10 +140,14 @@ def changeAddressAjax(request):
                 order_group.is_jeju_mountain = False
                 for detail in order_group.order_details.all():
                     # order_detail 에 제주산간 추가 배송비 차감
-                    detail.total_price -= detail.product.jeju_mountain_additional_delivery_fee
+                    detail.total_price -= (
+                        detail.product.jeju_mountain_additional_delivery_fee
+                    )
                     # fee_to_add 에 제주산간 추가 배송비 빼기
                     fee_to_add -= detail.product.jeju_mountain_additional_delivery_fee
-                    print(f"!!!!!!!1빼기 시전 : {detail.product.jeju_mountain_additional_delivery_fee}")
+                    print(
+                        f"!!!!!!!1빼기 시전 : {detail.product.jeju_mountain_additional_delivery_fee}"
+                    )
                     detail.save()
         print(f"fee to add : {fee_to_add}")
         # order_group total_price에 fee_to_add
@@ -191,7 +199,9 @@ def payment_create(request):
         order_group_pk = order_group.pk
 
         # [PROCESS 2] order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
-        order_group_management_number = create_order_group_management_number(order_group_pk)
+        order_group_management_number = create_order_group_management_number(
+            order_group_pk
+        )
 
         # [PROCESS 3] Order_Group 주문 번호 저장 (결제 단위 구별용 - BootPay 전송)
         order_group.order_management_number = order_group_management_number
@@ -242,9 +252,11 @@ def payment_create(request):
                         # total_delivery_fee += (int)(
                         #     quantity / product.additional_delivery_fee_unit
                         # ) * product.additional_delivery_fee
-            
+
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
-            is_jeju_mountain = check_address_by_zipcode(int(consumer.default_address.zipcode))
+            is_jeju_mountain = check_address_by_zipcode(
+                int(consumer.default_address.zipcode)
+            )
 
             print("is jeju: ", is_jeju_mountain)
             # 제주 산간이면 total_delivery_fee에 더하기
@@ -256,7 +268,7 @@ def payment_create(request):
             # total_delivery_fee 에 order_detail delivery_fee 더하기
             total_delivery_fee += delivery_fee
             # 제주 산간이 아니면 total_delivery_fee에 안더하기
-            
+
             # order_detail 구매 수량
             total_quantity += quantity
             # order_detail 구매 총액
@@ -267,7 +279,7 @@ def payment_create(request):
                 status="wait",
                 quantity=quantity,
                 commision_rate=product.commision_rate,
-                total_price= delivery_fee + total_price,
+                total_price=delivery_fee + total_price,
                 product=product,
                 order_group=order_group,
             )
@@ -404,7 +416,9 @@ def payment_update(request, pk):
             to_farm_message = request.POST.get("to_farm_message")
             payment_type = request.POST.get("payment_type")
 
-            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
+            print(
+                rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
+            )
 
             print(order_group)
             # 배송 정보 order_group에 업데이트
@@ -582,7 +596,9 @@ def payment_valid(request):
                     farmer.user.phone_number,
                 )
             )
-            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
+            if Subscribe.objects.filter(
+                consumer=order_group.consumer, farmer=farmer
+            ).exists():
                 subscribed_farmers.append(farmer)
             else:
                 unsubscribed_farmers.append(farmer)
@@ -648,8 +664,10 @@ def payment_valid(request):
                         )
 
                         # order_management_number 인코딩
-                        url_encoded_order_detail_number = url_encryption.encode_string_to_url(
-                            detail.order_management_number
+                        url_encoded_order_detail_number = (
+                            url_encryption.encode_string_to_url(
+                                detail.order_management_number
+                            )
                         )
 
                         args_farmer = {
@@ -727,7 +745,9 @@ def payment_valid(request):
                 for detail in order_details:
                     detail.status = "error_server"
                     detail.save()
-                ctx = {"cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"}
+                ctx = {
+                    "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
+                }
                 return redirect(
                     reverse(
                         "orders:payment_fail",
@@ -739,6 +759,200 @@ def payment_valid(request):
                 )
 
     return HttpResponse("잘못된 접근입니다", status=400)
+
+
+class priceMatchError(Exception):
+    def __str__(self):
+        return "클라이언트 요청 금액과 DB에 저장된 금액이 일치하지 않습니다."
+
+
+class stockLackError(Exception):
+    def __str__(self):
+        return "재고가 부족합니다."
+
+
+@login_required
+@require_POST
+def vbank_progess(request):
+
+    consumer = request.user.consumer
+
+    if request.method == "POST":
+        # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
+        order_group_pk = int(request.POST.get("order_group_pk"))
+        order_group = Order_Group.objects.get(pk=order_group_pk)
+        order_details = order_group.order_details.all()
+
+        farmers = list(set(map(lambda u: u.product.farmer, order_details)))
+        unsubscribed_farmers = list()
+        subscribed_farmers = list()
+
+        farmers_info = []
+
+        for farmer in farmers:
+            farmers_info.append(
+                payment_valid_farmer(
+                    farmer.pk,
+                    farmer.farm_name,
+                    farmer.user.nickname,
+                    farmer.user.phone_number,
+                )
+            )
+            if Subscribe.objects.filter(
+                consumer=order_group.consumer, farmer=farmer
+            ).exists():
+                subscribed_farmers.append(farmer)
+            else:
+                unsubscribed_farmers.append(farmer)
+
+        farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
+        farmers_info_len = len(farmers_info)
+
+        # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
+        client_total_price = int(request.POST.get("total_price"))
+        try:
+            if order_group.total_price != client_total_price:
+                raise priceMatchError
+
+                res_data = {"valid": False, "error_type": "error_price_match"}
+
+                return JsonResponse(res_data)
+        except priceMatchError:
+            print(priceMatchError)
+            order_group.status = "error_price_match"
+            for detail in order_group.order_details:
+                detail.status = "error_price_match"
+                detail.save()
+            order_group.save()
+            return redirect(
+                reverse(
+                    "orders:payment_fail",
+                    kwargs={
+                        "errorType": "error_price_match",
+                        "orderGroupPk": order_group_pk,
+                    },
+                )
+            )
+
+        # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
+
+        # 모든 주문 상품 재고량 확인 태그
+        valid = True
+        # 재고가 부족한 상품명 리스트
+        invalid_products = list()
+
+        # [PROCESS 4] 결제 전 최종 재고 확인
+        for detail in order_details:
+            print("[재고 확인 상품 재고] " + (str)(detail.product.stock))
+            print("[재고 확인 주문양] " + (str)(detail.quantity))
+            if detail.product.stock - detail.quantity < 0:
+                valid = False
+                # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
+                invalid_products.append(detail.product.title)
+                print(detail.product.title + "재고 부족")
+            else:
+                # 재고가 있는 경우 재고 차감
+                detail.product.stock -= detail.quantity
+                detail.product.sold(detail.quantity)
+                detail.save()
+
+        print(invalid_products)
+
+        try:
+            # 재고가 없어서 valid가 False인경우 Exception 발생
+            if valid is False:
+                raise stockLackError
+        except stockLackError:
+            print(stockLackError)
+            order_group.status = "error_stock"
+            for detail in order_details:
+                detail.status = "error_stock"
+                detail.save()
+            order_group.save()
+            print("[valid 값]" + (str)(valid))
+            print("[invalid_products]" + (str)(invalid_products))
+            res_data = {
+                "valid": valid,
+                "error_type": "error_stock",
+                "invalid_products": invalid_products,
+            }
+
+            return redirect(
+                reverse(
+                    "orders:payment_fail",
+                    kwargs={
+                        "errorType": "error_stock",
+                        "errorMsg": (str)(invalid_products) + "의 재고가 부족합니다",
+                        "orderGroupPk": order_group_pk,
+                    },
+                )
+            )
+
+        # [PROCESS 5] 재고 확인 성공인 경우
+        if valid is True:
+
+            # [PROCESS 6] 주문 정보 Order_Group에 등록
+            rev_name = request.POST.get("rev_name")
+            rev_phone_number = request.POST.get("rev_phone_number")
+            rev_address = request.POST.get("rev_address")
+            rev_loc_at = request.POST.get("rev_loc_at")
+            rev_message = request.POST.get("rev_message")
+            to_farm_message = request.POST.get("to_farm_message")
+            payment_type = request.POST.get("payment_type")
+
+            # 가상계좌 관련 정보
+            v_bank = request.POST.get("v_bank")
+            v_bank_account = request.POST.get("v_bank_account")
+            v_bank_account_holder = request.POST.get("v_bank_account_holder")
+            v_bank_expire_date = request.POST.get("v_bank_expire_date")
+            # 가상계좌 입금 마감 기한 datetime 변환
+            v_bank_expire_date = timezone.datetime.strftime(
+                v_bank_expire_date, "%Y-%m-%d %H:%M:%S"
+            )
+            print(f"-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------")
+
+            print(
+                rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
+            )
+
+            print(order_group)
+            # 배송 정보 order_group에 업데이트
+            order_group.rev_name = rev_name
+            order_group.rev_address = rev_address
+            order_group.rev_phone_number = rev_phone_number
+            order_group.rev_loc_at = rev_loc_at
+            # order_group.rev_loc_detail=rev_loc_detail
+            order_group.rev_message = rev_message
+            order_group.to_farm_message = to_farm_message
+            order_group.payment_type = payment_type
+
+            order_group.v_bank = v_bank
+            order_group.v_bank_account = v_bank_account
+            order_group.v_bank_account_holder = v_bank_account_holder
+            order_group.v_bank_expire_date = v_bank_expire_date
+
+            order_group.order_at = timezone.now()
+
+            order_group.save()
+
+            # !!!!!!(추가 필요) 카카오 알림톡 전송 (가상 계좌 안내) !!!!!!
+
+            ctx = {
+                "order_group": order_group,
+                "order_details": order_details,
+                "sub_farmers": subscribed_farmers,
+                "unsub_farmers": unsubscribed_farmers,
+            }
+
+            nowDatetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"=== V_BANK_PROGRESS SUCCESS : {nowDatetime} ===")
+
+            return render(request, "orders/payment_success.html", ctx)
+
+
+def vbank_template_test(request):
+    # return render(request, 'orders/vbank/payment_success_vbank.html')
+    return render(request, "orders/vbank/payment_success_vbank.html")
 
 
 # 주문/결제 완료 프론트단을 작업하기 위한 임시 view
@@ -942,7 +1156,9 @@ def create_change_or_refund(request, pk):
                 templateIdList["refund_recept_for_consumer"],
                 consumer_args,
             )
-            return render(request, "users/mypage/user/product_refund_complete.html", ctx)
+            return render(
+                request, "users/mypage/user/product_refund_complete.html", ctx
+            )
         elif claim_type == "exchange":
             refundExchange.refund_exchange_delivery_fee = product.exchange_delivery_fee
             refundExchange.save()
@@ -959,7 +1175,9 @@ def create_change_or_refund(request, pk):
                 templateIdList["exchange_recept_for_consumer"],
                 consumer_args,
             )
-            return render(request, "users/mypage/user/product_exchange_complete.html", ctx)
+            return render(
+                request, "users/mypage/user/product_exchange_complete.html", ctx
+            )
         else:
             return redirect(reverse("core:main"))
 
