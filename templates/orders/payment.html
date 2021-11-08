@@ -229,7 +229,7 @@
                     </label>
                 </li>
                 <li>
-                    <label for="id_payment_type_1" class="mr-2">
+                    <label for="id_payment_type_2" class="mr-2">
                         <input type="radio" name="payment_type" value="vbank" id="id_payment_type_2"> 계좌이체
                     </label>
                 </li>
@@ -487,13 +487,18 @@
                 'to_farm_message': toFarmMessage,
                 'payment_type': paymentType,
                 'total_price': totalPrice,
-                'order_group_pk' : '{{order_group_pk}}'
-                'orfer_group_name' : '{{order_group_name}}',
-                'v_bank' : data['bankname'],
-                'v_bank_account' : data['account'],
-                'v_bank_account_holder' : data['accounthodler'],
-                'v_bank_expire_date' : data['expiredate']
+                'order_group_pk': data['params']['orderGroupPk'],
+                'order_group_name': data['params']['orderName'],
+                'v_bank': data['bankname'],
+                'v_bank_account': data['account'],
+                'v_bank_account_holder': data['accounthodler'],
+                'v_bank_expire_date': data['expiredate']
             }
+
+            console.log(data['bankname'])
+            console.log(data['account'])
+            console.log(data['accounthodler'])
+            console.log(data['expiredate'])
 
             let form = document.createElement("form")
             form.setAttribute("method", "post")
@@ -503,11 +508,11 @@
                 let hiddenField = document.createElement('input')
                 hiddenField.setAttribute('type', 'hidden')
                 hiddenField.setAttribute('name', key)
-                hiddenField.setAttribute('value', data[key])
+                hiddenField.setAttribute('value', sendData[key])
 
                 form.appendChild(hiddenField)
             }
-           
+
             let csrfHiddenField = document.createElement('input')
             csrfHiddenField.setAttribute('type', 'hidden')
             csrfHiddenField.setAttribute('name', 'csrfmiddlewaretoken')
@@ -517,7 +522,7 @@
             document.body.appendChild(form)
             form.submit()
 
-            
+
         }).confirm(function (data) {
             //결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
             //주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.

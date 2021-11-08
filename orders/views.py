@@ -12,7 +12,8 @@ from users.models import Subscribe
 from addresses.views import check_address_by_zipcode
 import requests, base64
 import json
-import os, datetime
+import os
+from datetime import datetime
 from .BootpayApi import BootpayApi
 import pprint
 import cryptocode
@@ -901,16 +902,16 @@ def vbank_progess(request):
             to_farm_message = request.POST.get("to_farm_message")
             payment_type = request.POST.get("payment_type")
             order_group_name = request.POST.get("order_group_name")
-            
+
             # 가상계좌 관련 정보
             v_bank = request.POST.get("v_bank")
             v_bank_account = request.POST.get("v_bank_account")
             v_bank_account_holder = request.POST.get("v_bank_account_holder")
-            v_bank_expire_date = request.POST.get("v_bank_expire_date")
+            v_bank_expire_date_str = request.POST.get("v_bank_expire_date")
             print(f"--------vbank : {v_bank} account : {v_bank_account}---------")
             # 가상계좌 입금 마감 기한 datetime 변환
-            v_bank_expire_date = timezone.datetime.strftime(
-                v_bank_expire_date, "%Y-%m-%d %H:%M:%S"
+            v_bank_expire_date = datetime.strptime(
+                v_bank_expire_date_str, "%Y-%m-%d %H:%M:%S"
             )
             print(f"-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------")
 
@@ -940,30 +941,34 @@ def vbank_progess(request):
 
             order_group.save()
 
-            
+            print(
+                f"------order_group v_bank_expire_date {order_group.v_bank_expire_date}"
+            )
+
             # 카카오 알림톡 전송
             args_kakao = {
                 "#{order_title}": order_group_name,
                 "#{v_bank}": v_bank,
                 "#{v_bank_account}": v_bank_account,
                 "#{v_bank_account_holder}": v_bank_account_holder,
-                "#{total_price}": str(client_total_price),
-                "#{v_bank_expire_date}": str(v_bank_expire_date)
+                "#{total_price}": str(client_total_price) + "원",
+                "#{v_bank_expire_date}": v_bank_expire_date_str,
             }
 
             # 소비자 결제 완료 카카오 알림톡 전송
-            send_kakao_message(user.phone_number, templateIdList["vbank_info"], args_kakao)
-
+            send_kakao_message(
+                user.phone_number, templateIdList["vbank_info"], args_kakao
+            )
 
             ctx = {
                 "order_group": order_group,
                 "order_details": order_details,
                 "sub_farmers": subscribed_farmers,
                 "unsub_farmers": unsubscribed_farmers,
-                "v_bank" : v_bank,
-                "v_bank_account" : v_bank_account,
-                "v_bank_account_holder" : v_bank_account_holder,
-                "v_bank_expire_date" : str(v_bank_expire_date),
+                # "v_bank" : v_bank,
+                # "v_bank_account" : v_bank_account,
+                # "v_bank_account_holder" : v_bank_account_holder,
+                # "v_bank_expire_date" : str(v_bank_expire_date),
             }
 
             nowDatetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")

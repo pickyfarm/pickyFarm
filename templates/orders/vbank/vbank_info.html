@@ -13,17 +13,17 @@
         <div class="order-payment-success-vbank-information-account-wrap flex">
             <div class="order-payment-success-vbank-information-account-title"> 계좌정보 </div>
             <div class="order-payment-success-vbank-information-account flex">
-                <div class="order-payment-success-vbank-information-account-bank">국민은행 60519014678208</div>
-                <div class="order-payment-success-vbank-information-account-holder">예금주 : 주식회사 아임웹</div>
+                <div class="order-payment-success-vbank-information-account-bank">{{order_group.v_bank}} {{order_group.v_bank_account}}</div>
+                <div class="order-payment-success-vbank-information-account-holder">예금주 : {{order_group.v_bank_account_holder}}</div>
             </div>
         </div>
         <div class="order-payment-success-vbank-information-price-wrap flex">
             <div class="order-payment-success-vbank-information-price-title"> 결제금액 </div>
-            <div class="order-payment-success-vbank-information-price"> 000,000원 </div>
+            <div class="order-payment-success-vbank-information-price"> {{order_group.total_price | intcomma}}원 </div>
         </div>
         <div class="order-payment-success-vbank-information-duration-wrap flex">
             <div class="order-payment-success-vbank-information-duration-title"> 입금기간 </div>
-            <div class="order-payment-success-vbank-information-duration"> 2021-01-01 17:17 까지 </div>
+            <div class="order-payment-success-vbank-information-duration"> {{order_group.v_bank_expire_date}} 까지 </div>
         </div>
     </div>
 </div>
