@@ -94,4 +94,6 @@ urlpatterns = [
         views.productCommentDetail.as_view(),
         name="product_comment_detail",
     ),
+    # mypage pagination ajax
+    path("mypage/orders-ajax/", views.mypage_orders_ajax, name="mypage_orders_ajax"),
 ]
