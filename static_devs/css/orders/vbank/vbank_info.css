@@ -1,11 +1,12 @@
 .order-payment-success-vbank-section {
-    margin-bottom: 60px;
+    margin: 60px 100px;
 }
 
 .order-payment-success-subtitle {
     color: #5c6754;
     font-size: 23px;
-    margin-bottom: 51.5px;
+    /* margin-bottom: 51.5px; */
+    text-align: center;
 }
 
 .order-payment-success-vbank-information-title {
@@ -48,12 +49,15 @@
 }
 
 @media screen and (max-width: 768px) {
+    .order-payment-success-vbank-section {
+        margin: 4 1rem;
+    }
+
     .order-payment-success-subtitle {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
     .order-payment-success-vbank-information-title {
-        color: #4d4d4d;
         font-size: 1.2rem;
         font-weight: bold;
     }
@@ -81,7 +85,7 @@
     .order-payment-success-vbank-information-account,
     .order-payment-success-vbank-information-price,
     .order-payment-success-vbank-information-duration {
-        font-size: 1.2rem;
+        font-size: 1rem;
         line-height: 3rem;
         margin-left: 0;
     }

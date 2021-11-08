@@ -9,7 +9,7 @@
 
 {% block content %}
 
-{% if order_details.exists is None %}
+{% if order_details is None %}
 <div class="mt-14 flex flex-col justify-center items-center" id="before_order">
   <div>
     아직 구매한 무난이가 없습니다
@@ -19,8 +19,8 @@
   </a>
 </div>
 {% endif %}
-{% if order_details.exists is True %}
-<form method="GET">
+{% if order_details is not None %}
+<!-- <form method="GET">
   <div id="filter" class="flex flex-row">
     <div id="filter-6month" class="transition_element">최근 6개월</div>
     <input id="filter-start-date" type="date" name="s_date" value="{{start_date}}">
@@ -32,8 +32,7 @@
     </button>
 
   </div>
-</form>
-
+</form> -->
 <div id="products-section" class="mt-5">
   {% for detail in order_details %}
   <div id="product" class="flex flex-row mb-5">
@@ -84,6 +83,8 @@
         {% elif detail.status == 're_ex_deny' %}
         <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
         <div>환불/교환 거절</div>
+        {% elif detail.status == 'wait' and detail.order_group.status == 'wait_vbank' %}
+        <div>입금 대기</div>
         {% endif %}
 
       </div>
@@ -135,16 +136,36 @@
           </a>
         </div>
         {% endif %}
+
+        {% if detail.status == 'wait' and detail.order_group.status == 'wait_vbank' %}
+        <div id="vbank_confirm_btn" class="transition_element" onclick="window.open('{% url 'user:vbank_account_confirm' detail.order_group.pk %}')">
+          <a>가상계좌 확인</a>
+        </div>
+        {% endif %}
+          
       </div>
     </div>
   </div>
   {% endfor %}
-  <div id="paginator" class="flex flex-row justify-center">
-    {% for page in total_pages %}
-    <a href='?page={{page}}&s_date={{start_date}}&e_date={{end_date}}'>
-      <div id="page_btn" name="{{page}}">{{page}}</div>
-    </a>
-    {% endfor %}
+  <!-- pagination section -->
+  <div class="flex justify-between w-36 mx-auto mt-8">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    {% if order_details.has_previous %}
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{order_details.previous_page_number}}' style="cursor: pointer">
+    {% else %}
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    {% endif %}
+
+    <div>{{order_details.number}}</div>
+    <div>/</div>
+    <div>{{order_details.paginator.num_pages}}</div>
+
+    {% if order_details.has_next %}
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{order_details.next_page_number}}' style="cursor: pointer">
+    {% else %}
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{order_details.paginator.num_pages}}' style="cursor: pointer"> 
+    {% endif %}
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{order_details.paginator.num_pages}}' style="cursor: pointer">
   </div>
 </div>
 
@@ -259,4 +280,10 @@
     }
 </script>
 <script src="{% static 'js/users/mypage/user/mypage_orders.js' %}"></script>
+<script>
+  PAGINATION_URL = 'orders-ajax/?page='
+  PAGINATION_SECTION = '#products-section'
+</script>
+<script src="{% static 'js/pagination/pagination.js' %}"></script>
+
 {% endblock content %}

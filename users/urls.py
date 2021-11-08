@@ -85,8 +85,15 @@ urlpatterns = [
         name="product_comment_create",
     ),
     path(
+        "mypage/orders/<int:grouppk>",
+        views.vbank_account_confirm,
+        name="vbank_account_confirm",
+    ),
+    path(
         "mypage/orders/review/<int:reviewpk>",
         views.productCommentDetail.as_view(),
         name="product_comment_detail",
     ),
+    # mypage pagination ajax
+    path("mypage/orders-ajax/", views.mypage_orders_ajax, name="mypage_orders_ajax"),
 ]

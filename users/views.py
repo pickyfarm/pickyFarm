@@ -1,7 +1,7 @@
 from comments.forms import ProductCommentForm
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from orders.models import Order_Detail
+from orders.models import Order_Detail, Order_Group
 from django.db.models import Count
 from django.utils import timezone
 from django.utils.timezone import get_current_timezone, localtime
@@ -764,10 +764,10 @@ def mypage(request, cat):
         }
 
         if cat_name == "orders":
-            page = int(request.GET.get("page", 1))
+            # page = int(request.GET.get("page", 1))
             start_date = request.GET.get("s_date", None)
             end_date = request.GET.get("e_date", None)
-            page_size = 5
+            # page_size = 5
 
             if start_date == "None":
                 start_date = None
@@ -830,25 +830,28 @@ def mypage(request, cat):
                         print(group.order_details.all())
                         order_details = order_details | group.order_details.all()
                 order_details = order_details.order_by("-order_group__order_at")
+                paginator = Paginator(order_details, 6)
+                page = request.GET.get("page")
+                order_details = paginator.get_page(page)
             else:
                 order_details = None
 
             print(order_details)
-            if order_details is None:
-                order_details_count = 0
-                total_pages = 0
-                offset = 0
-            else:
-                order_details_count = order_details.count()
-                total_pages = ceil(order_details_count / page_size)
-                offset = page * page_size - page_size
-                order_details = order_details[offset : page * page_size]
+            # if order_details is None:
+            #     order_details_count = 0
+            #     total_pages = 0
+            #     offset = 0
+            # else:
+            #     order_details_count = order_details.count()
+            #     total_pages = ceil(order_details_count / page_size)
+            #     offset = page * page_size - page_size
+            #     order_details = order_details[offset : page * page_size]
 
             print("진짜")
             print(order_details)
 
             ctx_orders = {
-                "total_pages": range(1, total_pages + 1),
+                # "total_pages": range(1, total_pages + 1),
                 "order_details": order_details,
                 "start_date": str(start_date),
                 "end_date": str(end_date),
@@ -957,6 +960,32 @@ def mypage(request, cat):
         else:
             # 404 페이지 제작 후 여기에 넣어야함
             return redirect(reverse("core:main"))
+
+
+"""Mypage Pagination AJAX"""
+
+
+def mypage_orders_ajax(request):
+    consumer = request.user.consumer
+    groups = consumer.order_groups.all().exclude(status="waiting")
+    order_groups = groups.exclude(status="wait")
+    # cat_name = str(cat)
+    # if cat_name == "orders":
+    if order_groups.exists():
+        order_details = order_groups[0].order_details.all()
+        if order_groups.count() > 1:
+            for group in order_groups[1:]:
+                order_details = order_details | group.order_details.all()
+        order_details = order_details.order_by("-order_group__order_at")
+        paginator = Paginator(order_details, 6)
+        page = request.GET.get("page")
+        order_details = paginator.get_page(page)
+    else:
+        order_details = None
+    ctx = {
+        "order_details": order_details,
+    }
+    return render(request, "users/mypage/mypage_orders_ajax.html", ctx)
 
 
 """Order Popups"""
@@ -1291,6 +1320,14 @@ class productCommentDetail(TemplateView):
             )
 
             return redirect("core:popup_callback")
+
+
+def vbank_account_confirm(request, grouppk):
+    order_group = Order_Group.objects.get(pk=grouppk)
+    ctx = {
+        "order_group": order_group,
+    }
+    return render(request, "orders/vbank/vbank_info.html", ctx)
 
 
 def product_refund(request):
