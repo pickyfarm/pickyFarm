@@ -11,6 +11,7 @@ class Order_Group(models.Model):
 
     STATUS = (
         ("wait", "결제대기"),
+        ("wait_vbank", "결제대기(가상계좌)"),
         ("payment_complete", "결제완료"),
         ("cancel", "결제취소"),
         ("error_stock", "결제오류(재고부족)"),
@@ -31,10 +32,18 @@ class Order_Group(models.Model):
     to_farm_message = models.TextField(null=True, blank=True)
 
     payment_type = models.CharField(max_length=20, null=True, blank=True)
-    v_bank = models.CharField(max_length=200, null=True, blank=True, help_text="가상계좌 은행명")
-    v_bank_account = models.CharField(max_length=500, null=True, blank=True, help_text="가상계좌 번호")
-    v_bank_account_holder = models.CharField(max_length=500, null=True, blank=True, help_text="가삼계좌 예금주")
-    v_bank_expire_date = models.DateTimeField(null=True, blank=True, help_text="가상계좌 입금 마감기한")
+    v_bank = models.CharField(
+        max_length=200, null=True, blank=True, help_text="가상계좌 은행명"
+    )
+    v_bank_account = models.CharField(
+        max_length=500, null=True, blank=True, help_text="가상계좌 번호"
+    )
+    v_bank_account_holder = models.CharField(
+        max_length=500, null=True, blank=True, help_text="가삼계좌 예금주"
+    )
+    v_bank_expire_date = models.DateTimeField(
+        null=True, blank=True, help_text="가상계좌 입금 마감기한"
+    )
 
     total_price = models.IntegerField(null=True, blank=True)
     total_quantity = models.IntegerField(null=True, blank=True)
@@ -53,11 +62,11 @@ class Order_Group(models.Model):
     def __str__(self):
         if self.order_at is None:
             order_at = ""
-        else : 
+        else:
             datatime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
             order_at = str(timezone.localtime(self.order_at))
             order_at += " 주문"
-        title = f'수취인 : {self.rev_name} / 결제자 : {self.consumer.user.account_name} / {order_at}'
+        title = f"수취인 : {self.rev_name} / 결제자 : {self.consumer.user.account_name} / {order_at}"
         return title
 
 
@@ -102,11 +111,15 @@ class Order_Detail(models.Model):
         ("HAPDONG", "합동택배"),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="주문 상태")
+    status = models.CharField(
+        max_length=20, choices=STATUS, default="wait", help_text="주문 상태"
+    )
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="none", help_text="정산 상태"
     )
-    order_management_number = models.CharField(max_length=1000, null=True, blank=True, help_text="주문관리번호")
+    order_management_number = models.CharField(
+        max_length=1000, null=True, blank=True, help_text="주문관리번호"
+    )
 
     delivery_service_company = models.CharField(
         max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
@@ -116,20 +129,29 @@ class Order_Detail(models.Model):
     )
 
     quantity = models.IntegerField(help_text="수량")
-    
+
     total_price = models.IntegerField(help_text="총금액")
     commision_rate = models.FloatField(help_text="수수료율")
 
-    cancel_reason = models.CharField(max_length=30, null=True, blank=True, help_text="주문 취소 사유")
+    cancel_reason = models.CharField(
+        max_length=30, null=True, blank=True, help_text="주문 취소 사유"
+    )
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     product = models.ForeignKey(
-        "products.Product", related_name="order_details", on_delete=models.CASCADE, help_text="구매 상품"
+        "products.Product",
+        related_name="order_details",
+        on_delete=models.CASCADE,
+        help_text="구매 상품",
     )
     order_group = models.ForeignKey(
-        Order_Group, related_name="order_details", on_delete=models.SET_NULL, null=True, help_text="주문 정보 그룹"
+        Order_Group,
+        related_name="order_details",
+        on_delete=models.SET_NULL,
+        null=True,
+        help_text="주문 정보 그룹",
     )
 
     def __str__(self):

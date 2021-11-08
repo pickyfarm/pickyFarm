@@ -12,7 +12,8 @@ from users.models import Subscribe
 from addresses.views import check_address_by_zipcode
 import requests, base64
 import json
-import os, datetime
+import os
+from datetime import datetime
 from .BootpayApi import BootpayApi
 import pprint
 import cryptocode
@@ -861,10 +862,10 @@ class stockLackError(Exception):
 @require_POST
 def vbank_progess(request):
 
-    consumer = request.user.consumer
+    user = request.user
 
     if request.method == "POST":
-        # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
+        # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select / 구독 리스트 추출
         order_group_pk = int(request.POST.get("order_group_pk"))
         order_group = Order_Group.objects.get(pk=order_group_pk)
         order_details = order_group.order_details.all()
@@ -896,13 +897,13 @@ def vbank_progess(request):
 
         # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
         client_total_price = int(request.POST.get("total_price"))
+
+        print(f"--------total_price : {client_total_price} ---------")
+
         try:
             if order_group.total_price != client_total_price:
                 raise priceMatchError
 
-                res_data = {"valid": False, "error_type": "error_price_match"}
-
-                return JsonResponse(res_data)
         except priceMatchError:
             print(priceMatchError)
             order_group.status = "error_price_match"
@@ -947,6 +948,7 @@ def vbank_progess(request):
         try:
             # 재고가 없어서 valid가 False인경우 Exception 발생
             if valid is False:
+                print(f"--------재고 부족 ---------")
                 raise stockLackError
         except stockLackError:
             print(stockLackError)
@@ -976,7 +978,7 @@ def vbank_progess(request):
 
         # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
-
+            print(f"--------재고 확인 성공 ---------")
             # [PROCESS 6] 주문 정보 Order_Group에 등록
             rev_name = request.POST.get("rev_name")
             rev_phone_number = request.POST.get("rev_phone_number")
@@ -985,15 +987,17 @@ def vbank_progess(request):
             rev_message = request.POST.get("rev_message")
             to_farm_message = request.POST.get("to_farm_message")
             payment_type = request.POST.get("payment_type")
+            order_group_name = request.POST.get("order_group_name")
 
             # 가상계좌 관련 정보
             v_bank = request.POST.get("v_bank")
             v_bank_account = request.POST.get("v_bank_account")
             v_bank_account_holder = request.POST.get("v_bank_account_holder")
-            v_bank_expire_date = request.POST.get("v_bank_expire_date")
+            v_bank_expire_date_str = request.POST.get("v_bank_expire_date")
+            print(f"--------vbank : {v_bank} account : {v_bank_account}---------")
             # 가상계좌 입금 마감 기한 datetime 변환
-            v_bank_expire_date = timezone.datetime.strftime(
-                v_bank_expire_date, "%Y-%m-%d %H:%M:%S"
+            v_bank_expire_date = datetime.strptime(
+                v_bank_expire_date_str, "%Y-%m-%d %H:%M:%S"
             )
             print(f"-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------")
 
@@ -1019,15 +1023,38 @@ def vbank_progess(request):
 
             order_group.order_at = timezone.now()
 
+            order_group.status = "wait_vbank"
+
             order_group.save()
 
-            # !!!!!!(추가 필요) 카카오 알림톡 전송 (가상 계좌 안내) !!!!!!
+            print(
+                f"------order_group v_bank_expire_date {order_group.v_bank_expire_date}"
+            )
+
+            # 카카오 알림톡 전송
+            args_kakao = {
+                "#{order_title}": order_group_name,
+                "#{v_bank}": v_bank,
+                "#{v_bank_account}": v_bank_account,
+                "#{v_bank_account_holder}": v_bank_account_holder,
+                "#{total_price}": str(client_total_price) + "원",
+                "#{v_bank_expire_date}": v_bank_expire_date_str,
+            }
+
+            # 소비자 결제 완료 카카오 알림톡 전송
+            send_kakao_message(
+                user.phone_number, templateIdList["vbank_info"], args_kakao
+            )
 
             ctx = {
                 "order_group": order_group,
                 "order_details": order_details,
                 "sub_farmers": subscribed_farmers,
                 "unsub_farmers": unsubscribed_farmers,
+                # "v_bank" : v_bank,
+                # "v_bank_account" : v_bank_account,
+                # "v_bank_account_holder" : v_bank_account_holder,
+                # "v_bank_expire_date" : str(v_bank_expire_date),
             }
 
             nowDatetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
