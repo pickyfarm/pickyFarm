@@ -818,7 +818,7 @@ def payment_valid(request):
                 return redirect(
                     reverse(
                         "orders:payment_fail",
-                        kwargs={
+                        query_kwargs={
                             "errorType": "error_valid",
                             "orderGroupPk": order_group_pk,
                         },
@@ -838,7 +838,7 @@ def payment_valid(request):
                 return redirect(
                     reverse(
                         "orders:payment_fail",
-                        kwargs={
+                        query_kwargs={
                             "errorType": "error_server",
                             "orderGroupPk": order_group_pk,
                         },
@@ -914,7 +914,7 @@ def vbank_progess(request):
             return redirect(
                 reverse(
                     "orders:payment_fail",
-                    kwargs={
+                    query_kwargs={
                         "errorType": "error_price_match",
                         "orderGroupPk": order_group_pk,
                     },
@@ -968,7 +968,7 @@ def vbank_progess(request):
             return redirect(
                 reverse(
                     "orders:payment_fail",
-                    kwargs={
+                    query_kwargs={
                         "errorType": "error_stock",
                         "errorMsg": (str)(invalid_products) + "의 재고가 부족합니다",
                         "orderGroupPk": order_group_pk,
