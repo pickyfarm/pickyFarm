@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
+from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail, RefundExchange
@@ -1038,6 +1039,7 @@ def vbank_progess(request):
             return render(request, "orders/payment_success.html", ctx)
 
 
+@csrf_exempt
 def vbank_deposit(request):
     receipt_id = request.POST.get("receipt_id")
     method = request.POST.get("method")
