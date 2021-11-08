@@ -1069,16 +1069,16 @@ def vbank_deposit(request):
     status = int(request.POST.get("status", "0"))
 
     order_group = Order_Group.objects.get(receipt_number=receipt_id)
+    if order_group.payment_type == "vbank":
+        # 만료기간 내에 입금 완료한 경우
+        if status == 1:
+            send_kakao_with_payment_complete(order_group.pk, receipt_id)
 
-    # 만료기간 내에 입금 완료한 경우
-    if status == 1:
-        send_kakao_with_payment_complete(order_group.pk, receipt_id)
-
-    # 계좌 만료된 경우
-    elif status == 20:  # 코드 이거 맞는지 확인해야함
-        # 팔렸던 거 재고 되돌려놓기
-        for detail in order_group.order_details.all():
-            detail.product.sold(-detail.quantity)
+        # 계좌 만료된 경우
+        elif status == 20:  # 코드 이거 맞는지 확인해야함
+            # 팔렸던 거 재고 되돌려놓기
+            for detail in order_group.order_details.all():
+                detail.product.sold(-detail.quantity)
 
     return HttpResponse("OK")
 
