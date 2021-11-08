@@ -976,6 +976,7 @@ def vbank_progess(request):
             v_bank_expire_date = datetime.strptime(
                 v_bank_expire_date_str, "%Y-%m-%d %H:%M:%S"
             )
+            v_bank_expire_date = timezone.make_aware(v_bank_expire_date)
             print(f"-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------")
 
             print(
@@ -1044,7 +1045,7 @@ def vbank_progess(request):
 @csrf_exempt
 def vbank_deposit(request):
     receipt_id = request.POST.get("receipt_id")
-    print(request.POST)
+    print(request.POST.lists())
     print(f"====receipt id : {receipt_id} ===")
     method = request.POST.get("method")
     status = int(request.POST.get("status", "0"))
