@@ -529,7 +529,7 @@ def payment_update(request, pk):
 def payment_fail(request):
     error_type = str(request.GET.get("errorType", None))
     # order_group_pk = request.GET.get("orderGroupPk", None)
-    stock_error_msg = request.GET.get("errorMsg", None)
+    stock_error_msg = str(request.GET.get("errorMsg", None))
     print(error_type)
 
     if error_type == "error_stock":
@@ -966,7 +966,7 @@ def vbank_progess(request):
             }
 
             return redirect(
-                f'{reverse("orders:payment_fail")}?errorType="error_stock"&orderGroupPK={order_group_pk}&errorMsg="{(str)(invalid_products)}의 재고가 부족합니다"'
+                f'{reverse("orders:payment_fail")}?errorType=error_stock&orderGroupPK={order_group_pk}&errorMsg={(str)(invalid_products)}의 재고가 부족합니다'
             )
 
         # [PROCESS 5] 재고 확인 성공인 경우
