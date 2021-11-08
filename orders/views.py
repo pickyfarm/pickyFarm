@@ -922,6 +922,10 @@ def vbank_progess(request):
                 "order_details": order_details,
                 "sub_farmers": subscribed_farmers,
                 "unsub_farmers": unsubscribed_farmers,
+                "v_bank" : v_bank,
+                "v_bank_account" : v_bank_account,
+                "v_bank_account_holder" : v_bank_account_holder,
+                "v_bank_expire_date" : str(v_bank_expire_date),
             }
 
             nowDatetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
