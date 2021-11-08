@@ -8,10 +8,10 @@
 {% endblock stylesheet %} {% block main_content %}
 
 <div class="order-payment-success-container mx-auto flex">
+    <div class="order-payment-success-title flex">주문 / 결제 완료</div>
     {% if order_group.payment_type == 'vbank' %}
     {% include "orders/vbank/vbank_info.html" %}
     {% endif %}
-    <div class="order-payment-success-title flex">주문 / 결제 완료</div>
     <div class="order-payment-success-information-wrap">
         <div class="order-payment-success-information-title"> 주문 상품 정보 </div>
         <div class="order-payment-success-information-border"></div>

@@ -568,6 +568,92 @@ def farmer_search(farmers, pk, start, end):
         return farmer_search(farmers, pk, start, mid - 1)
 
 
+def send_kakao_with_payment_complete(order_group_pk, receipt_id):
+    order_group = Order_Group.objects.get(pk=order_group_pk)
+    order_details = order_group.order_details.all()
+    farmers = list(set(map(lambda u: u.product.farmer, order_details)))
+    phone_number_consumer = order_group.consumer.user.phone_number
+
+    farmers_info = []
+    for farmer in farmers:
+        farmers_info.append(
+            payment_valid_farmer(
+                farmer.pk,
+                farmer.farm_name,
+                farmer.user.nickname,
+                farmer.user.phone_number,
+            )
+        )
+
+    farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
+    farmers_info_len = len(farmers_info)
+    # print(f"Farmer_INFO len : {farmers_info_len}")
+    order_group.receipt_number = receipt_id
+
+    for detail in order_details:
+        detail.status = "payment_complete"
+        detail.payment_status = "incoming"  # 정산상태 정산예정으로 변경
+        detail.save()
+
+        kakao_msg_quantity = (str)(detail.quantity) + "개"
+
+        target_farmer_pk = product.farmer.pk
+        target_farmer = farmer_search(
+            farmers_info, target_farmer_pk, 0, farmers_info_len
+        )
+        # print("Farmer!!!" + target_farmer.farm_name)
+
+        args_consumer = {
+            "#{farm_name}": target_farmer.farm_name,
+            "#{order_detail_number}": detail.order_management_number,
+            "#{order_detail_title}": detail.product.title,
+            "#{farmer_nickname}": target_farmer.farmer_nickname,
+            "#{option_name}": detail.product.option_name,
+            "#{quantity}": kakao_msg_quantity,
+            "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",  # 임시
+            "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
+        }
+
+        # 소비자 결제 완료 카카오 알림톡 전송
+        send_kakao_message(
+            phone_number_consumer,
+            templateIdList["payment_complete"],
+            args_consumer,
+        )
+
+        # order_management_number 인코딩
+        url_encoded_order_detail_number = url_encryption.encode_string_to_url(
+            detail.order_management_number
+        )
+
+        args_farmer = {
+            "#{order_detail_title}": detail.product.title,
+            "#{order_detail_number}": detail.order_management_number,
+            "#{option_name}": detail.product.option_name,
+            "#{quantity}": kakao_msg_quantity,
+            "#{rev_name}": order_group.rev_name,
+            "#{rev_phone_number}": phone_number_consumer,
+            "#{rev_address}": order_group.rev_address,
+            "#{rev_loc_at}": order_group.rev_loc_at,
+            "#{rev_detail}": order_group.rev_message,
+            "#{rev_message}": order_group.to_farm_message,
+            "#{link_1}": f"www.pickyfarm.com/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",  # 임시
+            "#{link_2}": f"www.pickyfarm.com/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",  # 임시
+            "#{link_3}": f"www.pickyfarm.com/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",  # 임시
+        }
+
+        print(f'주문확인 url : {args_farmer["#{link_1}"]}')
+
+        send_kakao_message(
+            target_farmer.farmer_phone_number,
+            templateIdList["order_recept"],
+            args_farmer,
+        )
+
+    order_group.status = "payment_complete"
+    order_group.save()
+
+
 @login_required
 @transaction.atomic
 def payment_valid(request):
@@ -975,6 +1061,26 @@ def vbank_progess(request):
             print(f"=== V_BANK_PROGRESS SUCCESS : {nowDatetime} ===")
 
             return render(request, "orders/payment_success.html", ctx)
+
+
+def vbank_deposit(request):
+    receipt_id = request.POST.get("receipt_id")
+    method = request.POST.get("method")
+    status = int(request.POST.get("status", "0"))
+
+    order_group = Order_Group.objects.get(receipt_number=receipt_id)
+    if order_group.payment_type == "vbank":
+        # 만료기간 내에 입금 완료한 경우
+        if status == 1:
+            send_kakao_with_payment_complete(order_group.pk, receipt_id)
+
+        # 계좌 만료된 경우
+        elif status == 20:  # 코드 이거 맞는지 확인해야함
+            # 팔렸던 거 재고 되돌려놓기
+            for detail in order_group.order_details.all():
+                detail.product.sold(-detail.quantity)
+
+    return HttpResponse("OK")
 
 
 def vbank_template_test(request):
