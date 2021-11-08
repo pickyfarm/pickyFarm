@@ -816,13 +816,7 @@ def payment_valid(request):
 
                 ctx = {"cancel_result": cancel_result}
                 return redirect(
-                    reverse(
-                        "orders:payment_fail",
-                        query_kwargs={
-                            "errorType": "error_valid",
-                            "orderGroupPk": order_group_pk,
-                        },
-                    )
+                    f'{reverse("orders:payment_fail")}?errorType=error_validk&orderGroupPK={order_group_pk}'
                 )
 
             else:
@@ -836,13 +830,7 @@ def payment_valid(request):
                     "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
                 }
                 return redirect(
-                    reverse(
-                        "orders:payment_fail",
-                        query_kwargs={
-                            "errorType": "error_server",
-                            "orderGroupPk": order_group_pk,
-                        },
-                    )
+                    f'{reverse("orders:payment_fail")}?errorType=error_server&orderGroupPK={order_group_pk}'
                 )
 
     return HttpResponse("잘못된 접근입니다", status=400)
@@ -912,13 +900,7 @@ def vbank_progess(request):
                 detail.save()
             order_group.save()
             return redirect(
-                reverse(
-                    "orders:payment_fail",
-                    query_kwargs={
-                        "errorType": "error_price_match",
-                        "orderGroupPk": order_group_pk,
-                    },
-                )
+                f'{reverse("orders:payment_fail")}?errorType=error_price_match&orderGroupPK={order_group_pk}'
             )
 
         # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
