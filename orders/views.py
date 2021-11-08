@@ -1056,6 +1056,11 @@ def vbank_deposit(request):
     return HttpResponse("OK")
 
 
+def vbank_template_test(request):
+    # return render(request, 'orders/vbank/payment_success_vbank.html')
+    return render(request, "orders/vbank/payment_success_vbank.html")
+
+
 # 주문/결제 완료 프론트단을 작업하기 위한 임시 view
 # def temporary_payment_success(request):
 

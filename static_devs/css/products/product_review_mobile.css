@@ -153,6 +153,8 @@
     #reviewer_img {
         width: 3.67rem;
         height: 3.67rem;
+        object-fit: cover;
+        border-radius: 50%;
     }
     #comment > div:nth-child(2) {
         width: 27rem !important;
@@ -169,7 +171,7 @@
         color: #989898 !important;
     }
     #report {
-        width: 25%;
+        /* width: 25%; */
         margin-left: 1.07rem !important;
         justify-content: flex-end;
     }
@@ -202,6 +204,7 @@
     #score_table {
         width: 100%;
         border: solid 0.1rem var(--brown-grey);
+        text-align: center;
     }
     #score_table td {
         border: solid 0.1rem var(--brown-grey);

@@ -1,0 +1,96 @@
+.order-payment-success-vbank-section {
+    margin-bottom: 60px;
+}
+
+.order-payment-success-subtitle {
+    color: #5c6754;
+    font-size: 23px;
+    margin-bottom: 51.5px;
+}
+
+.order-payment-success-vbank-information-title {
+    color: #5c6754;
+    font-size: 23px;
+    font-weight: 500;
+}
+.order-payment-success-vbank-information-wrap {
+    padding: 0 45px 0;
+}
+
+.order-payment-success-vbank-information-account-wrap,
+.order-payment-success-vbank-information-price-wrap,
+.order-payment-success-vbank-information-duration-wrap {
+    margin-bottom: 39px;
+}
+
+.order-payment-success-vbank-information-account-title,
+.order-payment-success-vbank-information-price-title,
+.order-payment-success-vbank-information-duration-title {
+    color: #4d4d4d;
+    font-size: 15px;
+}
+
+.order-payment-success-vbank-information-account,
+.order-payment-success-vbank-information-price,
+.order-payment-success-vbank-information-duration {
+    margin-left: 128px;
+    color: #808080;
+    font-size: 15px;
+}
+
+.order-payment-success-vbank-information-account {
+    flex-direction: row;
+}
+.order-payment-success-vbank-information-account-bank {
+    padding-right: 30px;
+    margin-right: 30px;
+    border-right: 1px solid #808080;
+}
+
+@media screen and (max-width: 768px) {
+    .order-payment-success-subtitle {
+        font-size: 1.3rem;
+    }
+
+    .order-payment-success-vbank-information-title {
+        color: #4d4d4d;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .order-payment-success-vbank-information-wrap {
+        padding: 0 1rem 0;
+    }
+    .order-payment-success-vbank-information-account-wrap,
+    .order-payment-success-vbank-information-price-wrap,
+    .order-payment-success-vbank-information-duration-wrap {
+        margin-top: 2rem;
+        margin-bottom: 0;
+        align-items: center;
+    }
+
+    .order-payment-success-vbank-information-account-title,
+    .order-payment-success-vbank-information-price-title,
+    .order-payment-success-vbank-information-duration-title {
+        color: #4d4d4d;
+        font-size: 1.1rem;
+        font-weight: normal;
+        width: 35%;
+    }
+
+    .order-payment-success-vbank-information-account,
+    .order-payment-success-vbank-information-price,
+    .order-payment-success-vbank-information-duration {
+        font-size: 1.2rem;
+        line-height: 3rem;
+        margin-left: 0;
+    }
+    .order-payment-success-vbank-information-account {
+        flex-direction: column;
+    }
+    .order-payment-success-vbank-information-account-bank {
+        padding-right: 0;
+        margin-right: 0;
+        border-right: none;
+    }
+}
