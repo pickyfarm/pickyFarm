@@ -32,8 +32,12 @@
     </div>
     <div class=" border-r-2"></div>
     <div class="info flex flex-col text-xs justify-between">
+
         <div class="ml-auto mb-8" id="legal-links">
             <ul class="flex">
+                <li>
+                    <img src='https://image.inicis.com/mkt/certmark/escrow/escrow_60x60_color.png' border='0' width="30" height="30" alt='클릭하시면 이니시스 결제시스템의 유효성을 확인하실 수 있습니다.' style='cursor:hand' Onclick=javascript:window.open('https://mark.inicis.com/mark/escrow_popup_v3.php?mid=BTPpickyfa','mark','scrollbars=no,resizable=no,width=565,height=683');>
+                </li>
                 <li class="mx-4 font-medium"><a href="{% url 'user:signup_terms_of_service' %}" target="_top">이용약관</a></li>
                 <li class="mx-4 font-medium"> <a href="{% url 'core:personal-info' %}">개인정보처리방침</a> </li>
                 <li class="mx-4 font-medium"><a href="{% url 'core:disclaimer' %}" target="_top">책임한계고지</a></li>
