@@ -430,9 +430,9 @@ class SocialSignup(View):
             consumer = Consumer.objects.create(
                 user=user,
                 grade=1,
-                benefit_agree=benefit_agree,
-                kakao_farmer_agree=kakao_farmer_agree,
-                kakao_comment_agree=kakao_comment_agree,
+                benefit_agree=False if not benefit_agree else True,
+                kakao_farmer_agree=False if not kakao_farmer_agree else True,
+                kakao_comment_agree=False if not kakao_comment_agree else True,
             )
 
             if addressform.is_valid():
