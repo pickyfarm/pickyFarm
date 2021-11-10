@@ -51,7 +51,37 @@
     <div class="mx-auto w-header flex justify-between py-4 sticky bg-white">
         <div class="main-menu">
             <ul class="flex h-6 header-menu">
-                <li class="header-first ml-0 font-medium w-auto  border-green-700 text-center">카테고리</li>
+                <li class="header-first ml-0 font-medium w-auto  border-green-700 text-center relative">
+                    카테고리
+                    <div id="header-category-wrap" class="absolute">
+                        <ul id="header-category">
+                            <li class="header-category-item">
+                                <a href="{% url 'products:store_list_category' 'fruit' %}">
+                                    <div class="flex items-center justify-between">
+                                        <img src="{% static 'images/products_list/cat_fruit.svg' %}" alt="">
+                                        과일
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="header-category-item">
+                                <a href="{% url 'products:store_list_category' 'vege' %}">
+                                    <div class="flex items-center justify-between">
+                                        <img src="{% static 'images/products_list/cat_vege.svg' %}" alt="">
+                                        채소
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="header-category-item">
+                                <a href="{% url 'products:store_list_category' 'others' %}">
+                                    <div class="flex items-center justify-between">
+                                        <img src="{% static 'images/products_list/cat_etc.svg' %}" alt="">
+                                        기타
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li class="header-list font-medium w-auto  border-green-700 text-center">
                     <a href="{% url 'products:store_list' %}" id="header-list--store" name="{{user.pk}}">스토어</a>
                 </li>
