@@ -212,4 +212,9 @@
     .slider-img {
         height: 40vw;
     }
+
+    #kakao-channel-icon {
+        right: 15px !important;
+        bottom: 120px !important;
+    }
 }

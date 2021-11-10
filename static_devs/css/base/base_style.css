@@ -176,3 +176,17 @@ button:focus {
 .header-first:hover #header-category-wrap {
     display: block;
 }
+
+#kakao-channel-icon {
+    width: 200px;
+    filter: drop-shadow(rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px);
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+
+    transition: all 0.15s ease-in-out;
+}
+
+#kakao-channel-icon:hover {
+    transform: scale(1.03);
+}
