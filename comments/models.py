@@ -53,7 +53,7 @@ class Product_Comment(Comment):
     consumer = models.ForeignKey(
         "users.Consumer", related_name="product_comments", on_delete=models.CASCADE
     )
-    order = models.ForeignKey(
+    order = models.OneToOneField(
         "orders.Order_Detail",
         related_name="product_comments",
         on_delete=models.CASCADE,
