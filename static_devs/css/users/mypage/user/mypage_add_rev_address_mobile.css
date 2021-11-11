@@ -1,4 +1,5 @@
 @import 'base/mobile_base_style.css';
+@import 'user/mypage_base_mobile.css';
 
 @media screen and (max-width: 768px){
     /* base setting */
@@ -16,10 +17,6 @@
     #middle-section {
         width: 100%;
     }
-    #top-section,
-    #menu {
-        display:none
-    }
 
     /* title section */
     #leaf {
@@ -29,6 +26,9 @@
         width: 1.76rem;
         height: 1.46rem;
         display: block;
+    }
+    #add-rev-address-title-section {
+        margin-top: 2.6rem;
     }
     #add-rev-address-title-section > div:nth-child(1),
     #add-rev-address-title-section > div:nth-child(3) {
