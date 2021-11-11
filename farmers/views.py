@@ -750,11 +750,11 @@ class FarmerMypageReviewAnswer(DetailView):
     model = Product_Comment
 
     def get_queryset(self, **kwargs):
-        return Product_Comment.objects.filter(pk=self.kwargs["reviewpk"])
+        return Product_Comment.objects.filter(pk=self.kwargs["pk"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        review = Product_Comment.objects.get(pk=self.kwargs["reviewpk"])
+        review = self.get_object()
         context["total_range"] = range(0, 5)
         context["review"] = review
         context["review_imgs"] = Product_Comment_Image.objects.filter(
@@ -767,7 +767,7 @@ class FarmerMypageReviewAnswer(DetailView):
     def post(self, request, *args, **kwargs):
         recomment_form = ProductRecommentForm(self.request.POST, self.request.FILES)
         if recomment_form.is_valid():
-            review = Product_Comment.objects.get(pk=self.kwargs["reviewpk"])
+            review = self.get_object()
             answer = recomment_form.save(commit=False)
             answer.author = self.request.user
             answer.comment = review

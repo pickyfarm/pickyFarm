@@ -72,7 +72,7 @@ urlpatterns = [
         name="farmer_mypage_question_answer",
     ),
     path(
-        "mypage/reviews-qnas/review/<int:reviewpk>/answer",
+        "mypage/reviews-qnas/review/<int:pk>/answer",
         views.FarmerMypageReviewAnswer.as_view(),
         name="farmer_mypage_review_answer",
     ),
