@@ -19,7 +19,11 @@ urlpatterns = [
     path("farm_cat_search/", views.farm_cat_search, name="farm_cat_search"),
     path("farm_tag_search/", views.farm_tag_search, name="farm_tag_search"),
     path("farmer_detail/<int:pk>/", views.farmer_detail, name="farmer_detail"),
-    path("farmer_detail/<int:pk>/products_ajax/", views.products_ajax, name="products_ajax"),
+    path(
+        "farmer_detail/<int:pk>/products_ajax/",
+        views.products_ajax,
+        name="products_ajax",
+    ),
     path("apply/", views.farm_apply, name="farm_apply"),
     path("enroll/step/1/", views.enroll_page1, name="enroll_page1"),
     path("enroll/step/2/<int:consumerpk>/", views.enroll_page2, name="enroll_page2"),
@@ -68,11 +72,13 @@ urlpatterns = [
         name="farmer_mypage_question_answer",
     ),
     path(
-        "mypage/reviews-qnas/review/<int:pk>/answer",
+        "mypage/reviews-qnas/review/<int:reviewpk>/answer",
         views.FarmerMypageReviewAnswer.as_view(),
         name="farmer_mypage_review_answer",
     ),
-    path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
+    path(
+        "mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"
+    ),
     # mypage pagination ajax url
     path(
         "mypage/notifications/notification_ajax/",
