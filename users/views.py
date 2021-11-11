@@ -1281,10 +1281,10 @@ class productCommentDetail(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         reviewpk = self.kwargs["reviewpk"]
+        review = Product_Comment.objects.get(pk=reviewpk)
         consumer = Consumer.objects.get(user=self.request.user)
-        product = Product.objects.get(order_details__pk=reviewpk)
+        product = review.product
         # detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
-        review = Product_Comment.objects.get(product=product, consumer=consumer)
         recomment_form = ProductRecommentForm()
         # # 검증
         # if order_consumer.pk != consumer.pk:
@@ -1300,8 +1300,8 @@ class productCommentDetail(TemplateView):
         if recomment_form.is_valid():
             reviewpk = self.kwargs["reviewpk"]
             consumer = Consumer.objects.get(user=self.request.user)
-            product = Product.objects.get(order_details__pk=reviewpk)
-            review = Product_Comment.objects.get(consumer=consumer, product=product)
+            review = Product_Comment.objects.get(pk=reviewpk)
+            product = review.product
             answer = recomment_form.save(commit=False)
             answer.author = self.request.user
             answer.comment = review
