@@ -22,76 +22,9 @@ product comments(reviews)
 """
 
 
-def product_comment_detail(request, pk):
-    """Product 댓글 보기"""
-    product = Product.objects.get(pk=pk)
-    product_comments = product.product_comments.all()
-    product_comment_form = ProductCommentForm()
-    product_recomment_form = ProductRecommentForm()
-
-    ctx = {
-        "product": product,
-        "product_comments": product_comments,
-        "product_comment_form": product_comment_form,
-        "product_recomment_form": product_recomment_form,
-    }
-
-    return render(request, "comments/product_comment.html", ctx)
-
-
-def product_comment_update(request, pk):
-    """Product 댓글 수정"""
-
-    product_comment = Product_Comment.objects.get(pk=pk)
-    product = product_comment.product
-
-    if request.method == "POST":
-        product_comment_form = ProductCommentForm(
-            request.POST, request.FIELS, instance=product_comment
-        )
-        if product_comment_form.is_valid():
-            product_comment = product_comment_form.save(commit=False)
-            product_comment.author = request.user
-            product_comment.product = product
-            return redirect(reverse("comments:product_comment_detail", kwargs={"pk": pk}))
-    else:
-        product_comment_form = ProductCommentForm(instance=product_comment)
-
-    return render(
-        request, "comments/product_comment.html", {"product_comment_form": product_comment_form}
-    )
-
-
-def product_comment_delete(request, pk):
-    """Product 댓글 삭제"""
-    product_comment = Product_Comment.objects.get(pk=pk)
-    product = product_comment.product
-
-    if request.method == "POST":
-        product_comment.delete()
-        return redirect(product)
-    else:
-        return render(request, "coments/product_comment.html")
-
-
 """
 product recomments
 """
-
-
-def product_recomment_detail(request, pk):
-    """Product 대댓글 보기"""
-    product_comment = Product_Comment.objects.get(pk=pk)
-    product = product_comment.product
-    product_recomment_form = ProductRecommentForm()
-
-    ctx = {
-        "product_comment": product_comment,
-        "product": product,
-        "product_recomment_form": product_recomment_form,
-    }
-
-    return render(request, "comments/product_comment.html", ctx)
 
 
 def product_recomment(request, productpk, commentpk):
