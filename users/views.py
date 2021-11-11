@@ -1148,7 +1148,7 @@ class ProductCommentCreate(TemplateView):
             detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
             order_consumer = detail.order_group.consumer
             product_comment_eixst = Product_Comment.objects.filter(
-                product=detail.product, consumer=order_consumer
+                order__pk=detail.pk
             ).exists()
             if product_comment_eixst:
                 return redirect("core:completed_alert")
@@ -1182,7 +1182,7 @@ class ProductCommentCreate(TemplateView):
         product_comment = ProductCommentForm(request.POST, request.FILES)
         consumer = Consumer.objects.get(pk=self.request.user.consumer.pk)
         product_comment_eixst = Product_Comment.objects.filter(
-            product=detail.product, consumer=consumer
+            order__pk=detail.pk
         ).exists()
         print(f"[PRODUCT COMMENT POST] 사용자 : {consumer.user.account_name}")
         if product_comment.is_valid() and not product_comment_eixst:
@@ -1191,6 +1191,7 @@ class ProductCommentCreate(TemplateView):
             flavor = product_comment.cleaned_data.get("flavor")
             cost_performance = product_comment.cleaned_data.get("cost_performance")
             product_comment = Product_Comment(
+                order=detail,
                 text=text,
                 freshness=int(freshness),
                 flavor=int(flavor),
@@ -1281,10 +1282,10 @@ class productCommentDetail(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         reviewpk = self.kwargs["reviewpk"]
+        review = Product_Comment.objects.get(pk=reviewpk)
         consumer = Consumer.objects.get(user=self.request.user)
-        product = Product.objects.get(order_details__pk=reviewpk)
+        product = review.product
         # detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
-        review = Product_Comment.objects.get(product=product, consumer=consumer)
         recomment_form = ProductRecommentForm()
         # # 검증
         # if order_consumer.pk != consumer.pk:
@@ -1300,8 +1301,8 @@ class productCommentDetail(TemplateView):
         if recomment_form.is_valid():
             reviewpk = self.kwargs["reviewpk"]
             consumer = Consumer.objects.get(user=self.request.user)
-            product = Product.objects.get(order_details__pk=reviewpk)
-            review = Product_Comment.objects.get(consumer=consumer, product=product)
+            review = Product_Comment.objects.get(pk=reviewpk)
+            product = review.product
             answer = recomment_form.save(commit=False)
             answer.author = self.request.user
             answer.comment = review
