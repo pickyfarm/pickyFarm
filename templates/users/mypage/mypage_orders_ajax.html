@@ -69,20 +69,24 @@
         </div>
 
         {% if detail.status == 'delivery_complete' %}
-        {% if detail.product.product_comments.exists == False %}
-        <!-- <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> -->
-        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
+          {% if detail.product.product_comments.exists == False %}
+          <!-- <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> -->
+          <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
             <a>
-            리뷰 쓰기
+              리뷰 쓰기
             </a>
-        </div>
-        {% else %}
-        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_detail' detail.pk %}')">
-            <a>
-            리뷰 보기
-            </a>
-        </div>
-        {% endif %}
+          </div>
+          {% else %}
+          {% for review in detail.product_comments.all %} <!--수정 필요-->
+            {% if review.product == detail.product %}
+            <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_detail' review.pk %}')">
+              <a>
+                리뷰 보기
+              </a>
+            </div>
+            {% endif %}
+          {% endfor %}
+          {% endif %}
         {% endif %}
 
         {% if detail.status == 'delivery_complete' %}
