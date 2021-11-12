@@ -43,6 +43,7 @@ from addresses.forms import AddressForm
 from products.forms import Answer_Form
 
 from config import settings
+from .excels import convert_orders
 
 # encoding / decoding
 import os
