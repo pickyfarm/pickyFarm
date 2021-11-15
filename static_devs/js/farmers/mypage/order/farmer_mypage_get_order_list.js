@@ -1,3 +1,5 @@
+const downloadButton = document.querySelector('#order-list-download-button');
+
 const getOrderList = async () => {
     const ajaxRequestArgs = {
         method: 'POST',
@@ -8,16 +10,15 @@ const getOrderList = async () => {
         body: {},
     };
 
+    downloadButton.innerHTML = '변환중...';
     const response = await fetch(ajaxRequestURL, ajaxRequestArgs);
 
-    try {
+    if (response.ok) {
         const data = await response.json();
         location.href = `/download/${data['path']}`;
-    } catch (error) {
-        alert(error);
+    } else {
+        alert(await response.text());
     }
 };
 
-document
-    .querySelector('#order-list-download-button')
-    .addEventListener('click', getOrderList);
+downloadButton.addEventListener('click', getOrderList);
