@@ -1,4 +1,6 @@
 from orders.models import Order_Detail
+from .models import Farmer
+from pathlib import Path
 import pandas as pd
 
 
@@ -6,6 +8,7 @@ def convert_orders(farmerpk):
     order_details = Order_Detail.objects.filter(
         product__farmer__pk=farmerpk, status="preparing"
     )  # '배송준비중' 싱태만의 order detail들 가져오기
+    farmer = Farmer.objects.get(pk=farmerpk)
 
     # order_detail 가지고 엑셀 만드는 부분 작업하면 될듯
     order_data = []
@@ -38,6 +41,8 @@ def convert_orders(farmerpk):
         columns=["주문번호", "주문자명", "수취인명", "전화번호", "주소", "상품명", "수량", "배송메세지"],
     )
 
-    path = ""
+    filename = f"{farmer.farm_name}_주문목록.csv"
 
-    df.to_excel(path, "주문정보", index=False)
+    df.to_csv(filename, sep=",", index=False, encoding="utf-8")
+
+    return filename
