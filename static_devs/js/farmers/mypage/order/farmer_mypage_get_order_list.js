@@ -10,11 +10,11 @@ const getOrderList = async () => {
 
     const response = await fetch(ajaxRequestURL, ajaxRequestArgs);
 
-    if (response.status == 200) {
+    try {
         const data = await response.json();
         location.href = `/download/${data['path']}`;
-    } else {
-        throw new Error('Something went wrong with fetching order lists');
+    } catch (error) {
+        alert(error);
     }
 };
 

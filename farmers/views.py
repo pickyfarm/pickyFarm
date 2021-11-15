@@ -15,7 +15,12 @@ from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Q, F, Aggregate, Sum, Value
-from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
+from django.http import (
+    JsonResponse,
+    HttpResponseBadRequest,
+    HttpResponse,
+    HttpResponseNotFound,
+)
 from django.templatetags.static import static
 from requests.api import get
 from math import ceil
@@ -576,11 +581,14 @@ class FarmerMypageGetOrderList(FarmerMyPageBase):
 def get_order_list_excel(request):
     farmer = request.user.farmer
 
-    order_list_file = convert_orders(farmer.pk)
+    try:
+        order_list_file = convert_orders(farmer.pk)
+        ctx = {"path": order_list_file}
 
-    ctx = {"path": order_list_file}
+        return JsonResponse(ctx)
 
-    return JsonResponse(ctx)
+    except Order_Detail.DoesNotExist:
+        return HttpResponseNotFound("진행중인 주문이 없습니다!")
 
 
 class FarmerMyPageProductManage(FarmerMyPageBase):
@@ -1323,7 +1331,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
 
     def post(self, request, **kwargs):
         order = self.get_queryset()
-        invoice_number = self.request.POST.get("invoice_number", None)
+        invoice_number = self.request.POST.get("invoice_number", None).replace("-", "")
         delivery_service_company = self.request.POST.get("invoice-select")
 
         order.update(

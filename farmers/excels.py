@@ -5,9 +5,13 @@ import pandas as pd
 
 
 def convert_orders(farmerpk):
+
     order_details = Order_Detail.objects.filter(
         product__farmer__pk=farmerpk, status="preparing"
     )  # '배송준비중' 싱태만의 order detail들 가져오기
+
+    if len(order_details) == 0:
+        raise Order_Detail.DoesNotExist
     farmer = Farmer.objects.get(pk=farmerpk)
 
     # order_detail 가지고 엑셀 만드는 부분 작업하면 될듯

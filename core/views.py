@@ -103,8 +103,6 @@ def download_file(request, filepath):
     fl_path = urllib.parse.unquote(filepath)
     filename = fl_path
 
-    print(f"======{filename}======")
-
     fl = open(fl_path, "r")
     mime_type, _ = mimetypes.guess_type(fl_path)
     response = HttpResponse(fl, content_type=mime_type)
