@@ -7,6 +7,9 @@ from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import TemplateView
 from django.db.models import Q
+from django.http import HttpResponse
+import mimetypes
+import urllib
 
 
 # def index(request):
@@ -92,3 +95,17 @@ class PopupCallback(TemplateView):
 
 class CompletedAlert(TemplateView):
     template_name = "base/completed_alert.html"
+
+
+def download_file(request, filepath):
+    # fill these variables with real values
+
+    fl_path = urllib.parse.unquote(filepath)
+    filename = fl_path
+
+    fl = open(fl_path, "r")
+    mime_type, _ = mimetypes.guess_type(fl_path)
+    response = HttpResponse(fl, content_type=mime_type)
+    response["Content-Disposition"] = "attachment; filename=%s" % filename
+
+    return response

@@ -15,12 +15,18 @@ from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Q, F, Aggregate, Sum, Value
-from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
+from django.http import (
+    JsonResponse,
+    HttpResponseBadRequest,
+    HttpResponse,
+    HttpResponseNotFound,
+)
 from django.templatetags.static import static
 from requests.api import get
 from math import ceil
 import datetime
 import json
+
 
 # models
 from .models import *
@@ -486,6 +492,13 @@ class FarmerMyPageBase(ListView):
 
         return context
 
+    def get_farmer(self):
+        if self.request.user != AnonymousUser():
+            return self.request.user.farmer
+
+        else:
+            raise ObjectDoesNotExist
+
 
 class FarmerMyPageOrderManage(FarmerMyPageBase):
     """농가 주문관리 페이지"""
@@ -550,6 +563,32 @@ def farmer_mypage_order_state_update(request):
         order.save()
 
         return HttpResponse("주문을 수락하였습니다", status=200)
+
+
+class FarmerMypageGetOrderList(FarmerMyPageBase):
+    """농가 주문목록 엑셀 다운로드 페이지"""
+
+    model = Order_Detail
+    context_object_name = "orders"
+    template_name = "farmers/mypage/order/farmer_mypage_get_order_list.html"
+
+    def get_queryset(self):
+        return Order_Detail.objects.filter(
+            product__farmer=self.get_farmer(), status="preparing"
+        )
+
+
+def get_order_list_excel(request):
+    farmer = request.user.farmer
+
+    try:
+        order_list_file = convert_orders(farmer.pk)
+        ctx = {"path": order_list_file}
+
+        return JsonResponse(ctx)
+
+    except Order_Detail.DoesNotExist:
+        return HttpResponseNotFound("진행중인 주문이 없습니다!")
 
 
 class FarmerMyPageProductManage(FarmerMyPageBase):
@@ -1292,7 +1331,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
 
     def post(self, request, **kwargs):
         order = self.get_queryset()
-        invoice_number = self.request.POST.get("invoice_number", None)
+        invoice_number = self.request.POST.get("invoice_number", None).replace("-", "")
         delivery_service_company = self.request.POST.get("invoice-select")
 
         order.update(
