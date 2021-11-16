@@ -8,8 +8,7 @@
 
 
 {% block content %}
-
-{% if order_details is None %}
+{% if order_details_exist == 0 %}
 <div class="mt-14 flex flex-col justify-center items-center" id="before_order">
   <div>
     아직 구매한 무난이가 없습니다
@@ -19,7 +18,7 @@
   </a>
 </div>
 {% endif %}
-{% if order_details is not None %}
+{% if order_details_exist != 0 %}
 <!-- <form method="GET">
   <div id="filter" class="flex flex-row">
     <div id="filter-6month" class="transition_element">최근 6개월</div>

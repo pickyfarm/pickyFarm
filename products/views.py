@@ -67,9 +67,9 @@ def store_list_cat(request, cat):
         print(big_category)
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product_Group.objects.filter(
-                category__parent__slug=cat, open=True
-            ).order_by("create_at")
+            products = Product_Group.objects.filter(category__parent__slug=cat, open=True).order_by(
+                "create_at"
+            )
         except ObjectDoesNotExist:
             ctx = {
                 "cat_name": cat_name,
@@ -83,9 +83,7 @@ def store_list_cat(request, cat):
         cat_name = big_cat_name[categories.parent.name]
         print(cat_name)
         try:
-            products = categories.product_groups.filter(open=True).order_by(
-                "-create_at"
-            )
+            products = categories.product_groups.filter(open=True).order_by("-create_at")
             categories = categories.parent.children.all().order_by("name")
         except ObjectDoesNotExist:
             ctx = {
@@ -143,7 +141,6 @@ def product_detail(request, pk):
         product = Product.objects.get(pk=pk)
         print(f"======={product_pk} {product.pk}")
 
-        product.calculate_total_rating_avg()
         kinds = product.kinds
         farmer = product.farmer
 
@@ -164,9 +161,10 @@ def product_detail(request, pk):
         page2 = request.GET.get("page")
         paginator2 = Paginator(questions, 5)
         questions = paginator2.get_page(page2)
-
-        total_score = product.calculate_total_rating_avg()
+        # product.calculate_total_rating_avg()
+        total_score = product.product_group.total_avg
         total_percent = format(total_score / 5 * 100, ".1f")
+
         recomment_form = ProductRecommentForm()
 
         # 연관 일반 작물
@@ -174,42 +172,26 @@ def product_detail(request, pk):
 
         # freshness
         if product.reviews != 0:
-            freshness_per = [
-                int(100 * product.freshness_1 / product.reviews),
-                int(100 * product.freshness_3 / product.reviews),
-                int(100 * product.freshness_5 / product.reviews),
-            ]
+            freshness_per = product.product_group.calculate_freshness_rating_avg()
         else:
             freshness_per = [0, 0, 0]
 
         # flavor
         if product.reviews != 0:
-            flavor_per = [
-                100 * product.flavor_1 / product.reviews,
-                100 * product.flavor_3 / product.reviews,
-                100 * product.flavor_5 / product.reviews,
-            ]
+            flavor_per = product.product_group.calculate_flavor_rating_avg()
         else:
             flavor_per = [0, 0, 0]
 
         # cost_performance
         if product.reviews != 0:
-            cost_performance_per = [
-                100 * product.cost_performance_1 / product.reviews,
-                100 * product.cost_performance_3 / product.reviews,
-                100 * product.cost_performance_5 / product.reviews,
-            ]
+            cost_performance_per = product.product_group.calculate_cost_rating_avg()
         else:
             cost_performance_per = [0, 0, 0]
         print(f"======={product_pk} {product.pk}")
 
         # 상세 정보
-        product_harvest_start_date = dateformat.format(
-            product.harvest_start_date, "Y년 m월 d일"
-        )
-        product_harvest_end_date = dateformat.format(
-            product.harvest_end_date, "Y년 m월 d일"
-        )
+        product_harvest_start_date = dateformat.format(product.harvest_start_date, "Y년 m월 d일")
+        product_harvest_end_date = dateformat.format(product.harvest_end_date, "Y년 m월 d일")
         product_shelf_life_date = product.shelf_life_date
 
         if product.related_product is not None:
