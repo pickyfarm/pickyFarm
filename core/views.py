@@ -103,7 +103,7 @@ def download_file(request, filepath):
     fl_path = urllib.parse.unquote(filepath)
     filename = fl_path
 
-    fl = open(fl_path, "r")
+    fl = open(fl_path, "rb")
     mime_type, _ = mimetypes.guess_type(fl_path)
     response = HttpResponse(fl, content_type=mime_type)
     response["Content-Disposition"] = "attachment; filename=%s" % filename

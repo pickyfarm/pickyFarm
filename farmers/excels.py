@@ -45,8 +45,8 @@ def convert_orders(farmerpk):
         columns=["주문번호", "주문자명", "수취인명", "전화번호", "주소", "상품명", "수량", "배송메세지"],
     )
 
-    filename = f"{farmer.farm_name}_주문목록.csv"
+    filename = f"{farmer.farm_name}_주문목록.xlsx"
 
-    df.to_csv(filename, sep=",", index=False, encoding="utf-8")
+    df.to_excel(filename, "주문목록", index=False, encoding="utf-8")
 
     return filename
