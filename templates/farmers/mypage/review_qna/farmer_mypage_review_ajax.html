@@ -9,25 +9,29 @@
             <th>
                 <img class="mx-auto" src="{% static 'images/farmer_mypage/report.svg' %}" alt="신고하기">
             </th>
+            <th>리뷰 답변</th>
         </tr>
         {% for review in reviews %}
-        <tr class="transition_element text-center" id="review-table-rows"
-            onclick="location.href='{% url 'core:main' %}'">
+        {% if review.status == False %}
+        <tr class="transition_element text-center bg-dark" id="review-table-rows">
+            {% else %}
+        <tr class="transition_element text-center" id="review-table-rows">
+            {% endif %}
             <!-- 상품명 -->
             {% if review.product.title|length > 12 %}
             <td class="px-3" id="review-table-row-product">{{ review.product.title|slice:":12" }}...</td>
             {% else %}
             <td class="px-3" id="review-table-row-product">{{ review.product.title }}</td>
             {% endif %}
-             <!-- 구매자 평점 -->
+            <!-- 구매자 평점 -->
             <td class="px-3" id="review-table-row-score">
                 <div class="flex flex-row justify-between">
                     {% for i in total_range %}
-                        {% if i < review.avg %}
-                        <img src="{% static 'images/farmer_mypage/yellow-star.svg' %}" alt="">
-                        {% else %}
-                        <img src="{% static 'images/farmer_mypage/gray-star.svg' %}" alt="">
-                        {% endif %}
+                    {% if i < review.avg %}
+                    <img src="{% static 'images/farmer_mypage/yellow-star.svg' %}" alt="">
+                    {% else %}
+                    <img src="{% static 'images/farmer_mypage/gray-star.svg' %}" alt="">
+                    {% endif %}
                     {% endfor %}
                 </div>
             </td>
@@ -35,12 +39,25 @@
             {% if review.text|length > 25 %}
             <td class="px-3" id="review-table-row-title">{{ review.text|slice:":25" }}...</td>
             {% else %}
-            <td class="px-3" id="review-table-row-title">{{ review.text }}...</td>
+            <td class="px-3" id="review-table-row-title">{{ review.text }}</td>
             {% endif %}
             <!-- 게시일자 -->
             <td class="px-3" id="review-table-row-date">{{ review.create_at|date:"Y-m-d" }}</td>
             <!-- 신고하기 -->
             <td class="px-3" id="review-table-row-report">신고하기</td>
+            <!-- 답변 -->
+            <td id="review-table-row-answer" onclick="window.open('{% url "farmer:farmer_mypage_review_answer" review.pk %}', '', 'height=600, width=400');">
+                <div class="flex flex-row justify-center items-center">
+                    <span class="mr-1">
+                        {% if review.status == False %}
+                        작성하기
+                        {% else %}
+                        리뷰 보기
+                        {% endif %}
+                    </span>
+                    <img src="{% static 'images/farmer_mypage/answer-create.svg' %}" alt="">
+                </div>
+            </td>
         </tr>
         {% endfor %}
     </table>
