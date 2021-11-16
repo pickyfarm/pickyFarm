@@ -59,11 +59,12 @@ class Product_Group(models.Model):
         self.save()
 
     def calculate_total_rating_avg(self):
-        total_avg = 0
+        total_sum = 0
         total_reviews = 0
         for product in self.products.all():
-            total_avg += product.total_rating_avg
-        total_avg = total_avg / len(self.products.all())
+            total_sum += product.total_rating_sum
+            total_reviews += product.reviews
+        total_avg = total_sum / total_reviews
         self.total_avg = total_avg
         self.save()
 
