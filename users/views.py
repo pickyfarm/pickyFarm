@@ -718,7 +718,7 @@ def mypage(request, cat):
                 # print(preparing_num)
                 delivery_num += details.filter(status="shipping").count()
                 # print(delivery_num)
-                complete_num == details.filter(status="complete").count()
+                complete_num += details.filter(status="delivery_complete").count()
                 # print(complete_num)
                 cancel_num += details.filter(status="cancel").count()
         except NoRelatedInstance:
