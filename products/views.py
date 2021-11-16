@@ -171,19 +171,19 @@ def product_detail(request, pk):
         related_product = product.related_product
 
         # freshness
-        if product.reviews != 0:
+        if product.product_group.total_reviews != 0:
             freshness_per = product.product_group.calculate_freshness_rating_avg()
         else:
             freshness_per = [0, 0, 0]
 
         # flavor
-        if product.reviews != 0:
+        if product.product_group.total_reviews != 0:
             flavor_per = product.product_group.calculate_flavor_rating_avg()
         else:
             flavor_per = [0, 0, 0]
 
         # cost_performance
-        if product.reviews != 0:
+        if product.product_group.total_reviews != 0:
             cost_performance_per = product.product_group.calculate_cost_rating_avg()
         else:
             cost_performance_per = [0, 0, 0]
