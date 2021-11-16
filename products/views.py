@@ -170,7 +170,6 @@ def product_detail(request, pk):
         # 연관 일반 작물
         related_product = product.related_product
 
-        product.product_group.calculate_total_rating_avg()
         # freshness
         if product.reviews != 0:
             freshness_per = product.product_group.calculate_freshness_rating_avg()
