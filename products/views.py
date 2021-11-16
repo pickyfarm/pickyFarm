@@ -161,8 +161,8 @@ def product_detail(request, pk):
         page2 = request.GET.get("page")
         paginator2 = Paginator(questions, 5)
         questions = paginator2.get_page(page2)
-        product.calculate_total_rating_avg()
-        total_score = product.product_group.calculate_total_rating_avg()
+        # product.calculate_total_rating_avg()
+        total_score = product.product_group.total_avg
         total_percent = format(total_score / 5 * 100, ".1f")
 
         recomment_form = ProductRecommentForm()
