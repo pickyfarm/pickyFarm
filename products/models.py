@@ -35,6 +35,7 @@ class Product_Group(models.Model):
 
     sales_rate = models.FloatField(default=0, help_text="상품 전체 판매율")
 
+    total_reviews = models.IntegerField(default=0, help_text="전체 리뷰 수")
     total_avg = models.FloatField(default=0, help_text="상품 전체 평점")
 
     update_at = models.DateTimeField(auto_now=True)
@@ -66,9 +67,43 @@ class Product_Group(models.Model):
             total_reviews += product.reviews
         total_avg = total_sum / total_reviews
         self.total_avg = total_avg
+        self.total_reviews = total_reviews
         self.save()
 
         return self.total_avg
+
+    def calculate_freshness_rating_avg(self):
+        [total_freshness_1, total_freshness_3, total_freshness_5] = [0, 0, 0]
+        for product in self.products.all():
+            total_freshness_1 += product.freshness_1
+            total_freshness_3 += product.freshness_3
+            total_freshness_5 += product.freshness_5
+        freshness_1 = int(100 * total_freshness_1 / self.total_reviews)
+        freshness_3 = int(100 * total_freshness_3 / self.total_reviews)
+        freshness_5 = int(100 * total_freshness_5 / self.total_reviews)
+        return [freshness_1, freshness_3, freshness_5]
+
+    def calculate_flavor_rating_avg(self):
+        [total_flavor_1, total_flavor_3, total_flavor_5] = [0, 0, 0]
+        for product in self.products.all():
+            total_flavor_1 += product.flavor_1
+            total_flavor_3 += product.flavor_3
+            total_flavor_5 += product.flavor_5
+        flavor_1 = int(100 * total_flavor_1 / self.total_reviews)
+        flavor_3 = int(100 * total_flavor_3 / self.total_reviews)
+        flavor_5 = int(100 * total_flavor_5 / self.total_reviews)
+        return [flavor_1, flavor_3, flavor_5]
+
+    def calculate_cost_rating_avg(self):
+        [total_cost_1, total_cost_3, total_cost_5] = [0, 0, 0]
+        for product in self.products.all():
+            total_cost_1 += product.cost_performance_1
+            total_cost_3 += product.cost_performance_3
+            total_cost_5 += product.cost_performance_5
+        cost_1 = int(100 * total_cost_1 / self.total_reviews)
+        cost_3 = int(100 * total_cost_3 / self.total_reviews)
+        cost_5 = int(100 * total_cost_5 / self.total_reviews)
+        return [cost_1, cost_3, cost_5]
 
 
 class Product(models.Model):

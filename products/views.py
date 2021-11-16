@@ -172,31 +172,19 @@ def product_detail(request, pk):
 
         # freshness
         if product.reviews != 0:
-            freshness_per = [
-                int(100 * product.freshness_1 / product.reviews),
-                int(100 * product.freshness_3 / product.reviews),
-                int(100 * product.freshness_5 / product.reviews),
-            ]
+            freshness_per = product.product_group.calculate_freshness_rating_avg()
         else:
             freshness_per = [0, 0, 0]
 
         # flavor
         if product.reviews != 0:
-            flavor_per = [
-                100 * product.flavor_1 / product.reviews,
-                100 * product.flavor_3 / product.reviews,
-                100 * product.flavor_5 / product.reviews,
-            ]
+            flavor_per = product.product_group.calculate_flavor_rating_avg()
         else:
             flavor_per = [0, 0, 0]
 
         # cost_performance
         if product.reviews != 0:
-            cost_performance_per = [
-                100 * product.cost_performance_1 / product.reviews,
-                100 * product.cost_performance_3 / product.reviews,
-                100 * product.cost_performance_5 / product.reviews,
-            ]
+            cost_performance_per = product.product_group.calculate_cost_rating_avg()
         else:
             cost_performance_per = [0, 0, 0]
         print(f"======={product_pk} {product.pk}")
