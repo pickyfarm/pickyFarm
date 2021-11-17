@@ -77,8 +77,8 @@
                         </div>
                         <div class="searchbox">
                             <div class="input-form rounded-full h-6 flex justify-around">
-                                <input type="text" placeholder="원하는 무난이를 찾아보세요" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-44" id='header-searchbar'>
-                                <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt="">
+                                <input disabled type="text" placeholder="원하는 무난이를 찾아보세요" class=" placeholder-gray-500 bg-transparent focus:outline-none text-xs text-gray-800 w-full" id='header-searchbar'>
+                                <!-- <img src="{% static 'images/search.svg' %}" class=" w-3 m-0" alt=""> -->
                             </div>
                         </div>
                     </div>
@@ -131,6 +131,10 @@
 
     #mainlogo {
         transition: transform 75ms ease-in;
+    }
+
+    #header-searchbar::placeholder {
+        text-align: center;
     }
 </style>
 
