@@ -130,3 +130,7 @@ manage.py
 
 #kakao message
 kakaomessages/template.py
+
+# farm order list
+*.xlsx
+*.csv
