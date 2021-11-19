@@ -341,6 +341,7 @@
 }
 .product-wrapper {
     width: 227px;
+    position: relative;
 }
 
 .product-image-wrapper {
@@ -354,6 +355,14 @@
     object-fit: cover;
     border-radius: 0.5rem;
     box-shadow: 10px 10px 10px rgba(211, 211, 211, 0.397);
+}
+
+.event-badge {
+    width: 120px;
+    height: 120px;
+    position:absolute;
+    top: -40px;
+    left: -40px;
 }
 
 .product-title {
@@ -464,6 +473,16 @@
         border-radius: 0.5rem;
         box-shadow: 10px 10px 10px rgba(211, 211, 211, 0.397);
     }
+
+    .event-badge {
+        width: 4rem;
+        height: 4rem;
+        position:absolute;
+        top: -1.6rem;
+        left: -1.6rem;
+    }
+    
+
     .product-title {
         font-size: 0.9rem;
         margin-bottom: 0.3rem;
