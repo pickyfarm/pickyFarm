@@ -50,9 +50,9 @@
     <div id="modal-section">
         <div id="modal-container" class="mx-auto my-auto">
             <div id="modal-message">Modal Test</div>
-            <div id="modal-buttons" class="flex justify-end">
+            <div id="modal-buttons" class="flex justify-between">
+                <button class="modal-button transition_element" id="modal-cancel">닫기</button>
                 <button class="modal-button transition_element" id="modal-accept">확인</button>
-                <button class="modal-button transition_element" id="modal-cancel">취소</button>
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@
     </div>
     {% include 'partials/navbar_mobile.html' %}
     <a href="http://pf.kakao.com/_DIexfs">
-    <img src="{% static 'images/base/id_type.png' %}" alt="카카오톡 채널 추가하기" id="kakao-channel-icon">
+        <img src="{% static 'images/base/id_type.png' %}" alt="카카오톡 채널 추가하기" id="kakao-channel-icon">
     </a>
 </body>
 

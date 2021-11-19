@@ -119,31 +119,33 @@ button:focus {
 }
 
 #modal-container {
-    width: 30%;
+    width: auto;
     height: auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
+    background-color: #efeeed;
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
 
 #modal-message {
     width: 100%;
+    padding: 20px;
     margin-bottom: 20px;
 }
 
 .modal-button {
-    width: 55px;
-    height: 35px;
+    flex: 1;
+    height: 96px;
     text-align: center;
-    border-radius: 9px;
-    border: 1px solid #5c6754;
-    margin: 5px;
+    font-size: 32px;
+    font-weight: 300;
 }
 
 #modal-accept {
     background-color: #5c6754;
     color: white;
+}
+
+#modal-cancel {
+    background-color: white;
 }
 
 #header-category-wrap {
