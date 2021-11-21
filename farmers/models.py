@@ -85,7 +85,7 @@ class Farmer_Story(models.Model):
     )  # 작성자
     title = models.CharField(max_length=50)  # 제목
     thumbnail = CompressedImageField(
-        upload_to="story_thumbnail/%Y/%m/%d/", null=True, blank=True
+        upload_to="story_thumbnail/%Y/%m/%d/", null=True, blank=True, default="farm_default.svg"
     )  # 썸네일
     hits = models.PositiveIntegerField(default=0)  # 조회수
     content = models.TextField()  # 내용

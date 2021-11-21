@@ -162,11 +162,11 @@ def farmer_story_create(request):
         form = FarmerStoryForm(request.POST, request.FILES)
         if form.is_valid():
             title = form.cleaned_data.get("title")
-            # sub_title = form.cleaned_data.get('sub_title')
+            thumbnail = form.cleaned_data.get("thumbnail")
             content = form.cleaned_data.get("content")
             farmer_story = Farmer_Story(
                 title=title,
-                # sub_title=sub_title,
+                thumbnail = thumbnail,
                 content=content,
             )
             farmer_story.farmer = user
