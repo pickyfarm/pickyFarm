@@ -2,7 +2,7 @@
 
 {% load static %}
 {% block title_name %}
-Farmer's Story
+Farmer's Diary
 {% endblock title_name %}
 
 {% block stylesheet %}
@@ -14,7 +14,7 @@ Farmer's Story
 <div class="content mx-auto" style="margin-top: 130px;">
     <img src="{% static 'images/farm/leaf.svg' %}" class="mx-auto" alt="">
     <!--title-->
-    <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Story </div>
+    <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Diary </div>
     <div class="text-center mb-16" style="color: #999999; font-size: 15px;"> 파머가 직접 전하는 농가 이야기 </div>
     <!--farmer story content-->
     <div class="relative mb-6" id="story_content">
@@ -74,7 +74,7 @@ Farmer's Story
         {% endif %}
     </div>
     <!--farmer's story list-->
-    <!-- <div class="text-3xl text-center mb-24" style="color: #808080;"> Farmer's Story </div> -->
+    <!-- <div class="text-3xl text-center mb-24" style="color: #808080;"> Farmer's Diary </div> -->
     <div class="flex flex-row justify-center my-28">
         {% for story in stories %}
         <a href="{% url 'farmers:farmer_story_detail' story.pk %}">
