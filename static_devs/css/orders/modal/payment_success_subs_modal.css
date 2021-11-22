@@ -17,6 +17,7 @@
 .farmer-profile-img {
     border-radius: 100%;
     background-color: black;
+    object-fit: cover;
 }
 
 .farmer-item-wrap {
@@ -58,7 +59,7 @@
     .farmer-single {
         width: 176px;
         height: 176px;
-
+        object-fit: cover;
         margin-top: 48px;
     }
 
