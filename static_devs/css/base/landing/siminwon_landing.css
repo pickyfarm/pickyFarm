@@ -358,10 +358,8 @@
 }
 
 .event-badge {
-    width: 120px;
-    height: 120px;
-    position:absolute;
-    top: -40px;
+    position: absolute;
+    top: -35px;
     left: -40px;
 }
 
@@ -477,11 +475,10 @@
     .event-badge {
         width: 4rem;
         height: 4rem;
-        position:absolute;
+        position: absolute;
         top: -1.6rem;
         left: -1.6rem;
     }
-    
 
     .product-title {
         font-size: 0.9rem;

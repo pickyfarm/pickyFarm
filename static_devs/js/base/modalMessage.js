@@ -34,7 +34,7 @@ const subscribeModalMessage = (
     url,
     args,
     cb = null,
-    buttonText = '농가 미니홈페이지 방문하기'
+    buttonText = '방문하기'
 ) => {
     const modalSection = document.querySelector('#modal-section');
     const displayModal = () => {
@@ -69,6 +69,7 @@ const subscribeModalMessage = (
         .querySelector('#modal-close')
         .addEventListener('click', () => hideModal());
 
+    document.querySelector('#modal-accept').style.display = 'block';
     document.querySelector('#modal-accept').innerHTML = buttonText;
 
     document.querySelector('#modal-accept').addEventListener('click', () => {
