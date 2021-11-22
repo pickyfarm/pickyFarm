@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views import View
+from django.views.decorators.http import require_POST
 from django.views.generic import (
     DetailView,
     ListView,
@@ -1672,3 +1673,35 @@ def product_refund(request):
         "farmers/mypage/order/product_refund_popup.html",
         {"addresses": addresses},
     )
+
+
+@require_POST
+def farmer_subs_modal(request):
+    """파머 구독 플로팅 버튼 모달"""
+    # some view logics here
+    ctx = dict()
+    farmer_pk = request.POST.get("farmer_pk", None)
+    consumer = request.user.consumer
+
+    # status 0 - error / status 1 - 성공 / status 2 - 이미 구독중
+    if farmer_pk is None:
+        ctx["status"] = 0
+        ctx["message"] = "farmer_pk가 전달되지 않음"
+    else:
+        try:
+            sub = Subscribe.objects.get(farmer__pk=farmer_pk, consumer=consumer)
+            ctx["status"] = 2
+            ctx["message"] = "이미 구독한 농가"
+        except ObjectDoesNotExist:
+            try:
+                farmer = Farmer.objects.get(pk=farmer_pk)
+                ctx["status"] = 1
+                ctx["message"] = "구독 완료"
+                ctx["farmer"] = farmer
+            except ObjectDoesNotExist:
+                ctx["status"] = 0
+                ctx["message"] = "해당 농가가 존재하지 않음"
+
+
+    return render(request, "farmers/modal/farmers_detail_subs.modal.html", ctx)
+
