@@ -245,11 +245,44 @@
     </div>
 </div>
 </div>
+<div class="flex flex-row" id="farmer-sub-wrap">
+    <img src="{{ farmer.farmer_profile.url }}" alt="농가 프로필 이미지" id="farmer-sub-profile">
+    <img src="{% static 'images/base/sub_floating_btn.svg' %}" name={{farmer.pk}} alt="농가 구독하기" id="farmer-sub-icon">
+</div>
 
 <script>
     let subBtn = document.getElementById('sub_btn')
+    let floatingBtn = document.getElementById('farmer-sub-icon')
 
     subBtn.addEventListener('click', function () {
+        let farmer_pk = subBtn.getAttribute('name');
+        data = {
+            'farmer_pk': farmer_pk,
+            "csrfmiddlewaretoken": "{{csrf_token}}",
+        }
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'users:subs' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                if (response.status == 0) {
+                    shootToastMessage('이미 구독중인 농가입니다!');
+                }
+                else if (response.status == 1) {
+                    shootToastMessage('농가 구독이 완료되었습니다.');
+                    subBtn.classList.remove('sub_wrap');
+                    subBtn.classList.add('subed_wrap');
+                    subBtn.innerHTML = "구독중"
+                }
+            },
+            error: function (request, status, error) {
+                shootToastMessage('로그인이 필요합니다.')
+            }
+        })
+    })
+
+    floatingBtn.addEventListener('click', function () {
         let farmer_pk = subBtn.getAttribute('name');
         data = {
             'farmer_pk': farmer_pk,
