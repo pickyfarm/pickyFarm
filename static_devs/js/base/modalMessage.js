@@ -32,20 +32,37 @@ const showModalMessage = (message = '메세지를 입력하세요.', cb = null) 
 
 // 구독 기능 강화 모달
 const subscribeModalMessage = (url, args, cb = null) => {
-  const subModalSection = '#modal-section'
+  const modalSection = document.querySelector('#modal-section');
+  const displayModal = () => {
+      modalSection.style.display = 'flex';
+  };
+  const hideModal = () => {
+      modalSection.style.display = 'none';
+  };
 
   $.ajax({
     type: 'POST',
     url: url,
-    dataType: 'json',
     data: {
-      "csrfmiddlewaretoken": csrftoken,
-      "unsub_pk": args,
+      // "csrfmiddlewaretoken": csrftoken,
+      "farmer_pk": args,
     },
     success: function(data){
-        $(subModalSection).html(data)
+      document.querySelector('#modal-message').innerHTML = data
+      displayModal();
+    },
+    error: (error) => {
+      console.log(error)
     }
   })
+  
+  document
+    .querySelector('#modal-cancel')
+    .addEventListener('click', () => hideModal());
+
+  document
+    .querySelector('#modal-close')
+    .addEventListener('click', () => hideModal());
 
   document.querySelector('#modal-accept').addEventListener('click', () => {
     if (cb) {
