@@ -217,4 +217,13 @@
         right: 15px !important;
         bottom: 120px !important;
     }
+
+    /* modal */
+    .modal-button {
+        height: 4rem;
+    }
+
+    #modal-close {
+        display: none;
+    }
 }

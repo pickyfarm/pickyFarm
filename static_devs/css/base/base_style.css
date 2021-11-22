@@ -192,3 +192,18 @@ button:focus {
 #kakao-channel-icon:hover {
     transform: scale(1.03);
 }
+
+@media screen and (min-width: 769px) {
+    #modal-cancel {
+        display: none;
+    }
+
+    #modal-close {
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    #modal-close:hover {
+        transform: scale(1.2);
+    }
+}
