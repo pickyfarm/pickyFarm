@@ -218,6 +218,21 @@
         bottom: 120px !important;
     }
 
+    #farmer-sub-wrap {
+        right: 15px !important;
+        bottom: 120px !important;
+    }
+
+    #farmer-sub-profile {
+        width: 3rem;
+        height: 3rem;
+        margin-right: 0.5rem;
+    }
+
+    #farmer-sub-icon {
+        width: 15rem;
+    }
+
     /* modal */
     .modal-button {
         height: 4rem !important;
