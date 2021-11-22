@@ -14,12 +14,10 @@ const subscribeFarmers = (farmers) => {
     alert('구독을 완료하였습니다!');
 };
 
-if (unsubFarmerCount > 0) {
-    window.onload = () =>
-        subscribeModalMessage(
-            '/order/payment/subscribe',
-            unsubFarmersPk,
-            () => subscribeFarmers(unsubFarmersPk),
-            '구독하기'
-        );
-}
+window.onload = () =>
+    subscribeModalMessage(
+        '/order/payment/subscribe',
+        unsubFarmersPk,
+        () => subscribeFarmers(unsubFarmersPk),
+        '구독하기'
+    );
