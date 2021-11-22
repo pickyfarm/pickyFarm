@@ -104,7 +104,7 @@
         <div class="order-payment-success-appreciate-message-card-section-container flex">
             <!-- 여기서부터 구독하지 않은 농장 정보 -->
             {% for farmer in unsub_farmers %}
-            <div class="order-payment-success-unsubfarmer-appreciate-message-card-section">
+            <div class="order-payment-success-unsubfarmer-appreciate-message-card-section" data-farmerpk="{{farmer.pk}}">
                 <div class="order-payment-success-unsubfarmer-appreciate-message-card-wrap flex">
                     <div class="order-payment-success-unsubfarmer-card-photo-section relative">
                         <img class="order-payment-success-unsubfarmer-card-photo-circle" src="{{farmer.farmer_profile.url}}" />
@@ -188,5 +188,9 @@
 </div>
 
 {% endblock main_content %} {% block mypage_base_script_section %}
-<script></script>
+<script>
+    const unsubFarmerCount = parseInt("{{count}}")
+</script>
+<script src="{% static 'js/orders/payment_success_subs_modal.js' %}"></script>
+
 {% endblock %}

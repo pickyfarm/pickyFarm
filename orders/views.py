@@ -1307,14 +1307,13 @@ def update_jeju_mountain_delivery_fee(order_group_pk):
     farmers = list(set(map(lambda u: u.product.farmer, order_details)))
 
 
-
 ################
 # 결제 완료 페이지 - 구독 독려 모달 Ajax View
-################ 
-@login_required
+################
 @require_POST
 def sub_modal(request):
-    unsub_farmer_pk_list = request.POST.getlist("unsub_pk")
+    unsub_farmer_pk_list = request.POST.getlist("farmer_pk[]")
+    print(unsub_farmer_pk_list)
     cnt = len(unsub_farmer_pk_list)
     ctx = dict()
     ctx["count"] = cnt
@@ -1325,14 +1324,8 @@ def sub_modal(request):
             farmer = Farmer.objects.get(pk=pk)
             farmers.append(farmer)
         except ObjectDoesNotExist:
-            ctx = {
-                "success" : False,
-                'message' : f"farmer_pk - {pk} 존재하지 않음"
-            }
+            ctx = {"success": False, "message": f"farmer_pk - {pk} 존재하지 않음"}
 
     ctx["farmers"] = farmers
 
-    return render(request, "farmers/modal/farmers_detail_subs_modal.html", ctx)
-
-
-            
+    return render(request, "orders/modal/payment_success_subs_modal.html", ctx)

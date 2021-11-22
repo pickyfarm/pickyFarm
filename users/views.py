@@ -166,6 +166,7 @@ def cancelSubs(request):
 def subs(request):
     if request.method == "POST":
         farmer_pk = request.POST.get("farmer_pk", None)
+        print(farmer_pk)
         consumer = request.user.consumer
         if farmer_pk is None:
             data = {
