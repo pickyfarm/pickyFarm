@@ -747,3 +747,7 @@ div {
     font-weight: 300;
     color: #707070;
 }
+
+#kakao-channel-icon {
+    display: none;
+}

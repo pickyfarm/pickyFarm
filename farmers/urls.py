@@ -76,9 +76,7 @@ urlpatterns = [
         views.FarmerMypageReviewAnswer.as_view(),
         name="farmer_mypage_review_answer",
     ),
-    path(
-        "mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"
-    ),
+    path("mypage/notice", views.FarmerMyPageNotice.as_view(), name="farmer_mypage_notice"),
     # mypage pagination ajax url
     path(
         "mypage/notifications/notification_ajax/",
@@ -138,4 +136,5 @@ urlpatterns = [
         views.FarmerMypagePopupCallback.as_view(),
         name="popup_callback",
     ),
+    path("modal/farmer-sub", views.farmer_subs_modal, name="farmer_subs_modal"),
 ]

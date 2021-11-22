@@ -193,6 +193,30 @@ button:focus {
     transform: scale(1.03);
 }
 
+#farmer-sub-wrap {
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    cursor: pointer;
+}
+
+#farmer-sub-profile {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#farmer-sub-icon {
+    filter: drop-shadow(rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px);
+}
+
+#farmer-sub-wrap:hover {
+    transition: all 0.15s ease-in-out;
+    transform: scale(1.03);
+}
+
 @media screen and (min-width: 769px) {
     #modal-cancel {
         display: none;
