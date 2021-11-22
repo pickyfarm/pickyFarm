@@ -50,7 +50,9 @@
     <div id="modal-section">
         <div id="modal-container" class="mx-auto my-auto flex flex-col">
             <button class="transition-element self-end" id="modal-close">×</button>
-            <div id="modal-message">Modal Test</div>
+            <div id="modal-message">
+                {% include "farmers/modal/farmers_subs_modal.html" %}
+            </div>
             <div id="modal-buttons" class="flex justify-between">
                 <button class="modal-button transition_element" id="modal-cancel">닫기</button>
                 <button class="modal-button transition_element" id="modal-accept">확인</button>
