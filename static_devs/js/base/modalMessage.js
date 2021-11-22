@@ -9,7 +9,7 @@ const showModalMessage = (message = '메세지를 입력하세요.', cb = null) 
         modalSection.style.display = 'none';
     };
 
-    // document.querySelector('#modal-message').innerHTML = message;
+    document.querySelector('#modal-message').innerHTML = message;
 
     displayModal();
 
