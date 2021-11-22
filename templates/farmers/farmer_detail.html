@@ -285,7 +285,7 @@
     floatingBtn.addEventListener('click', function () {
         const modalAjaxURL = "{% url 'farmers:farmer_subs_modal' %}"
         const farmerPK = "{{farmer.pk}}"
-        subscribeModalMessage(modalAjaxURL, farmerPK)
+        subscribeModalMessage(modalAjaxURL, farmerPK, () => { location.href = "{% url 'farmers:farmer_detail' farmer.pk %}" })
     })
 </script>
 <script>
