@@ -1302,3 +1302,10 @@ def update_jeju_mountain_delivery_fee(order_group_pk):
     order = Order_Group.get(pk=order_group_pk)
     order_details = Order_Detail.filter(order_group__pk=order_group_pk)
     farmers = list(set(map(lambda u: u.product.farmer, order_details)))
+
+
+def payment_success_unsub_farmer_modal(reqeust):
+    """결제 완료 페이지 구독장려 모달"""
+    # some view logics here
+    ctx = {}
+    return render(request, "farmers/modal/farmers_detail_subs_modal.html", ctx)
