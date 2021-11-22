@@ -8,16 +8,18 @@ const unsubFarmersPk = [
 
 const subscribeFarmers = (farmers) => {
     farmers.forEach((farmer) => {
-        subscribeFarmer(farmer);
+        subscribeFarmer(parseInt(farmer));
     });
 
     alert('구독을 완료하였습니다!');
 };
 
-window.onload = () =>
-    subscribeModalMessage(
-        '/order/payment/subscribe',
-        unsubFarmersPk,
-        () => subscribeFarmers(unsubFarmersPk),
-        '구독하기'
-    );
+if (unsubFarmerCount > 0) {
+    window.onload = () =>
+        subscribeModalMessage(
+            '/order/payment/subscribe',
+            unsubFarmersPk,
+            () => subscribeFarmers(unsubFarmersPk),
+            '구독하기'
+        );
+}

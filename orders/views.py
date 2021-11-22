@@ -1312,7 +1312,7 @@ def update_jeju_mountain_delivery_fee(order_group_pk):
 ################
 @require_POST
 def sub_modal(request):
-    unsub_farmer_pk_list = request.POST.getlist("unsub_pk[]")
+    unsub_farmer_pk_list = request.POST.getlist("farmer_pk[]")
     print(unsub_farmer_pk_list)
     cnt = len(unsub_farmer_pk_list)
     ctx = dict()

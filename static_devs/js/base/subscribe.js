@@ -1,10 +1,10 @@
 const subscribeFarmer = (farmerPk) => {
     $.ajax({
         type: 'POST',
-        url: '/user/subs',
+        url: '/user/subs/',
         dataType: 'json',
         data: {
-            pk: farmerPk,
+            farmer_pk: farmerPk,
             csrfmiddlewaretoken: csrftoken,
         },
         success: (res) => {},
