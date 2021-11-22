@@ -1,0 +1,14 @@
+<svg id="구성_요소_1_1" data-name="구성 요소 1 – 1" xmlns="http://www.w3.org/2000/svg" width="200" height="40" viewBox="0 0 200 40">
+    <defs>
+        <style>
+            .cls-4{fill:none;stroke:#5e6357;stroke-miterlimit:10;stroke-width:1.5px}
+        </style>
+    </defs>
+    <rect id="사각형_1" data-name="사각형 1" width="200" height="40" rx="12.523" style="fill:#5e6357"/>
+    <text id="농가_구독하기" data-name="농가 구독하기" transform="translate(5.085 7)" style="font-size:18px;font-family:YoonGothic760,'YoonGothic \37 00 \36 0';fill:#ede6e6"><tspan x="30.226" y="18">농가 구독하기</tspan></text>
+    <circle id="타원_2" data-name="타원 2" cx="10" cy="10" r="10" transform="translate(169.532 10)" style="fill:#ede6e6"/>
+    <g id="그룹_1" data-name="그룹 1" transform="translate(-74.798 -55)">
+        <path id="선_1" data-name="선 1" class="cls-4" transform="translate(254.33 70.085)" d="M0 0v9.83"/>
+        <path id="선_2" data-name="선 2" class="cls-4" transform="translate(249.415 75)" d="M9.83 0H0"/>
+    </g>
+</svg>
