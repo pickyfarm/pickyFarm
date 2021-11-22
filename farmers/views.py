@@ -277,14 +277,6 @@ def farmer_detail(request, pk):
     return render(request, "farmers/farmer_detail.html", ctx)
 
 
-def farmer_detail_subs_modal(request):
-    """파머 상세페이지 구독 플로팅 버튼 모달"""
-    # some view logics here
-    ctx = {}
-
-    return render(request, "farmers/modal/farmers_detail_subs.modal.html", ctx)
-
-
 """
 Farmer Detail Pagination with AJAX
 """
