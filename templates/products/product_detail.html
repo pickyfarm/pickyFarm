@@ -169,11 +169,17 @@
 <!-- 리뷰 -->
 {% include 'products/detail/product_review.html' %}
 
-<!-- 상품문의 -->
+<!-- 상품문의 -->
 {% include 'products/detail/product_qna.html' %}
 
-<!-- 상품문의 -->
+<!-- 교환/환불 -->
 {% include 'products/detail/product_refund_change.html' %}
+
+<!-- 농가 구독 플로팅 버튼 -->
+<div class="flex flex-row" id="farmer-sub-wrap">
+    <img src="{{ farmer.farmer_profile.url }}" alt="농가 프로필 이미지" id="farmer-sub-profile">
+    <img src="{% static 'images/base/sub_floating_btn.svg' %}" name={{farmer.pk}} alt="농가 구독하기" id="farmer-sub-icon">
+</div>
 
 <script src="{% static 'js/event/siminwon_event_modal.js' %}"></script>
 <script>
@@ -532,4 +538,14 @@
     });
 </script>
 
+<!-- 농가 구독하기 플로팅 모달 -->
+<script>
+    const floatingBtn = document.getElementById('farmer-sub-icon')
+
+    floatingBtn.addEventListener('click', function () {
+        const modalAjaxURL = "{% url 'farmers:farmer_subs_modal' %}"
+        const farmerPK = "{{farmer.pk}}"
+        subscribeModalMessage(modalAjaxURL, farmerPK)
+    })
+</script>
 {% endblock main_content %}
