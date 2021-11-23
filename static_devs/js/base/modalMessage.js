@@ -50,7 +50,7 @@ const subscribeModalMessage = (
         data: {
             // "csrfmiddlewaretoken": csrftoken,
             farmer_pk: args,
-            'farmer_pk[]': args,
+            'farmer_pk[]': JSON.stringify(args),
         },
         success: function (data) {
             document.querySelector('#modal-message').innerHTML = data;

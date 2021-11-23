@@ -1314,8 +1314,8 @@ def update_jeju_mountain_delivery_fee(order_group_pk):
 def sub_modal(request):
     unsub_farmer_pk_list = request.POST.getlist(
         "farmer_pk[]",
-    )
-    print(unsub_farmer_pk_list)
+    )[0]
+    unsub_farmer_pk_list = json.loads(unsub_farmer_pk_list)[0]
     cnt = len(unsub_farmer_pk_list)
     if unsub_farmer_pk_list == [""]:
         return HttpResponse(status=404)
