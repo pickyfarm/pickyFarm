@@ -24,8 +24,7 @@
                     <div class="text-black text-opacity-40 mr-16">{{ comment.product.title }} 구매</div>
                     <div id="stars" class='flex flex-row items-center'>
                         {% for i in comment.avg|rjust:comment.avg %}
-                        <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}"
-                            alt="yellow_star">
+                        <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}" alt="yellow_star">
                         {% endfor %}
                         {% for i in 5|rjust:4 %}
                         <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/star.svg' %}" alt="yellow_star">
@@ -76,15 +75,13 @@
         <!-- if reported => hide -->
         <div id="review_imgs" class="flex flex-row text-left mt-5">
             {% for img in comment.product_comment_images.all %}
-            <div id="review_img" class="mb-9"><img src="{{img.image.url}}" alt="사진없음"
-                    style="width:241px; height:241px; object-fit: cover;"></div>
+            <div id="review_img" class="mb-9"><img src="{{img.image.url}}" alt="사진없음" style="width:241px; height:241px; object-fit: cover;"></div>
             {% endfor %}
         </div>
         <div id="review_comment">
             <div class="flex flex-row justify-center mb-4">
                 <button id="more_btn" class="rec_more" style="outline: none;">
-                    댓글보기 &nbsp; <i id="show_icon" class='fas fa-caret-down'></i> <i class="fas fa-caret-up"
-                        style="display: none;"></i>
+                    댓글보기 &nbsp; <i id="show_icon" class='fas fa-caret-down'></i> <i class="fas fa-caret-up" style="display: none;"></i>
                 </button>
             </div>
             <div class="recomments hide">
@@ -99,8 +96,7 @@
                             </div>
                         </div>
                         <textarea type="text" class="recomment-input-box" name='{{comment.pk}}'></textarea>
-                        <button class="recomment-submit-button mx-auto"
-                            onclick="recommentSubmit({{comment.pk}})">등록하기</button>
+                        <button class="recomment-submit-button mx-auto" onclick="recommentSubmit({{comment.pk}})">등록하기</button>
                     </div>
                     <div class="horizon-bar mx-auto"></div>
                     {% endif %}
@@ -118,14 +114,12 @@
                             </div>
                             <div class="bar"></div>
                             <div class="recomment-report flex items-center ml-auto">
-                                <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
-                                    alt="">
+                                <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
                                 <div class="comment-report--report button">신고하기</div>
                             </div>
                         </div>
                         <div class="absolute recomment-like-button-wrap button">
-                            <div class="recomment-like-button relative"
-                                style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
+                            <div class="recomment-like-button relative" style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
                                 <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
                             </div>
                         </div>
@@ -136,10 +130,8 @@
                                     <div></div>
                                     <div class="recomment-text-options flex">
                                         {% if request.user == recomment.author %}
-                                        <div class="comment-text-options--edit recomment-text-options--edit button"
-                                            onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
-                                        <div class="comment-text-options--delete recomment-text-options--delete button"
-                                            onclick="recommentDelete({{recomment.pk}})">삭제</div>
+                                        <div class="comment-text-options--edit recomment-text-options--edit button" onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
+                                        <div class="comment-text-options--delete recomment-text-options--delete button" onclick="recommentDelete({{recomment.pk}})">삭제</div>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -167,23 +159,23 @@
 </div>
 <div id="paginator" class="flex justify-between w-36 mx-auto mb-40">
     {% if comments.has_previous %}
-        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
-        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{comments.previous_page_number}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{comments.previous_page_number}}' style="cursor: pointer">
     {% else %}
-        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
-        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
     {% endif %}
 
-        <div>{{comments.number}}</div>
-        <div>/</div>
-        <div>{{comments.paginator.num_pages}}</div>
+    <div>{{comments.number}}</div>
+    <div>/</div>
+    <div>{{comments.paginator.num_pages}}</div>
 
     {% if comments.has_next %}
-        <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{comments.next_page_number}}' style="cursor: pointer">
-        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{comments.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{comments.next_page_number}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{comments.paginator.num_pages}}' style="cursor: pointer">
     {% else %}
-        <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{comments.paginator.num_pages}}' style="cursor: pointer"> 
-        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{comments.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{comments.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{comments.paginator.num_pages}}' style="cursor: pointer">
     {% endif %}
 </div>
 
@@ -191,4 +183,4 @@
     PAGINATION_URL = `comment_ajax/?page=`
     PAGINATION_SECTION = '#comments-wrapper'
 </script>
-<script src="{% static 'js/pagination/pagination.js' %}"></script> 
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>

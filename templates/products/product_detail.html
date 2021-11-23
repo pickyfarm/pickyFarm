@@ -16,8 +16,8 @@
 <link rel="stylesheet" href="{% static 'css/products/product_refund_change_mobile.css' %}">
 
 
-<!-- <script src='https://kit.fontawesome.com/a076d05399.js'></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script defer src='https://kit.fontawesome.com/a076d05399.js'></script> -->
+
 
 {% endblock stylesheet %}
 {% block main_content %}
@@ -181,7 +181,7 @@
     <img src="{% static 'images/base/sub_floating_btn.svg' %}" name={{farmer.pk}} alt="농가 구독하기" id="farmer-sub-icon">
 </div>
 
-<script src="{% static 'js/event/siminwon_event_modal.js' %}"></script>
+<script defer src="{% static 'js/event/siminwon_event_modal.js' %}"></script>
 <script>
 
     let plusBtn = document.getElementById('plus_btn')

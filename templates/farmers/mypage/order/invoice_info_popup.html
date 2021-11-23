@@ -6,7 +6,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0'>
     <link rel="stylesheet" href="{% static 'css/farmers/mypage/order/invoice_info_popup.css' %}" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>송장번호 입력</title>
 </head>
 
@@ -145,7 +145,7 @@
         </div>
     </div>
     {% endif %}
-    <script>
+    <script defer>
         const check_btn = document.querySelector('.order-cancel-invoice-number-submit-wrap');
         const check_img = document.querySelector('.order-cancel-invoice-number-submit-img');
 

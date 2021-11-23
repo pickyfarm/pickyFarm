@@ -21,27 +21,27 @@
 </div>
 <div id="paginator" class="flex justify-between w-36 mx-auto mt-8">
     {% if questions.has_previous %}
-        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
-        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{questions.previous_page_number}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{questions.previous_page_number}}' style="cursor: pointer">
     {% else %}
-        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
-        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
     {% endif %}
 
-        <div>{{questions.number}}</div>
-        <div>/</div>
-        <div>{{questions.paginator.num_pages}}</div>
+    <div>{{questions.number}}</div>
+    <div>/</div>
+    <div>{{questions.paginator.num_pages}}</div>
 
     {% if questions.has_next %}
-        <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{questions.next_page_number}}' style="cursor: pointer">
-        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{questions.next_page_number}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
     {% else %}
-        <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer"> 
-        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
     {% endif %}
 </div>
 <script>
     PAGINATION_URL2 = 'question_ajax/?page2='
     PAGINATION_SECTION2 = '#questions-wrapper'
 </script>
-<script src="{% static 'js/pagination/pagination.js' %}"></script> 
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>

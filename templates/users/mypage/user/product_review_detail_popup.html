@@ -2,21 +2,21 @@
 {% load static %} <html lang="en">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/products/product_review_mobile.css' %}">
-	<link rel="stylesheet" href="{% static 'css/users/mypage/user/product_review_popup.css' %}" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<title>내가 쓴 리뷰</title>
+    <link rel="stylesheet" href="{% static 'css/users/mypage/user/product_review_popup.css' %}" />
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>내가 쓴 리뷰</title>
 </head>
 
 <body>
-	<div class="popup_container flex">
-		<div class="review-main-content-wrap">
-			<div class="review-date mb-5">
-				내가 쓴 리뷰 
-			</div>
+    <div class="popup_container flex">
+        <div class="review-main-content-wrap">
+            <div class="review-date mb-5">
+                내가 쓴 리뷰
+            </div>
             <div>
                 <div class="flex flex-row mb-9" id="comment">
                     <div class="">
@@ -37,12 +37,11 @@
                             <div class="text-black text-opacity-40 mr-16">{{ review.product.title }} 구매</div>
                             <div id="stars" class='flex flex-row items-center'>
                                 {% for i in total_range %}
-                                    {% if i < review.avg %}
-                                    <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}"
-                                    alt="yellow_star">
-                                    {% else %}
-                                    <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/star.svg' %}" alt="gray_star">
-                                    {% endif %}
+                                {% if i < review.avg %}
+                                <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}" alt="yellow_star">
+                                {% else %}
+                                <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/star.svg' %}" alt="gray_star">
+                                {% endif %}
                                 {% endfor %}
                             </div>
                         </div>
@@ -90,45 +89,42 @@
                 <!-- if reported => hide -->
                 <div id="review_imgs" class="flex flex-row text-left mt-5">
                     {% for img in review.product_comment_images.all %}
-                    <div id="review_img" class="mb-9"><img src="{{img.image.url}}" alt="사진없음"
-                            style="width:241px; height:241px; object-fit: cover;"></div>
+                    <div id="review_img" class="mb-9"><img src="{{img.image.url}}" alt="사진없음" style="width:241px; height:241px; object-fit: cover;"></div>
                     {% endfor %}
                 </div>
             </div>
             {% for recomment in review.product_recomments.all %}
-                <div class="recomment relative w-full" name={{recomment.pk}}>
-                    <div class="flex items-center recomment-info">
-                        <div class="recomment-arrow"></div>
-                        <div class="recomment-author flex items-center">
-                            <img src="{{recomment.author.profile_image.url}}" class="comment-author--profile-image">
-                            <div class="comment-author--id">{{recomment.author.nickname}}</div>
-                        </div>
-                        <div class="bar"></div>
-                        <div class="comment-create text-center recomment-create">
-                            {{recomment.create_at|date:"Y. m.d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recomment.create_at|date:"H : i"}}
-                        </div>
-                        <div class="bar"></div>
-                        <div class="recomment-report flex items-center ml-auto">
-                            <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
-                                alt="">
-                            <div class="comment-report--report button">신고하기</div>
-                        </div>
+            <div class="recomment relative w-full" name={{recomment.pk}}>
+                <div class="flex items-center recomment-info">
+                    <div class="recomment-arrow"></div>
+                    <div class="recomment-author flex items-center">
+                        <img src="{{recomment.author.profile_image.url}}" class="comment-author--profile-image">
+                        <div class="comment-author--id">{{recomment.author.nickname}}</div>
                     </div>
-                    <div class="absolute recomment-like-button-wrap button">
-                        <div class="recomment-like-button relative"
-                            style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
-                            <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
-                        </div>
+                    <div class="bar"></div>
+                    <div class="comment-create text-center recomment-create">
+                        {{recomment.create_at|date:"Y. m.d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recomment.create_at|date:"H : i"}}
                     </div>
-                    <div class="recomment-content flex flex-col">
-                        <div class="recomment-text">
-                            <div class="recomment-text--text">{{recomment.text}}</div>
-                        </div>
+                    <div class="bar"></div>
+                    <div class="recomment-report flex items-center ml-auto">
+                        <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
+                        <div class="comment-report--report button">신고하기</div>
                     </div>
                 </div>
-                <div class="horizon-bar mx-auto"></div>
+                <div class="absolute recomment-like-button-wrap button">
+                    <div class="recomment-like-button relative" style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
+                        <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
+                    </div>
+                </div>
+                <div class="recomment-content flex flex-col">
+                    <div class="recomment-text">
+                        <div class="recomment-text--text">{{recomment.text}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="horizon-bar mx-auto"></div>
             {% endfor %}
-        <div class="comment-detail-title mt-20">댓글 달기</div>
+            <div class="comment-detail-title mt-20">댓글 달기</div>
             <form class="mt-10" action="" method="POST">
                 {% csrf_token %}
                 <div class="mb-1">{{recomment_form}}</div>
@@ -138,16 +134,16 @@
                     </button>
                 </div>
             </form>
-		</div>
+        </div>
     </div>
 </body>
 <script>
-	const greyStar = "{% static 'images/users/mypage/user/gray-star.svg' %}"
-	const yellowStar = "{% static 'images/users/mypage/user/star-yellow.svg' %}"
-	const checkHoverImg = "{% static 'images/users/mypage/user/check_hover.svg' %}"
-	const checkNohoverImg = "{% static 'images/users/mypage/user/check_nohover.svg' %}"
+    const greyStar = "{% static 'images/users/mypage/user/gray-star.svg' %}"
+    const yellowStar = "{% static 'images/users/mypage/user/star-yellow.svg' %}"
+    const checkHoverImg = "{% static 'images/users/mypage/user/check_hover.svg' %}"
+    const checkNohoverImg = "{% static 'images/users/mypage/user/check_nohover.svg' %}"
 </script>
-<script src="{% static 'js/users/mypage/user/product_review_popup.js' %}"></script>
+<script defer src="{% static 'js/users/mypage/user/product_review_popup.js' %}"></script>
 
 
 </html>

@@ -7,30 +7,30 @@
 
 {% block content %}
 <div id="content-wrap">
-    <div id="profile-section" class="">
-        <div id="title-section" class="flex flex-row">
-          <div class="mr-10">프로필 수정</div>
-          <div><img id="edit-profile" src="{% static 'images/users/pen.svg' %}"></div>
-        </div>
-        <div id="profile-content-section" class="w-100">
-          <div id="image-section" class="flex flex-col items-center w-100 ">
-            <div><img id="profile-image" src="{{editor.user.profile_image.url}}"></div>
-            <div id="edit-profile-image" class="hidden">
-              <label for="edit-profile-image-input">사진 변경</label>
-              <input type="file" id="edit-profile-image-input" class="mx-auto">
-            </div>
-          </div>
-          <div id="email-section" class="flex flex-row w-100">
-            <div class="w-1/4">닉네임</div>
-            <div id="nickname" class="w-3/4">{{editor.user.nickname}}</div>
-          </div>
-          <img id="profile-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
+  <div id="profile-section" class="">
+    <div id="title-section" class="flex flex-row">
+      <div class="mr-10">프로필 수정</div>
+      <div><img id="edit-profile" src="{% static 'images/users/pen.svg' %}"></div>
+    </div>
+    <div id="profile-content-section" class="w-100">
+      <div id="image-section" class="flex flex-col items-center w-100 ">
+        <div><img id="profile-image" src="{{editor.user.profile_image.url}}"></div>
+        <div id="edit-profile-image" class="hidden">
+          <label for="edit-profile-image-input">사진 변경</label>
+          <input type="file" id="edit-profile-image-input" class="mx-auto">
         </div>
       </div>
+      <div id="email-section" class="flex flex-row w-100">
+        <div class="w-1/4">닉네임</div>
+        <div id="nickname" class="w-3/4">{{editor.user.nickname}}</div>
+      </div>
+      <img id="profile-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
-    const CSRFToken = '{{csrf_token}}'
-    const profileUpdateURL = '{% url "users:profileUpdate" %}'
+  const CSRFToken = '{{csrf_token}}'
+  const profileUpdateURL = '{% url "users:profileUpdate" %}'
 </script>
-<script src="{% static 'js/users/mypage/editor/editor_mypage_info.js' %}"></script>
+<script defer src="{% static 'js/users/mypage/editor/editor_mypage_info.js' %}"></script>
 {% endblock content %}

@@ -62,10 +62,10 @@
     const currentUserProfileImageURL = "{{user.profile_image.url}}"
     const currentUserNickname = "{{request.user.nickname}}"
 </script>
-<script src="{% static 'js/comment/Components/Comment.js' %}"></script>
-<script src="{% static 'js/editor_reviews/comment_like.js'%}"></script>
-<script src="{% static 'js/editor_reviews/comment_edit.js' %}"></script>
-<script src="{% static 'js/editor_reviews/comment_delete.js' %}"></script>
-<script src="{% static 'js/editor_reviews/comment_submit.js' %}"></script>
-<script src="{% static 'js/comment/comment_load.js' %}"></script>
+<script defer src="{% static 'js/comment/Components/Comment.js' %}"></script>
+<script defer src="{% static 'js/editor_reviews/comment_like.js'%}"></script>
+<script defer src="{% static 'js/editor_reviews/comment_edit.js' %}"></script>
+<script defer src="{% static 'js/editor_reviews/comment_delete.js' %}"></script>
+<script defer src="{% static 'js/editor_reviews/comment_submit.js' %}"></script>
+<script defer src="{% static 'js/comment/comment_load.js' %}"></script>
 {% endblock scripts %}
