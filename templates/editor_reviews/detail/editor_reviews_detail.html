@@ -4,6 +4,11 @@
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_detail.css' %}">
 {% endblock stylesheet %}
+{% block title_name %}{{review.title}} : Editor's Pick{% endblock %}
+{% block og_url %}{% url 'editors_pick:detail' review.pk %}{% endblock %}
+{% block og_title%}{{review.title}} : Editor's Pick{% endblock %}
+{% block og_image %}{{review.main_image.url}}{% endblock %}
+
 
 {% block main_content %}
 <div class="main-contents flex flex-col lg:mx-0 sm:mx-0 bg-white-400 font-4xl" id="main">
@@ -29,3 +34,38 @@
     <div>업데이트</div>
 </a> {% endcomment %}
 {% endblock main_content %}
+
+{% block scripts %}
+<script type="text/javascript">
+    const expandRecommentSection = e => {
+        e.closest(".comment-content").nextElementSibling.style.display = "inherit"
+    }
+
+    // urls for AJAX request
+    const commentSubmitURL = '{% url "editors_pick:comment" review.pk %}'
+    const commentLikeURL = '{% url "likes:editor_review_comment_like"%}'
+    const commentLoadURL = '{% url "editors_pick:comment_load" %}'
+    const recommentLikeURL = '{% url "likes:editor_review_recomment_like"%}'
+    const recommentEditURL = "{% url 'editors_pick:recomment_edit' %}"
+    const recommentDeleteURL = '{% url "editors_pick:recomment_delete" %}'
+    const recommentLoadURL = '{% url "editors_pick:recomment_load" %}'
+
+    // constants for AJAX request's argument
+    const reviewPK = "{{review.pk}}"
+    const userPK = "{{request.user.pk}}"
+    const CSRFToken = "{{csrf_token}}"
+
+    // constants for AJAX callback
+    const likeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_like.svg' %}"
+    const recommentLikeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_recomment_like.svg' %}"
+    const reportButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
+    const currentUserProfileImageURL = "{{user.profile_image.url}}"
+    const currentUserNickname = "{{request.user.nickname}}"
+</script>
+<script src="{% static 'js/comment/Components/Comment.js' %}"></script>
+<script src="{% static 'js/editor_reviews/comment_like.js'%}"></script>
+<script src="{% static 'js/editor_reviews/comment_edit.js' %}"></script>
+<script src="{% static 'js/editor_reviews/comment_delete.js' %}"></script>
+<script src="{% static 'js/editor_reviews/comment_submit.js' %}"></script>
+<script src="{% static 'js/comment/comment_load.js' %}"></script>
+{% endblock scripts %}
