@@ -1112,10 +1112,11 @@ def vbank_template_test(request):
 def order_cancel(request, pk):
     # http referer 참고해서 임의 접근 막는 코드 넣을 예정
     order = Order_Detail.objects.get(pk=pk)
+    print(pk)
 
     if request.method == "GET":
         ctx = {
-            "order_info": order,
+            "order": order,
         }
 
         return render(request, "users/mypage/user/order_cancel_popup.html", ctx)
