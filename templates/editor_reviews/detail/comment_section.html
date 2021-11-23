@@ -63,8 +63,7 @@
                     </div>
 
                     <div class="absolute comment-like-button-wrap button">
-                        <div class="comment-like-button relative"
-                            style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
+                        <div class="comment-like-button relative" style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
                             <p class="comment-like-count absolute text-center align-text-bottom">{{comment.like_count}}</p>
                         </div>
                     </div>
@@ -80,8 +79,7 @@
                             </div>
                         </div>
                         <textarea type="text" class="recomment-input-box" name='{{comment.pk}}'></textarea>
-                        <button class="recomment-submit-button mx-auto"
-                            onclick="recommentSubmit({{comment.pk}})">등록하기</button>
+                        <button class="recomment-submit-button mx-auto" onclick="recommentSubmit({{comment.pk}})">등록하기</button>
                     </div>
                     <div class="horizon-bar mx-auto"></div>
                     {% endif %}
@@ -99,14 +97,12 @@
                             </div>
                             <div class="bar"></div>
                             <div class="recomment-report flex items-center ml-auto">
-                                <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
-                                    alt="">
+                                <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
                                 <div class="comment-report--report button">신고하기</div>
                             </div>
                         </div>
                         <div class="absolute recomment-like-button-wrap button">
-                            <div class="recomment-like-button relative"
-                                style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
+                            <div class="recomment-like-button relative" style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
                                 <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
                             </div>
                         </div>
@@ -117,10 +113,8 @@
                                     <div></div>
                                     <div class="recomment-text-options flex">
                                         {% if request.user == recomment.author %}
-                                        <div class="comment-text-options--edit recomment-text-options--edit button"
-                                            onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
-                                        <div class="comment-text-options--delete recomment-text-options--delete button"
-                                            onclick="recommentDelete({{recomment.pk}})">삭제</div>
+                                        <div class="comment-text-options--edit recomment-text-options--edit button" onclick="recommentEdit(this, {{recomment.pk}})">수정</div>
+                                        <div class="comment-text-options--delete recomment-text-options--delete button" onclick="recommentDelete({{recomment.pk}})">삭제</div>
                                         {% endif %}
                                     </div>
                                 </div>
