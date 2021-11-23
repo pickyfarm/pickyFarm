@@ -1146,7 +1146,7 @@ def order_cancel(request, pk):
                 product.save()
                 order.save()
 
-                return HttpResponse(status=200)
+                return redirect(reverse("core:popup_callback"))
 
         return HttpResponse("주문 취소를 실패하였습니다. 고객센터에 문의해주시기 바랍니다.", status=200)
 
@@ -1318,7 +1318,7 @@ def sub_modal(request):
     )[0]
     unsub_farmer_pk_list = json.loads(unsub_farmer_pk_list)[0]
     cnt = len(unsub_farmer_pk_list)
-    if unsub_farmer_pk_list == [""]:
+    if unsub_farmer_pk_list == []:
         return HttpResponse(status=404)
     ctx = dict()
     ctx["count"] = cnt
