@@ -83,12 +83,12 @@
                     <div class="editor-lists flex flex-col">
                         {% for editor in editors %}
                         <div class="editor-profile flex items-center">
-                            <div class="editor-img rounded-full"></div>
+                            <img src="{{editor.user.profile_image}}" class="editor-img rounded-full">
                             <div class="editor-info flex flex-col">
                                 <div class="editor-name">{{editor.user.nickname|slice:'10'}}</div>
                                 <div class="editor-article-info flex">
                                     <div class="article-count">글 {{editor.review_count}}</div>
-                                    <div class="view-count">조회수 {{editor.review_hits_count}}</div>
+                                    <!-- <div class="view-count">조회수 {{editor.review_hits_count}}</div> -->
                                 </div>
                             </div>
                         </div>
