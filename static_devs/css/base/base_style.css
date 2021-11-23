@@ -133,9 +133,9 @@ button:focus {
 
 .modal-button {
     flex: 1;
-    height: 96px;
+    height: 60px;
     text-align: center;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 300;
 }
 
