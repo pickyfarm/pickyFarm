@@ -155,7 +155,7 @@ def farmer_story_search(request):
 # farmer's story create page
 def farmer_story_create(request):
     try:
-        user = request.user.farmer
+        farmer = request.user.farmer
     except ObjectDoesNotExist:
         return redirect(reverse("core:main"))
     if request.method == "POST":
@@ -166,11 +166,26 @@ def farmer_story_create(request):
             content = form.cleaned_data.get("content")
             farmer_story = Farmer_Story(
                 title=title,
-                thumbnail = thumbnail,
+                thumbnail=thumbnail,
                 content=content,
             )
-            farmer_story.farmer = user
+            farmer_story.farmer = farmer
             farmer_story.save()
+
+            # 구독자 알림톡 발송
+            subscribes = Subscribe.objects.filter(farmer=farmer)
+
+            message_args = {
+                "#{farmer_nickname}": f"{request.user.nickname}",
+                "#{farm_name}": f"{farmer.farm_name}",
+                "#{link}": f"www.pickyfarm.com/farmer/farmer_story/detail/{farmer_story.pk}/",
+            }
+            for sub in subscribes:
+                send_kakao_message(
+                    sub.consumer.user.phone_number,
+                    templateIdList["new_diary"],
+                    message_args,
+                )
             return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
@@ -787,7 +802,7 @@ class FarmerMypageReviewAnswer(DetailView):
                     "#{link1}": f"www.pickyfarm.com/user/mypage/orders/review/{review.pk}",
                     "#{link2}": f"www.pickyfarm.com/farmer/farmer_detail/{self.request.user.farmer.pk}",
                 }
-    
+
                 # 농가 카카오 알림톡 전송
                 send_kakao_message(
                     review.consumer.user.phone_number,
