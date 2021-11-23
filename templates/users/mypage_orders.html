@@ -130,7 +130,7 @@
 
         {% if detail.status == 'payment_complete' or detail.status == 'preparing' %}
         <div id="cancel-order-btn" class="transition_element">
-          <a>
+          <a onclick="window.open('{% url 'orders:payment_cancel' detail.pk %}')">
             주문 취소
           </a>
         </div>
