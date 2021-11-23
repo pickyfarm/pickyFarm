@@ -1095,6 +1095,10 @@ video {
   height: auto;
 }
 
+.h-main {
+  height: 750px;
+}
+
 .w-2 {
   width: 0.5rem;
 }
@@ -1253,6 +1257,14 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-header {
+  width: 1280px;
+}
+
+.w-content {
+  width: 990px;
 }
 
 .flex-1 {
