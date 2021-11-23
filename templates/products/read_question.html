@@ -4,7 +4,6 @@
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/products/read_question.css' %}">
 <link rel="stylesheet" href="{% static 'css/products/read_question_mobile.css' %}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
 </script>
@@ -35,7 +34,7 @@
     {% if answer != 0 %}
     <section id="answer-content-section">
         <div id="answer-content-header">농가의 답변</div>
-            <div id="answer-content">{{answer.content}}</div>
+        <div id="answer-content">{{answer.content}}</div>
     </section>
     {% endif %}
 
@@ -46,6 +45,6 @@
 
 
 <script type="text/javascript">
-    
+
 </script>
 {% endblock main_content %}

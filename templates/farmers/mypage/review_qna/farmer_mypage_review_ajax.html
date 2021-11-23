@@ -64,23 +64,23 @@
 </div>
 <div class="flex justify-between w-36 mx-auto mt-8">
     {% if reviews.has_previous %}
-        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
-        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{reviews.previous_page_number}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{reviews.previous_page_number}}' style="cursor: pointer">
     {% else %}
-        <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
-        <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
     {% endif %}
 
-        <div>{{reviews.number}}</div>
-        <div>/</div>
-        <div>{{reviews.paginator.num_pages}}</div>
+    <div>{{reviews.number}}</div>
+    <div>/</div>
+    <div>{{reviews.paginator.num_pages}}</div>
 
     {% if reviews.has_next %}
-        <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{reviews.next_page_number}}' style="cursor: pointer">
-        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{reviews.next_page_number}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
     {% else %}
-        <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer"> 
-        <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{reviews.paginator.num_pages}}' style="cursor: pointer">
     {% endif %}
 </div>
 
@@ -92,4 +92,4 @@
     PAGINATION_SECTION2 = '#review-list'
 </script>
 
-<script src="{% static 'js/pagination/pagination.js' %}"></script>
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>

@@ -9,7 +9,7 @@
     </a>
     {% endfor %}
 </div>
-{% if products.count <= 3 %} 
+{% if products.count <= 3 %}
 <div class="h-10 mb-48">
 </div>
 {% else %}
@@ -29,7 +29,7 @@
     {% if products.has_next %}
     <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{products.next_page_number}}' style="cursor: pointer">
     {% else %}
-    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{products.paginator.num_pages}}' style="cursor: pointer"> 
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{products.paginator.num_pages}}' style="cursor: pointer">
     {% endif %}
     <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{products.paginator.num_pages}}' style="cursor: pointer">
 </div>
@@ -39,4 +39,4 @@
     PAGINATION_URL = 'products_ajax/?page='
     PAGINATION_SECTION = '#products-section'
 </script>
-<script src="{% static 'js/pagination/pagination.js' %}"></script>
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>

@@ -1,6 +1,5 @@
 {% extends "base/base.html" %} {% load static %} {% block stylesheet %}
 <!-- <link rel="stylesheet" href="{% static 'css/products/create_question.css' %}"> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{% static 'css/orders/payment_fail.css' %}" />
 <link rel="stylesheet" href="{% static 'css/orders/payment_fail_mobile.css' %}" />
 {% endblock stylesheet %} {% block main_content %}
@@ -27,15 +26,10 @@
     </div>
     <div class="fail-sub-content-3">
         <a href="{% url 'users:mypage' 'cart' %}">
-            <input
-                id="fail-return-button"
-                class="transition_element"
-                type="button"
-                value="확인"
-            />
+            <input id="fail-return-button" class="transition_element" type="button" value="확인" />
         </a>
     </div>
 </div>
- {% endblock main_content %} {% block mypage_base_script_section %}
+{% endblock main_content %} {% block mypage_base_script_section %}
 <script></script>
 {% endblock %}

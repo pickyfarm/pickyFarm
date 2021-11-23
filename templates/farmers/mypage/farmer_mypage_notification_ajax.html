@@ -42,7 +42,7 @@
     {% if notifications.has_next %}
     <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{notifications.next_page_number}}' style="cursor: pointer">
     {% else %}
-    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer"> 
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer">
     {% endif %}
     <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{notifications.paginator.num_pages}}' style="cursor: pointer">
 </div>
@@ -75,4 +75,4 @@
     PAGINATION_URL = 'notification_ajax/?page='
     PAGINATION_SECTION = '#noti-list'
 </script>
-<script src="{% static 'js/pagination/pagination.js' %}"></script>
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>
