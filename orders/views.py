@@ -1141,6 +1141,7 @@ def order_cancel(request, pk):
 
             if cancel_result["status"] == 200:
                 order.status = "cancel"
+                order.order_group.status = "cancel"
                 product = order.product
                 product.stock += order.quantity
                 product.save()
