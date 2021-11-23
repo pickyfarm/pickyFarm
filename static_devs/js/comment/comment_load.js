@@ -30,7 +30,7 @@ const commentLoad = (pk) => {
                 .slice(numberOfComments)
                 .forEach((elem) => {
                     elem.addEventListener('click', (e) => {
-                        commentLike(e);
+                        commentLikeHandler(e, 'comment');
                     });
                 });
             shootToastMessage('댓글을 불러왔습니다.');
@@ -77,7 +77,7 @@ const recommentLoad = (pk) => {
                 .slice(numberOfComments)
                 .forEach((elem) => {
                     elem.addEventListener('click', (e) => {
-                        recommentLike(e);
+                        commentLikeHandler(e, 'recomment');
                     });
                 });
             shootToastMessage('답글을 불러왔습니다.');
