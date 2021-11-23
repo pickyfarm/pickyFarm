@@ -4,6 +4,11 @@
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_detail.css' %}">
 {% endblock stylesheet %}
+{% block title_name %}{{review.title}} : Editor's Pick{% endblock %}
+{% block og_url %}{% url 'editors_pick:detail' review.pk %}{% endblock %}
+{% block og_title%}{{review.title}} : Editor's Pick{% endblock %}
+{% block og_image %}{{review.main_image.url}}{% endblock %}
+
 
 {% block main_content %}
 <div class="main-contents flex flex-col lg:mx-0 sm:mx-0 bg-white-400 font-4xl" id="main">
