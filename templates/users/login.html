@@ -29,7 +29,7 @@
                 </div>
                 <input type="hidden" name="next" value="{{next}}">
                 <button class="login-button">로그인</button>
-                <button class="login-button" onclick="location.href='/user/login/kakao'; return false"><img src="{% static 'images/user/login-with-kakao.svg' %}"></button>
+                <button class="login-button" onclick="location.href='/user/login/kakao?next={{next}}'; return false"><img src="{% static 'images/user/login-with-kakao.svg' %}"></button>
             </div>
         </form>
         <div class="flex justify-between links">

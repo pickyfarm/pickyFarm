@@ -341,9 +341,10 @@ def log_out(request):
 def kakao_login(request):
     REST_API_KEY = os.environ.get("KAKAO_KEY")
     REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
+    NEXT_URL = request.GET.get("next", "/")
 
     return redirect(
-        f"https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code"
+        f"https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code&state={NEXT_URL}"
     )
 
 
@@ -351,6 +352,7 @@ def kakao_callback(request):
     REST_API_KEY = os.environ.get("KAKAO_KEY")
     print()
     REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
+    NEXT_URL = request.GET.get("state", "/")
 
     try:
         code = request.GET.get("code")
@@ -381,7 +383,7 @@ def kakao_callback(request):
             user = User.objects.get(username=f"kakao.{email}")
             print(user)
             login(request, user=user)
-            return redirect(reverse("core:main"))
+            return redirect(NEXT_URL)
 
         except ObjectDoesNotExist:
             pass
