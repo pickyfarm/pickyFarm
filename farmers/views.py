@@ -1380,7 +1380,11 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
 
     def post(self, request, **kwargs):
         order = self.get_queryset()
-        invoice_number = self.request.POST.get("invoice_number", None).replace("-", "")
+        invoice_number = (
+            self.request.POST.get("invoice_number", None)
+            .replace("-", "")
+            .replace(" ", "")
+        )
         delivery_service_company = self.request.POST.get("invoice-select")
 
         order.update(
