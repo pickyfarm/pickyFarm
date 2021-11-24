@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block title_name %}
-Farmer's Story
+Farmer's Diary
 {% endblock title_name %}
 
 {% block main_content %}
 <div class="content mx-auto mb-9" style="margin-top: 130px;">
     <img src="{% static 'images/farm/leaf.svg' %}" class="mx-auto" alt="">
     <!--title-->
-    <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Story </div>
+    <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Diary </div>
     <div class="text-center mb-16" style="color: #999999;"> 파머가 직접 전하는 농가 이야기 </div>
     <!--farmer story content-->
-    <form class="relative" method="POST">
+    <form class="relative" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="pt-11 mb-10" id="story_content">
             <!--title-->

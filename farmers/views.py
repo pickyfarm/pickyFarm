@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.utils import timezone
 from django.views import View
 from django.views.decorators.http import require_POST
 from django.views.generic import (
@@ -37,6 +38,7 @@ from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group, RefundExchange
 from comments.models import Farmer_Story_Comment, Product_Comment, Product_Comment_Image
 from admins.models import FarmerNotice, FarmerNotification
+from core.models import NoQuerySet, AuthorNotMatched
 
 # forms
 from .forms import *
@@ -160,30 +162,73 @@ def farmer_story_search(request):
 # farmer's story create page
 def farmer_story_create(request):
     try:
-        user = request.user.farmer
+        farmer = request.user.farmer
     except ObjectDoesNotExist:
         return redirect(reverse("core:main"))
     if request.method == "POST":
         form = FarmerStoryForm(request.POST, request.FILES)
         if form.is_valid():
             title = form.cleaned_data.get("title")
-            # sub_title = form.cleaned_data.get('sub_title')
+            thumbnail = form.cleaned_data.get("thumbnail")
             content = form.cleaned_data.get("content")
             farmer_story = Farmer_Story(
                 title=title,
-                # sub_title=sub_title,
+                thumbnail=thumbnail,
                 content=content,
             )
-            farmer_story.farmer = user
+            farmer_story.farmer = farmer
             farmer_story.save()
-            return redirect(
-                reverse("farmers:farmer_story_detail", args=[farmer_story.pk])
-            )
+
+            # 구독자 알림톡 발송
+            subscribes = Subscribe.objects.filter(farmer=farmer)
+
+            message_args = {
+                "#{farmer_nickname}": f"{request.user.nickname}",
+                "#{farm_name}": f"{farmer.farm_name}",
+                "#{link}": f"www.pickyfarm.com/farmer/diary/{farmer_story.pk}",
+            }
+            for sub in subscribes:
+                send_kakao_message(
+                    sub.consumer.user.phone_number,
+                    templateIdList["new_diary"],
+                    message_args,
+                )
+            return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
     elif request.method == "GET":
         form = FarmerStoryForm()
         ctx = {
+            "form": form,
+        }
+        return render(request, "farmers/farmer_story_create.html", ctx)
+
+
+def farmer_story_update(request, pk):
+    farmer_story = get_object_or_404(Farmer_Story, pk=pk)
+    try:
+        if farmer_story.farmer.user != request.user:
+            raise AuthorNotMatched
+    except ObjectDoesNotExist:
+        return redirect(reverse("core:main"))
+    except AuthorNotMatched:
+        return redirect(reverse("core:main"))
+
+    if request.method == "POST":
+        form = FarmerStoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            farmer_story.title = form.cleaned_data.get("title")
+            farmer_story.thumbnail = form.cleaned_data.get("thumbnail")
+            farmer_story.content = form.cleaned_data.get("content")
+            farmer_story.update_at = timezone.now()
+            farmer_story.save()
+            return redirect("farmers:farmer_story_detail", pk)
+        else:
+            return redirect(reverse("core:main"))
+    else:
+        form = FarmerStoryForm(instance=farmer_story)
+        ctx = {
+            "farmer_story": farmer_story,
             "form": form,
         }
         return render(request, "farmers/farmer_story_create.html", ctx)
