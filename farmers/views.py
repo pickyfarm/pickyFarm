@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.utils import timezone
 from django.views import View
 from django.views.generic import (
     DetailView,
@@ -36,6 +37,7 @@ from editor_reviews.models import Editor_Review
 from orders.models import Order_Detail, Order_Group, RefundExchange
 from comments.models import Farmer_Story_Comment, Product_Comment, Product_Comment_Image
 from admins.models import FarmerNotice, FarmerNotification
+from core.models import NoQuerySet, AuthorNotMatched
 
 # forms
 from .forms import *
@@ -178,7 +180,7 @@ def farmer_story_create(request):
             message_args = {
                 "#{farmer_nickname}": f"{request.user.nickname}",
                 "#{farm_name}": f"{farmer.farm_name}",
-                "#{link}": f"www.pickyfarm.com/farmer/farmer_story/detail/{farmer_story.pk}/",
+                "#{link}": f"www.pickyfarm.com/farmer/diary/{farmer_story.pk}",
             }
             for sub in subscribes:
                 send_kakao_message(
@@ -192,6 +194,36 @@ def farmer_story_create(request):
     elif request.method == "GET":
         form = FarmerStoryForm()
         ctx = {
+            "form": form,
+        }
+        return render(request, "farmers/farmer_story_create.html", ctx)
+
+
+def farmer_story_update(request, pk):
+    farmer_story = get_object_or_404(Farmer_Story, pk=pk)
+    try:
+        if farmer_story.farmer.user != request.user:
+            raise AuthorNotMatched
+    except ObjectDoesNotExist:
+        return redirect(reverse("core:main"))
+    except AuthorNotMatched:
+        return redirect(reverse("core:main"))
+
+    if request.method == "POST":
+        form = FarmerStoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            farmer_story.title = form.cleaned_data.get("title")
+            farmer_story.thumbnail = form.cleaned_data.get("thumbnail")
+            farmer_story.content = form.cleaned_data.get("content")
+            farmer_story.update_at = timezone.now()
+            farmer_story.save()
+            return redirect("farmers:farmer_story_detail", pk)
+        else:
+            return redirect(reverse("core:main"))
+    else:
+        form = FarmerStoryForm(instance=farmer_story)
+        ctx = {
+            "farmer_story": farmer_story,
             "form": form,
         }
         return render(request, "farmers/farmer_story_create.html", ctx)
