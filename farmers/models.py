@@ -44,24 +44,18 @@ class Farmer(models.Model):
     )  # 농가 상세 소개
     sub_count = models.IntegerField(default=0)  # 구독자 수
     farm_news = models.CharField(max_length=500, null=True, blank=True)  # 농가 뉴스
-    farm_thanks_msg = models.CharField(
-        max_length=500, null=True, blank=True
-    )  # 농가 구매 감사 메세지
+    farm_thanks_msg = models.CharField(max_length=500, null=True, blank=True)  # 농가 구매 감사 메세지
     farm_cat = models.CharField(choices=CAT_CHOICES, max_length=20, default="fruit")
     contract = models.BooleanField(default=False)  # 계약서 동의 여부
     open = models.BooleanField(default=False)  # 입점 승인 여부
-    user = models.OneToOneField(
-        "users.User", related_name="farmer", on_delete=models.CASCADE
-    )
+    user = models.OneToOneField("users.User", related_name="farmer", on_delete=models.CASCADE)
     address = models.OneToOneField(
         "addresses.Address", related_name="farmer", on_delete=models.CASCADE
     )
     delivery_service_company = models.CharField(
         max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
     )  # 배송 보내는 택배회사
-    farm_account = models.CharField(
-        max_length=25, default="계좌번호", help_text="정산 받을 계좌번호"
-    )
+    farm_account = models.CharField(max_length=25, default="계좌번호", help_text="정산 받을 계좌번호")
     shipping_description = models.CharField(max_length=100, default="")  # 배송 기간에 대한 안내
 
     # 작물 관련법상 표시사항 정보
@@ -85,7 +79,7 @@ class Farmer_Story(models.Model):
     )  # 작성자
     title = models.CharField(max_length=50)  # 제목
     thumbnail = CompressedImageField(
-        upload_to="story_thumbnail/%Y/%m/%d/", null=True, blank=True, default="farm_default.svg"
+        upload_to="story_thumbnail/%Y/%m/%d/", null=True, blank=True, default="mainlogo_small.svg"
     )  # 썸네일
     hits = models.PositiveIntegerField(default=0)  # 조회수
     content = models.TextField()  # 내용

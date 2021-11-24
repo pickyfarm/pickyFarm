@@ -86,7 +86,7 @@ Farmer's Diary
         {% for story in stories %}
         <a href="{% url 'farmers:farmer_story_detail' story.pk %}">
             <div class="p-5 mx-1" id="story_wrap">
-                <img src="{% if story.thumbnail.exists %}{{ story.thumbnail.url }}{% endif %}" alt="" class="" id="story_img">
+                <img src="{{ story.thumbnail.url }}" alt="" class="" id="story_img">
                 <div class="flex flex-row justify-between text-xs mt-2 mb-1">
                     <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
                     <div id="views" class="flex flex-row items-center">
