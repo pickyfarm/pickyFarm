@@ -1,0 +1,185 @@
+{% load static %}
+
+<div id="comment-section-wrap">
+    <div id="comment-section" class="mx-auto">
+        <div id="comments">
+            {% for comment in comments %}
+            <div class="comments">
+                <div class="comment" name={{comment.pk}}>
+                    <div class="comment-info flex items-center">
+                        <div class="comment-author flex items-center">
+                            <img src="{{comment.author.profile_image.url}}" class="comment-author--profile-image">
+                            <div class="comment-author--id">{{comment.author.nickname}}</div>
+                        </div>
+                        <div class="bar"></div>
+                        <div class="comment-create text-center">
+                            {{comment.create_at|date:"Y. m. d"}}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{comment.create_at|date:"H : i"}}
+                        </div>
+                        <div class="bar"></div>
+                        <div class="comment-report flex items-center ml-auto">
+                            <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
+                            <div class="comment-report--report button" onclick="shootToastMessage('신고를 완료하였습니다.')">신고하기</div>
+                        </div>
+                    </div>
+                    <div class="comment-content relative">
+                        <div class="comment-text">
+                            <div class="comment-text--text">{{comment.text}}</div>
+                            <div class="comment-text-options text-right flex justify-between">
+                                <div class="comment-text-options--recomment button" onclick="expandRecommentSection(this)">
+                                    답글 {{comment.farmer_story_recomments.all|length}}개
+                                </div>
+                                <div class="flex">
+                                    {% if comment.author == request.user %}
+                                    <div class="comment-text-options--edit button" onclick=storyCommentEdit(this,{{comment.pk}})>수정
+                                    </div>
+                                    <div class="comment-text-options--delete button" onclick=storyCommentDelete({{comment.pk}})>삭제</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute comment-like-button-wrap button">
+                            <div class="comment-like-button relative" style="background-image: url({% static 'images/editors_review/editor_review_detail_comment_like.svg' %});">
+                                <p class="comment-like-count absolute text-center align-text-bottom">{{comment.like_count}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recomment-wrap" name="{{comment.pk}}">
+                        {% if request.user.is_authenticated %}
+                        <div class="recomment-input-wrapper flex flex-col">
+                            <div class="flex items-center recomment-info">
+                                <div class="recomment-arrow"></div>
+                                <div class="recomment-author flex items-center">
+                                    <img src="{{user.profile_image.url}}" class="comment-author--profile-image">
+                                    <div class="comment-author--id">{{request.user.nickname}}</div>
+                                </div>
+                            </div>
+                            <textarea type="text" class="recomment-input-box" name='{{comment.pk}}'></textarea>
+                            <button class="recomment-submit-button mx-auto" onclick="recommentSubmit({{comment.pk}})">등록하기</button>
+                        </div>
+                        <div class="horizon-bar mx-auto"></div>
+                        {% endif %}
+                        {% for recomment in comment.farmer_story_recomments.all|dictsortreversed:'create_at'|slice:':5' %}
+                        <div class="recomment relative" name={{recomment.pk}}>
+                            <div class="flex items-center recomment-info">
+                                <div class="recomment-arrow"></div>
+                                <div class="recomment-author flex items-center">
+                                    <img src="{{recomment.author.profile_image.url}}" class="comment-author--profile-image">
+                                    <div class="comment-author--id">{{recomment.author.nickname}}</div>
+                                </div>
+                                <div class="bar"></div>
+                                <div class="comment-create text-center recomment-create">
+                                    {{recomment.create_at|date:"Y. m.d"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{recomment.create_at|date:"H : i"}}
+                                </div>
+                                <div class="bar"></div>
+                                <div class="recomment-report flex items-center ml-auto">
+                                    <img src="{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}" alt="">
+                                    <div class="comment-report--report button">신고하기</div>
+                                </div>
+                            </div>
+                            <div class="absolute recomment-like-button-wrap button">
+                                <div class="recomment-like-button relative" style="background-image: url({% static 'images/editors_review/editor_review_detail_recomment_like.svg' %});">
+                                    <p class="recomment-like-count absolute text-center align-text-bottom">{{recomment.like_count}}</p>
+                                </div>
+                            </div>
+                            <div class="recomment-content flex flex-col">
+                                <div class="recomment-text">
+                                    <div class="recomment-text--text">{{recomment.text}}</div>
+                                    <div class="recomment-text-options-wrap flex justify-between">
+                                        <div></div>
+                                        <div class="recomment-text-options flex">
+                                            {% if request.user == recomment.author %}
+                                            <div class="comment-text-options--edit recomment-text-options--edit button" onclick="storyRecommentEdit(this, {{recomment.pk}})">수정</div>
+                                            <div class="comment-text-options--delete recomment-text-options--delete button" onclick="storyRecommentDelete({{recomment.pk}})">삭제</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="horizon-bar mx-auto"></div>
+                        {% endfor %}
+                        <button onclick="recommentLoad({{comment.pk}})" class="recomment-load-button">불러오기</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <img onclick="commentLoad({{main_story.pk}})" class="mx-auto mb-40 mt-16" src="{% static 'images/farm/more_comment.svg' %}" alt="">
+
+        <!-- 스토리 댓글 작성 폼 -->
+        {% if request.user.is_authenticated %}
+        <div id="comment-submit-form">
+            <div id="comment-submit-my-info" class="flex items-center">
+                <img src="{{ user.profile_image.url }}" id="comment-submit-my-info--profile-image">
+                <div id="comment-submit-my-info--id">{{user.nickname}}</div>
+            </div>
+            {% csrf_token %}
+            {{form.text}}
+            <div class="w-full flex flex-row justify-center">
+                <button class="comment-button mx-auto mt-10" id="comment-submit-btn" onclick=commentSubmit()>등록하기</button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    #comment-num {
+        font-size: 13px;
+        color: #999999;
+    }
+
+    #recomment-write {
+        width: 89px;
+        height: 22px;
+        border-radius: 11px;
+        border: solid 0.5px #989898;
+        background-color: #f2f2f2;
+        color: #5c6754;
+        margin-bottom: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+    const expandRecommentSection = e => {
+        console.log(e.closest(".comment-content").nextElementSibling)
+        e.closest(".comment-content").nextElementSibling.style.display = "inherit"
+    }
+
+    // urls for AJAX request
+    const commentSubmitURL = '{% url "comments:farmer_story_comment" main_story.pk %}'
+    const commentLikeURL = '{% url "likes:farmer_story_comment_like" %}'
+    const commentLoadURL = '{% url "comments:story_comment_load" %}'
+
+    const recommentLikeURL = '{% url "likes:farmer_story_recomment_like" %}'
+    const recommentEditURL = "{% url 'comments:farmer_story_recomment_edit' %}"
+    const recommentDeleteURL = '{% url "comments:farmer_story_recomment_delete" %}'
+    const recommentLoadURL = '{% url "comments:story_recomment_load" %}'
+
+
+    // constants for AJAX request's argument
+    const reviewPK = "{{main_story.pk}}"
+    const storyPK = "{{main_story.pk}}"
+    const userPK = "{{request.user.pk}}"
+    const comment_like_count = "{{comment.like_count}}"
+    const recomment_like_count = "{{comment.like_count}}"
+    const CSRFToken = "{{csrf_token}}"
+
+    // constants for AJAX callback
+    const likeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_like.svg' %}"
+    const recommentLikeButtonImageURL = "{% static 'images/editors_review/editor_review_detail_recomment_like.svg' %}"
+    const reportButtonImageURL = "{% static 'images/editors_review/editor_review_detail_comment_report.svg'%}"
+    const currentUserProfileImageURL = "{{user.profile_image.url}}"
+    const currentUserNickname = "{{request.user.nickname}}"
+</script>
+
+<!-- comment -->
+<script defer src="{% static 'js/comment/Components/Comment.js' %}"></script>
+<script defer src="{% static 'js/farmers/story/story_comment_like.js' %}"></script>
+<script defer src="{% static 'js/farmers/story/story_comment_submit.js' %}"></script>
+<script defer src="{% static 'js/farmers/story/story_comment_delete.js' %}"></script>
+<script defer src="{% static 'js/farmers/story/story_comment_edit.js' %}"></script>
+<script defer src="{% static 'js/comment/comment_load.js' %}"></script>
+
+<!-- recomment -->

@@ -1,0 +1,152 @@
+#modal-title {
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.22;
+}
+
+#modal-title-desc {
+    font-weight: 500;
+}
+
+.modal-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.farmer-profile-img {
+    border-radius: 100%;
+    background-color: black;
+    object-fit: cover;
+}
+
+.farmer-item-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+}
+
+#farmer-list-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: white;
+}
+
+#modal-desc {
+    letter-spacing: normal;
+    text-align: center;
+    color: #28231f;
+}
+
+@media screen and (min-width: 769px) {
+    .modal-wrap {
+        width: 400px;
+    }
+
+    #modal-title {
+        font-size: 24px;
+    }
+
+    #modal-title-desc {
+        font-size: 20px;
+        margin-top: 16px;
+    }
+
+    .farmer-single {
+        width: 176px;
+        height: 176px;
+        object-fit: cover;
+        margin-top: 48px;
+    }
+
+    .farm-name-single {
+        font-size: 18px;
+        font-weight: bold;
+
+        margin-top: 40px;
+    }
+
+    #farmer-list-wrap {
+        width: 380px;
+        height: auto;
+
+        padding: 20px;
+        margin-top: 20px;
+
+        gap: 57px;
+    }
+
+    .farmer-many {
+        width: 84px;
+        height: 84px;
+    }
+
+    .farm-name-many {
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    #modal-desc {
+        font-weight: 300;
+        font-size: 20px;
+        line-height: 1.24;
+        margin-top: 40px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .modal-wrap {
+        width: 220px;
+    }
+
+    #modal-title {
+        font-size: 1.8rem;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.16;
+    }
+
+    #modal-title-desc {
+        font-size: 1.4rem;
+        margin-top: 1rem;
+    }
+
+    .farmer-single {
+        width: 8.8rem;
+        height: 8.8rem;
+
+        margin-top: 3rem;
+    }
+
+    .farm-name-single {
+        font-size: 1.6rem;
+        margin-top: 1.5rem;
+        font-weight: bold;
+    }
+
+    #farmer-list-wrap {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        width: 100%;
+        gap: 2rem;
+    }
+
+    .farmer-many {
+        width: 4.4rem;
+        height: 4.4rem;
+    }
+
+    .farm-name-many {
+        font-size: 1.4rem;
+    }
+
+    #modal-desc {
+        font-size: 1.2rem;
+        line-height: 1.24;
+        margin-top: 3.2rem;
+    }
+}

@@ -1,0 +1,17 @@
+{% extends 'farmers/mypage/farmer_mypage_base.html' %} {% load static %}
+{% block stylesheet_farmer_mypage %}
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_product.css' %}" />
+{% endblock stylesheet_farmer_mypage %}
+{% block content %}
+{% include 'farmers/mypage/product/info_section.html' %}
+{% include 'farmers/mypage/product/product_list_section.html' %}
+<script>
+    document.querySelector('#button-product-manage').classList.add('active');
+
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('#button-product-manage').classList.add('active');
+
+        document.querySelector('#selected_line').style.gridArea = "line2"
+    }
+</script>
+{% endblock content %}

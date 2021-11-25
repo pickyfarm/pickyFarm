@@ -1,0 +1,283 @@
+.section-title {
+    margin-left: 55px;
+    margin-top: 100px;
+    font-size: 23px;
+    font-weight: bold;
+    color: #5c6754;
+}
+
+.order-status-info-section {
+    margin: 50px auto;
+}
+
+.order-status-circle {
+    width: 111px;
+    height: 111px;
+    border-radius: 100%;
+    margin: 0 21.4px;
+    transition: all 0.15s ease-in;
+}
+
+.order-status-circle:hover {
+    border: 1px solid #707070;
+}
+
+.selected {
+    border: 1px solid #707070;
+}
+
+.order-status-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #6d8060;
+}
+
+.order-status-count {
+    font-size: 30px;
+    font-weight: 500;
+    color: #5c6754;
+}
+
+#arrow {
+    display: none;
+}
+
+.search-bar-section {
+    margin-bottom: 100px;
+}
+
+.search-bar-wrapper {
+    width: 417px;
+    height: 30px;
+    border-radius: 18px;
+    background-color: #f2f2f2;
+    margin-right: 20px;
+}
+
+.search-bar-title {
+    font-size: 16px;
+    font-weight: 300;
+    color: #6d8060;
+    margin-left: 20px;
+    margin-right: 9px;
+}
+
+.bar {
+    margin: auto 11px;
+    height: 18px;
+    border-left: 1px solid #707070;
+}
+
+#order-search {
+    flex-grow: 1;
+    width: auto;
+    height: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    color: black;
+    background: none;
+}
+
+#order-search:focus {
+    outline: none;
+}
+
+.date-filter-form {
+    flex: 1;
+}
+
+.date-filter-button {
+    height: 30px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: center;
+    line-height: 30px;
+}
+
+.month-filter,
+.date-input {
+    color: #5c6754;
+    border: 1px solid #707070;
+}
+
+#recent-one-month {
+    margin-right: 4px;
+}
+
+#recent-three-month {
+    margin-right: 8px;
+}
+
+.month-filter {
+    width: 88px;
+}
+
+.date-input {
+    display: block;
+    text-align: right;
+    width: 127px;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    margin-left: 10px;
+}
+
+.date-filter-submit {
+    width: 86px;
+    border-radius: 15px;
+    background-color: #5c6754;
+    color: white;
+    margin-left: auto;
+}
+
+#search-button {
+    width: 19px;
+    height: 19px;
+    margin: auto 19px;
+}
+
+.search-sort {
+    margin-left: 32px;
+    font-size: 16px;
+}
+
+#search-icon {
+    width: 22.5px;
+    margin-right: 7px;
+}
+
+#order-list-sheet-index-section {
+    grid-template-columns: 100px 180px 90px 70px 425px 125px;
+    padding-bottom: 21px;
+    border-bottom: 1px solid #707070;
+}
+
+.order-status {
+    font-size: 16px;
+    font-weight: bold;
+    color: #5c6754;
+}
+
+.deactivate {
+    color: #b3b3b3;
+}
+
+.order-list-sheet-index {
+    font-size: 12px;
+    font-weight: 300;
+    color: #5e6656;
+}
+
+.order-list-sheet-data-section {
+    grid-template-columns: 100px 180px 90px 70px 425px 125px;
+    padding: 23.5px 0;
+    border-bottom: 1px solid rgba(94, 102, 86, 0.5);
+    background-origin: border-box;
+}
+
+.order-list-sheet-data-section
+    div:not(.order-status, .order-info-data, .order-cancelled) {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.order-confirm-overlay {
+    width: 550px;
+    height: 100%;
+    background-color: rgba(243, 244, 243, 0.9);
+    grid-column: 5 / 7;
+}
+
+.order-cancelled {
+    font-size: 15px;
+    font-weight: normal;
+    color: #5c6754;
+}
+
+.order-confirm-button {
+    width: 88px;
+    height: 88px;
+    border-radius: 100%;
+    background-color: #5c6754;
+    margin: auto 12px;
+}
+
+.order-confirm-button:hover {
+    background-color: #a6aca2;
+}
+
+.order-confirm-button span {
+    font-size: 13px;
+    color: white;
+    margin-top: 3px;
+    font-weight: normal;
+}
+
+.order-info-data {
+    font-size: 14px;
+    font-weight: 300;
+    color: #5e6656;
+}
+
+.order-info {
+    grid-template-columns: 74px 310px;
+    column-gap: 24px;
+    row-gap: 6px;
+    grid-auto-flow: row dense;
+}
+
+.order-info-index {
+    grid-column: 1;
+}
+
+.order-info-data {
+    grid-column: 2;
+}
+
+.order-status-action-button {
+    width: 70px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #707070;
+    font-size: 12px !important;
+    font-weight: 300 !important;
+    color: #707070;
+    text-align: center;
+}
+
+.order-status-action-button:hover {
+    background-color: #707070;
+    color: white;
+}
+
+#paginator-wrapper {
+    margin-top: 56px;
+}
+
+.page-num {
+    font-size: 15px;
+    font-weight: normal;
+    color: #b3b3b3;
+    margin: auto 12px;
+}
+
+.current-page {
+    color: #5c6754 !important;
+}
+
+#order-list-download {
+    width: fit-content;
+    padding: 3px 10px;
+    border-radius: 99px;
+    border: 2px solid #5c6754;
+    color: #5c6754;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 22px;
+}
+
+#order-list-download:hover {
+    background-color: #5c6754;
+    color: white;
+}

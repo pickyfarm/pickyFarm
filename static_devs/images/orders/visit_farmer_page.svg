@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="134" height="18">
+    <g data-name="그룹 1231">
+        <g data-name="사각형 1703" style="fill:#fff;stroke:#707070;stroke-width:.5px">
+            <rect width="134" height="18" rx="9" style="stroke:none"/>
+            <rect x=".25" y=".25" width="133.5" height="17.5" rx="8.75" style="fill:none"/>
+        </g>
+        <g data-name="그룹 1224">
+            <text data-name="농가 페이지 방문하기" transform="translate(8 13.5)" style="font-size:11px;font-family:NotoSansKR-Medium,Noto Sans KR;font-weight:500;fill:#5c6754"><tspan x="0" y="0">농가 페이지 방문하기</tspan></text>
+            <g data-name="구성 요소 7 – 120">
+                <path data-name="패스 460" d="M9.344 4.568 5.053.135a.48.48 0 0 0-.068-.057L4.963.065a.481.481 0 0 0-.054-.03c-.01 0-.021-.006-.031-.01a.435.435 0 0 0-.052-.016.428.428 0 0 0-.177 0A.433.433 0 0 0 4.6.026c-.01 0-.021.006-.031.01a.48.48 0 0 0-.054.03l-.026.012a.48.48 0 0 0-.067.057L.13 4.568a.472.472 0 0 0 0 .651.436.436 0 0 0 .63 0l3.532-3.648v10.091a.446.446 0 1 0 .891 0V1.571l3.531 3.648a.436.436 0 0 0 .63 0 .472.472 0 0 0 0-.651z" transform="rotate(90 60.93 65.193)" style="fill:#5c6754"/>
+            </g>
+        </g>
+    </g>
+</svg>

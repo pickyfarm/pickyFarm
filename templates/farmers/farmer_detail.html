@@ -1,0 +1,296 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block og_url %}{% url 'farmers:farmer_detail' farmer.pk %}{% endblock %}
+{% block og_title %}{{farmer.farm_name}}의 미니홈페이지{% endblock %}
+{% block og_desc %}농가가 마음에 든다면 [구독하기] 버튼을 눌러서 구독하세요!{% endblock %}
+{% block og_image %}{{farmer.farmer_profile.url}}{% endblock %}
+
+{% block meta_keywords %}
+시민원, 사과, 홍로사과, 못난이사과, 못난이홍로사과
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail_mobile.css' %}">
+{% endblock %}
+
+{% block title_name %}
+{{farmer.farm_name}} : Farmer's Page
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents bg-white-400 mx-auto" id="top">
+    <div id="content">
+        <div class="mt-24 mb-16" id="farmer_title">
+            <div class="text-5xl mb-6">Farmer's Page</div>
+            <div class="text-xl" id="title_text">파머의 무난이소식을 가장 먼저 받아보세요</div>
+        </div>
+
+        <div id="farm_img_mobile">
+            <img src="{{ farmer.farm_profile.url }}" alt="" id="farm_profile_mobile">
+            <img src="{{ farmer.farmer_profile.url }}" alt="" id="farmer_profile_mobile">
+        </div>
+        <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
+            <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-4" id="farmer_profile">
+            <img src="{{ farmer.farm_profile.url }}" alt="" class="mr-16" id="farm_profile">
+            <div class="" id="prof_wrap" style="">
+                <div class="flex flex-row mb-3" id="tag_wrap">
+                    {% for tag in tags %}
+                    <a href="#">
+                        <div class="mr-2" id="farm_tag">#{{ tag }}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+                <div class="flex flex-row items-center mb-3" id="farm_wrap">
+                    <div class="font-medium text-3xl" id="farm_name">{{ farmer.farm_name }}</div>
+                    <div class="font-light text-lg" id="farmer_name">{{ farmer.user.nickname }}</div>
+                </div>
+                <div id="profile_title_wrap">
+                    <div class="font-light text-lg" id="profile_title">"{{ farmer.profile_title }}"</div>
+                </div>
+            </div>
+            <div id="sub_btn_wrap">
+                {% if sub == False %}
+                <div class="text-lg text-center sub_wrap" id="sub_btn" name={{farmer.pk}}>구독하기</div>
+                {% else %}
+                <div class="text-lg text-center subed_wrap subscribing" id="sub_btn" name={{farmer.pk}}>구독중</div>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div id="news_text_mobile">농가 News</div>
+
+        <div class="flex flex-row items-center p-2" id="farmer_news">
+            <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="ml-2" id="">
+            <div class="text-2xl" id="news_text">농가 News</div>
+            {% if farmer.farm_news %}
+            <div class="font-light text-xl" id="farm_news">{{ farmer.farm_news }}</div>
+            {% else %}
+            <div class="font-light text-xl" id="farm_news">등록된 뉴스가 아직 없습니다.</div>
+            {% endif %}
+        </div>
+
+        <!--farmer intro-->
+        <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+            <a href="#farmer_intro" class="w-1/4">
+                <div class="font-light text-2xl choice" id="nav_item">농가소개</div>
+            </a>
+            <a href="#farmer_product" class="w-1/4">
+                <div class="font-light text-2xl" id="nav_item">판매 상품</div>
+            </a>
+            <a href="#farmer_story" class="w-1/4">
+                <div class="font-light text-2xl" id="nav_item">Farmer's Diary</div>
+            </a>
+            <a href="#farmer_editor" class="w-1/4">
+                <div class="font-light text-2xl" id="nav_item">Editor's Page</div>
+            </a>
+        </div>
+    </div>
+    <div id="farmer_intro">
+        <div class="text-5xl font-medium mb-10" id="intro_title">{{ farmer.farm_name }}</div>
+
+        {% if farmer.farm_desc %}
+        <div class="" id="farm_desc"><img src="{{ farmer.farm_desc.url }}" alt=""></div>
+        {% else %}
+        <div class="" id="farm_desc">이미지 없음</div>
+        {% endif %}
+
+    </div>
+
+    <!--farmer product-->
+    <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+        <a href="#farmer_intro" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">농가소개</div>
+        </a>
+        <a href="#farmer_product" class="w-1/4">
+            <div class="font-light text-2xl choice" id="nav_item">판매 상품</div>
+        </a>
+        <a href="#farmer_story" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">Farmer's Diary</div>
+        </a>
+        <a href="#farmer_editor" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">Editor's Page</div>
+        </a>
+    </div>
+    <div id="farmer_product">
+        <div class="text-3xl mb-32" id="main_title">{{ farmer.farm_name }}의 무난이들</div>
+        <div id="products-section">
+            <div class="flex flex-row justify-center mb-12">
+                {% for product in products %}
+                <a href="{% url 'products:product_detail' product.pk %}">
+                    <div id="product_wrap" class="mx-4">
+                        <img src="{{ product.main_image.url }}" alt="" class="mb-4" id="product_img">
+                        <div class="font-light" id="product_title">{{ product.title }}</div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% if products.count <= 3 %}
+            <div class="h-10 mb-48">
+            </div>
+            {% else %}
+            <!-- pagination section -->
+            <div class="flex justify-between w-36 mx-auto mt-8 mb-20">
+                <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                {% if products.has_previous %}
+                <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{products.previous_page_number}}' style="cursor: pointer">
+                {% else %}
+                <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
+                {% endif %}
+
+                <div>{{products.number}}</div>
+                <div>/</div>
+                <div>{{products.paginator.num_pages}}</div>
+
+                {% if products.has_next %}
+                <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{products.next_page_number}}' style="cursor: pointer">
+                {% else %}
+                <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{products.paginator.num_pages}}' style="cursor: pointer">
+                {% endif %}
+                <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{products.paginator.num_pages}}' style="cursor: pointer">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!--farmer story-->
+    <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+        <a href="#farmer_intro" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">농가소개</div>
+        </a>
+        <a href="#farmer_product" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">판매 상품</div>
+        </a>
+        <a href="#farmer_story" class="w-1/4">
+            <div class="font-light text-2xl choice" id="nav_item">Farmer's Diary</div>
+        </a>
+        <a href="#farmer_editor" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">Editor's Page</div>
+        </a>
+    </div>
+    <div id="farmer_story">
+        <div class="text-3xl mb-5" id="main_title">Farmer's Diary</div>
+        <div class="mb-40" id="story_subtitle">파머가 직접 전하는 농가 이야기</div>
+        <div class="flex flex-row justify-center mb-40">
+            {% for story in stories %}
+            <a href="{% url 'farmers:farmer_story_detail' story.pk %}">
+                <div class="p-5 mx-1" id="story_wrap">
+                    <img src="{{ story.thumbnail.url }}" alt="" class="" id="story_img">
+                    <div class="flex flex-row justify-between text-xs mt-2 mb-1">
+                        <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+                        <div class="flex flex-row">
+                            <div class="mr-1" id="hits">{{ story.hits }}</div>
+                            <img src="{% static 'images/farmers_detail/hits.svg' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% if stories.count <= 3 %} <div class="h-10 mb-48">
+        </div>
+        {% else %}
+        <div class="h-10 bg-gray-200" id="paginator">
+            paginator
+        </div>
+        {% endif %}
+    </div>
+
+    <!--farmer editor-->
+    <div class="flex flex-row mt-16 mb-24" id="farmer_nav">
+        <a href="#farmer_intro" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">농가소개</div>
+        </a>
+        <a href="#farmer_product" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">판매 상품</div>
+        </a>
+        <a href="#farmer_story" class="w-1/4">
+            <div class="font-light text-2xl" id="nav_item">Farmer's Diary</div>
+        </a>
+        <a href="#farmer_editor" class="w-1/4">
+            <div class="font-light text-2xl choice" id="nav_item">Editor's Page</div>
+        </a>
+    </div>
+    <div id="farmer_editor">
+        <div class="text-center text-3xl mb-40" id="main_title">Editor's Page</div>
+        <div class="flex flex-row justify-center mb-40" id="review_wrap">
+            {% for review in editor_reviews %}
+            <div id="editor_review" class="mx-4">
+                <div class="mb-4">
+                    <span id="editor">Editor_</span>
+                    <span id="editor_name">{{ review.author }}</span>
+                </div>
+                <div id="review_img"><img src="{{ review.main_image.url}}" alt=""></div>
+                <div class="flex flex-row justify-between mb-2" id="review_date">
+                    <div>{{ review.create_at.date|date:"Y.m.d" }}</div>
+                    <div class="flex flex-row">
+                        <div class="mr-1" id="hits">{{ review.hits }}</div>
+                        <img src="{% static 'images/farmers_detail/hits.svg' %}" alt="">
+                    </div>
+                </div>
+                <div id="review_title">{{ review.title }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if editor_reviews.count <= 3 %} <div class="h-10 mb-48">
+        </div>
+        {% else %}
+        <div class="h-10 bg-gray-200" id="paginator">
+            paginator
+        </div>
+        {% endif %}
+    </div>
+</div>
+</div>
+<div class="flex flex-row" id="farmer-sub-wrap">
+    <img src="{{ farmer.farmer_profile.url }}" alt="농가 프로필 이미지" id="farmer-sub-profile">
+    <img src="{% static 'images/base/sub_floating_btn.svg' %}" name={{farmer.pk}} alt="농가 구독하기" id="farmer-sub-icon">
+</div>
+
+<script>
+    let subBtn = document.getElementById('sub_btn')
+    let floatingBtn = document.getElementById('farmer-sub-icon')
+
+    subBtn.addEventListener('click', function () {
+        let farmer_pk = subBtn.getAttribute('name');
+        data = {
+            'farmer_pk': farmer_pk,
+            "csrfmiddlewaretoken": "{{csrf_token}}",
+        }
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'users:subs' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                if (response.status == 0) {
+                    shootToastMessage('이미 구독중인 농가입니다!');
+                }
+                else if (response.status == 1) {
+                    shootToastMessage('농가 구독이 완료되었습니다.');
+                    subBtn.classList.remove('sub_wrap');
+                    subBtn.classList.add('subed_wrap');
+                    subBtn.innerHTML = "구독중"
+                }
+            },
+            error: function (request, status, error) {
+                shootToastMessage('로그인이 필요합니다.')
+            }
+        })
+    })
+
+    floatingBtn.addEventListener('click', function () {
+        const modalAjaxURL = "{% url 'farmers:farmer_subs_modal' %}"
+        const farmerPK = "{{farmer.pk}}"
+        subscribeModalMessage(modalAjaxURL, farmerPK, () => { location.href = "{% url 'farmers:farmer_detail' farmer.pk %}" })
+    })
+</script>
+<script>
+    PAGINATION_URL = 'products_ajax/?page='
+    PAGINATION_SECTION = '#products-section'
+</script>
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>
+{% endblock %}

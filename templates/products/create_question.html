@@ -1,0 +1,46 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/products/create_question.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/create_question_mobile.css' %}">
+<script>
+
+</script>
+{% endblock stylesheet %}
+{% block main_content %}
+
+<div class="main-content mx-auto">
+    <form method='POST' enctype="multipart/form-data">
+        <section id="question-content-section">
+            <div id="question-content-header-wrap">
+                <div id="question-content-header">문의 Q&A</div>
+                <div id="question-content-sub-header">상품에 대해 궁금한 사항은 농가에게 물어보세요!<br>근거 없는 욕설 혹은 비방은 삭제 혹은 법적인 조치가 진행될 수 있습니다.</div>
+            </div>
+
+            {% csrf_token %}
+            <div id="question-content-detail">
+                <div id="question-content-detail--header">제목</div>
+                <div id="question-title">{{form.title}}</div>
+                <div id="question-content-detail--header">사진 첨부</div>
+                <div id="question-consumer" class="font-thin">{{form.image}}</div>
+                <div id="question-content-detail--header">내용</div>
+                <div id="question-content">{{form.content}}</div>
+            </div>
+        </section>
+        <div id="answer-submit-button-wrap">
+            <button onclick="alert(" 등록되었습니다")"type="submit" id="answer-submit-button">
+                <img id="answer-submit--img" src="{% static 'images/farmer_mypage/check_nohover.svg' %}" alt="">
+                <div id="answer-submit--text">등록하기</div>
+            </button>
+        </div>
+    </form>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+</script>
+{% endblock main_content %}

@@ -1,126 +1,175 @@
 {% extends "base/base.html" %}
+{% block og_url %}{% url 'products:store_list' %}{% endblock %}
+{% block og_title %}상품목록{% endblock %}
+{% block og_desc %}피키팜의 무난이들을 만나보세요{% endblock %}
+{% block og_image %}{{products.first.main_image.url}}{% endblock %}
+{% block title_name %}상품목록{% endblock %}
 
-{% load static %}   
+
+{% load static %}
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/products/products_list.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-        $('img[id=fruit]').mouseover(function(){
-            $(this).attr('src', "{% static 'images/products_list/cat_fruit_sel.svg' %}");
-        }).mouseout(function(){
-            $(this).attr('src', "{% static 'images/products_list/cat_fruit.svg' %}");
-        });
-        $('img[id=vege]').mouseover(function(){
-            $(this).attr('src', "{% static 'images/products_list/cat_vege_sel.svg' %}");
-        }).mouseout(function(){
-            $(this).attr('src', "{% static 'images/products_list/cat_vege.svg' %}");
-        });
-    });
-        
-    </script>
+<link rel="stylesheet" href="{% static 'css/products/products_list.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/products_list_mobile.css' %}">
+<script>
+
+</script>
 {% endblock stylesheet %}
-{% block main_content %}  
-{% if messages %}
-                                        
-    {% for message in messages %}
-        <script>alert("{{message}}");</script>
-    {% endfor %}
-                                            
-{% endif %} 
-        <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
-             
-                <div class="flex flex-col justify-between mr-10 items-center" id="big_category">
-                    
-                        <div id="cat_all"><a href="{% url 'products:store_list' %}">ALL</a></div>
-                        <div id="cat_fruit"><a href="{% url 'products:store_list_category' 'fruit' %}"><img id="fruit" src="{% static 'images/products_list/cat_fruit.svg' %}" alt="과일"></a></div>
-                        <div id="cat_vege"><a href="{% url 'products:store_list_category' 'vege' %}"><img id="vege" src="{% static 'images/products_list/cat_vege.svg' %}" alt="야채"></a></div>
-                        <div id="cat_etc"><a href="{% url 'products:store_list_category' 'others' %}">ETC</a></div>
-                    
-                </div>
-        
-                <div id="content">
-                    
-                    <div class="flex flex-col w-full" id="content_box">
-                        <div class="flex flex-auto" id = "top">
-                            <div class="flex w-5/6" id="category">
-                                <ul class="flex justify-start my-12">
-                                    {%for category in categories %}
-                                        <div class="mx-2">
-                                            <a href="{% url 'products:store_list_category' category.slug %}">
-                                                <li class="py-2 px-3.5" id="category_item">{{category.name}}</li></a>
-                                        </div>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="relative flex flex-col justify-end w-1/6" id="sort">
-                                <div class="mb-10" id="sort_img">
-                                    <img src="{% static 'images/products_list/sort.svg' %}"  alt="sort_icon">
-                                </div>
-                                <div class="absolute flex flex-col none z-10" id='sort_list'>
-                                    <a href="?sort=최신순">최신순</a>
-                                    <a href="?sort=인기순">인기순</a>
-                                    <a href="?sort=마감임박순">마감임박순</a>
-                                </div>
-                            </div>
-                        </div>
+{% block main_content %}
 
-                        <div class="block">
-                        <ul class="mt-3" id="products"> 
-                            
-                            {% for product in products %}
-                            <a href="{% url 'products:product_detail' product.pk %}">
-                                
-                            <li class="float-left" id="product_item">
-                                <div class="relative">
-                                    <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
-                                    <div id="like_cart_in" class="flex flex-row z-10">
-                                        <a href="{% url 'users:wish' product.pk %}?next={{request.path}}"><img class="mr-1" id="like", src="{% static 'images/products_list/like.svg' %}"></a>
-                                        <a href="{% url 'users:cart_in' product.pk %}?next={{request.path}}"><img class="ml-1" id="cart_in", src="{% static 'images/products_list/cart_in.svg' %}"></a>
-                                    </div>
-                                    
-                                    
-                                        
-                                    <img class="absolute -top-10 -left-2 {%if product.stock > 3 %} invisible {% endif %}" id="like", src="{% static 'images/products_list/almost_sold_out.svg' %}">
-                                </div>
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
 
-                                <div class="mt-3">
-                                    <p class="pl-5" id="title">{{product.title}}</p>
-                                    <p class="pl-5" id="sell_price">{{product.sell_price}}원</p>
-                                    <p class="pl-5" id="sub_title">{{product.sub_title}}</p>
-                                </div>
-                            </li>
-                            </a>
-                            {% endfor %}
-                        </ul>
-                        </div>
+    <div class="flex flex-col justify-between mr-10 items-center" id="big_category" name="{{cat_name}}">
 
-            
-                        <div class="flex justify-center mt-10 pt-10" id="paginator">
-                            
-                                {% if page != 1 %}
-                                    <div><a href = '?page={{page|add:-1}}'><img id="prev", src="{% static 'images/products_list/prev.svg' %}"></a></div>
-                                {% endif %}
-                            
-                            {% if page == 1 %}
-                                <div id="pagenum">{{page}}</div>
+        <div id="cat_all"><a href="{% url 'products:store_list' %}"><img id="all" src="{% if cat_name == 'all' %}
+                                                    {% static 'images/products_list/cat_all_sel.svg' %}
+                                                    {% else %}
+                                                    {% static 'images/products_list/cat_all.svg' %}
+                                                    {% endif %}" alt="전체"></a></div>
+        <div id="cat_fruit"><a href="{% url 'products:store_list_category' 'fruit' %}"><img id="fruit" src="{% if cat_name == 'fruit' %}
+                            {% static 'images/products_list/cat_fruit_sel.svg' %}
                             {% else %}
-                                {% for page in page_range %}
-                                <div id="pagenum"> <a href="?page={{page}}">{{page}}</a></div>
-                                {% endfor %}
-                            {% endif %}
-                            
-                                {% if page != page_total %}
-                                <div><a href = '?page={{page|add:1}}'><img id="next", src="{% static 'images/products_list/next.svg' %}"></a></div>
-                                {% endif %}
-                            
+                            {% static 'images/products_list/cat_fruit.svg' %}
+                            {% endif %}" alt="과일"></a></div>
+        <div id="cat_vege"><a href="{% url 'products:store_list_category' 'vege' %}"><img id="vege" src="{% if cat_name == 'vege' %}
+                    {% static 'images/products_list/cat_vege_sel.svg' %}
+                    {% else %}
+                    {% static 'images/products_list/cat_vege.svg' %}
+                    {% endif %}" alt="야채"></a></div>
+        <div id="cat_etc"><a href="{% url 'products:store_list_category' 'others' %}"><img id="etc" src="{% if cat_name == 'others' %}
+                    {% static 'images/products_list/cat_etc_sel.svg' %}
+                    {% else %}
+                    {% static 'images/products_list/cat_etc.svg' %}
+                    {% endif %}" alt="기타"></a></div>
+
+    </div>
+
+
+    <div id="picky-store">PICKY STORE</div>
+    <div id="content">
+
+        <div class="flex flex-col w-full" id="content_box">
+            <div class="flex flex-auto" id="top">
+                <div class="flex w-5/6" id="category">
+                    <ul class="flex justify-start my-12">
+                        {%for category in categories %}
+                        <div class="mx-2 pl-5">
+                            <a href="{% url 'products:store_list_category' category.slug %}">
+                                <li class="py-2 px-3.5" id="category_item">{{category.name}}</li>
+                            </a>
                         </div>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="relative flex flex-col justify-end w-1/6" id="sort">
+                    <div class="mb-10" id="sort_img">
+                        <img src="{% static 'images/products_list/sort.svg' %}" alt="sort_icon">
+                    </div>
+                    <div class="absolute flex flex-col none z-10" id='sort_list'>
+                        <a href="?sort=최신순">최신순</a>
+                        <a href="?sort=인기순">인기순</a>
                     </div>
                 </div>
-                <div class="inline-block pl-10 ml-5" id="follow_menu">
-                    <img id="go_up", src="{% static 'images/products_list/go_to_up.svg' %}">
-                    <img id="go_to_cart", src="{% static 'images/products_list/go_to_cart.svg' %}">
-                </div> 
+            </div>
 
+            <div class="block">
+                <div class="mt-3" id="products">
+                    {% for product in products %}
+                    <div class="z-0 flex flex-col" id="product_item" name="{{product.pk}}">
+                        <div class="relative product-image-wrapper">
+                            {% comment %}
+                            <!-- <div class="farmer-info-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.pk %}">
+                                <a href="{% url 'farmers:farmer_detail' product.farmer.pk %}" class="flex flex-col items-center">
+
+                                    <img class="farmer-profile-image" src="{{product.farmer.farmer_profile.url}}" alt="farmer_profile">
+                                    <span class="farmer-info-overlay--farmer-name">{{product.farmer.user.nickname}}</span>
+                                    <span class="farmer-info-overlay--farm-name">{{product.farmer.farm_name}}</span>
+                                </a>
+                            </div> --> {% endcomment %}
+                            <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
+                                <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
+                            </a>
+                            <div id="like_cart_in" class="flex flex-row">
+                                <div id="wish" name="{{product.get_main_product.pk}}" class="z-10">
+                                    <img class="mr-1" , id="wish_btn" src="{% static 'images/products_list/like.svg' %}">
+                                </div>
+                                <div id="cart" name="{{product.get_main_product.pk}}">
+                                    <img class="ml-1" id="cart_in_btn" , src="{% static 'images/products_list/cart_in.svg' %}">
+                                </div>
+                            </div>
+                            <!-- <img class="absolute -top-5 left-1 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out2.svg' %}">
+                            <img class="absolute top-1 left-4 {%if product.stock > 3 %} invisible {% endif %}" id="almost_sold_out" , src="{% static 'images/products_list/almost_sold_out.svg' %}"> -->
+                        </div>
+                        <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
+                            <div class="mt-1">
+                                <p class="" id="title">{{product.title}}</p>
+                                <p class="" id="sell_price">{{product.get_main_product.sell_price}}원</p>
+                                <p class="" id="sub_title">{{product.sub_title}}</p>
+                            </div>
+                        </a>
+                        <div id="tags" class="flex flex-row">
+
+                            {% if product.kinds == "ugly" %}
+                            <div id="ugly_tag">무난이 작물</div>
+                            {% elif product.kinds == "normal" %}
+                            <div id="normal_tag">일반 작물</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <div class="flex justify-center mt-10 pt-10" id="paginator">
+
+                {% if page != 1 %}
+                <div><a href='?page={{page|add:-1}}'><img id="prev" , src="{% static 'images/products_list/prev.svg' %}"></a></div>
+                {% endif %}
+
+                {% if page == 1 %}
+                <div id="pagenum">{{page}}</div>
+                {% else %}
+                {% for page in page_range %}
+                <div id="pagenum"> <a href="?page={{page}}">{{page}}</a></div>
+                {% endfor %}
+                {% endif %}
+
+                {% if page != page_total %}
+                <div><a href='?page={{page|add:1}}'><img id="next" , src="{% static 'images/products_list/next.svg' %}"></a></div>
+                {% endif %}
+
+            </div>
         </div>
-{% endblock %}    
+    </div>
+    <div class="inline-block pl-10 ml-5" id="follow_menu">
+        <img id="go_up" , src="{% static 'images/products_list/go_to_up.svg' %}">
+        <img id="go_to_cart" , src="{% static 'images/products_list/go_to_cart.svg' %}">
+    </div>
+
+</div>
+<script type="text/javascript" src="{% static 'js/products/products_list.js' %}"></script>
+<script>
+    let wishBtn = document.querySelectorAll('#wish')
+    console.log(wishBtn)
+
+
+    wishBtn.forEach(item =>
+        item.addEventListener('click', function () {
+            let product_pk = item.getAttribute('name')
+            wish(product_pk)
+        })
+    )
+
+    let cartBtn = document.querySelectorAll('#cart')
+    console.log(cartBtn)
+    cartBtn.forEach(item =>
+        item.addEventListener('click', function () {
+            let product_pk = item.getAttribute('name')
+            cartIn(product_pk)
+        })
+    )
+
+
+</script>
+
+{% endblock %}

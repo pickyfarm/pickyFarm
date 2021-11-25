@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_for_index.html' %}
 {% load static %}
 
 {% block title %}Pick Pick : 까다롭게 선택하다{% endblock title %}
@@ -6,6 +6,8 @@
 {% block main_content %}
 {% include "base/main_slider.html" %}
 {% include "base/today_pick.html" %}
+{% if product.count < 5 %}
+{% endif %}
 {% include "base/best.html" %}
 {% include "base/editor_pick.html" %}
 {% include "base/today_farmer.html" %}

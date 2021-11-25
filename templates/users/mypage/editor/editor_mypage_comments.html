@@ -1,0 +1,43 @@
+{% extends "users/mypage/editor/editor_mypage_base.html" %}
+{% load static %}
+
+{% block stylesheet_editor_mypage %}
+<link rel="stylesheet" href="{% static 'css/users/mypage/editor/editor_mypage_comments.css' %}">
+{% endblock stylesheet_editor_mypage %}
+
+{% block content %}
+<div id="content-wrap" class="ml-auto">
+    <div id="section-title" class="text-left">댓글관리</div>
+    <div id="section-wrap">
+        <div id="section-index" class="flex">
+            <div id="new-comment"></div>
+            <div id="index-submit-datetime">작성일자</div>
+            <div id="index-comment-contents">내용</div>
+            <div id="index-comment-author">작성자</div>
+            <div id="index-comment-report">신고하기</div>
+            <div id="section-index-divider"></div>
+        </div>
+
+        <div id="comment-list-section" class="flex flex-col">
+            {% for comment in comments %}
+            <div class="comment-item flex items-center">
+                <div class="new-comment-sign">{% if comment.is_read == False %}N{% endif %}</div>
+                <div class="comment-submit-datetime">{{comment.create_at.date|date:"Y-m-d"}}</div>
+                <div class="comment-contents">{{comment.text}}</div>
+                <div class="comment-author">{{comment.author}}</div>
+                <div class="comment-report flex items-center"><img
+                        src="{% static 'images/users/editor_mypage/report.svg' %}" class="mx-auto"></div>
+                <div class="comment-item-divider"></div>
+                <div class="comment-reply"><a href="{% url 'editors_pick:detail' comment.editor_review.pk %}">답변하기</a>
+                </div>
+            </div>
+            <div class="comment-divider"></div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+{% endblock content %}

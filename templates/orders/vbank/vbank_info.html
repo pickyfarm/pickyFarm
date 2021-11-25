@@ -1,0 +1,38 @@
+{% load static %} {% load humanize %}
+<html>
+    <head>
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0"
+        />
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/orders/vbank/vbank_info.css' %}" />
+    </head>
+    <body>
+        <div class="order-payment-success-subtitle mt-20 mb-10">
+            <p>아래의 가상계좌로 입금해 주시면 정상적으로</p>
+            <p><b>결제 완료</b> 처리가 됩니다.</p>
+        </div>
+        <div class="order-payment-success-vbank-section">
+            <div class="order-payment-success-vbank-information-title mb-5"> 가상계좌 정보</div>
+            <div class="order-payment-success-information-border"></div>
+            <div class="order-payment-success-information-lists-wrap">
+                <div class="order-payment-success-vbank-information-account-wrap flex">
+                    <div class="order-payment-success-vbank-information-account-title"> 계좌정보 </div>
+                    <div class="order-payment-success-vbank-information-account flex">
+                        <div class="order-payment-success-vbank-information-account-bank">{{order_group.v_bank}} {{order_group.v_bank_account}}</div>
+                        <div class="order-payment-success-vbank-information-account-holder">예금주 : {{order_group.v_bank_account_holder}}</div>
+                    </div>
+                </div>
+                <div class="order-payment-success-vbank-information-price-wrap flex">
+                    <div class="order-payment-success-vbank-information-price-title"> 결제금액 </div>
+                    <div class="order-payment-success-vbank-information-price"> {{order_group.total_price | intcomma}}원 </div>
+                </div>
+                <div class="order-payment-success-vbank-information-duration-wrap flex">
+                    <div class="order-payment-success-vbank-information-duration-title"> 입금기간 </div>
+                    <div class="order-payment-success-vbank-information-duration"> {{order_group.v_bank_expire_date}} 까지 </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

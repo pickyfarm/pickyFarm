@@ -1,0 +1,142 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/users/mypage/editor/editor_mypage_base.css' %}">
+{% block stylesheet_editor_mypage %}
+{% endblock stylesheet_editor_mypage %}
+{% endblock stylesheet %}
+
+{% block title_name %}
+피키팜 | Editor 관리
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-0 sm:mx-0 bg-white-400 text-center font-4xl" id="main">
+    <div class="flex flex-col">
+        <div id="top-section" class="flex flex-row mt-14">
+            <div id="left" class="">
+                <div class="flex flex-row mt-4">
+                    <div id="title_text1">
+                        Editor
+                    </div>
+                    <div id="title_text2" class="ml-5">
+                        {{editor.user.nickname}}
+                    </div>
+                </div>
+            </div>
+            <div id="right" class="flex flex-row">
+                <div id="preparing" class="mx-10">
+                    <div id="status_text" class="mx-auto">
+                        전체 글
+                    </div>
+                    <div id="status_number" class="mx-auto">
+                        {{editor.review_count}}
+                    </div>
+                </div>
+                <div id="delivering" class="mx-10">
+                    <div id="status_text" class="mx-auto">
+                        전체 조회수
+                    </div>
+                    <div id="status_number" class="mx-auto">
+                        {{editor.review_hit_count}}
+                    </div>
+                </div>
+                <div id="complete" class="mx-10">
+                    <div id="status_text" class="mx-auto">
+                        새 댓글
+                    </div>
+                    <div id="status_number" class="mx-auto">
+                        {{editor.unread_comment_count}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="middle-section" class="flex flex-row">
+
+            <div id="menu">
+                <a href="{% url 'users:editor_mypage' %}">
+                    <div class="menu_content" id="menu-articles">전체 글</div>
+                </a>
+                <a href="{% url 'users:editor_mypage_comments' %}">
+                    <div class="menu_content" id="menu-comments">댓글 관리</div>
+                </a>
+                <a href="{% url 'users:editor_mypage_info' %}">
+                    <div class="menu_content" id="menu-editor-info">에디터 정보 관리</div>
+                </a>
+            </div>
+            <div id="content">
+                {% block content %}
+
+                {% endblock content %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    $('[id^=sub_cancel_btn]').click(function () {
+        let pk = $(this).attr('name');
+        console.log(pk)
+        let data = { 'pk': pk };
+        console.log("data 확인 완료");
+        $.ajax({
+            type: 'POST',
+            url: '{% url "users:cancelSubs" %}',
+            dataType: "json",
+            data: data,
+            success: function (response) {
+                if (response.success == 0) {
+                    alert("다시 시도해주세요");
+                }
+                else {
+                    console.log(response.success)
+                    alert(response.msg);
+                    $(`#${pk}-sub-farmer`).remove();
+
+                }
+            },
+            error: function (request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+        })
+    })
+
+
+</script>
+
+{% block script_section %}
+
+{% endblock script_section %}
+{% endblock main_content %}

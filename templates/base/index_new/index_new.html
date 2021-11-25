@@ -1,0 +1,20 @@
+{% extends 'base/base_for_index.html' %}
+{% load static %}
+
+{% block title_name %}Pick Farm : 까다롭게 선택하다{% endblock title_name %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/base/index_new/index_new.css' %}">
+<link rel="stylesheet" href="{% static 'css/base/landing/siminwon_landing.css' %}">
+{% endblock stylesheet %}
+
+{% block main_content %}
+{% include "base/main_slider.html" %}
+{% include 'base/index_new/farmers_and_todays_crops.html' %}
+<div id="content">
+    {% include 'base/index_new/hot_crops.html' %}
+</div>
+{% include 'base/index_new/farmers.html' %}
+{% include 'base/landing/siminwon/siminwon_landing_header.html' %}
+{% include 'base/landing/siminwon/siminwon_landing_page1.html' %}
+{% include 'base/landing/siminwon/siminwon_landing_page2.html' %}
+{% endblock main_content %}

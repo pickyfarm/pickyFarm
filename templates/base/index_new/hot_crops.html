@@ -1,0 +1,29 @@
+{% load static %}
+{% load humanize %}
+
+
+<section id="index-section2" class="index-section-container">
+    <div id="hot-crops">
+        <h1 id="hot-crops-title">HOT한 무난이 작물</h1>
+        <div id="crops-desc-wrap">
+            {% for crop in hot_crops %}
+            <a href="{% url 'products:product_detail' crop.pk %}">
+                <div class="crop-desc zoom-on-hover">
+                    <img src="{{crop.main_image.url}}" alt="무난이작물" class="hot-crop-image">
+                    <h2 class="hot-crop-title">홍로 {{crop.weight | intcomma}}{{crop.weight_unit}}</h2>
+                    <h2 class="hot-crop-price">{{crop.sell_price | intcomma}}원</h2>
+                    <div class="ugly-tag">무난이 작물</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <span id="click-message"><img src="{% static 'images/index_new/section2/section2-leaf.svg' %}" alt="" id="click-message-leaf">클릭해서 바로 만나보세요!</span>
+    </div>
+    <aside id="section2-phrase">
+        <p id="section2-main-phrase">겉은 못나도<br><b>속은 알차서 괜찮으니까</b> </p>
+        <div id="section2-image-wrap">
+            <img src="{% static 'images/index_new/section2/section2_ugly_crops.webp' %}" alt="" id="section2-phrase-img">
+            <div class="ugly-tag big">무난이 작물</div>
+        </div>
+    </aside>
+</section>

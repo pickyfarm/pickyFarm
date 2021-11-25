@@ -17,17 +17,22 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', include("core.urls", namespace='core')),
-    path('admin/', admin.site.urls),
-    path('editors_pick/', include('editor_reviews.urls', namespace='editor_reviews')),
-    path('product/', include("products.urls", namespace='products')),
-    path('comment/', include("comments.urls", namespace='comment')),
-    path('purchase/', include("purchases.urls", namespace='purchase')),
-    path('user/', include("users.urls", namespace='user')),
+    path("", include("core.urls", namespace="core")),
+    path("admin/", admin.site.urls),
+    path("editors_pick/", include("editor_reviews.urls", namespace="editor_reviews")),
+    path("product/", include("products.urls", namespace="products")),
+    path("comment/", include("comments.urls", namespace="comment")),
+    path("order/", include("orders.urls", namespace="orders")),
+    path("user/", include("users.urls", namespace="user")),
+    path("farmer/", include("farmers.urls", namespace="farmer")),
+    path("summernote/", include("django_summernote.urls")),
+    path("address/", include("addresses.urls", namespace="addresses")),
+    path("likes/", include("likes.urls", namespace="likes")),
+    path("message/", include("kakaomessages.urls", namespace="messages")),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

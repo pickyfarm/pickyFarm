@@ -103,9 +103,11 @@ ENV/
 .DS_Store
 *.sqlite3
 media/
+static/
 *.pyc
 *.db
 *.pid
+kakaomessages/template.py
 
 # Ignore Django Migrations in Development if you are working on team
 
@@ -117,3 +119,18 @@ media/
 db.sqlite3
 node_modules
 .DS_Store
+.vscode/
+Pipfile.lock
+Pipfile
+
+package-lock.json
+
+manage.py
+
+
+#kakao message
+kakaomessages/template.py
+
+# farm order list
+*.xlsx
+*.csv

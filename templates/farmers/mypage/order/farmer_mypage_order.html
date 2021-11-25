@@ -1,0 +1,17 @@
+{% extends 'farmers/mypage/farmer_mypage_base.html' %} {% load static %}
+{% block stylesheet_farmer_mypage %}
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_order.css' %}" />
+<link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_order_mobile.css' %}" />
+{% endblock stylesheet_farmer_mypage %}
+{% block content %}
+{% include 'farmers/mypage/order/info_section.html' %}
+{% include 'farmers/mypage/order/order_list_section.html' %}
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
+<script defer>
+    document.querySelector('#button-order-manage').classList.add('active');
+    const DateTime = luxon.DateTime;
+    const orderStateUpdateURL = '{% url "farmer:farmer_mypage_order_state_update" %}'
+    const CSRFToken = "{{csrf_token}}"
+</script>
+<script defer src="{% static 'js/farmers/mypage/farmer_mypage_order.js'%}"></script>
+{% endblock content %}

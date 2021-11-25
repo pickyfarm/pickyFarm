@@ -1,0 +1,83 @@
+{% load static %}
+<div class="w-full search_block_1" id="farm_content">
+    <div class="mx-auto py-11" id="content">
+        {% for farmer in farmers %}
+        <div class="flex row mx-auto">
+            <div class="flex flex-row" id="wrapper">
+                <!--farmer's image-->
+                <a href="{% url 'farmers:farmer_detail' farmer.id %}">
+                    <div class="block" id="farm_pic">
+                        <img id="farmer_profile" class="object-cover" src="{{farmer.farmer_profile.url}}" alt="">
+                        <div id='pick_img'>
+                            <img src="{% static 'images/farm/sub_btn.svg' %}" id="sub_btn" name={{farmer.pk}} alt="">
+                        </div>
+                    </div>
+                </a>
+                <!--farmer's desc-->
+                <div class="" id="farm_desc_block">
+                    <p class="font-medium text-2xl mb-3" id="farm_profile">{{farmer.profile_title}}</p>
+                    <p class="text-2xl font-light mb-8" id="farm_loc">{{farmer.user.addresses.first.sido}}
+                        {{farmer.user.addresses.first.sigungu}}</p>
+                    <a href="{% url 'farmers:farmer_detail' farmer.id %}">
+                        <p class="mb-8 font-medium text-5xl" id="farm_name">{{farmer.farm_name}}</p>
+                    </a>
+                    <!--tag-->
+                    <div class="grid grid-cols-3 gap-2 mb-24 h-7" id="tag">
+                        {% for tag in farmer.farm_tags.all %}
+                        <div class="text-center align-middle py-1 px-2 font-light text-sm transform hover:scale-105 transition duration-300 ease-in-out"
+                            id="farm_tag" name="{{tag}}">#{{tag}}</div>
+                        {% endfor %}
+                    </div>
+                    <!--farmer's products-->
+                    <div class=" grid grid-cols-3 gap-2 justify-around" id="farm_product_wrapper">
+                        {% for product in farmer.products.all|slice:":3" %}
+                        <a href="{% url 'products:product_detail' product.pk %}">
+                            <div id="farm_product">
+                                <div class="mb-3 w-full" id="product_img_wrapper">
+                                    <img class="object-cover" id="product_img" src="{{product.main_image.url}}" alt="">
+                                </div>
+                                <div class="text-xs font-light text-center" id="product_desc">{{product.title}}
+                                </div>
+                                <div class="text-xs font-light text-center" id="product_desc">
+                                    {{product.sell_price}}원</div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!--paginator-->
+    <div class="flex flex-row mx-auto justify-center pb-56" id='content'>
+        <div class='flex flex-row'>
+            {% if farmers.has_previous %}
+            <img src="{% static 'images/farm/prev.svg' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+            <img src="{% static 'images/farm/prev.svg' %}"
+                onclick="location.href='?page={{farmers.previous_page_number}}'" style="cursor: pointer">
+            {% else %}
+            <img src="{% static 'images/farm/prev.svg' %}" onclick=" location.href='?page=1'" style=" cursor: pointer">
+            <img src="{% static 'images/farm/prev.svg' %}" onclick=" location.href='?page=1'" style=" cursor: pointer">
+            {% endif %}
+        </div>
+        <div class='flex flex-row'>
+            <div>{{farmers.number}}</div>
+            <div>/</div>
+            <div>{{farmers.paginator.num_pages}}</div>
+        </div>
+        <div class='flex flex-row'>
+            {% if farmers.has_next %}
+            <img src="{% static 'images/farm/next.svg' %}" onclick="location.href='?page={{farmers.next_page_number}}'"
+                style="cursor: pointer">
+            <img src="{% static 'images/farm/next.svg' %}"
+                onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
+            {% else %}
+            <img src="{% static 'images/farm/next.svg' %}"
+                onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
+            <img src="{% static 'images/farm/next.svg' %}"
+                onclick="location.href='?page={{farmers.paginator.num_pages}}'" style="cursor: pointer">
+            {% endif %}
+        </div>
+    </div>
+</div>

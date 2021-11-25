@@ -1,0 +1,279 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.transition_element {
+    transition: all 15s ease-in;
+}
+
+.button {
+    cursor: pointer;
+}
+
+input[type='radio'] {
+    appearance: none;
+    border: 1px solid #b3b3b3;
+    border-radius: 15px;
+    width: 15px;
+    height: 15px;
+}
+
+input[type='radio']:before {
+    content: '';
+    display: block;
+    width: 70%;
+    height: 70%;
+    margin: 14.5% auto;
+    border-radius: 15px;
+}
+
+input[type='radio']:checked:before {
+    background-color: #5c6754;
+}
+
+input[type='radio']:checked {
+    border-color: #5c6754;
+}
+
+.product-state-update-container {
+    width: 375px;
+    border: 1px solid black;
+    padding: 60px 25px;
+}
+
+.product-state-update-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4d5548;
+    margin-bottom: 56.5px;
+}
+
+.product-state-update-radio-wrap {
+    font-size: 15px;
+    font-weight: 500;
+    color: #4d4d4d;
+}
+
+.product-state-update-form-sell-stop-wrap {
+    margin-left: 30px;
+}
+
+#sell_start_title {
+    position: relative;
+    bottom: 2px;
+    color: #5c6754;
+}
+
+#sell_stop_title {
+    color: #b3b3b3;
+    position: relative;
+    bottom: 2px;
+}
+
+.product-state-update-weight-quantity-wrap {
+    margin-top: 63px;
+}
+
+.product-state-update-weight-wrap {
+    position: relative;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-state-update-weight-input-select-wrap {
+    appearance: none;
+    width: 146.7px;
+    height: 30px;
+    padding: 4px 19px 4px 30px;
+    border: solid 1px #b3b3b3;
+    border-radius: 20px;
+    justify-content: space-between;
+}
+
+#product-weight-input {
+    width: 30px;
+    border: none;
+}
+
+#product-weight-input:focus {
+    outline: none;
+}
+
+#product-weight-input:disabled {
+    background-color: #fff;
+}
+
+.product-state-update-weight-select-wrap {
+    /*width: 50px;*/
+}
+
+#product-weight-unit {
+    appearance: none;
+    border: none;
+    width: 50px;
+    padding-left: 15px;
+    color: #5c6456;
+}
+
+#product-weight-unit:focus {
+    outline: none;
+}
+
+#product-weight-unit:disabled {
+    color: #b3b3b3;
+}
+
+.product-weight-unit-bar {
+    position: absolute;
+    right: 75px;
+    top: 5px;
+    font-weight: 200;
+    font-size: 19px;
+    pointer-events: none;
+}
+
+.product-state-update-quantity-wrap {
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-quantity-unit {
+    position: absolute;
+    right: 35px;
+    top: 7px;
+    color: #5c6456;
+}
+
+.product-weight-select-arrow {
+    position: absolute;
+    top: 6px;
+    right: 20px;
+    pointer-events: none;
+}
+
+#product_quantity {
+    appearance: none;
+    width: 146.7px;
+    height: 30px;
+    padding: 4px 19px 4px 32.9px;
+    border: solid 1px #b3b3b3;
+    border-radius: 20px;
+}
+
+#product_quantity:focus {
+    outline: none;
+}
+
+.product-state-update-submit-wrap {
+    width: 100%;
+    margin-top: 50px;
+    flex-direction: column;
+    align-items: center;
+    display: inline-block;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+}
+
+.product-state-update-submit-wrap:hover {
+    cursor: pointer;
+}
+
+.product-state-update-submit-text {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #5c6754;
+}
+
+/* 모바일용 미디어 쿼리 */
+@media screen and (max-width: 768px) {
+    .product-state-update-container {
+        width: 100%;
+    }
+
+    input[type='radio']:before {
+        content: '';
+        display: block;
+        width: 74%;
+        height: 75%;
+        margin: 14% auto;
+        border-radius: 15px;
+    }
+
+    .product-state-update-weight-input-select-wrap {
+        width: 60%;
+        margin-left: 28px;
+    }
+
+    .product-state-update-weight-wrap {
+        justify-content: unset;
+        /*flex-wrap: nowrap;*/
+    }
+
+    .product-state-update-weight-title {
+        /*margin-right: 30px;*/
+    }
+
+    .product-state-update-weight-input-wrap {
+        width: 47%;
+    }
+
+    #product-weight-input {
+        width: 100%;
+    }
+
+    .product-weight-unit-bar {
+        position: relative;
+        top: 1px;
+        right: 83px;
+    }
+
+    .product-weight-select-arrow {
+        position: relative;
+        top: 0;
+        right: 35px;
+    }
+
+    .product-state-update-quantity-wrap {
+        justify-content: unset;
+        /*flex-wrap: nowrap;*/
+    }
+
+    #product_quantity {
+        width: 60%;
+        margin-left: 70px;
+        padding-right: 75px;
+    }
+
+    #product_quantity_title {
+        flex-wrap: nowrap;
+    }
+
+    .product-quantity-unit {
+        position: relative;
+        top: 1px;
+        right: 50px;
+    }
+}
+
+/* flex-wrap 때문에 label, input 배치가 뒤틀려 추가  */
+@media screen and (max-width: 430px) {
+    .product-state-update-weight-input-select-wrap,
+    #product_quantity {
+        width: 146.7px;
+    }
+}

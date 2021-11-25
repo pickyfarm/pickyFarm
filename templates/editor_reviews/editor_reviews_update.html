@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/products/products_list.css' %}">
+
+<script>
+
+</script>
+{% endblock stylesheet %}
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
+
+    <form action="{% url 'editor_reviews:update' post.pk %}" method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        {{form.as_p}}
+        <button type="submit">수정하기</button>
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    var checkUnload = true;
+    $(window).on('beforeunload', function () {
+        if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+    });
+    $("#write").on("click", function () {
+        checkUnload = false;
+        $("submit").submit();
+    });
+</script>
+{% endblock main_content %}

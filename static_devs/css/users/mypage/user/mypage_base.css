@@ -1,0 +1,532 @@
+
+/* 
+
+  상단 섹션 
+  
+  */
+#top-section{
+    width:990px;
+    height:270px;
+}
+
+
+#top-section-left{
+    width:400px;
+}
+
+/* 페이지 제목 - My */
+#title_text1{
+
+  font-size: 30px;
+  font-weight: 500;
+
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #707070;
+}
+
+/* 페이지 제목 - Picky Farm */
+#title_text2{
+
+  font-size: 40px;
+  font-weight: 500;
+
+  font-style: normal;
+  line-height: 0.75;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+/* 닉네임 */
+#nickname_text1{
+  font-family: NotoSansKR;
+  font-size: 25px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #707070;
+}
+
+/* 닉네임 - 님 */
+#nickname_text2{
+  font-family: NotoSansKR;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+  margin-left:5px;
+}
+
+
+#top-section-right{
+    width:100%;
+    padding-left:50px;
+}
+
+
+/* 배송분비중, 배송중, 배송완료, 취소반품교환 글씨 */
+#status_text{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.73;
+  letter-spacing: normal;
+  text-align: center;
+  color: #b3b3b3;
+}
+
+/* 상품 상태 아이콘 */
+#status_icon{
+  margin-top:22.1px;
+  height: 52px;
+}
+
+#status_number{
+  font-family: NotoSansKR;
+  font-size: 64px;
+  font-weight: 100;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  margin-top: 25px;
+}
+
+
+
+
+/* 
+  
+  중간 섹션 
+  
+*/
+
+#middle-section{
+    width:990px;
+}
+
+/* 구매내역, 찜한 목록, 장바구니, 배송지 관리, 개인정보 수정 메뉴 버튼 섹션 */
+#menu{
+    width:150px;
+}
+
+/* 모바일 외주시 해당 태그 HIDE하고 새로 제작 필요 */
+.menu_content{
+    width: 145px;
+    height: 48px;
+    margin-bottom: 12px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 35px;
+    border: solid 1px #5e6656;
+    background-color: #ffffff;
+
+    font-size: 17px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+
+  cursor: pointer;
+}
+
+/* 모바일용 menu 하단 line */
+#line, #selected_line, #background_line{
+  display: none;
+}
+
+
+
+/*
+
+  아래 섹션
+
+*/
+
+
+
+#bottom_section{
+  width: 100%;
+  height:658px;
+  background-color: #f2f2f2;
+
+}
+
+
+#bottom_contents{
+  width:990px;
+  
+}
+
+/* 
+  농가 구독 섹션
+ */
+
+#subscribe_section{
+  width:440px;
+}
+
+#subs_title_box{
+  width:105px;
+}
+
+/* 구독 농가 제목 - My */
+#subs_title_text1{
+
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+}
+
+
+/* 구독 농가 제목 - Farmer */
+#subs_title_text2{
+  font-size: 25px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  margin-left:8px;
+}
+
+/* 농가 구독 리스트들이 담겨있는 박스 - 스크롤 됨*/
+#subs_contents{
+  overflow:scroll;
+  width: 395px;
+  height: 400px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+
+
+/* [구독한 농가 없는 경우] */
+
+#subs_not_exist_box{
+  width:80%;
+  margin:40% auto;
+}
+
+#subs_not_exist_box>div:nth-child(1){
+  margin-bottom:10px;
+}
+
+#subs_redirect_a{
+  width:170px;
+}
+
+#subs_redirect_btn{
+  width:170px;
+  height: 30px;
+  padding-top:5px;
+  border-radius: 11px;
+  background-color: #5c6754;
+  font-size: 15px;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* [구독한 농가 있는 경우] */
+
+
+#farm_image{
+  width: 60px;
+  height: 60px;
+  margin: 0 10px 30px 0;
+  border: solid 1px #5e6656;
+  border-radius: 99%;
+  object-fit: cover;
+}
+
+/* 구독 농가 이름 + 지역 + news 섹션 */
+#sub-right-section{
+  margin-left : 20px;
+}
+
+
+/* 구독 농가 관련 태그 */
+#farm_tag{
+  padding: 0 7px 0 7px;
+  opacity: 0.6;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+  font-size: 10px;
+}
+
+/* 농가 위치 */
+#farm_loc{
+  font-family: NotoSansKR;
+  font-size: 12px;
+  padding-top:6px;
+  
+  margin-right:10px;
+  text-align: left;
+  color: #5c6754;
+}
+
+/* 농가 이름 */
+#farm_name{
+  font-family: NotoSansKR;
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+/* 구독 농가 뉴스 (스피커 모양 부분 ) */
+#sub_farm_news{
+  font-family: NotoSansKR;
+  width:180px;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+  padding: 4px 7px;
+  opacity: 1;
+  border-radius: 11px;
+  background-color: #f2f2f2;
+}
+
+/* 구독 취소 버튼 */
+#sub_cancel_btn{
+  width: 57px;
+  height: 20px;
+  opacity: 0.6;
+  border-radius: 13px;
+  background-color: #b3b3b3;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #020202;
+  cursor: pointer;
+  margin-left: 18px;
+}
+
+#sub_cancel_btn:hover{
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border: solid 1px #020202;
+}
+
+#subs_contents #show_more{
+  display: none;
+}
+
+/* **********qna 확인 섹션********* */
+
+#qnas_section{
+  width:550px;
+}
+
+/* qna들이 나열되는 박스 - 스크롤 됨 */
+#qna_box_container{
+  overflow:scroll;
+}
+
+#qnas_contents{
+  width: 506px;
+  height: 400px;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+#qnas_title_box{
+  margin-top:30px;
+}
+
+#qnas_title_text1{
+ 
+  font-size: 61px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.51;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+}
+
+#qnas_title_text2{
+
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.16;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+}
+
+#qnas_not_exist_box{
+  width:80%;
+  margin:40% auto;
+}
+
+#qnas_not_exist_box>div:nth-child(1){
+  margin-bottom:10px;
+}
+
+#qnas_redirect_a{
+  width:170px;
+}
+
+#qnas_redirect_btn{
+  width:170px;
+  height: 30px;
+  padding-top:5px;
+  border-radius: 11px;
+  background-color: #5c6754;
+
+  font-size: 15px;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+#qna_date{
+
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+#q_box{
+  color: #b3b3b3;
+}
+
+#q_box>div:nth-child(1){
+ 
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+  margin-top:8px;
+}
+
+#q_detail{
+  width: 315px;
+  margin: 10px 43px 3px 15px;
+  padding: 7px 19px;
+  border-radius: 20px;
+  background-color: #f2f2f2;
+
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #707070;
+}
+
+#see_more_a{
+  width:48px !important;
+}
+
+#see_more{
+  width: 48px;
+  border-radius: 10px;
+  background-color: #5c6754;
+
+  font-size: 11px;
+  opacity: 1;
+ 
+  text-align: center;
+  color: #ffffff;
+  cursor:pointer;
+}
+
+#see_more:hover{
+  color: #5c6754;
+  background-color: #ffffff;
+}
+
+#a_detail{
+  width: 315px;
+  padding: 14px 11px;
+ 
+  border-radius: 20px;
+  margin-top:7px;
+  background-color: #f2f2f2;
+  font-size: 15px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: right;
+  color: #3b4236;
+}
+
+#a_box{
+  color: #b3b3b3;
+}
+
+#a_box>div:nth-child(2){
+  margin-left:14px;
+  margin-top:5px;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+
+}
+
+
+
+
+
+
+

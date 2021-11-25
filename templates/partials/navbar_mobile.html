@@ -1,0 +1,39 @@
+{% load static %}
+
+<nav class="fixed bottom-0 flex items-end  md:hidden" id="navbar-mobile">
+    <ul class="flex justify-between items-end flex-auto">
+        <a class="navbar-item flex flex-col" id="navbar-editor">
+            <img src="{% static 'images/base/mobile_navbar/navbar_edtor.png' %}" alt="Editor's Pick" class="navbar-icon" />
+            <div class="navbar-text">에디터</div>
+        </a>
+        <a class="navbar-item flex flex-col" id="navbar-farmer" href="{% url 'farmers:farmers_page' %}">
+            <img src="{% static 'images/base/mobile_navbar/navbar_farmer.png' %}" alt="Farmer's Page" class="navbar-icon" />
+            <div class="navbar-text">파머</div>
+        </a>
+        <a class="navbar-item flex flex-col" href="{% url 'core:main' %}">
+            <img src="{% static 'images/base/mobile_navbar/navbar_home.png' %}" alt="Home" class="navbar-icon" />
+            <div class="navbar-text">홈</div>
+        </a>
+        <a class="navbar-item flex flex-col" id="navbar-store" href="{% url 'products:store_list' %}">
+            <img src="{% static 'images/base/mobile_navbar/navbar_store.png' %}" alt="Store" class="navbar-icon" />
+            <div class="navbar-text">스토어</div>
+        </a>
+        {% if user.is_authenticated %}
+        <a class="navbar-item flex flex-col" id="navbar-mypage" href="{% url 'users:mypage' 'orders' %}">
+            <img src="{% static 'images/base/mobile_navbar/navbar_user.png' %}" alt="Mypage" class="navbar-icon" />
+            <div class="navbar-text">
+                마이페이지
+            </div>
+        </a>
+        {% else %}
+        <a class="navbar-item flex flex-col" id="navbar-mypage" href="{% url 'users:login' %}">
+            <img src="{% static 'images/base/mobile_navbar/navbar_user.png' %}" alt="Mypage" class="navbar-icon" />
+            <div class="navbar-text">
+                로그인
+            </div>
+        </a>
+        {% endif %}
+    </ul>
+</nav>
+
+<link rel="stylesheet" href="{% static 'css/base/navbar_mobile.css' %}" />

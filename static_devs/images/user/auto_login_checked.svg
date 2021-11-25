@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+    <g transform="translate(-785 -688)">
+        <g fill="#fff" stroke="#b3b3b3" transform="translate(785 688)">
+            <circle cx="10" cy="10" r="10" stroke="none"/>
+            <circle cx="10" cy="10" r="9.5" fill="none"/>
+        </g>
+        <circle cx="6" cy="6" r="6" fill="#5c6754" transform="translate(789 692)"/>
+    </g>
+</svg>

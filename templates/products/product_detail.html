@@ -1,39 +1,68 @@
 {% extends "base/base.html" %}
+{% block og_url %}{% url 'products:product_detail' product.pk %}{% endblock %}
+{% block og_title %}{{product.title}}{% endblock %}
+{% block og_desc %}{{product.sub_title}}{% endblock %}
+{% block og_image %}{{product.main_image.url}}{% endblock %}
+{% block title_name %}{{product.title}}{% endblock %}
 
-{% load static %}   
+{% load static %}
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
-    
+<link rel="stylesheet" href="{% static 'css/products/product_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_detail_mobile.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_review.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_review_mobile.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_question_mobile.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_refund_change.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_refund_change_mobile.css' %}">
+
+
+<!-- <script defer src='https://kit.fontawesome.com/a076d05399.js'></script> -->
+
+
 {% endblock stylesheet %}
-{% block main_content %}   
+{% block main_content %}
 
 <div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
-
-    <div id="product_content" class="flex flex-row mx-auto z-0">
+    <div id="product_content" name="{{product.pk}}" class="flex flex-row mx-auto z-0">
         <div id="left" class="w=2/5">
             <div>
                 <img id="main_image" src="{{product.main_image.url}}">
             </div>
-            <div id="images" class="w-full flex flex-rows mt-3">
+            <div class="w-full flex flex-rows mt-3">
                 {% if product.product_images is not None %}
-                    {% for image in product.product_images.all %}
-                        
-                    <img id="images" class="mr-3" src="{{image.image.url}}">
-                        
-                    {% endfor %}
+                {% for image in product.product_images.all %}
+
+                <img id="images" class="mr-3" src="{{image.image.url}}">
+
+                {% endfor %}
                 {% endif %}
             </div>
             <div class="ml-7 mt-10 text-left" id="farm_news_letter">
                 농가 소식
             </div>
-            <div id="farm_news" class="relative mt-1 py-2 pl-8">
+            <div id="farm_news" class="relative mt-1 py-2">
                 <img class="absolute -top-6 -left-2" src="{% static 'images/product_detail/bell.svg' %}">
-                    {{farmer.farm_news}}
+                {% if farmer.farm_news %}
+                {{farmer.farm_news}}
+                {% else %}
+                <div class="font-light text-center">등록된 뉴스가 아직 없습니다.</div>
+                {% endif %}
             </div>
         </div>
         <div id="right" class="w-3/5 pr-10 pl-12">
             <div id="top_section" class="flex flex-row">
                 <div id="title_section" class="w-5/6">
+                    <div id="tags" class="flex flex-row">
+
+                        {% if related_product is None and kinds == "ugly" %}
+                        <div id="ugly_tag">무난이 작물</div>
+                        {% elif related_product is not None and kinds == "ugly" %}
+                        <div id="ugly_tag">무난이 작물</div>
+                        <div id="normal_tag">일반 작물</div>
+                        {% else %}
+                        <div id="normal_tag">일반 작물</div>
+                        {% endif %}
+                    </div>
                     <div id="title">
                         {{product.title}}
                     </div>
@@ -53,10 +82,10 @@
             <div id="cost" class="pt-8 pb-6 mb-2">
                 {{product.sell_price}}원
             </div>
-    
+
             <div id="farmer_section" class="flex flex-row items-center mt-3">
                 <div id="farmer_image">
-                    <img src="{{farmer.user.profile_image.url}}" id="farmer_img" alt="농장주사진">
+                    <img src="{{farmer.farmer_profile.url}}" id="farmer_img" alt="농장주사진">
                 </div>
                 <div id="farm_name" class="ml-4 pt-1">
                     {{farmer.farm_name}}
@@ -64,248 +93,459 @@
                 <div id="farmer_name" class="ml-2">
                     {{farmer.user.nickname}}
                 </div>
-                <div id="visit" class="ml-4">
-                    방문하기
-                </div>
-                <div id="sub" class="ml-2">
+                <a href="{% url 'farmers:farmer_detail' farmer.pk %}">
+                    <div id="visit" class="ml-4 transition_element">
+                        방문하기
+                    </div>
+                </a>
+                <div id="sub" name="{{farmer.pk}}" class="ml-2 transition_element">
                     구독하기
                 </div>
             </div>
             <div id="info_section" class="border-b mt-12 pt-5 pb-5">
                 <div class="flex flex-rows">
-                    <div id="info_t" class="w-1/5 text-left mb-3">배송비</div>
-                    <div id="info_c" class="w-4/5 text-left text-red-500">무료</div>
+                    <div id="info_t" class="w-1/5 text-left">배송비</div>
+                    <div id="shipping-fee" class="w-4/5 text-left text-red-500">{{product.default_delivery_fee}}원</div>
+                </div>
+                <div id="shipping-fee-desc" class="mb-3">
+                    {{product.additional_delivery_fee_unit}}개 마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가
+                </div>
+                <div class="flex flex-rows mb-3">
+                    <div id="info_t" class="w-1/5 text-left">배송 기간</div>
+                    <div id="shipping-fee" class="w-4/5 text-left text-red-500">{{farmer.shipping_description}}</div>
                 </div>
                 <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">중량/용량</div>
-                    <div id="info_c" class="w-4/5 text-left">{{product.weight}}kg</div>
+                    <div id="product-weight" class="w-4/5 text-left">{{product.weight}}{{product.weight_unit}}</div>
                 </div>
                 <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">원산지</div>
                     <div id="info_c" class="w-4/5 text-left">국산</div>
                 </div>
-                <div class="flex flex-rows mb-3">
+                {% comment %} <div class="flex flex-rows mb-3">
                     <div id="info_t" class="w-1/5 text-left">안내사항</div>
                     <div id="info_c" class="w-4/5 text-left">{{product.instruction}}</div>
-                </div>
+                </div> {% endcomment %}
+            </div>
+            <div id="product-option-section" class="border-b flex py-3">
+                <select name="product-option" id="product-option" class="w-full" onchange="if(this.value) location.href=this.value;">
+                    {% for sibling in siblings %}
+                    <option value="{% url 'products:product_detail' sibling.pk %}" {% if sibling.pk == product_pk %}selected{% endif %}>{{sibling.option_name}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div id="purchase_number_section" class="flex flex-row items-center py-10 mb-5 border-b">
                 <div id="quantity_letter" class="mr-12">구매수량</div>
-                <div><input id="quantity_input" class="ml-12 pl-10" name="quantity" type="number" value=1></div>
+                <div id="quantity_num_section" class="flex flex-row items-center">
+                    <div id="minus_btn">-</div>
+                    <div id="quantity_number" class="">1</div>
+                    <div id="plus_btn">+</div>
+                </div>
             </div>
-            <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10">
+            <div class="flex flex-rows justify-end items-end mt-10 mb-7 pt-10" id="total_price_section">
                 <div id="total_price_letter" class="mb-4 mr-10">총 상품 금액 :</div>
-                <div id="total_price">2000</div>
+                <div id="total_price">{{product.sell_price}}</div>
                 <div id="won" class="mb-2 ml-2">원</div>
             </div>
             <div id="buttons" class="flex flex-rows">
-                <a href="{% url 'users:wish' product.pk %}?next={{request.path}}"><div id="wish">찜하기</div></a>
-                
-                {% if messages %}
-                    
-                    {% for message in messages %}
-                        <script>alert("{{message}}");</script>
-                    {% endfor %}
-                        
-                {% endif %}
-                    
-                <a href="{% url 'users:cart_in' product.pk %}?next={{request.path}}"><div id="cart" class="mr-12 ml-3">장바구니 담기</div></a>
-                <div id="purchase">바로 구매하기</div>
+                <div id="wish" class="transition_element">찜하기</div>
+
+                <div id="cart" name="{{product_pk}}" class="mr-12 ml-3 transition_element">장바구니 담기</div>
+                <div id="purchase" name="{{product_pk}}">바로 구매하기</div>
             </div>
         </div>
     </div>
 
-    <div id="product_desc" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
-        <a href="#product_desc" class="w-1/6"><div id="sel" class="py-3 border-t border-r border-l">상품설명</div></a>
-        <a href="#product_info" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div></a>
-        <a href="#product_review" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div></a>
-        <a href="#product_qna" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div></a>
-        <div class="w-2/6 border-b"></div>
-    </div>
 
-    <div id="desc_img_box">
-        <img id="desc_img" class="mx-auto" src="{{product.desc_image.url}}" alt="상품설명">
-    </div>
-
-    <div id="product_info" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
-        <a href="#product_desc" class="w-1/6"><div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div></a>
-        <a href="#product_info" class="w-1/6"><div id="sel" class="py-3 border-t border-r">상세정보</div></a>
-        <a href="#product_review" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div></a>
-        <a href="#product_qna" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div></a>
-        <div class="w-2/6 border-b"></div>
-    </div>
-
-    <div id="info_detail" class="grid grid-cols-4 mx-auto">
-        <div>포장단위별 용량(중량), 수량, 크기</div>
-        <div>{{product.weight}}kg</div>
-        <div>관련법상 표기사항</div>
-        <div>해당 사항 없음</div>
-        <div>농수산물 원산지 표시에 관한 법률에 따른 원산지</div>
-        <div>국산</div>
-        <div>상품구성</div>
-        <div>{{product.category.name}}</div>
-        <div>제조연월일, 유통기한 또는 품질유지기한</div>
-        <div>제품 별도 표기</div>
-        <div>소비자상담</div>
-        <div>홈페이지 고객문의센터</div>
-    </div>
-
-    <div id="product_review" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
-        <a href="#product_desc" class="w-1/6"><div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div></a>
-        <a href="#product_info" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div></a>
-        <a href="#product_review" class="w-1/6"><div id="sel" class="py-3 border-t border-r">리뷰 ({{comments.count}})</div></a>
-        <a href="#product_qna" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상품문의 ({{questions.count}})</div></a>
-        <div class="w-2/6 border-b"></div>
-    </div>
-    <div id="review" class='flex items-center justify-center w-full'>
-        <div class='flex flex-col my-10 mx-auto w-5/6' id='review_score'>
-            <h2 class="text-left mb-10">구매 만족도</h2>
-            <div class='flex flex-row items-end'>
-                <div id="stars" class="w-1/4 mr-8 ">
-                    <div id="stars" class='flex flex-row items-center'>
-                        {% for i in total_score %}
-                            <img class='mr-3' src="{% static 'images/yellow_star.svg' %}" alt="yellow_star">
-                        {% endfor %}
-                        {% for i in remainder_score %}
-                            <img class='' src="{% static 'images/star.svg' %}" alt="yellow_star">
-                        {% endfor %}
-                    </div>
-                    <p class="mt-2" id="percent">99.9% 만족</p>
-                </div>
-                <div id="fresh" class="w-1/4">
-                    <p class ="mb-3" id='score_title'>신선도</p>
-                    <div class="flex flex-row items-center">
-                        <p>신선해요</p>
-                        <div class="ml-5" id="score_range"></div>
-                    </div>
-                    <div class="flex flex-row items-center">
-                        <p>보통이에요</p>
-                        <div class="ml-1" id="score_range"></div>
-                    </div>
-                    <div class="flex flex-row items-center">
-                        <p>아쉬워요</p>
-                        <div class="ml-5" id="score_range"></div>
-                    </div>
-                </div>
-                <div id="taste" class="w-1/4">
-                    <p class ="mb-3" id='score_title'>맛</p>
-                    <div class="flex flex-row items-center">
-                        <p >신선해요</p>
-                        <div class="ml-5" id="score_range"></div>
-                    </div>
-                    <div class="flex flex-row items-center">
-                        <p>보통이에요</p>
-                        <div class="ml-1" id="score_range"></div>
-                    </div>
-                    <div class="flex flex-row items-center">
-                        <p>아쉬워요</p>
-                        <div class="ml-5" id="score_range"></div>
-                    </div>
-                </div>
-                <div id="price" class="w-1/4">
-                    <p class ="mb-3" id='score_title'>가성비</p>
-                    <div class="flex flex-row items-center">
-                        <p>신선해요</p>
-                        <div class="ml-5" id="score_range"></div>
-                    </div>
-                    <div class="flex flex-row items-center">
-                        <p>보통이에요</p>
-                        <div class="ml-1" id="score_range"></div>
-                    </div>
-                    <div class="flex flex-row items-center">
-                        <p>아쉬워요</p>
-                        <div class="ml-5" id="score_range"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="comment_list" class="flex flex-col mx-auto z-0">
-        {% for comment in comments %}
-            <div class="flex flex-row mb-10" id="comment">
-                <img class='w-1/3'id="consumer_img" src="{{comment.consumer.user.profile_image.url}}" alt="">
-                <div class='w-2/3 flex flex-col ml-4 border-b-2'>
-                    <div class="flex flex-row mb-1">
-                        <div>{{comment.consumer.user.nickname}}</div>
-                        <div class="mx-10">|</div>
-                        <div>{{comment.create_at}}</div>
-                        <div class="mx-10">|</div>
-                        <img style="height: 18.9px;" src="{% static 'images/report.svg' %}" alt="">
-                        <div>신고하기</div>
-                    </div>
-                    <div class="text-left flex flex-row">
-                        <div class="text-black text-opacity-40 text-sm">{{product.title}} 구매</div>
-                        <div id="stars">
-                            <div id="stars" class='flex flex-row items-center'>
-                                {% for i in comment.avg|rjust:"4" %}
-                                    <img class='mr-3 h-8 w-8' src="{% static 'images/yellow_star.svg' %}" alt="yellow_star">
-                                {% endfor %}
-                                {% for i in remainder_score %}
-                                    <img class='mr-3 h-8 w-8' src="{% static 'images/star.svg' %}" alt="yellow_star">
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-            </div>
-        {% endfor %}
-    </div>
-
-    <div id="product_qna" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
-        <a href="#product_desc" class="w-1/6"><div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div></a>
-        <a href="#product_info" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div></a>
-        <a href="#product_review" class="w-1/6"><div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{comments.count}})</div></a>
-        <a href="#product_qna" class="w-1/6"><div id="sel" class="py-3 border-t border-r">상품문의 ({{questions.count}})</div></a>
-        <div class="w-2/6 border-b"></div>
-    </div>
-
-    <div id="question_content" class="mx-auto">
-        <div class="flex flex-rows mb-3">
-            <div id="q_title">Q & A</div>
-            <div id="q_count" class="ml-5 pt-3">(총 {{questions.count}}건)</div>
-        </div>
-        <div class="flex flex-rows mb-2">
-            <img src="{%static 'images/product_detail/index_leaf.svg' %}">
-            <div id="q_desc" class="ml-3">구매하시려는 무난이에 대해 궁금한 점들을 문의해주세요</div>
-        </div>
-        <div class="flex flex-rows mb-10">
-            <img src="{%static 'images/product_detail/index_leaf.svg' %}">
-            <div id="q_desc" class="ml-3">개인적인 배송관련, 주문 관련 사항들은 1:1 고객상담센터로 문의해주세요</div>
-        </div>
-        <div id="q_table_top" class="flex flex-rows py-1">
-            <div id="q_letter_gray" class="w-2/12">답변상태</div>
-            <div id="q_letter_gray" class="w-6/12">제목</div>
-            <div id="q_letter_gray" class="w-2/12">작성자</div>
-            <div id="q_letter_gray" class="w-2/12">작성일</div>
-        </div>
-        {% if questions.exists is False %}
-            <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
-        {% else %}
-            {% for q in questions %}
-                <a href='#'>
-                <div id="q_table_bottom" class="flex flex-rows py-1">
-                        {% if q.status is True %}
-                            <div id="q_letter_answered" class="w-2/12">답변완료</div>
-                        {% else %}
-                            <div id="q_letter_gray" class="w-2/12">답변대기</div>
-                        {% endif %}
-                    <div id="q_letter_black" class="w-6/12">{{q.title}}</div>
-                    <div id="q_letter_black" class="w-2/12">{{q.consumer.user.nickname}}</div>
-                    <div id="q_letter_gray" class="w-2/12">{{q.create_at.date}}</div>
-                </div>
-                </a>
-            {% endfor %}
-        {% endif %}
-        <div>
-            <div id="q_write" class="flex flex-rows justify-end mt-10">
-                <div>글쓰기</div>
-                <img src="{% static 'images/product_detail/pen.svg' %}" class="mb-1">
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 
+<!-- 상품설명 -->
+{% include 'products/detail/product_desc.html' %}
 
+<!-- 상세정보 -->
+{% include 'products/detail/product_info.html' %}
+
+<!-- 리뷰 -->
+{% include 'products/detail/product_review.html' %}
+
+<!-- 상품문의 -->
+{% include 'products/detail/product_qna.html' %}
+
+<!-- 교환/환불 -->
+{% include 'products/detail/product_refund_change.html' %}
+
+<!-- 농가 구독 플로팅 버튼 -->
+<div class="flex flex-row" id="farmer-sub-wrap">
+    <img src="{{ farmer.farmer_profile.url }}" alt="농가 프로필 이미지" id="farmer-sub-profile">
+    <img src="{% static 'images/base/sub_floating_btn.svg' %}" name={{farmer.pk}} alt="농가 구독하기" id="farmer-sub-icon">
+</div>
+
+<script defer src="{% static 'js/event/siminwon_event_modal.js' %}"></script>
+<script>
+
+    let plusBtn = document.getElementById('plus_btn')
+    let minusBtn = document.getElementById('minus_btn')
+    let totalPrice = document.getElementById('total_price')
+    let quantityNum = document.getElementById('quantity_number')
+
+    let pricePerOne = parseInt(totalPrice.innerHTML)
+
+
+    function addCalTotalPrice(price, quantity) {
+        let nowTotalPrice = totalPrice.innerHTML
+        nowTotalPrice = parseInt(nowTotalPrice)
+
+        let newTotalOrderPrice = nowTotalPrice + price * quantity
+        totalPrice.innerHTML = String(newTotalOrderPrice)
+    }
+
+    function subCalTotalPrice(price, quantity) {
+        let nowTotalPrice = totalPrice.innerHTML
+        nowTotalPrice = parseInt(nowTotalPrice)
+
+        let newTotalOrderPrice = nowTotalPrice - price * quantity
+        if (newTotalOrderPrice < 0)
+            newTotalOrderPrice = 0
+        totalPrice.innerHTML = String(newTotalOrderPrice)
+    }
+
+    plusBtn.addEventListener('click', function () {
+        let num = parseInt(quantityNum.innerHTML)
+        num += 1
+        quantityNum.innerHTML = num
+        addCalTotalPrice(pricePerOne, 1)
+    })
+
+    minusBtn.addEventListener('click', function () {
+        let num = parseInt(quantityNum.innerHTML)
+        if (num <= 1)
+            num = 1
+        else {
+            num -= 1
+            quantityNum.innerHTML = num
+            subCalTotalPrice(pricePerOne, 1)
+        }
+
+    })
+
+    //상품 사진 조정 
+    let main_image = document.getElementById('main_image')
+    let sub_images = document.querySelectorAll('#images')
+
+    sub_images.forEach(item => {
+        item.addEventListener('click', function () {
+            let tmp_url = main_image.getAttribute('src')
+            main_image.setAttribute('src', item.getAttribute('src'))
+            item.setAttribute('src', tmp_url)
+        })
+    })
+
+    let wishBtn = document.getElementById('wish')
+    let product_pk = document.getElementById('product_content').getAttribute('name')
+
+    wishBtn.addEventListener('click', function () {
+        wish(product_pk)
+    })
+
+    const subBtn = document.getElementById('sub')
+    console.log(subBtn)
+    subBtn.addEventListener('click', function () {
+        let farmerPk = subBtn.getAttribute('name')
+        console.log(farmerPk)
+        data = {
+            'farmer_pk': farmerPk,
+            "csrfmiddlewaretoken": csrftoken,
+        }
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'users:subs' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                if (response.status == -1)
+                    shootToastMessage("구독하지 못했습니다. 다시 시도해주세요", '2')
+                else if (response.status == 0)
+                    shootToastMessage("이미 구독한 농가입니다!", '2')
+                else
+                    shootToastMessage("농가를 구독하였습니다!", '2')
+            },
+            error: function (request, status, error) {
+                shootToastMessage("로그인이 필요합니다", '2')
+            }
+
+        })
+    })
+
+    //장바구니 담기
+    let cartInBtn = document.getElementById("cart")
+    cartInBtn.addEventListener('click', function () {
+        cartIn(this.getAttribute('name'))
+    })
+
+    //바로 구매하기 버튼 누를 시
+
+    let purchaseBtn = document.getElementById("purchase")
+    purchaseBtn.addEventListener('click', function () {
+
+
+        let pk = this.getAttribute("name")
+        let quantity = parseInt(document.getElementById("quantity_number").innerHTML)
+        console.log(pk)
+        console.log(quantity)
+        product = {
+            'pk': pk,
+            'quantity': quantity
+        }
+        let products = [];
+        products.push(product)
+
+        data = {
+            "orders": JSON.stringify(products),
+            "csrfmiddlewaretoken": csrftoken,
+        }
+
+        let form = document.createElement("form")
+        form.setAttribute("method", "post")
+        form.setAttribute("action", "{% url 'orders:payment_create' %}")
+
+        for (let key in data) {
+            let hiddenField = document.createElement('input')
+            hiddenField.setAttribute('type', 'hidden')
+            hiddenField.setAttribute('name', key)
+            hiddenField.setAttribute('value', data[key])
+
+            form.appendChild(hiddenField)
+        }
+
+        document.body.appendChild(form)
+        form.submit()
+
+
+    })
+
+
+
+
+
+    // $.ajax({
+    //         type: 'POST',
+    //         url: "{% url 'users:cartInAjax' %}",
+    //         dataType: 'json',
+    //         data: data,
+    //         success: function (response) {
+    //             alert(response.message)
+    //         },
+    //         error: function (request, status, error) {
+    //             alert('로그인이 필요합니다.')
+    //         }
+    //     })
+
+
+
+    // 댓글 작성 버튼 toggle
+    let recomments = document.querySelectorAll('.recomments')
+    recomments.forEach(recomment => recomment.classList.add("hide"))
+    $(document).on('click', '#more_btn', function () {
+        $(this).parent().siblings('.recomments').toggle();
+        $(this).children('.fa-caret-down').toggle();
+        $(this).children('.fa-caret-up').toggle();
+        const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+        recomment_forms.forEach((form) => {
+            form.scrollBy(0, 10000)
+        });
+
+        // 스크롤 하단 고정 (수정 필요)
+
+
+        let qna_page = document.querySelectorAll('#qna_paginator')
+        console.log(qna_page)
+        qna_page.forEach(item => {
+            item.addEventListener('click', function () {
+                let page_num = item.getAttribute('name')
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'products:qna_paginator' %}",
+                    dataType: 'json',
+                    data: {
+                        'product_pk': product_pk,
+                        'page_num': page_num,
+                        "csrfmiddlewaretoken": csrftoken,
+                    },
+                    success: function (data) {
+                        let qnaSection = document.getElementById('qnas-section')
+                        console.log(data)
+                        qnaSection.innerHTML = ''
+                        data.questions.forEach(item => {
+                            let status = item.status
+                            let title = item.title
+                            let consumer = item.consumer
+                            let create_at = item.create_at
+                            let q_pk = item.pk
+                            console.log(status + ' ' + title + ' ' + consumer + ' ' + create_at)
+                            let qnaLine = `<a href='/product/question/${q_pk}'> <div id="q_table_bottom" class="flex flex-rows py-1">`;
+
+                            if (status == true) {
+                                qnaLine += `
+                        <div id="q_letter_answered" class="w-2/12">답변완료</div>
+                <div id="q_letter_black" class="w-6/12">${title}</div>
+                <div id="q_letter_black" class="w-2/12">${consumer}</div>
+                <div id="q_letter_gray" class="w-2/12">${create_at.date}</div>
+            </div>
+            </a>`
+                            }
+                            else {
+                                qnaLine += `
+                        <div id="q_letter_answered" class="w-2/12">답변대기</div>
+                <div id="q_letter_black" class="w-6/12">${title}</div>
+                <div id="q_letter_black" class="w-2/12">${consumer}</div>
+                <div id="q_letter_gray" class="w-2/12">${create_at.date}</div>
+            </div>
+            </a>`
+                            }
+                            qnaSection.insertAdjacentHTML('beforeend', qnaLine)
+                        })
+                    },
+                    error: function () {
+                        alert("error")
+                    }
+
+                })
+            })
+        })
+    })
+
+
+    // 무난이 작물, 일반 작물 전환
+    let uglyTag = document.getElementById("ugly_tag")
+    console.log(uglyTag)
+    let normalTag = document.getElementById("normal_tag")
+
+    let title = document.getElementById("title")
+    let subTitle = document.getElementById("subtitle")
+
+    let cost = document.getElementById("cost")
+    let totalCost = document.getElementById("total_price")
+
+    let quantityNumber = document.getElementById("quantity_number")
+
+    let shippingFee = document.getElementById("shipping-fee")
+    let shippingFeeDesc = document.getElementById("shipping-fee-desc")
+    let weight = document.getElementById("product-weight")
+
+    let mainImage = document.getElementById("main_image")
+
+    let harvestDate = document.getElementById("harvest_date")
+    let shelfLifeDate = document.getElementById("shelf_life_date")
+    let law_genetic = document.getElementById("law_genetic")
+    let law_disease = document.getElementById("law_disease")
+    let law_record = document.getElementById("law_record")
+    let law_location = document.getElementById("law_location")
+    let law_livestock = document.getElementById("law_livestock")
+
+    // uglyTag.addEventListener('click', function () {
+    //     shootToastMessage("무난이 작물로 전환합니다", '2')
+
+    //     title.innerHTML = '{{product.title}}'
+    //     subTitle.innerHTML = '{{product.sub_title}}'
+    //     cost.innerHTML = '{{product.sell_price}}원'
+    //     weight.innerHTML = '{{product.weight}}{{product.weight_unit}}'
+    //     totalCost.innerHTML = '{{product.sell_price}}'
+    //     quantity_number.innerHTML = '1'
+    //     if ('{{product.default_delivery_fee}}' == '0') {
+    //         shippingFee.innerHTML = '무료'
+    //         shippingFee.style.color = "#ff0000"
+    //         shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
+    //     }
+    //     else {
+    //         shippingFee.innerHTML = '{{product.default_delivery_fee}}원'
+    //         shippingFee.style.color = "#5c6854"
+    //         shippingFeeDesc.innerHTML = '{{product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+    //     }
+
+
+    //     //메인 이미지 변경
+    //     mainImage.setAttribute('sec', '{{product.main_image.url}}')
+
+    //     //바로 구매하기 name pk 변경
+    //     purchaseBtn.setAttribute('name', '{{product.pk}}')
+
+    //     //버튼 색 변경
+    //     this.style.color = "#fff"
+    //     this.style.backgroundColor = "#5c6754"
+    //     normalTag.style.color = "#5c6754"
+    //     normalTag.style.backgroundColor = "#fff"
+
+    //     //삼품 상세
+    //     harvestDate.innerHTML = "{{product_harvest_start_date}} ~ {{product_harvest_end_date}}"
+    //     shelfLifeDate.innerHTML = "{{product_shelf_life_date}}"
+    // })
+
+    // normalTag.addEventListener('click', function () {
+    //     shootToastMessage("일반 작물로 전환합니다", '2')
+
+    //     title.innerHTML = '{{related_product.title}}'
+    //     subTitle.innerHTML = '{{related_product.sub_title}}'
+    //     cost.innerHTML = '{{related_product.sell_price}}원'
+    //     weight.innerHTML = '{{related_product.weight}}{{product.weight_unit}}'
+    //     totalCost.innerHTML = '{{related_product.sell_price}}'
+    //     quantity_number.innerHTML = '1'
+    //     if ('{{related_product.default_delivery_fee}}' == '0') {
+    //         shippingFee.innerHTML = "무료"
+    //         shippingFee.style.color = "#ff0000"
+    //         shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
+    //     }
+    //     else {
+    //         shippingFee.innerHTML = '{{related_product.default_delivery_fee}}원'
+    //         shippingFee.style.color = "#5c6854"
+    //         shippingFeeDesc.innerHTML = '{{related_product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
+    //     }
+
+
+    //     //메인 이미지 변경
+    //     mainImage.setAttribute('sec', '{{related_product.main_image.url}}')
+
+    //     //바로 구매하기 name pk 변경
+    //     purchaseBtn.setAttribute('name', '{{related_product.pk}}')
+
+    //     //버튼 색 변경
+    //     this.style.color = "#fff"
+    //     this.style.backgroundColor = "#5c6754"
+    //     uglyTag.style.color = "#5c6754"
+    //     uglyTag.style.backgroundColor = "#fff"
+
+    //     //상세 정보
+    //     harvestDate.innerHTML = "{{rel_product_harvest_start_date}} ~ {{product_harvest_end_date}}"
+    //     shelfLifeDate.innerHTML = "{{rel_product_shelf_life_date}}"
+
+    // })
+
+
+
+
+
+
+
+    // product review image slider
+    let review_imgs = document.querySelectorAll('#review_imgs');
+    review_imgs.forEach(img => img.classList.add('review_img_slick'))
+
+    $('.review_img_slick').slick({
+        infinite: false,
+        slidesToShow: 3,
+        slidesToScroll: 3
+    });
+</script>
+
+<!-- 농가 구독하기 플로팅 모달 -->
+<script>
+    const floatingBtn = document.getElementById('farmer-sub-icon')
+
+    floatingBtn.addEventListener('click', function () {
+        const modalAjaxURL = "{% url 'farmers:farmer_subs_modal' %}"
+        const farmerPK = "{{farmer.pk}}"
+        subscribeModalMessage(modalAjaxURL, farmerPK, () => { location.href = "{% url 'farmers:farmer_detail' farmer.pk %}" })
+    })
+</script>
 {% endblock main_content %}

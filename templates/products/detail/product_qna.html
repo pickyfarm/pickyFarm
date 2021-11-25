@@ -1,0 +1,98 @@
+{% load static %}
+<div class="main-contents lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id="product_qna" class="flex flex-rows justify-start w-5/6 my-10 mx-auto w-3/5">
+        <a href="#product_desc" class="w-1/6">
+            <div id="n_sel" class="py-3 border-t border-r border-l border-b">상품설명</div>
+        </a>
+        <a href="#product_info" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">상세정보</div>
+        </a>
+        <a href="#product_review" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">리뷰 ({{total_comments}})</div>
+        </a>
+        <a href="#product_qna" class="w-1/6">
+            <div id="sel" class="py-3 border-t border-r">상품문의 ({{total_questions}})</div>
+        </a>
+        <a href="#product_refund_change" class="w-1/6">
+            <div id="n_sel" class="py-3 border-b border-t border-r">반품/환불 규정</div>
+        </a>
+        <div class="w-2/6 border-b"></div>
+    </div>
+    <div id="question_content" class="mx-auto">
+        <div class="flex flex-row items-center mb-3">
+            <div id="q_title">Q & A</div>
+            <div id="q_count" class="ml-5">(총 {{total_questions}}건)</div>
+        </div>
+        <div class="flex flex-rows mb-2">
+            <img id="q_img" src="{%static 'images/product_detail/index_leaf.svg' %}">
+            <div id="q_desc" class="ml-3">구매하시려는 무난이에 대해 궁금한 점들을 문의해주세요</div>
+        </div>
+        <div class="flex flex-rows mb-10">
+            <img id="q_img" src="{%static 'images/product_detail/index_leaf.svg' %}">
+            <div id="q_desc" class="ml-3">개인적인 배송관련, 주문 관련 사항들은 1:1 고객상담센터로 문의해주세요</div>
+        </div>
+        <div id="q_table_top" class="flex flex-rows py-5">
+            <div id="q_letter_gray" class="w-2/12">답변상태</div>
+            <div id="q_letter_gray" class="w-5/12">제목</div>
+            <div id="q_letter_gray" class="w-2/12">작성자</div>
+            <div id="q_letter_gray" class="w-3/12">작성일</div>
+        </div>
+        <div id="questions-wrapper">
+            <div id="qnas-section">
+                {% if questions.exists is False %}
+                <div class="text-center">아직 무난이에 대해 등록된 질문이 없습니다!</div>
+                {% else %}
+                {% for q in questions %}
+                <a href="{% url 'products:question_read' q.pk %}">
+                    <div id="q_table_bottom" class="flex flex-rows items-center py-1">
+                        {% if q.status is True %}
+                        <div id="q_letter_answered" class="w-2/12">답변완료</div>
+                        {% else %}
+                        <div id="q_letter_gray" class="w-2/12">답변대기</div>
+                        {% endif %}
+                        <div id="q_letter_black" class="w-5/12">{{q.title}}</div>
+                        <div id="q_letter_black" class="w-2/12">{{q.consumer.user.nickname}}</div>
+                        <div id="q_letter_gray" class="w-3/12">{{q.create_at.date}}</div>
+                    </div>
+                </a>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div id="paginator" class="flex justify-between w-36 mx-auto mt-8">
+                {% if questions.has_previous %}
+                <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+                <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{questions.previous_page_number}}' style="cursor: pointer">
+                {% else %}
+                <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+                <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+                {% endif %}
+
+                <div>{{questions.number}}</div>
+                <div>/</div>
+                <div>{{questions.paginator.num_pages}}</div>
+
+                {% if questions.has_next %}
+                <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{questions.next_page_number}}' style="cursor: pointer">
+                <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+                {% else %}
+                <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+                <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{questions.paginator.num_pages}}' style="cursor: pointer">
+                {% endif %}
+            </div>
+        </div>
+        <div class="flex flex-row justify-end">
+            <a href="/product/question/create?product={{product.pk}}">
+                <div id="q_write" class="flex flex-rows justify-center items-center mt-10 w-2/12">
+                    <div>글쓰기</div>
+                    <img src="{% static 'images/product_detail/pen.svg' %}">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    PAGINATION_URL2 = 'question_ajax/?page2='
+    PAGINATION_SECTION2 = '#questions-wrapper'
+</script>
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>

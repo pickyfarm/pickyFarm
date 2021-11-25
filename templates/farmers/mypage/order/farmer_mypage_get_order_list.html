@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static %} <html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/farmers/mypage/farmer_mypage_order_confirm_popup.css' %}" />
+    <title>주문 목록 다운로드 | 피키팜</title>
+</head>
+
+<body>
+    <div class="popup_container flex">
+        <h1>주문 목록 다운로드</h1>
+        <h5 id="popup-desc">아직 송장을 입력하지 않은 {{orders.count}}개의 주문이 있습니다.</h5>
+        <button id="order-list-download-button">엑셀로 변환하기</button>
+    </div>
+
+</body>
+<script>
+    const csrftoken = "{{csrf_token}}"
+    const ajaxRequestURL = "{% url 'farmers:farmer_mypage_get_order_list_ajax' %}"
+</script>
+<script defer src="{% static 'js/farmers/mypage/order/farmer_mypage_get_order_list.js' %}"></script>
+
+
+</html>

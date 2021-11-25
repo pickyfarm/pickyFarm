@@ -1,0 +1,132 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll_mobile.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail_mobile.css' %}">
+{% endblock %}
+
+{% block title_name %}
+입점 등록
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id='signup_form' class="mt-10 flex flex-col">
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 63px;">입점 등록</div>
+        <div class="flex flex-row justify-around" id="sub_title">
+            <div> 정보 입력 </div>
+            <div> 계약서 작성 </div>
+        </div>
+        <div class="relative mx-auto mt-2" id="border">
+            <div class="absolute" id="step" style="width:50%"></div>
+        </div>
+        <form method="POST" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mx-auto" id="enroll-2-wrapper">
+                <div class="font-medium text-2xl text-left mb-16" style="color:#5c6754">농장 정보 입력</div>
+                <!--농장 이름-->
+                <div class="input_forms grid">
+                    {{farm_form.farm_name.label_tag}}
+                    {{farm_form.farm_name}}
+                </div>
+                <!--프로필 사진 & 농장 사진-->
+                <div class="flex flex-row mb-11 items-center" id="image-upload-wrapper">
+                    <div class="flex flex-row">
+                        <div class='flex flex-col' id="farmer-profile-upload-wrapper">
+                            <div id="img_label">{{farm_form.farmer_profile.label_tag}}</div>
+                            <div class="mb-5" id="img_desc">농부님의 사진을 올려주세요</div>
+                            <div class="filebox">
+                                <div class="default_img_1 mb-4 mx-auto" style="background-image: url('{% static 'images/farm/farmer_default.svg' %}');"></div>
+                                <label for="id_farmer_profile">업로드</label>
+                                {{farm_form.farmer_profile}}
+                            </div>
+                        </div>
+                        <div class='flex flex-col' id="farm-profile-upload-wrapper">
+                            <div id="img_label">{{farm_form.farm_profile.label_tag}}</div>
+                            <div class="mb-5" id="img_desc">농장로고나 대표사진을 올려주세요</div>
+                            <div class="filebox">
+                                <div class="default_img_2 mb-4 mx-auto" style="background-image: url('{% static 'images/farm/farm_default.svg' %}');"></div>
+                                <label for="id_farm_profile">업로드</label>
+                                {{farm_form.farm_profile}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <div id="img-upload-announce">
+                            * 프로필 / 농가 사진은 원하시는 개인 소장 사진이 있을 시 업로드 해주세요.
+                            아닌 경우 피키팜에서 사진을 올려드립니다.
+                        </div>
+                    </div>
+                </div>
+                <!--농장 한 줄 소개-->
+                <div class="input_forms grid">
+                    {{farm_form.profile_title.label_tag}}
+                    {{farm_form.profile_title}}
+                </div>
+                <!--주 사용 택배사-->
+                <div class="input_forms grid">
+                    {{farm_form.delivery_service_company.label_tag}}
+                    {{farm_form.delivery_service_company}}
+                </div>
+                <!--배송 구매 감사 메세지-->
+                <div class="input_forms grid">
+                    {{farm_form.farm_thanks_msg.label_tag}}
+                    {{farm_form.farm_thanks_msg}}
+                </div>
+                <!--농가 뉴스-->
+                <div class="input_forms grid">
+                    {{farm_form.farm_news.label_tag}}
+                    {{farm_form.farm_news}}
+                </div>
+                <!--해시 태그-->
+                <div class="flex flex-row" id="hashtag-upload-wrapper">
+                    <div class="flex flex-col">
+                        <div class="mr-6" id="cat_label">
+                            {{farm_form.farm_cat.label_tag}}
+                        </div>
+                        <div class="text-left" id="hashtag-desc">
+                            * 최대 3개 입력 가능합니다
+                        </div>
+                    </div>
+                    <div>
+                        {{farm_form.farm_cat}}
+                    </div>
+                </div>
+                <div class="flex gap-4" id="hashtag_wrap">
+                    <div class="hashtag-input-wrap flex flex-row">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" id="new_tag" name="farm_tag" />
+                    </div>
+                    <div class="hashtag-input-wrap flex">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" id="new_tag" name="farm_tag" />
+                    </div>
+                    <div class="hashtag-input-wrap flex">
+                        <label class="hashtag-input-hashmark">#</label>
+                        <input type="text" placeholder="직접입력" id="new_tag" name="farm_tag" />
+                    </div>
+                    <input type="hidden" name="farm_tag[]" id="hashtag_list" value=''>
+                </div>
+                <div class="horizon-bar" style="margin-bottom: 35px;"></div>
+                <div class="font-medium text-2xl text-left mb-20" style="color:#5c6754;">나의 농가페이지 미리보기</div>
+            </div>
+            <div class="p-4" id="sample_wrap">
+                {% include 'farmers/farmer_detail_sample.html' %}
+            </div>
+            <button class="submit" id="step2_submit">다음 단계로</button>
+        </form>
+    </div>
+</div>
+<style>
+    .input_forms {
+    grid-template-columns: 300px auto;
+    row-gap: 40px;
+    margin-bottom: 38px;
+}
+</style>
+<script type="text/javascript" src="{% static 'js/farmers/farm_enroll.js' %}"></script>
+
+{% endblock %}

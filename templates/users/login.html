@@ -2,26 +2,127 @@
 {% load static %}
 
 
-{% block stylesheet %}
-    
-{% endblock stylesheet %}
+{% block auth_stylesheet %}
+<link rel="stylesheet" href="{% static 'css/users/user_auth_input.css' %}">
+{% endblock auth_stylesheet %}
 
 {% block title_name %}
-    로그인
+로그인
 {% endblock title_name %}
 
 
 {% block main_content %}
 <div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
-    <div id='login_form' class="mt-10">
+    <div id='login_form' class="mt-24 mx-auto" style="width: 340px;">
+        <img src="{% static 'images/user/login.svg' %}" class="mx-auto" alt="">
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 100px;">로그인</div>
         <form method="POST" action="{% url 'users:login' %}">
             {% csrf_token %}
-            {{form.as_p}}
-            <button>로그인</button>
+            <div class="input_forms flex flex-col">
+                {% for field in form %}
+                {{field}}
+                {% endfor %}
+                {{form.non_field_errors}}
+                <div class="mr-auto" id="auto-login-section">
+                    <input type="checkbox" name="auto_login" id="auto_login">
+                    <label for="auto_login" style="line-height: 20px;">자동로그인</label>
+                </div>
+                <input type="hidden" name="next" value="{{next}}">
+                <button class="login-button">로그인</button>
+                <button class="login-button" onclick="location.href='/user/login/kakao?next={{next}}'; return false"><img src="{% static 'images/user/login-with-kakao.svg' %}"></button>
+            </div>
         </form>
+        <div class="flex justify-between links">
+            <a href="{% url 'user:signup' %}" id="signup-button">
+                <div>회원 가입</div>
+            </a>
+            <div class="bar"></div>
+            <a href="{% url 'user:find_my_id' %}">
+                <div>아이디 찾기</div>
+            </a>
+            <div class="bar"></div>
+            <a href="{% url 'user:password_reset' %}">
+                <div>비밀번호 찾기</div>
+            </a>
+        </div>
     </div>
 </div>
-    
+
+<style>
+    button {
+        cursor: pointer;
+    }
+
+    *::selection {
+        background: none;
+    }
+
+    #auto_login {
+        display: none;
+    }
+
+    #auto_login+label::before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
+    }
+
+    input[id='auto_login']:checked+label::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+
+    label {
+        color: #5c6754;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .links {
+        height: 17px;
+    }
+
+    .links * {
+        line-height: 17px;
+        font-size: 15px;
+        color: #5c6754;
+        font-weight: 500;
+    }
+
+    #id_username {
+        margin-bottom: 14px;
+    }
+
+    #auto-login-section {
+        margin: 30px auto 30px 0;
+    }
+
+    .login-button {
+        margin-bottom: 12px;
+    }
+
+    .bar {
+        border: 1px solid #b3b3b3;
+    }
+
+    .errorlist {
+        margin-top: 10px;
+        font-size: 13px;
+        color: red;
+        font-weight: 300;
+    }
+</style>
+<!-- JS for landing page -->
+<!-- <script>
+    const signupBtn = document.querySelector('a#signup-button');
+    signupBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        alert('10월 중순 오픈 예정입니다! 카톡 친추를 통해 알림을 받아보세요!');
+    });
+</script> -->
 {% endblock %}
-    
-    

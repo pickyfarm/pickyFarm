@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="농가와 상생하는, 농산물 직거래 플랫폼. 피키팜 : Picky Farm | 까다롭게 선택하다">
+    <meta name="naver-site-verification" content="183239c20d103bcf2dd2c55abfc7ed4e15b725cc" />
+    <meta name="keywords" content="못난이 농산물 직거래,산지직송 농산물,못난이 직거래,가정용 과일,가성비 농산물,농산물 직거래,농산물 파는 곳,농산물 시장,농산물 장터,지역 특산물,{% block meta_keyword%}{% endblock %}">
+    <meta property='og:url' content="{% url 'core:main' %}">
+    <meta property='og:type' content='website'>
+    <meta property='og:title' content='피키팜 : Picky Farm'>
+    <meta property='og:description' content='농가와 상생하는, 농산물 직거래 플랫폼. 피키팜 : Picky Farm | 까다롭게 선택하다'>
+    <meta property='og:image' content='{% static "images/mainlogo_small.svg" %}'>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosanskr.css">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/mainlogo_small.svg' %}">
+    {% block stylesheet %}{% endblock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.js"></script>
+    <script defer src="{% static 'js/base/toastMessage.js' %}"></script>
+    <script defer src="{% static 'js/base/cartIn.js' %}"></script>
+    <script defer src="{% static 'js/base/wish.js' %}"></script>
+    <script defer src="{% static 'js/base/csrfToken.js' %}"></script>
+    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+    <link rel="stylesheet" href="{% static 'css/base/base_style.css' %}">
+
+
+    <title>{% block title_name %}{% endblock %}</title>
+</head>
+
+<body>
+    <div id="toast-section">
+        <div id="toast-container" class="flex items-center">
+            <div id="toast-status"></div>
+            <div id="toast-message"></div>
+        </div>
+    </div>
+    <div id="modal-section">
+        <div id="modal-container" class="mx-auto my-auto">
+            <div id="modal-message">Modal Test</div>
+            <div id="modal-buttons" class="flex justify-end">
+                <button class="modal-button transition_element" id="modal-accept">확인</button>
+                <button class="modal-button transition_element" id="modal-cancel">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="base-wrap font-sans-kr flex flex-col">
+
+        {% include "partials/header.html" %}
+        {% include 'partials/header_mobile.html' %}
+
+        {% block main_content %}
+
+        {% endblock main_content %}
+
+        {% include "partials/footer.html" %}
+
+
+    </div>
+    {% include 'partials/navbar_mobile.html' %}
+    <a href="http://pf.kakao.com/_DIexfs">
+        <img src="{% static 'images/base/id_type.png' %}" alt="카카오톡 채널 추가하기" id="kakao-channel-icon">
+    </a>
+
+</body>
+
+<script>
+
+
+
+    // Mobile navbar
+    const navbarEditor = document.querySelector('#navbar-editor');
+    const navbarFarmer = document.querySelector('#navbar-farmer');
+    const navbarStore = document.querySelector('#navbar-store');
+    const navbarMypage = document.querySelector('#navbar-mypage');
+
+    navbarEditor.addEventListener('click', function (e) {
+        alertBasicAnnounce(e);
+    });
+
+</script>
+
+</html>

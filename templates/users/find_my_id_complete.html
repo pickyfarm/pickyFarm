@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block auth_stylesheet %}
+<link rel="stylesheet" href="{% static 'css/users/user_auth_input.css' %}">
+{% endblock auth_stylesheet %}
+
+{% block title_name %}아이디 찾기{% endblock title_name %}
+{% block main_content %}
+<div class="content mx-auto" style="margin-top: 130px;">
+    <img src="{% static 'images/user/login.svg' %}" class="mx-auto" alt="">
+    <div class="mx-auto font-bold text-3xl mt-6 text-center" style="color: #5c6754; margin-bottom: 100px;">아이디 찾기</div>
+
+    <div class="input_forms flex flex-col mx-auto" style="width: 246px;">
+        <div class="alert">고객님의 아이디 찾기가 완료되었습니다!</div>
+        <div class="id-info">아이디 : {{user.FindMyIdInAsterisk}}</div>
+    </div>
+    <a href="{% url 'users:login' %}">
+        <button>로그인</button>
+    </a>
+
+</div>
+
+<style>
+    .content {
+        width: 340px;
+    }
+
+    .alert {
+        text-align: center;
+        font-size: 25px;
+        color: #5c6754;
+        font-weight: normal;
+        margin-bottom: 20px;
+    }
+
+    .id-info {
+        font-size: 20px;
+        font-weight: normal;
+        text-align: center;
+        color: #b3b3b3;
+    }
+</style>
+{% endblock main_content %}

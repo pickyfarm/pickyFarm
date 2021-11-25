@@ -1,0 +1,58 @@
+{% load static %}
+<div class="w-full search_block_2" id="content">
+    <!--story table-->
+    <div id="farmer_story_content">
+        <table class="w-full" id="farmer_story_table">
+            <tr class="font-medium text-sm" id="table_header">
+                <th class="py-6"> FARM </th>
+                <th class="py-6"> FARMER </th>
+                <th class="py-6"> 제목 </th>
+                <th class="py-6"> 조회수 </th>
+                <th class="py-6"> 작성일 </th>
+            </tr>
+            {% for story in farmer_stories %}
+            <tr class="text-center" id="table_row">
+                <td class="py-7" id="row_farm"> {{ story.farmer.farm_name }} </td>
+                <td class="py-7" id="row_farmer"> {{ story.farmer.user.nickname }} </td>
+                {% if story.title|length > 15 %}
+                <td class="py-7" id="row_title"><a href="#"> {{ story.title|slice:":15"}}... </a></td>
+                {% else %}
+                <td class="py-7" id="row_title"><a href="#"> {{ story.title }}...</a></td>
+                {% endif %}
+                <td class="py-7" id="row_views"> 1000 </td>
+                <td class="py-7" id="row_create_at"> {{ story.create_at|date:"Y-m-d" }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <!--글쓰기 버튼(farmer login 시에만 보이게)--> 
+    <div class="flex flex-row justify-end mb-20">
+        <a href=""><img src="{% static 'images/farmers_page/story_write_btn.svg' %}" alt=""></a>
+    </div>
+    <!--paginator-->
+    <div class="flex flex-row mx-auto justify-center pb-56">
+        <div class='flex flex-row'>
+            {% if farmer_stories.has_previous %}
+                <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page_2=1'" style="cursor: pointer">
+                <img src="{% static 'images/farmers_page/prev.png' %}" onclick="location.href='?page_2={{farmer_stories.previous_page_number}}'" style="cursor: pointer">
+            {% else %}
+                <img src="{% static 'images/farmers_page/prever.png' %}" onclick="location.href='?page_2=1'" style="cursor: pointer">
+                <img src="{% static 'images/farmers_page/prev.png' %}" onclick="location.href='?page_2=1'" style="cursor: pointer">
+            {% endif %}
+        </div>
+        <div class='flex flex-row'>
+                <div>{{farmer_stories.number}}</div>
+                <div>/</div>
+                <div>{{farmer_stories.paginator.num_pages}}</div>
+        </div>
+        <div class='flex flex-row'>
+            {% if farmer_stories.has_next %}
+                <img src="{% static 'images/farmers_page/next.png' %}" onclick="location.href='?page_2={{farmer_stories.next_page_number}}'" style="cursor: pointer">
+                <img src="{% static 'images/farmers_page/nexter.png' %}" onclick="location.href='?page_2={{farmer_stories.paginator.num_pages}}'" style="cursor: pointer">
+            {% else %}
+                <img src="{% static 'images/farmers_page/next.png' %}" onclick="location.href='?page_2={{farmer_stories.paginator.num_pages}}'" style="cursor: pointer">
+                <img src="{% static 'images/farmers_page/nexter.png' %}" onclick="location.href='?page_2={{farmer_stories.paginator.num_pages}}'" style="cursor: pointer">
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="340" height="40">
+    <g data-name="Medium and Wide (300px X 45px)" transform="translate(-565 -213)">
+        <rect data-name="Rounded Rectangle 2" width="340" height="40" rx="6" transform="translate(565 213)" style="fill:#fee500"/>
+        <path data-name="Shape 1" d="M589 226.976c-4.971 0-9 3.129-9 6.989a6.726 6.726 0 0 0 3.932 5.775l-1 3.667a.368.368 0 0 0 .564.395l4.377-2.9a11.6 11.6 0 0 0 1.127.057c4.971 0 9-3.129 9-6.989s-4.029-6.989-9-6.989" transform="translate(0 -2.486)" style="opacity:.902"/>
+        <text data-name="카카오로 시작하기" transform="translate(746.947 238.289)" style="fill:#191919;font-size:15px;font-family:AppleSDGothicNeoSB00"><tspan x="-53.872" y="0">카카오로 시작하기</tspan></text>
+    </g>
+</svg>

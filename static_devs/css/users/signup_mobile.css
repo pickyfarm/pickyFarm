@@ -1,0 +1,307 @@
+@import '/static/css/base/mobile_base_style.css';
+
+@media screen and (max-width: 768px) {
+    /* 모바일에서만 보임 */
+    #required-input-text,
+    #mobile-dot {
+        display: inline-block;
+    }
+
+    #signup_form {
+        width: 100%;
+        margin-top: 0;
+    }
+    #signup-title {
+        margin-top: 6rem;
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.47;
+        text-align: left;
+        color: var(--dark-sage);
+    }
+    #required-input-text {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-family: NotoSansKR;
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.55;
+        text-align: left;
+        color: #5e6656;
+    }
+    #mobile-dot {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    #required-input-text #mobile-dot {
+        margin-right: 0.8rem;
+    }
+    .horizon-bar {
+        opacity: 0.5;
+        border: solid 0.1rem var(--brown-grey);
+        margin-top: 1.45rem;
+        margin-bottom: 2rem;
+    }
+    .input_forms {
+        width: 100%;
+        row-gap: 2rem;
+        grid-template-columns: 3fr 7fr;
+        align-items: flex-start;
+        margin-top: 0;
+        margin-bottom: 6rem;
+    }
+    #username-form,
+    #email-form,
+    #address-form,
+    #nickname-form {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    #phone-form {
+        width: 100%;
+        display: grid;
+        column-gap: 1.2rem;
+        grid-template-columns: auto 30%;
+    }
+
+    .input_forms label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 1.2rem;
+        font-weight: 500;
+        line-height: 2.5;
+        text-align: left;
+        color: #4d4d4d;
+        padding-left: 0;
+        margin-top: 0;
+    }
+    #gender-label,
+    #birth-label {
+        grid-column: 1;
+    }
+    .input_forms
+        label:not(#gender-label label, #birth-label label, #id_gender
+            label)::after {
+        content: '';
+        display: inline-block;
+        height: 1.1rem;
+        width: 1.1rem;
+        background: url('/static/images/orders/dot.svg') center no-repeat;
+        background-size: 1.1rem 1.1rem;
+        margin-left: 0.7rem;
+    }
+    .input_forms input {
+        width: 100%;
+        height: 2.8rem;
+        padding-left: 1rem;
+        font-size: 1rem;
+    }
+    .input_forms input::placeholder {
+        font-size: 1rem;
+        color: var(--brown-grey);
+    }
+    .validation-input-form {
+        width: 100%;
+        margin-right: 1.2rem;
+    }
+    .form-validation-message {
+        font-size: 1.1rem;
+        text-align: left;
+        margin-top: 0.9rem !important;
+        padding-left: 0.9rem !important;
+    }
+    .valid-button {
+        width: 40% !important;
+        height: 2.8rem !important;
+        margin: 0 !important;
+        margin-bottom: 0 !important;
+        border-radius: 2rem !important;
+        border: solid 0.1rem var(--dark-sage) !important;
+        background-color: #fff !important;
+        font-size: 1rem !important;
+        font-weight: normal !important;
+        line-height: 2.3 !important;
+        letter-spacing: normal !important;
+        text-align: center !important;
+        color: var(--dark-sage) !important;
+    }
+    #phone-number-check,
+    #auth-number-check {
+        width: 105% !important;
+    }
+
+    #phone-number-valid {
+        margin-bottom: 0.9rem;
+    }
+
+    #search-btn {
+        display: none;
+    }
+    #mobile-search-btn {
+        display: block;
+        margin-left: 1.2rem !important;
+        width: 15% !important;
+        height: 2.8rem !important;
+        padding: 0.5rem !important;
+        background-color: var(--light-grey) !important;
+        border: none !important;
+    }
+    #mobile-search-img {
+        width: 1.6rem;
+        height: 1.6rem;
+        object-fit: contain;
+        margin: 0 auto;
+    }
+    #id_gender {
+        align-items: center;
+    }
+    .gender-selection label {
+        align-items: center;
+        font-size: 1.2rem;
+        text-align: left;
+        color: #808080;
+    }
+    #id_gender label::before {
+        margin-bottom: 0.4rem;
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        background-size: contain;
+    }
+    #id_birth {
+        padding: 0 1.5rem;
+    }
+    #nickname-form {
+        position: relative;
+    }
+    #nickname-form input::placeholder {
+        color: transparent;
+    }
+    #nickname-form::after {
+        position: absolute;
+        bottom: -1.5rem;
+        left: 0;
+        width: 100%;
+        content: '부적절한 닉네임은 제제를 받을 수 있습니다';
+        text-align: left;
+        margin-top: 1.1rem;
+        font-family: NotoSansKR;
+        font-size: 1.1rem;
+        line-height: 2;
+        color: var(--brown-grey);
+    }
+
+    /* 이용약관 동의 */
+    .form_term_agree {
+        grid-template-columns: 8.7rem auto;
+        row-gap: 1.87rem;
+        column-gap: 0.8rem;
+    }
+    #term-agree {
+        font-size: 1.2rem;
+        font-weight: 500;
+        text-align: left;
+        color: #4d4d4d;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    #term-agree::before {
+        content: '' !important;
+        display: none;
+    }
+    .form_term_agree #mobile-dot {
+        width: 1.1rem;
+        height: 1.1rem;
+        margin-left: 0.5rem;
+        margin-top: 0.1rem;
+    }
+    #all-agree {
+        margin-bottom: 0 !important;
+        font-size: 1.5rem !important;
+        color: #808080 !important;
+    }
+    #all-agree::before {
+        width: 1.5rem;
+        height: 1.5rem;
+        background-size: contain;
+        margin-right: 0.8rem !important;
+    }
+    .form_term_agree a {
+        margin-right: 0;
+        font-size: 1.2rem;
+        font-weight: 500;
+        text-align: right;
+        color: var(--dark-sage);
+    }
+    .form_term_agree label {
+        font-size: 1.2rem;
+        text-align: left;
+        color: #707070;
+    }
+    label.mand::after,
+    label.opt::after {
+        content: '';
+    }
+    .agree-term-wrapper,
+    .form_term_agree > div:not(.agree-term-wrapper) {
+        position: relative;
+    }
+    .form_term_agree > div:not(.agree-term-wrapper)::before {
+        position: absolute;
+        top: 0.4rem;
+        left: 0;
+        content: '(필수)' !important;
+        font-size: 1rem;
+        text-align: left;
+        color: var(--brown-grey);
+        margin-left: -3.5rem;
+        vertical-align: middle;
+    }
+    .agree-term-wrapper::before {
+        position: absolute;
+        top: 0.4rem;
+        left: 0;
+        content: '(선택)' !important;
+        font-size: 1rem;
+        text-align: left;
+        color: var(--brown-grey);
+        margin-left: -3.5rem;
+        vertical-align: middle;
+    }
+    .form_term_agree input + label::before {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        background-size: contain !important;
+        top: 0.2rem !important;
+        margin-right: 0.8rem !important;
+    }
+    .term-description {
+        margin-left: 2.5rem;
+        text-align: left;
+        line-height: 1.5rem;
+    }
+    .agree-term-wrapper {
+        justify-content: flex-start;
+    }
+    .submit {
+        width: 8.7rem;
+        height: 4rem;
+        border-radius: 2rem;
+        border: solid 0.1rem #5c6456;
+        background-color: #fff;
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 1.47;
+        text-align: center;
+        color: #5c6456;
+        margin-top: 2rem;
+        margin-bottom: 6rem;
+    }
+}
