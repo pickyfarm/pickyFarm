@@ -1,0 +1,656 @@
+/* 
+공통되는 css 속성만 (background-color 등 PC와 모바일 모두 같은 값을 가지는 속성) 먼저 적은 뒤에, 
+PC, mobile 순으로 작성할 것 -> 코드 중복 최대한 막기 위함임
+*/
+
+/* base styles */
+img {
+    object-fit: cover;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Section 1 - base */
+#index-section1 {
+    width: 100%;
+    overflow: hidden;
+    background-color: #f2f2f2;
+}
+
+#section1-title {
+    line-height: 3.2rem;
+    font-weight: bold;
+    color: #728152;
+}
+
+#section1-title b {
+    color: #374f34;
+}
+
+#section1-farmers-wrap {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    background-color: #dfe4c7;
+}
+#todays-crops-wrap {
+    background-color: #fff;
+    border-radius: 12px;
+}
+#todays-crops-title {
+    font-weight: bold;
+    color: #484f39;
+    line-height: 2rem;
+}
+
+.todays-crop-title {
+    width: 135px;
+    word-break: keep-all;
+}
+
+#todays-crops-btn {
+    box-shadow: 2px 2px 3px 0 rgba(71, 83, 48, 0.38);
+    background-color: #dfe4c7;
+    color: #535940;
+    font-weight: bold;
+}
+
+/* Section 2 - base */
+#index-section2 {
+    display: flex;
+    align-items: center;
+
+    background-color: white;
+}
+
+#hot-crops {
+    display: flex;
+    flex-direction: column;
+}
+
+#hot-crops-title {
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: #374f34;
+}
+
+#crops-desc-wrap {
+    display: flex;
+}
+
+.crop-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hot-crop-image {
+    object-fit: cover;
+}
+
+.hot-crop-title,
+.hot-crop-price,
+.todays-crop-title {
+    color: #30372b;
+}
+
+.hot-crop-title,
+.todays-crop-title {
+    font-weight: normal;
+}
+
+.hot-crop-price {
+    font-weight: 500;
+}
+
+.ugly-tag {
+    width: fit-content;
+    background-color: #4a5448;
+    color: white;
+    border: 1px solid #4a5448;
+    border-radius: 0 100px 100px 0;
+}
+.normal-tag {
+    width: fit-content;
+    border: 1px solid #4a5448;
+    color: #4a5448;
+    font-weight: 500 !important;
+    border-radius: 0 100px 100px 0;
+}
+
+#click-message {
+    display: flex;
+    align-items: center;
+    align-self: center;
+
+    color: #374f34;
+}
+
+#section2-main-phrase {
+    text-align: right;
+    color: #728152;
+}
+
+#section2-main-phrase b {
+    color: #374f34;
+}
+
+#section2-image-wrap {
+    display: flex;
+    flex-direction: column;
+}
+#section2-image-wrap .ugly-tag {
+    align-self: flex-end;
+}
+
+/* Section 3 (Farmer 미니홈페이지 링크) - base */
+#index-section3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ecf3e7;
+}
+
+#section3-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #728152;
+    font-weight: bold;
+}
+
+.section3-title-button {
+    width: fit-content;
+
+    border-radius: 99px;
+    box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.37);
+
+    background-color: #374f34;
+    color: white;
+
+    font-weight: 300;
+    text-align: center;
+}
+
+#section3-title span {
+    color: #30372b;
+}
+
+#section3-farmer-list-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#section3-farmer-list-slider {
+    /* display: flex;
+    align-items: center;
+    justify-content: space-between; */
+}
+
+.farmer-figure-wrap {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+}
+
+.farmer-profile-image {
+    border-radius: 100%;
+    border-color: #374f34;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.51),
+        0px 0px 33px 4px rgba(0, 0, 0, 0.45) inset;
+}
+
+.farm-name {
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #374f34;
+}
+
+.farmer-page-link {
+    width: fit-content;
+
+    border-radius: 99px;
+
+    background-color: #c8d0a7;
+    color: #374f34;
+
+    text-align: center;
+    font-weight: 300;
+}
+
+/* for PC */
+
+.index-section-container {
+    width: 990px;
+}
+
+@media screen and (min-width: 769px) {
+    button,
+    .farmer-slider-button,
+    .zoom-on-hover {
+        transition: all 0.15s ease-in;
+    }
+
+    button:hover,
+    .zoom-on-hover:hover {
+        transform: scale(1.03);
+    }
+
+    .farmer-slider-button:hover {
+        transform: scale(1.25);
+    }
+}
+
+/****** Section 1 - PC ******/
+@media screen and (min-width: 769px) {
+    #section1-title {
+        width: 100%;
+        font-size: 40px;
+        margin-top: 90px;
+        margin-bottom: 50px;
+    }
+    #section1-farmers-wrap {
+        width: fit-content;
+        padding: 43px 350px 43px 100px;
+    }
+    .farmer-img {
+        width: auto;
+        height: 250px;
+    }
+    #section1-todays-crops-wrap {
+        padding-bottom: 80px;
+    }
+
+    #todays-crops-title {
+        font-size: 22px;
+        margin-top: 80px;
+        margin-bottom: 30px;
+    }
+
+    .todays-crop-title {
+        font-size: 16px;
+        margin-top: 12px;
+        height: 54px;
+        line-height: 18px;
+    }
+
+    #todays-crops-btn {
+        width: 143.8px;
+        height: 44px;
+        line-height: 44px;
+        border-radius: 15.6px;
+        font-size: 18px;
+        margin-top: 17px;
+    }
+
+    #todays-crops-mobile {
+        display: none;
+    }
+}
+
+/****** Section 2 - PC ******/
+@media screen and (min-width: 769px) {
+    #index-section2 {
+        justify-content: space-between;
+
+        height: 593px;
+    }
+
+    #hot-crops-title {
+        font-size: 25px;
+    }
+
+    #crops-desc-wrap {
+        gap: 22px;
+        margin-top: 30px;
+    }
+
+    .hot-crop-image {
+        width: 135px;
+        height: 196px;
+        border-radius: 12px;
+    }
+
+    .hot-crop-title {
+        font-size: 20px;
+        margin-top: 12px;
+    }
+
+    .hot-crop-price {
+        font-size: 24px;
+    }
+
+    .ugly-tag,
+    .normal-tag {
+        margin-top: 12px;
+        font-size: 20px;
+        font-weight: 300;
+        padding: 0 10px;
+    }
+
+    #click-message {
+        margin-top: 44px;
+
+        font-size: 25px;
+    }
+
+    #click-message-leaf {
+        margin-right: 5px;
+    }
+
+    #section2-main-phrase {
+        font-size: 40px;
+        line-height: 56px;
+    }
+
+    .big {
+        font-size: 26px;
+        padding: 0 15px;
+    }
+
+    /****** Section 3 (Farmer 미니홈페이지 링크) - PC ******/
+    #index-section3 {
+        height: 672px;
+        width: 100%;
+    }
+
+    #section3-title {
+        font-size: 40px;
+
+        margin-top: 80px;
+    }
+
+    .section3-title-button {
+        padding: 0 45px;
+        margin-right: 15px;
+    }
+
+    #section3-farmer-list-wrap {
+        width: auto;
+
+        margin-top: 57px;
+    }
+
+    .farmer-slider-button {
+        width: 18px;
+        height: 32px;
+
+        margin-bottom: 135px;
+    }
+
+    #section3-farmer-list-slider {
+        column-gap: 122px;
+        width: 900px;
+    }
+
+    .farmer-figure-wrap {
+        width: 260px;
+    }
+
+    .farmer-profile-image {
+        width: 184px;
+        height: 184px;
+        border-width: 4px;
+    }
+
+    .farm-name {
+        font-weight: 400;
+        font-size: 30px;
+
+        margin-top: 10px;
+    }
+
+    .farmer-page-link {
+        width: 260px;
+
+        font-size: 25px;
+        font-weight: 400;
+
+        margin-top: 30px;
+        padding: 5px 0;
+    }
+}
+
+/* for mobile */
+@media screen and (max-width: 768px) {
+    #content {
+        width: 100vw;
+        padding: 0 2.5rem;
+    }
+
+    /* Section 1 - mobile */
+    #section1-title {
+        font-size: 2.5rem;
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        padding-left: 6rem;
+    }
+
+    #section1-farmers-wrap {
+        width: 100%;
+        height: 30rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        position: relative;
+    }
+    #section1-farmers-wrap div:nth-child(1) {
+        position: absolute;
+        top: 0rem;
+        left: 5rem;
+    }
+    #section1-farmers-wrap div:nth-child(2) {
+        position: absolute;
+        bottom: 2rem;
+        right: 0rem;
+    }
+
+    .farmer-img {
+        width: auto;
+        height: 15rem;
+    }
+    #section1-todays-crops-wrap {
+        width: 92% !important;
+        padding-bottom: 6.4rem;
+    }
+    #todays-crops-title {
+        font-size: 1.5rem;
+        margin-top: 6.7rem;
+        margin-bottom: 1.7rem;
+        padding-left: 1rem;
+    }
+
+    .todays-crop-title {
+        width: 8.3rem;
+        height: 3rem;
+        font-size: 1rem;
+        line-height: 1.1rem;
+        margin-top: 0.8rem;
+    }
+
+    #todays-crops-btn {
+        width: 7.6rem;
+        height: 2.3rem;
+        line-height: 2.3rem;
+        border-radius: 9999px;
+        margin-top: 0.7rem;
+    }
+
+    #todays-crops-pc {
+        display: none;
+    }
+    #todays-crops-mobile {
+        display: block;
+    }
+
+    /* Section 2 - mobile */
+    #index-section2 {
+        flex-direction: column-reverse;
+        width: 100%;
+        height: auto;
+    }
+
+    #hot-crops {
+        width: inherit;
+        padding: 0 2.4rem;
+    }
+
+    #hot-crops-title {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    #crops-desc-wrap {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .hot-crop-image {
+        width: 8.3rem;
+        height: 12rem;
+
+        border-radius: 7.2px;
+    }
+
+    .hot-crop-title {
+        font-size: 1.3rem;
+        margin-top: 0.8rem;
+    }
+
+    .hot-crop-price {
+        font-size: 1.4rem;
+        margin-top: 0.5rem;
+    }
+
+    .ugly-tag,
+    .normal-tag {
+        font-size: 1rem;
+        font-weight: 300;
+        text-align: center;
+
+        margin-top: 0.7rem;
+        padding: 0.5rem 0;
+
+        width: 6.4rem;
+    }
+
+    #click-message {
+        margin-top: 1.8rem;
+        margin-bottom: 3.3rem;
+
+        font-size: 1.3rem;
+    }
+
+    #click-message-leaf {
+        width: 1rem;
+        height: 1rem;
+
+        margin-right: 0.5rem;
+    }
+
+    #section2-phrase {
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        margin-top: 5rem;
+        padding-left: 2.4rem;
+    }
+
+    #section2-main-phrase {
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-align: right;
+
+        width: 11.4rem;
+        line-height: 1.5;
+    }
+
+    #section2-phrase-img {
+        width: 15.5rem;
+        height: 13.8rem;
+    }
+
+    /* Section 3 (Farmer 미니홈페이지 링크) - mobile */
+    #index-section3 {
+        width: 100%;
+    }
+
+    #section3-title {
+        font-size: 2.2rem;
+        line-height: 1.5;
+
+        margin-top: 5.5rem;
+    }
+
+    .section3-title-button {
+        font-size: 2rem;
+        text-align: center;
+        line-height: 1;
+
+        margin-right: 1rem;
+        padding: 0.5rem 0;
+
+        width: 11rem;
+    }
+
+    #section3-farmer-list-wrap {
+        width: auto;
+
+        margin-top: 4.5rem;
+        margin-bottom: 7rem;
+    }
+
+    .farmer-slider-button {
+        width: 1rem;
+        height: 1.7rem;
+
+        /* margin-bottom: 135px; */
+    }
+
+    #section3-farmer-list-slider {
+        column-gap: 3.2rem;
+        width: 28rem;
+        height: 17rem;
+    }
+
+    .farmer-figure-wrap {
+        width: 11rem;
+        height: 16rem;
+
+        justify-content: end;
+    }
+
+    .farmer-profile-image {
+        width: 9rem;
+        height: 9rem;
+        border-width: 2px;
+    }
+
+    .farm-name {
+        font-weight: 400;
+        font-size: 1.4rem;
+
+        margin-top: 1.2rem;
+    }
+
+    .farmer-page-link {
+        width: 11rem;
+
+        font-size: 1.2rem;
+        font-weight: 400;
+
+        margin-top: 1.2rem;
+        padding: 5px 0;
+    }
+}

@@ -1,0 +1,277 @@
+{% extends "users/mypage_base.html" %}
+{% load static %}
+{% block stylesheet_detail %}
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_info.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_info_mobile.css' %}">
+{% endblock stylesheet_detail %}
+
+{% block content %}
+
+<div id="info-edit-container" class="flex flex-row w-100">
+  <div id="info-section" class="">
+    <div id="title-section" class="flex flex-row">
+      <div class="mr-10">개인정보 수정</div>
+      <div><img id="edit-info" src="{% static 'images/users/pen.svg' %}"></div>
+    </div>
+    <div id="info-content-section" class="w-100">
+      <div id="name-section" class="flex flex-row w-100">
+        <div class="w-1/5">이름</div>
+        <div id="name" class="flex flex-row w-4/5">
+          <div id="last-name">{{last_name}}</div>
+          <div id="first-name">{{first_name}}</div>
+        </div>
+      </div>
+      <div id="email-section" class="flex flex-row w-100">
+        <div class="w-1/5">이메일</div>
+        <div id="email" class="w-4/5">{{email}}</div>
+      </div>
+      <img id="info-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
+    </div>
+  </div>
+
+  <div id="profile-section" class="">
+    <div id="title-section" class="flex flex-row">
+      <div class="mr-10">프로필 수정</div>
+      <div><img id="edit-profile" src="{% static 'images/users/pen.svg' %}"></div>
+    </div>
+    <div id="profile-content-section" class="w-100">
+      <div id="image-section" class="flex flex-col items-center w-100 ">
+        <div><img id="profile-image" src="{{profile_image.url}}"></div>
+        <div id="edit-profile-image" class="hidden">
+          <label for="edit-profile-image-input">사진 변경</label>
+          <input type="file" id="edit-profile-image-input" class="mx-auto">
+        </div>
+      </div>
+      <div id="email-section" class="flex flex-row w-100">
+        <div class="w-1/4">닉네임</div>
+        <div id="nickname" class="w-3/4">{{nickname}}</div>
+      </div>
+      <img id="profile-edit-complete" class="hidden" src="{% static 'images/users/edit_complete.svg'%}">
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+
+  let menuBtns = []
+  menuBtns.push(document.getElementById('menu_carts'))
+  menuBtns.push(document.getElementById('menu_boughts'))
+  menuBtns.push(document.getElementById('menu_deliveries'))
+  menuBtns.push(document.getElementById('menu_likes'))
+
+  $('#menu_infos').css({
+    "background-color": "#5c6754",
+    "color": "white",
+  })
+
+  // 모바일에서 메뉴 선택
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    document.getElementById('menu_infos').classList.add('selected');
+    document.getElementById('selected_line').style.gridArea= "line5";
+  }
+
+  menuBtns.forEach(item => {
+    item.addEventListener('mouseover', function () {
+      $(this).css({
+        "background-color": "#5c6754",
+        "color": "white",
+
+      })
+    })
+    item.addEventListener('mouseout', function () {
+      $(this).css({
+        "background-color": "white",
+        "color": "#5c6754"
+      })
+    })
+  })
+
+  let editInfoBtn = document.getElementById('edit-info')
+  let editProfileBtn = document.getElementById('edit-profile')
+
+  let profileContentSection = document.getElementById('profile-content-section')
+
+  /* 개인 정보 수정 버튼 클릭 -> 수정 항목 input화 */
+
+  editInfoBtn.addEventListener('click', function () {
+    let lastName = document.getElementById('last-name').innerHTML
+    let firstName = document.getElementById('first-name').innerHTML
+    let nameSection = document.getElementById('name')
+
+    let emailSection = document.getElementById('email')
+    let email = emailSection.innerHTML
+    editInfoBtn.remove()
+
+    console.log(lastName)
+    console.log(firstName)
+    console.log(email)
+
+    nameSection.innerHTML = ''
+    emailSection.innerHTML = ''
+
+    nameInnerHTML = `<div>성</div><input id="last-name-input" type="text" value=${lastName}><div>이름</div><input id="first-name-input" type="text" value=${firstName}>`
+    nameSection.innerHTML = nameInnerHTML
+    emailInnerHTML = `<input id="email-input" type="text" value=${email}>`
+    emailSection.innerHTML = emailInnerHTML
+
+    let infoSection = document.getElementById('info-section')
+    let completeBtn = document.getElementById('info-edit-complete')
+    completeBtn.setAttribute('class', 'mx-auto mt-10')
+    console.log(completeBtn)
+    infoSection.appendChild(completeBtn)
+
+    let lastNameInputTag = document.getElementById('last-name-input')
+    let firstNameInputTag = document.getElementById('first-name-input')
+    let emailInputTag = document.getElementById('email-input')
+
+  })
+
+  /* 개인 정보 수정 버튼 클릭 -> 수정 항목 input화 */
+
+  editProfileBtn.addEventListener('click', function () {
+    let nickNameSection = document.getElementById('nickname')
+    let nickName = nickNameSection.innerHTML
+    nickNameSection.innerHTML = ' '
+    console.log(nickName)
+    editProfileBtn.remove()
+
+    console.log(nickName)
+
+    nickNameInnerHTML = `<input id="nickname-input" type="text" value=${nickName}>`
+    nickNameSection.innerHTML = nickNameInnerHTML
+
+    let editProfileImage = document.getElementById('edit-profile-image')
+    editProfileImage.setAttribute('class', 'flex mx-auto mt-5')
+
+    let profileSection = document.getElementById('profile-section')
+    let completeBtn = document.getElementById('profile-edit-complete')
+    completeBtn.setAttribute('class', 'mx-auto mt-10')
+    console.log(completeBtn)
+    profileSection.appendChild(completeBtn)
+
+
+  })
+
+
+
+
+  let infoEditCompleteBtn = document.getElementById('info-edit-complete')
+
+  infoEditCompleteBtn.addEventListener('click', function () {
+    let lastName = document.getElementById('last-name-input').value
+    let firstName = document.getElementById('first-name-input').value
+    let email = document.getElementById('email-input').value
+
+    console.log(lastName)
+    console.log(firstName)
+    console.log(email)
+
+    let data = {
+      'last_name': lastName,
+      'first_name': firstName,
+      'email': email,
+      "csrfmiddlewaretoken": "{{csrf_token}}",
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: "{% url 'users:infoUpdate' %}",
+      data: data,
+      dataType: 'json',
+      success: function () {
+        alert("개인정보 수정 완료")
+        window.location.reload()
+      }
+    })
+
+
+  })
+
+  let imgTag = document.getElementById('profile-image')
+  let imageInput = document.getElementById('edit-profile-image-input')
+
+  imageInput.addEventListener('change', function () {
+    console.log(this.files)
+    let file = this.files[0]
+
+    if (!file.type.startsWith('image/'))
+      return
+
+    let reader = new FileReader()
+    reader.onload = function(e){
+      let src = e.target.result
+      imgTag.setAttribute('src', src)
+    }
+    reader.readAsDataURL(file)
+  })
+
+  let profileEditCompleteBtn = document.getElementById('profile-edit-complete')
+
+  profileEditCompleteBtn.addEventListener('click', function(){
+    let nickName = document.getElementById('nickname-input').value
+    console.log(nickName)
+
+    let imageFile = document.getElementById('edit-profile-image-input').files[0]
+    console.log(imageFile)
+
+    let formData = new FormData();
+    formData.append("nick_name", nickName)
+    formData.append("profile_img", imageFile)
+
+    for (var key of formData.keys()) {
+      console.log(key);
+    }
+
+    for (var value of formData.values()) {
+      console.log(value);
+    }
+
+    // data = {
+    //   'nick_name':nickName,
+    //   'profile_image':imageFile,
+    //   "csrfmiddlewaretoken": "{{csrf_token}}",
+    // }
+    // console.log(formData)
+    /*이미지를 보내려면 ajax가 아닌 http post를 써야 하는가 */
+    // axios.post("{% url 'users:profileUpdate'%}", formData,{
+    //   headers:{
+    //     'Content-Type':'multipart/form-data'
+    //   }
+    // })
+    // .then((response)=>{
+    //   alert("프로필 정보 수정 완료")
+    //   window.location.reload()
+    // })
+    // .catch((error)=>{
+    //   alert("프로필 정보 수정 실패")
+    // })
+
+    $.ajax({
+      type:'POST',
+      url:"{% url 'users:profileUpdate'%}",
+      data : formData,
+      processData : false,
+      contentType : false,
+      success: function () {
+        alert("프로필 정보 수정 완료")
+        window.location.reload()
+      }
+    })
+  })
+
+
+
+
+
+
+</script>
+
+{% endblock content %}
+
+{% block script_section %}
+
+
+
+{% endblock script_section %}

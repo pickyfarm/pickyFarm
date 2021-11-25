@@ -1,0 +1,277 @@
+@import '/static/css/base/mobile_base_style.css';
+
+@media screen and (max-width: 768px) {
+    /* base setting */
+    #main {
+        width: 100%;
+        padding: 0 2.5rem;
+    }
+    #main > div {
+        width: 100%;
+    }
+    #filter-section,
+    #products-section,
+    #delete_btn {
+        margin-left: 0;
+    }
+    #middle-section,
+    #content {
+        width: 100%;
+    }
+    #content {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+
+    /* before make orders */
+    #before_order {
+        width: 100%;
+    }
+    #redirect_a {
+        width: 13rem;
+    }
+    #redirect_btn {
+        margin-top: 2rem;
+        font-size: 1.1rem;
+        width: 13rem;
+        height: 2.2rem;
+        text-align: center;
+    }
+
+    /* filter */
+    #content > form {
+        width: 100%;
+    }
+    #filter {
+        margin: 0 0 6rem;
+        width: 100%;
+        display: flex;
+    }
+    #filter-6month,
+    #filter > input {
+        height: 2rem;
+        border-radius: 1rem;
+        border: solid 0.1rem #5e6656;
+    }
+    #filter-6month {
+        width: 6.9rem;
+        min-width: 6.9rem;
+        padding: 0.1rem;
+    }
+    #filter > input {
+        padding: 0.1rem 0 0.1rem;
+        width: 100%;
+        margin: 0 1rem;
+        text-align: right;
+        padding-inline-end: 0.5rem;
+        inline-size: -webkit-fill-available;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    input[type='date'] {
+        position: relative;
+    }
+    input[type='date']::-webkit-calendar-picker-indicator {
+        color: transparent;
+        background: none;
+        z-index: 1;
+    }
+    input[type='date']:before {
+        color: transparent;
+        background: none;
+        display: block;
+        content: '▼';
+        width: 15px;
+        height: 20px;
+        position: absolute;
+        right: 6px;
+        color: var(--dark-sage);
+    }
+    #filter-until {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.55;
+        color: #5e6656;
+    }
+    #filter-submit {
+        width: 2rem;
+        min-width: 2rem;
+        height: 2rem;
+        margin-left: 0;
+    }
+    #filter-submit > span {
+        display: none;
+    }
+    #filter-submit-icon {
+        display: block;
+    }
+
+    /* products section */
+    #products-section {
+        width: 100%;
+        margin-top: 0;
+    }
+    #product {
+        width: 100%;
+        height: 13.5rem;
+        padding: 1rem 1rem 1.5rem;
+        margin-bottom: 2.5rem;
+        border-radius: 0.5rem;
+        border: none;
+        box-shadow: 0 0.3rem 0.6rem 0 rgb(0 0 0 / 16%);
+        display: grid;
+        grid-template-columns: 8.4rem 1fr;
+        grid-template-areas:
+            'img product'
+            'btn btn';
+    }
+    #product > div:nth-child(1) {
+        width: 7.4rem;
+        grid-area: img;
+    }
+    #product_img {
+        height: 7.4rem;
+        margin-right: 0;
+        border-radius: 1.1rem;
+    }
+    #product > div:nth-child(2) {
+        width: 100%;
+        grid-area: product;
+    }
+    #product_order_at2 {
+        margin-top: 0.3rem;
+    }
+    #product-contents > div:nth-child(2) {
+        align-items: center;
+    }
+    #product_title,
+    #product_farm_name {
+        line-height: 2;
+    }
+    #slash {
+        margin: 0 0.8rem;
+        height: 1.2rem;
+    }
+    #product-contents > div:nth-child(3) {
+        line-height: 1.4;
+        margin-bottom: 0.15rem;
+    }
+    #product_price {
+        margin-right: 1.15rem;
+    }
+    #delivery_status {
+        line-height: 1.2;
+        margin-top: 0.25rem;
+        align-items: center;
+    }
+    #delivery-status-icon {
+        margin-right: 0.58rem;
+        width: 1rem;
+        height: 1rem;
+    }
+    #button-section-container {
+        grid-area: btn;
+        width: 100%;
+        align-items: flex-end;
+        justify-content: end;
+    }
+    #cart-button-section {
+        width: fit-content;
+        height: 2.5rem;
+        padding-right: 0;
+        order: 1;
+    }
+    #buttons-section {
+        grid-area: btn;
+        width: 100%;
+        padding: 0;
+        align-items: flex-end;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    #other-button-section {
+        flex-direction: row;
+    }
+    #see-product-btn,
+    #reg-review-btn,
+    #cancel-order-btn,
+    #cartIn_btn {
+        width: 6.3rem;
+        height: 2.5rem;
+        border-radius: 1.5rem;
+        margin: 0;
+        padding: 0.4rem;
+    }
+    #see-product-btn,
+    #cartIn_btn {
+        width: 7.5rem;
+    }
+
+    /* paginator */
+    #paginator {
+        margin-top: 6rem;
+        margin-left: 0;
+        width: 100%;
+    }
+    #paginator > a {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* font */
+    #product_title,
+    #product_farm_name {
+        font-size: 1.5rem;
+    }
+    #filter-6month,
+    #filter > input,
+    #product_price,
+    #product_quantity,
+    #see-product-btn > a,
+    #reg-review-btn > a,
+    #cancel-order-btn > a,
+    #cartIn_btn {
+        font-size: 1.1rem;
+    }
+    #product_order_at2,
+    #delivery_status > div {
+        font-size: 0.8rem;
+    }
+    #see-product-btn > a,
+    #reg-review-btn > a,
+    #cancel-order-btn > a,
+    #cartIn_btn,
+    #filter-6month,
+    #filter > input {
+        line-height: 1.7rem;
+    }
+    #filter-6month,
+    #filter > input,
+    #product_title,
+    #delivery_status > div {
+        font-weight: bold;
+    }
+    #see-product-btn > a,
+    #reg-review-btn > a,
+    #cancel-order-btn > a,
+    #cartIn_btn {
+        font-weight: normal;
+    }
+    #filter-6month,
+    #filter > input,
+    #see-product-btn > a,
+    #reg-review-btn > a,
+    #cancel-order-btn > a {
+        color: #5e6656;
+    }
+    #cartIn_btn {
+        color: #fefffd;
+    }
+    #product_title {
+        color: var(--dark-sage);
+    }
+}

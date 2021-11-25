@@ -1,0 +1,108 @@
+#contents-container{
+    margin-left:130px;
+  }
+  
+
+#add-rev-address-title-section{
+    width:100%;
+  }
+  
+  #add-rev-address-title{
+    font-family: NotoSansKR;
+    font-size: 30px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5c6754;
+  }
+  
+  #add-rev-address-sub-title{
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: center;
+    color: #b3b3b3;
+  }
+  
+  #leaf{
+    width:36.2px;
+  }
+
+  #leaf_mobile {
+    display: none;
+  }
+  
+  #full-address-section{
+    margin-top:80px;
+  }
+  
+  #id_full_address{
+    width: 664px;
+    height: 35px;
+    opacity: 0.5;
+    padding-left:10px;
+    padding-right:10px;
+    border-radius: 20px;
+    border: solid 1px #5c6754;
+  }
+  
+  #id_detail_address{
+    width: 719px;
+    height: 35px;
+    opacity: 0.5;
+    padding-left:10px;
+    padding-right:10px;
+    border-radius: 20px;
+    margin-top:15px;
+    border: solid 1px #5c6754;
+  }
+  
+  #add-rev-address-help-text{
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5c6754;
+  }
+  
+  #address-search-btn{
+    padding-left:20px;
+  }
+  
+  #address-search-btn>img{
+    cursor: pointer;
+  }
+  
+  #submit-rev-address-btn{
+    width: 125px;
+    height: 30px;
+    padding: 4px 4px;
+    border-radius: 15px;
+    border: solid 1px #5e6656;
+    background-color: #ffffff;
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5c6754;
+    margin-top:67px;
+  }
+  
+  #submit-rev-address-btn:hover{
+    color: #ffffff;
+    background-color: #5c6754;
+  }

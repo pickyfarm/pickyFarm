@@ -1,0 +1,233 @@
+#content{
+  width:840px;
+}
+
+/*
+  전체 상품 선택 셀렉터 
+*/
+
+#filter-section{
+  margin-left : 126px;
+  margin-bottom : 45px;
+}
+
+#filter-section>div:nth-child(2){
+margin-left:35px;
+}
+
+
+/* 
+    찜한 상품 아이템 관련
+*/
+
+#products-section{
+  margin-left : 126px;
+}
+
+#product{
+  width: 684px;
+  height: 130px;
+  padding: 15px 20px;
+  border-radius: 20px;
+  border: solid 1px #b3b3b3;
+}
+
+#product_img{
+  width: 95px;
+  height: 95px;
+  margin: 0 20px 0 0;
+  border-radius: 20px;
+  object-fit:cover;
+}
+
+#product_title{
+  font-family: NotoSansKR;
+font-size: 18px;
+font-weight: bold;
+font-stretch: normal;
+font-style: normal;
+letter-spacing: normal;
+text-align: left;
+color: #5c6754;
+}
+
+/* 찜한 작물 이름 과 판매 농가 이름 가운데 바 */
+#slash{
+  margin:0 15px;
+color : #5e6656;
+}
+
+#product_farm_name{
+  font-family: NotoSansKR;
+font-size: 18px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+
+letter-spacing: normal;
+text-align: left;
+color: #707070;
+}
+
+/* 상품 중량 */
+#product_weight{
+  font-family: NotoSansKR;
+font-size: 18px;
+font-weight: normal;
+font-stretch: normal;
+font-style: normal;
+letter-spacing: normal;
+text-align: left;
+color: #b3b3b3;
+}
+
+/* 상품 가격 - class 이름으로 처리 유의 */
+.product_price{
+  font-family: NotoSansKR;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #b3b3b3;
+  margin-right : 20px;
+}
+
+
+/* 상품 수량 관련 부분 */
+.quantity-number{
+  margin:0 13.9px;
+}
+
+#quantity-down, #quantity-up{
+  cursor: pointer;
+}
+
+
+
+/* 삭제하기 버튼 */
+#delete_btn{
+  width: 115px;
+  height: 30px;
+  padding: 4px 30px;
+  border-radius: 15px;
+  border: solid 1px #b3b3b3;
+  background-color: #ffffff;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #5c6754;
+  margin-left:171px;
+  cursor: pointer;
+}
+
+#delete_btn:hover {
+  background-color: #5c6754;
+  color : #ffffff;
+}
+
+
+/*
+  계속하기 / 주문하기 / 최종금액 관련 섹션 
+  */
+.line{
+  display: none;
+}
+
+#order-section{
+  width:650px;
+  margin-left:170px;
+  margin-top:35px;
+}
+
+/* 쇼핑 계속하기 버튼 */
+#continue_shop{
+  width: 146px;
+  height: 30px;
+  padding: 4px 30px;
+  border-radius: 15px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* 주문하기 버튼 */
+#order_now{
+  width: 115px;
+  height: 30px;
+  padding: 4px 30px;
+  border-radius: 15px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  text-align: center;
+  color: #ffffff;
+  margin-left:20px;
+  cursor: pointer;
+}
+
+/* 총 주문금액 (텍스트) */
+#total_order_text{
+  font-family: NotoSansKR;
+  font-size: 15px;
+  color: #b3b3b3;
+  padding-top:7px;
+}
+
+/* 총 주문금액 (숫자) */
+#total_order_price{
+  font-family: NotoSansKR;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #5c6754;
+  margin-left:10px;
+}
+
+/* 총 주문 금액 (원 텍스트) */
+#won_text{
+  font-family: NotoSansKR;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #5c6754;
+}
+
+
+
+
+/*
+  구매 내역이 없을 시, 보여지는 redIRECT MSG 관련 CSS
+  */
+#redirect_btn{
+  width:170px;
+  height: 30px;
+  padding-top:5px;
+  margin-top:30px;
+  border-radius: 11px;
+  background-color: #5c6754;
+  font-family: NotoSansKR;
+  font-size: 15px;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+#redirect_a{
+  width:170px;
+}
+

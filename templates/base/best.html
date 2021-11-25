@@ -1,0 +1,73 @@
+{% load static %}
+
+<div class="best h-main w-full flex flex-col">
+    <div class="text-3xl font-bold text-green-700 mx-auto mt-8 title">BEST</div>
+    <div class="text-sm font-medium text-gray-400 mx-auto mt-4">최고인 당신에게 드리는 이번주 최고의 상품</div>
+    <div class="w-header mx-auto flex justify-center">
+        <ul class="mt-16" id="products"> 
+            {% for product in best_product_list %}
+            <li class="float-left" id="product_item">
+                <div class="relative">
+                    <a href="{% url 'products:product_detail' product.pk %}">
+                        <img class="z-0" id="product_img" src="{{product.main_image.url}}" width="50"><br>
+                    </a>
+                    <div id="like_cart_in" class="flex flex-row z-10">
+                        <img class="w-10 " id="like" src="{% static 'images/products_list/like.svg' %}" onclick='wish({{product.pk}})'>
+                        <img class="w-10 ml-1 button" id="cart_in" src="{% static 'images/products_list/cart_in.svg' %}" onclick='cartIn({{product.pk}})'>
+                    </div>
+                    <img class="absolute -top-12 -left-6 {%if product.stock > 3 %} invisible {% endif %}" id="like", src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                </div>
+                <a href="{% url 'products:product_detail' product.pk %}">
+                    <div class="mt-2 ml-6 flex flex-col">
+                        <div class="flex items-center">
+                            <div class="px-2 text-base font-light " id="title">{{product.farmer.user.nickname}}</div>
+                            <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
+                            <div class="pl-2" id="sub_title">{{product.category.name}}  {{product.weight}}kg</div>
+                        </div>
+                        <p class="pl-2" id="sell_price">{{product.sell_price}}원</p>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="w-48 h-14 m-auto rounded-full text-white font-semibold self-center text-center" style="line-height: 3.5rem; background-color: #5c6754;">더 보러가기</div>
+</div>
+
+<style>
+
+
+
+
+#sell_price{
+  font-size: 25px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-align: left;
+  color: #5c6754;
+}
+
+
+#product_img{
+  width: 200px;
+  height: 280px;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px 0 rgba(170, 170, 170, 0.7);
+  margin-right: 33px;
+  margin-left:33px;
+  
+  background-color: #ffffff;
+  object-fit:cover;
+}
+
+ 
+
+#like_cart_in{
+  position: absolute;
+  top: 260px;
+  right: 15px;
+}
+</style>

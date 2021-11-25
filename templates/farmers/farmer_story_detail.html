@@ -1,0 +1,144 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block title_name %}
+Farmer's Diary
+{% endblock title_name %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/farmers/farmers_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/story/farmer_story_detail.css' %}">
+{% endblock %}
+
+{% block main_content %}
+<div class="content mx-auto" style="margin-top: 130px;">
+    <img src="{% static 'images/farm/leaf.svg' %}" class="mx-auto" alt="">
+    <!--title-->
+    <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Diary </div>
+    <div class="text-center mb-4" style="color: #999999; font-size: 15px;"> 파머가 직접 전하는 농가 이야기 </div>
+    
+    {% if request.user == main_story.farmer.user %}
+    <div class="text-center mb-16">
+        <a href="{% url 'farmers:farmer_story_update' main_story.pk %}">수정</a>
+    </div>  
+    {% endif %}
+
+    <!--farmer story content-->
+    <div class="relative mb-6" id="story_content">
+        <div class="relative mb-11">
+            <div class="text-center font-light pt-5" style="color:#5e6656; font-size: 25px;">
+                {{ main_story.create_at|date:"Y.m.d" }}</div>
+            <div class="absolute bottom-2 right-0 flex flex-row">
+                <div class="mr-2" style="color: #999999; font-size: 15px;">{{ main_story.hits }}</div>
+                <img class="mr-9" src="{% static 'images/farm/view.svg' %}" alt="" />
+            </div>
+        </div>
+        <div class="text-center font-medium" style="color:#5e6656; font-size: 35px;"> {{ main_story.title }} </div>
+        <div class="w-2 h-2 mx-auto mt-10 mb-20" style="border: solid 1px rgba(112, 112, 112, 0.5); border-radius:50%;">
+        </div>
+        <div class="px-32">{{ main_story.content|safe }}</div>
+        <div class="absolute bottom-0 pb-16 w-full text-center font-light" style="color:#5e6656; font-size: 20px;">
+            {{ farmer.farm_name }} </div>
+    </div>
+    <!--목록으로 버튼-->
+    <div class="content flex flex-row justify-end mb-28" onclick="location.href='{% url 'farmers:farmers_page' %}'">
+        <div class="" id="back_btn" style='font-size: 20px;'> 파머스 페이지로 돌아가기 </div>
+        <img src="{% static 'images/farm/arrow.svg' %}" class="cursor-pointer" alt="">
+    </div>
+    <!--농가 정보-->
+    <div class="flex flex-row items-center px-5 py-6 mb-16" id="farmer_info">
+        <img src="{{ farmer.farmer_profile.url }}" alt="" class="mr-4" id="farmer_profile">
+        <img src="{{ farmer.farm_profile.url }}" alt="" class="mr-16" id="farm_profile">
+        <div class="" style="width: 418px;">
+            <div class="flex flex-row mb-3" id="tag_wrap">
+                {% for tag in tags %}
+                <a href="#">
+                    <div class="mr-2" id="farm_tag">#{{ tag }}</div>
+                </a>
+                {% endfor %}
+            </div>
+            <div class="flex flex-row items-center mb-3" id="farm_wrap">
+                <div class="font-medium text-3xl" id="farm_name">{{ farmer.farm_name }}</div>
+                <div class="font-light text-lg" id="farmer_name">{{ farmer.user.nickname }}</div>
+            </div>
+            <div id="profile_title_wrap">
+                <div class="font-light text-lg" id="profile_title">"{{ farmer.profile_title }}"</div>
+            </div>
+        </div>
+        <div id="sub_wrap">
+            <div class="text-xl" id="sub_btn" name={{farmer.pk}}>구독하기</div>
+        </div>
+    </div>
+    <!--농가 뉴스-->
+    <div class="flex flex-row items-center p-2 mb-10" id="farmer_news">
+        <img src="{% static 'images/farmers_detail/news.svg' %}" alt="" class="ml-2" id="">
+        <div class="text-2xl" id="news_text">농가 News</div>
+
+        {% if farmer.farm_news %}
+        <div class="font-light text-xl text-center" id="farm_news">{{ farmer.farm_news }}</div>
+        {% else %}
+        <div class="font-light text-xl text-center" id="farm_news">등록된 뉴스가 아직 없습니다.</div>
+        {% endif %}
+    </div>
+    <!--farmer's story list-->
+    <!-- <div class="text-3xl text-center mb-24" style="color: #808080;"> Farmer's Diary </div> -->
+    <div class="flex flex-row justify-center my-28">
+        {% for story in stories %}
+        <a href="{% url 'farmers:farmer_story_detail' story.pk %}">
+            <div class="p-5 mx-1" id="story_wrap">
+                <img src="{{ story.thumbnail.url }}" alt="" class="" id="story_img">
+                <div class="flex flex-row justify-between text-xs mt-2 mb-1">
+                    <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+                    <div id="views" class="flex flex-row items-center">
+                        <div class="mr-1">{{ story.hits }}</div>
+                        <img src="{% static 'images/farm/view.svg' %}" alt="">
+                    </div>
+                </div>
+                <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    <!-- paginator -->
+    <div class="h-10 mb-56 text-center flex flex-row justify-center items-center" id="paginator">
+        <div class="mr-20">
+            {% if stories.has_previous %}
+            <a href='?page={{stories.previous_page_number}}'><img id="prev" src="{% static 'images/farm/prev.svg' %}"></a>
+            {% else %}
+            <a href="?page=1"><img src="{% static 'images/farm/prev.svg' %}" alt=""></a>
+            {% endif %}
+        </div>
+
+        <!--임시 paginator-->
+        {% if stories.number <= 4 %} <div class="flex flex-row text-xl w-40 justify-between">
+            <div onclick="location.href='?page=1'" style="cursor: pointer;">1</div>
+            <div onclick="location.href='?page=2'" style="cursor: pointer;">2</div>
+            <div onclick="location.href='?page=3'" style="cursor: pointer;">3</div>
+            <div onclick="location.href='?page=4'" style="cursor: pointer;">4</div>
+            {% endif %}
+        </div>
+
+        <div class="ml-20">
+            {% if stories.has_next %}
+            <a href='?page={{stories.next_page_number}}'><img id="next" src="{% static 'images/farm/next.svg' %}"></a>
+            {% else %}
+            <a href="?page={{stories.paginator.num_pages"><img src="{% static 'images/farm/next.svg' %}" alt=""></a>
+        {% endif %}
+    </div>
+</div>
+</div>
+<div class="mx-auto w-screen bg_gray pt-16 mt-10 pb-20">
+    <div class="content mx-auto">
+        <!-- comment -->
+        <div class="flex justify-end">
+            <a href="#comment-submit-form">
+                <div class="cursor-pointer" id="comment-write">
+                    <img src="{% static 'images/farm/write.svg' %}" alt="댓글쓰기">
+                </div>
+            </a>
+        </div>
+        {% include 'farmers/story_comments.html' %}
+    </div>
+</div>
+
+{% endblock main_content %}

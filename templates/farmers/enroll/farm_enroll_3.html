@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll.css' %}">
+<link rel="stylesheet" href="{% static 'css/farmers/enroll/farm_enroll_mobile.css' %}">
+{% endblock %}
+
+{% block title_name %}
+입점 등록
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-8 bg-white-400 text-center font-4xl">
+    <div id='signup_form' class="mt-10 flex flex-col">
+        <div class="mx-auto font-bold text-3xl mt-6" style="color: #5c6754; margin-bottom: 63px;">입점 등록</div>
+        <div class="flex flex-row justify-around" id="sub_title">
+            <div> 정보 입력 </div>
+            <div> 계약서 작성 </div>
+        </div>
+        <div class="relative mx-auto mt-2" id="border">
+            <div class="absolute right-0" id="step" style="width:50%"></div>
+        </div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="mx-auto" id="contract-content">
+                <div class="font-medium text-2xl text-left mb-10" style="color:#5c6754">계약서 작성</div>
+                <div class="mb-16" id="contract-announce-content">
+                    <div class="text-left mb-4 font-sm">
+                        &nbsp;‘피키팜’ 입점 계약서의 작성 목적은 ‘피키팜’과 ‘납품업자(입점자)’ 간에 공정한 계약조건에 따라 상품의 납품거래계약을 체결하도록 하기 위한 표준적 계약조건을 제시함에 있습니다.
+                    </div>
+                    <div class="text-left mb-4">
+                        &nbsp;이 입점 계약서는 ‘피키팜’과 ‘납품업자(입점자)’ 사이의 거래에 있어서 법적 근거 및 양자 간 신의성실을 다해 준수할 것임을 서약하는 자료로 판단될 수 있습니다.
+                    </div>
+                    <div class="text-left mb-4">
+                        &nbsp;또한 이 입점 계약서의 일부 내용은 현행 「대규모유통업에서의 거래 공정화에 관한 법률」 및 그 시행령을 기준으로 한 것이므로 계약당사자는 이들 법령이 개정되는 경우에는 개정내용에 맞도록 기존의 계약을 수정 또는 변경할 수 있으며 특히 개정법령에 강행규정이 추가되는 경우에는 반드시 그 개정규정에 따라 계약내용을 수정하여야 합니다.
+                    </div>
+                </div>
+                <div class="mb-7 text-left p-4" id="contract-desc">
+                    {% include 'farmers/enroll/contract/farm_enroll_contract_1.html' %}
+                </div>
+                <div class="text-right mb-20">
+                    <input type="checkbox" name="agree-1" id="agree-1" value="">
+                    <label for="agree-1" id="contract-agree">전체 동의합니다.</label>
+                </div>
+                <div class="mb-7 text-left p-4" id="contract-desc">
+                    {% include 'farmers/enroll/contract/farm_enroll_contract_2.html' %}
+                </div>
+                <div class="text-right mb-24">
+                    <input type="checkbox" name="agree-2" id="agree-2" value="">
+                    <label for="agree-2" id="contract-agree">전체 동의합니다.</label>
+                </div>
+            </div>
+            <button type="submit" class="submit" id="step3_submit">제출하기</button>
+        </form>
+    </div>
+</div>
+<style>
+    #contract-content label::before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 3.5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+        margin-right: 9px;
+    }
+
+    #contract-content input:checked+label::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+</style>
+<script>
+    // step3 page form valid check
+    $('#step3_submit').click(function (e) {
+        console.log('step3 submit')
+
+        if ($('#agree-1').is(":checked") == false) {
+            alert('계약서 항목1에 동의해주세요.');
+            event.preventDefault();
+            return;
+        }
+        if ($('#agree-2').is(":checked") == false) {
+            alert('계약서 항목2에 동의해주세요.');
+            event.preventDefault();
+            return;
+        }
+    })
+</script>
+{% endblock %}

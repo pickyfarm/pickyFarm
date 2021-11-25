@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="51" height="16" viewBox="0 0 51 16">
+    <g>
+        <g fill="#fff" stroke="#5c6754" opacity="0.8">
+            <path stroke="none" d="M0 0h43.5A7.5 7.5 0 0 1 51 7.5a7.5 7.5 0 0 1-7.5 7.5H0V0z" transform="translate(-139 -413) translate(139 414)"/>
+            <path fill="none" d="M.8.5h42.7a7 7 0 0 1 7 7 7 7 0 0 1-7 7H.8a.3.3 0 0 1-.3-.3V.8A.3.3 0 0 1 .8.5z" transform="translate(-139 -413) translate(139 414)"/>
+        </g>
+        <text fill="#5e6656" font-family="NotoSansKR-Light, Noto Sans KR" font-size="10px" font-weight="300" transform="translate(-139 -413) translate(143 425)">
+            <tspan x="0" y="0">일반 작물</tspan>
+        </text>
+    </g>
+</svg>

@@ -1,0 +1,97 @@
+{% load static %}
+<section id="order-list-wrapper" class="flex flex-col">
+    <div id="order-list-sheet-index-section" class="grid place-items-center">
+        <span class="order-list-sheet-index">주문상태</span>
+        <span class="order-list-sheet-index">상품명</span>
+        <span class="order-list-sheet-index">옵션</span>
+        <span class="order-list-sheet-index">수량</span>
+        <span class="order-list-sheet-index">배송정보</span>
+        <span class="order-list-sheet-index">송장정보</span>
+    </div>
+
+    {% for order in orders %}
+    <div class="order-list-sheet-data-section grid place-items-center relative">
+        <div class="order-status {% if order.status == 'shipping' or order.status == 'complete' %} deactivate {% endif %}">
+            {% if order.status == 'payment_complete' %}
+            신규주문
+            {% elif order.status == 'preparing' %}
+            배송대기
+            {% elif order.status == 'shipping' %}
+            배송 중
+            {% elif order.status == 'delivery_complete' %}
+            배송완료
+            {% elif order.status == 'cancel' %}
+            주문취소
+            {% elif order.status == 'ex_recept' %}
+            교환 요청
+            {% elif order.status == 're_recept' %}
+            환불 요청
+            {% elif order.status == 're_ex_approve' %}
+            환불/교환 승인
+            {% else %}
+            환불/교환 거절
+            {% endif %}
+        </div>
+        <div class="product-name">{{order.product.title}}</div>
+        <div class="package-unit">{{order.product.option_name}}</div>
+        <div class="order-quantity">{{order.quantity}}</div>
+        <div class="order-info grid">
+            <div class="order-info-index">주문번호</div>
+            <div class="order-info-index">수취인 정보</div>
+            <div class="order-info-index">배송지</div>
+            <div class="order-info-index">받으실장소</div>
+            <div class="order-info-index order-memo">메세지</div>
+            <div class="order-info-data order-management-number">{{order.order_management_number}}</div>
+            <div class="order-info-data consumer-info"><b>{{order.order_group.rev_name}}</b> {{order.order_group.rev_phone_number}}</div>
+            <div class="order-info-data shipping-address">{{order.order_group.rev_address}}</div>
+            <div class="order-info-data shipping-notes">{{order.order_group.rev_loc_at}}</div>
+            <div class="order-info-data order-memo">{{order.order_group.to_farm_message}}</div>
+        </div>
+        <div class="invoice-info">
+            {% if order.status == 'shipping' or order.status == 'complete' %}
+            {{order.get_delivery_service_company_display}}
+            {{order.invoice_number}}
+            {% elif order.status == 're_recept' or order.status == 'ex_recept' %}
+            <div class="button order-status-action-button transition_element" {% if order.status == 're_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_refund_check_popup'%}?odmn={{order.encrypt_odmn}}')" {% elif order.status == 'ex_recept' %} onclick="window.open('{% url 'farmer:farmer_mypage_exchange_check_popup' %}?odmn={{order.encrypt_odmn}}')" {% endif %}>
+
+                사유 확인
+            </div>
+            {% elif order.status == 'preparing' %}
+            <div class="button order-status-action-button transition_element" onclick="window.open('{% url 'farmer:farmer_mypage_invoice_update_popup' %}?odmn={{order.encrypt_odmn}} ')">
+                송장 입력
+            </div>
+            {% elif order.status == 'shipping' %}
+            <div>
+                {{order.get_delivery_service_company_display}}
+                {{order.invoice_number}}
+            </div>
+            {% endif %}
+        </div>
+        {% if order.status == 'cancel' or order.status == 'payment_complete' %}
+        <div class="absolute order-confirm-overlay flex justify-center items-center" name="{{order.pk}}">
+            {% if order.status == 'cancel' %}
+            <div class="order-cancelled">취소한 주문건 입니다.</div>
+            {% else %}
+            <div class="button order-confirm-button order-confirm flex flex-col items-center justify-center transition_element">
+                <img src="{% static 'images/farmer_mypage/order/accept.svg' %}" alt="accept">
+                <span>주문확인</span>
+            </div>
+            <div class="button order-confirm-button order-cancel flex flex-col items-center justify-center transition_element">
+                <img src="{% static 'images/farmer_mypage/order/decline.svg' %}" alt="decline">
+                <span onclick="window.open('{% url "farmer:farmer_mypage_order_cancel_popup"%}?odmn={{order.encrypt_odmn}}', '_blank',  'height=900 width=375')">주문취소</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <a class="self-end" id="order-list-download" href='{% url "farmers:farmer_mypage_get_order_list" %}'>주문 목록 다운로드</a>
+
+
+</section>
+
+<div id="paginator-wrapper" class="flex justify-center">
+    {% for page_num in paginator.page_range %}
+    <a href="?page={{page_num}}{% if q %}&q={{q}}{% endif %}{% if status %}&status={{status}}{% endif %}" class="page-num {% if page_obj.number == page_num %} current-page {% endif %}">{{page_num}}</a>
+    {% endfor %}
+</div>

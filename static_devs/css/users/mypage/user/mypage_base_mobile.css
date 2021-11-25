@@ -1,0 +1,356 @@
+@import '/static/css/base/mobile_base_style.css';
+
+@media screen and (max-width: 768px) {
+    /* 모바일에서 숨김 */
+    #title_text1,
+    #title_text2,
+    #top-section-right {
+        display: none;
+    }
+
+    .base-wrap {
+        width: 100%;
+    }
+    #main {
+        justify-content: unset;
+    }
+    #main > div {
+        width: 100%;
+    }
+
+    /* 
+
+    상단 섹션 
+    
+    */
+    #top-section {
+        width: 100%;
+        height: 100%;
+    }
+    #top-section-left {
+        width: 100%;
+    }
+
+    /* 닉네임 */
+    #nickname_text1 {
+        font-size: 1.5rem;
+        line-height: 2;
+    }
+
+    /* 닉네임 - 님 */
+    #nickname_text2 {
+        font-size: 1.2rem;
+        line-height: 2.5;
+    }
+
+    /* 
+    
+    중간 섹션 
+    
+    */
+    #middle-section {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    /* 구매내역, 찜한 목록, 장바구니, 배송지 관리, 개인정보 수정 메뉴 버튼 섹션 */
+    #menu {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .menu_content {
+        width: 5.4rem;
+        height: 100%;
+        margin-bottom: 0;
+        padding: 0.2rem;
+        padding-bottom: 0.5rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        line-height: 1.82;
+        color: var(--brown-grey);
+        border: none;
+        border-radius: 0;
+    }
+
+    .menu_content:hover {
+        background-color: #fff !important;
+        color: var(--brown-grey) !important;
+    }
+    #menu_deliveries,
+    #menu_infos {
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+    .selected {
+        background-color: #ffffff !important;
+        color: #5e6656 !important;
+    }
+    #line {
+        width: 100%;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas:
+            'line1 line2 line3 line4 line5'
+            'line line line line line';
+        grid-gap: calc(100% / 5);
+        transition: all 0.15s ease-in;
+    }
+    #selected_line {
+        display: unset;
+        width: 5.4rem;
+        border-bottom: solid 0.4rem var(--dark-sage);
+        border-radius: 0.5rem;
+    }
+    #background_line {
+        display: unset;
+        width: 100%;
+        opacity: 0.5;
+        border-bottom: solid 0.2rem var(--brown-grey);
+        border-radius: 0.5rem;
+        position: absolute;
+        bottom: 0.1rem;
+        grid-area: line;
+        z-index: -1;
+    }
+
+    /*
+
+    아래 섹션
+
+    */
+    #bottom_section {
+        height: 100%;
+        padding: 0 25px;
+        padding-bottom: 6rem;
+    }
+    #bottom_contents {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* 농가 구독 섹션 */
+    #subscribe_section {
+        width: 100%;
+    }
+    #subscribe_section > div > img {
+        width: 3.03rem;
+        height: 3.66rem;
+    }
+
+    /* 농가 구독 제목 */
+    #subs_title_box {
+        width: 7.8rem;
+        margin-bottom: 1.7rem;
+    }
+    #subs_title_text1,
+    #subs_title_text2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.47;
+    }
+    #subs_title_text2 {
+        margin-left: 0.4rem;
+    }
+
+    #subs_contents {
+        width: 100%;
+        height: 32.9rem;
+    }
+
+    /* [구독한 농가 없는 경우] */
+    #subs_not_exist_box {
+        margin: 11.5rem auto;
+    }
+    #subs_redirect_a {
+        width: 13rem;
+        margin-top: 1rem;
+    }
+    #subs_redirect_btn {
+        font-size: 1.1rem;
+        width: 13rem;
+        height: 2.2rem;
+        text-align: center;
+    }
+
+    /* [구독한 농가 있는 경우] */
+    #subs_contents > div {
+        display: none;
+    }
+    #subs_contents .show {
+        display: flex;
+    }
+    #subs_contents #show_more {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: NotoSansKR;
+        font-size: 1.1rem;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.18;
+        letter-spacing: normal;
+        color: #ffffff;
+        width: 4.7rem;
+        height: 1.7rem;
+        margin: 0 auto;
+        border-radius: 1.5rem;
+        background-color: var(--dark-sage);
+    }
+    #subs_contents > div:nth-child(1) {
+        margin-top: 0.8rem;
+    }
+    #subs_contents > div > a,
+    #subs_contents > div > div {
+        width: unset;
+    }
+    #subs_contents > div > a {
+        width: 100%;
+    }
+    #sub-left-section,
+    #sub-right-section {
+        width: unset;
+    }
+    #sub-right-section {
+        width: 70%;
+        margin-left: 1.5rem;
+    }
+    #farm_image {
+        width: 5rem;
+        height: 5rem;
+        margin-bottom: 3.8rem;
+        margin-right: 0;
+    }
+    #farm_tag {
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+        margin-top: 0.1rem;
+        height: 1.3rem;
+    }
+    #farm_infos {
+        align-items: center;
+        height: 2rem;
+    }
+    #farm_loc {
+        padding-top: 0;
+        font-size: 0.9rem;
+        margin-right: 1.4rem;
+    }
+    #farm_name {
+        font-size: 1.2rem;
+    }
+    #farm_news > div > img {
+        width: 1.16rem;
+        height: 0.97rem;
+        margin-right: 0.5rem;
+    }
+    #sub_farm_news {
+        width: 100%;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    #sub_cancel_btn {
+        margin-left: 1.5rem;
+        font-size: 1rem;
+        line-height: 1.2;
+        width: 5rem;
+        height: 1.3rem;
+        background-color: var(--light-grey);
+        color: var(--dark-sage);
+        -webkit-transform: scale(0.9);
+    }
+
+    /* qna 확인 섹션 */
+    #qnas_section {
+        width: 100%;
+    }
+
+    /* qna 제목 */
+    #qnas_title_text1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 5.8rem;
+    }
+    #qnas_title_text2 {
+        width: 17.8rem;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: normal;
+        line-height: 1.55;
+        margin: 1rem auto;
+        margin-bottom: 0;
+        color: var(--brown-grey);
+    }
+
+    #qnas_contents {
+        width: 100%;
+        margin-top: 1.7rem;
+        height: 25.7rem;
+        padding: 1.4rem 1.8rem;
+    }
+
+    /* [qna 없는 경우] */
+    #qnas_not_exist_box {
+        margin: 11.5rem auto;
+    }
+    #qnas_redirect_a {
+        width: 13rem;
+        margin-top: 1rem;
+    }
+    #qnas_redirect_btn {
+        font-size: 1.1rem;
+        width: 13rem;
+        height: 2.2rem;
+        text-align: center;
+    }
+
+    /* [qna 있는 경우] */
+    #qna_box {
+        margin-top: 1.6rem;
+    }
+    #qna_box:nth-child(1) {
+        margin-top: 0;
+    }
+    #qna_date {
+        font-size: 1.3rem;
+        line-height: 1.54;
+        margin-top: 1.6rem;
+    }
+    #qna_date:nth-child(1) {
+        margin-top: 0;
+    }
+    #q_box > div:nth-child(1),
+    #a_box > div:nth-child(2) {
+        font-size: 1.3rem;
+        line-height: 1.54;
+    }
+    #q_box > div:nth-child(1) {
+        margin-right: 0.9rem;
+    }
+    #a_box > div:nth-child(2) {
+        margin-left: 1.2rem;
+    }
+    #q_detail,
+    #a_detail {
+        width: 24.3rem;
+        height: 100%;
+        font-size: 1.1rem;
+        font-weight: normal;
+        line-height: 1.45;
+        margin: 0;
+        margin-top: 1.1rem;
+        color: #707070;
+        padding: 1rem 1.5rem 1rem 1.6rem;
+    }
+    #see_more {
+        margin-top: 0.5rem;
+        margin-left: auto;
+        font-weight: 300;
+        font-size: 1rem;
+        -webkit-transform: scale(0.8);
+    }
+}

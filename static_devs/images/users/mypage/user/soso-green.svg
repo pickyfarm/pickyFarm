@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #5c6854;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+  <g id="그룹_913" data-name="그룹 913" transform="translate(1.378 1.081)">
+    <ellipse id="타원_202" data-name="타원 202" class="cls-1" cx="11" cy="11.5" rx="11" ry="11.5" transform="translate(-0.378 -0.081)"/>
+    <circle id="타원_203" data-name="타원 203" class="cls-1" cx="1.644" cy="1.644" r="1.644" transform="translate(4.603 6.783)"/>
+    <circle id="타원_204" data-name="타원 204" class="cls-1" cx="1.644" cy="1.644" r="1.644" transform="translate(12.79 6.783)"/>
+    <line id="선_78" data-name="선 78" class="cls-2" x2="11.499" transform="translate(4.587 14.03)"/>
+  </g>
+</svg>

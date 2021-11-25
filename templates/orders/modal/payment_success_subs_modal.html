@@ -1,0 +1,26 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/orders/modal/payment_success_subs_modal.css' %}">
+
+<section class="modal-wrap">
+    <h1 id="modal-title">구독하기를 통해<br>농가를 응원해주세요!</h1>
+    {% if count == 1 %}
+    {% for farmer in farmers %}
+    <img src="{{farmer.farmer_profile.url}}" alt="{{farmer.farm_name}}" class="farmer-profile-img farmer-single">
+    <h2 class="farm-name farm-name-single">{{farmer.farm_name}}</h2>
+    {% endfor %}
+    {% else %}
+    <div id="farmer-list-wrap">
+        {% for farmer in farmers %}
+        <div class="farmer-item-wrap">
+            <img src="{{farmer.farmer_profile.url}}" alt="{{farmer.farm_name}}" class="farmer-profile-img farmer-many">
+            <h2 class="farm-name farm-name-many">{{farmer.farm_name}}</h2>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <p id="modal-desc">
+        농가의 일상 소식과<br>
+        새상품 업로드 알림을 받으실 수 있어요!
+    </p>
+</section>

@@ -1,0 +1,220 @@
+{% extends "users/mypage_base.html" %}
+{% load static %}
+{% block stylesheet_detail %}
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_wishes.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_wishes_mobile.css' %}">
+{% endblock stylesheet_detail %}
+
+{% block content %}
+
+{% if wishes.exists is False %}
+<div class="mt-14 flex flex-col justify-center items-center" id="before_wish">
+    <div>
+      아직 찜한 무난이가 없습니다
+    </div>
+    <a id="redirect_a" href="{% url 'products:store_list' %}">
+      <div id="redirect_btn">무난이 구매하러 가기</div>
+    </a>
+  </div>
+{% else %}
+
+    
+<div id="filter-section" class="flex flex-row">
+    <div>
+        <input id="total-select" type="checkbox">
+    </div>
+    <div>
+        전체 상품 선택
+    </div>
+</div>
+<div id="products-section" class="mt-5">
+
+    {% for wish in wishes %}
+    <div class="flex flex-row">
+        <div id="select-section" class="mt-12 pr-8">
+            <input id="select-checkbox-{{wish.product.pk}}" name="{{wish.product.pk}}" type="checkbox">
+        </div>
+        <div id="product" class="flex flex-row mb-5">
+            <div id="product_img_section" class="w-1/5">
+                <img id="product_img" src="{{wish.product.main_image.url}}">
+            </div>
+            <div class="w-3/5 mt-5">
+                <div class="flex flex-row">
+                    <div id="product_title">{{wish.product.title}}</div>
+                    <div id="slash">|</div>
+                    <div id="product_farm_name">{{wish.product.farmer.farm_name}}</div>    
+                </div>
+                <div class="flex flex-row mt-2"> 
+                    <div id="product_weight">{{wish.product.weight}}g <span>/</span> </div>
+                    <div id="product_price"> {{wish.product.sell_price}}원</div>
+
+                </div>
+
+                <div class="flex flex-row"></div>
+            </div>
+            <div id="cart-button-section" class="w-1/5 mt-4 pl-8">
+                <a href="{% url 'products:product_detail' wish.product.pk %}">
+                    <div id="see-product-btn" class="mb-3 ml-5">무난이 보기</div>
+                </a>
+                <button id="cartIn_btn" name="{{wish.product.pk}}">장바구니 담기</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+
+<div id="controll-section">
+    <div class="flex justify-left">
+            <div id="delete_btn" class="transition_element">삭제하기</div>
+    </div>
+</div>
+<div id="controll-section2">
+    <div id="paginator" class="flex flex-row justify-center">
+        {% for p in total_pages %}
+        {% if p == page %}
+        <a href='?page={{p}}'>
+            <div id="page_btn_sel" value="{{page}}">{{p}}</div>
+        </a>
+        {% else %}
+        <a href='?page={{p}}'>
+            <div id="page_btn" value="{{page}}">{{p}}</div>
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endif %}
+
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+<script>
+
+    let menuBtns = []
+    menuBtns.push(document.getElementById('menu_carts'))
+    menuBtns.push(document.getElementById('menu_boughts'))
+    menuBtns.push(document.getElementById('menu_deliveries'))
+    menuBtns.push(document.getElementById('menu_infos'))
+ 
+
+    $('#menu_likes').css({
+        "background-color": "#5c6754",
+        "color": "white",
+    })
+
+    // 모바일에서 메뉴 선택
+    if (window.matchMedia("(max-width: 768px)").matches) {
+        document.getElementById('menu_likes').classList.add('selected');
+        document.getElementById('selected_line').style.gridArea= "line2";
+    }
+
+    menuBtns.forEach(item => {
+        item.addEventListener('mouseover', function () {
+            $(this).css({
+                "background-color": "#5c6754",
+                "color": "white",
+
+            })
+        })
+        item.addEventListener('mouseout', function () {
+            $(this).css({
+                "background-color": "white",
+                "color": "#5c6754"
+            })
+        })
+    })
+
+    let cartInbtns = document.querySelectorAll('#cartIn_btn')
+    console.log(cartInbtns)
+    cartInbtns.forEach(item => {
+        item.addEventListener('click', function () {
+            let pk = item.getAttribute('name')
+            console.log(pk);
+            cartIn(pk)
+        })
+    })
+
+    let totalSelector = document.getElementById('total-select')
+    let selectors = document.querySelectorAll('[id^="select-checkbox"]')
+    console.log(selectors)
+
+    totalSelector.addEventListener('click', function () {
+        if (totalSelector.checked == true) {
+            selectors.forEach(item => {
+                if (item.checked == false) {
+                    item.checked = true
+                }
+            })
+        }
+        else{
+            selectors.forEach(item=>{
+                if(item.checked == true){
+                    item.checked = false
+                }
+            })
+        }
+    })
+
+    selectors.forEach(item=>{
+        item.addEventListener('click', function(){
+            if(totalSelector.checked == true && item.checked == false){
+            totalSelector.checked = false
+            }
+            if(totalSelector.checked == false && item.checked == true){
+                let cnt = 0
+                selectors.forEach(item=>{
+                    if(item.checked == true)
+                        cnt+=1
+                })
+                if(cnt == selectors.length){
+                    totalSelector.checked = true
+                }
+            }
+        })
+    })
+
+    let deleteBtn = document.getElementById('delete_btn')
+    console.log(deleteBtn)
+
+    deleteBtn.addEventListener('click', function (){
+        let products = []
+        selectors.forEach(item => {
+            if (item.checked == true) {
+                let pk = item.getAttribute('name')
+                console.log(pk)
+                products.push(pk)
+            }
+        })
+
+        // 삭제할 상품 checkbox를 아무것도 선택하지 않았을 경우
+        if (products.length == 0) {
+            shootToastMessage("삭제할 무난이를 선택해주세요!", '2', "alert")
+            return
+        }
+        data = {
+            'pkList': products,
+            "csrfmiddlewaretoken": "{{csrf_token}}"
+        }
+        console.log(data.pkList)
+        $.ajax({
+            type: "POST",
+            url: "{% url 'users:cancelWish' %}",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+                //Toast Msg 노출의 문제 있음
+                if (response.success == true){
+                    shootToastMessage("무난이를 삭제하였습니다")
+                    window.location.reload()
+                }
+                    
+            }
+        })
+    })
+
+</script>
+
+{% endblock content %}
+

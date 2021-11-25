@@ -1,0 +1,289 @@
+{% extends "users/mypage_base.html" %}
+{% load static %}
+{% block stylesheet_detail %}
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders.css' %}">
+<link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders_mobile.css' %}">
+{% endblock stylesheet_detail %}
+
+
+
+{% block content %}
+{% if order_details_exist == 0 %}
+<div class="mt-14 flex flex-col justify-center items-center" id="before_order">
+  <div>
+    아직 구매한 무난이가 없습니다
+  </div>
+  <a id="redirect_a" href="{% url 'products:store_list' %}">
+    <div id="redirect_btn">무난이 구매하러 가기</div>
+  </a>
+</div>
+{% endif %}
+{% if order_details_exist != 0 %}
+<!-- <form method="GET">
+  <div id="filter" class="flex flex-row">
+    <div id="filter-6month" class="transition_element">최근 6개월</div>
+    <input id="filter-start-date" type="date" name="s_date" value="{{start_date}}">
+    <div id="filter-until">~</div>
+    <input id="filter-end-date" type="date" name="e_date" value="{{end_date}}">
+    <button id="filter-submit" type="submit">
+      <span>조회</span>
+      <img id="filter-submit-icon" src="/static/images/users/search.svg" alt="조회 아이콘">
+    </button>
+
+  </div>
+</form> -->
+<div id="products-section" class="mt-5">
+  {% for detail in order_details %}
+  <div id="product" class="flex flex-row mb-5">
+    <div class="w-2/12">
+      <img id="product_img" src="{{detail.product.main_image.url}}">
+    </div>
+    <div id="product-contents" class="w-6/12">
+      <div id="product_order_at2">{{detail.order_group.order_at | date}} 주문</div>
+      <div class="flex flex-row">
+        <div id="product_title">
+          {% if detail.product.title|length > 16 %}
+          {{detail.product.title|slice:"16"}}..
+          {% else %}
+          {{detail.product.title}}
+          {% endif %}
+        </div>
+        <div id="slash">|</div>
+        <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
+
+      </div>
+      <div class="flex flex-row">
+        <div id="product_price">{{detail.total_price}}원</div>
+        <div id="product_quantity">{{detail.quantity}}개</div>
+      </div>
+      <div class="flex flex-row" id="delivery_status">
+
+        {% if detail.status == 'preparing' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/preparing.svg' %}" alt="배송 준비 중 아이콘">
+        <div>배송 준비 중</div>
+        {% elif detail.status == 'shipping' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/delivering.svg' %}" alt="배송중 아이콘">
+        <div>배송중</div>
+        {% elif detail.status == 'delivery_complete' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/complete.svg' %}" alt="배송 완료 아이콘">
+        <div>배송 완료</div>
+        {% elif detail.status == 'cancel' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>주문 취소</div>
+        {% elif detail.status == 're_recept' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불 접수</div>
+        {% elif detail.status == 'ex_recept' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>교환 접수</div>
+        {% elif detail.status == 're_ex_approve' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불/교환 승인</div>
+        {% elif detail.status == 're_ex_deny' %}
+        <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+        <div>환불/교환 거절</div>
+        {% elif detail.status == 'wait' and detail.order_group.status == 'wait_vbank' %}
+        <div>입금 대기</div>
+        {% endif %}
+
+      </div>
+      <div class="flex flex-row"></div>
+    </div>
+    <div id="buttons-section" class="flex flex-col justify-center w-4/12 pl-6 pt-2">
+      <div id="cart-button-section" class="flex justify-end items-center w-2/12">
+        <div id="cartIn_btn" name="{{detail.product.pk}}" class="transition_element">장바구니 담기</div>
+      </div>
+
+      <div id="other-button-section" class="flex flex-col">
+
+        <div id="see-product-btn" class="transition_element">
+          <a href="{% url 'products:product_detail' detail.product.pk %}">
+            무난이 보기
+          </a>
+        </div>
+
+        {% if detail.status == 'delivery_complete' %}
+        {% if not detail.product_comments %}
+        <!-- <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> -->
+        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
+          <a>
+            리뷰 쓰기
+          </a>
+        </div>
+        {% else %}
+        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_detail' detail.product_comments.pk %}', '', 'height=700 width=375')">
+          <a>
+            리뷰 보기
+          </a>
+        </div>
+        {% endif %}
+        {% endif %}
+
+        {% if detail.status == 'delivery_complete' %}
+        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'orders:change_refund' detail.pk %}')">
+          <a>
+            환불/반품
+          </a>
+        </div>
+        {% endif %}
+
+
+        {% if detail.status == 'payment_complete' or detail.status == 'preparing' %}
+        <div id="cancel-order-btn" class="transition_element" onclick="window.open('{% url 'orders:payment_cancel' detail.pk %}')">
+          <a>
+            주문 취소
+          </a>
+        </div>
+        {% endif %}
+
+        {% if detail.status == 'wait' and detail.order_group.status == 'wait_vbank' %}
+        <div id="vbank_confirm_btn" class="transition_element" onclick="window.open('{% url 'user:vbank_account_confirm' detail.order_group.pk %}')">
+          <a>가상계좌 확인</a>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <!-- pagination section -->
+  <div class="flex justify-between w-36 mx-auto mt-8">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    {% if order_details.has_previous %}
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{order_details.previous_page_number}}' style="cursor: pointer">
+    {% else %}
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    {% endif %}
+
+    <div>{{order_details.number}}</div>
+    <div>/</div>
+    <div>{{order_details.paginator.num_pages}}</div>
+
+    {% if order_details.has_next %}
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{order_details.next_page_number}}' style="cursor: pointer">
+    {% else %}
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{order_details.paginator.num_pages}}' style="cursor: pointer">
+    {% endif %}
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{order_details.paginator.num_pages}}' style="cursor: pointer">
+  </div>
+</div>
+
+{% endif %}
+<script>
+
+
+  let menuBtns = []
+  menuBtns.push(document.getElementById('menu_carts'))
+  menuBtns.push(document.getElementById('menu_likes'))
+  menuBtns.push(document.getElementById('menu_deliveries'))
+  menuBtns.push(document.getElementById('menu_infos'))
+  console.l
+
+  $('#menu_boughts').css({
+    "background-color": "#5c6754",
+    "color": "white",
+  })
+
+  // 모바일에서 메뉴 선택
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    document.getElementById('menu_boughts').classList.add('selected');
+    document.getElementById('selected_line').style.gridArea = "line1";
+  }
+
+  menuBtns.forEach(item => {
+    item.addEventListener('mouseover', function () {
+      $(this).css({
+        "background-color": "#5c6754",
+        "color": "white",
+
+      })
+    })
+    item.addEventListener('mouseout', function () {
+      $(this).css({
+        "background-color": "white",
+        "color": "#5c6754"
+      })
+    })
+  })
+
+  let cartInbtns = document.querySelectorAll('#cartIn_btn')
+  console.log(cartInbtns)
+  cartInbtns.forEach(item => {
+    item.addEventListener('click', function () {
+      let pk = item.getAttribute('name')
+      console.log(pk);
+      cartIn(pk)
+    })
+  })
+
+  let filter6Month = document.getElementById('filter-6month')
+
+  filter6Month.addEventListener('click', function () {
+    let sDateInput = document.getElementById('filter-start-date')
+    let eDateInput = document.getElementById('filter-end-date')
+    let submitBtn = document.getElementById('filter-submit')
+    const now = new Date()
+    console.log(now)
+
+    let nowMonth = now.getMonth() + 1
+    console.log(nowMonth)
+
+    let startMonth = nowMonth - 6
+    let year = now.getFullYear()
+    let startYear = year
+    if (startMonth <= 0) {
+      if (startMonth == 0) {
+        startMonth = 12
+        startYear -= 1
+      }
+      else {
+        startMonth = 12 + startMonth + 1
+        startYear -= 1
+      }
+    }
+    if (startMonth < 10)
+      startMonth = '0' + startMonth
+
+    startDate = startYear + '-' + startMonth + '-01'
+    console.log(startDate)
+
+    sDateInput.setAttribute('value', startDate)
+
+    nowDate = now.getDate()
+    if (nowDate < 10)
+      nowDate = '0' + nowDate
+
+    if (nowMonth < 10)
+      nowMonth = '0' + nowMonth
+
+    endDate = year + '-' + nowMonth + '-' + nowDate
+    console.log(endDate)
+    eDateInput.setAttribute('value', endDate)
+
+    submitBtn.click()
+
+  })
+
+  var popupX = (document.body.offsetWidth / 2) - (375 / 2);
+  var popupY = (window.screen.height / 2) - (600 / 2);
+  console.log(popupX)
+  console.log(popupY)
+
+  function productCommentPopup(pk) {
+    const detailpk = parseInt(pk);
+    {% for detail in order_details %}
+    if (detailpk === {{ detail.pk }
+  } ) {
+    window.open("{% url 'user:product_comment_create' detail.pk %}", '', 'height=600, width=375, left=' + popupX + ', top=' + popupY);
+  }
+  {% endfor %}
+    }
+</script>
+<script defer src="{% static 'js/users/mypage/user/mypage_orders.js' %}"></script>
+<script>
+  PAGINATION_URL = 'orders-ajax/?page='
+  PAGINATION_SECTION = '#products-section'
+</script>
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>
+
+{% endblock content %}

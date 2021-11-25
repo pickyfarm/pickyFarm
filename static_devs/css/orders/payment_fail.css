@@ -1,0 +1,77 @@
+.fail-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fail-title {
+    font-size: 30px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5c6754;
+    width: 198px;
+    height: 45px;
+    margin-bottom: 60px;
+}
+#fail-img {
+    width: 99.7px;
+    height: 86px;
+    margin: 0 auto;
+}
+
+.fail-ment {
+    width: 250px;
+    height: 34px;
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 2.61;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5c6754;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.fail-sub-content-2 {
+    width: 440px;
+    height: 140px;
+    margin: 31px 34.1px 80px 56.5px;
+    padding: 18px 24px 18px;
+    background-color: #f2f2f2;
+}
+
+.fail-sub-content-ments {
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5c6754;
+}
+
+#fail-return-button {
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: #5c6754;
+    font-size: 25px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+
+#fail-return-button:hover {
+    color: #5c6754;
+    background-color: #ffffff;
+    border: 2.5px solid #5c6754;
+    cursor: pointer;
+}

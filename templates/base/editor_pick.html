@@ -1,0 +1,89 @@
+{% load static %}
+
+<div class="editor-pick flex flex-col" style="background-color: #fafafa;">
+    <div class="title mt-20 text-3xl mx-auto font-semibold">에디터의 추천</div>
+    <div class="sub-title text-sm font-light mt-2 mx-auto">못난이 작물 이야기부터, 경험담까지 에디터가 직접 겪어보고 전해드립니다</div>
+
+    <div class="category flex justify-center mt-8">
+            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" id='all' src="{% static 'images/index/all_select.svg' %}" onmouseover=this.src = "{% static 'images/index/all_select.svg' %}"; alt=""></div>
+            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" id='fruit' src="{% static 'images/index/fruit.svg' %}" alt=""></div>
+            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" id='vege' src="{% static 'images/index/vege.svg' %}" alt=""></div>
+            <div class="mx-4 text-5xl font-light my-8"><img class="w-14" id='etc' src="{% static 'images/index/etc.svg' %}" alt=""></div>
+    </div>
+
+    <div class="pick-detail flex ml-auto mt-4">
+
+        <div class="img-area rounded-l-full bg-cover">
+            {% for review in editor_pick_list %}
+                <div class="bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url({{review.main_image.url}}); height: 350px;">
+                    <div class="ml-auto mr-8 text-area mt-12">
+                        <div class="text-2xl break-words font-bold text-white">{{review.title}}</div>
+                        <div class="mt-4 font-light text-gray-100">By editor1</div>
+                        <div class="my-12 break-words text-sm text-gray-100">{{review.get_preview}}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        
+    </div>
+</div>
+
+<style>
+
+    .slick-dots li button::before{
+        color:rgba(0, 0, 0, 0) !important;
+        border: solid 1px #5c6754 !important;
+        border-radius: 100%;
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+    .slick-dots li.slick-active button::before{
+        background-color: #5c6754 !important;
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+
+    .sub-title{
+        color:#999999;
+    }
+
+    .category-button, .more-button{
+        background-color: #005600;
+    }
+
+    .cat{
+        color: #97b297;
+    }
+
+    .img-area{
+        width: 85vw;
+        height: 350px;
+    }
+
+    .img-area > div{
+        border-top-left-radius: 9999px;
+        border-bottom-left-radius: 9999px;
+    }
+
+    .text-area{
+        width: 300px;
+    }
+
+    .img-area .slick-dots{
+        padding-top:30px;
+    }
+
+</style>
+
+<script>
+    $(function(){
+            $('.img-area').slick({
+                dots: true,
+                arrows: false,
+            });
+        });
+</script>
+

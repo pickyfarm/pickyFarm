@@ -1,0 +1,42 @@
+{% load static %}
+<div class="flex flex-row justify-center mb-12">
+    {% for product in products %}
+    <a href="{% url 'products:product_detail' product.pk %}">
+        <div id="product_wrap" class="mx-4">
+            <img src="{{ product.main_image.url }}" alt="" class="mb-4" id="product_img">
+            <div class="font-light" id="product_title">{{ product.title }}</div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% if products.count <= 3 %}
+<div class="h-10 mb-48">
+</div>
+{% else %}
+<!-- pagination section -->
+<div class="flex justify-between w-36 mx-auto mt-8 mb-20">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    {% if products.has_previous %}
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{products.previous_page_number}}' style="cursor: pointer">
+    {% else %}
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
+    {% endif %}
+
+    <div>{{products.number}}</div>
+    <div>/</div>
+    <div>{{products.paginator.num_pages}}</div>
+
+    {% if products.has_next %}
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{products.next_page_number}}' style="cursor: pointer">
+    {% else %}
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{products.paginator.num_pages}}' style="cursor: pointer">
+    {% endif %}
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{products.paginator.num_pages}}' style="cursor: pointer">
+</div>
+{% endif %}
+
+<script>
+    PAGINATION_URL = 'products_ajax/?page='
+    PAGINATION_SECTION = '#products-section'
+</script>
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>

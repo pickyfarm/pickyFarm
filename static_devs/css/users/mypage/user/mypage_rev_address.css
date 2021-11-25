@@ -1,0 +1,95 @@
+/* ***********배송지 정보 수정************ */
+
+#contents-container{
+    margin-left:130px;
+  }
+  
+  #not-register{
+    margin-top:80px;
+  }
+  
+  #index-section{
+    font-family: NotoSansKR;
+    font-size: 15px;
+    text-align: left;
+    color: #5c6754;
+    margin-top:57px;
+    text-align: center;
+  }
+  
+  #index-title-section{
+    width:97%;
+    border-bottom: solid 0.5px #b3b3b3;
+    padding-bottom : 15px;
+  }
+  
+  #addr-section{
+    width:97%;
+    margin-top:40px;
+  }
+  
+  #addr{
+    width:100%;
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+    margin-bottom:35px;
+  }
+  
+  #modify{
+    width:15px;
+  }
+  
+  #del-btn-section{
+    width:68.1px;
+  
+  }
+  
+  #delete{
+    width:15px;
+    cursor: pointer;
+  }
+  
+  #top-btn-section>:nth-child(1){
+    
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #707070;
+  }
+  
+  #top-btn-section>:nth-child(2){
+    width: 147px;
+    height: 30px;
+    padding: 4px 28px 4px 30px;
+    border-radius: 15px;
+    background-color: #5c6754;
+    font-family: NotoSansKR;
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    cursor: pointer;
+    margin-left:300px;
+  }
+  
+  #top-btn-section>:nth-child(2):hover{
+    background-color: #ffffff;
+    color: #5c6754;
+    border: solid 1px #5c6754;
+  }
+  

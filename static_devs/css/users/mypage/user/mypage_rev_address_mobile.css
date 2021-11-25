@@ -1,0 +1,91 @@
+@import 'base/mobile_base_style.css';
+@import 'user/mypage_base_mobile.css';
+
+@media screen and (max-width: 768px){
+    /* base setting */
+    #main {
+        width: 100%;
+        padding: 0 2.5rem;
+    }  
+    #main > div{
+        width: 100%;
+    }
+    #contents-container {
+        margin-left: 0;
+    }
+    #content,
+    #middle-section {
+        width: 100%;
+    }
+
+    /* top btn section */
+    #top-btn-section {
+        margin-top: 2.15rem;
+        justify-content: space-between;
+    }
+    #top-btn-section>:nth-child(2) {
+        margin-left: 0;
+        width: 8.73rem;
+        height: 2rem;
+        border-radius: 1rem;
+        background-color: #5e6656;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* index section */    
+    #index-title-section > div:nth-child(1),
+    #addr > div:nth-child(1) {
+        width: 76%;
+    }
+    #index-title-section > div:nth-child(2),
+    #index-title-section > div:nth-child(3),
+    #addr > div:nth-child(2),
+    #addr > div:nth-child(3) {
+        width: 12%;
+    }
+    #index-section,
+    #rev-address-section {
+        justify-content: center;
+    }
+    #index-title-section {
+        padding-bottom: 0.85rem;
+        width: 94%;
+    }
+    #addr-section {
+        margin-top: 1.85rem;
+        width: 94%;
+    }
+    #addr {
+        margin-bottom: 1.8rem;
+        align-items: center;
+    }
+    #modify {
+        width: 0.71rem;
+        height: 1.03rem;
+    }
+    #delete {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    /* font setting */
+    #top-btn-section>:nth-child(1) {
+        font-size: 1.1rem;
+    }    
+    #add-rev-address-btn {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }    
+    #index-title-section > div {
+        font-size: 1.2rem;
+        color: #5c6754;
+    }    
+    #addr > div {
+        font-size: 1.1rem;
+        font-weight: lighter;
+        color: #000000;
+    }        
+}

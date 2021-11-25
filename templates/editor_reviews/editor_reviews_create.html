@@ -1,0 +1,71 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_create.css' %}">
+<script>
+
+</script>
+{% endblock stylesheet %}
+{% block main_content %}
+<div class="main-contents flex justify-center lg:mx-20 sm:mx-3 bg-white-400 text-center font-4xl" id="main">
+    <div class="flex flex-col justify-center items-center">
+        <div id="icon_section">
+            <img id="icon" class="mx-auto" src="{% static 'images/editors_review/pen_icon.svg' %}">
+        </div>
+        <form class="mx-auto" action="{% url 'editor_reviews:create' %}" method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.media}}
+            <div class="flex flex-col items-center">
+                <div id="post_category_section" class="flex flex-row">
+                    <div>{{form.post_category.label_tag}}</div>
+                    <div>{{form.post_category}}</div>
+                </div>
+
+                <div id="title_section" class="flex flex-row items-start">
+                    <div>{{form.title.label_tag}}</div>
+                    <div>{{form.title}}</div>
+                </div>
+
+                <div id="sub_title_section" class="flex flex-row items-start">
+                    <div>{{form.sub_title.label_tag}}</div>
+                    <div>{{form.sub_title}}</div>
+                </div>
+
+                <div id="main_image_section" class="flex flex-row items-start">
+                    <div>{{form.main_image.label_tag}}</div>
+                    <div>{{form.main_image}}</div>
+                </div>
+
+                <div id="contents_section">
+                    {{form.contents}}
+                </div>
+
+                <div id="products_section" class="flex flex-col items-start">
+                    <div>{{form.product.label_tag}}</div>
+                    <div>{{form.product}}</div>
+                </div>
+
+                <div id="farms_section" class="flex flex-row items-start">
+                    <div>{{form.farm.label_tag}}</div>
+                    <div>{{form.farm}}</div>
+                </div>
+            </div>
+            <img class="mx-auto" src="{% static 'images/editors_review/submit_icon.svg' %}">
+            <button id="submit_btn" type="submit">등록하기</button>
+        </form>
+    </div>
+
+</div>
+
+<script defer type="text/javascript">
+    var checkUnload = true;
+    $(window).on('beforeunload', function () {
+        if (checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+    });
+    $("#write").on("click", function () {
+        checkUnload = false;
+        $("submit").submit();
+    });
+</script>
+{% endblock main_content %}

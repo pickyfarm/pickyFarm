@@ -1,0 +1,753 @@
+#product_content {
+    width: 990px;
+    margin-top: 100px;
+}
+
+#main_image {
+    width: 395px;
+    height: 520px;
+    object-fit: cover;
+}
+
+#images {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#farm_news_letter {
+    font-size: 15px;
+    letter-spacing: normal;
+}
+
+#product-option {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#product-option:focus {
+    outline: none;
+}
+
+#farm_news {
+    width: 395px;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d4d4d;
+    border-radius: 68px;
+    border: solid 2px #5e6656;
+    background-color: #ffffff;
+}
+
+#tags {
+    margin-bottom: 10px;
+}
+
+#ugly_tag {
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffff;
+    background-color: #5c6754;
+    border: solid 1px #5c6754;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    padding: 2px 9px 2px 8px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+#normal_tag {
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5c6754;
+    border: solid 1px #5c6754;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    padding: 2px 15px 2px 14px;
+    cursor: pointer;
+}
+
+#title {
+    font-size: 35px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
+
+#subtitle {
+    font-size: 20px;
+    font-weight: normal;
+
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d4d4d;
+}
+
+#url_copy {
+    font-size: 10px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5c6754;
+    border-radius: 27.6px;
+    border: solid 1px #5e6656;
+    margin-right: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+#cost {
+    font-size: 40px;
+    font-weight: 500;
+
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.28;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+    border-bottom: solid 1.7px #005413;
+}
+
+#farmer_img {
+    width: 53px;
+    height: 53px;
+
+    border-radius: 999%;
+    border: solid 2px #5e6656;
+    object-fit: cover;
+}
+
+#consumer_img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border: solid 2px #5e6656;
+    border-radius: 50%;
+}
+
+#reviewer_img {
+    width: 78px;
+    height: 78px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#farm_name {
+    font-size: 15px;
+
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
+
+#visit {
+    font-size: 15px;
+    font-weight: 500;
+
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    padding: 1.5px 10.5px 0.7px 10.5px;
+    border-radius: 27.6px;
+    background-color: #5e6656;
+}
+
+#visit:hover {
+    font-size: 15px;
+    font-weight: 500;
+
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    padding: 1.5px 10.5px 0.7px 10.5px;
+    border-radius: 27.6px;
+    background-color: #005413;
+}
+
+#sub {
+    font-size: 15px;
+    font-weight: 500;
+
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    padding: 1.5px 10.5px 0.7px 10.5px;
+    border-radius: 27.6px;
+    background-color: #5e6656;
+    cursor: pointer;
+}
+
+#sub:hover {
+    font-size: 15px;
+    font-weight: 500;
+
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    padding: 1.5px 10.5px 0.7px 10.5px;
+    border-radius: 27.6px;
+    background-color: #005413;
+    cursor: pointer;
+}
+
+#info_t {
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: left;
+    color: #000000;
+}
+
+#info_c {
+    width: 346px;
+    height: 22px;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: left;
+    color: #000000;
+}
+
+#shipping-fee {
+    width: 346px;
+    height: 22px;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: left;
+    color: #000000;
+}
+
+#shipping-fee-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: left;
+    color: #5c6854;
+    margin-left: 102px;
+}
+
+#product-weight {
+    width: 346px;
+    height: 22px;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: left;
+    color: #000000;
+}
+
+#farmer_name {
+    font-size: 19px;
+    line-height: 1.2;
+    text-align: left;
+    color: #000000;
+}
+
+#quantity_letter {
+    font-size: 15px;
+}
+
+#quantity_num_section {
+    margin-left: 100px;
+}
+
+#plus_btn,
+#minus_btn {
+    width: 35px;
+    height: 35px;
+    padding: 10px 12.3px 10.6px 12.7px;
+    background-color: #d9d9d9;
+    font-family: YDIYGO330;
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: center;
+    color: #005413;
+    cursor: pointer;
+}
+
+#quantity_number {
+    width: 60px;
+    height: 35px;
+    padding-top: 8px;
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: center;
+    color: #000000;
+    border-top: solid 1px #d9d9d9;
+    border-bottom: solid 1px #d9d9d9;
+}
+
+#total_price_letter {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: left;
+    color: #000000;
+}
+
+#cost {
+}
+
+#total_price {
+    font-size: 67.9px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: left;
+    color: #000000;
+}
+
+#won {
+    font-size: 35px;
+    line-height: 1.2;
+    text-align: left;
+    color: #000000;
+}
+
+#wish {
+    font-size: 15px;
+    font-weight: bold;
+    font-stretch: normal;
+
+    font-style: normal;
+    line-height: 1.04;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5c6754;
+    padding: 16.5px 20px 16.7px 20px;
+    border-radius: 27.6px;
+    border: solid 3px #5c6754;
+    cursor: pointer;
+}
+
+#wish:hover {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.04;
+    text-align: left;
+    color: #ffffff;
+    background-color: #5c6754;
+    padding: 16.5px 20px 16.7px 20px;
+    border-radius: 27.6px;
+    border: solid 3px #5c6754;
+    transition: ease-in;
+    cursor: pointer;
+}
+
+#cart {
+    padding: 16.5px 14.5px 16.7px 15.5px;
+    border-radius: 27.6px;
+    border: solid 3px #5c6754;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.04;
+    text-align: left;
+    color: #5c6754;
+    cursor: pointer;
+}
+
+#cart:hover {
+    padding: 16.5px 14.5px 16.7px 15.5px;
+    border-radius: 27.6px;
+    border: solid 3px #5c6754;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.04;
+    text-align: left;
+    color: #ffffff;
+    background-color: #5c6754;
+    transition: ease-in;
+    cursor: pointer;
+}
+
+#purchase {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 0.9;
+    text-align: left;
+    color: #ffffff;
+    padding: 15px 55px 12.7px 58px;
+    border-radius: 27.6px;
+    border: solid 3px #5c6754;
+    background-color: #5c6754;
+    cursor: pointer;
+}
+
+#logo {
+    margin-bottom: 30px;
+}
+
+#desc_img_box {
+}
+
+#desc_img {
+    width: 990px;
+}
+
+#farmer-site-link-wrap {
+    width: 990px;
+    height: 200px;
+    background-color: #b3c1ad;
+}
+
+#farmer-site-link-button {
+    width: 400px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 9999px;
+    box-shadow: 0 3px 6px 0 rgb(58 80 42 / 48%);
+    background-color: #465144;
+    font-size: 19px;
+    font-weight: 500;
+    text-align: center;
+    color: #f4f6e8;
+}
+
+#sel {
+    font-weight: 300;
+    font-stretch: normal;
+
+    font-style: normal;
+    letter-spacing: normal;
+    color: #000000;
+    background-color: #ffffffff;
+}
+
+#n_sel {
+    font-weight: 300;
+    font-stretch: normal;
+
+    font-style: normal;
+    letter-spacing: normal;
+    color: #000000;
+    background-color: #fafafa;
+}
+
+#n_sel:hover {
+    font-weight: 300;
+    font-stretch: normal;
+
+    font-style: normal;
+    letter-spacing: normal;
+    color: #000000;
+    background-color: #ffffff;
+    transition: ease-in;
+}
+
+#info_detail {
+    font-size: 15px;
+    color: #000000;
+    width: 990px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#info_detail > div:nth-child(odd) {
+    text-align: left;
+    padding: 20px 20px 20px 20px;
+    background-color: #f2f2f2;
+}
+
+#info_detail > div:nth-child(even) {
+    text-align: left;
+    padding: 20px 20px 20px 20px;
+}
+
+#question_content {
+    width: 990px;
+}
+
+#q_title {
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.66;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5c6754;
+}
+
+#q_count {
+    font-size: 15px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #5c6754;
+}
+
+#q_desc {
+    font-size: 15px;
+
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+    padding-top: 2px;
+}
+
+#q_table_top {
+    border-top: solid 3px #5e6656;
+    border-bottom: solid 1px #5e6656;
+}
+
+#q_table_bottom {
+    border-bottom: solid 1px #5e6656;
+}
+
+#q_letter_gray {
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    color: #999999;
+}
+
+#q_letter_black {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 4.43;
+    text-align: center;
+    color: black;
+}
+
+#q_letter_answered {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 4.43;
+    text-align: center;
+    color: #004818;
+}
+
+#q_write {
+    width: 110px;
+    height: 36px;
+    font-size: 15px;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 24px;
+    background-color: #5c6754;
+    padding: 7px 0;
+    margin-bottom: 70px;
+}
+
+#q_write > img {
+    width: 15px;
+    margin-left: 3px;
+}
+
+#paginator {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.62;
+    text-align: left;
+    color: #b3b3b3;
+}
+
+div {
+    padding: 0;
+    margin: 0;
+}
+
+/* ------------------------------- */
+#review {
+    height: 425px;
+    background-color: rgb(238, 236, 230);
+}
+
+#percent {
+    font-size: 15px;
+    font-weight: 500;
+    color: #5c6754;
+}
+
+#score_title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #5c6754;
+}
+
+#fresh div,
+#taste div,
+#price div {
+    font-size: 13px;
+    font-weight: 500;
+    color: #5c6754;
+}
+
+#comment_list {
+    margin-top: 72px;
+    width: 990px;
+}
+
+#score_range_wrap {
+    border: 1px solid #5e6656;
+    border-radius: 4px;
+    width: 190px;
+}
+
+#score_range {
+    position: relative;
+    width: 95px;
+    height: 5px;
+    border-radius: 4px;
+    background-color: #5c6754;
+}
+#end_point {
+    position: absolute;
+    right: -5px;
+    top: -2px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #5c6754;
+}
+
+#stars {
+    width: 180px;
+    overflow: hidden;
+}
+
+/* review score_table */
+#score_table_wrap {
+    width: 720px;
+    margin-left: 102px;
+}
+
+#score_table {
+    width: 720px;
+    border: 1px solid #707070;
+}
+
+#score_table td {
+    width: 33%;
+    border: 1px solid #707070;
+}
+
+/* comment section */
+#id_text {
+    width: 610px;
+    height: 35px;
+    border-radius: 38px;
+    border: solid 1px #b3b3b3;
+    background-color: #ffffff;
+    resize: none;
+    padding: 3px 10px;
+    outline: none;
+}
+
+#review_txt,
+#review_imgs {
+    margin-left: 102px;
+}
+#review_img {
+    margin-right: 44px;
+}
+
+#review_comment {
+    width: 880px;
+    margin-left: 102px;
+}
+
+#rec_submit {
+    width: 100px;
+    height: 35px;
+    border-radius: 38px;
+    border: solid 1px #5c6854;
+    background-color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 7px 15px 6px;
+    color: #5c6754;
+}
+#rec_submit:hover {
+    transition-duration: 0.6s;
+    color: #fff;
+    background-color: #5c6754;
+}
+
+.rec_more {
+    width: 140px;
+    height: 36px;
+    /* margin-top:30px; */
+    /* padding: 7px 15px; */
+    border-radius: 24px;
+    background-color: #5c6754;
+    color: #fff;
+    outline: none;
+}
+
+#show_icon {
+    color: #fff;
+}
+
+.recomment_form {
+    width: 880px;
+    max-height: 500px;
+    overflow-y: scroll;
+    opacity: 0.7;
+    border-radius: 7px;
+    background-color: #e6e6e6;
+}
+
+.recomment_list:not(:last-child) {
+    border-bottom: solid 0.5px #5e6656;
+}
+
+.hide {
+    display: none;
+}
+
+.recomment-text-options {
+    height: 22px;
+}
+
+.comment-text-options--edit,
+.comment-text-options--delete,
+.comment-edit-cancel {
+    margin: auto 5px;
+    font-size: 15px;
+    font-weight: 300;
+    color: #707070;
+}
+
+#kakao-channel-icon {
+    display: none;
+}

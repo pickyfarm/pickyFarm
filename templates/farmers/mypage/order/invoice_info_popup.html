@@ -1,0 +1,166 @@
+<!doctype html>
+{% load static %}
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0'>
+    <link rel="stylesheet" href="{% static 'css/farmers/mypage/order/invoice_info_popup.css' %}" />
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>송장번호 입력</title>
+</head>
+
+<body>
+    {% if not avail %}
+    <div id="access-block-warp" class="flex">
+        <span>주문 확인 버튼을 눌러서 주문 상태를 변경 후 송장 번호를 입력할 수 있습니다.</span>
+        <span>카카오 알림톡의 경우 ) 주문 확인 버튼 클릭 -> 확인 완료 버튼 클릭</span>
+    </div>
+    {% else %}
+    <div class='popup_container flex'>
+        <div class='order-cancel-main-title'>송장번호 입력</div>
+        <div class='order-cancel-main-content-wrap'>
+            <div class='order-cancel-date'>{{order.update_at}}</div>
+            <div class='order-cancel-receipt-wrap'>
+                <div class='order-cancel-receipt-top-section'>
+                    <div class='order-cancel-number-wrap wrap_padding flex'>
+                        <span class='order-cancel-number-title'>주문번호</span>
+                        <span class='order-cancel-number-value'>{{order.order_management_number}}</span>
+                    </div>
+                    <div class='order-cancel-product-information-wrap wrap_padding'>
+                        <div class='order-cancel-product-information-title'>상품정보</div>
+                        <div class='order-cancel-product-information-contents-wrap'>
+                            {% for product in products %}
+                            <div class='order-cancel-product-information-content-wrap flex'>
+                                <div class='order-cancel-product-information-content-left-section'>
+                                    <img class='order-cancel-product-image' src="{{product.main_image.url}}">
+                                </div>
+                                <div class='order-cancel-product-information-content-right-section'>
+                                    <div class="order-confirm-product-tag">
+                                        {% if product.kinds == 'ugly' %}
+                                        <img src="{% static 'images/users/mypage/user/moonan_harvest_tag.svg' %}" alt="moonan_harvest_tag" />
+                                        {% else %}
+                                        <img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}" alt="normal_harvest_tag" />
+                                        {% endif %}
+                                    </div>
+                                    <div class='order-cancel-product-name'>{{product.title}}</div>
+                                    <div class='order-cancel-product-detail-wrap flex'>
+                                        <div class='order-cancel-product-weight'>{% widthratio order.quantity 1 product.weight %} {{product.weight_unit}}</div>
+                                        <div class='order-cancel-product-quantity'>{{order.quantity}}</div>
+                                        <div class='order-cancel-product-quantity-unit'>(개/박스)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            <!-- 일 작물 시작-->
+                            <!-- <div class='order-cancel-product-information-content-wrap flex'>
+                                <div class='order-cancel-product-information-content-left-section'>
+                                    <div class='order-cancel-product-image'>
+                                    </div>
+                                </div>
+                                <div class='order-cancel-product-information-content-right-section'>
+                                    <div class='order-cancel-product-tag'>
+                                        <img src="{% static 'images/users/mypage/user/normal_harvest_tag.svg' %}""" alt='moonan_harvest_tag'>
+                                    </div>
+                                    <div class='order-cancel-product-name'>못나지만 맛사과</div>
+                                    <div class='order-cancel-product-detail-wrap flex'>
+                                        <div class='order-cancel-product-weight'>8 kg</div>
+                                        <div class='order-cancel-product-quantity'>4</div>
+                                        <div class='order-cancel-product-quantity-unit'>(개/박스)</div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- 일반 작물 끝-->
+                        </div>
+                        <div class='border-line'></div>
+                        <div class='order-cancel-customer-wrap'>
+                            <div class='order-cancel-customer-title'>주문자 정보</div>
+                            <div class='order-cancel-customer-detail-wrap'>
+                                <div class='order-cancel-customer-detail-name-callnum-wrap flex'>
+                                    <div class='order-cancel-customer-detail-title'>이름 / 번호</div>
+                                    <div class='order-cancel-customer-detail-namecall-value-wrap flex'>
+                                        <div class='order-cancel-customer-detail-name'>{{order.order_group.rev_name}}</div>
+                                        <div class='order-cancel-customer-detail-callnum'>{{order.order_group.rev_phone_number}}</div>
+                                    </div>
+                                </div>
+                                <div class='order-cancel-customer-detail-address-wrap flex'>
+                                    <div class='order-cancel-customer-detail-title'>배송지</div>
+                                    <div class='order-cancel-customer-detail-address-value-wrap'>
+                                        <div class='order-cancel-customer-detail-address'>{{order.order_group.rev_address}}</div>
+                                        <div class='order-cancel-customer-detail-plus-wrap flex'>
+                                            <div class='order-cancel-customer-detail-delivery-place'>{{order.order_group.rev_loc_at}}</div>
+                                            <div class='order-cancel-customer-detail-door-password'>{{order.order_group.rev_message}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='order-cancel-customer-detail-request-message-wrap flex'>
+                                    <div class='order-cancel-customer-detail-title'>요청사항</div>
+                                    <div class='order-cancel-customer-detail-request-message'>{{order.order_group.to_farm_message}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='order-cancel-invoice-number-wrap'>
+                    <div class='order-cancel-invoice-number-title'>송장번호 입력</div>
+                    <form action='#' method='post'>
+                        {% csrf_token %}
+                        <div class='order-cancel-invoice-number-input-section wrap_padding'>
+                            <div class='order-cancel-invoice-place-wrap'>
+                                <label class='invoice-place-title' for="invoice-place-select">택배사</label>
+                                <select name='invoice-select' id='invoice-place-select'>
+                                    <option value='' disabled>택배사 선택</option>
+                                    <option {% if delivery_company == "CJ" %}selected{% endif %} value="CJ">CJ대한통운</option>
+                                    <option {% if delivery_company == "POST" %}selected{% endif %} value="POST">우체국택배</option>
+                                    <option {% if delivery_company == "LOGEN" %}selected{% endif %} value="LOGEN">로젠택배</option>
+                                    <option {% if delivery_company == "KG" %}selected{% endif %} value="KG">KG로지스</option>
+                                    <option {% if delivery_company == "ILYANG" %}selected{% endif %} value="ILYANG">일양로지스</option>
+                                    <option {% if delivery_company == "HYUNDAI" %}selected{% endif %} value="HYUNDAI">현대택배</option>
+                                    <option {% if delivery_company == "GTX" %}selected{% endif %} value="GTX">GTX로지스</option>
+                                    <option {% if delivery_company == "FedEx" %}selected{% endif %} value="FedEx">FedEx</option>
+                                    <option {% if delivery_company == "HANJIN" %}selected{% endif %} value="HANJIN">한진택배</option>
+                                    <option {% if delivery_company == "KYUNG" %}selected{% endif %} value="KYUNG">경동택배</option>
+                                    <option {% if delivery_company == "LOTTE" %}selected{% endif %} value="LOTTE">롯데택배</option>
+                                    <option {% if delivery_company == "HAPDONG" %}selected{% endif %} value="HAPDONG">합동택배</option>
+                                </select>
+                                <span class='invoice-select-arrow'>
+                                    <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
+                                </span>
+                            </div>
+                            <div class='order-cancel-invoice-number-input-wrap'>
+                                <label class='invoice-number-title' for='invoice-number-select'>송장 번호</label>
+                                <input type='text' id='invoice-number-select' name="invoice_number">
+                            </div>
+                        </div>
+                        <button class='order-cancel-invoice-number-submit-wrap flex' type='submit'>
+                            <div class='order-cancel-invoice-number-submit-img-wrap'>
+                                <img class='order-cancel-invoice-number-submit-img' src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt='check_nohover'>
+                            </div>
+                            <div class='order-cancel-invoice-number-submit-text'>완료</div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <script defer>
+        const check_btn = document.querySelector('.order-cancel-invoice-number-submit-wrap');
+        const check_img = document.querySelector('.order-cancel-invoice-number-submit-img');
+
+        const switchCheckImgHoverIn = function (e) {
+            check_img.setAttribute('src', "{% static 'images/users/mypage/user/check_hover.svg' %}")
+        }
+
+        const switchCheckImgHoverOut = function (e) {
+            check_img.setAttribute('src', "{% static 'images/users/mypage/user/check_nohover.svg' %}")
+        }
+
+        check_btn.addEventListener('mouseover', switchCheckImgHoverIn)
+        check_btn.addEventListener('mouseleave', switchCheckImgHoverOut)
+
+    </script>
+</body>
+
+</html>

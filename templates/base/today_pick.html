@@ -1,0 +1,181 @@
+{% load static %}
+
+<div class="wrap w-full flex flex-col mt-20  today-pick">
+    <div class="mx-auto font-medium text-3xl title mt-8">오늘의 PICK</div>
+    <section class="mt-12" id="slider">
+        {% for product in today_pick_list %}
+        <input type="radio" name="slider" id="{% cycle 's1' 's2' 's3' 's4' 's5' %}">
+        {% endfor %}
+
+        {% for product in today_pick_list %}
+        <label for="{% cycle 's1' 's2' 's3' 's4' 's5' as slide %}" id="{% cycle 'slide1' 'slide2' 'slide3' 'slide4' 'slide5' %}" {% if slide == 's3' %}checked{% endif %} style="background-image: url({{product.main_image.url}}); background-size: cover;">
+            <div>
+                <a href="{% url 'products:product_detail' product.pk %}">
+                    <div class="flex flex-col today_pick_info">
+                        <div class="today-pick-title text-2xl font-medium" style="color: #808080;">{{product.title}}</div>
+                        <div class="today-pick-sub_title text-xs font-thin" style="color: #b3b3b3;">{{product.sub_title}}</div>
+                        <div class="today-pick-price text-lg mt-1 font-light" style="color: #808080;">{{product.sell_price}}원</div>
+                    </div>
+                </a>
+            </div>
+        </label>
+        {% endfor %}
+        <!-- <input type="radio" name="slider" id="s1">
+        <input type="radio" name="slider" id="s2">
+        <input type="radio" name="slider" id="s3" checked>
+        <input type="radio" name="slider" id="s4">
+        <input type="radio" name="slider" id="s5">
+        <label for="s1" id="slide1">
+            <div class="today_pick_info">
+                <a href="https://naver.com">hi1</a> 
+            </div>
+        </label>
+        <label for="s2" id="slide2">
+            <div class="today_pick_info">
+                hi2
+            </div>
+        </label>
+        <label for="s3" id="slide3">
+            <div class="today_pick_info">
+                hi3
+            </div>
+        </label>
+        <label for="s4" id="slide4">
+            <div class="today_pick_info">
+                hi4
+            </div>
+        </label>
+        <label for="s5" id="slide5">
+            <div class="today_pick_info">
+                hi5
+            </div>
+        </label> -->
+
+    </section>
+    
+</div>
+<div class="h-24" style="background-color: #fafafa;"></div>
+
+
+<style>
+    .today-pick {
+        height: 450px;
+    }
+
+    .title {
+        color: #5c6754;
+    }
+
+    [type=radio] {
+        display: none;
+    }
+
+    #s1:checked~ul li:nth-child(1),
+    #s2:checked~ul li:nth-child(2),
+    #s3:checked~ul li:nth-child(3),
+    #s4:checked~ul li:nth-child(4),
+    #s5:checked~ul li:nth-child(5) {
+        opacity: 1;
+    }
+
+    #slider {
+        height: 300px;
+        position: relative;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+    }
+
+    #slider label {
+        margin: auto;
+        width: 300px;
+        height: 300px;
+        border-radius: 9999px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        cursor: pointer;
+        transition: transform 0.4s ease;
+    }
+
+    .today_pick_info {
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 340px;
+        opacity: 0;
+        transition: opacity .4s ease-in-out;
+    }
+
+
+    #s1:checked~#slide1 div,
+    #s2:checked~#slide2 div,
+    #s3:checked~#slide3 div,
+    #s4:checked~#slide4 div,
+    #s5:checked~#slide5 div {
+        opacity: 1;
+    }
+
+    #s1:checked~#slide4,
+    #s2:checked~#slide5,
+    #s3:checked~#slide1,
+    #s4:checked~#slide2,
+    #s5:checked~#slide3 {
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .37);
+        transform: translate3d(-180%, 0, -850px);
+    }
+
+    #s1:checked~#slide5,
+    #s2:checked~#slide1,
+    #s3:checked~#slide2,
+    #s4:checked~#slide3,
+    #s5:checked~#slide4 {
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .3), 0 2px 2px 0 rgba(0, 0, 0, .2);
+        transform: translate3d(-100%, 0, -500px);
+    }
+
+    #s1:checked~#slide1,
+    #s2:checked~#slide2,
+    #s3:checked~#slide3,
+    #s4:checked~#slide4,
+    #s5:checked~#slide5 {
+        box-shadow: 0 13px 25px 0 rgba(0, 0, 0, .3), 0 11px 7px 0 rgba(0, 0, 0, .19);
+        transform: translate3d(0, 0, 0);
+    }
+
+    #s1:checked~#slide2,
+    #s2:checked~#slide3,
+    #s3:checked~#slide4,
+    #s4:checked~#slide5,
+    #s5:checked~#slide1 {
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .3), 0 2px 2px 0 rgba(0, 0, 0, .2);
+        transform: translate3d(100%, 0, -500px);
+    }
+
+    #s1:checked~#slide3,
+    #s2:checked~#slide4,
+    #s3:checked~#slide5,
+    #s4:checked~#slide1,
+    #s5:checked~#slide2 {
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .37);
+        transform: translate3d(180%, 0, -850px);
+    }
+
+    /* #slide1 {
+        background: #00BCD4
+    }
+
+    #slide2 {
+        background: #4CAF50
+    }
+
+    #slide3 {
+        background: #CDDC39
+    }
+
+    #slide4 {
+        background: #FFC107
+    }
+
+    #slide5 {
+        background: #FF5722
+    } */
+</style>

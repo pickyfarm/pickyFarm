@@ -1,0 +1,42 @@
+{% load humanize %}
+<div class="product_section_wrapper flex flex-col">
+    <div class="product-list-sheet">
+        <div class="product-list-sheet-index grid justify-items-center">
+            <div class="product-list-sheet-index-title">상품명</div>
+            <div class="product-list-sheet-index-title">판매상태</div>
+            <div class="product-list-sheet-index-title">재고수량</div>
+            <div class="product-list-sheet-index-title">옵션</div>
+            <div class="product-list-sheet-index-title">판매가격</div>
+            <div class="product-list-sheet-index-title">이벤트 투용여부</div>
+            <div class="product-list-sheet-index-title justify-self-start">판매율</div>
+        </div>
+        {% for product in products %}
+        <div class="product-list-sheet-rows grid">
+
+            <div class="product-title-section flex items-center">
+                <div class="product-title">{{product.title}}</div>
+                <div class="product-sheet-bar"></div>
+                <div class="product-subtitle">{{product.sub_title}}</div>
+            </div>
+            <div class="product-sheet-bar-mobile"></div>
+            <div class="open-status product-data">
+                {{product.get_status_display}}
+            </div>
+            <div class="stocks product-data">{{product.stock}}</div>
+            <div class="package-unit product-data">{{product.option_name}}</div>
+            <div class="sell-price product-data">{{product.sell_price | intcomma}}</div>
+            <div class="event product-data">{{product.is_event | yesno:'○,✕'}}</div>
+            <div class="selling-rate product-data">{% widthratio product.sales_rate 1 100 %}%</div>
+            {% if product.status == 'suspended' or product.status == 'sale' %}<button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=375')">수정</button>
+            {% elif product.status == 'soldout' %}<button class="update-info transition-colors" onclick="window.open('{% url "farmer:farmer_mypage_product_state_update" product.pk %}', '_blank',  ' height=640, width=375')">판매 재시작</button>{% endif %}
+            <div class="product-list-sheet-index-title-mobile open-status-m ">판매상태</div>
+            <div class="product-list-sheet-index-title-mobile stocks-m">재고수량</div>
+            <div class="product-list-sheet-index-title-mobile package-unit-m">옵션</div>
+            <div class="product-list-sheet-index-title-mobile sell-price-m">판매가격</div>
+            <div class="product-list-sheet-index-title-mobile event-m">이벤트 투용여부</div>
+            <div class="product-list-sheet-index-title-mobile selling-rate-m">판매율</div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="self-end" id="new-product-update" href='{% url "farmer:farmer_mypage_product_update" %}'>새 상품 등록</a>
+</div>

@@ -1,0 +1,149 @@
+<!doctype html>
+{% load static %}
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+    <link rel="stylesheet" href="{% static 'css/farmers/mypage/product/product_state_update_popup.css' %}" />
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>상품상태수정</title>
+</head>
+
+<body>
+    <div class='product-state-update-container'>
+        <div class='product-state-update-title'>상품 상태 수정</div>
+        <div class='product-state-update-form-wrap'>
+            <form action='#' method='post'>
+                {% csrf_token %}
+                <!-- 상품 판매 시작/중지 input -->
+                <div class='product-state-update-radio-wrap flex'>
+                    <div class='product-state-update-form-sell-start-wrap'>
+                        <input type='radio' id='sell_start_radio' value='sale' name='sell' {% if product.status == 'sale' %}checked{% endif %}>
+                        <label for='sell_start_radio' id='sell_start_title'>판매 시작</label>
+                    </div>
+                    <div class='product-state-update-form-sell-stop-wrap'>
+                        <input type='radio' id='sell_stop_radio' value='suspended' name='sell' {% if product.status != 'sale' %}checked{% endif %} required>
+                        <label for='sell_stop_radio' id='sell_stop_title'>판매 일시 중지</label>
+                    </div>
+                </div>
+                <!-- 상품 중량, 수량 input -->
+                <div class='product-state-update-weight-quantity-wrap'>
+                    <div class='product-state-update-weight-wrap flex'>
+                        <div class='product-state-update-weight-title'>상품 중량 / 용량</div>
+                        <div class='product-state-update-weight-input-select-wrap flex'>
+                            <div class='product-state-update-weight-input-wrap'>
+                                <input type='text' id='product-weight-input' required value="{{product.weight}}" name='weight' />
+                            </div>
+                            <div class='product-state-update-weight-select-wrap'>
+                                <select name='weight_unit' id='product-weight-unit' required>
+                                    <option value='kg' {% if product.weigth_unit == 'kg' %}selected{% endif %}>Kg</option>
+                                    <option value='g' {% if product.weigth_unit == 'g' %}selected{% endif %}>g</option>
+                                </select>
+                            </div>
+                        </div>
+                        <span class='product-weight-unit-bar'>|</span>
+                        <span class='product-weight-select-arrow'>
+                            <img src="{% static 'images/farmer_mypage/abled_select_arrow.svg' %}" alt='arrow' id='select_arrow'>
+                        </span>
+                    </div>
+                    <div class='product-state-update-quantity-wrap flex'>
+                        <label for='product_quantity' id='product_quantity_title'>상품 수량</label>
+                        <input type='text' id='product_quantity' value='{{product.stock}}' name='quantity' required>
+                        <span class='product-quantity-unit'>개</span>
+                    </div>
+                </div>
+                <button class='product-state-update-submit-wrap flex' type='submit'>
+                    <div class='product-state-update-submit-img-wrap'>
+                        <img class='product-state-update-submit-img' src="{% static 'images/users/mypage/user/check_nohover.svg' %}" alt='check_nohover'>
+                    </div>
+                    <div class='product-state-update-submit-text'>수정 완료</div>
+                </button>
+            </form>
+        </div>
+    </div>
+    <script defer>
+        const check_btn = document.querySelector('.product-state-update-submit-wrap');
+        const check_img = document.querySelector('.product-state-update-submit-img');
+
+
+        const sell_start_radio = document.querySelector('#sell_start_radio');
+        const sell_stop_radio = document.querySelector('#sell_stop_radio');
+
+
+        // 판매 시작을 클릭했을 때 input들을 abled 처리
+        const abledRadio = function (e) {
+            const select_weight_input = document.querySelector('#product-weight-input');
+            const select_weight_unit = document.querySelector('#product-weight-unit');
+            const select_quantity_input = document.querySelector('#product_quantity');
+            select_weight_input.removeAttribute('disabled');
+            select_weight_unit.removeAttribute('disabled');
+            select_quantity_input.removeAttribute('disabled');
+
+            const select_weight_title = document.querySelector('.product-state-update-weight-title');
+            const select_quantity_title = document.querySelector('#product_quantity_title');
+            select_weight_title.style.color = '#4d4d4d';
+            select_quantity_title.style.color = '#4d4d4d';
+
+            const sell_start_title = document.querySelector('#sell_start_title');
+            sell_start_title.style.color = '#5c6754';
+
+            const sell_stop_title = document.querySelector('#sell_stop_title');
+            sell_stop_title.style.color = '#b3b3b3';
+
+            const product_weight_unit_bar = document.querySelector('.product-weight-unit-bar');
+            product_weight_unit_bar.style.opacity = 1;
+
+            const product_select_arrow = document.querySelector('.product-weight-select-arrow');
+            product_select_arrow.style.opacity = 1;
+
+            const product_quantity_unit = document.querySelector('.product-quantity-unit');
+            product_quantity_unit.style.color = '#5c6456';
+        };
+
+        // 판매 일시 중지를 클릭했을 때 input들을 disabled 처리
+        const disabledRadio = function (e) {
+            const select_weight_input = document.querySelector('#product-weight-input');
+            const select_weight_unit = document.querySelector('#product-weight-unit');
+            const select_quantity_input = document.querySelector('#product_quantity');
+            select_weight_input.setAttribute('disabled', true);
+            select_weight_unit.setAttribute('disabled', true);
+            select_quantity_input.setAttribute('disabled', true);
+
+            const select_weight_title = document.querySelector('.product-state-update-weight-title');
+            const select_quantity_title = document.querySelector('#product_quantity_title');
+            select_weight_title.style.color = '#b3b3b3';
+            select_quantity_title.style.color = '#b3b3b3';
+
+            const sell_start_title = document.querySelector('#sell_start_title');
+            sell_start_title.style.color = '#b3b3b3';
+
+            const sell_stop_title = document.querySelector('#sell_stop_title');
+            sell_stop_title.style.color = '#5c6754';
+
+            const product_weight_unit_bar = document.querySelector('.product-weight-unit-bar');
+            product_weight_unit_bar.style.opacity = 0.5;
+
+            const product_select_arrow = document.querySelector('.product-weight-select-arrow');
+            product_select_arrow.style.opacity = 0.5;
+
+            const product_quantity_unit = document.querySelector('.product-quantity-unit');
+            product_quantity_unit.style.color = '#b3b3b3';
+        };
+
+        const switchCheckImgHoverIn = function (e) {
+            check_img.setAttribute('src', "{% static 'images/users/mypage/user/check_hover.svg' %}")
+        }
+
+        const switchCheckImgHoverOut = function (e) {
+            check_img.setAttribute('src', "{% static 'images/users/mypage/user/check_nohover.svg' %}")
+        }
+
+        check_btn.addEventListener('mouseover', switchCheckImgHoverIn)
+        check_btn.addEventListener('mouseleave', switchCheckImgHoverOut)
+        sell_start_radio.addEventListener('click', abledRadio);
+        sell_stop_radio.addEventListener('click', disabledRadio);
+    </script>
+</body>
+
+</html>

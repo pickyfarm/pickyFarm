@@ -1,0 +1,80 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title_name %}
+Farmer's Diary
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="content mx-auto mb-9" style="margin-top: 130px;">
+    <img src="{% static 'images/farm/leaf.svg' %}" class="mx-auto" alt="">
+    <!--title-->
+    <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Diary </div>
+    <div class="text-center mb-16" style="color: #999999;"> 파머가 직접 전하는 농가 이야기 </div>
+    <!--farmer story content-->
+    <form class="relative" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="pt-11 mb-10" id="story_content">
+            <!--title-->
+            <div class="flex flex-row ml-16 mb-5">
+                <div class="text-2xl font-light w-24" style="color:#5e6656;">제목</div>
+                <div class=""> {{ form.title }} </div>
+            </div>
+            <div class="flex flex-row ml-16">
+                <div class="text-2xl font-light w-40" style="color:#5e6656;">썸네일 올리기</div>
+                <div class=""> {{ form.thumbnail }}
+                </div>
+            </div>
+
+            <div class="my-5 mx-auto" id="line"></div>
+
+            <!--content-->
+            <div class="mt-10">{{ form.content }}</div>
+        </div>
+        <div class="text-center">
+            <input type="submit" class="text-4xl font-bold" id="submit_btn" value="작성 완료">
+        </div>
+    </form>
+</div>
+
+<style>
+    .content {
+        width: 990px;
+    }
+
+    #id_title {
+        width: 360px;
+        height: 37px;
+        background-color: #f2f2f2;
+    }
+
+    #id_sub_title {
+        width: 700px;
+        height: 37px;
+        background-color: #f2f2f2;
+    }
+
+    #line {
+        width: 880px;
+        height: 0;
+        border: solid 1px #afb3ab;
+    }
+
+    #story_content {
+        width: 990px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.16);
+    }
+
+    #submit_btn {
+        width: 350px;
+        height: 100px;
+        padding: 28px 60px;
+        border-radius: 50px;
+        background-color: #5c6754;
+        color: #fff;
+        outline: none;
+        cursor: pointer;
+    }
+</style>
+{% endblock main_content %}

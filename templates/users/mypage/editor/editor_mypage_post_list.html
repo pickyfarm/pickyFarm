@@ -1,0 +1,135 @@
+{% extends "users/mypage/editor/editor_mypage_base.html" %}
+{% load static %}
+
+{% block stylesheet_editor_mypage %}
+<link rel="stylesheet" href="{% static 'css/users/mypage/editor/editor_mypage_post_list.css' %}">
+{% endblock stylesheet_editor_mypage %}
+
+{% block content %}
+<div id="content-wrap" class="ml-auto flex flex-col">
+    <div id="section-title" class=" text-left">글 등록 현황 / 관리</div>
+    <div id="select-all-section" class="flex items-center">
+        <input type="checkbox" name="select-all" id="select-all-reviews">
+        <label for="select-all-reviews" id="select-all">전체 글 선택</label>
+    </div>
+
+    <div id="review-list-section" class="flex flex-col">
+        {% for review in reviews %}
+        <div class="review-section flex items-center">
+            <input type="checkbox" name="select" id="select-review-{{review.pk}}">
+            <label for="select-review-{{review.pk}}" class="select-review"></label>
+            <div class="article flex justify-between">
+                <div class="info flex flex-col">
+                    <a href="{% url 'editors_pick:detail' review.pk %}">
+                        <div class="title">{{review.title}}</div>
+                    </a>
+                    <div class="article-info flex">
+                        <div class="upload mr-6">{{review.create_at.date|date:"Y.m.d"}}</div>
+                        <div class="comments mr-6">댓글 3</div>
+                        <div class="views mr-6">조회수 {{review.hits}}</div>
+                        <div class="likes">좋아요 9</div>
+                    </div>
+                    <div class="preview break-words mt-auto">{{review.get_preview}}</div>
+                </div>
+                <div class="article-img bg-cover" style="background-image:url('{{review.main_image.url}}');"></div>
+            </div>
+            <a href="{% url 'editors_pick:update' review.pk %}">
+                <div class="edit-review flex flex-col">
+                    <img src="{% static 'images/users/pen.svg' %}" alt="">
+                    <p class="edit-review-button">수정</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button id="select-delete" class="text-center">선택 삭제</button>
+    <a href="{% url 'editors_pick:create' %}">
+        <button id="post-review" class="mx-auto">글 쓰기</button>
+    </a>
+</div>
+
+<style>
+    input[type='checkbox'] {
+        display: none;
+    }
+
+    input[type='checkbox']+label::before {
+        content: "";
+        display: inline-block;
+        position: relative;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        background-image: url("{% static 'images/user/auto_login_unchecked.svg' %}");
+
+    }
+
+    input[type='checkbox']:checked+label::before {
+        content: "";
+        background-image: url("{% static 'images/user/auto_login_checked.svg' %}") !important;
+    }
+
+    #select-all::before {
+        margin-right: 34px;
+    }
+
+    #select-all {
+        color: #5c6754;
+        font-weight: normal;
+        font-size: 15px;
+    }
+</style>
+
+<script>
+    let selectAllButton = document.querySelector('input[name="select-all"]');
+    let selectedReviews = document.querySelectorAll('input[name="select"]');
+
+    selectAllButton.addEventListener('click', function () {
+        selectedReviews.forEach((checkbox) => {
+            checkbox.checked = selectAllButton.checked;
+        });
+    });
+
+    selectedReviews.forEach(item => {
+        item.addEventListener('click', function () {
+            let selectedReviewCount = document.querySelectorAll('input[name="select"]:checked').length;
+
+            if (selectedReviews.length != selectedReviewCount) {
+                selectAllButton.checked = false;
+            }
+
+            else {
+                selectAllButton.checked = true;
+            }
+        });
+    });
+
+    $('#select-delete').click(function () {
+        let deleteReviews = $.makeArray($('input[name="select"]:checked').map(function () {
+            return parseInt($(this).attr("id").slice(14));
+        }));
+
+        if (deleteReviews.length == 0) {
+            alert("삭제할 리뷰를 선택하세요!");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'editors_pick:delete' %}",
+            data: {
+                'select': deleteReviews,
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data['success']) {
+                    alert(`${deleteReviews.length}개의 리뷰를 삭제하였습니다.`);
+                    location.reload();
+                }
+            }
+        });
+    });
+
+</script>
+{% endblock content %}
