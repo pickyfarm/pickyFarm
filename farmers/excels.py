@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 
-def convert_orders(farmerpk):
+def convert_orders(farmerpk, phone_num_type):
 
     order_details = Order_Detail.objects.filter(
         product__farmer__pk=farmerpk, status="preparing"
@@ -27,6 +27,9 @@ def convert_orders(farmerpk):
         quantity = detail.quantity
         message = detail.order_group.rev_message
 
+        if phone_num_type == 'hyphen':
+            phone_num = f'{phone_num[:3]}-{phone_num[3:7]}-{phone_num[7:]}'
+
         order_data.append(
             [
                 order_num,
@@ -44,6 +47,7 @@ def convert_orders(farmerpk):
         data=order_data,
         columns=["주문번호", "주문자명", "수취인명", "전화번호", "주소", "상품명", "수량", "배송메세지"],
     )
+
 
     filename = f"{farmer.farm_name}_주문목록.xlsx"
 

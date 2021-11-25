@@ -626,9 +626,10 @@ class FarmerMypageGetOrderList(FarmerMyPageBase):
 
 def get_order_list_excel(request):
     farmer = request.user.farmer
+    phone_num_type = json.loads(request.body)['isHyphened']
 
     try:
-        order_list_file = convert_orders(farmer.pk)
+        order_list_file = convert_orders(farmer.pk, phone_num_type)
         ctx = {"path": order_list_file}
 
         return JsonResponse(ctx)

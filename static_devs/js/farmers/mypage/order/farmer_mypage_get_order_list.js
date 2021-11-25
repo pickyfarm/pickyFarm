@@ -7,7 +7,11 @@ const getOrderList = async () => {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken,
         },
-        body: {},
+        body: JSON.stringify({
+            isHyphened: document.querySelector(
+                'input[name="phone-number-type"]:checked'
+            ).value,
+        }),
     };
 
     downloadButton.innerHTML = '변환중...';
