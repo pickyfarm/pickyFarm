@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.utils import timezone
 from django.views import View
@@ -827,8 +828,7 @@ class FarmerMypageQuestionAnswer(DetailView):
             answer.save()
             return redirect("core:popup_callback")
 
-
-class FarmerMypageReviewAnswer(DetailView):
+class FarmerMypageReviewAnswer(LoginRequiredMixin, DetailView):
     """농가 리뷰 답변 페이지"""
 
     template_name = "farmers/mypage/review_qna/farmer_mypage_review_answer.html"
