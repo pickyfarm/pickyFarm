@@ -12,7 +12,19 @@
     <div class="popup_container flex">
         <h1>주문 목록 다운로드</h1>
         <h5 id="popup-desc">아직 송장을 입력하지 않은 {{orders.count}}개의 주문이 있습니다.</h5>
-        <button id="order-list-download-button">엑셀로 변환하기</button>
+
+        <span>전화번호 표시 방식을 선택하세요</span>
+        <div>
+            <input type="radio" name="phone-number-type" id="radio-nohyphen" value="nohyphen" checked>
+            <label for="radio-nohyphen">01012345678</label>
+        </div>
+        <div>
+            <input type="radio" name="phone-number-type" id="radio-hyphen" value="hyphen">
+            <label for="radio-hyphen">010-1234-5678</label>
+        </div>
+
+
+        <button id="order-list-download-button" style="margin:20px">엑셀로 변환하기</button>
     </div>
 
 </body>

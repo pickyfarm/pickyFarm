@@ -66,8 +66,10 @@ import urllib
 
 def index(request):
     farmers = Farmer.objects.filter(open=True)
-    hot_crops = Product.objects.filter(farmer__farm_name="시민원")
-    todays_crops = Product.objects.filter(status="sale", open=True).order_by("?")[:5]
+
+    available_products = Product.objects.filter(status='sale', open=True)
+    hot_crops = available_products.order_by('?')[:3]
+    todays_crops = available_products.order_by('?')[:5]
     slider_images = Main_Slider_Image.objects.all()
 
     ctx = {
