@@ -1,0 +1,93 @@
+@import 'base/mobile_base_style.css';
+
+@media screen and (max-width: 768px){
+  /* base setting */
+  #main {
+      width: 100%;
+      padding: 0;
+  }  
+  #main > div{
+      width: 100%;
+  }
+  #content-section,
+  #info-section,
+  #comment-section-wrap {
+      padding: 0 2.5rem;
+  }  
+
+  /* font */    
+  #review-title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-top: 3.53rem;
+    line-height: 1.2;
+  }
+  #review-subtitle {
+    font-size: 1.2rem;
+    font-weight: normal;
+    line-height: 1.2;
+    margin-top: 1vw;
+  }
+  #review-author {
+    font-size: 1.2rem;
+    margin-top: 6.18rem;
+    font-weight: normal;
+    line-height: 1.2;
+  }
+  #content-section {
+    font-size: 1.6rem;
+    font-weight: normal;
+    line-height: 1.47;
+    color: #4d4d4d;
+  }
+  #editor-profile-name {
+    font-size: 1.2rem;
+    margin-left: 0.79rem;
+    color: #4d4d4d;
+    font-weight: 300;
+    line-height: 2;
+  }
+  #desc_title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-left: 1.09rem;
+  }
+  #title {
+    font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 1.2;
+    color: #000000;
+  }
+  #sub_title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #000000;
+  }
+  #sell_price {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  #farm-profile-title {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  #farm-info,
+  #farm-location {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  #farm-name {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+  #farm-news-text {
+    font-size: 1.2rem;
+    line-height: 1.33;
+    font-weight: 300;
+  }
+}

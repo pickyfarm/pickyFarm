@@ -3,6 +3,7 @@
 {% load static %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_detail_mobile.css' %}">
 {% endblock stylesheet %}
 {% block title_name %}{{review.title}} : Editor's Pick{% endblock %}
 {% block og_url %}{% url 'editors_pick:detail' review.pk %}{% endblock %}
