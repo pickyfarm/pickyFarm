@@ -32,6 +32,7 @@ class CompressedImageField(models.ImageField):
 class Main_Slider_Image(models.Model):
 
     image = CompressedImageField(upload_to="main_slider_images/%%Y/%%m/%%d")
+    link = models.URLField(max_length=200, default='/product/list')
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
