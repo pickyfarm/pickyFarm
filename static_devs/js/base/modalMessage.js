@@ -1,4 +1,8 @@
 const showModalMessage = (message = '메세지를 입력하세요.', cb = null) => {
+    if (getCookie('pickyfarm_modal')) {
+        return;
+    }
+
     const modalSection = document.querySelector('#modal-section');
 
     const displayModal = () => {
@@ -20,6 +24,11 @@ const showModalMessage = (message = '메세지를 입력하세요.', cb = null) 
     document
         .querySelector('#modal-close')
         .addEventListener('click', () => hideModal());
+
+    document.querySelector('#modal-close-24h').addEventListener('click', () => {
+        handleDoNotShowInOneDayButton();
+        hideModal();
+    });
 
     document.querySelector('#modal-accept').addEventListener('click', () => {
         if (cb) {

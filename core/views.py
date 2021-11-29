@@ -72,6 +72,8 @@ def index(request):
     todays_crops = available_products.order_by('?')[:5]
     slider_images = Main_Slider_Image.objects.all()
 
+    print(f'-=-=---=--=-={farmers.get(farm_name="시민원")}')
+
     ctx = {
         "farmers": farmers,
         "main_slider_image": slider_images,

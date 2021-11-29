@@ -19,6 +19,8 @@
     {% block stylesheet %}
     {% endblock stylesheet %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="{% static 'js/base/cookieHandler.js' %}"></script>
+    <script defer src="{% static 'js/base/modalClose.js' %}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script defer src="{% static 'js/base/toastMessage.js' %}"></script>
@@ -48,15 +50,18 @@
         </div>
     </div>
     <div id="modal-section">
-        <div id="modal-container" class="mx-auto my-auto flex flex-col">
-            <button class="transition-element self-end" id="modal-close">×</button>
-            <div id="modal-message">
-                Modal test
+        <div class="flex flex-col mx-auto my-auto">
+            <div id="modal-container" class="mx-auto my-auto flex flex-col">
+                <button class="transition-element self-end" id="modal-close">×</button>
+                <div id="modal-message">
+                    Modal test
+                </div>
+                <div id="modal-buttons" class="flex justify-between">
+                    <button class="modal-button transition_element" id="modal-cancel">닫기</button>
+                    <button class="modal-button transition_element" id="modal-accept">확인</button>
+                </div>
             </div>
-            <div id="modal-buttons" class="flex justify-between">
-                <button class="modal-button transition_element" id="modal-cancel">닫기</button>
-                <button class="modal-button transition_element" id="modal-accept">확인</button>
-            </div>
+            <span id="modal-close-24h">24시간동안 보지않기</span>
         </div>
     </div>
     {% include 'partials/header_mobile.html' %}

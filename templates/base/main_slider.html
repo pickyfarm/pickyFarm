@@ -1,6 +1,6 @@
 <div class="slick-container w-full shadow" style="height:fit-content" id="main-slider">
     {% for main_image in main_slider_image %}
-    <a href='/product/list'><img src="{{main_image.image.url}}" class="w-full object-cover slider-img" alt="" /></a>
+    <a href='{{main_image.link}}'><img src="{{main_image.image.url}}" class="w-full object-cover slider-img" alt="" /></a>
     {% endfor %}
 </div>
 
