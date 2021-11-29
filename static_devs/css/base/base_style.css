@@ -148,6 +148,13 @@ button:focus {
     background-color: white;
 }
 
+#modal-close-24h {
+    margin-top: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+}
+
 #header-category-wrap {
     display: none;
     width: fit-content;
