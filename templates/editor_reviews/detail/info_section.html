@@ -82,6 +82,10 @@
                     <img src="{% static 'images/editors_review/editor_review_detail_visit_farm.svg'%}" id="visit">
                 </a>
             </div>
+            <div id="farm-news-mobile" class="flex items-center">
+                <img src="{% static 'images/product_detail/bell.svg' %}" id="farm-news-icon">
+                <div id="farm-news-text">{{review.farm.farm_news}}</div>
+            </div>
         </div>
     </div>
     {% endif %}
