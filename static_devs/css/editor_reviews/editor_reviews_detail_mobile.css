@@ -31,6 +31,82 @@
     margin-top: 2.4rem;
   }
 
+  /* info section */
+  #info-section {
+    margin-top: 6.43rem;
+  }
+  /* info section - editor profile */
+  #editor-profile-image {
+    height: 2.65rem;
+    width: 2.65rem;
+    border: 1px solid #707070;
+  }
+  #editor-profile-name {
+    margin-right: 2.1rem;
+  }
+
+  /* info section - related products*/
+  #related_products {
+    margin-bottom: 5.84rem;
+  }
+  #related_products_desc {
+    margin-top: 2.67rem;
+    margin-bottom: 2.54rem;
+  }
+  #related_products_desc, 
+  #visit_farmer_desc {
+    align-items: center;
+  }
+  #related_products_desc > img,
+  #visit_farmer_desc > img {
+    width: 1.75rem;
+    height: 1.99rem;
+  }
+  #products {
+    display: flex;
+    width: 90%;
+    margin: 0 1.7rem;
+  }
+  #product_item {
+    min-width: 12.6rem;
+  }
+  #product_item > div {
+    margin-top: 0;
+  }
+  #product_img {
+    width: 11rem;
+    height: 16rem;
+    border-radius: 0.33rem;
+    box-shadow: none;
+    margin-right: 1.6rem;
+  }
+  #like_cart_in {
+    top: 15.08rem;
+    right: 1.7rem;
+  }
+  #like_cart_in img {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-left: 0.39rem;
+    transform: scale(1);
+  }
+  #product_item > a > div {
+    margin-top: 0.93rem;
+  }
+  #product_item > a > div > div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .border-l-2 {
+    display: none;
+  }
+  #sub_title {
+    padding-left: 0;
+  }
+  #sell_price {
+    margin-top: 0.2rem;
+  }
+
   /* font */    
   #review-title {
     font-size: 2rem;
@@ -89,6 +165,7 @@
     font-size: 1.2rem;
     line-height: 1.2;
     font-weight: 500;
+    height: 1.6rem;
   }
   #farm-info,
   #farm-location {
