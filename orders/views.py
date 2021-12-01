@@ -108,7 +108,6 @@ def create_order_detail_management_number(pk, farmer_id):
 
 # 결제 진행 페이지에서 주소 전환 시, 서버 반영 Ajax
 @login_required
-@require_POST
 @transaction.atomic
 def changeAddressAjax(request):
     if request.method == "POST":
