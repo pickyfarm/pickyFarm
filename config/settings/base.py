@@ -120,7 +120,7 @@ ROOT_URLCONF = "config.urls"
 SUMMERNOTE_CONFIG = {
     "iframe": True,
     "airMode": True,
-    "width": "990px",
+    "width": "100%",
     "height": "661px",
     "toolbar": [
         # ['style', ['style']],
@@ -146,6 +146,9 @@ SUMMERNOTE_CONFIG = {
         ["view", ["fullscreen", "codeview"]],
         ["help", ["help"]],
     ],
+    'popover':[
+        'image' ,[['float', ['floatLeft', 'floatCenter', 'floatRight']]]
+    ]
 }
 
 TEMPLATES = [
