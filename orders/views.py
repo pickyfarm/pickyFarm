@@ -170,6 +170,9 @@ def changeAddressAjax(request):
 @transaction.atomic
 @require_POST
 def payment_create(request):
+    
+    if request.method == "GET":
+        return redirect(reverse("core:main"))
 
     """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
 
