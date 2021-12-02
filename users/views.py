@@ -353,6 +353,8 @@ def kakao_callback(request):
     print()
     REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
     NEXT_URL = request.GET.get("state", "/")
+    if NEXT_URL == 'None':
+        NEXT_URL = '/'
 
     try:
         code = request.GET.get("code")
