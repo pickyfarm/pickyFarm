@@ -145,7 +145,7 @@ def product_detail(request, pk):
         farmer = product.farmer
 
         # 상품 리뷰
-        siblings = Product.objects.filter(product_group=product.product_group)
+        siblings = Product.objects.filter(product_group=product.product_group, open=True, status='sale')
         comments = Product_Comment.objects.filter(product=siblings[0])
         for p in siblings[1:]:
             comments = comments | p.product_comments.all()
