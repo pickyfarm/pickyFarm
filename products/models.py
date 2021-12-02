@@ -319,6 +319,9 @@ class Product(models.Model):
     def get_sibling_products(self):
         return Product.objects.filter(product_group=self.product_group)
 
+    def get_available_sibling_products(self):
+        return self.get_sibling_products().filter(open=True, status='sale')
+
 
 class Product_Image(models.Model):
     product = models.ForeignKey(Product, related_name="product_images", on_delete=models.CASCADE)
