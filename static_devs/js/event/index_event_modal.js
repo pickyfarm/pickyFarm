@@ -7,6 +7,10 @@ const modalImage = `
 `;
 
 window.onload = () =>
-    showModalMessage(modalImage, () => {
-        location.href = PRODUCT_URL;
-    });
+    showModalMessage(
+        modalImage,
+        () => {
+            location.href = PRODUCT_URL;
+        },
+        'event'
+    );

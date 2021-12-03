@@ -1,5 +1,14 @@
-const showModalMessage = (message = '메세지를 입력하세요.', cb = null) => {
-    if (getCookie('pickyfarm_modal')) {
+const modalType = {
+    event: 'event',
+    alert: 'alert',
+};
+
+const showModalMessage = (
+    message = '메세지를 입력하세요.',
+    cb = null,
+    type = modalType.alert
+) => {
+    if (getCookie('pickyfarm_modal') && type == modalType.event) {
         return;
     }
 
@@ -25,10 +34,16 @@ const showModalMessage = (message = '메세지를 입력하세요.', cb = null) 
         .querySelector('#modal-close')
         .addEventListener('click', () => hideModal());
 
+    if (type != 'event') {
+        document.querySelector('#modal-close-24h').style.display = 'none';
+    }
+
     document.querySelector('#modal-close-24h').addEventListener('click', () => {
         handleDoNotShowInOneDayButton();
         hideModal();
     });
+
+    document.querySelector('#modal-accept').style.display = 'block';
 
     document.querySelector('#modal-accept').addEventListener('click', () => {
         if (cb) {

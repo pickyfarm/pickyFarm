@@ -8,6 +8,6 @@ window.onload = () => {
 
         const eventImgTag = `<img src=${eventImage} style="width: 380px">`;
         document.querySelector('#modal-accept').style.display = 'none';
-        showModalMessage(eventImgTag);
+        showModalMessage(eventImgTag, null, 'event');
     }
 };
