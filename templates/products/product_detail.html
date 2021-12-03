@@ -343,17 +343,17 @@
 
 
 
-    // 댓글 작성 버튼 toggle
-    let recomments = document.querySelectorAll('.recomments')
-    recomments.forEach(recomment => recomment.classList.add("hide"))
-    $(document).on('click', '#more_btn', function () {
-        $(this).parent().siblings('.recomments').toggle();
-        $(this).children('.fa-caret-down').toggle();
-        $(this).children('.fa-caret-up').toggle();
-        const [...recomment_forms] = document.querySelectorAll('.recomment_form')
-        recomment_forms.forEach((form) => {
-            form.scrollBy(0, 10000)
-        });
+    // // 댓글 작성 버튼 toggle
+    // let recomments = document.querySelectorAll('.recomments')
+    // recomments.forEach(recomment => recomment.classList.add("hide"))
+    // $(document).on('click', '#more_btn', function () {
+    //     $(this).parent().siblings('.recomments').toggle();
+    //     $(this).children('.fa-caret-down').toggle();
+    //     $(this).children('.fa-caret-up').toggle();
+    //     const [...recomment_forms] = document.querySelectorAll('.recomment_form')
+    //     recomment_forms.forEach((form) => {
+    //         form.scrollBy(0, 10000)
+    //     });
 
         // 스크롤 하단 고정 (수정 필요)
 
