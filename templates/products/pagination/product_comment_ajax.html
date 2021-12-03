@@ -79,12 +79,12 @@
             {% endfor %}
         </div>
         <div id="review_comment">
-            <div class="flex flex-row justify-center mb-4">
+            <!-- <div class="flex flex-row justify-center mb-4">
                 <button id="more_btn" class="rec_more" style="outline: none;">
                     댓글보기 &nbsp; <i id="show_icon" class='fas fa-caret-down'></i> <i class="fas fa-caret-up" style="display: none;"></i>
                 </button>
-            </div>
-            <div class="recomments hide">
+            </div> -->
+            <div class="recomments">
                 <div class="recomment-wrap" name="{{comment.pk}}">
                     {% if request.user.is_authenticated %}
                     <div class="recomment-input-wrapper flex flex-col">
