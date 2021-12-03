@@ -189,11 +189,12 @@ def farmer_story_create(request):
                 "#{link}": f"www.pickyfarm.com/farmer/diary/{farmer_story.pk}",
             }
             for sub in subscribes:
-                send_kakao_message(
-                    sub.consumer.user.phone_number,
-                    templateIdList["new_diary"],
-                    message_args,
-                )
+                if sub.consumer.kakao_farmer_agree == True:
+                    send_kakao_message(
+                        sub.consumer.user.phone_number,
+                        templateIdList["new_diary"],
+                        message_args,
+                    )
             return redirect(reverse("farmers:farmer_story_detail", args=[farmer_story.pk]))
         else:
             return redirect(reverse("core:main"))
