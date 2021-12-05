@@ -86,6 +86,7 @@
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
+    display: flex;
 }
 
 #product_img {
@@ -172,6 +173,10 @@
 
 #farm-news {
     margin-top: 15px;
+}
+
+#farm-news-mobile {
+    display: none;   
 }
 
 #farm-news-icon {
