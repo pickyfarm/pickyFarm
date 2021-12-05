@@ -7,6 +7,10 @@
         height: 16rem;
     }
 
+    .main-content .w-header {
+        width: auto !important;
+    }
+
     .slick-slide {
         height: 100% !important;
     }
@@ -34,7 +38,6 @@
         padding: 0;
     }
 
-    .w-header,
     .w-content,
     .category-in,
     .article,
@@ -46,8 +49,7 @@
     .editor-list {
         display: none;
     }
-    .w-header,
-    .review-lists-horizon {
+    .page-title {
         margin-left: 4.23rem;
     }
     .w-header > p:nth-child(1) {
