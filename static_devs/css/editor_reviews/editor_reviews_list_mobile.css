@@ -1,16 +1,58 @@
 @import '/static/css/base/mobile_base_style.css';
 
 @media screen and (max-width: 768px) {
-    .w-header, .w-content, .category-in, .article, .first-item, .first-item-text, .info, .article-img, .preview{
+    .zero-item,
+    .first-item,
+    .remain-items {
+        height: 16rem;
+    }
+
+    .main-content .w-header {
+        width: auto !important;
+    }
+
+    .slick-slide {
+        height: 100% !important;
+    }
+
+    .zero-item {
+        width: 1px;
+    }
+
+    .first-item {
+        width: 15rem;
+    }
+
+    .remain-items {
+        width: 12rem;
+    }
+
+    .items-text,
+    .first-item-text {
+        padding-top: 2rem;
+        font-size: 1.4rem;
+    }
+
+    .first-item-text {
+        margin: 20px 20px 0 20px;
+        padding: 0;
+    }
+
+    .w-content,
+    .category-in,
+    .article,
+    .info,
+    .article-img,
+    .preview {
         width: 100%;
     }
-    .editor-list{
+    .editor-list {
         display: none;
     }
-    .w-header, .review-lists-horizon{
+    .page-title {
         margin-left: 4.23rem;
     }
-    .w-header > p:nth-child(1){
+    .w-header > p:nth-child(1) {
         font-size: 2rem;
         font-weight: bold;
         font-stretch: normal;
@@ -19,7 +61,8 @@
         letter-spacing: normal;
         color: #5c6754;
     }
-    .w-header > p:nth-child(2), .w-header > p:nth-child(3){
+    .w-header > p:nth-child(2),
+    .w-header > p:nth-child(3) {
         font-size: 1.2rem;
         font-weight: 300;
         font-stretch: normal;
@@ -27,13 +70,11 @@
         line-height: 1.33;
         color: #4d4d4d;
     }
-    .review-lists-horizon{
+    .review-lists-horizon {
         margin-top: 2.39rem;
     }
-    .slick-slide{
-        height: 10.8rem !important;
-    }
-    .w-content > div:nth-child(1){
+
+    .w-content > div:nth-child(1) {
         font-size: 1.5rem;
         font-weight: normal;
         font-stretch: normal;
@@ -44,10 +85,10 @@
         color: #808080;
         margin: 2.42rem 0;
     }
-    .categories{
+    .categories {
         margin: 0 auto;
     }
-    .category-in{
+    .category-in {
         width: 9.6rem;
         height: 2.8rem;
         font-size: 1.2rem;
@@ -60,29 +101,30 @@
         color: #808080;
         border: solid 0.05rem #707070;
     }
-    .category-in:nth-child(1), .category-in:nth-child(2){
+    .category-in:nth-child(1),
+    .category-in:nth-child(2) {
         border-right: none;
-    } 
-    .review-lists-vertical{
+    }
+    .review-lists-vertical {
         margin-top: 4.4rem;
     }
-    .lists{
+    .lists {
         margin: 0 auto !important;
     }
-    .lists-contents{
+    .lists-contents {
         padding-bottom: 0;
         padding: 0 2.5rem;
     }
-    .article{
+    .article {
         height: 9.6rem;
         box-shadow: none;
         background-color: #fff;
         padding: 1.2rem;
     }
-    .article > div:nth-child(1){
+    .article > div:nth-child(1) {
         margin-top: 0 !important;
     }
-    .title{
+    .title {
         font-family: NotoSansKR;
         font-size: 1.5rem;
         font-weight: normal;
@@ -93,17 +135,17 @@
         text-align: left;
         color: #4d4d4d;
     }
-    .info{
+    .info {
         width: 80%;
     }
-    .article-info{
+    .article-info {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-areas:
             'editor upload blank'
             'comments views likes';
     }
-    .article-info div{
+    .article-info div {
         font-family: NotoSansKR;
         font-size: 1.2rem;
         font-weight: 300;
@@ -116,28 +158,28 @@
         margin-right: 1.3rem;
         width: 80%;
     }
-    .editor{
+    .editor {
         grid-area: editor;
         margin-bottom: 0.5rem;
     }
-    .upload{
+    .upload {
         grid-area: upload;
-        white-space:nowrap;
+        white-space: nowrap;
         margin-bottom: 0.5rem;
     }
-    .comments{
+    .comments {
         grid-area: comments;
     }
-    .views{
+    .views {
         grid-area: views;
     }
-    .likes{
+    .likes {
         grid-area: likes;
     }
-    .preview{
+    .preview {
         display: none;
     }
-    .article-img{
+    .article-img {
         width: 7.2rem;
         height: 7.2rem;
     }

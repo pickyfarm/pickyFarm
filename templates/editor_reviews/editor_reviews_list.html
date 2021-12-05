@@ -14,7 +14,7 @@
 {% block og_image %}{% static 'images/mainlogo_small.svg' %}{% endblock %}
 {% block main_content %}
 <div class="main-content">
-    <div class="w-header mx-auto mt-24">
+    <div class="w-header mx-auto mt-24 page-title">
         <p class=" text-4xl mb-4">EDITOR's PICK</p>
         <p class=" text-lg text-gray-400 font-thin">에디터들이 직접 알아보는 무난이 이야기들</p>
         <p class=" text-lg text-gray-400 font-thin">당신의 PICK에 도움이 되었으면 좋겠습니다</p>
@@ -112,7 +112,9 @@
             variableWidth: true,
             centerMode: true,
             initialSlide: 1,
-            infinite: false
+            infinite: false,
+            nextArrow: null,
+            prevArrow: null
         });
     });
 </script>
