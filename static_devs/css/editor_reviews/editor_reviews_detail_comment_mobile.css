@@ -1,0 +1,121 @@
+@media screen and (max-width: 768px) {
+    #comment-section,
+    #comment-submit-form,
+    #comments,
+    .comment-info,
+    .recomment-wrap,
+    .recomment,
+    .recomment-input-box {
+        width: 100%;
+    }
+
+    #comment-submit-form {
+        width: 100%;
+    }
+
+    #id_text {
+        height: 8rem;
+        font-size: 1.5rem;
+    }
+
+    #comment-submit {
+        margin-top: 3rem;
+        margin-right: 0;
+    }
+
+    #comments {
+        margin-top: 4rem;
+    }
+
+    .comment-info,
+    .recomment-info {
+        justify-content: space-between;
+    }
+
+    .bar,
+    .comment-report {
+        display: none;
+    }
+
+    .comment-author,
+    .recomment-author {
+        width: fit-content;
+    }
+
+    .comment-create {
+        text-align: right;
+        width: fit-content;
+    }
+
+    .comment-content {
+        margin-top: 1.5rem;
+    }
+
+    .comment-text {
+        padding: 15px 70px 1px 15px;
+
+        width: 100%;
+        border-top-right-radius: 37px;
+        border-bottom-right-radius: 37px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .comment-text--text,
+    .recomment-text--text {
+        width: 100%;
+    }
+
+    .comment-like-button-wrap {
+        top: 7px;
+        right: 6px;
+    }
+
+    .comment-edit-form-container {
+        width: 100%;
+    }
+
+    .recomment-wrap {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .recomment-info {
+        margin: 0 1rem;
+    }
+
+    .recomment-input-box {
+        margin: 0 auto;
+        margin-top: 1.5rem;
+        width: calc(100% - 20px);
+
+        font-size: 1.5rem;
+    }
+
+    .recomment-submit-button {
+        margin-top: 1rem;
+    }
+
+    .recomment-arrow,
+    .recomment-report {
+        display: none;
+    }
+
+    .horizon-bar {
+        width: 100%;
+    }
+
+    .recomment-text {
+        width: 100%;
+        padding: 20px 35px 15px 20px;
+    }
+
+    .recomment-text--text {
+        margin-bottom: 1rem;
+    }
+
+    .recomment-like-button-wrap {
+        top: 29.5px;
+        right: -26.5px;
+    }
+}
