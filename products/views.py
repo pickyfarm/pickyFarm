@@ -140,7 +140,7 @@ def product_detail(request, pk):
         product_pk = pk
         product = Product.objects.get(pk=pk)
 
-        if not product.open and not request.user.username == 'pickydevs':
+        if not product.open and not request.user.username == 'admin':
             return redirect(reverse('products:store_list')) 
 
 
@@ -148,7 +148,7 @@ def product_detail(request, pk):
         farmer = product.farmer
 
         # 상품 리뷰
-        siblings = product.get_available_sibling_products()
+        siblings = product.get_sibling_products()
         print(siblings[1:])
         comments = Product_Comment.objects.filter(product=siblings[0])
         for p in siblings[1:]:
@@ -214,7 +214,7 @@ def product_detail(request, pk):
         ctx = {
             "product_pk": product_pk,
             "product": product,
-            "siblings": siblings,
+            "siblings": siblings.filter(open=True, status='sale'),
             "kinds": kinds,
             "farmer": farmer,
             "comments": comments,
