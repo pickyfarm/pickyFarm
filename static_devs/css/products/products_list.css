@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.3.6,
+* Autoprefixer: v10.3.1
+* Browsers: last 4 version
+*/
+
 #big_category {
     position: sticky;
     top: 5vw;
@@ -28,7 +35,7 @@
     text-align: left;
     color: #5c6754;
 }
-#picky-store{
+#picky-store {
     display: none;
 }
 #content_box {
@@ -84,6 +91,8 @@
 }
 
 #sort:hover #sort_list {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
     /* -webkit-transition: ease-in;
   -webkit-transition-duration: 5s; */
@@ -101,19 +110,26 @@
 }
 
 #products {
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
+    -ms-grid-rows: auto 60px auto 60px auto 60px auto 60px auto;
+    grid-template-areas: 'col1', 'col2', 'col3';
+
     grid-gap: 60px 32.5px;
     justify-items: center;
 }
 
-#product_item {
+.product-item {
     height: 520px;
 
     width: 265px;
 }
 
 .farmer-info-overlay {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     opacity: 0;
     width: 265px;
@@ -133,6 +149,7 @@
 .farmer-profile-image {
     width: 120px;
     height: 120px;
+    -o-object-fit: cover;
     object-fit: cover;
     border-radius: 100%;
     border: 3px solid #5e6656;
@@ -155,8 +172,10 @@
     width: 265px;
     height: 385px;
     border-radius: 10px;
+    -webkit-box-shadow: 10px 10px 10px 0 rgba(170, 170, 170, 0.7);
     box-shadow: 10px 10px 10px 0 rgba(170, 170, 170, 0.7);
     background-color: #ffffff;
+    -o-object-fit: cover;
     object-fit: cover;
 }
 
@@ -230,13 +249,25 @@
 
 @media (max-width: 500px) {
     #main {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
         flex-direction: column;
     }
     #big_category {
         position: none;
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
         flex-direction: row;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
         justify-content: space-between;
         top: 0;
         padding: 5vw 6vw;

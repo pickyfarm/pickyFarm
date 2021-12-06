@@ -1,0 +1,66 @@
+.product-item:nth-child(1) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+}
+
+.product-item:nth-child(2) {
+    -ms-grid-column: 2;
+    -ms-grid-row: 1;
+}
+
+.product-item:nth-child(3) {
+    -ms-grid-column: 3;
+    -ms-grid-row: 1;
+}
+
+.product-item:nth-child(4) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+}
+.product-item:nth-child(5) {
+    -ms-grid-column: 2;
+    -ms-grid-row: 2;
+}
+.product-item:nth-child(6) {
+    -ms-grid-column: 3;
+    -ms-grid-row: 2;
+}
+
+.product-item:nth-child(7) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 3;
+}
+.product-item:nth-child(8) {
+    -ms-grid-column: 2;
+    -ms-grid-row: 3;
+}
+.product-item:nth-child(9) {
+    -ms-grid-column: 3;
+    -ms-grid-row: 3;
+}
+
+.product-item:nth-child(10) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 4;
+}
+.product-item:nth-child(11) {
+    -ms-grid-column: 2;
+    -ms-grid-row: 4;
+}
+.product-item:nth-child(12) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+}
+
+.product-item:nth-child(13) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 5;
+}
+.product-item:nth-child(14) {
+    -ms-grid-column: 2;
+    -ms-grid-row: 5;
+}
+.product-item:nth-child(15) {
+    -ms-grid-column: 3;
+    -ms-grid-row: 1;
+}

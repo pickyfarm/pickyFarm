@@ -1155,10 +1155,11 @@ class FarmerMyPageProductStateUpdate(FarmerMyPagePopupBase):
             state = "suspended"
 
             siblings = product_obj.get_available_sibling_products().exclude(pk=product_obj.pk)
-            
+            print(siblings.count())
             # 같은 Product_Group 내에 open=True인 상품이 없으면 Product_Group 내리기
             if siblings.count() < 1 :
                 product_obj.product_group.open=False
+                product_obj.product_group.save()
             
             elif siblings.count() > 0 and product_obj.main_product:
                 product.update(**{'main_product':False})
