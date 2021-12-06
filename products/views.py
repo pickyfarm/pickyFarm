@@ -140,7 +140,7 @@ def product_detail(request, pk):
         product_pk = pk
         product = Product.objects.get(pk=pk)
 
-        if not product.open and not request.user.username == 'admin':
+        if not product.open and not request.user.username == 'pickydevs':
             return redirect(reverse('products:store_list')) 
 
 
