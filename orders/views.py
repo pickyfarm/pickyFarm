@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail, RefundExchange
+from .utils import payment_complete_notification
 from django.utils import timezone
 from products.models import Product
 from farmers.models import Farmer
@@ -804,6 +805,8 @@ def payment_valid(request):
                     print(f"=== PAYMENT VALIDATION SUCCESS : {nowDatetime} ===")
                     print(f"=== RECIPT ID : {receipt_id} ===")
 
+                    payment_complete_notification(order_group.pk)
+
                     return render(request, "orders/payment_success.html", ctx)
 
         else:
@@ -1057,6 +1060,7 @@ def vbank_deposit(request):
     if order_group.payment_type == "vbank":
         # 만료기간 내에 입금 완료한 경우
         if status == 1:
+            payment_complete_notification(order_group.pk)
             send_kakao_with_payment_complete(order_group.pk, receipt_id)
 
         # 계좌 만료된 경우
