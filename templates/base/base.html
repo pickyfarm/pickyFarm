@@ -19,6 +19,8 @@
     {% block stylesheet %}
     {% endblock stylesheet %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/webp-hero@0.0.0-dev.27/dist-cjs/polyfills.js"></script>
+    <script src="https://unpkg.com/webp-hero@0.0.0-dev.27/dist-cjs/webp-hero.bundle.js"></script>
     <script defer src="{% static 'js/base/cookieHandler.js' %}"></script>
     <script defer src="{% static 'js/base/modalClose.js' %}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -83,5 +85,14 @@
 {% endblock %}
 {% block scripts %}
 {% endblock %}
+<script>
+    // compatible forEach method for ie
+    if (window.NodeList && !NodeList.prototype.forEach) {
+        NodeList.prototype.forEach = Array.prototype.forEach;
+    }
+
+    var webpMachine = new webpHero.WebpMachine()
+    webpMachine.polyfillDocument()
+</script>
 
 </html>

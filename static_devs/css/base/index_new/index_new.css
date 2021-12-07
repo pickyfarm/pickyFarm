@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.3.6,
+* Autoprefixer: v10.3.1
+* Browsers: last 4 version
+*/
+
 /* 
 공통되는 css 속성만 (background-color 등 PC와 모바일 모두 같은 값을 가지는 속성) 먼저 적은 뒤에, 
 PC, mobile 순으로 작성할 것 -> 코드 중복 최대한 막기 위함임
@@ -5,12 +12,20 @@ PC, mobile 순으로 작성할 것 -> 코드 중복 최대한 막기 위함임
 
 /* base styles */
 img {
+    -o-object-fit: cover;
     object-fit: cover;
 }
 
 #content {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
@@ -52,6 +67,7 @@ img {
 }
 
 #todays-crops-btn {
+    -webkit-box-shadow: 2px 2px 3px 0 rgba(71, 83, 48, 0.38);
     box-shadow: 2px 2px 3px 0 rgba(71, 83, 48, 0.38);
     background-color: #dfe4c7;
     color: #535940;
@@ -60,14 +76,23 @@ img {
 
 /* Section 2 - base */
 #index-section2 {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 
     background-color: white;
 }
 
 #hot-crops {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
 }
 
@@ -81,16 +106,26 @@ img {
 }
 
 #crops-desc-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
 }
 
 .crop-desc {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
     align-items: flex-start;
 }
 
 .hot-crop-image {
+    -o-object-fit: cover;
     object-fit: cover;
 }
 
@@ -110,6 +145,8 @@ img {
 }
 
 .ugly-tag {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     background-color: #4a5448;
     color: white;
@@ -117,6 +154,8 @@ img {
     border-radius: 0 100px 100px 0;
 }
 .normal-tag {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     border: 1px solid #4a5448;
     color: #4a5448;
@@ -125,8 +164,14 @@ img {
 }
 
 #click-message {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
     align-self: center;
 
     color: #374f34;
@@ -142,33 +187,56 @@ img {
 }
 
 #section2-image-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
 }
 #section2-image-wrap .ugly-tag {
+    -ms-flex-item-align: end;
     align-self: flex-end;
 }
 
 /* Section 3 (Farmer 미니홈페이지 링크) - base */
 #index-section3 {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     background-color: #ecf3e7;
 }
 
 #section3-title {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     color: #728152;
     font-weight: bold;
 }
 
 .section3-title-button {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
 
     border-radius: 99px;
+    -webkit-box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.37);
     box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.37);
 
     background-color: #374f34;
@@ -183,8 +251,14 @@ img {
 }
 
 #section3-farmer-list-wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
 }
 
@@ -195,14 +269,23 @@ img {
 }
 
 .farmer-figure-wrap {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
     display: flex !important;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
 .farmer-profile-image {
     border-radius: 100%;
     border-color: #374f34;
+    -webkit-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.51),
+        0px 0px 33px 4px rgba(0, 0, 0, 0.45) inset;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.51),
         0px 0px 33px 4px rgba(0, 0, 0, 0.45) inset;
 }
@@ -216,6 +299,8 @@ img {
 }
 
 .farmer-page-link {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
 
     border-radius: 99px;
@@ -237,15 +322,21 @@ img {
     button,
     .farmer-slider-button,
     .zoom-on-hover {
+        -webkit-transition: all 0.15s ease-in;
+        -o-transition: all 0.15s ease-in;
         transition: all 0.15s ease-in;
     }
 
     button:hover,
     .zoom-on-hover:hover {
+        -webkit-transform: scale(1.03);
+        -ms-transform: scale(1.03);
         transform: scale(1.03);
     }
 
     .farmer-slider-button:hover {
+        -webkit-transform: scale(1.25);
+        -ms-transform: scale(1.25);
         transform: scale(1.25);
     }
 }
@@ -259,6 +350,8 @@ img {
         margin-bottom: 50px;
     }
     #section1-farmers-wrap {
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
         width: fit-content;
         padding: 43px 350px 43px 100px;
     }
@@ -292,7 +385,7 @@ img {
         margin-top: 17px;
     }
 
-    #todays-crops-mobile {
+    .todays-crops-mobile {
         display: none;
     }
 }
@@ -300,6 +393,8 @@ img {
 /****** Section 2 - PC ******/
 @media screen and (min-width: 769px) {
     #index-section2 {
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
         justify-content: space-between;
 
         height: 593px;
@@ -310,8 +405,13 @@ img {
     }
 
     #crops-desc-wrap {
-        gap: 22px;
         margin-top: 30px;
+    }
+
+    .todays-crops-pc,
+    .todays-crops-mobile,
+    .crop-desc {
+        margin-right: 22px;
     }
 
     .hot-crop-image {
@@ -388,6 +488,8 @@ img {
     }
 
     #section3-farmer-list-slider {
+        -webkit-column-gap: 122px;
+        -moz-column-gap: 122px;
         column-gap: 122px;
         width: 900px;
     }
@@ -484,15 +586,18 @@ img {
         margin-top: 0.7rem;
     }
 
-    #todays-crops-pc {
+    .todays-crops-pc {
         display: none;
     }
-    #todays-crops-mobile {
+    .todays-crops-mobile {
         display: block;
     }
 
     /* Section 2 - mobile */
     #index-section2 {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
         flex-direction: column-reverse;
         width: 100%;
         height: auto;
@@ -510,6 +615,8 @@ img {
 
     #crops-desc-wrap {
         width: 100%;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
         justify-content: space-between;
     }
 
@@ -559,8 +666,17 @@ img {
     #section2-phrase {
         width: 100%;
 
+        display: -webkit-box;
+
+        display: -ms-flexbox;
+
         display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
         flex-direction: row;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
         justify-content: space-between;
 
         margin-top: 5rem;
@@ -619,6 +735,8 @@ img {
     }
 
     #section3-farmer-list-slider {
+        -webkit-column-gap: 3.2rem;
+        -moz-column-gap: 3.2rem;
         column-gap: 3.2rem;
         width: 28rem;
         height: 17rem;
@@ -627,6 +745,10 @@ img {
     .farmer-figure-wrap {
         width: 11rem;
         height: 16rem;
+
+        -webkit-box-pack: end;
+
+        -ms-flex-pack: end;
 
         justify-content: end;
     }
