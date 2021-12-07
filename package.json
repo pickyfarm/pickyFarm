@@ -1,5 +1,10 @@
 {
   "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
     "tailwindcss": "^2.2.19"
+  },
+  "dependencies": {
+    "@babel/core": "^7.16.0"
   }
 }

@@ -100,9 +100,8 @@
         width: 100%;
         margin: 0 auto;
         grid-template-columns: 1fr 1fr;
-        grid-gap: 0;
     }
-    #product_item {
+    .product-item {
         width: 100%;
         height: 100%;
     }
