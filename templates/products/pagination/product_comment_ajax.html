@@ -23,11 +23,12 @@
                 <div class="flex flex-row pb-5 items-center">
                     <div class="text-black text-opacity-40 mr-16">{{ comment.product.title }} 구매</div>
                     <div id="stars" class='flex flex-row items-center'>
-                        {% for i in comment.avg|rjust:comment.avg %}
+                        {% for i in total_range %}
+                        {% if i < comment.avg %}
                         <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/yellow_star.svg' %}" alt="yellow_star">
-                        {% endfor %}
-                        {% for i in 5|rjust:4 %}
+                        {% else %}
                         <img class='mr-3 h-6 w-6' src="{% static 'images/product_detail/star.svg' %}" alt="yellow_star">
+                        {% endif %}
                         {% endfor %}
                     </div>
                 </div>

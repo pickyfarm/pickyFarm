@@ -328,6 +328,7 @@
     .recomment .recomment-info {
         display: flex;
         margin: 0;
+        padding-top: 0;
     }
     .recomment-arrow {
         width: 0.69rem !important;
