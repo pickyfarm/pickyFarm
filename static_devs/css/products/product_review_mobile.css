@@ -252,9 +252,9 @@
         width: 100%;
         margin-left: 0;
     }
-    #review_comment > div:nth-child(1) {
+    /* #review_comment > div:nth-child(1) {
         display: none;
-    }
+    } */
     .rec_more {
         width: 6.1rem;
         height: 2rem;
@@ -309,7 +309,6 @@
         font-weight: 500 !important;
         font-stretch: normal !important;
         font-style: normal !important;
-        line-height: 2;
         letter-spacing: 0.011rem !important;
         text-align: center !important;
         color: var(--dark-sage) !important;
