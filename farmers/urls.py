@@ -19,6 +19,11 @@ urlpatterns = [
         views.products_ajax,
         name="products_ajax",
     ),
+    path(
+        "farmer_detail/<int:pk>/diary_ajax/",
+        views.diary_ajax,
+        name="diary_ajax",
+    ),
     path("apply/", views.farm_apply, name="farm_apply"),
     path("enroll/step/1/", views.enroll_page1, name="enroll_page1"),
     path("enroll/step/2/<int:consumerpk>/", views.enroll_page2, name="enroll_page2"),

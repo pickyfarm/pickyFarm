@@ -140,9 +140,8 @@ def product_detail(request, pk):
         product_pk = pk
         product = Product.objects.get(pk=pk)
 
-        if not product.open and not request.user.username == 'pickydevs':
-            return redirect(reverse('products:store_list')) 
-
+        if not product.open and not request.user.username == "pickydevs":
+            return redirect(reverse("products:store_list"))
 
         kinds = product.kinds
         farmer = product.farmer
@@ -168,6 +167,7 @@ def product_detail(request, pk):
         # product.calculate_total_rating_avg()
         total_score = product.product_group.total_avg
         total_percent = format(total_score / 5 * 100, ".1f")
+        total_range = range(0, 5)
 
         recomment_form = ProductRecommentForm()
 
@@ -192,7 +192,6 @@ def product_detail(request, pk):
         else:
             cost_performance_per = [0, 0, 0]
 
-
         # 상세 정보
         product_harvest_start_date = dateformat.format(product.harvest_start_date, "Y년 m월 d일")
         product_harvest_end_date = dateformat.format(product.harvest_end_date, "Y년 m월 d일")
@@ -214,7 +213,7 @@ def product_detail(request, pk):
         ctx = {
             "product_pk": product_pk,
             "product": product,
-            "siblings": siblings.filter(open=True, status='sale'),
+            "siblings": siblings.filter(open=True, status="sale"),
             "kinds": kinds,
             "farmer": farmer,
             "comments": comments,
@@ -224,6 +223,7 @@ def product_detail(request, pk):
             "total_score": range(int(total_score)),
             "remainder_score": range(5 - int(total_score)),
             "total_percent": total_percent,
+            "total_range": total_range,
             "recomment_form": recomment_form,
             "freshness_1": freshness_per[0],
             "freshness_3": freshness_per[1],

@@ -173,25 +173,28 @@ purchaseBtn.addEventListener('click', function () {
 
     document.body.appendChild(form);
     form.submit();
-}); // 댓글 작성 버튼 toggle
+}); 
 
-var recomments = document.querySelectorAll('.recomments');
-recomments.forEach(function (recomment) {
-    return recomment.classList.add('hide');
-});
-$(document).on('click', '#more_btn', function () {
-    $(this).parent().siblings('.recomments').toggle();
-    $(this).children('.fa-caret-down').toggle();
-    $(this).children('.fa-caret-up').toggle();
+// // 댓글 작성 버튼 toggle
+// var recomments = document.querySelectorAll('.recomments');
+// recomments.forEach(function (recomment) {
+//     return recomment.classList.add('hide');
+// });
+// $(document).on('click', '#more_btn', function () {
+//     $(this).parent().siblings('.recomments').toggle();
+//     $(this).children('.fa-caret-down').toggle();
+//     $(this).children('.fa-caret-up').toggle();
 
-    var _document$querySelect = document.querySelectorAll('.recomment_form'),
-        _document$querySelect2 = _toArray(_document$querySelect),
-        recomment_forms = _document$querySelect2.slice(0);
+//     var _document$querySelect = document.querySelectorAll('.recomment_form'),
+//         _document$querySelect2 = _toArray(_document$querySelect),
+//         recomment_forms = _document$querySelect2.slice(0);
 
-    recomment_forms.forEach(function (form) {
-        form.scrollBy(0, 10000);
-    });
-}); // QnA Pagination
+//     recomment_forms.forEach(function (form) {
+//         form.scrollBy(0, 10000);
+//     });
+// }); 
+
+// QnA Pagination
 
 var qna_page = document.querySelectorAll('#qna_paginator');
 var QnaURL = "{% url 'products:qna_paginator' %}";
