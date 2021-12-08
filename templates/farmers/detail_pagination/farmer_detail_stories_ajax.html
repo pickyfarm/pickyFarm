@@ -1,0 +1,44 @@
+{% load static %}
+<div class="flex flex-row justify-center mb-40">
+    {% for story in stories %}
+    <a href="{% url 'farmers:farmer_story_detail' story.pk %}">
+        <div class="p-5 mx-1" id="story_wrap">
+            <img src="{{ story.thumbnail.url }}" alt="" class="" id="story_img">
+            <div class="flex flex-row justify-between text-xs mt-2 mb-1">
+                <div id="create">{{ story.create_at|date:"Y.m.d" }}</div>
+                <div class="flex flex-row">
+                    <div class="mr-1" id="hits">{{ story.hits }}</div>
+                    <img src="{% static 'images/farmers_detail/hits.svg' %}" alt="">
+                </div>
+            </div>
+            <div class="text-left font-medium" id="story_title">{{ story.title }}</div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+<!-- pagination section -->
+<div class="flex justify-between w-36 mx-auto mt-8 mb-20">
+    <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    {% if stories.has_previous %}
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='{{stories.previous_page_number}}' style="cursor: pointer">
+    {% else %}
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator2' id='1' style="cursor: pointer">
+    {% endif %}
+
+    <div>{{stories.number}}</div>
+    <div>/</div>
+    <div>{{stories.paginator.num_pages}}</div>
+
+    {% if stories.has_next %}
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{stories.next_page_number}}' style="cursor: pointer">
+    {% else %}
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator2' id='{{stories.paginator.num_pages}}' style="cursor: pointer">
+    {% endif %}
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator2' id='{{stories.paginator.num_pages}}' style="cursor: pointer">
+</div>
+
+<script>
+    PAGINATION_URL2 = 'diary_ajax/?page2='
+    PAGINATION_SECTION2 = '#stories-section'
+</script>
+<script defer src="{% static 'js/pagination/pagination.js' %}"></script>

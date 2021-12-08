@@ -9,10 +9,6 @@
     </a>
     {% endfor %}
 </div>
-{% if products.count <= 3 %}
-<div class="h-10 mb-48">
-</div>
-{% else %}
 <!-- pagination section -->
 <div class="flex justify-between w-36 mx-auto mt-8 mb-20">
     <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
@@ -33,7 +29,6 @@
     {% endif %}
     <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{products.paginator.num_pages}}' style="cursor: pointer">
 </div>
-{% endif %}
 
 <script>
     PAGINATION_URL = 'products_ajax/?page='
