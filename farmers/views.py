@@ -1142,8 +1142,10 @@ class FarmerMyPageProductStateUpdate(FarmerMyPagePopupBase):
     def post(self, request, **kwargs):
         product = self.get_queryset()
         product_obj = self.get_object()
+        product_group = product_obj.product_group
+        siblings = product_obj.get_available_sibling_products().exclude(pk=product_obj.pk)
 
-        state = request.POST.get("sell")
+        state = request.POST.get("sell", product[0].status)
         weight = request.POST.get("weight", product[0].weight)
         weight_unit = request.POST.get("weight_unit", product[0].weight_unit)
         quantity = request.POST.get("quantity", product[0].stock)
@@ -1154,12 +1156,10 @@ class FarmerMyPageProductStateUpdate(FarmerMyPagePopupBase):
             open_status = False
             state = "suspended"
 
-            siblings = product_obj.get_available_sibling_products().exclude(pk=product_obj.pk)
             print(siblings.count())
             # 같은 Product_Group 내에 open=True인 상품이 없으면 Product_Group 내리기
             if siblings.count() < 1 :
-                product_obj.product_group.open=False
-                product_obj.product_group.save()
+                product_group.open=False
             
             elif siblings.count() > 0 and product_obj.main_product:
                 product.update(**{'main_product':False})
@@ -1167,6 +1167,15 @@ class FarmerMyPageProductStateUpdate(FarmerMyPagePopupBase):
                 
                 first.main_product=True
                 first.save()
+
+        elif state == 'sale':
+            if siblings.count() == 0:
+                # Product_Group 내에 첫번째 Open이라면 product_group 열기
+                product_group.open = True
+                product_obj.main_product = True
+
+        product_obj.save()
+        product_group.save()
 
         product.update(
             **{

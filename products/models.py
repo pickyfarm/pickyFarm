@@ -110,6 +110,7 @@ class Product(models.Model):
     kinds = (
         ("ugly", "무난이 작물"),
         ("normal", "일반 작물"),
+        ("mix", "무난이 + 일반")
     )
     weight_unit = (
         ("g", "g"),
