@@ -1,6 +1,6 @@
 from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, redirect, reverse
-from django.http import request, JsonResponse
+from django.http import request, JsonResponse, HttpResponse
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from comments.models import Product_Comment
 from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
 from django.utils import timezone, dateformat
+from .utils import get_product_db
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
 from django import template
@@ -425,6 +426,12 @@ def create_answer(request, pk):
         else:
             return redirect(reverse("core:main"))
         return redirect(reverse("core:main"))  # 추후 파머스 마이페이지 리뷰/문의 관리로 이동 하도록 수정
+
+
+def get_product_EP(request):
+    get_product_db()
+
+    return HttpResponse("EP 생성 완료")
 
 
 # @login_required

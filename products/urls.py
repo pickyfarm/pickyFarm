@@ -16,4 +16,5 @@ urlpatterns = [
     # pagination
     path("detail/<int:pk>/comment_ajax/", views.comment_ajax, name="comment_ajax"),
     path("detail/<int:pk>/question_ajax/", views.question_ajax, name="question_ajax"),
+    path("get-db", views.get_product_EP, name="get_product_db"),
 ]

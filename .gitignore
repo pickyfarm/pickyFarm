@@ -134,3 +134,6 @@ kakaomessages/template.py
 # farm order list
 *.xlsx
 *.csv
+
+# naver shopping EP list
+*.txt
