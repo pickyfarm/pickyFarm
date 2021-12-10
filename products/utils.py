@@ -1,40 +1,46 @@
 import pandas as pd
-from .models import Product_Group, Category
+from .models import Product, Product_Image, Category
 
 
 def get_product_db():
-    products = Product_Group.objects.filter(open=True)
+    products = Product.objects.filter(open=True, status="sale")
     db_columns = [
         "id",
         "title",
         "price_pc",
         "link",
         "image_link",
+        "add_image_link",
         "category_name2",
         "category_name1",
         "naver_category",
         "review_count",
         "shipping",
         "search_tag",
+        "origin",
     ]
 
     product_data = []
 
     for product in products:
         cat = product.category
+        images = product.product_images.all()
+        image_url = "|".join([image.url for images in range(len(images))])
         product_data.append(
             [
                 product.pk,
                 product.title,
-                product.get_main_product().sell_price,
+                product.sell_price,
                 f"https://www.pickyfarm.com/product/detail/{product.pk}",
                 product.main_image.url,
+                image_url,
                 cat.name,
                 cat.parent.name,
                 get_product_naver_category_code(cat.name),
-                product.total_reviews,
-                product.get_main_product().default_delivery_fee,
+                product.product_comments.all().count(),
+                product.default_delivery_fee,
                 cat.name,
+                "국산",
             ]
         )
 
