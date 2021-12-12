@@ -25,7 +25,7 @@ def get_product_db():
     for product in products:
         cat = product.category
         images = product.product_images.all()
-        image_url = "|".join([image.url for images in range(len(images))])
+        image_url = "|".join([image.image.url for image in images])
         product_data.append(
             [
                 product.pk,
