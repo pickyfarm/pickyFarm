@@ -12,7 +12,7 @@ def send_kakao_message(
     templateId="",
     args={},
 ):
-    phonenum = re.sub(r"[^0-9]", "", phonenum)
+    # phonenum = re.sub(r"[^0-9]", "", phonenum)
     data = {
         "messages": [
             # 변수가 있는 경우
