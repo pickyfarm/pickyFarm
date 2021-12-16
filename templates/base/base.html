@@ -15,16 +15,15 @@
     <meta property='og:description' content='{% block og_desc %}{% endblock %}'>
     <meta property='og:image' content='{% block og_image %}{% endblock %}'>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     {% block stylesheet %}
     {% endblock stylesheet %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/webp-hero@0.0.0-dev.27/dist-cjs/polyfills.js"></script>
-    <script src="https://unpkg.com/webp-hero@0.0.0-dev.27/dist-cjs/webp-hero.bundle.js"></script>
-    <script defer src="{% static 'js/base/cookieHandler.js' %}"></script>
-    <script defer src="{% static 'js/base/modalClose.js' %}"></script>
+    <!-- <script defer src="{% static 'js/base/cookieHandler.js' %}"></script>
+    <script defer src="{% static 'js/base/modalClose.js' %}"></script> -->
+    <script defer src="{% static 'js/bundle_base.js' %}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <!-- <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script defer src="{% static 'js/base/toastMessage.js' %}"></script>
     <script defer src="{% static 'js/base/modalMessage.js' %}"></script>
     <script defer src="{% static 'js/base/cartIn.js' %}"></script>
@@ -32,7 +31,7 @@
     <script defer src="{% static 'js/base/subscribeCancel.js' %}"></script>
     <script defer src="{% static 'js/base/subscribe.js' %}"></script>
     <script defer src="{% static 'js/base/csrfToken.js' %}"></script>
-    <script defer src="{% static 'js/base/prohibitMobile.js' %}"></script>
+    <script defer src="{% static 'js/base/prohibitMobile.js' %}"></script> -->
 
 
     <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
@@ -66,15 +65,10 @@
             <span id="modal-close-24h">24시간동안 보지않기</span>
         </div>
     </div>
-    {% include 'partials/header_mobile.html' %}
-    <div class="base-wrap font-sans-kr flex flex-col">
-        {% include "partials/header_.html" %}
-        {% block main_content %}
 
-        {% endblock main_content %}
-        {% include "partials/footer.html" %}
+    {% block content_base %}
+    {% endblock content_base %}
 
-    </div>
     {% include 'partials/navbar_mobile.html' %}
     <a href="http://pf.kakao.com/_DIexfs">
         <img src="{% static 'images/base/id_type.png' %}" alt="카카오톡 채널 추가하기" id="kakao-channel-icon">
@@ -85,14 +79,5 @@
 {% endblock %}
 {% block scripts %}
 {% endblock %}
-<script>
-    // compatible forEach method for ie
-    if (window.NodeList && !NodeList.prototype.forEach) {
-        NodeList.prototype.forEach = Array.prototype.forEach;
-    }
-
-    var webpMachine = new webpHero.WebpMachine()
-    webpMachine.polyfillDocument()
-</script>
 
 </html>

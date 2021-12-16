@@ -1,4 +1,4 @@
-{% extends "base/base.html" %}
+{% extends "base/base_for_other.html" %}
 {% block og_url %}{% url 'products:product_detail' product.pk %}{% endblock %}
 {% block og_title %}{{product.title}}{% endblock %}
 {% block og_desc %}{{product.sub_title}}{% endblock %}
