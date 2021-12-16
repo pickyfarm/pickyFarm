@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_for_other.html' %}
 
 {% load static %}
 {% block title_name %}
@@ -16,11 +16,11 @@ Farmer's Diary
     <!--title-->
     <div class="text-3xl text-center my-5" style="color: #808080;"> Farmer's Diary </div>
     <div class="text-center mb-4" style="color: #999999; font-size: 15px;"> 파머가 직접 전하는 농가 이야기 </div>
-    
+
     {% if request.user == main_story.farmer.user %}
     <div class="text-center mb-16">
         <a href="{% url 'farmers:farmer_story_update' main_story.pk %}">수정</a>
-    </div>  
+    </div>
     {% endif %}
 
     <!--farmer story content-->

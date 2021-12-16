@@ -1,14 +1,82 @@
-{% extends 'base/_base.html' %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content_base %}
-{% include 'partials/header_mobile.html' %}
-<div class="base-wrap font-sans-kr flex flex-col">
-    {% include "partials/header_.html" %}
-    {% block main_content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <meta name="keywords" content="못난이 농산물 직거래,산지직송 농산물,못난이 직거래,가정용 과일,가성비 농산물,농산물 직거래,농산물 파는 곳,농산물 시장,농산물 장터,지역 특산물,{% block meta_keyword%}{% endblock %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/mainlogo_small.svg' %}">
+    <meta property='og:url' content="{% block og_url %}{% endblock %}">
+    <meta property='og:type' content='website'>
+    <meta property='og:title' content='{% block og_title %}{% endblock %} | 피키팜'>
+    <meta property='og:description' content='{% block og_desc %}{% endblock %}'>
+    <meta property='og:image' content='{% block og_image %}{% endblock %}'>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> -->
+    {% block stylesheet %}
+    {% endblock stylesheet %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="{% static 'js/base/cookieHandler.js' %}"></script>
+    <script defer src="{% static 'js/base/modalClose.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script defer src="{% static 'js/base/toastMessage.js' %}"></script>
+    <script defer src="{% static 'js/base/modalMessage.js' %}"></script>
+    <script defer src="{% static 'js/base/cartIn.js' %}"></script>
+    <script defer src="{% static 'js/base/wish.js' %}"></script>
+    <script defer src="{% static 'js/base/subscribeCancel.js' %}"></script>
+    <script defer src="{% static 'js/base/subscribe.js' %}"></script>
+    <script defer src="{% static 'js/base/csrfToken.js' %}"></script>
+    <script defer src="{% static 'js/base/prohibitMobile.js' %}"></script>
 
-    {% endblock main_content %}
-    {% include "partials/footer.html" %}
 
-</div>
-{% endblock content_base %}
+    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+    <link rel="stylesheet" href="{% static 'css/base/base_style.css' %}">
+
+    {% block auth_stylesheet %}
+    {% endblock auth_stylesheet %}
+    <title>{% block title_name %}{% endblock %} | 피키팜</title>
+</head>
+
+<body>
+    <div id="toast-section">
+        <div id="toast-container" class="flex items-center">
+            <div id="toast-status"><img src="{% static 'images/mainlogo_small.svg' %}" alt=""></div>
+            <div id="toast-message"></div>
+        </div>
+    </div>
+    <div id="modal-section">
+        <div class="flex flex-col mx-auto my-auto">
+            <div id="modal-container" class="mx-auto my-auto flex flex-col">
+                <button class="transition-element self-end" id="modal-close">×</button>
+                <div id="modal-message">
+                    Modal test
+                </div>
+                <div id="modal-buttons" class="flex justify-between">
+                    <button class="modal-button transition_element" id="modal-cancel">닫기</button>
+                    <button class="modal-button transition_element" id="modal-accept">확인</button>
+                </div>
+            </div>
+            <span id="modal-close-24h">24시간동안 보지않기</span>
+        </div>
+    </div>
+
+    {% block content_base %}
+    {% endblock content_base %}
+
+    {% include 'partials/navbar_mobile.html' %}
+    <a href="http://pf.kakao.com/_DIexfs">
+        <img src="{% static 'images/base/id_type.png' %}" alt="카카오톡 채널 추가하기" id="kakao-channel-icon">
+    </a>
+</body>
+
+{% block mypage_base_script_section %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}
+
+</html>

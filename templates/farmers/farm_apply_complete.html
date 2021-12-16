@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_for_other.html' %}
 {% load static %}
 
 {% block stylesheet %}
@@ -21,4 +21,4 @@
             <input type="button" value="확인" id="check_btn" onclick="location.href='{% url 'core:main' %}'" />
         </div>
     </div>
-{% endblock %}
+    {% endblock %}
