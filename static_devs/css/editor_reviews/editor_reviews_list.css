@@ -117,7 +117,8 @@
     color: #000000;
 }
 
-.article-info div {
+.article-info div,
+.article-info time {
     font-size: 10px;
     font-weight: normal;
     font-stretch: normal;

@@ -13,40 +13,40 @@
 {% block og_desc %}에디터들이 직접 알아보는 무난이 이야기들{% endblock %}
 {% block og_image %}{% static 'images/mainlogo_small.svg' %}{% endblock %}
 {% block main_content %}
-<div class="main-content">
-    <div class="w-header mx-auto mt-24 page-title">
-        <p class=" text-4xl mb-4">EDITOR's PICK</p>
-        <p class=" text-lg text-gray-400 font-thin">에디터들이 직접 알아보는 무난이 이야기들</p>
-        <p class=" text-lg text-gray-400 font-thin">당신의 PICK에 도움이 되었으면 좋겠습니다</p>
-    </div>
+<main class="main-content">
+    <hgroup class="w-header mx-auto mt-24 page-title">
+        <h1 class=" text-4xl mb-4">EDITOR's PICK</h1>
+        <h2 class=" text-lg text-gray-400 font-thin">에디터들이 직접 알아보는 무난이 이야기들</h2>
+        <h2 class=" text-lg text-gray-400 font-thin">당신의 PICK에 도움이 되었으면 좋겠습니다</h2>
+    </hgroup>
 
-    <div class="review-lists-horizon w-full">
+    <section class="review-lists-horizon w-full">
         <div class="zero-item"></div>
         <a href="{% url 'editors_pick:detail' first_review.pk %}">
-            <div class="first-item rounded-l-full flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{first_review.main_image.url}}');">
-                <div class="first-item-text text-white">
+            <article class="first-item rounded-l-full flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{first_review.main_image.url}}');">
+                <h3 class="first-item-text text-white">
                     {{first_review.title}}
-                </div>
-                <div class="first-item-editor text-sm text-white">
+                </h3>
+                <strong class="first-item-editor text-sm text-white">
                     by {{first_review.author.user.nickname}}
-                </div>
-            </div>
+                </strong>
+            </article>
         </a>
 
 
         {% for review in review_list %}
         <a href="{% url 'editors_pick:detail' review.pk %}">
-            <div class="remain-items flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
-                <div class="items-text mx-auto bg-cover text-white">
+            <article class="remain-items flex flex-col bg-cover" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
+                <h3 class="items-text mx-auto bg-cover text-white">
                     {{review.title}}
-                </div>
-                <div class="text-sm mt-auto mb-12 ml-4 text-white">
+                </h3>
+                <strong class="text-sm mt-auto mb-12 ml-4 text-white">
                     by editorName
-                </div>
-            </div>
+                </strong>
+            </article>
         </a>
         {% endfor %}
-    </div>
+    </section>
 
     <div class="w-content mx-auto flex flex-col">
 
@@ -58,18 +58,18 @@
         </div>
     </div>
 
-    <div class="review-lists-vertical w-full mt-24">
+    <section class="review-lists-vertical w-full mt-24">
         <div class="lists-contents w-content mx-auto flex justify-between pb-16">
 
             <div class="lists flex flex-col ">
                 {% for review in review_list %}
                 <a href="{% url 'editors_pick:detail' review.pk %}">
-                    <div class="article flex justify-between my-8" category='{{review.post_category}}'>
+                    <article class="article flex justify-between my-8" category='{{review.post_category}}'>
                         <div class="info flex flex-col">
-                            <div class="title">{{review.title}}</div>
+                            <h3 class="title">{{review.title}}</h3>
                             <div class="article-info flex">
                                 <div class="editor mr-10">editor {{review.author.user.nickname}}</div>
-                                <div class="upload mr-6">{{review.create_at.date}}</div>
+                                <time datetime="{{review.create_at | date:'Y-m-d H:i:s+09:00'}}" class="upload mr-6">{{review.create_at.date}}</time>
                                 <div class="comments mr-6">댓글 {{review.editor_review_comments.count}}</div>
                                 <div class="views mr-6">조회수 {{review.hits}}</div>
                                 <div class="likes">좋아요 9</div>
@@ -77,14 +77,13 @@
                             <div class="preview break-words mt-7">{{review.get_preview|striptags}}</div>
                         </div>
                         <div class="article-img bg-cover" style="background-image:url('{{review.main_image.url}}');"></div>
-                    </div>
+                    </article>
                 </a>
                 {% endfor %}
             </div>
 
             <div>
-
-                <div class="editor-list flex flex-col my-8">
+                <aside class="editor-list flex flex-col my-8">
                     <div class=" self-center mb-8">에디터 리스트</div>
                     <div class="editor-lists flex flex-col">
                         {% for editor in editors %}
@@ -100,11 +99,11 @@
                         </div>
                         {% endfor %}
                     </div>
-                </div>
+                </aside>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 
 <script>
     $(function () {
