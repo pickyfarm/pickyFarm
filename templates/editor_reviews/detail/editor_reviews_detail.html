@@ -7,27 +7,32 @@
 <link rel="stylesheet" href="{% static 'css/editor_reviews/editor_reviews_detail_comment_mobile.css' %}">
 {% endblock stylesheet %}
 {% block title_name %}{{review.title}} : Editor's Pick{% endblock %}
+{% block meta_description %}{{review.sub_title}}{% endblock %}
+{% block meta_keyword%}Editor's Pick, 에디터스픽, 에디터 포스팅, 농가취재기{% endblock %}
 {% block og_url %}{% url 'editors_pick:detail' review.pk %}{% endblock %}
 {% block og_title%}{{review.title}} : Editor's Pick{% endblock %}
+{% block og_desc %}{{review.sub_title}}{% endblock %}
 {% block og_image %}{{review.main_image.url}}{% endblock %}
 
 
 {% block main_content %}
-<div class="main-contents flex flex-col lg:mx-0 sm:mx-0 bg-white-400 font-4xl" id="main">
-    <div class="mx-auto flex flex-col items-center bg-cover text-center" id="top-section" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
-        <div id="review-title">{{review.title}}</div>
-        <div id="review-subtitle">{{review.sub_title}}</div>
-        <div id="review-author">editor_{{review.author.user.nickname}}</div>
+<main class="main-contents flex flex-col lg:mx-0 sm:mx-0 bg-white-400 font-4xl" id="main">
+    <section class="mx-auto flex flex-col items-center bg-cover text-center" id="top-section" style="background-image:linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{{review.main_image.url}}');">
+        <hgroup>
+            <h1 id="review-title">{{review.title}}</h1>
+            <h2 id="review-subtitle">{{review.sub_title}}</h2>
+            <h3 id="review-author">editor_{{review.author.user.nickname}}</h3>
+        </hgroup>
         <img id="review-arrow" src="{% static 'images/editors_review/editor_review_detail_arrow_bottom.svg' %}" alt="">
-    </div>
+    </section>
 
-    <div id="content-section" class="mx-auto">
+    <section id="content-section" class="mx-auto">
         {{review.contents|safe}}
-    </div>
+    </section>
 
     {% include 'editor_reviews/detail/info_section.html' %}
     {% include 'editor_reviews/detail/comment_section.html' %}
-</div>
+</main>
 
 {% comment %} <a href="{% url 'editors_pick:delete' review.pk %}">
     <div>지우기.</div>

@@ -117,7 +117,8 @@
     color: #000000;
 }
 
-.article-info div {
+.article-info div,
+.article-info time {
     font-size: 10px;
     font-weight: normal;
     font-stretch: normal;
@@ -141,6 +142,10 @@
     color: #000000;
 }
 
+.category-input {
+    display: none;
+}
+
 .category-in {
     width: 330px;
     height: 95px;
@@ -150,6 +155,7 @@
     font-size: 20px;
 }
 
+.category-input:checked + label,
 .category-in:hover {
     background-color: rgba(94, 102, 86, 0.2);
     cursor: pointer;
