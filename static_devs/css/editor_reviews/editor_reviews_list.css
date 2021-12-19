@@ -142,6 +142,10 @@
     color: #000000;
 }
 
+.category-input {
+    display: none;
+}
+
 .category-in {
     width: 330px;
     height: 95px;
@@ -151,6 +155,7 @@
     font-size: 20px;
 }
 
+.category-input:checked + label,
 .category-in:hover {
     background-color: rgba(94, 102, 86, 0.2);
     cursor: pointer;

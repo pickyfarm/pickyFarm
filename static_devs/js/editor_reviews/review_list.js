@@ -3,7 +3,7 @@ const articleList = document.querySelectorAll('.article');
 document.querySelectorAll('.category-in').forEach((elem) => {
     elem.addEventListener('click', () => {
         articleList.forEach((elem) => {
-            elem.style.display = 'inherit';
+            elem.style.display = 'flex';
         });
 
         Array.from(articleList)
