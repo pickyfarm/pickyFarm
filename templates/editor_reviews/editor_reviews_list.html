@@ -76,7 +76,6 @@
                                 <time datetime="{{review.create_at | date:'Y-m-d H:i:s+09:00'}}" class="upload mr-6">{{review.create_at.date}}</time>
                                 <div class="comments mr-6">댓글 {{review.editor_review_comments.count}}</div>
                                 <div class="views mr-6">조회수 {{review.hits}}</div>
-                                <div class="likes">좋아요 9</div>
                             </div>
                             <div class="preview break-words mt-7">{{review.get_preview|striptags}}</div>
                         </div>
