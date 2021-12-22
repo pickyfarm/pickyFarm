@@ -394,12 +394,17 @@ def update(request, pk):
 
     if request.method == "POST":
         form = Editors_Reviews_Form(request.POST, request.FILES)
+
         if form.is_valid():
             print("form validation 완료")
             post.title = form.cleaned_data["title"]
-            post.main_image = form.cleaned_data["main_image"]
+            post.main_image = (
+                form.cleaned_data["main_image"]
+                if form.cleaned_data["main_image"]
+                else post.main_image
+            )
             post.contents = form.cleaned_data["contents"]
-            post.product = form.cleaned_data["product"]
+            post.product.set(form.cleaned_data["product"])
             post.updated_at = timezone.now()
             post.save()
             return redirect("editors_pick:detail", pk)
