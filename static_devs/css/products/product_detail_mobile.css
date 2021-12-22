@@ -72,11 +72,16 @@
         margin-bottom: 0.8rem;
     }
     #ugly_tag,
-    #normal_tag {
+    #normal_tag,
+    #mix_tag {
         font-size: 1.1rem;
         font-weight: normal;
         height: 2rem;
         padding: 0.3rem 1rem;
+    }
+
+    #mix_tag {
+        padding: 0.3rem 0.5rem;
     }
     #title {
         font-size: 1.5rem;

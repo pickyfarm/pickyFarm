@@ -163,7 +163,8 @@
         margin-bottom: 0.9rem;
     }
     #ugly_tag,
-    #normal_tag {
+    #normal_tag,
+    #mix_tag {
         width: 7.3rem;
         height: 2rem;
         font-size: 1.1rem;

@@ -39,8 +39,10 @@
                         <h2 class="hot-crop-price">{{crop.sell_price | intcomma}}원</h2>
                         {% if crop.kinds == "ugly" %}
                         <div class="ugly-tag">무난이 작물</div>
-                        {% else %}
+                        {% elif crop.kinds == 'normal' %}
                         <div class="normal-tag">일반 작물</div>
+                        {% elif crop.kinds == 'mix' %}
+                        <div class="mix-tag">무난이 + 일반</div>
                         {% endif %}
                     </div>
                 </div>

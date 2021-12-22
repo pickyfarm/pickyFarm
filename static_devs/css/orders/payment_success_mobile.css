@@ -68,12 +68,16 @@
         border: solid 0.1rem #5c6754;
     }
     .ugly_tag,
-    .normal_tag {
+    .normal_tag,
+    .mix_tag {
         border-top-right-radius: 999.9rem;
         border-bottom-right-radius: 999.9rem;
         padding: 0.2rem 0.8rem 0.2rem 0.6rem;
         cursor: pointer;
         width: fit-content;
+    }
+    #mix_tag {
+        padding: 0.3rem 0.5rem;
     }
     .order-payment-success-information-description-wrap {
         grid-area: product;

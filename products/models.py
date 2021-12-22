@@ -17,10 +17,7 @@ def check_rate(rate_num):
 
 
 class Product_Group(models.Model):
-    kinds = (
-        ("ugly", "무난이 작물"),
-        ("normal", "일반 작물"),
-    )
+    kinds = (("ugly", "무난이 작물"), ("normal", "일반 작물"), ("mix", "무난이 + 일반"))
 
     title = models.CharField(max_length=50, help_text="상품 그룹명")
     sub_title = models.CharField(max_length=100, help_text="상품 그룹 서브명")
@@ -107,11 +104,7 @@ class Product_Group(models.Model):
 
 
 class Product(models.Model):
-    kinds = (
-        ("ugly", "무난이 작물"),
-        ("normal", "일반 작물"),
-        ("mix", "무난이 + 일반")
-    )
+    kinds = (("ugly", "무난이 작물"), ("normal", "일반 작물"), ("mix", "무난이 + 일반"))
     weight_unit = (
         ("g", "g"),
         ("kg", "kg"),
@@ -321,7 +314,7 @@ class Product(models.Model):
         return Product.objects.filter(product_group=self.product_group)
 
     def get_available_sibling_products(self):
-        return self.get_sibling_products().filter(open=True, status='sale')
+        return self.get_sibling_products().filter(open=True, status="sale")
 
 
 class Product_Image(models.Model):

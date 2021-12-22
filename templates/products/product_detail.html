@@ -54,13 +54,12 @@
                 <div id="title_section" class="w-5/6">
                     <div id="tags" class="flex flex-row">
 
-                        {% if related_product is None and kinds == "ugly" %}
+                        {% if kinds == "ugly" %}
                         <div id="ugly_tag">무난이 작물</div>
-                        {% elif related_product is not None and kinds == "ugly" %}
-                        <div id="ugly_tag">무난이 작물</div>
+                        {% elif kinds == "normal" %}
                         <div id="normal_tag">일반 작물</div>
-                        {% else %}
-                        <div id="normal_tag">일반 작물</div>
+                        {% elif kinds == "mix" %}
+                        <div id="mix_tag">일반&nbsp&nbsp&nbsp<span class="ugly-in-mix">무난이</span></div>
                         {% endif %}
                     </div>
                     <div id="title">

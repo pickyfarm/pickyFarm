@@ -240,6 +240,25 @@
     cursor: pointer;
 }
 
+#mix_tag {
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #5c6754;
+    background: linear-gradient(90deg, #ffffff 42%, #5c6754 42% 100%);
+    border: solid 1px #5c6754;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    padding: 2px 4px;
+}
+
+.ugly-in-mix {
+    color: white;
+}
+
 #follow_menu {
     position: sticky;
     top: 650px;
