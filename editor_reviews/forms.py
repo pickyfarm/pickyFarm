@@ -9,6 +9,7 @@ class Editors_Reviews_Form(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.label_suffix = ""
+        self.fields["main_image"].required = False
 
     POST_CAT = (
         ("farm_cover", "농가 취재기"),

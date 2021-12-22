@@ -34,6 +34,11 @@
     margin-top: 200px;
 }
 
+#content-section p {
+    display: flex;
+    justify-content: center;
+}
+
 #info-section {
     width: 990px;
     margin-top: 380px;
@@ -176,7 +181,7 @@
 }
 
 #farm-news-mobile {
-    display: none;   
+    display: none;
 }
 
 #farm-news-icon {

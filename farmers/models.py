@@ -43,7 +43,9 @@ class Farmer(models.Model):
         upload_to="farm_desc/%Y/%m/%d/", null=True, blank=True
     )  # 농가 상세 소개
     sub_count = models.IntegerField(default=0)  # 구독자 수
-    farm_news = models.CharField(max_length=500, null=True, blank=True)  # 농가 뉴스
+    farm_news = models.CharField(
+        max_length=500, null=True, blank=True, default="설정된 농가 뉴스가 없습니다."
+    )  # 농가 뉴스
     farm_thanks_msg = models.CharField(max_length=500, null=True, blank=True)  # 농가 구매 감사 메세지
     farm_cat = models.CharField(choices=CAT_CHOICES, max_length=20, default="fruit")
     contract = models.BooleanField(default=False)  # 계약서 동의 여부

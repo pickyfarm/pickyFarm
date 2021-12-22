@@ -19,30 +19,28 @@
                     <a href="{% url 'products:product_detail' p.pk %}">
                         <img class="z-0" id="product_img" src="{{p.main_image.url}}" width="50"><br>
                     </a>
-                        <div id="like_cart_in" class="flex flex-row z-10">
-                            <img class="" id="like" 
-                                    src="{% static 'images/products_list/like.svg' %}", onclick="wish({{p.pk}})">
-                            <img class="button" id="cart_in"
-                                    src="{% static 'images/products_list/cart_in.svg' %}" onclick="cartIn({{p.pk}})">
-                        </div>
-
-
-                        <img class="absolute -top-5 left-1 {%if p.stock > 3 %} invisible {% endif %}" id="almost_sold_out" src="{% static 'images/products_list/almost_sold_out2.svg' %}">
-                        <img class="absolute top-1 left-4 {%if p.stock > 3 %} invisible {% endif %}" id="almost_sold_out" src="{% static 'images/products_list/almost_sold_out.svg' %}">
+                    <div id="like_cart_in" class="flex flex-row z-10">
+                        <img class="" id="like" src="{% static 'images/products_list/like.svg' %}" , onclick="wish({{p.pk}})">
+                        <img class="button" id="cart_in" src="{% static 'images/products_list/cart_in.svg' %}" onclick="cartIn({{p.pk}})">
                     </div>
 
-                    <a href="{% url 'products:product_detail' p.pk %}">
-                        <div class="mt-2 flex flex-col">
-                            <div class="flex items-center">
-                                <div class="pr-2 text-base  " id="title">{{p.farmer.user.nickname}}</div>
-                                <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
-                                <div class="pl-2 font-light" id="sub_title">{{p.category.name}} {{p.weight}}kg</div>
-                            </div>
-                            <p class="" id="sell_price">{{p.sell_price}}원</p>
-                        </div>
-                    </a>
+
+                    <img class="absolute -top-5 left-1 {%if p.stock > 3 %} invisible {% endif %}" id="almost_sold_out" src="{% static 'images/products_list/almost_sold_out2.svg' %}">
+                    <img class="absolute top-1 left-4 {%if p.stock > 3 %} invisible {% endif %}" id="almost_sold_out" src="{% static 'images/products_list/almost_sold_out.svg' %}">
                 </div>
-            
+
+                <a href="{% url 'products:product_detail' p.pk %}">
+                    <div class="mt-2 flex flex-col">
+                        <div class="flex items-center">
+                            <div class="pr-2 text-base  " id="title">{{p.farmer.user.nickname}}</div>
+                            <div class="h-4 text-base  font-light border-green-800 border-l-2"></div>
+                            <div class="pl-2 font-light" id="sub_title">{{p.category.name}} {{p.weight}}kg</div>
+                        </div>
+                        <p class="" id="sell_price">{{p.sell_price}}원</p>
+                    </div>
+                </a>
+            </div>
+
             {% endfor %}
         </div>
     </div>
@@ -74,7 +72,13 @@
                         </div>
                         <div id="farm-news" class="flex items-center">
                             <img src="{% static 'images/product_detail/bell.svg' %}" id="farm-news-icon">
-                            <div id="farm-news-text">{{review.farm.farm_news}}</div>
+                            <div id="farm-news-text">
+                                {% if review.farm.farm_news %}
+                                {{review.farm.farm_news}}
+                                {% else %}
+                                설정된 농가 뉴스가 없습니다
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -84,7 +88,13 @@
             </div>
             <div id="farm-news-mobile" class="flex items-center">
                 <img src="{% static 'images/product_detail/bell.svg' %}" id="farm-news-icon">
-                <div id="farm-news-text">{{review.farm.farm_news}}</div>
+                <div id="farm-news-text">
+                    {% if review.farm.farm_news %}
+                    {{review.farm.farm_news}}
+                    {% else %}
+                    설정된 농가 뉴스가 없습니다
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

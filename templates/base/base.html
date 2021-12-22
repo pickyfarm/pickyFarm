@@ -1,4 +1,5 @@
 {% load static %}
+{% load tz %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,6 +45,7 @@
 </head>
 
 <body>
+    {% timezone 'Asia/Seoul' %}
     <div id="toast-section">
         <div id="toast-container" class="flex items-center">
             <div id="toast-status"><img src="{% static 'images/mainlogo_small.svg' %}" alt=""></div>
@@ -73,6 +75,7 @@
     <a href="http://pf.kakao.com/_DIexfs">
         <img src="{% static 'images/base/id_type.png' %}" alt="카카오톡 채널 추가하기" id="kakao-channel-icon">
     </a>
+    {% endtimezone %}
 </body>
 
 {% block mypage_base_script_section %}
