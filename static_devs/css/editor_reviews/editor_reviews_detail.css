@@ -235,7 +235,8 @@
     padding: 10px;
 }
 
-.comment-button {
+.comment-button,
+.comment-load {
     height: 36px;
     text-align: center;
     font-size: 15px;
@@ -245,9 +246,11 @@
     border-radius: 24px;
 }
 
-#comment-submit {
+#comment-submit,
+.comment-load {
     width: 99px;
-    margin-top: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #comments {

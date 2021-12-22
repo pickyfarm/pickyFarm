@@ -40,7 +40,7 @@ const commentLoad = (pk) => {
 
 const recommentLoad = (pk) => {
     const numberOfComments = document.querySelectorAll(
-        `div[class="recomment-wrap"][name="${pk}"] .recomment`
+        `div[class="recomment-wrap flex flex-col"][name="${pk}"] .recomment`
     ).length;
 
     $.ajax({

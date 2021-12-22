@@ -1,6 +1,6 @@
 {% load static %}
 
-<div id="comment-section-wrap">
+<div id="comment-section-wrap" class="flex flex-col">
     <div id="comment-section" class="mx-auto">
         {% if request.user.is_authenticated %}
         <div id="comment-submit-form" class="flex flex-col">
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="recomment-wrap" name="{{comment.pk}}">
+                <div class="recomment-wrap flex flex-col" name="{{comment.pk}}">
                     {% if request.user.is_authenticated %}
                     <div class="recomment-input-wrapper flex flex-col">
                         <div class="flex items-center recomment-info">
@@ -115,11 +115,11 @@
                     </div>
                     <div class="horizon-bar mx-auto"></div>
                     {% endfor %}
-                    <button onclick="recommentLoad({{comment.pk}})" class="recomment-load-button">불러오기</button>
+                    <button onclick="recommentLoad({{comment.pk}})" class="recomment-load-button comment-load mx-auto">불러오기 ▾</button>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-    <div onclick="commentLoad({{review.pk}})">불러오기</div>
+    <button onclick="commentLoad({{review.pk}})" class="comment-load mx-auto">불러오기 ▾</button>
 </div>
