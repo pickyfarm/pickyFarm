@@ -14,6 +14,9 @@ class CustomProductAdmin(admin.ModelAdmin):
         "sell_price",
     )
 
+
+@admin.register(models.Product_Group)
+class CustomProductGroupAdmin(admin.ModelAdmin):
     actions = ["send_product_open_message"]
 
     @admin.action(description="상품 판매 개시 알림 보내기")
@@ -22,33 +25,37 @@ class CustomProductAdmin(admin.ModelAdmin):
             self.message_user(request, "두개 이상의 농가의 상품에 대해 메세지를 보낼 수 없습니다.", messages.ERROR)
             return
 
-        farmer = queryset.first().farmer
+        farmer = queryset.first().products.first().farmer
 
         product = queryset.first()
 
-        if product.status != "pending":
+        if product.open:
             self.message_user(request, "승인 대기중인 상품이 아닙니다.", messages.ERROR)
             return
 
         product.open = True
-        product.status = "sale"
+        siblings = product.products.all()
+
+        main_product = siblings.first()
+        main_product.main_product = True
+        main_product.save()
+
         product.save()
+        for sibling in siblings:
+            sibling.open = True
+            sibling.status = "sale"
+            sibling.save()
 
         sub_users = list(farmer.subs.all().values_list("consumer__user__phone_number", flat=True))
 
         args_kakao = {
             "#{farm_name}": farmer.farm_name,
-            "#{link_1}": f"https://www.pickyfarm.com/product/detail/{product}",
+            "#{link_1}": f"https://www.pickyfarm.com/product/detail/{main_product.pk}",
             "#{link_2}": f"https://www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}",
         }
 
         send_kakao_message(sub_users, templateIdList["new_product"], args_kakao)
         self.message_user(request, f"{len(sub_users)}명에게 메세지를 보냈습니다.", messages.SUCCESS)
-
-
-@admin.register(models.Product_Group)
-class CustomProductGroupAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(models.Product_Image)
