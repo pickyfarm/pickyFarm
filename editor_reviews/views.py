@@ -147,7 +147,7 @@ def editor_review_comment(request, pk):
 
     data = {
         "text": text,
-        "create_at": comment.create_at.strftime(
+        "create_at": timezone.localtime().strftime(
             r"%Y. %m. %d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%H : %M"
         ),
         "author": author.nickname,
