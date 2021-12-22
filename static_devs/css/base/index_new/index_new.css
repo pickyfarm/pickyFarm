@@ -163,6 +163,16 @@ img {
     border-radius: 0 100px 100px 0;
 }
 
+.mix-tag {
+    border: 1px solid #4a5448;
+    background: linear-gradient(90deg, #ffffff 42%, #4a5448 42% 100%);
+    border-radius: 0 100px 100px 0;
+}
+
+.ugly-in-mix {
+    color: white;
+}
+
 #click-message {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -430,7 +440,8 @@ img {
     }
 
     .ugly-tag,
-    .normal-tag {
+    .normal-tag,
+    .mix-tag {
         margin-top: 12px;
         font-size: 20px;
         font-weight: 300;
@@ -638,7 +649,8 @@ img {
     }
 
     .ugly-tag,
-    .normal-tag {
+    .normal-tag,
+    .mix-tag {
         font-size: 1rem;
         font-weight: 300;
         text-align: center;
