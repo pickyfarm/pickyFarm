@@ -60,8 +60,8 @@ class CustomProductGroupAdmin(admin.ModelAdmin):
 
         args_kakao = {
             "#{farm_name}": farmer.farm_name,
-            "#{link_1}": f"https://www.pickyfarm.com/product/detail/{main_product.pk}",
-            "#{link_2}": f"https://www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}",
+            "#{link_1}": f"www.pickyfarm.com/product/detail/{main_product.pk}",
+            "#{link_2}": f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}",
         }
 
         send_kakao_message(sub_users, templateIdList["new_product"], args_kakao)
