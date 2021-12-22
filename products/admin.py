@@ -14,6 +14,16 @@ class CustomProductAdmin(admin.ModelAdmin):
         "sell_price",
     )
 
+    actions = ["change_product_commission_rate"]
+
+    @admin.action(description=r"수수료율 18%%로 변경하기")
+    def change_product_commission_rate(self, request, queryset):
+        for product in queryset:
+            product.commision_rate = 18.0
+            product.save()
+
+        self.message_user(request, f"{len(queryset)}개의 상품의 수수료율을 변경하였습니다.", messages.SUCCESS)
+
 
 @admin.register(models.Product_Group)
 class CustomProductGroupAdmin(admin.ModelAdmin):
