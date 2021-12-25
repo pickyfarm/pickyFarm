@@ -93,7 +93,7 @@ def farmers_page(request):
 # farmer input 검색 view - for AJAX
 def farmer_search(request):
     search_key = request.GET.get("search_key")  # 검색어 가져오기
-    search_list = Farmer.objects.all()
+    search_list = Farmer.objects.filter(open=True).order_by("-id")
     if search_key:  # 검색어 존재 시
         search_list = search_list.filter(
             Q(farm_name__contains=search_key) | Q(user__nickname__contains=search_key)
@@ -111,7 +111,7 @@ def farmer_search(request):
 # farmer category(채소, 과일, E.T.C) 검색 view - for AJAX
 def farm_cat_search(request):
     search_cat = request.GET.get("search_cat")
-    farmer = Farmer.objects.filter(farm_cat=search_cat).order_by("-id")
+    farmer = Farmer.objects.filter(farm_cat=search_cat, open=True).order_by("-id")
     paginator = Paginator(farmer, 3)
     page = request.GET.get("page")
     farmers = paginator.get_page(page)
@@ -1133,9 +1133,9 @@ class FarmerMyPageProductStateUpdate(FarmerMyPagePopupBase):
 
             print(siblings.count())
             # 같은 Product_Group 내에 open=True인 상품이 없으면 Product_Group 내리기
-            if siblings.count() < 1 :
-                product_group.open=False
-            
+            if siblings.count() < 1:
+                product_group.open = False
+
             elif siblings.count() > 0 and product_obj.main_product:
                 product.update(**{"main_product": False})
                 first = siblings.first()
@@ -1143,7 +1143,7 @@ class FarmerMyPageProductStateUpdate(FarmerMyPagePopupBase):
                 first.main_product = True
                 first.save()
 
-        elif state == 'sale':
+        elif state == "sale":
             if siblings.count() == 0:
                 # Product_Group 내에 첫번째 Open이라면 product_group 열기
                 product_group.open = True
