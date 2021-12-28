@@ -25,7 +25,7 @@ class Product_Group(models.Model):
 
     open = models.BooleanField(default=False, help_text="상품 리스트에 공개 여부")
 
-    main_image = CompressedImageField(upload_to="product_main_image/%Y/%m/%d/")
+    main_image = models.ImageField(upload_to="product_main_image/%Y/%m/%d/")
     category = models.ForeignKey(
         "Category", related_name="product_groups", on_delete=models.CASCADE
     )
