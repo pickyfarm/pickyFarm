@@ -119,7 +119,7 @@ class Product(models.Model):
 
     title = models.CharField(max_length=50, help_text="상품명")
     sub_title = models.CharField(max_length=100, help_text="상품 서브명")
-    main_image = CompressedImageField(upload_to="product_main_image/%Y/%m/%d/")
+    main_image = models.ImageField(upload_to="product_main_image/%Y/%m/%d/")
 
     # option 관련
     option_name = models.CharField(
@@ -320,7 +320,7 @@ class Product(models.Model):
 class Product_Image(models.Model):
     product = models.ForeignKey(Product, related_name="product_images", on_delete=models.CASCADE)
 
-    image = CompressedImageField(upload_to="product_images/%Y/%m/%d/")
+    image = models.ImageField(upload_to="product_images/%Y/%m/%d/")
 
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
