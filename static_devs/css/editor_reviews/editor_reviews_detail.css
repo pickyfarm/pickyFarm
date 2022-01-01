@@ -34,9 +34,9 @@
     margin-top: 200px;
 }
 
-#content-section p {
-    display: flex;
-    justify-content: center;
+#content-section img {
+    display: block;
+    margin: 10px auto;
 }
 
 #info-section {
