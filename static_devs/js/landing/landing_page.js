@@ -33,9 +33,9 @@ serviceCenterButton.addEventListener('click', function (e) {
 // });
 
 // // Editor's Pick
-editorPickButton.addEventListener('click', function (e) {
-    alertBasicAnnounce(e);
-});
+// editorPickButton.addEventListener('click', function (e) {
+//     alertBasicAnnounce(e);
+// });
 
 // Farmer's Page
 // farmerPageButton.addEventListener('click', function (e) {
