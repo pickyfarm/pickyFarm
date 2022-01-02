@@ -66,6 +66,21 @@
         <div class="lists-contents w-content mx-auto flex justify-between pb-16">
 
             <div class="lists flex flex-col ">
+                <a href="{% url 'editors_pick:detail' first_review.pk %}">
+                    <article class="article flex justify-between my-8" category='{{first_review.post_category}}'>
+                        <div class="info flex flex-col">
+                            <h3 class="title">{{first_review.title}}</h3>
+                            <div class="article-info flex">
+                                <div class="editor mr-10">editor {{first_review.author.user.nickname}}</div>
+                                <time datetime="{{first_review.create_at | date:'Y-m-d H:i:s+09:00'}}" class="upload mr-6">{{first_review.create_at.date}}</time>
+                                <div class="comments mr-6">댓글 {{first_review.editor_review_comments.count}}</div>
+                                <div class="views mr-6">조회수 {{first_review.hits}}</div>
+                            </div>
+                            <div class="preview break-words mt-7">{{first_review.get_preview|striptags}}</div>
+                        </div>
+                        <div class="article-img bg-cover" style="background-image:url('{{first_review.main_image.url}}');"></div>
+                    </article>
+                </a>
                 {% for review in review_list %}
                 <a href="{% url 'editors_pick:detail' review.pk %}">
                     <article class="article flex justify-between my-8" category='{{review.post_category}}'>
