@@ -121,6 +121,7 @@ SUMMERNOTE_CONFIG = {
     "iframe": True,
     "airMode": True,
     "width": "100%",
+    "attachment_filesize_limit": 10 * 1024 * 1024,
     "height": "661px",
     "toolbar": [
         # ['style', ['style']],
@@ -146,9 +147,7 @@ SUMMERNOTE_CONFIG = {
         ["view", ["fullscreen", "codeview"]],
         ["help", ["help"]],
     ],
-    'popover':[
-        'image' ,[['float', ['floatLeft', 'floatCenter', 'floatRight']]]
-    ]
+    "popover": ["image", [["float", ["floatLeft", "floatCenter", "floatRight"]]]],
 }
 
 TEMPLATES = [
@@ -211,7 +210,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True # model 저장시 한국 시간이 들어가기 위해서는 False 로 수정해야함
+USE_TZ = True  # model 저장시 한국 시간이 들어가기 위해서는 False 로 수정해야함
 
 ### User Setting
 AUTH_USER_MODEL = "users.User"
