@@ -91,7 +91,7 @@
                     <div class="editor-lists flex flex-col">
                         {% for editor in editors %}
                         <div class="editor-profile flex items-center">
-                            <img src="{{editor.user.profile_image}}" class="editor-img rounded-full">
+                            <img src="{{editor.user.profile_image.url}}" class="editor-img rounded-full">
                             <div class="editor-info flex flex-col">
                                 <div class="editor-name">{{editor.user.nickname|slice:'10'}}</div>
                                 <div class="editor-article-info flex">
