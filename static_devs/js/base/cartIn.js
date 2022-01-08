@@ -13,7 +13,8 @@ var cartIn = function cartIn(pk) {
       shootToastMessage(response.message, 2);
     },
     error: function error(request, status, _error) {
-      shootToastMessage('로그인이 필요합니다.', 2, 'error');
+      shootToastMessage("비회원 장바구니 담기")
+      // shootToastMessage('로그인이 필요합니다.', 2, 'error');
     }
   });
 };

@@ -79,7 +79,7 @@ class NoRelatedInstance(Exception):
 # AJAX 통신 선언 SECTION (상품 장바구니/장바구니에서 제거하기, 상품 찜하기/찜하기 취소하기, 농가 구독/구독 취소하기)
 
 
-@login_required
+# @login_required
 @require_POST
 def CartInAjax(request):
     if request.method == "POST":
@@ -93,15 +93,19 @@ def CartInAjax(request):
             message = "존재하지 않는 상품입니다"
             return JsonResponse(message)
 
-        try:
-            cart = Cart.objects.get(consumer=user.consumer, product=product)
-            message = "이미 장바구니에 있는 상품입니다"
-        except ObjectDoesNotExist:
-            cart = Cart.objects.create(
-                consumer=user.consumer, product=product, quantity=quantity
-            )
-            message = "상품을 장바구니에 담았습니다!"
-        print(cart)
+        if user.is_authenticated:  # 회원
+            try:
+                cart = Cart.objects.get(consumer=user.consumer, product=product)
+                message = "이미 장바구니에 있는 상품입니다"
+            except ObjectDoesNotExist:
+                cart = Cart.objects.create(
+                    consumer=user.consumer, product=product, quantity=quantity
+                )
+                message = "상품을 장바구니에 담았습니다!"
+        else:  # 비회원
+            non_member = request.user
+            cart_list = request.COOKIES.get("cart_list")
+            message = "(비회원) 상품을 장바구니에 담았습니다!"
 
         message = str(message)
         data = {
@@ -353,8 +357,8 @@ def kakao_callback(request):
     print()
     REDIRECT_URI = "https://www.pickyfarm.com/user/login/kakao/callback"
     NEXT_URL = request.GET.get("state", "/")
-    if NEXT_URL == 'None':
-        NEXT_URL = '/'
+    if NEXT_URL == "None":
+        NEXT_URL = "/"
 
     try:
         code = request.GET.get("code")
@@ -396,9 +400,7 @@ def kakao_callback(request):
             "phone_number": f'0{"".join(phone_number.split()[1].split("-"))}',
             "username": f"kakao.{email}",
             "account_name": nickname,
-            "password": "".join(
-                random.choices(string.ascii_uppercase + string.digits, k=15)
-            ),
+            "password": "".join(random.choices(string.ascii_uppercase + string.digits, k=15)),
         }
 
         return SocialSignup.as_view()(request, info)
@@ -561,9 +563,7 @@ def phoneNumberValidation(request):
     if not isValid:
         try:  # 재발급
             userAuth = PhoneNumberAuth.objects.get(phone_num=target)
-            timeOver = timezone.now() - userAuth.update_at > timezone.timedelta(
-                minutes=5
-            )
+            timeOver = timezone.now() - userAuth.update_at > timezone.timedelta(minutes=5)
             if timeOver:
                 auth_num = randint(100000, 1000000)
                 message = {"#{인증번호}": auth_num}
@@ -578,9 +578,7 @@ def phoneNumberValidation(request):
         except PhoneNumberAuth.DoesNotExist:  # 신규발급
             auth_num = randint(100000, 1000000)
             message = {"#{인증번호}": auth_num}
-            userAuth = PhoneNumberAuth.objects.create(
-                phone_num=target, auth_num=auth_num
-            )
+            userAuth = PhoneNumberAuth.objects.create(phone_num=target, auth_num=auth_num)
             print("send sms", auth_num)
             send_sms(target, auth_num)
             # send_kakao_message(target, templateIdList["signup"], message)
@@ -641,13 +639,9 @@ class MyPasswordResetView(PasswordResetView):
     def form_valid(self, form):
         global user_email
 
-        if User.objects.filter(
+        if User.objects.filter(email=self.request.POST.get("email")).exists() and User.objects.get(
             email=self.request.POST.get("email")
-        ).exists() and User.objects.get(
-            email=self.request.POST.get("email")
-        ).username == self.request.POST.get(
-            "username"
-        ):
+        ).username == self.request.POST.get("username"):
             user_email = form.cleaned_data.get("email")
             return super().form_valid(form)
 
@@ -673,9 +667,7 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
         form.fields["new_password1"].widget.attrs = {"placeholder": "새 비밀번호를 입력해주세요"}
-        form.fields["new_password2"].widget.attrs = {
-            "placeholder": "새 비밀번호를 한번 더 입력해주세요"
-        }
+        form.fields["new_password2"].widget.attrs = {"placeholder": "새 비밀번호를 한번 더 입력해주세요"}
 
         return form
 
@@ -746,9 +738,7 @@ def mypage(request, cat):
         print(one_month_before)
 
         questions = (
-            consumer.questions.filter(create_at__gt=one_month_before)
-            .order_by("-create_at")
-            .all()
+            consumer.questions.filter(create_at__gt=one_month_before).order_by("-create_at").all()
         )
         print((type)(questions))
 
@@ -795,9 +785,7 @@ def mypage(request, cat):
                     # filter start_date input에 아무런 value가 없을 경우
                     start_date = datetime.datetime.now(tz=get_current_timezone()).date()
                 else:
-                    start_date = datetime.datetime.strptime(
-                        start_date, "%Y-%m-%d"
-                    ).date()
+                    start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
 
                 if end_date == "":
                     # filter end_date input에 아무런 value가 없음 경우
@@ -816,9 +804,7 @@ def mypage(request, cat):
                     )
 
                 order_groups = (
-                    groups.filter(
-                        order_at__lte=converted_end_date, order_at__gte=start_date
-                    )
+                    groups.filter(order_at__lte=converted_end_date, order_at__gte=start_date)
                     .exclude(status="wait")
                     .order_by("-order_at")
                 )
@@ -873,11 +859,17 @@ def mypage(request, cat):
             ctx.update(ctx_wishes)
             return render(request, "users/mypage_wishes.html", ctx)
         elif cat_name == "cart":
-            carts = (
-                consumer.carts.all().order_by("-create_at").filter(product__open=True)
-            )
+            carts = consumer.carts.all().order_by("-create_at").filter(product__open=True)
             print(carts)
-
+            try:
+                cart_list = request.COOKIES["cart_list"].split(",")
+                for pk in cart_list:
+                    Cart.objects.get_or_create(
+                        consumer=request.user.consumer,
+                        product=Product.objects.get(pk=pk),
+                    )
+            except:
+                pass
             ctx_carts = {
                 "carts": carts,
             }
@@ -1071,9 +1063,7 @@ class EditorMyPage_Comments(ListView):
         comments = Editor_Review_Comment.objects.filter(editor_review=reviews.first())
 
         for review in reviews:
-            comments = comments.union(
-                Editor_Review_Comment.objects.filter(editor_review=review)
-            )
+            comments = comments.union(Editor_Review_Comment.objects.filter(editor_review=review))
 
         return comments.order_by("is_read")
 
@@ -1141,9 +1131,7 @@ class ProductCommentCreate(TemplateView):
             # 리뷰 작성 여부
             detail = Order_Detail.objects.get(pk=self.kwargs["orderpk"])
             order_consumer = detail.order_group.consumer
-            product_comment_eixst = Product_Comment.objects.filter(
-                order__pk=detail.pk
-            ).exists()
+            product_comment_eixst = Product_Comment.objects.filter(order__pk=detail.pk).exists()
             if product_comment_eixst:
                 return redirect("core:completed_alert")
 
@@ -1175,9 +1163,7 @@ class ProductCommentCreate(TemplateView):
         product_pk = detail.product.pk
         product_comment = ProductCommentForm(request.POST, request.FILES)
         consumer = Consumer.objects.get(pk=self.request.user.consumer.pk)
-        product_comment_eixst = Product_Comment.objects.filter(
-            order__pk=detail.pk
-        ).exists()
+        product_comment_eixst = Product_Comment.objects.filter(order__pk=detail.pk).exists()
         print(f"[PRODUCT COMMENT POST] 사용자 : {consumer.user.account_name}")
         if product_comment.is_valid() and not product_comment_eixst:
             text = product_comment.cleaned_data.get("text")
@@ -1334,6 +1320,4 @@ def product_refund(request):
         "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
         "서울 동작구 장승배기로 11가길 11(상도파크자이) 104동 1102호",
     ]
-    return render(
-        request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses}
-    )
+    return render(request, "users/mypage/user/product_refund_popup.html", {"addresses": addresses})
