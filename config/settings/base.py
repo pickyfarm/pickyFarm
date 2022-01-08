@@ -97,6 +97,7 @@ PICKY_APPS = [
     "django_seed",
     "storages",
     "kakaomessages",
+    "rangefilter",
 ]
 
 INSTALLED_APPS = PICKY_APPS + DJANGO_APPS
