@@ -975,10 +975,11 @@ class OrderListPopup(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        group = Order_Group.objects.get(order_management_number=self.odmn)
         context = super().get_context_data(**kwargs)
-        context["orders"] = Order_Group.objects.get(
-            order_management_number=self.odmn
-        ).order_details.all()
+
+        context["order_group"] = group
+        context["orders"] = group.order_details.all()
         return context
 
 
