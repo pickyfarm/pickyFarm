@@ -371,7 +371,11 @@ def payment_create(request):
 
         ctx = {**ctx, **user_ctx}
 
-        return render(request, "orders/payment.html", ctx)
+        # 22.1.9 기윤 - 회원/비회원에 따른 render 분기
+        if is_user is True:
+            return render(request, "orders/payment.html", ctx)
+        else:
+            return render(request, "orders/payment_non_user.html", ctx)
 
 
 @require_POST
@@ -383,8 +387,14 @@ def payment_update(request, pk):
     """Order_Group 주문 정보 등록"""
 
 
-    # consumer = request.user.consumer
-    # 22.1.9 기윤 - 비회원 구매 도입을 위한 주석처리
+    # 22.1.9 기윤 - 비회원 구매 도입을 위한 분기
+    cur_user = request.user
+    is_user = True
+
+    if cur_user.is_authenticated:
+        consumer = cur_user.consumer
+    else:
+        is_user = False
 
 
     if request.method == "POST":
@@ -428,7 +438,17 @@ def payment_update(request, pk):
         # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
 
+
             # [PROCESS 6] 주문 정보 Order_Group에 등록
+
+            # 22.1.9 기윤 - 회원/비회원에 따라 주문자 정보 추가
+            if is_user is True:
+                orderer_name = cur_user.account_name
+                orderer_phone_number = cur_user.phone_number
+            else:
+                orderer_name = request.POST.get("orderer_name")
+                orderer_phone_number = request.POST.get("orderer_phone_number")
+
             rev_name = request.POST.get("rev_name")
             rev_phone_number = request.POST.get("rev_phone_number")
             rev_address = request.POST.get("rev_address")
@@ -441,6 +461,11 @@ def payment_update(request, pk):
 
             print(order_group)
             # 배송 정보 order_group에 업데이트
+
+            # 22.1.9 기윤 - 비회원 결제 추가에 따른 주문자 정보 추가
+            order_group.orderer_name = orderer_name
+            order_group.orderer_phone_number = orderer_phone_number
+
             order_group.rev_name = rev_name
             order_group.rev_address = rev_address
             order_group.rev_phone_number = rev_phone_number

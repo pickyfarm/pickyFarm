@@ -35,7 +35,7 @@
                 <img id="dot" src="{% static 'images/orders/dot.svg' %}">
             </div>
 
-            <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="rev_name" , maxlength="10" , id="id_rev_name" value="{{account_name}}"></div>
+            <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="orderer_name" , maxlength="10" , id="id_orderer_name" ></div>
         </div>
         <div id="info-phone-number-section" class="flex flex-row">
             <div class="flex flex-row w-1/12">
@@ -43,15 +43,7 @@
                 <img id="dot" src="{% static 'images/orders/dot.svg' %}">
             </div>
 
-            <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="rev_phone_number" , maxlength="30" , id="id_rev_phone_number" value="{{phone_number}}"></div>
-        </div>
-        <div id="info-phone-number-section" class="flex flex-row">
-            <div class="flex flex-row w-1/12">
-                <div id="label-text" class="mt-2">주문 확인용 비밀번호</div>
-                <img id="dot" src="{% static 'images/orders/dot.svg' %}">
-            </div>
-
-            <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="rev_phone_number" , maxlength="30" , id="id_rev_phone_number" value="{{phone_number}}"></div>
+            <div id="small-form" class="w-11/12 ml-12 pl-3 flex justify-items-start"><input type="text" name="orderer_phone_number" , maxlength="30" , id="id_orderer_phone_number"></div>
         </div>
     </div>
 
@@ -384,6 +376,10 @@
     console.log(goBtn);
     console.log(window.location.origin);
     goBtn.addEventListener('click', function () {
+        // 22.1.9 기윤 - 비회원 구매 도입을 위한 주문자이름, 번호 추가
+        var ordererName = document.getElementById('id_orderer_name').value;
+        var ordererPhoneNumber = document.getElementById('id_orderer_phone_number').value;
+
         var revName = document.getElementById('id_rev_name').value;
         var revPhoneNumber = document.getElementById('id_rev_phone_number').value;
         var revLocAt = document.querySelector("input[name='rev_loc_at']:checked").value;
@@ -396,8 +392,20 @@
         console.log(revName);
         console.log(revLocAt);
 
-        if (revName == "") {
+
+        // 22.1.9 기윤 - 비회원 구매 도입을 위한 validation 추가
+        if (ordererName == "") {
             alert("주문자 이름을 입력해주세요");
+            return;
+        }
+
+        if (ordererPhoneNumber == "") {
+            alert("휴대폰 번호를 입력해주세요");
+            return;
+        }
+
+        if (revName == "") {
+            alert("받는이의 이름을 입력해주세요");
             return;
         }
 
@@ -432,6 +440,10 @@
         }
 
         var data = {
+            // 22.1.9 기윤 - 비회원 구매를 위한 파라미터 추가
+            'orderer_name' : ordererName,
+            'orderer_phone_number' : ordererPhoneNumber,
+            
             'rev_name': revName,
             'rev_phone_number': revPhoneNumber,
             'rev_address': revAddress,

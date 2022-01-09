@@ -26,17 +26,19 @@ class Order_Group(models.Model):
     )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="상태")
-    # 22.1.9 기윤 - 비회원 구매 도입을 위한 필드 추가
-    consumer_type = models.CharField(max_length=20, choices=CONSUMER_TYPE, default="user", help_text="구매 회원 타입")
+    
     order_management_number = models.CharField(max_length=1000, null=True, blank=True, help_text="주문관리번호")
     receipt_number = models.CharField(max_length=60, null=True, blank=True)
+    
     rev_address = models.TextField(null=True, blank=True)
-    rev_name = models.CharField(max_length=50, null=True, blank=True)
-    rev_phone_number = models.CharField(max_length=30, null=True, blank=True)
-    rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
+    rev_name = models.CharField(max_length=50, null=True, blank=True, help_text="받는이 이름")
+    rev_phone_number = models.CharField(max_length=30, null=True, blank=True, help_text="받는이 전화번호")
+    
+    rev_loc_at = models.CharField(max_length=20, null=True, blank=True, help_text="받으실 장소")
     rev_loc_detail = models.TextField(null=True, blank=True)
-    rev_message = models.TextField(null=True, blank=True)
-    to_farm_message = models.TextField(null=True, blank=True)
+    rev_message = models.TextField(null=True, blank=True, help_text="배송지 특이사항")
+    
+    to_farm_message = models.TextField(null=True, blank=True, help_text="농가 전달 메시지")
 
     payment_type = models.CharField(max_length=20, null=True, blank=True)
     v_bank = models.CharField(
@@ -51,6 +53,11 @@ class Order_Group(models.Model):
     v_bank_expire_date = models.DateTimeField(
         null=True, blank=True, help_text="가상계좌 입금 마감기한"
     )
+
+    # 22.1.9 기윤 - 비회원 구매 도입을 위한 필드 추가
+    consumer_type = models.CharField(max_length=20, choices=CONSUMER_TYPE, default="user", help_text="구매 회원 타입")
+    orderer_name = models.CharField(max_length=20, help_text="주문자 이름")
+    orderer_phone_number = models.CharField(max_length=30, help_text="주문자 전화번호")
 
     total_price = models.IntegerField(null=True, blank=True)
     total_quantity = models.IntegerField(null=True, blank=True)

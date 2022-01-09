@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from django.db import transaction
 from products import models
 from users.models import Subscribe
 from kakaomessages.views import send_kakao_message
@@ -16,7 +17,7 @@ class CustomProductAdmin(admin.ModelAdmin):
 
     actions = ["change_product_commission_rate"]
 
-    @admin.action(description=r"수수료율 18%%로 변경하기")
+    @transaction.atomic
     def change_product_commission_rate(self, request, queryset):
         for product in queryset:
             product.commision_rate = 18.0
@@ -29,7 +30,7 @@ class CustomProductAdmin(admin.ModelAdmin):
 class CustomProductGroupAdmin(admin.ModelAdmin):
     actions = ["send_product_open_message"]
 
-    @admin.action(description="상품 판매 개시 알림 보내기")
+    @transaction.atomic
     def send_product_open_message(self, request, queryset):
         if queryset.count() > 1:
             self.message_user(request, "두개 이상의 농가의 상품에 대해 메세지를 보낼 수 없습니다.", messages.ERROR)
