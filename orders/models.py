@@ -20,8 +20,15 @@ class Order_Group(models.Model):
         ("error_price_match", "결제오류(총가격 불일치)"),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    order_management_number = models.CharField(max_length=1000, null=True, blank=True)
+    CONSUMER_TYPE = (
+        ("user", "회원"),
+        ("non_user", "비회원")
+    )
+
+    status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="상태")
+    # 22.1.9 기윤 - 비회원 구매 도입을 위한 필드 추가
+    consumer_type = models.CharField(max_length=20, choices=CONSUMER_TYPE, default="user", help_text="구매 회원 타입")
+    order_management_number = models.CharField(max_length=1000, null=True, blank=True, help_text="주문관리번호")
     receipt_number = models.CharField(max_length=60, null=True, blank=True)
     rev_address = models.TextField(null=True, blank=True)
     rev_name = models.CharField(max_length=50, null=True, blank=True)
@@ -56,8 +63,9 @@ class Order_Group(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     consumer = models.ForeignKey(
-        "users.Consumer", related_name="order_groups", on_delete=models.CASCADE
+        "users.Consumer", related_name="order_groups", on_delete=models.CASCADE, null=True, blank=True
     )
+    # 22.1.9 기윤 비회원 구매 도입을 위한 null=True / blank=True 추가 
 
     def __str__(self):
         if self.order_at is None:

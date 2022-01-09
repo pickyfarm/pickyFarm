@@ -106,7 +106,7 @@ def create_order_detail_management_number(pk, farmer_id):
 
 
 # 결제 진행 페이지에서 주소 전환 시, 서버 반영 Ajax
-@login_required
+# @login_required
 @require_POST
 @transaction.atomic
 def changeAddressAjax(request):
@@ -159,7 +159,7 @@ def changeAddressAjax(request):
         return JsonResponse(data)
 
 
-@login_required
+# @login_required
 @transaction.atomic
 def payment_create(request):
 
@@ -168,17 +168,33 @@ def payment_create(request):
 
     """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
 
-    user = request.user
-    consumer = user.consumer
-    # 이름 전화번호 주소지 정보 등
-    user_ctx = {
-        "account_name": user.account_name,
-        "phone_number": user.phone_number,
-        "default_address": consumer.default_address.get_full_address(),
-        "addresses": user.addresses.all(),
-    }
+    cur_user = request.user
+    
+    # 회원인지 비회원인지 판단 변수
+    is_user = True
 
-    print(f"기본배송지 : {consumer.default_address.get_full_address()} ")
+    # 회원인 경우
+    if cur_user.is_authenticated:
+        consumer = cur_user.consumer
+        # 이름 전화번호 주소지 정보 등
+        user_ctx = {
+            "account_name": cur_user.account_name,
+            "phone_number": cur_user.phone_number,
+            "default_address": consumer.default_address.get_full_address(),
+            "addresses": cur_user.addresses.all(),
+        }
+        print(f"기본배송지 : {consumer.default_address.get_full_address()} ")
+    # 비회원인 경우 21.1.9 기윤 - 비회원 구매 위한 전달 파라미터 추가
+    else:
+        is_user = False
+        user_ctx = {
+            "account_name": "",
+            "phone_number": "",
+            "default_address": "",
+            "addresses": ""
+        }
+
+    
 
     if request.method == "POST":
         form = Order_Group_Form()
@@ -194,9 +210,16 @@ def payment_create(request):
         price_sum = 0
 
         # [PROCESS 1] 결제 대기 상태인 Order_Group 생성
-        order_group = Order_Group(status="wait", consumer=consumer)
-        order_group.save()
-        order_group_pk = order_group.pk
+        if is_user is True:
+            order_group = Order_Group(status="wait", consumer_type="user", consumer=consumer)
+            order_group.save()
+            order_group_pk = order_group.pk
+        # 22.1.9 기윤 - 비회원인 경우 order_group 생성
+        else:
+            order_group = Order_Group(status="wait", consumer_type="non_user")
+            order_group.save()
+            order_group_pk = order_group.pk
+
 
         # [PROCESS 2] order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
         order_group_management_number = create_order_group_management_number(order_group_pk)
@@ -335,7 +358,7 @@ def payment_create(request):
             "order_group_pk": order_group_pk,
             "order_group_name": order_group_name,
             "form": form,
-            "consumer": consumer,
+            # "consumer": consumer,
             "products": products,
             "total_quantity": total_quantity,
             "price_sum": price_sum,
@@ -351,7 +374,6 @@ def payment_create(request):
         return render(request, "orders/payment.html", ctx)
 
 
-@login_required
 @require_POST
 @transaction.atomic
 # 배송 정보가 입력된 후 oreder_group에 update
@@ -360,7 +382,10 @@ def payment_update(request, pk):
     """결제 전, 주문 재고 확인"""
     """Order_Group 주문 정보 등록"""
 
-    consumer = request.user.consumer
+
+    # consumer = request.user.consumer
+    # 22.1.9 기윤 - 비회원 구매 도입을 위한 주석처리
+
 
     if request.method == "POST":
         # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
@@ -454,67 +479,6 @@ def payment_update(request, pk):
 
             return JsonResponse(res_data)
 
-        # !!!rev_address 추가 필요
-        # rev_loc_detail 지우기
-        # payment type은 잠시 보류
-        # if form.is_valid():
-        #     rev_name = form.cleaned_data.get('rev_name')
-        #     rev_phone_number = form.cleaned_data.get('rev_phone_number')
-        #     rev_loc_at = form.cleaned_data.get('rev_loc_at')
-        #     # rev_loc_detail = form.cleaned_data.get('rev_loc_detail')
-        #     rev_message = form.cleaned_data.get('rev_message')
-        #     to_farm_message = form.cleaned_data.get('to_farm_message')
-        #     # payment_type = form.cleaned_data.get('payment_type')
-
-
-# @login_required
-# def payment_success(request):
-
-#     if request.method == "GET":
-#         # 결제 승인을 위해 사용되는 키값
-#         # 이 키를 http header에 넣어서 결제 승인 api를 요청
-#         payment_key = request.GET.get("paymentKey", None)
-#         print(f"페이먼트 키 : {payment_key}")
-#         # 주문 고유 id
-#         order_id = request.GET.get("orderId", None)
-#         # 결제할 금액 (비교 금액)
-#         amount_ready = request.GET.get("amount_ready")
-#         # 실제 결제한 금액
-#         amount_paid = request.GET.get("amount")
-#         if (payment_key is not None) and (order_id is not None):
-#             if amount_ready == amount_paid:
-#                 data = {
-#                     "orderId": order_id,
-#                     "amount": amount_paid,
-#                 }
-#                 # PG사에서 제공해주는 client ID and Client Passwords
-#                 usr_pass = b"test_sk_BE92LAa5PVb64R41qaPV7YmpXyJj:"
-#                 # b64로 암호화
-#                 b64_val = base64.b64encode(usr_pass).decode("utf-8")
-
-#                 auth_request = requests.post(
-#                     f"https://api.tosspayments.com/v1/payments/{payment_key}",
-#                     headers={
-#                         # 추후 authorization token이 들어가야 함
-#                         "Authorization": f"Basic {b64_val}",
-#                         "Content-Type": "application/json",
-#                     },
-#                     json=data,
-#                 )
-#                 print(auth_request.json())
-#                 if auth_request:
-#                     # 여기서 order group 과 order detail의 결제 상태를 완료로 변경해주어야함
-#                     ctx = {
-#                         "order_id": order_id,
-#                         "amount": amount_paid,
-#                     }
-#                     return render(request, "orders/payment_success.html", ctx)
-#                 else:
-#                     return redirect(reverse("orders:payment_fail"))
-#             else:
-#                 return redirect(reverse("orders:payment_fail"))
-#         else:
-#             return redirect(reverse("orders:payment_fail"))
 
 
 @login_required
