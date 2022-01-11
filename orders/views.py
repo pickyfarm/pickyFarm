@@ -512,7 +512,7 @@ def payment_update(request, pk):
 
 
 
-@login_required
+# @login_required
 @transaction.atomic
 def payment_fail(request):
     error_type = str(request.GET.get("errorType", None))
@@ -659,7 +659,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
     order_group.save()
 
 
-@login_required
+# @login_required
 @transaction.atomic
 def payment_valid(request):
 
@@ -867,11 +867,17 @@ class stockLackError(Exception):
         return "재고가 부족합니다."
 
 
-@login_required
+# @login_required
 @require_POST
 def vbank_progess(request):
 
-    user = request.user
+    # 22.1.9 기윤 - 비회원/회원 분기 위한 추가
+    cur_user = request.user
+    
+    if cur_user.is_authenticated:
+        is_user = True
+    else:
+        is_user = False
 
     if request.method == "POST":
         # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select / 구독 리스트 추출
@@ -973,6 +979,15 @@ def vbank_progess(request):
         if valid is True:
             print(f"--------재고 확인 성공 ---------")
             # [PROCESS 6] 주문 정보 Order_Group에 등록
+
+            # 22.1.19 기윤 - 비회원/회원 구분에 따른 추가
+            if is_user is True:
+                orderer_name = cur_user.account_name
+                orderer_phone_number = cur_user.phone_number
+            else:
+                orderer_name = request.POST.get("orderer_name")
+                orderer_phone_number = request.POST.get("orderer_phone_number")
+
             rev_name = request.POST.get("rev_name")
             rev_phone_number = request.POST.get("rev_phone_number")
             rev_address = request.POST.get("rev_address")
@@ -998,6 +1013,10 @@ def vbank_progess(request):
 
             print(order_group)
             # 배송 정보 order_group에 업데이트
+            # 22.1.9 기윤 - 비회원/회원 구분에 따른 orderer 정보 추가
+            order_group.orderer_name = orderer_name
+            order_group.orderer_phone_number = orderer_phone_number
+
             order_group.rev_name = rev_name
             order_group.rev_address = rev_address
             order_group.rev_phone_number = rev_phone_number
@@ -1032,7 +1051,8 @@ def vbank_progess(request):
             }
 
             # 소비자 결제 완료 카카오 알림톡 전송
-            send_kakao_message(user.phone_number, templateIdList["vbank_info"], args_kakao)
+            # 22.1.9 기윤 - order_group에 주문자 정보 추가로 인한 메시지 전송 타겟 수정
+            send_kakao_message(order_group.orderer_phone_number, templateIdList["vbank_info"], args_kakao)
 
             ctx = {
                 "order_group": order_group,
