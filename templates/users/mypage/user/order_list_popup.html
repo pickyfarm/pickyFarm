@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문목록 조회 | 피키팜
+    </title>
+    <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders_mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <h1>주문목록 조회</h1>
+    <div id="products-section" class="mt-5 popup-wrapper">
+        {% for detail in order_details %}
+        <div id="product" class="flex flex-row mb-5">
+            <div class="w-2/12">
+                <img id="product_img" src="{{detail.product.main_image.url}}">
+            </div>
+            <div id="product-contents" class="w-6/12">
+                <div id="product_order_at2">{{detail.order_group.order_at | date}} 주문</div>
+                <div class="flex flex-row">
+                    <div id="product_title">
+                        {% if detail.product.title|length > 16 %}
+                        {{detail.product.title|slice:"16"}}..
+                        {% else %}
+                        {{detail.product.title}}
+                        {% endif %}
+                    </div>
+                    <div id="slash">|</div>
+                    <div id="product_farm_name">{{detail.product.farmer.farm_name}}</div>
+
+                </div>
+                <div class="flex flex-row">
+                    <div id="product_price">{{detail.total_price}}원</div>
+                    <div id="product_quantity">{{detail.quantity}}개</div>
+                </div>
+                <div class="flex flex-row" id="delivery_status">
+
+                    {% if detail.status == 'payment_complete' %}
+                    <div>결제 완료</div>
+                    {% elif detail.status == 'preparing' %}
+                    <img id="delivery-status-icon" src="{% static 'images/users/preparing.svg' %}" alt="배송 준비 중 아이콘">
+                    <div>배송 준비 중</div>
+                    {% elif detail.status == 'shipping' %}
+                    <img id="delivery-status-icon" src="{% static 'images/users/delivering.svg' %}" alt="배송중 아이콘">
+                    <div>배송중</div>
+                    {% elif detail.status == 'delivery_complete' %}
+                    <img id="delivery-status-icon" src="{% static 'images/users/complete.svg' %}" alt="배송 완료 아이콘">
+                    <div>배송 완료</div>
+                    {% elif detail.status == 'cancel' %}
+                    <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+                    <div>주문 취소</div>
+                    {% elif detail.status == 're_recept' %}
+                    <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+                    <div>환불 접수</div>
+                    {% elif detail.status == 'ex_recept' %}
+                    <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+                    <div>교환 접수</div>
+                    {% elif detail.status == 're_ex_approve' %}
+                    <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+                    <div>환불/교환 승인</div>
+                    {% elif detail.status == 're_ex_deny' %}
+                    <img id="delivery-status-icon" src="{% static 'images/users/cancel.svg' %}" alt="주문 취소 아이콘">
+                    <div>환불/교환 거절</div>
+                    {% elif detail.status == 'wait' and group.status == 'wait_vbank' %}
+                    <div>입금 대기</div>
+                    {% endif %}
+
+                </div>
+                <div class="flex flex-row"></div>
+            </div>
+            <div id="buttons-section" class="flex justify-end w-4/12 pl-6 pt-2" style="justify-content: flex-end !important;">
+
+                <div id="other-button-section" class="flex flex-col">
+
+                    <div id="see-product-btn" class="transition_element">
+                        <a href="{% url 'products:product_detail' detail.product.pk %}">
+                            무난이 보기
+                        </a>
+                    </div>
+
+
+
+
+                    {% if detail.status == 'payment_complete' %}
+                    <div id="cancel-order-btn" class="transition_element" onclick="window.open('{% url 'orders:payment_cancel' detail.pk %}')">
+                        <a>
+                            주문 취소
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if detail.status == 'wait' and detail.order_group.status == 'wait_vbank' %}
+                    <div id="vbank_confirm_btn" class="transition_element" onclick="window.open('{% url 'user:vbank_account_confirm' detail.order_group.pk %}')">
+                        <a>가상계좌 확인</a>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</body>
+<style>
+    h1 {
+        color: #5c6754;
+        font-size: 2.5rem;
+        text-align: center;
+        font-weight: bold;
+
+        margin: 2rem;
+        margin-bottom: 5rem;
+
+    }
+</style>
+
+</html>

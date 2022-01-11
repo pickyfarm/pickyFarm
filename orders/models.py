@@ -32,18 +32,12 @@ class Order_Group(models.Model):
     to_farm_message = models.TextField(null=True, blank=True)
 
     payment_type = models.CharField(max_length=20, null=True, blank=True)
-    v_bank = models.CharField(
-        max_length=200, null=True, blank=True, help_text="가상계좌 은행명"
-    )
-    v_bank_account = models.CharField(
-        max_length=500, null=True, blank=True, help_text="가상계좌 번호"
-    )
+    v_bank = models.CharField(max_length=200, null=True, blank=True, help_text="가상계좌 은행명")
+    v_bank_account = models.CharField(max_length=500, null=True, blank=True, help_text="가상계좌 번호")
     v_bank_account_holder = models.CharField(
         max_length=500, null=True, blank=True, help_text="가삼계좌 예금주"
     )
-    v_bank_expire_date = models.DateTimeField(
-        null=True, blank=True, help_text="가상계좌 입금 마감기한"
-    )
+    v_bank_expire_date = models.DateTimeField(null=True, blank=True, help_text="가상계좌 입금 마감기한")
 
     total_price = models.IntegerField(null=True, blank=True)
     total_quantity = models.IntegerField(null=True, blank=True)
@@ -68,6 +62,9 @@ class Order_Group(models.Model):
             order_at += " 주문"
         title = f"수취인 : {self.rev_name} / 결제자 : {self.consumer.user.account_name} / {order_at}"
         return title
+
+    def encrypt_odmn(self):
+        return url_encryption.encode_string_to_url(self.order_management_number)
 
 
 class Order_Detail(models.Model):
@@ -111,9 +108,7 @@ class Order_Detail(models.Model):
         ("HAPDONG", "합동택배"),
     )
 
-    status = models.CharField(
-        max_length=20, choices=STATUS, default="wait", help_text="주문 상태"
-    )
+    status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="주문 상태")
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="none", help_text="정산 상태"
     )
@@ -124,18 +119,14 @@ class Order_Detail(models.Model):
     delivery_service_company = models.CharField(
         max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
     )
-    invoice_number = models.CharField(
-        max_length=30, null=True, blank=True, help_text="운송장 번호"
-    )
+    invoice_number = models.CharField(max_length=30, null=True, blank=True, help_text="운송장 번호")
 
     quantity = models.IntegerField(help_text="수량")
 
     total_price = models.IntegerField(help_text="총금액")
     commision_rate = models.FloatField(help_text="수수료율")
 
-    cancel_reason = models.CharField(
-        max_length=30, null=True, blank=True, help_text="주문 취소 사유"
-    )
+    cancel_reason = models.CharField(max_length=30, null=True, blank=True, help_text="주문 취소 사유")
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -182,9 +173,7 @@ class RefundExchange(models.Model):
         "Order_Detail", on_delete=models.PROTECT, related_name="refund_exchanges"
     )
     reason = models.TextField()
-    image = CompressedImageField(
-        upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True
-    )
+    image = CompressedImageField(upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True)
 
     farmer_answer = models.TextField(null=True, blank=True)
 
