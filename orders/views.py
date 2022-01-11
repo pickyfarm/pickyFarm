@@ -389,6 +389,8 @@ def payment_update(request, pk):
 
     # 22.1.9 기윤 - 비회원 구매 도입을 위한 분기
     cur_user = request.user
+
+    # 회원/비회원 구분 플래그
     is_user = True
 
     if cur_user.is_authenticated:
@@ -463,8 +465,12 @@ def payment_update(request, pk):
             # 배송 정보 order_group에 업데이트
 
             # 22.1.9 기윤 - 비회원 결제 추가에 따른 주문자 정보 추가
-            order_group.orderer_name = orderer_name
-            order_group.orderer_phone_number = orderer_phone_number
+            if is_user is True:
+                order_group.orderer_name = cur_user.account_name
+                order_group.orderer_phone_number = cur_user.phone_number
+            else:
+                order_group.orderer_name = orderer_name
+                order_group.orderer_phone_number = orderer_phone_number
 
             order_group.rev_name = rev_name
             order_group.rev_address = rev_address
@@ -552,9 +558,16 @@ def farmer_search(farmers, pk, start, end):
 
 def send_kakao_with_payment_complete(order_group_pk, receipt_id):
     order_group = Order_Group.objects.get(pk=order_group_pk)
+
+    # 22.1.9 기윤 - 회원/비회원 구분 
+    is_user = True
+    if order_group.consumer_type == 'non_user':
+        is_user = False
+
     order_details = order_group.order_details.all()
     farmers = list(set(map(lambda u: u.product.farmer, order_details)))
-    phone_number_consumer = order_group.consumer.user.phone_number
+    # 22.1.9 기윤 - 소비자 번호 consumer가 아닌 order_group에서 받기
+    phone_number_consumer = order_group.orderer_phone_number
 
     farmers_info = []
     for farmer in farmers:
@@ -592,8 +605,19 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
             "#{option_name}": detail.product.option_name,
             "#{quantity}": kakao_msg_quantity,
             "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",  # 임시
-            "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
         }
+
+        # 22.1.9 기윤 - 구매 확인 링크 팝업 회원/비회원용 구분
+        if is_user == True:
+            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders" # 회원용 구매확인 링크 
+        else:
+            url_encoded_order_group_number = url_encryption.encode_string_to_url(
+                order_group.order_management_number
+            )
+            ###### 팝업 url 추가해야 ######
+            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 비회원용 구매확인 링크
+            
+
 
         # 소비자 결제 완료 카카오 알림톡 전송
         send_kakao_message(
@@ -613,7 +637,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
             "#{option_name}": detail.product.option_name,
             "#{quantity}": kakao_msg_quantity,
             "#{rev_name}": order_group.rev_name,
-            "#{rev_phone_number}": phone_number_consumer,
+            "#{rev_phone_number}": order_group.rev_phone_number,
             "#{rev_address}": order_group.rev_address,
             "#{rev_loc_at}": order_group.rev_loc_at,
             "#{rev_detail}": order_group.rev_message,
@@ -638,6 +662,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
 @login_required
 @transaction.atomic
 def payment_valid(request):
+
     if request.method == "POST":
         REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
@@ -645,6 +670,13 @@ def payment_valid(request):
         receipt_id = request.POST.get("receipt_id")
         order_group_pk = int(request.POST.get("orderGroupPk"))
         order_group = Order_Group.objects.get(pk=order_group_pk)
+
+        # 22.1.9 기윤 - 회원/비회원 구분 
+        is_user = True
+        if order_group.consumer_type == 'non_user':
+            is_user = False
+        
+
         total_price = order_group.total_price
 
         order_details = Order_Detail.objects.filter(order_group=order_group)
@@ -687,7 +719,8 @@ def payment_valid(request):
                     and verify_result["data"]["status"] == 1
                 ):
 
-                    phone_number_consumer = order_group.consumer.user.phone_number
+                     # 22.1.9 기윤 - 소비자 번호 consumer가 아닌 order_group에서 받기
+                    phone_number_consumer = order_group.orderer_phone_number
 
                     for detail in order_details:
 
@@ -719,8 +752,19 @@ def payment_valid(request):
                             "#{option_name}": detail.product.option_name,
                             "#{quantity}": kakao_msg_quantity,
                             "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",  # 임시
-                            "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
                         }
+
+                        # 22.1.9 기윤 - 구매 확인 링크 팝업 회원/비회원용 구분
+                        if is_user == True:
+                            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders" # 회원용 구매확인 링크 
+                        else:
+                            url_encoded_order_group_number = url_encryption.encode_string_to_url(
+                                order_group.order_management_number
+                            )
+                            ###### 팝업 url 추가해야 ######
+                            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 비회원용 구매확인 링크
+            
+
 
                         # 소비자 결제 완료 카카오 알림톡 전송
                         send_kakao_message(
