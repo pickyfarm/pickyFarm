@@ -2,6 +2,14 @@
 
 @media screen and (max-width: 768px) {
     /* base setting */
+    img {
+        object-fit: cover;
+    }
+
+    .popup-wrapper {
+        padding: 1.5rem;
+    }
+
     #main {
         width: 100%;
         padding: 0 2.5rem;

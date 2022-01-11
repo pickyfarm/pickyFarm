@@ -979,7 +979,7 @@ class OrderListPopup(TemplateView):
         context = super().get_context_data(**kwargs)
 
         context["order_group"] = group
-        context["orders"] = group.order_details.all()
+        context["order_details"] = group.order_details.all()
         return context
 
 
