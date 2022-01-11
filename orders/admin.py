@@ -84,6 +84,22 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
         "calculate_amount",
     ]
 
+    change_list_template = "admin/orders/order_detail/change_list.html"
+
+    def get_total_quantity(self, request):
+        return self.get_queryset().aggregate(tot=Sum("quantity"))["tot"]
+
+    def get_total_price(self, request):
+        return self.get_queryset().aggregate(tot=Sum("total_price"))["tot"]
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+
+        extra_context["quantity"] = self.get_total_quantity
+        extra_context["total_price"] = self.get_total_price
+
+        return super().changelist_view(request, extra_context=extra_context)
+
     @transaction.atomic
     def order_complete(self, request, queryset):
         # order_Detail 돌면서 배송완료, 카카오알림톡 보내기
