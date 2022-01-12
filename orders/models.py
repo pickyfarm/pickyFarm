@@ -56,8 +56,8 @@ class Order_Group(models.Model):
 
     # 22.1.9 기윤 - 비회원 구매 도입을 위한 필드 추가
     consumer_type = models.CharField(max_length=20, choices=CONSUMER_TYPE, default="user", help_text="구매 회원 타입")
-    orderer_name = models.CharField(max_length=20, help_text="주문자 이름")
-    orderer_phone_number = models.CharField(max_length=30, help_text="주문자 전화번호")
+    orderer_name = models.CharField(max_length=20, help_text="주문자 이름", null=True, blank=True)
+    orderer_phone_number = models.CharField(max_length=30, help_text="주문자 전화번호", null=True, blank=True)
 
     total_price = models.IntegerField(null=True, blank=True)
     total_quantity = models.IntegerField(null=True, blank=True)
