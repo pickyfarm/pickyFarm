@@ -23,9 +23,9 @@ class OrderTest(TestCase):
 
     def test_payment_create_non_user(self):
         '''[GET] 비회원 결제하기창'''
-        json_dict = {"orders":[{"pk" : "1","quantity" : "3"}]}
-        json_data = json.dumps(json_dict)
-        response = self.client.post('/order/payment/', json_data, content_type="application/json")
+        json_dict = '{"orders":[{"pk" : "1","quantity" : "3"}]}'
+        # json_data = json.dumps(json_dict)
+        response = self.client.post('/order/payment/', json_dict, content_type="application/json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response, 'orders/payment_non_user.html')
         self.assertTrue(response.ctx["account_name"] == "")

@@ -556,6 +556,8 @@ def farmer_search(farmers, pk, start, end):
         return farmer_search(farmers, pk, start, mid - 1)
 
 
+
+
 def send_kakao_with_payment_complete(order_group_pk, receipt_id):
     order_group = Order_Group.objects.get(pk=order_group_pk)
 
