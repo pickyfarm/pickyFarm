@@ -169,13 +169,13 @@ def payment_create(request):
     """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
 
     cur_user = request.user
-    consumer = cur_user.consumer
+    
     # 회원인지 비회원인지 판단 변수
     is_user = True
 
     # 회원인 경우
     if cur_user.is_authenticated:
-        
+        consumer = cur_user.consumer
         # 이름 전화번호 주소지 정보 등
         user_ctx = {
             "account_name": cur_user.account_name,
@@ -275,7 +275,10 @@ def payment_create(request):
                         # ) * product.additional_delivery_fee
 
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
-            is_jeju_mountain = check_address_by_zipcode(int(consumer.default_address.zipcode))
+            if is_user is True:
+                is_jeju_mountain = check_address_by_zipcode(int(consumer.default_address.zipcode))
+            else:
+                is_jeju_mountain = False
 
             print("is jeju: ", is_jeju_mountain)
             # 제주 산간이면 total_delivery_fee에 더하기
