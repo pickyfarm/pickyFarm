@@ -169,7 +169,7 @@ def payment_create(request):
     """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
 
     cur_user = request.user
-    
+
     # 회원인지 비회원인지 판단 변수
     is_user = True
 
@@ -187,14 +187,7 @@ def payment_create(request):
     # 비회원인 경우 21.1.9 기윤 - 비회원 구매 위한 전달 파라미터 추가
     else:
         is_user = False
-        user_ctx = {
-            "account_name": "",
-            "phone_number": "",
-            "default_address": "",
-            "addresses": ""
-        }
-
-    
+        user_ctx = {"account_name": "", "phone_number": "", "default_address": "", "addresses": ""}
 
     if request.method == "POST":
         form = Order_Group_Form()
@@ -219,7 +212,6 @@ def payment_create(request):
             order_group = Order_Group(status="wait", consumer_type="non_user")
             order_group.save()
             order_group_pk = order_group.pk
-
 
         # [PROCESS 2] order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
         order_group_management_number = create_order_group_management_number(order_group_pk)
@@ -389,7 +381,6 @@ def payment_update(request, pk):
     """결제 전, 주문 재고 확인"""
     """Order_Group 주문 정보 등록"""
 
-
     # 22.1.9 기윤 - 비회원 구매 도입을 위한 분기
     cur_user = request.user
 
@@ -400,7 +391,6 @@ def payment_update(request, pk):
         consumer = cur_user.consumer
     else:
         is_user = False
-
 
     if request.method == "POST":
         # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
@@ -443,7 +433,6 @@ def payment_update(request, pk):
         # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
 
-
             # [PROCESS 6] 주문 정보 Order_Group에 등록
 
             # 22.1.9 기윤 - 회원/비회원에 따라 주문자 정보 추가
@@ -451,7 +440,7 @@ def payment_update(request, pk):
                 orderer_name = cur_user.account_name
                 orderer_phone_number = cur_user.phone_number
             else:
-                orderer_name = request.POST.get("orderer_name")
+                orderer_name = request.POST.get("orderer_name", "orderer name is none")
                 orderer_phone_number = request.POST.get("orderer_phone_number")
 
             rev_name = request.POST.get("rev_name")
@@ -514,7 +503,6 @@ def payment_update(request, pk):
             return JsonResponse(res_data)
 
 
-
 # @login_required
 @transaction.atomic
 def payment_fail(request):
@@ -559,14 +547,12 @@ def farmer_search(farmers, pk, start, end):
         return farmer_search(farmers, pk, start, mid - 1)
 
 
-
-
 def send_kakao_with_payment_complete(order_group_pk, receipt_id):
     order_group = Order_Group.objects.get(pk=order_group_pk)
 
-    # 22.1.9 기윤 - 회원/비회원 구분 
+    # 22.1.9 기윤 - 회원/비회원 구분
     is_user = True
-    if order_group.consumer_type == 'non_user':
+    if order_group.consumer_type == "non_user":
         is_user = False
 
     order_details = order_group.order_details.all()
@@ -614,15 +600,15 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
 
         # 22.1.9 기윤 - 구매 확인 링크 팝업 회원/비회원용 구분
         if is_user == True:
-            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders" # 회원용 구매확인 링크 
+            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
         else:
             url_encoded_order_group_number = url_encryption.encode_string_to_url(
                 order_group.order_management_number
             )
             ###### 팝업 url 추가해야 ######
-            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 비회원용 구매확인 링크
-            
-
+            args_consumer[
+                "#{link_2}"
+            ] = f"www.pickyfarm.com/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
 
         # 소비자 결제 완료 카카오 알림톡 전송
         send_kakao_message(
@@ -676,11 +662,10 @@ def payment_valid(request):
         order_group_pk = int(request.POST.get("orderGroupPk"))
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
-        # 22.1.9 기윤 - 회원/비회원 구분 
+        # 22.1.9 기윤 - 회원/비회원 구분
         is_user = True
-        if order_group.consumer_type == 'non_user':
+        if order_group.consumer_type == "non_user":
             is_user = False
-        
 
         total_price = order_group.total_price
 
@@ -724,7 +709,7 @@ def payment_valid(request):
                     and verify_result["data"]["status"] == 1
                 ):
 
-                     # 22.1.9 기윤 - 소비자 번호 consumer가 아닌 order_group에서 받기
+                    # 22.1.9 기윤 - 소비자 번호 consumer가 아닌 order_group에서 받기
                     phone_number_consumer = order_group.orderer_phone_number
 
                     for detail in order_details:
@@ -761,15 +746,17 @@ def payment_valid(request):
 
                         # 22.1.9 기윤 - 구매 확인 링크 팝업 회원/비회원용 구분
                         if is_user == True:
-                            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders" # 회원용 구매확인 링크 
+                            args_consumer[
+                                "#{link_2}"
+                            ] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
                         else:
                             url_encoded_order_group_number = url_encryption.encode_string_to_url(
                                 order_group.order_management_number
                             )
                             ###### 팝업 url 추가해야 ######
-                            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 비회원용 구매확인 링크
-            
-
+                            args_consumer[
+                                "#{link_2}"
+                            ] = "www.pickyfarm.com/user/mypage/orders"  # 비회원용 구매확인 링크
 
                         # 소비자 결제 완료 카카오 알림톡 전송
                         send_kakao_message(
@@ -878,7 +865,7 @@ def vbank_progess(request):
 
     # 22.1.9 기윤 - 비회원/회원 분기 위한 추가
     cur_user = request.user
-    
+
     if cur_user.is_authenticated:
         is_user = True
     else:
@@ -1057,7 +1044,9 @@ def vbank_progess(request):
 
             # 소비자 결제 완료 카카오 알림톡 전송
             # 22.1.9 기윤 - order_group에 주문자 정보 추가로 인한 메시지 전송 타겟 수정
-            send_kakao_message(order_group.orderer_phone_number, templateIdList["vbank_info"], args_kakao)
+            send_kakao_message(
+                order_group.orderer_phone_number, templateIdList["vbank_info"], args_kakao
+            )
 
             ctx = {
                 "order_group": order_group,

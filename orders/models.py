@@ -20,44 +20,41 @@ class Order_Group(models.Model):
         ("error_price_match", "결제오류(총가격 불일치)"),
     )
 
-    CONSUMER_TYPE = (
-        ("user", "회원"),
-        ("non_user", "비회원")
-    )
+    CONSUMER_TYPE = (("user", "회원"), ("non_user", "비회원"))
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="상태")
-    
-    order_management_number = models.CharField(max_length=1000, null=True, blank=True, help_text="주문관리번호")
+
+    order_management_number = models.CharField(
+        max_length=1000, null=True, blank=True, help_text="주문관리번호"
+    )
     receipt_number = models.CharField(max_length=60, null=True, blank=True)
-    
+
     rev_address = models.TextField(null=True, blank=True)
     rev_name = models.CharField(max_length=50, null=True, blank=True, help_text="받는이 이름")
     rev_phone_number = models.CharField(max_length=30, null=True, blank=True, help_text="받는이 전화번호")
-    
+
     rev_loc_at = models.CharField(max_length=20, null=True, blank=True, help_text="받으실 장소")
     rev_loc_detail = models.TextField(null=True, blank=True)
     rev_message = models.TextField(null=True, blank=True, help_text="배송지 특이사항")
-    
+
     to_farm_message = models.TextField(null=True, blank=True, help_text="농가 전달 메시지")
 
     payment_type = models.CharField(max_length=20, null=True, blank=True)
-    v_bank = models.CharField(
-        max_length=200, null=True, blank=True, help_text="가상계좌 은행명"
-    )
-    v_bank_account = models.CharField(
-        max_length=500, null=True, blank=True, help_text="가상계좌 번호"
-    )
+    v_bank = models.CharField(max_length=200, null=True, blank=True, help_text="가상계좌 은행명")
+    v_bank_account = models.CharField(max_length=500, null=True, blank=True, help_text="가상계좌 번호")
     v_bank_account_holder = models.CharField(
         max_length=500, null=True, blank=True, help_text="가삼계좌 예금주"
     )
-    v_bank_expire_date = models.DateTimeField(
-        null=True, blank=True, help_text="가상계좌 입금 마감기한"
-    )
+    v_bank_expire_date = models.DateTimeField(null=True, blank=True, help_text="가상계좌 입금 마감기한")
 
     # 22.1.9 기윤 - 비회원 구매 도입을 위한 필드 추가
-    consumer_type = models.CharField(max_length=20, choices=CONSUMER_TYPE, default="user", help_text="구매 회원 타입")
+    consumer_type = models.CharField(
+        max_length=20, choices=CONSUMER_TYPE, default="user", help_text="구매 회원 타입"
+    )
     orderer_name = models.CharField(max_length=20, help_text="주문자 이름", null=True, blank=True)
-    orderer_phone_number = models.CharField(max_length=30, help_text="주문자 전화번호", null=True, blank=True)
+    orderer_phone_number = models.CharField(
+        max_length=30, help_text="주문자 전화번호", null=True, blank=True
+    )
 
     total_price = models.IntegerField(null=True, blank=True)
     total_quantity = models.IntegerField(null=True, blank=True)
@@ -70,9 +67,13 @@ class Order_Group(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     consumer = models.ForeignKey(
-        "users.Consumer", related_name="order_groups", on_delete=models.CASCADE, null=True, blank=True
+        "users.Consumer",
+        related_name="order_groups",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
-    # 22.1.9 기윤 비회원 구매 도입을 위한 null=True / blank=True 추가 
+    # 22.1.9 기윤 비회원 구매 도입을 위한 null=True / blank=True 추가
 
     def __str__(self):
         if self.order_at is None:
@@ -81,7 +82,7 @@ class Order_Group(models.Model):
             datatime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
             order_at = str(timezone.localtime(self.order_at))
             order_at += " 주문"
-        title = f"수취인 : {self.rev_name} / 결제자 : {self.consumer.user.account_name} / {order_at}"
+        title = f"수취인 : {self.rev_name} / 결제자 : {self.orderer_name} / {order_at}"
         return title
 
 
@@ -126,9 +127,7 @@ class Order_Detail(models.Model):
         ("HAPDONG", "합동택배"),
     )
 
-    status = models.CharField(
-        max_length=20, choices=STATUS, default="wait", help_text="주문 상태"
-    )
+    status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="주문 상태")
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="none", help_text="정산 상태"
     )
@@ -139,18 +138,14 @@ class Order_Detail(models.Model):
     delivery_service_company = models.CharField(
         max_length=100, choices=COMPANY, null=True, blank=True, help_text="택배회사"
     )
-    invoice_number = models.CharField(
-        max_length=30, null=True, blank=True, help_text="운송장 번호"
-    )
+    invoice_number = models.CharField(max_length=30, null=True, blank=True, help_text="운송장 번호")
 
     quantity = models.IntegerField(help_text="수량")
 
     total_price = models.IntegerField(help_text="총금액")
     commision_rate = models.FloatField(help_text="수수료율")
 
-    cancel_reason = models.CharField(
-        max_length=30, null=True, blank=True, help_text="주문 취소 사유"
-    )
+    cancel_reason = models.CharField(max_length=30, null=True, blank=True, help_text="주문 취소 사유")
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -197,9 +192,7 @@ class RefundExchange(models.Model):
         "Order_Detail", on_delete=models.PROTECT, related_name="refund_exchanges"
     )
     reason = models.TextField()
-    image = CompressedImageField(
-        upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True
-    )
+    image = CompressedImageField(upload_to="RefundExchange/%Y/%m/%d/", null=True, blank=True)
 
     farmer_answer = models.TextField(null=True, blank=True)
 
