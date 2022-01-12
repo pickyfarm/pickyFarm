@@ -169,13 +169,13 @@ def payment_create(request):
     """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
 
     cur_user = request.user
-    
+    consumer = cur_user.consumer
     # 회원인지 비회원인지 판단 변수
     is_user = True
 
     # 회원인 경우
     if cur_user.is_authenticated:
-        consumer = cur_user.consumer
+        
         # 이름 전화번호 주소지 정보 등
         user_ctx = {
             "account_name": cur_user.account_name,
