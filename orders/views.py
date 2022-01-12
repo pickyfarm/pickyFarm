@@ -608,7 +608,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
             ###### 팝업 url 추가해야 ######
             args_consumer[
                 "#{link_2}"
-            ] = f"www.pickyfarm.com/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
+            ] = f"127.0.0.1:8000/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
 
         # 소비자 결제 완료 카카오 알림톡 전송
         send_kakao_message(
@@ -756,7 +756,7 @@ def payment_valid(request):
                             ###### 팝업 url 추가해야 ######
                             args_consumer[
                                 "#{link_2}"
-                            ] = "www.pickyfarm.com/user/mypage/orders"  # 비회원용 구매확인 링크
+                            ] = f"127.0.0.1:8000/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
 
                         # 소비자 결제 완료 카카오 알림톡 전송
                         send_kakao_message(
@@ -1155,7 +1155,7 @@ def order_cancel(request, pk):
             cancel_result = bootpay.cancel(
                 order.order_group.receipt_number,
                 order.total_price,
-                order.order_group.consumer.user.account_name,
+                order.order_group.rev_name,
                 cancel_reason,
             )
 

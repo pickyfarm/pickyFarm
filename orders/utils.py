@@ -19,7 +19,7 @@ def payment_complete_notification(order_group_pk):
         consumer_name = order_group.consumer.user.name + f"({consumer_name})"
 
     elif order_group.consumer_type == "non_user":
-        consumer_name = str(consumer_name) + "(비회원)"
+        consumer_name = str(consumer_name) + " (비회원)"
 
     args = get_order_message_block(
         **{
