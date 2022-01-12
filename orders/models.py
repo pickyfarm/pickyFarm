@@ -85,6 +85,9 @@ class Order_Group(models.Model):
         title = f"수취인 : {self.rev_name} / 결제자 : {self.orderer_name} / {order_at}"
         return title
 
+    def encrypt_odmn(self):
+        return url_encryption.encode_string_to_url(self.order_management_number)
+
 
 class Order_Detail(models.Model):
 

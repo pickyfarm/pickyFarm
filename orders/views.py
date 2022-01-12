@@ -1128,7 +1128,6 @@ def vbank_template_test(request):
 #     return render(request, "orders/payment_fail.html", {"errorMsg": errorMsg})
 
 
-@login_required
 @transaction.atomic
 def order_cancel(request, pk):
     # http referer 참고해서 임의 접근 막는 코드 넣을 예정
