@@ -42,7 +42,8 @@ class Product_Group(models.Model):
         if not self.open:
             products = self.products.all()
             for product in products:
-                product.update(**{"open": False, "status": "suspended"})
+                product.open = False
+                product.status = "suspended"
 
         super(ModelName, self).save(*args, **kwargs)  # Call the real save() method
 
