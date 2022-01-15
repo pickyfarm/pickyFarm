@@ -177,6 +177,9 @@ class Order_Detail(models.Model):
     def encrypt_odmn(self):
         return url_encryption.encode_string_to_url(self.order_management_number)
 
+    def is_sufficient_stock(self):
+        return self.product.is_sufficient_stock(self.quantity)
+
 
 class RefundExchange(models.Model):
     TYPE = (
