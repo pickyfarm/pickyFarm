@@ -44,6 +44,7 @@ class Product_Group(models.Model):
             for product in products:
                 product.open = False
                 product.status = "suspended"
+                product.save()
 
         super(Product_Group, self).save(*args, **kwargs)  # Call the real save() method
 
