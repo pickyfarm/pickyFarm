@@ -304,6 +304,7 @@
         deliveryCatDetailSection.innerHTML = "";
         deliveryAddress.value = '{{default_address}}';
         deliveryAddressInput.style.display = 'none';
+        updateDeliveryFee('{{default_zipcode}}')
     });
 
     var updateDeliveryFee = function updateDeliveryFee(zipcode) {
