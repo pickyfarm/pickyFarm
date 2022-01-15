@@ -155,6 +155,12 @@ class Order_Detail(models.Model):
     def encrypt_odmn(self):
         return url_encryption.encode_string_to_url(self.order_management_number)
 
+    def save(self, *args, **kwargs):
+        if self.status == "cancel":
+            self.payment_status = "none"
+
+        super(Order_Detail, self).save(*args, **kwargs)
+
 
 class RefundExchange(models.Model):
     TYPE = (
