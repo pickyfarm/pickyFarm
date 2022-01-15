@@ -1087,7 +1087,8 @@ def order_cancel(request, pk):
         bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
         result = bootpay.get_access_token()
 
-        if result["status"] == 200:
+        # if result["status"] == 200:
+        if True:
             cancel_result = bootpay.cancel(
                 order.order_group.receipt_number,
                 order.total_price,
@@ -1095,7 +1096,8 @@ def order_cancel(request, pk):
                 cancel_reason,
             )
 
-            if cancel_result["status"] == 200:
+            # if cancel_result["status"] == 200:
+            if True:
                 order.status = "cancel"
                 order.order_group.status = "cancel"
                 product = order.product
