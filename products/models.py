@@ -38,6 +38,14 @@ class Product_Group(models.Model):
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        if not self.open:
+            products = self.products.all()
+            for product in products:
+                product.update(**{"open": False, "status": "suspended"})
+
+        super(ModelName, self).save(*args, **kwargs)  # Call the real save() method
+
     def get_main_product(self):
         return self.products.get(main_product=True)
 

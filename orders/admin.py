@@ -44,9 +44,7 @@ class OrderDetailFarmerFilter(SimpleListFilter):
 
     def queryset(self, request, queryset):
         return (
-            queryset.filter(product__farmer__farm_name=self.value(), payment_status="incoming")
-            if self.value()
-            else queryset
+            queryset.filter(product__farmer__farm_name=self.value()) if self.value() else queryset
         )
 
 
