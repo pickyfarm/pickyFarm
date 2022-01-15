@@ -45,7 +45,7 @@ class Product_Group(models.Model):
                 product.open = False
                 product.status = "suspended"
 
-        super(ModelName, self).save(*args, **kwargs)  # Call the real save() method
+        super(Product_Group, self).save(*args, **kwargs)  # Call the real save() method
 
     def get_main_product(self):
         return self.products.get(main_product=True)
