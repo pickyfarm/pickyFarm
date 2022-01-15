@@ -187,12 +187,12 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
         all_success = True
         fail_list = list()
         idx = 0
-        for order in list(queryset):
-            idx += 1
-            if order.payment_status != "progress":
-                all_success = False
-                fail_list.append(idx)
-                continue
+        # for order in list(queryset):
+        #     idx += 1
+        #     if order.payment_status != "progress":
+        #         all_success = False
+        #         fail_list.append(idx)
+        #         continue
 
         if all_success == True:
             # 전체금액: 매출 합계
@@ -203,31 +203,27 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
             VBANK_COMMISSION = 300
             KAKAO_COMMISSION = 0.03
 
-            overall_amount = queryset.filter(payment_status="progress").aggregate(
-                total=Sum("total_price")
-            )["total"]
+            overall_amount = queryset.aggregate(total=Sum("total_price"))["total"]
 
             card_commission = (
-                queryset.filter(
-                    payment_status="progress", order_group__payment_type="card"
-                ).aggregate(total=Sum(F("total_price") * Value(CARD_COMMISSION)))["total"]
+                queryset.filter(order_group__payment_type="card").aggregate(
+                    total=Sum(F("total_price") * Value(CARD_COMMISSION))
+                )["total"]
                 or 0
             )
             vbank_commission = (
-                queryset.filter(
-                    payment_status="progress", order_group__payment_type="vbank"
-                ).count()
+                queryset.filter(order_group__payment_type="vbank").count()
             ) * VBANK_COMMISSION
             kakao_commission = (
-                queryset.filter(
-                    payment_status="progress", order_group__payment_type="kakao"
-                ).aggregate(total=Sum(F("total_price") * Value(KAKAO_COMMISSION)))["total"]
+                queryset.filter(order_group__payment_type="kakao").aggregate(
+                    total=Sum(F("total_price") * Value(KAKAO_COMMISSION))
+                )["total"]
                 or 0
             )
 
             inicis_commission = card_commission + vbank_commission + kakao_commission
 
-            progress_amount = queryset.filter(payment_status="progress").aggregate(
+            progress_amount = queryset.aggregate(
                 total=Sum(
                     (F("total_price") * ((Value(100.0) - F("commision_rate")) / Value(100.0))),
                     output_field=FloatField(),
