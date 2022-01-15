@@ -84,21 +84,7 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
         "calculate_amount",
     ]
 
-    change_list_template = "admin/orders/order_detail/change_list.html"
-
-    def get_total_quantity(self, request):
-        return self.get_queryset().aggregate(tot=Sum("quantity"))["tot"]
-
-    def get_total_price(self, request):
-        return self.get_queryset().aggregate(tot=Sum("total_price"))["tot"]
-
-    def changelist_view(self, request, extra_context=None):
-        extra_context = extra_context or {}
-
-        extra_context["quantity"] = self.get_total_quantity
-        extra_context["total_price"] = self.get_total_price
-
-        return super().changelist_view(request, extra_context=extra_context)
+    # change_list_template = "admin/orders/order_detail/change_list.html"
 
     @transaction.atomic
     def order_complete(self, request, queryset):
@@ -209,14 +195,54 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
                 continue
 
         if all_success == True:
+            # 전체금액: 매출 합계
+            # PG 수수료: 매출 * 결제수단별 수수료율
+            # 정산 금액: 매출 * (1- 상품별 수수료율) (0.82)
+            # 피키팜 순이익: 전체금액 - (PG수수료 + 정산 금액)
+            CARD_COMMISSION = 0.028
+            VBANK_COMMISSION = 300
+            KAKAO_COMMISSION = 0.03
+
+            overall_amount = queryset.filter(payment_status="progress").aggregate(
+                total=Sum("total_price")
+            )["total"]
+
+            card_commission = (
+                queryset.filter(
+                    payment_status="progress", order_group__payment_type="card"
+                ).aggregate(total=Sum(F("total_price") * Value(CARD_COMMISSION)))["total"]
+                or 0
+            )
+            vbank_commission = (
+                queryset.filter(
+                    payment_status="progress", order_group__payment_type="vbank"
+                ).count()
+            ) * VBANK_COMMISSION
+            kakao_commission = (
+                queryset.filter(
+                    payment_status="progress", order_group__payment_type="kakao"
+                ).aggregate(total=Sum(F("total_price") * Value(KAKAO_COMMISSION)))["total"]
+                or 0
+            )
+
+            inicis_commission = card_commission + vbank_commission + kakao_commission
+
             progress_amount = queryset.filter(payment_status="progress").aggregate(
                 total=Sum(
                     (F("total_price") * ((Value(100.0) - F("commision_rate")) / Value(100.0))),
                     output_field=FloatField(),
                 )
             )["total"]
+
+            net_amount = overall_amount - (inicis_commission + progress_amount)
             self.message_user(
-                request, f"{queryset_len} 개의 항목 정산 금액 : {progress_amount}원", messages.SUCCESS
+                request,
+                f"""{queryset_len} 개의 항목 | 
+                전체 금액: {overall_amount}원 | 
+                정산 금액: {progress_amount}원 | 
+                PG 수수료: {inicis_commission}원 | 
+                피키팜 순이익: {net_amount}원""",
+                messages.SUCCESS,
             )
         else:
             self.message_user(request, f"[정산 진행] 상태가 아닌 주문이 있습니다. : {fail_list}", messages.ERROR)
