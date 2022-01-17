@@ -183,6 +183,14 @@
 #farm_tag {
     background-color: #ffffff;
 }
+#farm_product_wrapper a {
+    display: none;
+}
+#farm_product_wrapper a:first-child,
+#farm_product_wrapper a:nth-child(2),
+#farm_product_wrapper a:nth-child(3) {
+    display: block;
+}
 #farm_product {
     width: 100px;
 }
