@@ -86,10 +86,8 @@ class Order_Group(models.Model):
         else:
             day = str(day)
 
-        order_group_management_number = str(year) + month + day + "_PF" + str(self.pk)
+        self.order_management_number = str(year) + month + day + "_PF" + str(self.pk)
 
-        print(order_group_management_number)
-        return order_group_management_number
 
 
 class Order_Detail(models.Model):
@@ -206,8 +204,8 @@ class Order_Detail(models.Model):
         else:
             day = str(day)
 
-        order_detail_management_number = str(year) + month + day + "_" + str(self.pk) + "_" + farmer_id
-        return order_detail_management_number
+        self.order_management_number = str(year) + month + day + "_" + str(self.pk) + "_" + farmer_id
+        
 
 
 class RefundExchange(models.Model):

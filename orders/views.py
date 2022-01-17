@@ -33,7 +33,7 @@ from django.http import HttpRequest
 def orderingCart(request):
     pass
 
-
+# 22.1.17 - order_group model 로 이전
 # order_group 주문 관리 번호 생성 function
 def create_order_group_management_number(pk):
     month_dic = {
@@ -79,7 +79,7 @@ def create_order_group_management_number(pk):
     print(order_group_management_number)
     return order_group_management_number
 
-
+# 22.1.17 - order_detail model 로 이전
 # order_detail 주문 관리 번호 생성 function
 def create_order_detail_management_number(pk, farmer_id):
     now = timezone.localtime()
@@ -213,6 +213,9 @@ def payment_create(request):
             # total_delivery_fee += product.default_delivery_fee
 
             # 단위별 추가 배송비 total_delivery_fee에 추가
+            delivery_fee += product.get_additional_delivery_fee_by_unit(quantity)
+
+            
             if product.additional_delivery_fee_unit != 0:
                 quantity_per_unit = quantity / product.additional_delivery_fee_unit
 
@@ -220,7 +223,7 @@ def payment_create(request):
                     if quantity % product.additional_delivery_fee_unit == 0:
                         delivery_fee += (
                             (int)(quantity_per_unit - 1)
-                        ) * product.addtional_delivery_fee
+                        ) * product.additional_delivery_fee
 
                         # total_delivery_fee += (
                         #     (int)(quantity_per_unit - 1)
@@ -294,6 +297,9 @@ def payment_create(request):
                     "weight": product.weight * quantity,
                 }
             )
+
+
+
 
         # 구매하는 상품 개수가 1을 초과 시, **외 2개** 식으로 표기하기 위함
         if order_detail_cnt > 1:

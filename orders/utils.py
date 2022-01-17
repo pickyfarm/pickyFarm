@@ -1,3 +1,4 @@
+from products.models import Product
 from core.slack_bot import send_message_to_slack
 from .models import Order_Group
 from django.utils import timezone
@@ -70,40 +71,27 @@ def get_order_message_block(ptype='complete', **args):
 	]
 
 
+def create_order_group(consumer):
+    
+    """ [payment_create] order_group 생성 / 주문관리번호 생성 """
+
+    order_group = Order_Group(status="wait", consumer=consumer)
+    order_group.save()
+    
+    # 주문관리번호 생성 및 저장
+    order_group.create_order_group_management_number()
+
+    return order_group
 
 
-# order_group 주문 관리 번호 생성 function
-def create_order_group_management_number(pk):
+def create_order_detail(product, quantity):
+    
+    """ [payment_create] order_detail 생성 / 주문관리번호 생성 """
+
+    product = Product.objects.get(pk=product_pk)
 
 
     
 
-    
-    
 
 
-
-# order_detail 주문 관리 번호 생성 function
-def create_order_detail_management_number(pk, farmer_id):
-
-    now = timezone.localtime()
-    year = now.year % 100
-    print(year)
-
-    month = now.month
-    if month < 10:
-        month = "0" + str(month)
-    else:
-        month = str(month)
-
-    print(month)
-    day = now.day
-    print(day)
-
-    if day < 10:
-        day = "0" + str(day)
-    else:
-        day = str(day)
-
-    order_detail_management_number = str(year) + month + day + "_" + str(pk) + "_" + farmer_id
-    return order_detail_management_number

@@ -326,6 +326,22 @@ class Product(models.Model):
     def get_available_sibling_products(self):
         return self.get_sibling_products().filter(open=True, status="sale")
 
+    def get_additional_delivery_fee_by_unit(self, quantity):
+
+        """ 단위별 추가 배송비 계산 """
+        """ 기존과 달리 단위별 추가 배송비를 return  """
+
+        quantity_per_unit = quantity / self.additional_delivery_fee_unit
+
+        print((float)(quantity_per_unit))
+        additional_delivery_fee_by_unit = 0
+
+        if (float)(quantity_per_unit) >= 1:
+            additional_delivery_fee_by_unit += (int)(quantity_per_unit) * self.additional_delivery_fee
+
+        return additional_delivery_fee_by_unit
+
+
 
 class Product_Image(models.Model):
     product = models.ForeignKey(Product, related_name="product_images", on_delete=models.CASCADE)
