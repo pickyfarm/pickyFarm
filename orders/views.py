@@ -212,30 +212,9 @@ def payment_create(request):
             # delivery_fee += product.default_delivery_fee
             # total_delivery_fee += product.default_delivery_fee
 
-            # 단위별 추가 배송비 total_delivery_fee에 추가
+            # 단위별 추가 배송비 delivery_fee로 더함 (수정해야함)
             delivery_fee += product.get_additional_delivery_fee_by_unit(quantity)
 
-            
-            if product.additional_delivery_fee_unit != 0:
-                quantity_per_unit = quantity / product.additional_delivery_fee_unit
-
-                if (float)(quantity_per_unit) > 1:
-                    if quantity % product.additional_delivery_fee_unit == 0:
-                        delivery_fee += (
-                            (int)(quantity_per_unit - 1)
-                        ) * product.additional_delivery_fee
-
-                        # total_delivery_fee += (
-                        #     (int)(quantity_per_unit - 1)
-                        # ) * product.addtional_delivery_fee
-                    else:
-                        delivery_fee += (int)(
-                            quantity / product.additional_delivery_fee_unit
-                        ) * product.additional_delivery_fee
-
-                        # total_delivery_fee += (int)(
-                        #     quantity / product.additional_delivery_fee_unit
-                        # ) * product.additional_delivery_fee
 
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
             farm_zipcode = int(product.farmer.address.zipcode)
@@ -246,8 +225,10 @@ def payment_create(request):
             # 제주 산간이면 order_group is_jeju_mountain
             if is_jeju_mountain:
                 order_group.is_jeju_mountain = True
+            
+            
             detail_fee = calculate_jeju_delivery_fee(farm_zipcode, consumer_zipcode, product)
-            total_delivery_fee += detail_fee  # 제주/도서산간 배송비
+            total_delivery_fee += detail_fee  # 제주/도서산간 배송비 + 기본배송비
             total_delivery_fee += delivery_fee  # 단위별 추가 배송비
             # 제주 산간이 아니면 total_delivery_fee에 안더하기
 
