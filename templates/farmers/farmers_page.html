@@ -120,10 +120,9 @@ Farmer's page
                         </div>
                         <!--farmer's products-->
                         <div class=" grid grid-cols-3 gap-2 justify-around" id="farm_product_wrapper">
+                            {{farmer.products.all}}
                             {% for product in farmer.products.all|slice:":3" %}
                             {% if product.status == "sale" and product.open == True %}
-                            {{product.status}}
-                            {{product.open}}
                             <a href="{% url 'products:product_detail' product.pk %}">
                                 <div id="farm_product">
                                     <div class="mb-3 w-full mx-auto" id="product_img_wrapper">
@@ -135,6 +134,8 @@ Farmer's page
                                         {{product.sell_price}}원</div>
                                 </div>
                             </a>
+                            {{product.status}}
+                            {{product.open}} 
                             {% endif %}
                             {% endfor %}
                         </div>
