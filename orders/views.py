@@ -121,8 +121,7 @@ def changeAddressAjax(request):
         total_price = 0
 
         for detail in order_group.order_details.all():
-            farm_zipcode = int(detail.product.farmer.address.zipcode)
-            detail_fee = calculate_jeju_delivery_fee(farm_zipcode, zip_code, detail.product)
+            detail_fee = calculate_jeju_delivery_fee(zip_code, detail.product)
             delivery_fee += detail_fee
             quantity = (int)(detail.quantity)
             detail.total_price = detail_fee + detail.product.sell_price
@@ -235,7 +234,6 @@ def payment_create(request):
                         # ) * product.additional_delivery_fee
 
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
-            farm_zipcode = int(product.farmer.address.zipcode)
             consumer_zipcode = int(consumer.default_address.zipcode)
             is_jeju_mountain = check_address_by_zipcode(consumer_zipcode)
 
@@ -243,7 +241,7 @@ def payment_create(request):
             # 제주 산간이면 order_group is_jeju_mountain
             if is_jeju_mountain:
                 order_group.is_jeju_mountain = True
-            detail_fee = calculate_jeju_delivery_fee(farm_zipcode, consumer_zipcode, product)
+            detail_fee = calculate_jeju_delivery_fee(consumer_zipcode, product)
             total_delivery_fee += detail_fee  # 제주/도서산간 배송비
             total_delivery_fee += delivery_fee  # 단위별 추가 배송비
             # 제주 산간이 아니면 total_delivery_fee에 안더하기
