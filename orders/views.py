@@ -529,24 +529,14 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
         is_user = False
 
     order_details = order_group.order_details.all()
-    farmers = list(set(map(lambda u: u.product.farmer, order_details)))
     # 22.1.9 기윤 - 소비자 번호 consumer가 아닌 order_group에서 받기
     phone_number_consumer = order_group.orderer_phone_number
 
-    farmers_info = []
-    for farmer in farmers:
-        farmers_info.append(
-            payment_valid_farmer(
-                farmer.pk,
-                farmer.farm_name,
-                farmer.user.nickname,
-                farmer.user.phone_number,
-            )
-        )
+    farmers = get_farmers_info(order_group)
 
-    farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
-    farmers_info_len = len(farmers_info)
-    # print(f"Farmer_INFO len : {farmers_info_len}")
+    farmers_info = farmers["farmers_info"]
+    farmers_info_len = farmers["farmers_info_len"]
+
     order_group.receipt_number = receipt_id
 
     for detail in order_details:
@@ -644,29 +634,13 @@ def payment_valid(request):
 
         order_details = Order_Detail.objects.filter(order_group=order_group)
 
-        farmers = list(set(map(lambda u: u.product.farmer, order_details)))
-        unsubscribed_farmers = list()
-        subscribed_farmers = list()
+        # 구독/비구독 파머 구분
+        farmers = get_farmers_info(order_group)
 
-        farmers_info = []
-
-        for farmer in farmers:
-            farmers_info.append(
-                payment_valid_farmer(
-                    farmer.pk,
-                    farmer.farm_name,
-                    farmer.user.nickname,
-                    farmer.user.phone_number,
-                )
-            )
-            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
-                subscribed_farmers.append(farmer)
-            else:
-                unsubscribed_farmers.append(farmer)
-
-        farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
-        farmers_info_len = len(farmers_info)
-        print(f"Farmer_INFO len : {farmers_info_len}")
+        unsubscribed_farmers = farmers["unsub_farmers"]
+        subscribed_farmers = farmers["sub_farmers"]
+        farmers_info = farmers["farmers_info"]
+        farmers_info_len = farmers["farmers_info_len"]
 
         order_group.receipt_number = receipt_id
 
@@ -879,28 +853,12 @@ def vbank_progess(request):
 
     if request.method == "POST":
         # [Process #1-1] 구독 파머 리스트 추출
-        farmers = list(set(map(lambda u: u.product.farmer, order_details)))
-        unsubscribed_farmers = list()
-        subscribed_farmers = list()
+        farmers = get_farmers_info(order_group)
 
-        farmers_info = []
-
-        for farmer in farmers:
-            farmers_info.append(
-                payment_valid_farmer(
-                    farmer.pk,
-                    farmer.farm_name,
-                    farmer.user.nickname,
-                    farmer.user.phone_number,
-                )
-            )
-            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
-                subscribed_farmers.append(farmer)
-            else:
-                unsubscribed_farmers.append(farmer)
-
-        farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
-        farmers_info_len = len(farmers_info)
+        unsubscribed_farmers = farmers["unsub_farmers"]
+        subscribed_farmers = farmers["sub_farmers"]
+        farmers_info = farmers["farmers_info"]
+        farmers_info_len = farmers["farmers_info_len"]
 
         try:
             # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
@@ -1310,3 +1268,38 @@ def sub_modal(request):
     ctx["farmers"] = farmers
 
     return render(request, "orders/modal/payment_success_subs_modal.html", ctx)
+
+
+def get_farmers_info(order_group):
+    order_details = order_group.order_details.all()
+
+    farmers = list(set(map(lambda u: u.product.farmer, order_details)))
+    unsubscribed_farmers = list()
+    subscribed_farmers = list()
+    farmers_info = []
+
+    for farmer in farmers:
+        farmers_info.append(
+            payment_valid_farmer(
+                farmer.pk,
+                farmer.farm_name,
+                farmer.user.nickname,
+                farmer.user.phone_number,
+            )
+        )
+
+        if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
+            subscribed_farmers.append(farmer)
+
+        else:
+            unsubscribed_farmers.append(farmer)
+
+    farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
+    farmers_info_len = len(farmers_info)
+
+    return {
+        "unsub_farmers": unsubscribed_farmers,
+        "sub_farmers": subscribed_farmers,
+        "farmers_info": farmers_info,
+        "farmers_info_len": farmers_info_len,
+    }
