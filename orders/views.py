@@ -381,40 +381,46 @@ def payment_update(request, pk):
     """결제 전, 주문 재고 확인"""
     """Order_Group 주문 정보 등록"""
 
-    # 22.1.9 기윤 - 비회원 구매 도입을 위한 분기
     cur_user = request.user
 
-    # 회원/비회원 구분 플래그
-    is_user = True
+    # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
+    order_group_pk = pk
+    order_group = Order_Group.objects.get(pk=order_group_pk)
+    order_details = order_group.order_details.all()
 
-    if cur_user.is_authenticated:
-        consumer = cur_user.consumer
+    # values from client's form
+    rev_name = request.POST.get("rev_name")
+    rev_phone_number = request.POST.get("rev_phone_number")
+    rev_address = request.POST.get("rev_address")
+    rev_loc_at = request.POST.get("rev_loc_at")
+    rev_message = request.POST.get("rev_message")
+    to_farm_message = request.POST.get("to_farm_message")
+    payment_type = request.POST.get("payment_type")
+    client_total_price = int(request.POST.get("total_price"))
+
+    # 회원/비회원 구분 플래그
+    is_user = cur_user.is_authenticated
+
+    if is_user:
+        orderer_name = cur_user.account_name
+        orderer_phone_number = cur_user.phone_number
+
     else:
-        is_user = False
+        orderer_name = request.POST.get("orderer_name", "orderer name is none")
+        orderer_phone_number = request.POST.get("orderer_phone_number", "orderer phonenum is none")
 
     if request.method == "POST":
-        # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
-        order_group_pk = pk
-        order_group = Order_Group.objects.get(pk=order_group_pk)
-
         # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
-        client_total_price = int(request.POST.get("total_price"))
         if order_group.total_price != client_total_price:
-            order_group.status = "error_price_match"
-            for detail in order_group.order_details:
-                detail.status = "error_price_match"
-                detail.save()
-            order_group.save()
+            order_group.set_order_state("error_price_match")
 
             res_data = {"valid": False, "error_type": "error_price_match"}
-
             return JsonResponse(res_data)
 
         # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
-        order_details = order_group.order_details.all()
-
         # 모든 주문 상품 재고량 확인 태그
         valid = True
+
         # 재고가 부족한 상품명 리스트
         invalid_products = list()
 
@@ -422,59 +428,30 @@ def payment_update(request, pk):
         for detail in order_details:
             print("[재고 확인 상품 재고] " + (str)(detail.product.stock))
             print("[재고 확인 주문양] " + (str)(detail.quantity))
-            if detail.product.stock - detail.quantity < 0:
+
+            if not detail.is_sufficient_stock():
                 valid = False
                 # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
                 invalid_products.append(detail.product.title)
-                print(detail.product.title + "재고 부족")
-
-        print(invalid_products)
 
         # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
-
             # [PROCESS 6] 주문 정보 Order_Group에 등록
-
-            # 22.1.9 기윤 - 회원/비회원에 따라 주문자 정보 추가
-            if is_user is True:
-                orderer_name = cur_user.account_name
-                orderer_phone_number = cur_user.phone_number
-            else:
-                orderer_name = request.POST.get("orderer_name", "orderer name is none")
-                orderer_phone_number = request.POST.get("orderer_phone_number")
-
-            rev_name = request.POST.get("rev_name")
-            rev_phone_number = request.POST.get("rev_phone_number")
-            rev_address = request.POST.get("rev_address")
-            rev_loc_at = request.POST.get("rev_loc_at")
-            rev_message = request.POST.get("rev_message")
-            to_farm_message = request.POST.get("to_farm_message")
-            payment_type = request.POST.get("payment_type")
-
-            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
-
-            print(order_group)
             # 배송 정보 order_group에 업데이트
-
-            # 22.1.9 기윤 - 비회원 결제 추가에 따른 주문자 정보 추가
-            if is_user is True:
-                order_group.orderer_name = cur_user.account_name
-                order_group.orderer_phone_number = cur_user.phone_number
-            else:
-                order_group.orderer_name = orderer_name
-                order_group.orderer_phone_number = orderer_phone_number
-
-            order_group.rev_name = rev_name
-            order_group.rev_address = rev_address
-            order_group.rev_phone_number = rev_phone_number
-            order_group.rev_loc_at = rev_loc_at
-            # order_group.rev_loc_detail=rev_loc_detail
-            order_group.rev_message = rev_message
-            order_group.to_farm_message = to_farm_message
-            order_group.payment_type = payment_type
-            order_group.order_at = timezone.now()
-
-            order_group.save()
+            order_group.update(
+                {
+                    "orderer_name": orderer_name,
+                    "orderer_phone_number": orderer_phone_number,
+                    "rev_name": rev_name,
+                    "rev_address": rev_address,
+                    "rev_phone_number": rev_phone_number,
+                    "rev_loc_at": rev_loc_at,
+                    "rev_message": rev_message,
+                    "to_farm_message": to_farm_message,
+                    "payment_type": payment_type,
+                    "order_at": timezone.now(),
+                }
+            )
 
             res_data = {
                 "valid": valid,
@@ -483,24 +460,20 @@ def payment_update(request, pk):
                 "customerName": "nameTemp",
             }
 
-            return JsonResponse(res_data)
-
         # 재고 확인 실패의 경우 부족한 재고 상품 리스트 및 valid값 전송
         else:
-            order_group.status = "error_stock"
-            for detail in order_details:
-                detail.status = "error_stock"
-                detail.save()
-            order_group.save()
+            order_group.set_order_state("error_stock")
+
             print("[valid 값]" + (str)(valid))
             print("[invalid_products]" + (str)(invalid_products))
+
             res_data = {
                 "valid": valid,
                 "error_type": "error_stock",
                 "invalid_products": invalid_products,
             }
 
-            return JsonResponse(res_data)
+        return JsonResponse(res_data)
 
 
 # @login_required

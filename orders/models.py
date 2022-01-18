@@ -88,10 +88,26 @@ class Order_Group(models.Model):
     def encrypt_odmn(self):
         return url_encryption.encode_string_to_url(self.order_management_number)
 
-    def update(self, **fields):
+    def update(self, fields):
         for (key, value) in fields.items():
-            self[key] = value
+            setattr(self, key, value)
 
+        self.save()
+
+    def set_order_state(self, status):
+        """order 모델 상태 일괄 변경 메서드"""
+        """ order_group 상태를 바꾸면서 참조하는 모든 order_detail의 상태도 변경한다 """
+
+        # [Process 1] order_group에 연결되는 모든 order_detail 불러온다.
+        details = self.order_details.all()
+
+        # [Process 2] order_detail들을 입력받는 상태로 변경한다.
+        for detail in details:
+            detail.status = status
+            detail.save()
+
+        # [Process 2-1] order_group 또한 상태 변경한다.
+        self.status = status
         self.save()
 
 

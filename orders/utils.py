@@ -16,7 +16,7 @@ def payment_complete_notification(order_group_pk):
         product_name = f"{order_details.first().product.title} 외 {order_details.count() -1}개"
 
     if order_group.consumer_type == "user":
-        consumer_name = order_group.consumer.user.name + f"({consumer_name})"
+        consumer_name = order_group.consumer.user.account_name + f"({consumer_name})"
 
     elif order_group.consumer_type == "non_user":
         consumer_name = str(consumer_name) + " (비회원)"
