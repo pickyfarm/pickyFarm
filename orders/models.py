@@ -88,6 +88,12 @@ class Order_Group(models.Model):
     def encrypt_odmn(self):
         return url_encryption.encode_string_to_url(self.order_management_number)
 
+    def update(self, **fields):
+        for (key, value) in fields.items():
+            self[key] = value
+
+        self.save()
+
 
 class Order_Detail(models.Model):
 
