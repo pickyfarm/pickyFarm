@@ -681,7 +681,8 @@ def payment_valid(request):
                 ):
 
                     phone_number_consumer = order_group.consumer.user.phone_number
-                    order_group.consumer.send_kakao_payment_valid(order_group, "")
+                    # Model Method Apply
+                    # order_group.consumer.send_kakao_payment_valid(order_group, "")
 
                     for detail in order_details:
 
