@@ -11,7 +11,7 @@ from .utils import payment_complete_notification
 from django.utils import timezone
 from products.models import Product
 from farmers.models import Farmer
-from users.models import Subscribe  # from django.apps import apps
+from django.apps import apps  # for prevent Circular Import Error
 from addresses.views import check_address_by_zipcode, calculate_jeju_delivery_fee
 import requests, base64
 import json
@@ -656,7 +656,7 @@ def payment_valid(request):
                     farmer.user.phone_number,
                 )
             )
-            # Subscribe = apps.get_model("users", "Subscribe")
+            Subscribe = apps.get_model("users", "Subscribe")  # for prevent Circular Import Error
             if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
                 subscribed_farmers.append(farmer)
             else:
@@ -681,6 +681,7 @@ def payment_valid(request):
                 ):
 
                     phone_number_consumer = order_group.consumer.user.phone_number
+                    order_group.consumer.send_kakao_payment_valid(order_group, "")
 
                     for detail in order_details:
 
@@ -843,7 +844,7 @@ def vbank_progess(request):
                     farmer.user.phone_number,
                 )
             )
-            # Subscribe = apps.get_model("users", "Subscribe")
+            Subscribe = apps.get_model("users", "Subscribe")  # for prevent Circular Import Error
             if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
                 subscribed_farmers.append(farmer)
             else:

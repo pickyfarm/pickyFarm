@@ -111,6 +111,7 @@ class Farmer(models.Model):
             send_kakao_message(
                 target_farmer.farmer_phone_number, templateIdList["order_recept"], args
             )
+        return
 
 
 class Farmer_Story(models.Model):

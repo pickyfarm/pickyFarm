@@ -139,19 +139,20 @@ class Consumer(models.Model):
                 pass
 
             farmer = farmer_search(farmers_info, detail.product.farmer.pk, 0, farmers_info_len)
+            target_farmer_pk = detail.product.farmer.pk
 
             args = {
-                "#{farm_name}": farmer.farmer.farm_name,
+                "#{farm_name}": farmer.farm_name,
                 "#{order_detail_number}": detail.order_management_number,
-                "#{order_detail_title}": farmer.title,
-                "#{farmer_nickname}": farmer.farmer.farmer_nickname,
-                "#{option_name}": farmer.option_name,
+                "#{order_detail_title}": detail.product.title,
+                "#{farmer_nickname}": farmer.farmer_nickname,
+                "#{option_name}": detail.product.option_name,
                 "#{quantity}": (str)(detail.quantity) + "개",
-                "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}",
+                "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",
                 "#{link_2}": "www.pickyfarm.com/user/mypage/orders",
             }
-
             send_kakao_message(phone_number, templateIdList["payment_complete"], args)
+        return
 
 
 class Editor(models.Model):
