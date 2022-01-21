@@ -106,7 +106,7 @@ def create_order_detail_management_number(pk, farmer_id):
 
 
 # 결제 진행 페이지에서 주소 전환 시, 서버 반영 Ajax
-@login_required
+# @login_required
 @require_POST
 @transaction.atomic
 def changeAddressAjax(request):
@@ -140,7 +140,7 @@ def changeAddressAjax(request):
         return JsonResponse(data)
 
 
-@login_required
+# @login_required
 @transaction.atomic
 def payment_create(request):
 
@@ -160,7 +160,24 @@ def payment_create(request):
         "addresses": user.addresses.all(),
     }
 
-    print(f"기본배송지 : {consumer.default_address.get_full_address()} ")
+    # 회원인지 비회원인지 판단 변수
+    is_user = True
+
+    # 회원인 경우
+    if cur_user.is_authenticated:
+        consumer = cur_user.consumer
+        # 이름 전화번호 주소지 정보 등
+        user_ctx = {
+            "account_name": cur_user.account_name,
+            "phone_number": cur_user.phone_number,
+            "default_address": consumer.default_address.get_full_address(),
+            "addresses": cur_user.addresses.all(),
+        }
+        print(f"기본배송지 : {consumer.default_address.get_full_address()} ")
+    # 비회원인 경우 21.1.9 기윤 - 비회원 구매 위한 전달 파라미터 추가
+    else:
+        is_user = False
+        user_ctx = {"account_name": "", "phone_number": "", "default_address": "", "addresses": ""}
 
     if request.method == "POST":
         form = Order_Group_Form()
@@ -176,9 +193,15 @@ def payment_create(request):
         price_sum = 0
 
         # [PROCESS 1] 결제 대기 상태인 Order_Group 생성
-        order_group = Order_Group(status="wait", consumer=consumer)
-        order_group.save()
-        order_group_pk = order_group.pk
+        if is_user is True:
+            order_group = Order_Group(status="wait", consumer_type="user", consumer=consumer)
+            order_group.save()
+            order_group_pk = order_group.pk
+        # 22.1.9 기윤 - 비회원인 경우 order_group 생성
+        else:
+            order_group = Order_Group(status="wait", consumer_type="non_user")
+            order_group.save()
+            order_group_pk = order_group.pk
 
         # [PROCESS 2] order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
         order_group_management_number = create_order_group_management_number(order_group_pk)
@@ -316,7 +339,7 @@ def payment_create(request):
             "order_group_pk": order_group_pk,
             "order_group_name": order_group_name,
             "form": form,
-            "consumer": consumer,
+            # "consumer": consumer,
             "products": products,
             "total_quantity": total_quantity,
             "price_sum": price_sum,
@@ -329,10 +352,13 @@ def payment_create(request):
 
         ctx = {**ctx, **user_ctx}
 
-        return render(request, "orders/payment.html", ctx)
+        # 22.1.9 기윤 - 회원/비회원에 따른 render 분기
+        if is_user is True:
+            return render(request, "orders/payment.html", ctx)
+        else:
+            return render(request, "orders/payment_non_user.html", ctx)
 
 
-@login_required
 @require_POST
 @transaction.atomic
 # 배송 정보가 입력된 후 oreder_group에 update
@@ -341,31 +367,46 @@ def payment_update(request, pk):
     """결제 전, 주문 재고 확인"""
     """Order_Group 주문 정보 등록"""
 
-    consumer = request.user.consumer
+    cur_user = request.user
+
+    # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
+    order_group_pk = pk
+    order_group = Order_Group.objects.get(pk=order_group_pk)
+    order_details = order_group.order_details.all()
+
+    # values from client's form
+    rev_name = request.POST.get("rev_name")
+    rev_phone_number = request.POST.get("rev_phone_number")
+    rev_address = request.POST.get("rev_address")
+    rev_loc_at = request.POST.get("rev_loc_at")
+    rev_message = request.POST.get("rev_message")
+    to_farm_message = request.POST.get("to_farm_message")
+    payment_type = request.POST.get("payment_type")
+    client_total_price = int(request.POST.get("total_price"))
+
+    # 회원/비회원 구분 플래그
+    is_user = cur_user.is_authenticated
+
+    if is_user:
+        orderer_name = cur_user.account_name
+        orderer_phone_number = cur_user.phone_number
+
+    else:
+        orderer_name = request.POST.get("orderer_name", "orderer name is none")
+        orderer_phone_number = request.POST.get("orderer_phone_number", "orderer phonenum is none")
 
     if request.method == "POST":
-        # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
-        order_group_pk = pk
-        order_group = Order_Group.objects.get(pk=order_group_pk)
-
         # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
-        client_total_price = int(request.POST.get("total_price"))
         if order_group.total_price != client_total_price:
-            order_group.status = "error_price_match"
-            for detail in order_group.order_details:
-                detail.status = "error_price_match"
-                detail.save()
-            order_group.save()
+            order_group.set_order_state("error_price_match")
 
             res_data = {"valid": False, "error_type": "error_price_match"}
-
             return JsonResponse(res_data)
 
         # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
-        order_details = order_group.order_details.all()
-
         # 모든 주문 상품 재고량 확인 태그
         valid = True
+
         # 재고가 부족한 상품명 리스트
         invalid_products = list()
 
@@ -373,41 +414,30 @@ def payment_update(request, pk):
         for detail in order_details:
             print("[재고 확인 상품 재고] " + (str)(detail.product.stock))
             print("[재고 확인 주문양] " + (str)(detail.quantity))
-            if detail.product.stock - detail.quantity < 0:
+
+            if not detail.is_sufficient_stock():
                 valid = False
                 # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
                 invalid_products.append(detail.product.title)
-                print(detail.product.title + "재고 부족")
-
-        print(invalid_products)
 
         # [PROCESS 5] 재고 확인 성공인 경우
         if valid is True:
-
             # [PROCESS 6] 주문 정보 Order_Group에 등록
-            rev_name = request.POST.get("rev_name")
-            rev_phone_number = request.POST.get("rev_phone_number")
-            rev_address = request.POST.get("rev_address")
-            rev_loc_at = request.POST.get("rev_loc_at")
-            rev_message = request.POST.get("rev_message")
-            to_farm_message = request.POST.get("to_farm_message")
-            payment_type = request.POST.get("payment_type")
-
-            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
-
-            print(order_group)
             # 배송 정보 order_group에 업데이트
-            order_group.rev_name = rev_name
-            order_group.rev_address = rev_address
-            order_group.rev_phone_number = rev_phone_number
-            order_group.rev_loc_at = rev_loc_at
-            # order_group.rev_loc_detail=rev_loc_detail
-            order_group.rev_message = rev_message
-            order_group.to_farm_message = to_farm_message
-            order_group.payment_type = payment_type
-            order_group.order_at = timezone.now()
-
-            order_group.save()
+            order_group.update(
+                {
+                    "orderer_name": orderer_name,
+                    "orderer_phone_number": orderer_phone_number,
+                    "rev_name": rev_name,
+                    "rev_address": rev_address,
+                    "rev_phone_number": rev_phone_number,
+                    "rev_loc_at": rev_loc_at,
+                    "rev_message": rev_message,
+                    "to_farm_message": to_farm_message,
+                    "payment_type": payment_type,
+                    "order_at": timezone.now(),
+                }
+            )
 
             res_data = {
                 "valid": valid,
@@ -416,89 +446,23 @@ def payment_update(request, pk):
                 "customerName": "nameTemp",
             }
 
-            return JsonResponse(res_data)
-
         # 재고 확인 실패의 경우 부족한 재고 상품 리스트 및 valid값 전송
         else:
-            order_group.status = "error_stock"
-            for detail in order_details:
-                detail.status = "error_stock"
-                detail.save()
-            order_group.save()
+            order_group.set_order_state("error_stock")
+
             print("[valid 값]" + (str)(valid))
             print("[invalid_products]" + (str)(invalid_products))
+
             res_data = {
                 "valid": valid,
                 "error_type": "error_stock",
                 "invalid_products": invalid_products,
             }
 
-            return JsonResponse(res_data)
-
-        # !!!rev_address 추가 필요
-        # rev_loc_detail 지우기
-        # payment type은 잠시 보류
-        # if form.is_valid():
-        #     rev_name = form.cleaned_data.get('rev_name')
-        #     rev_phone_number = form.cleaned_data.get('rev_phone_number')
-        #     rev_loc_at = form.cleaned_data.get('rev_loc_at')
-        #     # rev_loc_detail = form.cleaned_data.get('rev_loc_detail')
-        #     rev_message = form.cleaned_data.get('rev_message')
-        #     to_farm_message = form.cleaned_data.get('to_farm_message')
-        #     # payment_type = form.cleaned_data.get('payment_type')
+        return JsonResponse(res_data)
 
 
 # @login_required
-# def payment_success(request):
-
-#     if request.method == "GET":
-#         # 결제 승인을 위해 사용되는 키값
-#         # 이 키를 http header에 넣어서 결제 승인 api를 요청
-#         payment_key = request.GET.get("paymentKey", None)
-#         print(f"페이먼트 키 : {payment_key}")
-#         # 주문 고유 id
-#         order_id = request.GET.get("orderId", None)
-#         # 결제할 금액 (비교 금액)
-#         amount_ready = request.GET.get("amount_ready")
-#         # 실제 결제한 금액
-#         amount_paid = request.GET.get("amount")
-#         if (payment_key is not None) and (order_id is not None):
-#             if amount_ready == amount_paid:
-#                 data = {
-#                     "orderId": order_id,
-#                     "amount": amount_paid,
-#                 }
-#                 # PG사에서 제공해주는 client ID and Client Passwords
-#                 usr_pass = b"test_sk_BE92LAa5PVb64R41qaPV7YmpXyJj:"
-#                 # b64로 암호화
-#                 b64_val = base64.b64encode(usr_pass).decode("utf-8")
-
-#                 auth_request = requests.post(
-#                     f"https://api.tosspayments.com/v1/payments/{payment_key}",
-#                     headers={
-#                         # 추후 authorization token이 들어가야 함
-#                         "Authorization": f"Basic {b64_val}",
-#                         "Content-Type": "application/json",
-#                     },
-#                     json=data,
-#                 )
-#                 print(auth_request.json())
-#                 if auth_request:
-#                     # 여기서 order group 과 order detail의 결제 상태를 완료로 변경해주어야함
-#                     ctx = {
-#                         "order_id": order_id,
-#                         "amount": amount_paid,
-#                     }
-#                     return render(request, "orders/payment_success.html", ctx)
-#                 else:
-#                     return redirect(reverse("orders:payment_fail"))
-#             else:
-#                 return redirect(reverse("orders:payment_fail"))
-#         else:
-#             return redirect(reverse("orders:payment_fail"))
-
-
-@login_required
 @transaction.atomic
 def payment_fail(request):
     error_type = str(request.GET.get("errorType", None))
@@ -544,24 +508,21 @@ def farmer_search(farmers, pk, start, end):
 
 def send_kakao_with_payment_complete(order_group_pk, receipt_id):
     order_group = Order_Group.objects.get(pk=order_group_pk)
+
+    # 22.1.9 기윤 - 회원/비회원 구분
+    is_user = True
+    if order_group.consumer_type == "non_user":
+        is_user = False
+
     order_details = order_group.order_details.all()
-    farmers = list(set(map(lambda u: u.product.farmer, order_details)))
-    phone_number_consumer = order_group.consumer.user.phone_number
+    # 22.1.9 기윤 - 소비자 번호 consumer가 아닌 order_group에서 받기
+    phone_number_consumer = order_group.orderer_phone_number
 
-    farmers_info = []
-    for farmer in farmers:
-        farmers_info.append(
-            payment_valid_farmer(
-                farmer.pk,
-                farmer.farm_name,
-                farmer.user.nickname,
-                farmer.user.phone_number,
-            )
-        )
+    farmers = get_farmers_info(order_group)
 
-    farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
-    farmers_info_len = len(farmers_info)
-    # print(f"Farmer_INFO len : {farmers_info_len}")
+    farmers_info = farmers["farmers_info"]
+    farmers_info_len = farmers["farmers_info_len"]
+
     order_group.receipt_number = receipt_id
 
     for detail in order_details:
@@ -584,8 +545,19 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
             "#{option_name}": detail.product.option_name,
             "#{quantity}": kakao_msg_quantity,
             "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",  # 임시
-            "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
         }
+
+        # 22.1.9 기윤 - 구매 확인 링크 팝업 회원/비회원용 구분
+        if is_user == True:
+            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
+        else:
+            url_encoded_order_group_number = url_encryption.encode_string_to_url(
+                order_group.order_management_number
+            )
+            ###### 팝업 url 추가해야 ######
+            args_consumer[
+                "#{link_2}"
+            ] = f"127.0.0.1:8000/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
 
         # 소비자 결제 완료 카카오 알림톡 전송
         send_kakao_message(
@@ -605,7 +577,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
             "#{option_name}": detail.product.option_name,
             "#{quantity}": kakao_msg_quantity,
             "#{rev_name}": order_group.rev_name,
-            "#{rev_phone_number}": phone_number_consumer,
+            "#{rev_phone_number}": order_group.rev_phone_number,
             "#{rev_address}": order_group.rev_address,
             "#{rev_loc_at}": order_group.rev_loc_at,
             "#{rev_detail}": order_group.rev_message,
@@ -627,9 +599,10 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
     order_group.save()
 
 
-@login_required
+# @login_required
 @transaction.atomic
 def payment_valid(request):
+
     if request.method == "POST":
         REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
         PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
@@ -637,33 +610,23 @@ def payment_valid(request):
         receipt_id = request.POST.get("receipt_id")
         order_group_pk = int(request.POST.get("orderGroupPk"))
         order_group = Order_Group.objects.get(pk=order_group_pk)
+
+        # 22.1.9 기윤 - 회원/비회원 구분
+        is_user = True
+        if order_group.consumer_type == "non_user":
+            is_user = False
+
         total_price = order_group.total_price
 
         order_details = Order_Detail.objects.filter(order_group=order_group)
 
-        farmers = list(set(map(lambda u: u.product.farmer, order_details)))
-        unsubscribed_farmers = list()
-        subscribed_farmers = list()
+        # 구독/비구독 파머 구분
+        farmers = get_farmers_info(order_group)
 
-        farmers_info = []
-
-        for farmer in farmers:
-            farmers_info.append(
-                payment_valid_farmer(
-                    farmer.pk,
-                    farmer.farm_name,
-                    farmer.user.nickname,
-                    farmer.user.phone_number,
-                )
-            )
-            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
-                subscribed_farmers.append(farmer)
-            else:
-                unsubscribed_farmers.append(farmer)
-
-        farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
-        farmers_info_len = len(farmers_info)
-        print(f"Farmer_INFO len : {farmers_info_len}")
+        unsubscribed_farmers = farmers["unsub_farmers"]
+        subscribed_farmers = farmers["sub_farmers"]
+        farmers_info = farmers["farmers_info"]
+        farmers_info_len = farmers["farmers_info_len"]
 
         order_group.receipt_number = receipt_id
 
@@ -679,7 +642,8 @@ def payment_valid(request):
                     and verify_result["data"]["status"] == 1
                 ):
 
-                    phone_number_consumer = order_group.consumer.user.phone_number
+                    # 22.1.9 기윤 - 소비자 번호 consumer가 아닌 order_group에서 받기
+                    phone_number_consumer = order_group.orderer_phone_number
 
                     for detail in order_details:
 
@@ -711,8 +675,21 @@ def payment_valid(request):
                             "#{option_name}": detail.product.option_name,
                             "#{quantity}": kakao_msg_quantity,
                             "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",  # 임시
-                            "#{link_2}": "www.pickyfarm.com/user/mypage/orders",  # 임시
                         }
+
+                        # 22.1.9 기윤 - 구매 확인 링크 팝업 회원/비회원용 구분
+                        if is_user == True:
+                            args_consumer[
+                                "#{link_2}"
+                            ] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
+                        else:
+                            url_encoded_order_group_number = url_encryption.encode_string_to_url(
+                                order_group.order_management_number
+                            )
+                            ###### 팝업 url 추가해야 ######
+                            args_consumer[
+                                "#{link_2}"
+                            ] = f"127.0.0.1:8000/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
 
                         # 소비자 결제 완료 카카오 알림톡 전송
                         send_kakao_message(
@@ -815,103 +792,105 @@ class stockLackError(Exception):
         return "재고가 부족합니다."
 
 
-@login_required
+# @login_required
 @require_POST
 def vbank_progess(request):
 
-    user = request.user
+    # 22.1.9 기윤 - 비회원/회원 분기 위한 추가
+    cur_user = request.user
+    is_user = cur_user.is_authenticated
+
+    # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select / 구독 리스트 추출
+    order_group_pk = int(request.POST.get("order_group_pk"))
+    order_group = Order_Group.objects.get(pk=order_group_pk)
+    order_details = order_group.order_details.all()
+
+    # 22.1.19 기윤 - 비회원/회원 구분에 따른 추가
+    if is_user is True:
+        orderer_name = cur_user.account_name
+        orderer_phone_number = cur_user.phone_number
+    else:
+        orderer_name = request.POST.get("orderer_name")
+        orderer_phone_number = request.POST.get("orderer_phone_number")
+
+    # values from client's form
+    rev_name = request.POST.get("rev_name")
+    rev_phone_number = request.POST.get("rev_phone_number")
+    rev_address = request.POST.get("rev_address")
+    rev_loc_at = request.POST.get("rev_loc_at")
+    rev_message = request.POST.get("rev_message")
+    to_farm_message = request.POST.get("to_farm_message")
+    payment_type = request.POST.get("payment_type")
+    order_group_name = request.POST.get("order_group_name")
+    client_total_price = int(request.POST.get("total_price"))
+
+    # 가상계좌 관련 정보
+    v_bank = request.POST.get("v_bank")
+    v_bank_account = request.POST.get("v_bank_account")
+    v_bank_account_holder = request.POST.get("v_bank_account_holder")
+    v_bank_expire_date_str = request.POST.get("v_bank_expire_date")
+    receipt_id = request.POST.get("receipt_id")
+    print(f"--------vbank : {v_bank} account : {v_bank_account}---------")
+
+    # 가상계좌 입금 마감 기한 datetime 변환
+    v_bank_expire_date = datetime.strptime(v_bank_expire_date_str, "%Y-%m-%d %H:%M:%S")
+    v_bank_expire_date = timezone.make_aware(v_bank_expire_date)
+    print(f"-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------")
 
     if request.method == "POST":
-        # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select / 구독 리스트 추출
-        order_group_pk = int(request.POST.get("order_group_pk"))
-        order_group = Order_Group.objects.get(pk=order_group_pk)
-        order_details = order_group.order_details.all()
+        # [Process #1-1] 구독 파머 리스트 추출
+        farmers = get_farmers_info(order_group)
 
-        farmers = list(set(map(lambda u: u.product.farmer, order_details)))
-        unsubscribed_farmers = list()
-        subscribed_farmers = list()
-
-        farmers_info = []
-
-        for farmer in farmers:
-            farmers_info.append(
-                payment_valid_farmer(
-                    farmer.pk,
-                    farmer.farm_name,
-                    farmer.user.nickname,
-                    farmer.user.phone_number,
-                )
-            )
-            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
-                subscribed_farmers.append(farmer)
-            else:
-                unsubscribed_farmers.append(farmer)
-
-        farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
-        farmers_info_len = len(farmers_info)
-
-        # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
-        client_total_price = int(request.POST.get("total_price"))
-
-        print(f"--------total_price : {client_total_price} ---------")
+        unsubscribed_farmers = farmers["unsub_farmers"]
+        subscribed_farmers = farmers["sub_farmers"]
+        farmers_info = farmers["farmers_info"]
+        farmers_info_len = farmers["farmers_info_len"]
 
         try:
+            # [PROCESS 2] 클라이언트에서 보낸 total_price와 서버의 total price 비교
             if order_group.total_price != client_total_price:
                 raise priceMatchError
 
-        except priceMatchError:
-            print(priceMatchError)
-            order_group.status = "error_price_match"
-            for detail in order_group.order_details:
-                detail.status = "error_price_match"
-                detail.save()
-            order_group.save()
-            return redirect(
-                f'{reverse("orders:payment_fail")}?errorType=error_price_match&orderGroupPK={order_group_pk}'
-            )
+            # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
+            # 모든 주문 상품 재고량 확인 태그
+            valid = True
 
-        # [PROCESS 3] Order_Group에 속한 Order_detail을 모두 가져와서 재고량 확인
+            # 재고가 부족한 상품명 리스트
+            invalid_products = list()
 
-        # 모든 주문 상품 재고량 확인 태그
-        valid = True
-        # 재고가 부족한 상품명 리스트
-        invalid_products = list()
+            # [PROCESS 4] 결제 전 최종 재고 확인
+            for detail in order_details:
+                print("[재고 확인 상품 재고] " + (str)(detail.product.stock))
+                print("[재고 확인 주문양] " + (str)(detail.quantity))
 
-        # [PROCESS 4] 결제 전 최종 재고 확인
-        for detail in order_details:
-            print("[재고 확인 상품 재고] " + (str)(detail.product.stock))
-            print("[재고 확인 주문양] " + (str)(detail.quantity))
-            if detail.product.stock - detail.quantity < 0:
-                valid = False
-                # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
-                invalid_products.append(detail.product.title)
-                print(detail.product.title + "재고 부족")
-            else:
-                # 재고가 있는 경우 재고 차감
-                detail.product.sold(detail.quantity)
-                detail.save()
+                if not detail.is_sufficient_stock():
+                    valid = False
 
-        print(invalid_products)
+                    # 재고가 부족한 경우 부족한 상품 title 저장 -> 추후 결제 실패 페이지의 오류 메시지로 출력
+                    invalid_products.append(detail.product.title)
 
-        try:
+                else:
+                    # 재고가 있는 경우 재고 차감
+                    detail.product.sold(detail.quantity)
+                    detail.save()
+
             # 재고가 없어서 valid가 False인경우 Exception 발생
             if valid is False:
                 print(f"--------재고 부족 ---------")
                 raise stockLackError
+
+        except priceMatchError:
+            order_group.set_order_state("error_price_match")
+
+            return redirect(
+                f'{reverse("orders:payment_fail")}?errorType=error_price_match&orderGroupPK={order_group_pk}'
+            )
+
         except stockLackError:
-            print(stockLackError)
-            order_group.status = "error_stock"
-            for detail in order_details:
-                detail.status = "error_stock"
-                detail.save()
-            order_group.save()
+            order_group.set_order_state("error_stock")
+
             print("[valid 값]" + (str)(valid))
             print("[invalid_products]" + (str)(invalid_products))
-            res_data = {
-                "valid": valid,
-                "error_type": "error_stock",
-                "invalid_products": invalid_products,
-            }
 
             return redirect(
                 f'{reverse("orders:payment_fail")}?errorType=error_stock&orderGroupPK={order_group_pk}&errorMsg={(str)(invalid_products)}의 재고가 부족합니다'
@@ -921,51 +900,27 @@ def vbank_progess(request):
         if valid is True:
             print(f"--------재고 확인 성공 ---------")
             # [PROCESS 6] 주문 정보 Order_Group에 등록
-            rev_name = request.POST.get("rev_name")
-            rev_phone_number = request.POST.get("rev_phone_number")
-            rev_address = request.POST.get("rev_address")
-            rev_loc_at = request.POST.get("rev_loc_at")
-            rev_message = request.POST.get("rev_message")
-            to_farm_message = request.POST.get("to_farm_message")
-            payment_type = request.POST.get("payment_type")
-            order_group_name = request.POST.get("order_group_name")
-
-            # 가상계좌 관련 정보
-            v_bank = request.POST.get("v_bank")
-            v_bank_account = request.POST.get("v_bank_account")
-            v_bank_account_holder = request.POST.get("v_bank_account_holder")
-            v_bank_expire_date_str = request.POST.get("v_bank_expire_date")
-            receipt_id = request.POST.get("receipt_id")
-            print(f"--------vbank : {v_bank} account : {v_bank_account}---------")
-            # 가상계좌 입금 마감 기한 datetime 변환
-            v_bank_expire_date = datetime.strptime(v_bank_expire_date_str, "%Y-%m-%d %H:%M:%S")
-            v_bank_expire_date = timezone.make_aware(v_bank_expire_date)
-            print(f"-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------")
-
-            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
-
-            print(order_group)
             # 배송 정보 order_group에 업데이트
-            order_group.rev_name = rev_name
-            order_group.rev_address = rev_address
-            order_group.rev_phone_number = rev_phone_number
-            order_group.rev_loc_at = rev_loc_at
-            # order_group.rev_loc_detail=rev_loc_detail
-            order_group.rev_message = rev_message
-            order_group.to_farm_message = to_farm_message
-            order_group.payment_type = payment_type
-
-            order_group.v_bank = v_bank
-            order_group.v_bank_account = v_bank_account
-            order_group.v_bank_account_holder = v_bank_account_holder
-            order_group.v_bank_expire_date = v_bank_expire_date
-            order_group.receipt_number = receipt_id
-
-            order_group.order_at = timezone.now()
-
-            order_group.status = "wait_vbank"
-
-            order_group.save()
+            order_group.update(
+                {
+                    "orderer_name": orderer_name,
+                    "orderer_phone_number": orderer_phone_number,
+                    "rev_name": rev_name,
+                    "rev_address": rev_address,
+                    "rev_phone_number": rev_phone_number,
+                    "rev_loc_at": rev_loc_at,
+                    "rev_message": rev_message,
+                    "to_farm_message": to_farm_message,
+                    "payment_type": payment_type,
+                    "v_bank": v_bank,
+                    "v_bank_account": v_bank_account,
+                    "v_bank_account_holder": v_bank_account_holder,
+                    "v_bank_expire_date": v_bank_expire_date,
+                    "receipt_number": receipt_id,
+                    "order_at": timezone.now(),
+                    "status": "wait_vbank",
+                }
+            )
 
             print(f"------order_group v_bank_expire_date {order_group.v_bank_expire_date}")
 
@@ -980,17 +935,15 @@ def vbank_progess(request):
             }
 
             # 소비자 결제 완료 카카오 알림톡 전송
-            send_kakao_message(user.phone_number, templateIdList["vbank_info"], args_kakao)
+            send_kakao_message(
+                order_group.orderer_phone_number, templateIdList["vbank_info"], args_kakao
+            )
 
             ctx = {
                 "order_group": order_group,
                 "order_details": order_details,
                 "sub_farmers": subscribed_farmers,
                 "unsub_farmers": unsubscribed_farmers,
-                # "v_bank" : v_bank,
-                # "v_bank_account" : v_bank_account,
-                # "v_bank_account_holder" : v_bank_account_holder,
-                # "v_bank_expire_date" : str(v_bank_expire_date),
             }
 
             nowDatetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -1089,7 +1042,7 @@ def order_cancel(request, pk):
             cancel_result = bootpay.cancel(
                 order.order_group.receipt_number,
                 order.total_price,
-                order.order_group.consumer.user.account_name,
+                order.order_group.rev_name,
                 cancel_reason,
             )
 
@@ -1301,3 +1254,38 @@ def sub_modal(request):
     ctx["farmers"] = farmers
 
     return render(request, "orders/modal/payment_success_subs_modal.html", ctx)
+
+
+def get_farmers_info(order_group):
+    order_details = order_group.order_details.all()
+
+    farmers = list(set(map(lambda u: u.product.farmer, order_details)))
+    unsubscribed_farmers = list()
+    subscribed_farmers = list()
+    farmers_info = []
+
+    for farmer in farmers:
+        farmers_info.append(
+            payment_valid_farmer(
+                farmer.pk,
+                farmer.farm_name,
+                farmer.user.nickname,
+                farmer.user.phone_number,
+            )
+        )
+
+        if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
+            subscribed_farmers.append(farmer)
+
+        else:
+            unsubscribed_farmers.append(farmer)
+
+    farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
+    farmers_info_len = len(farmers_info)
+
+    return {
+        "unsub_farmers": unsubscribed_farmers,
+        "sub_farmers": subscribed_farmers,
+        "farmers_info": farmers_info,
+        "farmers_info_len": farmers_info_len,
+    }

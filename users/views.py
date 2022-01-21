@@ -970,8 +970,8 @@ class OrderListPopup(TemplateView):
     template_name = "users/mypage/user/order_list_popup.html"
 
     def dispatch(self, request, *args, **kwargs):
-        # self.odmn = url_encryption.decode_url_string(request.GET.get("odmn", "ODMN IS NONE"))
-        self.odmn = request.GET.get("odmn", "ODMN IS NONE")
+        self.odmn = url_encryption.decode_url_string(request.GET.get("odmn", "ODMN IS NONE"))
+        # self.odmn = request.GET.get("odmn", "ODMN IS NONE")
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

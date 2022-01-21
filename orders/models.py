@@ -20,16 +20,24 @@ class Order_Group(models.Model):
         ("error_price_match", "결제오류(총가격 불일치)"),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS, default="wait")
-    order_management_number = models.CharField(max_length=1000, null=True, blank=True)
+    CONSUMER_TYPE = (("user", "회원"), ("non_user", "비회원"))
+
+    status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="상태")
+
+    order_management_number = models.CharField(
+        max_length=1000, null=True, blank=True, help_text="주문관리번호"
+    )
     receipt_number = models.CharField(max_length=60, null=True, blank=True)
+
     rev_address = models.TextField(null=True, blank=True)
-    rev_name = models.CharField(max_length=50, null=True, blank=True)
-    rev_phone_number = models.CharField(max_length=30, null=True, blank=True)
-    rev_loc_at = models.CharField(max_length=20, null=True, blank=True)
+    rev_name = models.CharField(max_length=50, null=True, blank=True, help_text="받는이 이름")
+    rev_phone_number = models.CharField(max_length=30, null=True, blank=True, help_text="받는이 전화번호")
+
+    rev_loc_at = models.CharField(max_length=20, null=True, blank=True, help_text="받으실 장소")
     rev_loc_detail = models.TextField(null=True, blank=True)
-    rev_message = models.TextField(null=True, blank=True)
-    to_farm_message = models.TextField(null=True, blank=True)
+    rev_message = models.TextField(null=True, blank=True, help_text="배송지 특이사항")
+
+    to_farm_message = models.TextField(null=True, blank=True, help_text="농가 전달 메시지")
 
     payment_type = models.CharField(max_length=20, null=True, blank=True)
     v_bank = models.CharField(max_length=200, null=True, blank=True, help_text="가상계좌 은행명")
@@ -38,6 +46,15 @@ class Order_Group(models.Model):
         max_length=500, null=True, blank=True, help_text="가삼계좌 예금주"
     )
     v_bank_expire_date = models.DateTimeField(null=True, blank=True, help_text="가상계좌 입금 마감기한")
+
+    # 22.1.9 기윤 - 비회원 구매 도입을 위한 필드 추가
+    consumer_type = models.CharField(
+        max_length=20, choices=CONSUMER_TYPE, default="user", help_text="구매 회원 타입"
+    )
+    orderer_name = models.CharField(max_length=20, help_text="주문자 이름", null=True, blank=True)
+    orderer_phone_number = models.CharField(
+        max_length=30, help_text="주문자 전화번호", null=True, blank=True
+    )
 
     total_price = models.IntegerField(null=True, blank=True)
     total_quantity = models.IntegerField(null=True, blank=True)
@@ -50,8 +67,13 @@ class Order_Group(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     consumer = models.ForeignKey(
-        "users.Consumer", related_name="order_groups", on_delete=models.CASCADE
+        "users.Consumer",
+        related_name="order_groups",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
+    # 22.1.9 기윤 비회원 구매 도입을 위한 null=True / blank=True 추가
 
     def __str__(self):
         if self.order_at is None:
@@ -60,11 +82,33 @@ class Order_Group(models.Model):
             datatime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
             order_at = str(timezone.localtime(self.order_at))
             order_at += " 주문"
-        title = f"수취인 : {self.rev_name} / 결제자 : {self.consumer.user.account_name} / {order_at}"
+        title = f"수취인 : {self.rev_name} / 결제자 : {self.orderer_name} / {order_at}"
         return title
 
     def encrypt_odmn(self):
         return url_encryption.encode_string_to_url(self.order_management_number)
+
+    def update(self, fields):
+        for (key, value) in fields.items():
+            setattr(self, key, value)
+
+        self.save()
+
+    def set_order_state(self, status):
+        """order 모델 상태 일괄 변경 메서드"""
+        """ order_group 상태를 바꾸면서 참조하는 모든 order_detail의 상태도 변경한다 """
+
+        # [Process 1] order_group에 연결되는 모든 order_detail 불러온다.
+        details = self.order_details.all()
+
+        # [Process 2] order_detail들을 입력받는 상태로 변경한다.
+        for detail in details:
+            detail.status = status
+            detail.save()
+
+        # [Process 2-1] order_group 또한 상태 변경한다.
+        self.status = status
+        self.save()
 
 
 class Order_Detail(models.Model):
