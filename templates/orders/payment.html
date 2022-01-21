@@ -313,15 +313,16 @@
             data: {
                 csrfmiddlewaretoken: "{{csrf_token}}",
                 order_group_pk: "{{order_group_pk}}",
-                zip_code: zipcode.value
+                zip_code: zipcode
             },
             success: function success(data) {
                 var totalPrice = document.getElementById('price_text_b');
                 var oldPrice = parseInt(productPrice.innerText);
                 var oldTotalPrice = parseInt(totalPrice.innerText);
-                var fee_to_add = parseInt(data['fee_to_add']);
-                productPrice.innerText = fee_to_add + oldPrice;
-                totalPrice.innerText = fee_to_add + oldTotalPrice;
+                var delivery_fee = parseInt(data['delivery_fee']);
+                var total_price = parseInt(data["total_price"])
+                productPrice.innerText = delivery_fee;
+                totalPrice.innerText = total_price;
             }
         });
     };
@@ -344,7 +345,7 @@
         deliveryCatDetailSection.innerHTML = "";
     });
     subAddressInput.addEventListener('focus', function () {
-        return updateDeliveryFee(zipcode);
+        return updateDeliveryFee(zipcode.value);
     });
     subAddressInput.addEventListener('input', function (e) {
         deliveryAddress.value = "".concat(mainAddressInput.value, " ").concat(e.target.value);
