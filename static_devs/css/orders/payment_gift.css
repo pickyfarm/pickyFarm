@@ -1,0 +1,137 @@
+/* 공통 영역  */
+input:focus {
+    outline: none;
+}
+
+.color-primary,
+.color-secondary {
+    color: #5c6754;
+}
+
+.color-secondary {
+    opacity: 0.5;
+}
+
+img {
+    object-fit: cover;
+}
+
+.divider {
+    width: fit-content;
+    height: 1px;
+    border-top: 1px solid #afb3ab;
+}
+
+.friend-info-row input[type='radio'] {
+    display: none;
+}
+
+.friend-info-row input[type='radio'] + label {
+    display: inline-block;
+
+    border-radius: 20px;
+
+    background-color: #5c6754;
+    color: white;
+    opacity: 0.5;
+
+    text-align: center;
+}
+
+.friend-info-row input[type='radio']:checked + label {
+    opacity: 1;
+}
+
+.quantity-spinner {
+    border: 1px solid #afb3ab;
+    border-radius: 3px;
+}
+
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.friend-delete {
+    width: 19px;
+    height: 19px;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    border: 1px solid #afb3ab;
+    border-radius: 100%;
+}
+
+.friend-delete:hover {
+    background: #afb3ab;
+}
+
+.friend-delete:hover div {
+    color: white;
+}
+
+/* 친구정보/상세내역 섹션 PC */
+@media screen and (min-width: 769px) {
+    #friend-info-header {
+        margin-top: 10px;
+    }
+
+    .section-header {
+        font-size: 23px;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+
+    .divider {
+        margin-left: 30px;
+    }
+
+    .friend-info-row {
+        padding: 0 15px;
+
+        grid-template-columns: 120px 204px 168px 175px auto 50px;
+
+        width: 918px;
+        min-height: 130px;
+
+        border-bottom: 1px solid #afb3ab;
+    }
+
+    .friend-info-row input[type='radio'] + label {
+        height: 26px;
+    }
+
+    .friend-info-row input[type='radio'] + label:hover {
+        opacity: 1;
+    }
+
+    .phonenum-only {
+        width: 138px;
+    }
+
+    .phonenum-address {
+        width: 174px;
+    }
+
+    .quantity-spinner {
+        width: 80px;
+    }
+
+    .quantity-spinner * {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .quantity-spinner button {
+        width: 20px;
+        height: 28px;
+        border-radius: 100%;
+        font-size: 18px;
+    }
+
+    .quantity-spinner input {
+        width: 40px;
+        text-align: right;
+    }
+}

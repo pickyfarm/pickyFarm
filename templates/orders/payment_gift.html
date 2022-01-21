@@ -1,0 +1,23 @@
+{% extends 'base/base_for_other.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/orders/payment_gift.css' %}">
+{% endblock stylesheet %}
+
+{% block title_name %}
+피키팜 | 친구에게 선물하기
+{% endblock title_name %}
+
+{% block main_content %}
+<div class="main_content flex flex-col items-center w-content mx-auto" id="payment-app">
+    {% include 'orders/gift/payment_gift_header.html' %}
+    {% include 'orders/gift/payment_gift_friends.html' %}
+    {% include 'orders/gift/payment_gift_purchase.html' %}
+</div>
+{% endblock main_content %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static 'js/orders/payment_gift.js' %}"></script>
+{% endblock scripts %}
