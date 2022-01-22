@@ -1,4 +1,5 @@
 /* 공통 영역  */
+
 input:focus {
     outline: none;
 }
@@ -56,7 +57,7 @@ input[type='number']::-webkit-outer-spin-button {
     width: 19px;
     height: 19px;
 
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
 
     border: 1px solid #afb3ab;
@@ -69,6 +70,28 @@ input[type='number']::-webkit-outer-spin-button {
 
 .friend-delete:hover div {
     color: white;
+}
+
+.plus-icon {
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+
+    margin-right: 10px;
+
+    border-radius: 100%;
+
+    background-color: #5c6754;
+    color: white;
+}
+
+/* 공통 - PC */
+@media screen and (min-width: 769px) {
+    .main-container {
+        width: 918px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 /* 친구정보/상세내역 섹션 PC */
@@ -88,12 +111,11 @@ input[type='number']::-webkit-outer-spin-button {
     }
 
     .friend-info-row {
-        padding: 0 15px;
+        padding: 30px 15px;
 
         grid-template-columns: 120px 204px 168px 175px auto 50px;
 
         width: 918px;
-        min-height: 130px;
 
         border-bottom: 1px solid #afb3ab;
     }
@@ -133,5 +155,327 @@ input[type='number']::-webkit-outer-spin-button {
     .quantity-spinner input {
         width: 40px;
         text-align: right;
+    }
+
+    .info-inputs {
+        grid-column: 2 / 4;
+        grid-row: 2;
+
+        grid-template-columns: 32px auto;
+
+        column-gap: 22px;
+        row-gap: 22px;
+
+        margin-top: 30px;
+    }
+
+    .info-inputs label {
+        grid-column: 1;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .info-inputs input {
+        grid-column: 2;
+
+        width: auto;
+        height: 24px;
+
+        border-radius: 6px;
+
+        background-color: #f2f2f2;
+
+        font-size: 13px;
+
+        padding: 0 5px;
+    }
+
+    .address-find-button {
+        width: 77px;
+        height: 20px;
+        border-radius: 10px;
+        border: 1px solid #5c6754;
+
+        color: #5c6754;
+        font-size: 12px;
+
+        margin-left: 13px;
+    }
+
+    .address-find-button:hover {
+        background-color: #5c6754;
+        color: white;
+    }
+
+    .address-detail {
+        margin-top: 9px;
+    }
+
+    .info-inputs textarea {
+        background-color: #f2f2f2;
+        margin-top: 5px;
+    }
+
+    /* '선물 메세지' 컬럼 */
+    .gift-message {
+        grid-column: 1 / 3;
+    }
+
+    #add-friend {
+        margin-top: 15px;
+    }
+}
+
+/* 결제 내역 + 결제 수단 + 동의 섹션 - PC */
+@media screen and (min-width: 769px) {
+    #purchase-info-container {
+        margin-top: 90px;
+    }
+
+    #price-detail,
+    #price-total {
+        width: 100%;
+    }
+
+    #price-detail {
+        border-bottom: 1px solid #afb3ab;
+        margin: 25px 0;
+    }
+
+    .purchase-info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        color: #808080;
+    }
+
+    .purchase-unit {
+        margin-left: 5px;
+    }
+
+    .detail-title,
+    .total-title {
+        flex: 1;
+    }
+
+    #price-check-section {
+        width: 341px;
+        height: 309px;
+        padding: 9px 24.5px 16px 24px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        background-color: #ffffff;
+        margin-left: 70px;
+    }
+
+    #title-line {
+        width: 88.5px;
+        height: 15px;
+        border-bottom: solid 1px #afb3ab;
+    }
+
+    #payment-type-section {
+        margin-top: 45px;
+    }
+
+    #payment-type-section label {
+        font-size: 20px;
+        color: #808080;
+    }
+
+    #div-line {
+        width: 990px;
+        height: 105px;
+        margin-bottom: 0px;
+        border-bottom: solid 1px #afb3ab;
+    }
+
+    #div-line1 {
+        width: 292.5px;
+        border-bottom: solid 1px #859985;
+    }
+
+    #div-line2 {
+        width: 292.5px;
+        border-bottom: dashed 1px rgba(175, 179, 171, 0.5);
+    }
+
+    #price-check-title {
+        font-family: NotoSansKR;
+        font-size: 20px;
+        font-weight: 500;
+        margin: 0 21.5px;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #5c6754;
+    }
+
+    #text_ab {
+        font-family: NotoSansKR;
+        font-size: 15px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #b3b3b3;
+    }
+
+    #text_a {
+        font-family: NotoSansKR;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.88;
+        letter-spacing: normal;
+        text-align: left;
+        color: #c7c7c7;
+    }
+
+    #text-b {
+        font-family: NotoSansKR;
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.88;
+        letter-spacing: normal;
+        text-align: left;
+        color: #5c6754;
+    }
+
+    #text-c {
+        font-family: NotoSansKR;
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        line-height: 1.88;
+        text-align: left;
+        color: #868e80;
+    }
+
+    #price_text_a {
+        font-family: NotoSansKR;
+        font-size: 23px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.3;
+        letter-spacing: normal;
+        text-align: right;
+        color: #5c6754;
+    }
+
+    #price_text_b {
+        font-family: NotoSansKR;
+        font-size: 25px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.2;
+        letter-spacing: normal;
+        text-align: right;
+        color: #5c6754;
+    }
+
+    #price_text_c {
+        font-family: NotoSansKR;
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.88;
+        letter-spacing: normal;
+        text-align: right;
+        color: rgba(92, 103, 84, 0.8);
+    }
+
+    /* 개인 정보 수집 이용 동의 */
+
+    #personal-info-agree-top-section {
+        margin-top: 39.5px;
+        margin-bottom: 16px;
+    }
+
+    #personal-info-agree-label {
+        font-size: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        text-align: left;
+        color: #5c6754;
+    }
+
+    #personal-info-agree-require {
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2;
+        letter-spacing: normal;
+        text-align: left;
+        color: #b3b3b3;
+    }
+
+    #personal-info-agree-bottom-section {
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2;
+        letter-spacing: normal;
+        text-align: left;
+        color: #b3b3b3;
+        margin-left: 20px;
+    }
+
+    /* 결제 정보 및 구매 진행 동의 */
+    #final-agree-label {
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.88;
+        letter-spacing: normal;
+        text-align: left;
+        color: #c7c7c7;
+    }
+
+    #go-back-btn {
+        width: 200px;
+        height: 50px;
+        border-radius: 25px;
+        border: solid 1px #5c6754;
+        background-color: #ffffff;
+        padding-top: 8px;
+        font-family: NotoSansKR;
+        font-size: 25px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #5c6754;
+        cursor: pointer;
+    }
+
+    #go-btn {
+        width: 200px;
+        height: 50px;
+        border-radius: 25px;
+        background-color: #5c6754;
+        letter-spacing: normal;
+        text-align: center;
+        color: #ffffff;
+        font-family: NotoSansKR;
+        font-size: 25px;
+        font-weight: bold;
+        line-height: 1.2;
     }
 }

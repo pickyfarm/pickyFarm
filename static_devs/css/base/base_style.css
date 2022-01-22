@@ -237,4 +237,16 @@ button:focus {
     #modal-close:hover {
         transform: scale(1.2);
     }
+
+    .zoom-on-hover {
+        -webkit-transition: all 0.15s ease-in;
+        -o-transition: all 0.15s ease-in;
+        transition: all 0.15s ease-in;
+    }
+
+    .zoom-on-hover:hover {
+        -webkit-transform: scale(1.03);
+        -ms-transform: scale(1.03);
+        transform: scale(1.03);
+    }
 }

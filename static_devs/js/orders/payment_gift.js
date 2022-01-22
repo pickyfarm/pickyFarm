@@ -2,11 +2,11 @@ const initinalFriendList = [
     {
         info: {
             id: 0,
-            name: `friend`,
-            phoneNum: '01000000000',
+            name: '',
+            phoneNum: '',
             address: {
-                sigungu: '서울시 어쩌구 저쩌구',
-                detail: '머선 아파트 머선동',
+                sigungu: '',
+                detail: '',
                 zipCode: '00000',
             },
         },
@@ -23,6 +23,9 @@ const purchaseApp = new Vue({
         friendCount: 1,
         productPrice: 10000,
         friends: initinalFriendList,
+        weight: 1.0,
+        deliveryFee: 0,
+        paymentType: '',
     },
 
     computed: {
@@ -46,11 +49,11 @@ const purchaseApp = new Vue({
             this.friends.push({
                 info: {
                     id: this.friendCount++,
-                    name: `friend${this.friendCount}`,
-                    phoneNum: '01000000000',
+                    name: '',
+                    phoneNum: '',
                     address: {
-                        sigungu: '서울시 어쩌구 저쩌구',
-                        detail: '머선 아파트 머선동',
+                        sigungu: '',
+                        detail: '',
                         zipCode: '00000',
                     },
                 },

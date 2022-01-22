@@ -101,9 +101,7 @@ def create_order_detail_management_number(pk, farmer_id):
     else:
         day = str(day)
 
-    order_detail_management_number = (
-        str(year) + month + day + "_" + str(pk) + "_" + farmer_id
-    )
+    order_detail_management_number = str(year) + month + day + "_" + str(pk) + "_" + farmer_id
     return order_detail_management_number
 
 
@@ -124,9 +122,7 @@ def changeAddressAjax(request):
 
         for detail in order_group.order_details.all():
             farm_zipcode = int(detail.product.farmer.address.zipcode)
-            detail_fee = calculate_jeju_delivery_fee(
-                farm_zipcode, zip_code, detail.product
-            )
+            detail_fee = calculate_jeju_delivery_fee(farm_zipcode, zip_code, detail.product)
             delivery_fee += detail_fee
             quantity = (int)(detail.quantity)
             detail.total_price = detail_fee + detail.product.sell_price
@@ -195,9 +191,7 @@ def payment_create(request):
 
         # [PROCESS 1] 결제 대기 상태인 Order_Group 생성
         if is_user is True:
-            order_group = Order_Group(
-                status="wait", consumer_type="user", consumer=consumer
-            )
+            order_group = Order_Group(status="wait", consumer_type="user", consumer=consumer)
             order_group.save()
             order_group_pk = order_group.pk
         # 22.1.9 기윤 - 비회원인 경우 order_group 생성
@@ -207,9 +201,7 @@ def payment_create(request):
             order_group_pk = order_group.pk
 
         # [PROCESS 2] order_group pk와 주문날짜를 기반으로 order_group 주문 번호 생성
-        order_group_management_number = create_order_group_management_number(
-            order_group_pk
-        )
+        order_group_management_number = create_order_group_management_number(order_group_pk)
 
         # [PROCESS 3] Order_Group 주문 번호 저장 (결제 단위 구별용 - BootPay 전송)
         order_group.order_management_number = order_group_management_number
@@ -263,16 +255,17 @@ def payment_create(request):
 
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
             farm_zipcode = int(product.farmer.address.zipcode)
-            consumer_zipcode = int(consumer.default_address.zipcode)
-            is_jeju_mountain = check_address_by_zipcode(consumer_zipcode)
+            if is_user is True:
+                is_jeju_mountain = check_address_by_zipcode(int(consumer.default_address.zipcode))
+                consumer_zipcode = int(consumer.default_address.zipcode)
+            else:
+                is_jeju_mountain = False
 
             print("is jeju: ", is_jeju_mountain)
             # 제주 산간이면 order_group is_jeju_mountain
             if is_jeju_mountain:
                 order_group.is_jeju_mountain = True
-            detail_fee = calculate_jeju_delivery_fee(
-                farm_zipcode, consumer_zipcode, product
-            )
+            detail_fee = calculate_jeju_delivery_fee(farm_zipcode, consumer_zipcode, product)
             total_delivery_fee += detail_fee  # 제주/도서산간 배송비
             total_delivery_fee += delivery_fee  # 단위별 추가 배송비
             # 제주 산간이 아니면 total_delivery_fee에 안더하기
@@ -445,9 +438,7 @@ def payment_update(request, pk):
             to_farm_message = request.POST.get("to_farm_message")
             payment_type = request.POST.get("payment_type")
 
-            print(
-                rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
-            )
+            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
 
             print(order_group)
             # 배송 정보 order_group에 업데이트
@@ -581,9 +572,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
         kakao_msg_quantity = (str)(detail.quantity) + "개"
 
         target_farmer_pk = product.farmer.pk
-        target_farmer = farmer_search(
-            farmers_info, target_farmer_pk, 0, farmers_info_len
-        )
+        target_farmer = farmer_search(farmers_info, target_farmer_pk, 0, farmers_info_len)
         # print("Farmer!!!" + target_farmer.farm_name)
 
         args_consumer = {
@@ -598,9 +587,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
 
         # 22.1.9 기윤 - 구매 확인 링크 팝업 회원/비회원용 구분
         if is_user == True:
-            args_consumer[
-                "#{link_2}"
-            ] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
+            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
         else:
             url_encoded_order_group_number = url_encryption.encode_string_to_url(
                 order_group.order_management_number
@@ -686,9 +673,7 @@ def payment_valid(request):
                     farmer.user.phone_number,
                 )
             )
-            if Subscribe.objects.filter(
-                consumer=order_group.consumer, farmer=farmer
-            ).exists():
+            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
                 subscribed_farmers.append(farmer)
             else:
                 unsubscribed_farmers.append(farmer)
@@ -752,10 +737,8 @@ def payment_valid(request):
                                 "#{link_2}"
                             ] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
                         else:
-                            url_encoded_order_group_number = (
-                                url_encryption.encode_string_to_url(
-                                    order_group.order_management_number
-                                )
+                            url_encoded_order_group_number = url_encryption.encode_string_to_url(
+                                order_group.order_management_number
                             )
                             ###### 팝업 url 추가해야 ######
                             args_consumer[
@@ -770,10 +753,8 @@ def payment_valid(request):
                         )
 
                         # order_management_number 인코딩
-                        url_encoded_order_detail_number = (
-                            url_encryption.encode_string_to_url(
-                                detail.order_management_number
-                            )
+                        url_encoded_order_detail_number = url_encryption.encode_string_to_url(
+                            detail.order_management_number
                         )
 
                         args_farmer = {
@@ -847,9 +828,7 @@ def payment_valid(request):
                 for detail in order_details:
                     detail.status = "error_server"
                     detail.save()
-                ctx = {
-                    "cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"
-                }
+                ctx = {"cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"}
                 return redirect(
                     f'{reverse("orders:payment_fail")}?errorType=error_server&orderGroupPK={order_group_pk}'
                 )
@@ -900,9 +879,7 @@ def vbank_progess(request):
                     farmer.user.phone_number,
                 )
             )
-            if Subscribe.objects.filter(
-                consumer=order_group.consumer, farmer=farmer
-            ).exists():
+            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
                 subscribed_farmers.append(farmer)
             else:
                 unsubscribed_farmers.append(farmer)
@@ -1007,15 +984,11 @@ def vbank_progess(request):
             receipt_id = request.POST.get("receipt_id")
             print(f"--------vbank : {v_bank} account : {v_bank_account}---------")
             # 가상계좌 입금 마감 기한 datetime 변환
-            v_bank_expire_date = datetime.strptime(
-                v_bank_expire_date_str, "%Y-%m-%d %H:%M:%S"
-            )
+            v_bank_expire_date = datetime.strptime(v_bank_expire_date_str, "%Y-%m-%d %H:%M:%S")
             v_bank_expire_date = timezone.make_aware(v_bank_expire_date)
             print(f"-----가상계좌 마감 기한 시간 변환 완료 : {v_bank_expire_date}---------")
 
-            print(
-                rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message
-            )
+            print(rev_name + rev_phone_number + rev_loc_at + rev_message + to_farm_message)
 
             print(order_group)
             # 배송 정보 order_group에 업데이트
@@ -1044,9 +1017,7 @@ def vbank_progess(request):
 
             order_group.save()
 
-            print(
-                f"------order_group v_bank_expire_date {order_group.v_bank_expire_date}"
-            )
+            print(f"------order_group v_bank_expire_date {order_group.v_bank_expire_date}")
 
             # 카카오 알림톡 전송
             args_kakao = {
@@ -1328,9 +1299,7 @@ def create_change_or_refund(request, pk):
                 templateIdList["refund_recept_for_consumer"],
                 consumer_args,
             )
-            return render(
-                request, "users/mypage/user/product_refund_complete.html", ctx
-            )
+            return render(request, "users/mypage/user/product_refund_complete.html", ctx)
         elif claim_type == "exchange":
             refundExchange.refund_exchange_delivery_fee = product.exchange_delivery_fee
             refundExchange.save()
@@ -1347,9 +1316,7 @@ def create_change_or_refund(request, pk):
                 templateIdList["exchange_recept_for_consumer"],
                 consumer_args,
             )
-            return render(
-                request, "users/mypage/user/product_exchange_complete.html", ctx
-            )
+            return render(request, "users/mypage/user/product_exchange_complete.html", ctx)
         else:
             return redirect(reverse("core:main"))
 
