@@ -12,9 +12,15 @@
         <a href="{% url 'users:mypage' 'wishes' %}" id="header-wishes">
             <img class="mobile-header-icons" src="{% static 'images/like.svg' %}" alt="찜한 목록" id="mobile-header-likes">
         </a>
+        {% if user.is_authenticated == True %}
         <a href="{% url 'users:mypage' 'cart' %}" id="header-cart">
             <img class="mobile-header-icons" src="{% static 'images/cart.svg' %}" alt="장바구니" id="mobile-header-cart">
         </a>
+        {% else %}
+        <a href="{% url 'users:nonuser_cart' %}" id="header-cart">
+            <img class="mobile-header-icons" src="{% static 'images/cart.svg' %}" alt="장바구니" id="mobile-header-cart">
+        </a>
+        {% endif %}
     </div>
 </header>
 <link rel="stylesheet" href="{% static 'css/base/header_mobile.css' %}">

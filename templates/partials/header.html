@@ -34,9 +34,16 @@
                 <li class=" w-32 text-center">farmer my page</li>
             </a>
             {% endif %}
+            
+            {% if user.is_authenticated == True %}
             <a href="{% url 'users:mypage' 'cart' %}" id="header-cart">
                 <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></li>
             </a>
+            {% else %}
+            <a href="{% url 'users:nonuser_cart' %}" id="header-cart">
+                <li class=" w-24 text-center"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></li>
+            </a>
+            {% endif %}
         </ul>
     </div>
 </div>

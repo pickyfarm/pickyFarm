@@ -164,6 +164,7 @@ def payment_create(request):
 
     # 회원인지 비회원인지 판단 변수
     is_user = True
+    cur_user = request.user
 
     # 회원인 경우
     if cur_user.is_authenticated:
@@ -248,7 +249,7 @@ def payment_create(request):
             if is_jeju_mountain:
                 order_group.is_jeju_mountain = True
 
-            detail_fee = calculate_jeju_delivery_fee(farm_zipcode, consumer_zipcode, product)
+            detail_fee = calculate_jeju_delivery_fee(consumer_zipcode, product)
             total_delivery_fee += detail_fee  # 제주/도서산간 배송비 + 기본배송비
             total_delivery_fee += delivery_fee  # 단위별 추가 배송비
             # 제주 산간이 아니면 total_delivery_fee에 안더하기

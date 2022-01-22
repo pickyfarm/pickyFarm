@@ -30,8 +30,13 @@
                     {% if user.farmer %}
                     <li class="text-center"><a href="{% url 'farmer:farmer_mypage_order' %}" id="farmer-header-mypage">farmer my page</a></li>
                     {% endif %}
+                    {% if user.is_authenticated == True %}
                     <li class="text-center"><a href="{% url 'users:mypage' 'cart' %}" id="header-cart"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
                     </li>
+                    {% else %}
+                    <li class="text-center"><a href="{% url 'users:nonuser_cart' %}" id="header-cart"><img src="{% static 'images/cart.svg' %}" class="mx-auto w-4" alt="장바구니 보기"></a>
+                    </li>
+                    {% endif %}
                 </ul>
 
                 <div class=" menu-bar h-auto  flex z-50" style="height: 56px;">
