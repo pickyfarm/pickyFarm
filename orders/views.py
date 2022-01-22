@@ -221,7 +221,7 @@ def payment_create(request):
             # 주문 상품의 본래 상품 select
             product = Product.objects.get(pk=pk)
 
-            delivery_fee = product.default_delivery_fee # 비회원
+            delivery_fee = product.default_delivery_fee  # 비회원
             detail_fee = 0
 
             order_detail_cnt += 1
@@ -258,7 +258,7 @@ def payment_create(request):
                 status="wait",
                 quantity=quantity,
                 commision_rate=product.commision_rate,
-                total_price = total_price + delivery_fee, # 구매 총액 + 배송비
+                total_price=total_price + delivery_fee,  # 구매 총액 + 배송비
                 product=product,
                 order_group=order_group,
             )
@@ -555,7 +555,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
             "#{order_detail_number}": detail.order_management_number,
             "#{option_name}": detail.product.option_name,
             "#{quantity}": kakao_msg_quantity,
-            "#{rev_name}": order_group.rev_name,
+            "#{rev_name}": order_group.orderer_name,
             "#{rev_phone_number}": order_group.rev_phone_number,
             "#{rev_address}": order_group.rev_address,
             "#{rev_loc_at}": order_group.rev_loc_at,
@@ -687,7 +687,7 @@ def payment_valid(request):
                             "#{order_detail_number}": detail.order_management_number,
                             "#{option_name}": detail.product.option_name,
                             "#{quantity}": kakao_msg_quantity,
-                            "#{rev_name}": order_group.rev_name,
+                            "#{rev_name}": order_group.orderer_name,
                             "#{rev_phone_number}": phone_number_consumer,
                             "#{rev_address}": order_group.rev_address,
                             "#{rev_loc_at}": order_group.rev_loc_at,
@@ -1039,7 +1039,7 @@ def order_cancel(request, pk):
                     "#{order_detail_number}": order.order_management_number,
                     "#{option_name}": order.product.option_name,
                     "#{quantity}": order.quantity,
-                    "#{rev_name}": order.order_group.rev_name,
+                    "#{rev_name}": order.order_group.orderer_name,
                     "#{rev_phone_number}": order.order_group.rev_phone_number,
                 }
 
