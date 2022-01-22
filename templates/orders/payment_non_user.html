@@ -75,25 +75,8 @@
             <div id="sub-title-text">배송지 정보</div>
             <div id="sub-title-line"></div>
         </div>
-        <div id="delivery-cat-section" class="mb-5">
-            <ul id="delivery-cat" class="flex flex-row">
-                <li id="label-text2" class="mr-5">
-                    <label for="delivery-cat-default"><input type="radio" name="delivery-cat" id="delivery-cat-default" value="기본 배송지" class="mr-2" required checked>기본 배송지</label>
-                </li>
-                <li id="label-text2" class="mr-5">
-                    <label for="delivery-cat-choice"><input type="radio" name="delivery-cat" id="delivery-cat-choice" value="배송지 선택" class="mr-2" required>배송지 선택</label>
-                </li>
-                <li id="label-text2" class="mr-5">
-                    <label for="delivery-cat-direct"><input type="radio" name="delivery-cat" id="delivery-cat-direct" value="직접입력" class="mr-2" required>직접입력</label>
-                </li>
-            </ul>
 
-        </div>
-
-        <div id="delivery-cat-detail-section" class="mb-4">
-
-        </div>
-        <div id="delivery-address-input-section">
+        <div id="delivery-address-input-section" style="display: block !important;">
             <div id="full-address-section" class="flex flex-row">
                 <input id="id_full_address" type="text">
                 <div id="address-search-btn" onclick="getAddress()"><img src="{% static 'images/users/search.svg' %}"></div>
@@ -323,11 +306,6 @@
     var subAddressInput = document.getElementById('id_detail_address');
     var zipcode = document.getElementById('id_zipcode');
     var deliveryCatDetailSection = document.getElementById('delivery-cat-detail-section');
-    deliveryCatDefault.addEventListener('click', function () {
-        deliveryCatDetailSection.innerHTML = "";
-        deliveryAddress.value = '{{default_address}}';
-        deliveryAddressInput.style.display = 'none';
-    });
 
     var updateDeliveryFee = function updateDeliveryFee(zipcode) {
         $.ajax({
@@ -336,38 +314,23 @@
             data: {
                 csrfmiddlewaretoken: "{{csrf_token}}",
                 order_group_pk: "{{order_group_pk}}",
-                zip_code: zipcode.value
+                zip_code: zipcode
             },
             success: function success(data) {
                 var totalPrice = document.getElementById('price_text_b');
                 var oldPrice = parseInt(productPrice.innerText);
                 var oldTotalPrice = parseInt(totalPrice.innerText);
-                var fee_to_add = parseInt(data['fee_to_add']);
-                productPrice.innerText = fee_to_add + oldPrice;
-                totalPrice.innerText = fee_to_add + oldTotalPrice;
+                var delivery_fee = parseInt(data['delivery_fee']);
+                var total_price = parseInt(data["total_price"])
+                productPrice.innerText = delivery_fee;
+                totalPrice = total_price;
             }
         });
     };
 
-    deliveryCatChoice.addEventListener('click', function () {
-        var add_html = "<div id=\"delivery-cat-detail-index-section\" class=\"flex flex-row\">\n                    <div id=\"delivery-cat-detail-index-title-section\" class=\"flex flex-row\">\n                        <div class=\"\">\uBC30\uC1A1 \uBC1B\uC73C\uC2E4 \uC8FC\uC18C\uB97C \uC120\uD0DD\uD574\uC8FC\uC138\uC694</div>\n                    </div>\n                </div>\n                {% for addr in  addresses%}\n                        <div id=\"delivery-address-choice\" class=\"transition_element text-center\" data-zipcode=\"{{addr.zipcode}}\">{{addr.full_address}} {{addr.detail_address}}</div>\n                {% endfor %}";
-        deliveryCatDetailSection.innerHTML = add_html;
-        var choice = document.querySelectorAll('#delivery-address-choice');
-        choice.forEach(function (item) {
-            return item.addEventListener('click', function () {
-                deliveryAddress.value = item.innerHTML;
-                updateDeliveryFee(item.dataset.zipcode);
-            });
-        });
-        deliveryAddressInput.style.display = 'none';
-    });
-    deliveryCatDirect.addEventListener('click', function () {
-        deliveryAddress.value = '';
-        deliveryAddressInput.style.display = 'block';
-        deliveryCatDetailSection.innerHTML = "";
-    });
+
     subAddressInput.addEventListener('focus', function () {
-        return updateDeliveryFee(zipcode);
+        return updateDeliveryFee(zipcode.value);
     });
     subAddressInput.addEventListener('input', function (e) {
         deliveryAddress.value = "".concat(mainAddressInput.value, " ").concat(e.target.value);

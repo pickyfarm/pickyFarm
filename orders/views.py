@@ -152,18 +152,10 @@ def payment_create(request):
     """결제 페이지로 이동 시, Order_Group / Order_Detail 생성"""
 
     user = request.user
-    consumer = user.consumer
-    # 이름 전화번호 주소지 정보 등
-    user_ctx = {
-        "account_name": user.account_name,
-        "phone_number": user.phone_number,
-        "default_address": consumer.default_address.get_full_address(),
-        "default_zipcode": consumer.default_address.zipcode,
-        "addresses": user.addresses.all(),
-    }
 
     # 회원인지 비회원인지 판단 변수
     is_user = True
+    cur_user = request.user
 
     # 회원인 경우
     if cur_user.is_authenticated:
@@ -175,7 +167,7 @@ def payment_create(request):
             "default_address": consumer.default_address.get_full_address(),
             "addresses": cur_user.addresses.all(),
         }
-        print(f"기본배송지 : {consumer.default_address.get_full_address()} ")
+
     # 비회원인 경우 21.1.9 기윤 - 비회원 구매 위한 전달 파라미터 추가
     else:
         is_user = False
@@ -184,7 +176,7 @@ def payment_create(request):
     if request.method == "POST":
         form = Order_Group_Form()
         orders = json.loads(request.POST.get("orders"))
-        print(orders)
+
         # (변수) 주문 상품 list (주문 수량, 주문 수량 고려한 가격, 주문 수량 고려한 무게)
         products = []
         # (변수) 총 주문 상품 개수
@@ -221,16 +213,16 @@ def payment_create(request):
 
         # [PROCESS 4] 소비자 주문목록에서 각 주문 사항 order_detail로 생성
         for order in orders:
-
-            delivery_fee = 0
-
-            order_detail_cnt += 1
-
             pk = (int)(order["pk"])
             quantity = (int)(order["quantity"])
 
             # 주문 상품의 본래 상품 select
             product = Product.objects.get(pk=pk)
+
+            delivery_fee = product.default_delivery_fee
+            detail_fee = 0
+
+            order_detail_cnt += 1
 
             # 기본 배송비 total_delivery_fee에 추가
             # delivery_fee += product.default_delivery_fee
@@ -240,16 +232,17 @@ def payment_create(request):
             delivery_fee += product.get_additional_delivery_fee_by_unit(quantity)
 
             # consumer의 기본 배송비의 ZIP 코드를 파라미터로 전달해서 제주산간인지 여부를 파악
-            consumer_zipcode = int(consumer.default_address.zipcode)
-            is_jeju_mountain = check_address_by_zipcode(consumer_zipcode)
 
-            print("is jeju: ", is_jeju_mountain)
-            # 제주 산간이면 order_group is_jeju_mountain
-            if is_jeju_mountain:
-                order_group.is_jeju_mountain = True
+            if is_user:
+                consumer_zipcode = int(consumer.default_address.zipcode)
+                is_jeju_mountain = check_address_by_zipcode(consumer_zipcode)
+                detail_fee = calculate_jeju_delivery_fee(consumer_zipcode, product)
+                total_delivery_fee += detail_fee  # 제주/도서산간 배송비 + 기본배송비
 
-            detail_fee = calculate_jeju_delivery_fee(farm_zipcode, consumer_zipcode, product)
-            total_delivery_fee += detail_fee  # 제주/도서산간 배송비 + 기본배송비
+                # 제주 산간이면 order_group is_jeju_mountain
+                if is_jeju_mountain:
+                    order_group.is_jeju_mountain = True
+
             total_delivery_fee += delivery_fee  # 단위별 추가 배송비
             # 제주 산간이 아니면 total_delivery_fee에 안더하기
 
