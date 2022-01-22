@@ -14,7 +14,8 @@ import datetime
 from random import randint
 from kakaomessages.template import templateIdList
 from kakaomessages.views import send_kakao_message
-
+from orders.models import Order_Detail
+from orders.views import payment_valid_farmer, farmer_search
 
 # Create your models here.
 
@@ -98,6 +99,61 @@ class Consumer(models.Model):
     def __str__(self):
         return self.user.nickname
 
+    def send_kakao_payment_valid(self, order_group, payment_type):
+        """소비자 결제 완료 카카오 알림톡 전송 함수"""
+        """order_group, payment_type을 받아 결제 완료 알림톡을 소비자에게 전송한다"""
+
+        phone_number = order_group.consumer.user.phone_number
+        order_details = Order_Detail.objects.filter(order_group=order_group)
+
+        # [Process #1] 구독농가 여부 판별
+        farmers = list(set(map(lambda u: u.product.farmer, order_details)))
+        unsubscribed_farmers = list()
+        subscribed_farmers = list()
+        farmers_info = []
+
+        for farmer in farmers:
+            farmers_info.append(
+                payment_valid_farmer(
+                    farmer.pk,
+                    farmer.farm_name,
+                    farmer.user.nickname,
+                    farmer.user.phone_number,
+                )
+            )
+            if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
+                subscribed_farmers.append(farmer)
+            else:
+                unsubscribed_farmers.append(farmer)
+
+        farmers_info = sorted(farmers_info, key=lambda x: x.farmer_pk)
+        farmers_info_len = len(farmers_info)
+
+        # [Process #2] 결제 완료 알림톡 전송
+        for detail in order_details:
+            if payment_type == "vbank":  # 가상계좌 결제 시
+                detail.status = "payment_complete"
+                detail.payment_status = "incoming"
+                detail.save()
+            else:
+                pass
+
+            farmer = farmer_search(farmers_info, detail.product.farmer.pk, 0, farmers_info_len)
+            target_farmer_pk = detail.product.farmer.pk
+
+            args = {
+                "#{farm_name}": farmer.farm_name,
+                "#{order_detail_number}": detail.order_management_number,
+                "#{order_detail_title}": detail.product.title,
+                "#{farmer_nickname}": farmer.farmer_nickname,
+                "#{option_name}": detail.product.option_name,
+                "#{quantity}": (str)(detail.quantity) + "개",
+                "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{target_farmer_pk}",
+                "#{link_2}": "www.pickyfarm.com/user/mypage/orders",
+            }
+            send_kakao_message(phone_number, templateIdList["payment_complete"], args)
+        return
+
 
 class Editor(models.Model):
     user = models.OneToOneField(
@@ -129,11 +185,9 @@ class Editor(models.Model):
 
             for review in reviews:
                 try:
-                    unread_comments = (
-                        comments.models.Editor_Review_Comment.objects.filter(
-                            editor_review=review, is_read=False
-                        ).count()
-                    )
+                    unread_comments = comments.models.Editor_Review_Comment.objects.filter(
+                        editor_review=review, is_read=False
+                    ).count()
 
                     count += unread_comments
                 except ObjectDoesNotExist:
@@ -149,12 +203,8 @@ class Editor(models.Model):
 
 
 class Wish(models.Model):
-    consumer = models.ForeignKey(
-        "Consumer", related_name="wishes", on_delete=models.CASCADE
-    )
-    product = models.ForeignKey(
-        "products.Product", related_name="wishes", on_delete=models.CASCADE
-    )
+    consumer = models.ForeignKey("Consumer", related_name="wishes", on_delete=models.CASCADE)
+    product = models.ForeignKey("products.Product", related_name="wishes", on_delete=models.CASCADE)
 
     create_at = models.DateTimeField(auto_now_add=True)
 
@@ -163,12 +213,8 @@ class Wish(models.Model):
 
 
 class Cart(models.Model):
-    consumer = models.ForeignKey(
-        "Consumer", related_name="carts", on_delete=models.CASCADE
-    )
-    product = models.ForeignKey(
-        "products.Product", related_name="carts", on_delete=models.CASCADE
-    )
+    consumer = models.ForeignKey("Consumer", related_name="carts", on_delete=models.CASCADE)
+    product = models.ForeignKey("products.Product", related_name="carts", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1, blank=True)
 
     create_at = models.DateTimeField(auto_now_add=True)
@@ -185,12 +231,8 @@ class Cart(models.Model):
 
 
 class Subscribe(models.Model):
-    farmer = models.ForeignKey(
-        "farmers.Farmer", related_name="subs", on_delete=models.CASCADE
-    )
-    consumer = models.ForeignKey(
-        "users.Consumer", related_name="subs", on_delete=models.CASCADE
-    )
+    farmer = models.ForeignKey("farmers.Farmer", related_name="subs", on_delete=models.CASCADE)
+    consumer = models.ForeignKey("users.Consumer", related_name="subs", on_delete=models.CASCADE)
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)

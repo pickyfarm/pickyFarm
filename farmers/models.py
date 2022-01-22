@@ -2,6 +2,10 @@ from django.db import models
 from core.models import CompressedImageField
 from django.templatetags.static import static
 from config.settings import base
+from kakaomessages.views import send_kakao_message
+from kakaomessages.template import templateIdList
+from orders.models import Order_Detail
+from core import url_encryption
 
 
 class Farmer(models.Model):
@@ -72,6 +76,41 @@ class Farmer(models.Model):
 
     def inc_sub(self):
         self.sub_count += 1
+        return
+
+    def send_kakao_payment_valid(self, order_group, target_farmer):
+        """소비자 결제 완료 시 주문 접수 카카오 알림톡 전송 함수"""
+        """order_group과 farmer, payment_type를 받아 주문 접수 알림톡을 파머에게 전송한다"""
+
+        rev_phone_number = order_group.consumer.user.phone_number
+        order_details = Order_Detail.objects.filter(order_group=order_group)
+
+        # [Process #1] 주문 접수 알림톡 전송
+        for detail in order_details:
+
+            url_encoded_order_detail_number = url_encryption.encode_string_to_url(
+                detail.order_management_number
+            )
+
+            args = {
+                "#{order_detail_title}": detail.product.title,
+                "#{order_detail_number}": detail.order_management_number,
+                "#{option_name}": detail.product.option_name,
+                "#{quantity}": (str)(detail.quantity) + "개",
+                "#{rev_name}": order_group.rev_name,
+                "#{rev_phone_number}": rev_phone_number,
+                "#{rev_address}": order_group.rev_address,
+                "#{rev_loc_at}": order_group.rev_loc_at,
+                "#{rev_detail}": order_group.rev_message,
+                "#{rev_message}": order_group.to_farm_message,
+                "#{link_1}": f"www.pickyfarm.com/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",  # 임시
+                "#{link_2}": f"www.pickyfarm.com/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",  # 임시
+                "#{link_3}": f"www.pickyfarm.com/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",  # 임시
+            }
+
+            send_kakao_message(
+                target_farmer.farmer_phone_number, templateIdList["order_recept"], args
+            )
         return
 
 

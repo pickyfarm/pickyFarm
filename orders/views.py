@@ -11,7 +11,7 @@ from .utils import payment_complete_notification
 from django.utils import timezone
 from products.models import Product
 from farmers.models import Farmer
-from users.models import Subscribe
+from django.apps import apps  # for prevent Circular Import Error
 from addresses.views import check_address_by_zipcode, calculate_jeju_delivery_fee
 import requests, base64
 import json
