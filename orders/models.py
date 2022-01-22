@@ -110,6 +110,28 @@ class Order_Group(models.Model):
         self.status = status
         self.save()
 
+    def create_order_group_management_number(self):
+
+        """order_group 주문 관리 번호 생성"""
+        now = timezone.localtime()
+        year = now.year % 100
+
+        month = now.month
+
+        if month < 10:
+            month = "0" + str(month)
+        else:
+            month = str(month)
+
+        day = now.day
+
+        if day < 10:
+            day = "0" + str(day)
+        else:
+            day = str(day)
+
+        self.order_management_number = str(year) + month + day + "_PF" + str(self.pk)
+
 
 class Order_Detail(models.Model):
 
@@ -204,6 +226,30 @@ class Order_Detail(models.Model):
             self.payment_status = "none"
 
         super(Order_Detail, self).save(*args, **kwargs)
+
+    def create_order_detail_management_number(self, farmer_id):
+
+        """order_detail 주문 관리 정보 생성"""
+
+        now = timezone.localtime()
+        year = now.year % 100
+
+        month = now.month
+        if month < 10:
+            month = "0" + str(month)
+        else:
+            month = str(month)
+
+        day = now.day
+
+        if day < 10:
+            day = "0" + str(day)
+        else:
+            day = str(day)
+
+        self.order_management_number = (
+            str(year) + month + day + "_" + str(self.pk) + "_" + farmer_id
+        )
 
 
 class RefundExchange(models.Model):

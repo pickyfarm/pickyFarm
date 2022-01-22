@@ -1,5 +1,7 @@
+from products.models import Product
 from core.slack_bot import send_message_to_slack
 from .models import Order_Group
+from django.utils import timezone
 
 
 def payment_complete_notification(order_group_pk):
@@ -53,3 +55,23 @@ def get_order_message_block(ptype="complete", **args):
             ],
         },
     ]
+
+
+def create_order_group(consumer):
+
+    """[payment_create] order_group 생성 / 주문관리번호 생성"""
+
+    order_group = Order_Group(status="wait", consumer=consumer)
+    order_group.save()
+
+    # 주문관리번호 생성 및 저장
+    order_group.create_order_group_management_number()
+
+    return order_group
+
+
+def create_order_detail(product, quantity):
+
+    """[payment_create] order_detail 생성 / 주문관리번호 생성"""
+
+    product = Product.objects.get(pk=product_pk)

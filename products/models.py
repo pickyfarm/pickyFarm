@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from core.models import CompressedImageField
 from django.utils import timezone
+from addresses import utils
 
 
 # Create your models here.
@@ -328,6 +329,68 @@ class Product(models.Model):
 
     def is_sufficient_stock(self, quantity):
         return self.stock >= quantity
+
+    def get_additional_delivery_fee_by_unit(self, quantity):
+
+        """단위별 추가 배송비 계산"""
+        """ 기존과 달리 단위별 추가 배송비를 return  """
+
+        quantity_per_unit = quantity / self.additional_delivery_fee_unit
+
+        print((float)(quantity_per_unit))
+        result = 0
+
+        if (float)(quantity_per_unit) >= 1:
+            result += (int)(quantity_per_unit) * self.additional_delivery_fee
+
+        return result
+
+    def get_additional_delivery_fee_by_location(self, consumer):
+
+        """농가와 소비자의 위치에 따른 배송비 계산"""
+
+        """ 농가가 제주인 경우 : 제주+도서산간에만 추가 배송비
+            농가가 제주가 아닌 경우 : 제주+"""
+
+        result = 0
+        consumer_zipcode = int(consumer.default_address.zipcode)
+        farm_zipcode = int(self.farmer.address.zipcode)
+        is_jeju_mountain = utils.check_address_by_zipcode(consumer_zipcode)
+
+        # # 농가가 제주인 경우
+        # if 63000 <= farm_zipcode <= 699949:
+        #     # -> 도서산간
+        #     if is_jeju_mountain and consumer_zipcode < 63000:
+        #         result += self.jeju_mountain_additional_delivery_fee
+        #     # -> 그 외
+        #     else:
+        #         result = 0
+        # # 그 외
+        # else:
+        #     # -> 제주 소비자
+        #     if is_jeju_mountain and (63000 <= consumer_zipcode <= 699949):
+        #         result += self.jeju_mountain_additional_delivery_fee
+        #     # -> 그 외
+        #     else:
+        #         result = 0
+
+        """전체 수정 필요"""
+
+        return result
+
+    def get_total_delivery_fee(self, quantity, consumer):
+
+        """전체 배송비 계산"""
+        """ 기본배송비 + 단위별 추가 배송비 + 제주산간추가배송비 반환 """
+
+        additional_delivery_fee_by_unit = self.get_additional_delivery_fee_by_unit(quantity)
+        additional_delivery_fee_by_location = self.get_additional_delivery_fee_by_location(consumer)
+
+        return (
+            self.default_delivery_fee
+            + additional_delivery_fee_by_unit
+            + additional_delivery_fee_by_location
+        )
 
 
 class Product_Image(models.Model):
