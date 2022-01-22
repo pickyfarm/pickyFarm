@@ -11,7 +11,7 @@ const cartIn = (pk) => {
             shootToastMessage(response.message, 2);
         },
         error: function (request, status, error) {
-            shootToastMessage('로그인이 필요합니다.', 2, 'error');
+            // shootToastMessage('로그인이 필요합니다.', 2, 'error');
         },
     });
 };

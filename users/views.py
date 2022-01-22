@@ -82,7 +82,7 @@ class NoRelatedInstance(Exception):
 # AJAX 통신 선언 SECTION (상품 장바구니/장바구니에서 제거하기, 상품 찜하기/찜하기 취소하기, 농가 구독/구독 취소하기)
 
 
-@login_required
+# @login_required
 @require_POST
 def CartInAjax(request):
     if request.method == "POST":
@@ -96,13 +96,19 @@ def CartInAjax(request):
             message = "존재하지 않는 상품입니다"
             return JsonResponse(message)
 
-        try:
-            cart = Cart.objects.get(consumer=user.consumer, product=product)
-            message = "이미 장바구니에 있는 상품입니다"
-        except ObjectDoesNotExist:
-            cart = Cart.objects.create(consumer=user.consumer, product=product, quantity=quantity)
-            message = "상품을 장바구니에 담았습니다!"
-        print(cart)
+        if user.is_authenticated:  # 회원
+            try:
+                cart = Cart.objects.get(consumer=user.consumer, product=product)
+                message = "이미 장바구니에 있는 상품입니다"
+            except ObjectDoesNotExist:
+                cart = Cart.objects.create(
+                    consumer=user.consumer, product=product, quantity=quantity
+                )
+                message = "상품을 장바구니에 담았습니다!"
+        else:  # 비회원
+            non_member = request.user
+            cart_list = request.COOKIES.get("cart_list")
+            message = "(비회원) 상품을 장바구니에 담았습니다!"
 
         message = str(message)
         data = {
@@ -858,7 +864,15 @@ def mypage(request, cat):
         elif cat_name == "cart":
             carts = consumer.carts.all().order_by("-create_at").filter(product__open=True)
             print(carts)
-
+            try:
+                cart_list = request.COOKIES["cart_list"].split(",")
+                for pk in cart_list:
+                    Cart.objects.get_or_create(
+                        consumer=request.user.consumer,
+                        product=Product.objects.get(pk=pk),
+                    )
+            except:
+                pass
             ctx_carts = {
                 "carts": carts,
             }
