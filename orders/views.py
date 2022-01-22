@@ -119,23 +119,25 @@ def changeAddressAjax(request):
 
         order_group = Order_Group.objects.get(pk=order_group_pk)
 
-        delivery_fee = 0  # 기본 배송비
+        total_delivery_fee = 0  # 총 배송비
         total_price = 0
 
         for detail in order_group.order_details.all():
-            detail_fee = calculate_jeju_delivery_fee(zip_code, detail.product)
-            delivery_fee += detail_fee
+            delivery_fee = detail.product.get_total_delivery_fee(detail.quantity, zip_code)
+            detail.total_price = delivery_fee + detail.product.sell_price
             quantity = (int)(detail.quantity)
-            detail.total_price = detail_fee + detail.product.sell_price
             detail.save()
+            # detail_fee = calculate_jeju_delivery_fee(zip_code, detail.product)
+            # detail.total_price = detail_fee + detail.product.sell_priceget_total_delivery_fee
             total_price += detail.product.sell_price * quantity
+            total_delivery_fee += delivery_fee
 
-        order_group.total_price = total_price + delivery_fee
+        order_group.total_price = total_price + total_delivery_fee
         order_group.save()
         print("order.total_price", order_group.total_price)
 
         data = {
-            "delivery_fee": delivery_fee,
+            "delivery_fee": total_delivery_fee,
             "total_price": order_group.total_price,
         }
 
@@ -219,7 +221,7 @@ def payment_create(request):
             # 주문 상품의 본래 상품 select
             product = Product.objects.get(pk=pk)
 
-            delivery_fee = product.default_delivery_fee
+            delivery_fee = product.default_delivery_fee # 비회원
             detail_fee = 0
 
             order_detail_cnt += 1
@@ -236,8 +238,8 @@ def payment_create(request):
             if is_user:
                 consumer_zipcode = int(consumer.default_address.zipcode)
                 is_jeju_mountain = check_address_by_zipcode(consumer_zipcode)
-                detail_fee = calculate_jeju_delivery_fee(consumer_zipcode, product)
-                total_delivery_fee += detail_fee  # 제주/도서산간 배송비 + 기본배송비
+                # detail_fee = calculate_jeju_delivery_fee(consumer_zipcode, product)
+                delivery_fee = product.get_total_delivery_fee(quantity, consumer_zipcode)
 
                 # 제주 산간이면 order_group is_jeju_mountain
                 if is_jeju_mountain:
@@ -256,7 +258,7 @@ def payment_create(request):
                 status="wait",
                 quantity=quantity,
                 commision_rate=product.commision_rate,
-                total_price=delivery_fee + total_price + detail_fee,
+                total_price = total_price + delivery_fee, # 구매 총액 + 배송비
                 product=product,
                 order_group=order_group,
             )

@@ -59,7 +59,5 @@ def calculate_jeju_delivery_fee(consumer_zipcode, product):
         additional_fee += product.jeju_mountain_additional_delivery_fee
     else:
         additional_fee = 0
-    print("default_fee", default_fee)
     total_delivery_fee = default_fee + additional_fee
-    print("total_delivery_fee", total_delivery_fee)
     return total_delivery_fee
