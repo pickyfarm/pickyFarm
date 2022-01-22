@@ -1273,7 +1273,7 @@ def get_farmers_info(order_group):
                 farmer.user.phone_number,
             )
         )
-
+        Subscribe = apps.get_model("users", "Subscribe")
         if Subscribe.objects.filter(consumer=order_group.consumer, farmer=farmer).exists():
             subscribed_farmers.append(farmer)
 
