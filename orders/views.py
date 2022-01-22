@@ -668,7 +668,7 @@ def payment_valid(request):
                             ###### 팝업 url 추가해야 ######
                             args_consumer[
                                 "#{link_2}"
-                            ] = f"127.0.0.1:8000/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
+                            ] = f"https://www.pickyfarm.com/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
 
                         # 소비자 결제 완료 카카오 알림톡 전송
                         send_kakao_message(
