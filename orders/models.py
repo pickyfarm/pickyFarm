@@ -251,6 +251,9 @@ class Order_Detail(models.Model):
             str(year) + month + day + "_" + str(self.pk) + "_" + farmer_id
         )
 
+    def is_sufficient_stock(self):
+        return self.product.is_sufficient_stock(self.quantity)
+
 
 class RefundExchange(models.Model):
     TYPE = (
