@@ -53,7 +53,7 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path("mypage/<slug:cat>", views.mypage, name="mypage"),
-    path("mypage/carts/", views.nonuser_cart, name="nonuser_cart"),
+    path("non-member/cart", views.nonuser_cart, name="nonuser_cart"),
     path("editor_mypage/", views.EditorMyPage.as_view(), name="editor_mypage"),
     path(
         "editor_mypage/comments",

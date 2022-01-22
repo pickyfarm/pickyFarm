@@ -954,16 +954,12 @@ def mypage(request, cat):
 def nonuser_cart(request):
     """비회원 장바구니 페이지"""
     cart_list = request.COOKIES["cart_list"].split(",")
-    print(cart_list)
-    products = []
-    for pk in cart_list:
-        product = Product.objects.get(pk=pk)
-        products.append(product)
-    print("products", products)
     products = Product.objects.filter(pk__in=cart_list)
-    print("products", products)
+    ctx = {
+        "products": products,
+    }
 
-    return render(request, "users/cart_non_user.html")
+    return render(request, "users/cart_non_user.html", ctx)
 
 
 """Mypage Pagination AJAX"""

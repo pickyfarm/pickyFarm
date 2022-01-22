@@ -204,4 +204,9 @@
         line-height: 2;
         margin: 0;
     }
+
+    /* 비회원 장바구니 */
+    #top-section-nonmember {
+        display: none;
+    }
 }
