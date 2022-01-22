@@ -953,11 +953,16 @@ def mypage(request, cat):
 
 def nonuser_cart(request):
     """비회원 장바구니 페이지"""
-    cart_list = request.COOKIES["cart_list"].split(",")
-    products = Product.objects.filter(pk__in=cart_list)
-    ctx = {
-        "products": products,
-    }
+    try:
+        cart_list = request.COOKIES["cart_list"].split(",")
+        products = Product.objects.filter(pk__in=cart_list)
+        ctx = {
+            "products": products,
+        }
+    except:
+        ctx = {
+            "products": "",
+        }
 
     return render(request, "users/cart_non_user.html", ctx)
 

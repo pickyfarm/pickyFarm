@@ -34,7 +34,7 @@
                 </div>
                 {% endif %}
                 <div id="products-section" class="mt-5">
-                    {% if products.exists is False %}
+                    {% if products == "" %}
                     <div class="mt-14 flex flex-col justify-center items-center">
                         <div>아직 장바구니에 담은 무난이가 없습니다</div>
                         <a id="redirect_a" href="{% url 'products:store_list' %}">
@@ -72,7 +72,7 @@
                                     <img src="{% static 'images/users/cart_down.svg' %}">
                                 </div>
                                 <!-- <div id="quantity-{{product.pk}}" class="quantity-number">{{cart.quantity}}</div> -->
-                                <div id="quantity-{{product.pk}}" class="quantity-number">0</div>
+                                <div id="quantity-{{product.pk}}" class="quantity-number">1</div>
                                 <div id="quantity-up" name="{{product.pk}}">
                                     <img src="{% static 'images/users/cart_up.svg' %}">
                                 </div>
@@ -291,6 +291,7 @@
         });
         if (products.length == 0)
             alert("주문할 무난이를 선택해주세요!")
+            e.preventDefault()
 
         data = {
             'orders': JSON.stringify(products),

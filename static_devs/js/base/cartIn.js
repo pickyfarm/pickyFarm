@@ -1,6 +1,7 @@
 "use strict";
 
 var cartIn = function cartIn(pk) {
+  addCookie('cart_list', pk)
   $.ajax({
     type: 'POST',
     url: '/user/cartIn/',
