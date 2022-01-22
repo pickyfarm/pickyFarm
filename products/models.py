@@ -334,14 +334,18 @@ class Product(models.Model):
 
         """단위별 추가 배송비 계산"""
         """ 기존과 달리 단위별 추가 배송비를 return  """
+        try:
 
-        quantity_per_unit = quantity / self.additional_delivery_fee_unit
+            quantity_per_unit = quantity / self.additional_delivery_fee_unit
 
-        print((float)(quantity_per_unit))
-        result = 0
+            print((float)(quantity_per_unit))
+            result = 0
 
-        if (float)(quantity_per_unit) >= 1:
-            result += (int)(quantity_per_unit) * self.additional_delivery_fee
+            if (float)(quantity_per_unit) >= 1:
+                result += (int)(quantity_per_unit) * self.additional_delivery_fee
+
+        except ZeroDivisionError:
+            return 0
 
         return result
 
@@ -382,7 +386,9 @@ class Product(models.Model):
         """ 기본배송비 + 단위별 추가 배송비 + 제주산간추가배송비 반환 """
 
         additional_delivery_fee_by_unit = self.get_additional_delivery_fee_by_unit(quantity)
-        additional_delivery_fee_by_location = self.get_additional_delivery_fee_by_location(consumer_zipcode)
+        additional_delivery_fee_by_location = self.get_additional_delivery_fee_by_location(
+            consumer_zipcode
+        )
 
         return (
             self.default_delivery_fee
