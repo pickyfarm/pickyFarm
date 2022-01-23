@@ -181,7 +181,7 @@ class Order_Detail(models.Model):
         ("HAPDONG", "합동택배"),
     )
 
-    status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="주문 상태")
+    status = models.CharField(max_length=27, choices=STATUS, default="wait", help_text="주문 상태")
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="none", help_text="정산 상태"
     )
