@@ -1268,3 +1268,8 @@ def get_farmers_info(order_group):
         "farmers_info": farmers_info,
         "farmers_info_len": farmers_info_len,
     }
+
+
+def payment_create_gift(request):
+    '''선물하기 결제하기 GET'''
+    pass
