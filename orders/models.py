@@ -21,6 +21,12 @@ class Order_Group(models.Model):
     )
 
     CONSUMER_TYPE = (("user", "회원"), ("non_user", "비회원"))
+    ORDER_TYPE = (("normal", "일반결제"), ("gift", "선물하기"))
+
+    # 선물하기 여부 구분 필드
+    order_type = models.CharField(
+        max_length=6, choices=ORDER_TYPE, default="normal", help_text="결제 유형"
+    )
 
     status = models.CharField(max_length=20, choices=STATUS, default="wait", help_text="상태")
 
@@ -137,6 +143,7 @@ class Order_Detail(models.Model):
 
     STATUS = (
         ("wait", "결제대기"),
+        ("payment_complete_no_address", "결제완료(주소미입력)"),
         ("payment_complete", "결제완료"),
         ("preparing", "배송 준비 중"),
         ("shipping", "배송 중"),
@@ -196,6 +203,16 @@ class Order_Detail(models.Model):
 
     update_at = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
+
+    # 선물하기 -> 선물 받는사람 정보 필드
+    rev_name_gift = models.CharField(max_length=50, null=True, blank=True, help_text="선물 받는사람 이름")
+    rev_address_gift = models.TextField(null=True, blank=True, help_text="선물 받는사람 주소")
+    rev_phone_number_gift = models.CharField(
+        max_length=30, null=True, blank=True, help_text="선물 받는사람 전화번호"
+    )
+    gift_message = models.TextField(
+        max_length=600, null=True, blank=True, help_text="선물 받는 사람에게 전달할 메세지"
+    )
 
     product = models.ForeignKey(
         "products.Product",
