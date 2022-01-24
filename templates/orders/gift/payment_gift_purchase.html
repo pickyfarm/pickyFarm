@@ -8,7 +8,7 @@
             <div id="price-detail" class="flex flex-col">
                 <div class="purchase-info-row color-secondary">
                     <div class="detail-title">총 [[sumOfQuantity]]개의 주문 금액</div>
-                    [[orderTotalPrice]] <span class="purchase-unit">원</span>
+                    [[sumOfProductPrice]] <span class="purchase-unit">원</span>
                 </div>
                 <div class="purchase-info-row color-secondary">
                     <div class="detail-title">배송비</div>
@@ -18,7 +18,7 @@
             <div id="price-total">
                 <div class="purchase-info-row">
                     <div class="total-title color-primary">최종 주문 금액</div>
-                    [[orderTotalPrice + sumOfDeliveryFee]] <span class="purchase-unit">원</span>
+                    [[orderTotalPrice ]] <span class="purchase-unit">원</span>
                 </div>
             </div>
         </div>
