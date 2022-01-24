@@ -1,0 +1,64 @@
+{% load static %}
+
+<section id="payment-gift-header" class="flex flex-col w-full">
+    <div
+        id="kakao-message-section"
+        class="w-full flex items-center justify-between color-primary"
+    >
+        <div id="gift-description" class="flex md:flex-col justify-between">
+            <div class="description-item">
+                <h2 class="desc-title">친구의 번호만 알고 있다면?</h2>
+                <p class="desc-detail">
+                    <label class="phonenum-only">번호만 알아요</label>
+                    버튼을 클릭해주세요<br />
+                    피키팜이 친구에게 주소 입력 링크를 전달해 드릴게요.
+                </p>
+            </div>
+            <div class="description-item">
+                <h2 class="desc-title">
+                    친구의 번호와 주소를 모두 알고 있다면?
+                </h2>
+                <p class="desc-detail">
+                    <label class="phonenum-address">
+                        주소/번호 모두 알아요
+                    </label>
+                    버튼을 클릭해주세요
+                </p>
+            </div>
+        </div>
+        <div id="gift-message-image">
+            <h2>친구에게 전해지는 알림</h2>
+            <img
+                src="{% static 'images/orders/gift/gift_kakao_message.webp' %}"
+                alt="선물하기 카카오톡 메세지"
+            />
+        </div>
+    </div>
+    <div id="product-info-section">
+        <div
+            id="product-info-header"
+            class="section-header color-primary flex items-center"
+        >
+            주문 상품 정보
+            <div class="divider flex-1"></div>
+        </div>
+        <div id="product-info-row" class="flex items-center mx-auto">
+            <img
+                src="{{product.main_image.url}}"
+                alt="{{product.main_title}}"
+                id="product-img"
+            />
+            <div id="product-name" class="flex flex-1 items-center">
+                <span id="main-title" class="color-primary">테스트 상품명</span>
+                <div id="divider-h"></div>
+                <span id="sub-title" class="color-primary">
+                    난 집에가고 싶다
+                </span>
+            </div>
+            <div id="product-weight-price" class="flex">
+                <span id="product-weight" class="color-primary">1 kg</span>
+                <span id="product-price" class="color-primary">10,000 원</span>
+            </div>
+        </div>
+    </div>
+</section>

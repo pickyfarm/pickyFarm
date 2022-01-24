@@ -11,22 +11,14 @@
                     [[orderTotalPrice]] <span class="purchase-unit">원</span>
                 </div>
                 <div class="purchase-info-row color-secondary">
-                    <div class="detail-title">할인 금액</div>
-                    0<span class="purchase-unit">원</span>
-                </div>
-                <div class="purchase-info-row color-secondary">
                     <div class="detail-title">배송비</div>
-                    [[deliveryFee]] <span class="purchase-unit">원</span>
+                    [[sumOfDeliveryFee]] <span class="purchase-unit">원</span>
                 </div>
             </div>
             <div id="price-total">
                 <div class="purchase-info-row">
                     <div class="total-title color-primary">최종 주문 금액</div>
-                    [[orderTotalPrice + deliveryFee]] <span class="purchase-unit">원</span>
-                </div>
-                <div class="purchase-info-row color-primary">
-                    <div class="total-title color-primary">총 주문 중량</div>
-                    [[weight * sumOfQuantity]] <span class="purchase-unit">kg</span>
+                    [[orderTotalPrice + sumOfDeliveryFee]] <span class="purchase-unit">원</span>
                 </div>
             </div>
         </div>
@@ -79,7 +71,7 @@
         </div>
         <div id="buttons" class="flex flex-row mb-12">
             <div id="go-back-btn">뒤로가기</div>
-            <button id="go-btn" class="ml-6" type="submit">결제하기
+            <button id="go-btn" class="ml-6" type="submit" @click='handleSubmitButtonClick'>결제하기
         </div>
     </div>
 </section>

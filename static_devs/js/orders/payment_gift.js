@@ -1,18 +1,19 @@
+const FARMER_ZIPCODE = '00000';
+
 const initinalFriendList = [
     {
-        info: {
-            id: 0,
-            name: '',
-            phoneNum: '',
-            address: {
-                sigungu: '',
-                detail: '',
-                zipCode: '00000',
-            },
+        id: 0,
+        name: '친구1',
+        phoneNum: '',
+        address: {
+            sigungu: '',
+            detail: '',
+            zipCode: '00000',
         },
-        message: '',
-        infoScope: '',
         quantity: 1,
+        deliveryFee: 0,
+        giftMessage: '',
+        infoScope: '',
     },
 ];
 
@@ -24,7 +25,7 @@ const purchaseApp = new Vue({
         productPrice: 10000,
         friends: initinalFriendList,
         weight: 1.0,
-        deliveryFee: 0,
+        totalDeliveryFee: 0,
         paymentType: '',
     },
 
@@ -39,6 +40,12 @@ const purchaseApp = new Vue({
                 0
             );
         },
+        sumOfDeliveryFee: function () {
+            return this.friends.reduce(
+                (prev, next) => prev + parseInt(next.deliveryFee) || 0,
+                0
+            );
+        },
         orderTotalPrice: function () {
             return this.sumOfQuantity * this.productPrice;
         },
@@ -47,19 +54,18 @@ const purchaseApp = new Vue({
     methods: {
         addFriend: function () {
             this.friends.push({
-                info: {
-                    id: this.friendCount++,
-                    name: '',
-                    phoneNum: '',
-                    address: {
-                        sigungu: '',
-                        detail: '',
-                        zipCode: '00000',
-                    },
+                id: this.friendCount++,
+                name: `친구${this.friendCount}`,
+                phoneNum: '',
+                address: {
+                    sigungu: '',
+                    detail: '',
+                    zipCode: '00000',
                 },
-                infoScope: '',
-                message: '',
                 quantity: 1,
+                deliveryFee: 0,
+                giftMessage: '',
+                infoScope: '',
             });
         },
         deleteFriend: function (id) {
@@ -72,9 +78,15 @@ const purchaseApp = new Vue({
         handleAddressFindButtonClick: function (idx) {
             // callback 형태로 다음 우편번호 API의 결과값을 내부 변수에 할당할 수 있음
             executeDaumPostcodeAPI((data) => {
-                this.friends[idx].info.address.sigungu = data.address;
-                this.friends[idx].info.address.zipCode = data.zipCode;
+                this.friends[idx].address.sigungu = data.address;
+                this.friends[idx].address.zipCode = data.zipCode;
             });
+
+            this.friends[idx].deliveryFee = getDeliveryFeeByZipCode(
+                FARMER_ZIPCODE,
+                this.friends[idx].address.zipCode,
+                0
+            );
         },
     },
 });
@@ -118,4 +130,17 @@ function executeDaumPostcodeAPI(cb) {
             cb(addressInfo);
         },
     }).open();
+}
+
+function getDeliveryFeeByZipCode(
+    farmerZipCode,
+    consumerZipcode,
+    productPK,
+    quantity
+) {
+    if (consumerZipcode > '00000') {
+        return 3000;
+    } else return 5000;
+
+    /* 서버에 AJAX 보내서 계산된 배송비 업데이트 할 것 */
 }
