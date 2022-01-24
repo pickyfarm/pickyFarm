@@ -1270,6 +1270,22 @@ def get_farmers_info(order_group):
     }
 
 
+@require_POST
+@login_required
 def payment_create_gift(request):
-    '''선물하기 결제하기 GET'''
+    '''선물하기 결제하기'''
+    '''order_group 생성 및 결제 정보 생성
+        method : /POST'''
+    
+    # user info / consumer info
+    user = request.user
+    consumer = user.consumer
+
+    # client의 Post data - product_pk
+    product_pk = request.get('product_pk')
+
+    # Order Group 생성 
+    order_group = Order_Group()
+    order_group.set_init_order_group_info('gift', 'user', user)
+
     pass

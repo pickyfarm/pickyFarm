@@ -138,6 +138,19 @@ class Order_Group(models.Model):
 
         self.order_management_number = str(year) + month + day + "_PF" + str(self.pk)
 
+    def set_init_order_group_info(self, order_type, consumer_type, user):
+        """결제하기 초기 생성 order_group 세팅"""
+        """order group 생성 및 save() 후에 결제 타입, 결제자정보, 주문관리번호 생성 """
+        '''order_type = ["normal", "gift"] / consummer_type = ["user", "non_user"] '''
+        self.order_type = order_type
+        self.consumer_type = consumer_type
+        self.orderer_name = user.account_name
+        self.orderer_phone_number = user.phone_number
+        
+        # order_pk 기반 주문관리번호 생성 - db에 pk생성 후 (save())후 메소드 호출해야함
+        self.order_management_number = self.create_order_group_management_number()
+
+
 
 class Order_Detail(models.Model):
 
