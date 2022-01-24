@@ -1283,9 +1283,20 @@ def payment_create_gift(request):
 
     # client의 Post data - product_pk
     product_pk = request.get('product_pk')
+    product = Product.objects.get(pk=product_pk)
 
     # Order Group 생성 
     order_group = Order_Group()
     order_group.set_init_order_group_info('gift', 'user', user)
 
+    # 결제용 order_group_name 생성
+    order_group_name = "[선물하기] "+ product.title
+
+    ctx = {
+        "order_group_pk" : order_group.pk,
+        "product" : product,
+        "order_group_name" : order_group_name
+    }
+
     pass
+
