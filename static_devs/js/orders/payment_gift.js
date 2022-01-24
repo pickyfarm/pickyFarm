@@ -284,6 +284,7 @@ function bootpayHandler(instance) {
             csrfHiddenInput.setAttribute('type', 'hidden');
             csrfHiddenInput.setAttribute('value', CSRF_TOKEN);
 
+            // 만약 동작 안하면 appendChild() 시도
             paymentValidForm.append(
                 orderGroupPKHiddenInput,
                 receiptIDHiddenInput,
