@@ -8,9 +8,7 @@ urlpatterns = [
     path("orderingCart/", views.orderingCart, name="ordering_cart"),
     path("payment/update/<int:pk>/", views.payment_update, name="payment_update"),
     path("payment/", views.payment_create, name="payment_create"),
-    path(
-        "payment/change-address", views.changeAddressAjax, name="payment_change-address"
-    ),
+    path("payment/change-address", views.changeAddressAjax, name="payment_change-address"),
     # path('payment/success', views.payment_success, name="payment_success"),
     path("payment/fail", views.payment_fail, name="payment_fail"),
     path("payment/valid", views.payment_valid, name="payment_valid"),
@@ -26,4 +24,7 @@ urlpatterns = [
     path("change-refund/<int:pk>", views.create_change_or_refund, name="change_refund"),
     path("payment/subscribe", views.sub_modal, name="payment_success_modal"),
     path("payment/gifttest", views.PresentTestView.as_view(), name="payment_gift_test"),
+    path("payment/addresstest", views.GiftAddressInputView.as_view(), name="ad_t"),
+    path("payment/addresscomp", views.GiftAddressInputCompleteView.as_view(), name="ad_c_t"),
+    path("payment/orderlist", views.GiftOrderlistPopup.as_view(), name="od_l"),
 ]

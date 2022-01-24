@@ -1,0 +1,17 @@
+{% extends 'orders/gift/popups/payment_gift_popup_base.html' %}
+{% load static %}
+{% block popup_title %}선물하기 주소 입력 완료{% endblock %}
+{% block popup_content %}
+<section id="gift_address_input_section">
+    <h1 class="f-subtitle flex flex-col items-center">
+        <span class=" f-title mb-10">주소 입력이 완료되었습니다.</span>
+        선물이 농가에서 출발할 때 알려드릴게요!
+    </h1>
+    <div class="flex justify-between w-full mb-10 mt-80">
+        <button class="f-secondary-button">농가 알아보기</button>
+        <button class="f-secondary-button">배송 정보 확인</button>
+    </div>
+
+    <button class="f-primary-button f-button-confirm">확인</button>
+</section>
+{% endblock %}

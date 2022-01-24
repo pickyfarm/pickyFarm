@@ -1,0 +1,35 @@
+{% extends 'orders/gift/popups/payment_gift_popup_base.html' %}
+{% load static %}
+{% block popup_title %}선물하기 주소 입력{% endblock %}
+{% block popup_content %}
+<section id="gift_address_input_section">
+    <h1 class="f-subtitle flex flex-col items-center">
+        "피키팜"님이 보내신 선물을 받기 위해<br>
+        <b>주소를 입력해주세요!</b>
+    </h1>
+    <div id="product-info-section" class="flex w-full flex-col  main-content-section">
+        <div class="flex justify-center">
+            <img src="" alt="" class="product-image">
+            <div class="flex flex-col justify-between product-info">
+                <div class="flex flex-col">
+                    <span class="f-content-label">상품 이름</span>
+                    <span class="f-content-data">4개</span>
+                </div>
+                <div class="flex items-center">
+                    <img src="" alt="" class="farmer-profile">
+                    <span class="f-desc-small">농가 이름</span>
+                </div>
+            </div>
+        </div>
+        <div id="address-input-section" class="flex flex-col items-center">
+            <h2 class="f-desc-label">받는 분 주소</h2>
+            <div class="flex w-full justify-between">
+                <input type="text" class="address-input flex-1" readonly>
+                <button class="address-find-button f-desc-small">주소 찾기</button>
+            </div>
+            <input type="text" class="address-input w-full">
+        </div>
+    </div>
+    <button class="f-primary-button f-button-confirm mt-80">확인</button>
+</section>
+{% endblock %}

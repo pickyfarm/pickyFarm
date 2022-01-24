@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block popup_title %}{% endblock %} | 피키팜</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" href="{% static 'images/mainlogo_small.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/orders/popups/order_gift_popup_base.css' %}">
+    {% block stylesheet %}
+    {% endblock stylesheet %}
+</head>
+
+<body>
+    <header class="flex">
+        <img src="{% static 'images/mainlogo_small.svg' %}" alt="피키팜 메인로고" id="main-logo" class="mx-auto">
+    </header>
+    {% block popup_content %}
+    {% endblock %}
+
+</body>
+{% block scripts %}
+{% endblock %}
+
+</html>

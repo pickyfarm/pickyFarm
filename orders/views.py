@@ -1360,3 +1360,15 @@ def sub_modal(request):
 
 class PresentTestView(TemplateView):
     template_name = "orders/payment_gift.html"
+
+
+class GiftAddressInputView(TemplateView):
+    template_name = "orders/gift/popups/payment_gift_popup_address_input.html"
+
+
+class GiftAddressInputCompleteView(TemplateView):
+    template_name = "orders/gift/popups/payment_gift_popup_address_input_complete.html"
+
+
+class GiftOrderlistPopup(TemplateView):
+    pass

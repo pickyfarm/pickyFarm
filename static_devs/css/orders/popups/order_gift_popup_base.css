@@ -1,0 +1,141 @@
+html {
+    font-size: 62.5%;
+}
+
+* {
+    color: #5c6754;
+}
+
+#main-logo {
+    width: 6.9rem;
+    margin: 5rem auto;
+}
+
+.f-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.f-subtitle {
+    font-size: 1.8rem;
+    font-weight: normal;
+}
+
+.f-primary-button {
+    font-size: 1.8rem;
+    font-weight: bold;
+
+    width: 13rem;
+    height: 3.2rem;
+    border-radius: 17.2px;
+    border: solid 1px #5c6754;
+}
+
+.f-button-confirm {
+    background-color: #5c6754;
+    color: white;
+}
+
+.f-secondary-button {
+    font-size: 1.5rem;
+    font-weight: normal;
+
+    width: 15rem;
+    height: 2.8rem;
+    border-radius: 14px;
+    border: solid 1px #586351;
+}
+
+.f-content-label {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.f-content-data {
+    font-size: 1.6rem;
+    font-weight: normal;
+}
+
+.f-desc-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.f-desc-small {
+    font-size: 1.2rem;
+    margin-left: 0.6rem;
+}
+
+.product-image {
+    width: 11.6rem;
+    height: 16rem;
+
+    border-radius: 2.1rem;
+    background-color: #ababab;
+}
+
+.farmer-profile {
+    width: 4rem;
+    height: 4rem;
+
+    border-radius: 100%;
+    background-color: #ababab;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 2rem;
+}
+
+.main-content-section {
+    margin-top: 5rem;
+}
+
+/* 주소 입력 팝업 */
+
+.product-info {
+    margin-left: 3rem;
+    margin-top: 1.5rem;
+}
+
+#address-input-section {
+    margin-top: 6rem;
+}
+
+#address-input-section h2 {
+    margin-bottom: 2rem;
+}
+
+.address-input {
+    height: 2.6rem;
+    border: solid 1px #b3b3b3;
+    padding-left: 1rem;
+    font-size: 1.2rem;
+    border-radius: 100px;
+
+    margin-bottom: 1.2rem;
+}
+
+.address-input:focus {
+    outline: none;
+    border: solid 1px #5c6754;
+}
+
+.address-find-button {
+    width: 10rem;
+    height: 2.6rem;
+    border: solid 1px #707070;
+    border-radius: 100px;
+}
+
+.mt-80 {
+    margin-top: 8rem;
+}
+
+/* 선물하기 주소 입력 완료 팝업 */
+.mb-10 {
+    margin-bottom: 1rem;
+}
