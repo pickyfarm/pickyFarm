@@ -6,6 +6,10 @@ html {
     color: #5c6754;
 }
 
+span{
+    word-break: keep-all;
+}
+
 #main-logo {
     width: 6.9rem;
     margin: 5rem auto;
@@ -124,7 +128,8 @@ section {
     border: solid 1px #5c6754;
 }
 
-.address-find-button {
+.address-find-button,
+.farmer-page-button {
     width: 10rem;
     height: 2.6rem;
     border: solid 1px #707070;
@@ -138,4 +143,45 @@ section {
 /* 선물하기 주소 입력 완료 팝업 */
 .mb-10 {
     margin-bottom: 1rem;
+}
+
+/* 주문내역 조회 팝업 */
+.deliver-status{
+    margin-bottom: 2rem;
+}
+
+
+.farmer-info{
+    margin-top: 2.3rem;
+}
+
+.farmer-info span{
+    margin-left: 1rem;
+}
+
+.receiver-info{
+    grid-template-columns: 8rem auto;
+    row-gap: 1rem;
+    grid-auto-flow: dense;
+
+    margin-top: 6rem;
+
+    word-break: keep-all;
+}
+
+.receiver-info-label{
+    grid-column: 1;
+}
+
+.receiver-info-data{
+    grid-column: 2;
+}
+
+.button-group{
+    margin-top: 7rem;
+}
+
+.f-button-signup{
+    width: 18rem;
+    margin-right: 1rem;
 }

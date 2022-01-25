@@ -1371,4 +1371,5 @@ class GiftAddressInputCompleteView(TemplateView):
 
 
 class GiftOrderlistPopup(TemplateView):
-    pass
+    template_name = "orders/gift/popups/payment_gift_popup_order_list.html"
+    

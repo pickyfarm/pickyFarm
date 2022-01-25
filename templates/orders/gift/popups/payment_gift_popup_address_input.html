@@ -24,12 +24,17 @@
         <div id="address-input-section" class="flex flex-col items-center">
             <h2 class="f-desc-label">받는 분 주소</h2>
             <div class="flex w-full justify-between">
-                <input type="text" class="address-input flex-1" readonly>
-                <button class="address-find-button f-desc-small">주소 찾기</button>
+                <input type="text" name='sigungu' class="address-input flex-1" v-model="sigungu"
+                    @click='handleAddressFindClick' readonly>
+                <button class="address-find-button f-desc-small" @click='handleAddressFindClick'>주소 찾기</button>
             </div>
-            <input type="text" class="address-input w-full">
+            <input type="text" name="detail" class="address-input w-full" v-model="detail" ref="detail">
+            <input type="hidden" name="zipCode" v-model="zipCode">
         </div>
     </div>
     <button class="f-primary-button f-button-confirm mt-80">확인</button>
 </section>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/orders/popups/payment_gift_popup_address_input.js' %}"></script>
 {% endblock %}

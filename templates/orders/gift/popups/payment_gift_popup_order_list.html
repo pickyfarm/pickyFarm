@@ -1,0 +1,41 @@
+{% extends 'orders/gift/popups/payment_gift_popup_base.html' %}
+{% load static %}
+{% block popup_title %}선물하기 주소 입력{% endblock %}
+{% block popup_content %}
+<section id="order-list-section">
+    <h1 class="f-title">상품 배송 정보 확인</h1>
+    <div id="product-info-section" class="flex w-full flex-col  main-content-section">
+        <div class="flex justify-center">
+            <img src="" alt="" class="product-image">
+            <div class="flex flex-col justify-between product-info">
+                <div class="flex flex-col">
+                    <span class="f-content-label">상품 이름 상품 이름상품 이름</span>
+                    <span class="f-content-data">4개</span>
+                </div>
+                <div class="flex items-center deliver-status">
+                    <span class="f-desc-label">배송 준비중</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between items-center farmer-info">
+            <div class="flex items-center">
+                <img src="" alt="" class="farmer-profile">
+                <span class="f-desc-label">농가 이름</span>
+            </div>
+            <button class="farmer-page-button">미니홈피 방문하기</button>
+        </div>
+        <div class="receiver-info grid mx-auto">
+            <span class="receiver-info-label f-content-label">수령인</span>
+            <span class="receiver-info-label f-content-label">전화번호</span>
+            <span class="receiver-info-label f-content-label">주소</span>
+            <span class="receiver-info-data f-content-data">수령인이름1234</span>
+            <span class="receiver-info-data f-content-data">01012334567</span>
+            <span class="receiver-info-data f-content-data">서울시 무슨구 무슨동 어쩌구 저쩌구</span>
+        </div>
+    </div>
+    <div class="flex justify-between button-group">
+        <button class="f-primary-button f-button-signup">회원가입 하기</button>
+        <button class="f-primary-button f-button-confirm">확인</button>
+    </div>
+</section>
+{% endblock %}
