@@ -1241,6 +1241,24 @@ def delivery_address_update(request):
 
 
 
+def calculate_delivery_fee(request):
+    """선물하기 정보 입력 시 배송비 계산 함수"""
+    if request.method == "POST":
+        farmer_zipcode = int(request.POST.get("farmerZipcode", 1))
+        friend_zipcode = int(request.POST.get("friendZipcode", 1))
+        product_pk = int(request.POST.get("productPK", None))
+        quantity = int(request.POST.get("productPK", 1))
+
+        product = Product.objects.get(pk=product_pk)
+        total_delivery_fee = product.get_total_delivery_fee(quantity, friend_zipcode)
+
+        data = {
+            "delivery_fee": total_delivery_fee,
+        }
+
+        return JsonResponse(data)
+
+
 ################
 # 결제 완료 페이지 - 구독 독려 모달 Ajax View
 ################
