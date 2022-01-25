@@ -2,6 +2,8 @@ from django.db import models
 from core.models import CompressedImageField
 from core import url_encryption
 from django.utils import timezone
+from kakaomessages.views import send_kakao_message
+from kakaomessages.template import templateIdList
 
 
 # Create your models here.
@@ -283,6 +285,57 @@ class Order_Detail(models.Model):
 
     def is_sufficient_stock(self):
         return self.product.is_sufficient_stock(self.quantity)
+
+    def send_kakao_msg_payment_complete_for_consumer(self, phone_number_consumer, is_user, is_gift):
+        """소비자에게 결제 완료 메시지 보내기"""
+        """회원/비회원 - 일반결제/선물하기 구분"""
+
+        kakao_msg_quantity = (str)(self.quantity) + "개"
+
+        farmer = self.product.farmer
+
+        args_consumer = {
+            "#{farm_name}": farmer.farm_name,
+            "#{order_detail_number}": self.order_management_number,
+            "#{order_detail_title}": self.product.title,
+            "#{farmer_nickname}": farmer.user.nickname,
+            "#{option_name}": self.product.option_name,
+            "#{quantity}": kakao_msg_quantity,
+            "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}",
+        }
+
+        # 회원인 경우
+        if is_user == True:
+            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
+        # 비회원인 경우
+        else:
+            url_encoded_order_group_number = url_encryption.encode_string_to_url(self.order_group.order_management_number)
+            args_consumer["#{link_2}"] = f"https://www.pickyfarm.com/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
+
+        # 선물하기 결제인 경우
+        if is_gift == True:
+            # 주소 입력된 선물하기 주문인 경우
+            if self.status == 'payment_complete':
+                send_kakao_message(
+                    phone_number_consumer,
+                    templateIdList["#####템플릿 입력 필요#####"],
+                    args_consumer,
+                )
+            # 주소 미입력된 선물하기 주문인 경우
+            elif self.status == 'payment_complete_no_address':
+                send_kakao_message(
+                    phone_number_consumer,
+                    templateIdList["#####템플릿 입력 필요#####"],
+                    args_consumer,
+                )
+            
+        else:
+            send_kakao_message(
+                phone_number_consumer,
+                templateIdList["payment_complete"],
+                args_consumer,
+            )
+
 
 
 class RefundExchange(models.Model):
