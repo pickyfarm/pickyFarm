@@ -28,6 +28,11 @@ img {
     font-weight: bold;
 }
 
+.section-header{
+    font-weight: bold;
+}
+
+
 #kakao-message-section {
     box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
     border: solid 1px rgba(0, 0, 0, 0);
@@ -45,6 +50,11 @@ img {
 
 #product-img {
     background-color: #aaaea6;
+
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    
 }
 
 #divider-h {
@@ -139,6 +149,26 @@ input[type='number']::-webkit-outer-spin-button {
     }
 }
 
+/* 공통 - 모바일 */
+@media screen and (max-width: 768px) {
+    #payment-app{
+        padding: 2.5rem;
+    }
+
+    .section-header{
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .divider {
+        margin-left: 1.5rem;
+    }
+
+    .phonenum-address, .phonenum-only{
+        padding: 0 1rem;
+    }
+}
+
 /* 메인 타이틀 + 주문 상품 정보 섹션 PC */
 @media screen and (min-width: 769px) {
     #title img {
@@ -185,12 +215,7 @@ input[type='number']::-webkit-outer-spin-button {
         margin-left: 56px;
     }
 
-    #product-img {
-        width: 72px;
-        height: 72px;
-
-        border-radius: 16px;
-    }
+    
 
     #main-title {
         font-weight: bold;
@@ -203,6 +228,76 @@ input[type='number']::-webkit-outer-spin-button {
     #product-price {
         margin-left: 80px;
     }
+}
+
+/* 메인 타이틀 + 주문 상품 정보 섹션 모바일 */
+@media screen and (max-width:768px) {
+    #title{
+        font-size: 1.8rem;
+        margin-bottom: 4rem;
+    }
+
+    #title img{
+        width: 1.9rem;
+        margin: 1rem;
+    }
+
+    #kakao-message-section{
+        flex-direction: column;
+        padding: 2.5rem;
+    }
+
+    #gift-description{
+        gap: 1.5rem;
+    }
+
+    .desc-title, #gift-message-image h2{
+        font-size: 1.2rem;
+    }
+
+    .desc-detail{
+        font-size: 1.1rem
+    }
+
+    #gift-message-image{
+        margin-top: 1.5rem;
+    }
+
+    #gift-message-image img{
+        width: 100%;
+    }
+    
+
+    #product-info-section{
+        width: 100%;
+
+        margin-top: 4rem;
+    }
+
+
+    .product-info-wrap{
+        flex-direction: column;
+        gap: 1rem;
+        margin-left: 1rem;
+    }
+
+    .product-info-wrap span{
+        font-size: 1.5rem;
+    }
+
+    #main-title{
+        font-weight: bold;
+    }
+
+    #divider-h{
+        margin: 0 1rem;
+    }
+
+    #product-weight-price{
+        justify-content: space-between;
+    }
+
+
 }
 
 /* 친구정보/상세내역 섹션 PC */
@@ -336,6 +431,60 @@ input[type='number']::-webkit-outer-spin-button {
         margin-top: 15px;
     }
 }
+
+/* 친구정보/상세내역 섹션 모바일 */
+@media screen and (max-width:768px) {
+    #friend-info-container{
+        margin-top: 3rem;
+    }
+
+    .friend-info-row{
+        grid-template-columns: 7.5rem 8.5rem auto;
+        column-gap: 1rem;
+    }
+
+    .profile{
+        grid-column: 1;
+        grid-row: 1 / 3;
+        justify-self: center;
+    }
+
+    .profile-index{
+        margin-top: 1rem;
+    }
+
+    .phonenum-address, .phonenum-only{
+        height: 2rem;
+        line-height: 2rem;
+    }
+
+    .quantity-spinner{
+        grid-column: 2;
+        grid-row: 2;
+
+        height: 2rem;
+
+        justify-self: flex-start;
+    }
+
+    .spinner{
+        width: 2rem;
+        height: 2rem;
+
+        line-height: 2rem;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .product-quantity{
+        width: 2rem;
+    }
+
+    .local-total-price{
+        font-size: 1.2rem;
+    }
+}
+
 
 /* 결제 내역 + 결제 수단 + 동의 섹션 - PC */
 @media screen and (min-width: 769px) {
