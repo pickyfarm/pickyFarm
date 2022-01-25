@@ -1397,23 +1397,52 @@ def payment_valid_gift(request):
             )
         
 
-    if (verify_result["data"]["price"] == total_price and verify_result["data"]["status"] == 1):
+    try:
 
-        phone_number_consumer = order_group.orderer_phone_number
+        if (verify_result["data"]["price"] == total_price and verify_result["data"]["status"] == 1):
 
-        for detail in order_details:
+            phone_number_consumer = order_group.orderer_phone_number
 
-            product = detail.product
-            # order_detail 재고 차감
-            product.sold(detail.quantity)
-            # order_detail status - payment_complete로 변경
-            detail.status = "payment_complete"
-            detail.payment_status = "incoming"  # 정산상태 정산예정으로 변경
-            detail.product.save()
-            detail.save()
+            for detail in order_details:
 
-            # 소비자 결제 완료 알림톡 전송
-            detail.send_kakao_msg_payment_complete_for_consumer(phone_number_consumer, is_user=True, is_gift=True)
+                product = detail.product
+                # order_detail 재고 차감
+                product.sold(detail.quantity)
+                # order_detail status - payment_complete로 변경
+                detail.status = "payment_complete"
+                detail.payment_status = "incoming"  # 정산상태 정산예정으로 변경
+                detail.product.save()
+                detail.save()
+
+                # 결제자 결제 완료 알림톡 전송
+                detail.send_kakao_msg_payment_complete_for_consumer(phone_number_consumer, is_user=True, is_gift=True)
+
+                # 선물 받는이 선물 알림톡 전송
+                detail.send_kakao_msg_gift_for_receiver()
+
+                # 농가 주문 접수 알림
+                # 주소입력된 경우 
+                if detail.status == 'payment_complete':
+                    detail.send_kakao_msg_order_for_farmer()
+
+
+            order_group.status = "payment_complete"
+            order_group.save()
+    except Exception as e:
+        print("[ERROR] ", e)
+        return redirect(reverse(previous_page))
+
+    ctx = {
+            "order_group": order_group,
+    }
+
 
             
+            
+
+
+
+
+
+
 
