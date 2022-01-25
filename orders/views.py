@@ -1206,6 +1206,40 @@ def update_jeju_mountain_delivery_fee(order_group_pk):
     order_details = Order_Detail.filter(order_group__pk=order_group_pk)
     farmers = list(set(map(lambda u: u.product.farmer, order_details)))
 
+def delivery_address_update(request):
+    """선물하기 배송 주소 업데이트 함수"""
+    """추가 배송지 여부 판별 후 파머 알림톡 전송"""
+    order_management_number = url_encryption.decode_url_string(request.GET.get("odmn"))
+    order_detail = Order_Detail.objects.get(order_management_number=order_management_number)
+    if request.method == 'GET':
+        if order_detail.order_group.order_type == "gift":
+            ctx = {
+                "order_detail": order_detail
+            }
+            return render(request, 'TEMPLATE URL', ctx)
+        else:
+            return redirect(reverse("core:main"))
+    
+    elif request.method == 'POST':
+        rev_address = request.POST.get("rev_address")
+        zip_code = int(request.POST.get("zipCode", 1))
+        fee = calculate_jeju_delivery_fee(zip_code, order_detail.product)
+        default_fee = order_detail.product.default_delivery_fee
+        if fee != default_fee:
+            # Error!
+            return redirect(reverse("core:main"))
+        else:
+            order_detail.rev_address_gift = rev_address
+            order_detail.save()
+            order_group = order_detail.order_group
+            farmer = order_detail.product.farmer
+            farmer.send_kakao_payment_valid(order_group, farmer)
+
+        
+
+
+
+
 
 ################
 # 결제 완료 페이지 - 구독 독려 모달 Ajax View
