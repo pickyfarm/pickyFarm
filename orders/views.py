@@ -441,6 +441,73 @@ def payment_update(request, pk):
         return JsonResponse(res_data)
 
 
+@require_POST
+@transaction.atomic
+def payment_update_gift(request, orderGroupPk):
+    """선물하기 결제하기 버튼 클릭"""
+
+    # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
+    order_group = Order_Group.objects.get(pk=orderGroupPk)
+
+    # [PROCESS 2] Form에서 데이터 받아오기
+    total_product_price = int(request.POST.get("totalProductPrice"))
+    total_delivery_fee = int(request.POST.get("totalDeliveryFee"))
+    total_quantity = int(request.POST.get("totalQuantity"))
+    friends = request.POST.get("friends")
+    product = request.POST.get("product") # 추가해야할듯?
+
+    if request.method == "POST":
+        valid = True
+
+        # [PROCESS 3] 재고 확인
+        if total_quantity > product.stock:
+            valid = False
+            order_group.set_order_state("error_stock")
+            data = {
+                "valid": valid,
+                "error_type": "error_stock",
+            }
+            return JsonResponse(data)
+
+        # [PROCESS 4] 가격 검증
+        if order_group.total_price != (total_product_price+total_delivery_fee):
+            valid = False
+            order_group.set_order_state("error_price_match")
+            data = {
+                "valid": valid, 
+                "error_type": "error_price_match",
+            }
+            return JsonResponse(data)
+
+        # [PROCESS 5] 재고 및 가격 검증 성공의 경우
+        if valid is True:
+            # [PROCESS 5-1] order detail 생성 후 전달받은 정보 저장
+            for friend in friends:
+                Order_Detail.objects.create(
+                    quantity = friend.quantity,
+                    total_price = friend.totalProductPrice + friend.deliveryFee,
+                    rev_name_gift = friend.name,
+                    rev_address_gift = friend.address,
+                    rev_phone_number_gift = friend.phoneNum,
+                    gift_message = friend.giftMessage ,
+                    product = product,
+                    order_group = order_group
+                )
+            # [PROCESS 5-2] order group 정보 업데이트
+            order_group.total_price = total_product_price+total_delivery_fee
+            order_group.total_quantity = total_quantity
+            order_group.save()
+
+            # [PROCESS 5-3] 상품 재고 차감
+            product.sold(total_quantity)
+
+            data = {
+                "valid": valid,
+            }
+            return JsonResponse(data)
+
+
+
 # @login_required
 @transaction.atomic
 def payment_fail(request):
