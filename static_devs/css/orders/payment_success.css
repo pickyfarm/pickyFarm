@@ -36,6 +36,7 @@
 }
 
 .order-payment-success-information-list-left-section {
+    width: 72px;
     margin-right: 25px;
 }
 
@@ -45,6 +46,11 @@
     height: 72px;
     border-radius: 20px;
     background-color: #b3b3b3;
+}
+
+.order-payment-success-friend-image{
+    width: 40px;
+    height: 40px;    
 }
 
 .order-payment-success-information-name {

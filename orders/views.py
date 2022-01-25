@@ -1359,7 +1359,7 @@ def sub_modal(request):
 
 
 class PresentTestView(TemplateView):
-    template_name = "orders/payment_gift.html"
+    template_name = "orders/gift/payment_gift_success.html"
 
 
 class GiftAddressInputView(TemplateView):
