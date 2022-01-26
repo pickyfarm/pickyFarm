@@ -140,7 +140,35 @@ subBtn.addEventListener('click', function () {
 var cartInBtn = document.getElementById('cart');
 cartInBtn.addEventListener('click', function () {
     cartIn(this.getAttribute('name'));
-}); // 바로 구매하기
+});
+
+// 선물하기
+giftButton.addEventListener('click', function () {
+    const productData = {
+        quantity: quantityNum.innerText,
+        product_pk: this.getAttribute('name'),
+        csrfmiddlewaretoken: csrftoken,
+    };
+
+    const form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', giftURL);
+
+    for (const key in productData) {
+        const hiddenField = document.createElement('input');
+        hiddenField.setAttribute('type', 'hidden');
+        hiddenField.setAttribute('name', key);
+        hiddenField.setAttribute('value', productData[key]);
+
+        form.appendChild(hiddenField);
+    }
+
+    console.log(form);
+
+    form.submit();
+});
+
+// 바로 구매하기
 
 purchaseBtn.addEventListener('click', function () {
     var pk = this.getAttribute('name');
@@ -173,7 +201,7 @@ purchaseBtn.addEventListener('click', function () {
 
     document.body.appendChild(form);
     form.submit();
-}); 
+});
 
 // // 댓글 작성 버튼 toggle
 // var recomments = document.querySelectorAll('.recomments');
@@ -192,7 +220,7 @@ purchaseBtn.addEventListener('click', function () {
 //     recomment_forms.forEach(function (form) {
 //         form.scrollBy(0, 10000);
 //     });
-// }); 
+// });
 
 // QnA Pagination
 

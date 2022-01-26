@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 from .forms import Order_Group_Form
@@ -173,7 +173,12 @@ def payment_create(request):
     # 비회원인 경우 21.1.9 기윤 - 비회원 구매 위한 전달 파라미터 추가
     else:
         is_user = False
-        user_ctx = {"account_name": "", "phone_number": "", "default_address": "", "addresses": ""}
+        user_ctx = {
+            "account_name": "",
+            "phone_number": "",
+            "default_address": "",
+            "addresses": "",
+        }
 
     if request.method == "POST":
         form = Order_Group_Form()
@@ -915,7 +920,9 @@ def vbank_progess(request):
 
             # 소비자 결제 완료 카카오 알림톡 전송
             send_kakao_message(
-                order_group.orderer_phone_number, templateIdList["vbank_info"], args_kakao
+                order_group.orderer_phone_number,
+                templateIdList["vbank_info"],
+                args_kakao,
             )
 
             ctx = {
@@ -1268,3 +1275,20 @@ def get_farmers_info(order_group):
         "farmers_info": farmers_info,
         "farmers_info_len": farmers_info_len,
     }
+
+
+class PresentTestView(TemplateView):
+    template_name = "orders/payment_gift.html"
+
+
+class GiftAddressInputView(TemplateView):
+    template_name = "orders/gift/popups/payment_gift_popup_address_input.html"
+
+
+class GiftAddressInputCompleteView(TemplateView):
+    template_name = "orders/gift/popups/payment_gift_popup_address_input_complete.html"
+
+
+class GiftOrderlistPopup(TemplateView):
+    template_name = "orders/gift/popups/payment_gift_popup_order_list.html"
+    

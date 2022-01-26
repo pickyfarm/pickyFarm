@@ -32,6 +32,10 @@
     .order-payment-success-information-list-wrap {
         margin: 1rem;
     }
+
+    .friend-info-wrap{
+        height: 9rem;
+    }
     .order-payment-success-information-list {
         height: 7.2rem;
         display: grid;
@@ -44,12 +48,22 @@
         margin: 0;
         grid-area: img;
     }
+    .friend-index{
+        margin-top: 1rem;
+    }
     .order-payment-success-information-image {
         border-radius: 1rem;
     }
-    .order-payment-success-information-name,
+    .order-payment-success-information-name{
+        font-size: 1.5rem;
+        display: block !important;
+    }
     .order-payment-success-information-description-bottom-wrap {
         display: none;
+    }
+    .friend-address{
+        display: block;
+        margin-top: 0.5rem;
     }
     .order-payment-success-information-list-right-section {
         margin-top: 0.75rem;

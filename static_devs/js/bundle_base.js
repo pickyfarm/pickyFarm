@@ -10,6 +10,21 @@ function getCookie(name) {
     return value ? value[2] : null;
 }
 
+function addCookie(name, id) {
+    var value = getCookie(name);
+    if (value && value != id) {
+        var itemArray = value.split(',');
+        if (!itemArray.includes(id)) { // 중복 제거
+            itemArray.push(id);
+            value = itemArray.join(',');
+            setCookie(name, value);
+        }
+    }
+    else {
+        setCookie(name, id);
+    }
+  }
+
 function deleteCookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
@@ -161,6 +176,7 @@ const subscribeModalMessage = (
 };
 
 const cartIn = (pk) => {
+    addCookie('cart_list', pk)
     $.ajax({
         type: 'POST',
         url: '/user/cartIn/',
@@ -173,7 +189,7 @@ const cartIn = (pk) => {
             shootToastMessage(response.message, 2);
         },
         error: function (request, status, error) {
-            shootToastMessage('로그인이 필요합니다.', 2, 'error');
+            shootToastMessage('관리자에게 문의하세요.', 2, 'error');
         },
     });
 };

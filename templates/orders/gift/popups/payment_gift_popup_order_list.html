@@ -1,0 +1,48 @@
+{% extends 'orders/gift/popups/payment_gift_popup_base.html' %}
+{% load static %}
+{% block popup_title %}상품 배송 정보 확인{% endblock %}
+{% block popup_content %}
+
+
+{% with farmer=order_detail.product.farmer %}
+<section id="order-list-section">
+    <h1 class="f-title">상품 배송 정보 확인</h1>
+    <div id="product-info-section" class="flex w-full flex-col  main-content-section">
+        <div class="flex justify-center">
+            <img src="" alt="" class="product-image">
+            <div class="flex flex-col justify-between product-info">
+                <div class="flex flex-col">
+                    <span class="f-content-label">{{order_detail.product.title}}</span>
+                    <span class="f-content-data">{{order_detail.quantity}}개</span>
+                </div>
+                <div class="flex items-center deliver-status">
+                    <span class="f-desc-label">{{order_detail.status}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between items-center farmer-info">
+            <div class="flex items-center">
+                <img src="" alt="" class="farmer-profile">
+                <span class="f-desc-label">{{farmer.farm_name}}</span>
+            </div>
+            <button class="farmer-page-button" onclick="location.href = `{% url 'farmers:farmer_detail' farmer.pk %}`">
+                미니홈피 방문하기
+            </button>
+        </div>
+        <div class="receiver-info grid mx-auto">
+            <span class="receiver-info-label f-content-label">수령인</span>
+            <span class="receiver-info-label f-content-label">전화번호</span>
+            <span class="receiver-info-label f-content-label">주소</span>
+            <span class="receiver-info-data f-content-data">{{order_detail.rev_name_gift}}</span>
+            <span class="receiver-info-data f-content-data">{{order_detail.rev_phone_number_gift}}</span>
+            <span class="receiver-info-data f-content-data">{{order_detail.rev_address_gift}}</span>
+        </div>
+    </div>
+    <div class="flex justify-between button-group">
+        <button class="f-primary-button f-button-signup" onclick="location.href = `{% url 'users:signup' %}`">회원가입
+            하기</button>
+        <button class="f-primary-button f-button-confirm" onclick="location.href = `{% url 'core:main' %}`">확인</button>
+    </div>
+</section>
+{% endwith %}
+{% endblock %}

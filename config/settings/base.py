@@ -14,7 +14,7 @@ if not os.path.exists(LOG_DIR):
     LOG_DIR = os.path.join(BASE_DIR, ".log")
     os.makedirs(LOG_DIR, exist_ok=True)
 
-subprocess.call(["chmod", "755", LOG_DIR])
+# subprocess.call(["chmod", "755", LOG_DIR])
 
 LOGGING = {
     "version": 1,

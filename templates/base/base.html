@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block meta_description %}{% endblock %}">
-    <meta name="keywords" content="못난이 농산물 직거래,산지직송 농산물,못난이 직거래,가정용 과일,가성비 농산물,농산물 직거래,농산물 파는 곳,농산물 시장,농산물 장터,지역 특산물,{% block meta_keyword%}{% endblock %}">
+    <meta name="keywords"
+        content="못난이 농산물 직거래,산지직송 농산물,못난이 직거래,가정용 과일,가성비 농산물,농산물 직거래,농산물 파는 곳,농산물 시장,농산물 장터,지역 특산물,{% block meta_keyword%}{% endblock %}">
     <link rel="shortcut icon" href="https://www.pickyfarm.com/static/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="{% static 'images/mainlogo_small.svg' %}">
     <meta property='og:url' content="{% block og_url %}{% endblock %}">
@@ -16,7 +17,8 @@
     <meta property='og:description' content='{% block og_desc %}{% endblock %}'>
     <meta property='og:image' content='{% block og_image %}{% endblock %}'>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
     {% block stylesheet %}
     {% endblock stylesheet %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -25,6 +27,7 @@
     <script defer src="{% static 'js/bundle_base.js' %}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script defer src="{% static 'js/base/addressHandler.js' %}"></script>
     <!-- <script defer src="{% static 'js/base/toastMessage.js' %}"></script>
     <script defer src="{% static 'js/base/modalMessage.js' %}"></script>
     <script defer src="{% static 'js/base/cartIn.js' %}"></script>
@@ -35,8 +38,10 @@
     <script defer src="{% static 'js/base/prohibitMobile.js' %}"></script> -->
 
 
-    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+    <link rel="stylesheet" type="text/css" charset="UTF-8"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
     <link rel="stylesheet" href="{% static 'css/base/base_style.css' %}">
 
     {% block auth_stylesheet %}
