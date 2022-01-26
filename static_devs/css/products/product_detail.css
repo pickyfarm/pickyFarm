@@ -358,73 +358,43 @@
     color: #000000;
 }
 
-#wish {
-    font-size: 15px;
-    font-weight: bold;
-    font-stretch: normal;
+#wish, #cart {
+    width: 55px;
+    height: 55px;
 
-    font-style: normal;
-    line-height: 1.04;
-    letter-spacing: normal;
-    text-align: left;
-    color: #5c6754;
-    padding: 16.5px 20px 16.7px 20px;
     border-radius: 27.6px;
     border: solid 3px #5c6754;
     cursor: pointer;
 }
 
-#wish:hover {
-    font-size: 15px;
-    font-weight: bold;
-    line-height: 1.04;
-    text-align: left;
-    color: #ffffff;
-    background-color: #5c6754;
-    padding: 16.5px 20px 16.7px 20px;
-    border-radius: 27.6px;
-    border: solid 3px #5c6754;
-    transition: ease-in;
-    cursor: pointer;
+.svg-buttons:hover{
+    filter: hue-rotate(90deg);
 }
 
-#cart {
-    padding: 16.5px 14.5px 16.7px 15.5px;
-    border-radius: 27.6px;
-    border: solid 3px #5c6754;
-    font-size: 15px;
-    font-weight: bold;
-    line-height: 1.04;
-    text-align: left;
-    color: #5c6754;
-    cursor: pointer;
-}
 
-#cart:hover {
-    padding: 16.5px 14.5px 16.7px 15.5px;
-    border-radius: 27.6px;
-    border: solid 3px #5c6754;
-    font-size: 15px;
-    font-weight: bold;
-    line-height: 1.04;
-    text-align: left;
-    color: #ffffff;
-    background-color: #5c6754;
-    transition: ease-in;
-    cursor: pointer;
-}
 
-#purchase {
+#purchase, #gift {
+    width: 180px;
+    height: 55px;
+
     font-size: 20px;
     font-weight: bold;
-    line-height: 0.9;
-    text-align: left;
+    line-height: 45px;
+    text-align: center;
     color: #ffffff;
-    padding: 15px 55px 12.7px 58px;
+
     border-radius: 27.6px;
     border: solid 3px #5c6754;
     background-color: #5c6754;
+
     cursor: pointer;
+
+    margin-left: 20px;
+}
+
+#gift{
+    background-color: white;
+    color: #5c6754;
 }
 
 #logo {

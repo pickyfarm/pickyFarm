@@ -264,48 +264,32 @@
         margin: 0;
         margin-left: 0.35rem;
     }
-    #wish,
-    #cart {
-        height: 3rem;
-        padding: 0.6rem 1.2rem;
-        border-radius: 1.5rem;
-        border: solid 0.2rem var(--dark-sage);
+
+    .svg-buttons{
+        width: 2rem;
+    }
+
+    #wish, #cart{
+        height: 3.4rem;
+        width: 3.4rem;
+        border: 3px solid #5c6754;
+        border-radius: 100%;
+    }
+    #purchase, #gift {
+        width: 10rem;
+        height: 3.4rem;
+
+        border: 3px solid #5c6754;
+        border-radius: 100px;
+
+        background-color: #5c6754;
+        color: white;
+
+        font-weight: bold;
         font-size: 1.2rem;
-        font-weight: normal;
-        line-height: 1;
         text-align: center;
-    }
-    #wish:hover,
-    #cart:hover {
-        height: 3rem;
-        padding: 0.6rem 1.2rem;
-        border-radius: 1.5rem;
-        border: solid 0.2rem var(--dark-sage);
-        font-size: 1.2rem;
-        font-weight: normal;
-        line-height: 1;
-        text-align: center;
-        background-color: #fff;
-        color: #5c6754;
-    }
-    #wish {
-        width: 6.9rem;
-    }
-    #cart {
-        width: 10.2rem;
-        margin-left: 1.2rem;
-        margin-right: 0;
-    }
-    #purchase {
-        width: 10.3rem;
-        height: 3rem;
-        padding: 0.55rem 1.2rem;
-        border-radius: 1.5rem;
-        font-size: 1.2rem;
-        font-weight: normal;
-        line-height: 1;
-        text-align: center;
-        margin-left: auto;
+        line-height: 3rem;
+
     }
     /* 상품 상세 정보 */
     #info_detail {

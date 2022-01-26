@@ -127,7 +127,8 @@
                 </div> {% endcomment %}
             </div>
             <div id="product-option-section" class="border-b flex py-3">
-                <select name="product-option" id="product-option" class="w-full" onchange="if(this.value) location.href=this.value;">
+                <select name="product-option" id="product-option" class="w-full"
+                    onchange="if(this.value) location.href=this.value;">
                     {% for sibling in siblings %}
                     <option value="{% url 'products:product_detail' sibling.pk %}" {% if sibling.pk == product_pk %}selected{% endif %}>{{sibling.option_name}}</option>
                     {% endfor %}
@@ -146,10 +147,15 @@
                 <div id="total_price">{{product.sell_price}}</div>
                 <div id="won" class="mb-2 ml-2">원</div>
             </div>
-            <div id="buttons" class="flex flex-rows">
-                <div id="wish" class="transition_element">찜하기</div>
+            <div id="buttons" class="flex flex-row">
+                <div id="wish" class="transition_element flex justify-center items-center">
+                    <img src="{% static 'images/like.svg' %}" alt="찜하기" class="svg-buttons">
+                </div>
 
-                <div id="cart" name="{{product_pk}}" class="mr-12 ml-3 transition_element">장바구니 담기</div>
+                <div id="cart" name="{{product_pk}}" class="mr-auto ml-3 transition_element flex justify-center items-center">
+                    <img src="{% static 'images/cart.svg' %}" alt="장바구니 담기" class="svg-buttons">
+                </div>
+                <div id="gift" name="{{product.gift}}">선물하기</div>
                 <div id="purchase" name="{{product_pk}}">바로 구매하기</div>
             </div>
         </div>
