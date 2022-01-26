@@ -1430,7 +1430,9 @@ def payment_valid_gift(request):
             order_group.save()
     except Exception as e:
         print("[ERROR] ", e)
-        return redirect(reverse(previous_page))
+        return redirect(
+            f'{reverse("orders:payment_fail")}?errorType=error_validk&orderGroupPK={order_group_pk}'
+        )
 
     ctx = {
             "order_group": order_group,
