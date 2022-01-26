@@ -52,6 +52,19 @@ const purchaseApp = new Vue({
         },
     },
 
+    watch: {
+        friends: {
+            handler(val, oldVal) {
+                if (this.sumOfQuantity > PRODUCT_STOCK) {
+                    alert(
+                        `더 이상 상품을 담을 수 없습니다. 남은 재고: ${PRODUCT_STOCK}개`
+                    );
+                }
+            },
+            deep: true,
+        },
+    },
+
     methods: {
         addFriend: function () {
             this.friends.push({
@@ -76,6 +89,14 @@ const purchaseApp = new Vue({
             this.friends = this.friends.filter((el) => el.infoScope);
             e.preventDefault();
 
+            if (this.sumOfQuantity > PRODUCT_STOCK) {
+                alert(
+                    `현재 재고량보다 많은 수량의 상품을 담았습니다! 현재 재고: ${PRODUCT_STOCK}개`
+                );
+
+                return;
+            }
+
             bootpayHandler(this);
         },
         handleAddressFindButtonClick: function (idx) {
@@ -84,22 +105,27 @@ const purchaseApp = new Vue({
                 this.friends[idx].address.sigungu = data.address;
                 this.friends[idx].address.zipCode = data.zipCode;
 
-                this.friends[idx].deliveryFee = getDeliveryFeeByZipCode(
+                getDeliveryFeeByZipCode(
                     FARMER_ZIPCODE,
                     this.friends[idx].address.zipCode,
                     PRODUCT_PK,
-                    this.friends[idx].quantity
+                    this.friends[idx].quantity,
+                    idx
                 );
             });
+        },
+        setFriendDeliveryFee: function (idx, deliveryFee) {
+            this.friends[idx].deliveryFee = deliveryFee;
         },
     },
 });
 
 function getDeliveryFeeByZipCode(
-    farmerZipCode,
-    consumerZipcode,
+    farmerZipcode,
+    friendZipcode,
     productPK,
-    quantity
+    quantity,
+    idx
 ) {
     /* 서버에 AJAX 보내서 계산된 배송비 업데이트 할 것 */
     let deliveryFee = 0;
@@ -107,14 +133,17 @@ function getDeliveryFeeByZipCode(
         type: 'POST',
         url: CALCULATE_DELIVERY_FEE_URL,
         data: {
-            farmerZipCode,
-            consumerZipcode,
+            farmerZipcode,
+            friendZipcode,
             productPK,
             quantity,
         },
         dataType: 'json',
         success: (res) => {
-            deliveryFee = parseInt(res['delivery_fee']);
+            purchaseApp.setFriendDeliveryFee(
+                idx,
+                parseInt(res['delivery_fee'])
+            );
         },
     });
 
