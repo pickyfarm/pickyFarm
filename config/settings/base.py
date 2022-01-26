@@ -201,9 +201,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Cron 
 CRONJOBS = [
-    ('*/1 * * * *', 'orders.cron.auto_cancel_gift', '>> /tmp/log/auto_cancel_gift_cron.log')
+    ('0 * * * *', 'orders.cron.auto_cancel_gift', '>> /tmp/log/auto_cancel_gift_cron.log')
 ]
-CRONTAB_DJANGO_SETTINGS_MODULE = 'config.settings.debug'
 
 
 # Internationalization
