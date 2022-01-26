@@ -469,21 +469,21 @@ def payment_update_gift(request, orderGroupPk):
             }
             return JsonResponse(data)
 
-        # [PROCESS 4] 가격 검증
-        if order_group.total_price != (total_product_price + total_delivery_fee):
-            valid = False
-            order_group.set_order_state("error_price_match")
-            data = {
-                "valid": valid,
-                "error_type": "error_price_match",
-            }
-            return JsonResponse(data)
+        # # [PROCESS 4] 가격 검증
+        # if order_group.total_price != (total_product_price + total_delivery_fee):
+        #     valid = False
+        #     order_group.set_order_state("error_price_match")
+        #     data = {
+        #         "valid": valid,
+        #         "error_type": "error_price_match",
+        #     }
+        #     return JsonResponse(data)
 
         # [PROCESS 5] 재고 및 가격 검증 성공의 경우
         if valid is True:
             # [PROCESS 5-1] order detail 생성 후 전달받은 정보 저장
             for friend in friends:
-                Order_Detail.objects.create(
+                order_detail = Order_Detail.objects.create(
                     quantity=friend.quantity,
                     total_price=friend.totalProductPrice + friend.deliveryFee,
                     rev_name_gift=friend.name,
@@ -493,6 +493,8 @@ def payment_update_gift(request, orderGroupPk):
                     product=product,
                     order_group=order_group,
                 )
+                order_detail.create_order_detail_management_number(product.farmer.user.username)
+                order_detail.save()
             # [PROCESS 5-2] order group 정보 업데이트
             order_group.total_price = total_product_price + total_delivery_fee
             order_group.total_quantity = total_quantity
