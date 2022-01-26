@@ -1,7 +1,10 @@
+from turtle import title
 from django.db import models
 from core.models import CompressedImageField
 from core import url_encryption
 from django.utils import timezone
+from kakaomessages.views import send_kakao_message
+from kakaomessages.template import templateIdList
 
 
 # Create your models here.
@@ -138,6 +141,19 @@ class Order_Group(models.Model):
 
         self.order_management_number = str(year) + month + day + "_PF" + str(self.pk)
 
+    def set_init_order_group_info(self, order_type, consumer_type, user):
+        """결제하기 초기 생성 order_group 세팅"""
+        """order group 생성 및 save() 후에 결제 타입, 결제자정보, 주문관리번호 생성 """
+        '''order_type = ["normal", "gift"] / consummer_type = ["user", "non_user"] '''
+        self.order_type = order_type
+        self.consumer_type = consumer_type
+        self.orderer_name = user.account_name
+        self.orderer_phone_number = user.phone_number
+        
+        # order_pk 기반 주문관리번호 생성 - db에 pk생성 후 (save())후 메소드 호출해야함
+        self.order_management_number = self.create_order_group_management_number()
+
+
 
 class Order_Detail(models.Model):
 
@@ -270,6 +286,121 @@ class Order_Detail(models.Model):
 
     def is_sufficient_stock(self):
         return self.product.is_sufficient_stock(self.quantity)
+
+    def send_kakao_msg_payment_complete_for_consumer(self, phone_number_consumer, is_user, is_gift):
+        """소비자에게 결제 완료 메시지 전송"""
+        """회원/비회원 - 일반결제/선물하기 구분"""
+
+        kakao_msg_quantity = (str)(self.quantity) + "개"
+
+        farmer = self.product.farmer
+
+        args_consumer = {
+            "#{farm_name}": farmer.farm_name,
+            "#{order_detail_number}": self.order_management_number,
+            "#{order_detail_title}": self.product.title,
+            "#{farmer_nickname}": farmer.user.nickname,
+            "#{option_name}": self.product.option_name,
+            "#{quantity}": kakao_msg_quantity,
+            "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}",
+        }
+
+        # 회원인 경우
+        if is_user == True:
+            args_consumer["#{link_2}"] = "www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
+        # 비회원인 경우
+        else:
+            url_encoded_order_group_number = url_encryption.encode_string_to_url(self.order_group.order_management_number)
+            args_consumer["#{link_2}"] = f"https://www.pickyfarm.com/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
+
+        # 선물하기 결제인 경우
+        if is_gift == True:
+            # 주소 입력된 선물하기 주문인 경우
+            if self.status == 'payment_complete':
+                send_kakao_message(
+                    phone_number_consumer,
+                    templateIdList["#####템플릿 입력 필요#####"],
+                    args_consumer,
+                )
+                print(f'[KAKAO] 선물하기 결제완료 : 주소 입력된 선물하기 주문인 경우 / parameter : {args_consumer}')
+            # 주소 미입력된 선물하기 주문인 경우
+            elif self.status == 'payment_complete_no_address':
+                send_kakao_message(
+                    phone_number_consumer,
+                    templateIdList["#####템플릿 입력 필요#####"],
+                    args_consumer,
+                )
+                print(f'[KAKAO] 선물하기 결제완료 : 주소 미입력된 선물하기 주문인 경우 / parameter : {args_consumer}')
+            
+        else:
+            send_kakao_message(
+                phone_number_consumer,
+                templateIdList["payment_complete"],
+                args_consumer,
+            )
+
+    def send_kakao_msg_order_for_farmer(self):
+        """농가에게 주문 접수 알림톡 전송"""
+        url_encoded_order_detail_number = url_encryption.encode_string_to_url(self.order_management_number)
+
+        kakao_msg_quantity = (str)(self.quantity) + "개"
+
+        args_farmer = {
+            "#{order_detail_title}": self.product.title,
+            "#{order_detail_number}": self.order_management_number,
+            "#{option_name}": self.product.option_name,
+            "#{quantity}": kakao_msg_quantity,
+            "#{rev_name}": self.order_group.orderer_name,
+            "#{rev_phone_number}": self.order_group.orderer_phone_number,
+            "#{rev_address}": self.order_group.rev_address,
+            "#{rev_loc_at}": self.order_group.rev_loc_at,
+            "#{rev_detail}": self.order_group.rev_message,
+            "#{rev_message}": self.order_group.to_farm_message,
+            "#{link_1}": f"www.pickyfarm.com/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",  
+            "#{link_2}": f"www.pickyfarm.com/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",  
+            "#{link_3}": f"www.pickyfarm.com/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",  
+        }
+
+        send_kakao_message(
+            self.product.farmer.user.phone_number,
+            templateIdList["order_recept"],
+            args_farmer,
+        )
+
+    def send_kakao_msg_gift_for_receiver(self):
+        """선물하기 수령인 선물 알림톡 전송"""
+        """주소 입력 / 미입력 구분"""
+
+        farmer = self.product.farmer
+
+        args_receiver = {
+            "#{account_name}": self.order_group.orderer_name,
+            "#{rev_name_gift}": self.rev_name_gift,
+            "#{gift_message}": self.gift_message,
+            "#{product_title}": self.product.title,
+            "#{farm_name}": farmer.farm_name,
+        }
+
+        # 주소 입력된 선물하기 주문인 경우
+        if self.status == 'payment_complete':
+            args_receiver["#{rev_address_gift}"] = self.rev_address_gift
+            args_receiver["#{link1}"]  = "#####배송정보확인하기 모바일웹링크#######"
+            args_receiver["#{link2}"]  = f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}"
+            send_kakao_message(
+                self.rev_phone_number_gift,
+                templateIdList["#####템플릿 입력 필요#####"],
+                args_receiver,
+            )
+            print(f'[KAKAO] 선물하기 선물 알림톡 : 주소 입력된 선물하기 주문인 경우 / parameter : {args_receiver}')
+        # 주소 미입력된 선물하기 주문인 경우
+        elif self.status == 'payment_complete_no_address':
+            args_receiver["#{link}"] = "######주소입력하기 모바일 웹링크######"
+            send_kakao_message(
+                self.rev_phone_number_gift,
+                templateIdList["#####템플릿 입력 필요#####"],
+                args_receiver,
+            )
+            print(f'[KAKAO] 선물하기 선물 알림톡 : 주소 미입력된 선물하기 주문인 경우 / parameter : {args_receiver}')
 
 
 class RefundExchange(models.Model):

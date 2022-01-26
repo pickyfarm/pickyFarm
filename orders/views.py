@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, TemplateView
 from django.views.decorators.csrf import csrf_exempt
-from django.db import transaction
+from django.db import DatabaseError, transaction
 from .forms import Order_Group_Form
 from .models import Order_Group, Order_Detail, RefundExchange
 from .utils import payment_complete_notification
@@ -26,6 +26,7 @@ from urllib import parse
 from core import url_encryption
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
+from core import exceptions
 
 # Create your views here.
 
@@ -1277,18 +1278,184 @@ def get_farmers_info(order_group):
     }
 
 
-class PresentTestView(TemplateView):
-    template_name = "orders/payment_gift.html"
-
-
-class GiftAddressInputView(TemplateView):
-    template_name = "orders/gift/popups/payment_gift_popup_address_input.html"
-
-
-class GiftAddressInputCompleteView(TemplateView):
-    template_name = "orders/gift/popups/payment_gift_popup_address_input_complete.html"
-
-
-class GiftOrderlistPopup(TemplateView):
-    template_name = "orders/gift/popups/payment_gift_popup_order_list.html"
+@require_POST
+@login_required
+@transaction.atomic
+def payment_create_gift(request):
+    '''선물하기 결제하기'''
+    '''order_group 생성 및 결제 정보 생성
+        method : /POST'''
     
+    # user info / consumer info
+    user = request.user
+    consumer = user.consumer
+    
+    # redirect을 위한 이전 페이지
+    previous_page = request.META.get('HTTP_REFERER')
+
+    # client의 Post data - product_pk
+    try:
+        product_pk = request.POST.get('product_pk', None)
+        if product_pk is None :
+            raise exceptions.HttpBodyDataError
+    except Exception as e:
+        print("[ERROR] ", e)
+        return redirect(reverse(previous_page))
+
+    product = Product.objects.get(pk=product_pk)
+
+    # Order Group 생성 및 초기 주문 값 세팅
+    try:
+        order_group = Order_Group()
+        order_group.save()
+        order_group.set_init_order_group_info('gift', 'user', user)
+    except Exception as e:
+        print("[ERROR] order_group 생성 하는데에 db 오류")
+        return redirect(reverse(previous_page))
+    
+
+    # 결제용 order_group_name 생성
+    order_group_name = "[선물하기] "+ product.title
+
+    ctx = {
+        "order_group_pk" : order_group.pk,
+        "product" : product,
+        "order_group_name" : order_group_name,
+        "order_management_number" : order_group.order_management_number,
+    }
+
+    # !!!! html 나오면 넣어주어야!!!!
+    pass
+
+
+@require_POST
+@login_required
+@transaction.atomic
+def payment_valid_gift(request):
+    '''선물하기 결제하기 검증'''
+    '''결제 후 정보 교차 검증 / 알림톡 전송'''
+
+    # redirect을 위한 이전 페이지
+    previous_page = request.META.get('HTTP_REFERER')
+
+    # client의 post data - receiptId / orderGroupPk
+    try:
+        receipt_id = request.POST.get('receiptId', None)
+        order_group_pk = request.POST.get('orderGroupPk', None)
+        if receipt_id is None or order_group_pk is None:
+            raise exceptions.HttpBodyDataError
+    except Exception as e:
+        print("[ERROR] ", e)
+        return redirect(reverse(previous_page))
+
+    # order_group 관련 로직
+    # receipt_number set / total_price get / order_details get
+    order_group = Order_Group.objects.get(pk=order_group_pk)
+    order_details = order_group.order_details
+    order_group.recepit_number = receipt_id
+    total_price = order_group.total_price
+    # save 잊지 말기
+
+    # receipt_id를 가지고 부트페이에 검증 요청
+    REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
+    PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
+
+    bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
+    
+    try:
+        result = bootpay.get_access_token()
+        if result["status"] != 200:
+            raise HttpResponseBadRequest
+        verify_result = bootpay.verify(receipt_id)
+        if verify_result["status"] != 200:
+            raise HttpResponseBadRequest
+
+    # BootPay 토큰 받기 실패 혹은 검증 실패시
+    except Exception as e:
+        print("[ERROR] ", e)
+        cancel_result = bootpay.cancel(
+                receipt_id, total_price, request.user.nickname, "결제검증 실패로 인한 결제 취소"
+            )
+        if cancel_result["status"] == 200:
+            # order_group status - 에러 검증실패로 변경
+            order_group.status = "error_valid"
+            order_group.save()
+
+            # order_detail status - 에러 검증실패로 변경
+            for detail in order_details:
+                detail.status = "error_valid"
+                detail.save()
+
+            ctx = {"cancel_result": cancel_result}
+            return redirect(
+                f'{reverse("orders:payment_fail")}?errorType=error_validk&orderGroupPK={order_group_pk}'
+            )
+        else:
+            order_group.status = "error_server"
+            order_group.save()
+            
+            # order_detail status - 에러 서버로 변경
+            for detail in order_details:
+                detail.status = "error_server"
+                detail.save()
+            
+            ctx = {"cancel_result": "결제 검증에 실패하여 결제 취소를 시도하였으나 실패하였습니다. 고객센터에 문의해주세요"}
+            return redirect(
+                f'{reverse("orders:payment_fail")}?errorType=error_server&orderGroupPK={order_group_pk}'
+            )
+        
+
+    try:
+
+        if (verify_result["data"]["price"] == total_price and verify_result["data"]["status"] == 1):
+
+            phone_number_consumer = order_group.orderer_phone_number
+
+            for detail in order_details:
+
+                product = detail.product
+                # order_detail 재고 차감
+                product.sold(detail.quantity)
+                # order_detail status - payment_complete로 변경
+                detail.status = "payment_complete"
+                detail.payment_status = "incoming"  # 정산상태 정산예정으로 변경
+                detail.product.save()
+                detail.save()
+
+                # 결제자 결제 완료 알림톡 전송
+                detail.send_kakao_msg_payment_complete_for_consumer(phone_number_consumer, is_user=True, is_gift=True)
+
+                # 선물 받는이 선물 알림톡 전송
+                detail.send_kakao_msg_gift_for_receiver()
+
+                # 농가 주문 접수 알림
+                # 주소입력된 경우 
+                if detail.status == 'payment_complete':
+                    detail.send_kakao_msg_order_for_farmer()
+
+
+            order_group.status = "payment_complete"
+            order_group.save()
+    except Exception as e:
+        print("[ERROR] ", e)
+        return redirect(
+            f'{reverse("orders:payment_fail")}?errorType=error_validk&orderGroupPK={order_group_pk}'
+        )
+
+    ctx = {
+            "order_group": order_group,
+    }
+
+    pass
+    # !!! HTML 넣어주세요!!!!
+
+
+            
+            
+
+
+
+
+
+
+

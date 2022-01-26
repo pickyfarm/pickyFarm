@@ -75,3 +75,22 @@ def create_order_detail(product, quantity):
     """[payment_create] order_detail 생성 / 주문관리번호 생성"""
 
     product = Product.objects.get(pk=product_pk)
+    pass
+
+
+def get_farmer(farmers, pk, start, end):
+    """farmer pk list에서 일치하는 pk 찾기"""
+    """binary search로 찾기"""
+    mid = (start + end) // 2
+    if farmers[mid].farmer_pk == pk:
+        return farmers[mid]
+    if farmers[mid].farmer_pk < pk:
+        return get_farmer(farmers, pk, mid + 1, end)
+    else:
+        return get_farmer(farmers, pk, start, mid - 1)
+
+
+
+
+
+

@@ -199,6 +199,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Cron 
+CRONJOBS = [
+    ('0 0 * * *', 'orders.cron.auto_cancel_gift', '>> /tmp/log/auto_cancel_gift_cron.log')
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
