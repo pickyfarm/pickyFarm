@@ -5,7 +5,9 @@ from core import url_encryption
 from django.utils import timezone
 from kakaomessages.views import send_kakao_message
 from kakaomessages.template import templateIdList
-
+import os
+from datetime import datetime
+from .BootpayApi import BootpayApi
 
 # Create your models here.
 
@@ -286,6 +288,78 @@ class Order_Detail(models.Model):
 
     def is_sufficient_stock(self):
         return self.product.is_sufficient_stock(self.quantity)
+
+
+    def order_cancel(self, cancel_reason, gift):
+
+        """주문 취소 및 금액 환불 진행"""
+        """일반 결제 / 선물 하기 여부 구분"""
+
+        self.cancel_reason = cancel_reason
+
+        REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
+        PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
+
+        bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
+        result = bootpay.get_access_token()
+
+        if result["status"] == 200:
+            cancel_result = bootpay.cancel(
+                self.order_group.receipt_number,
+                self.total_price,
+                self.order_group.rev_name,
+                cancel_reason,
+            )
+
+            if cancel_result["status"] == 200:
+                self.status = "cancel"
+                self.order_group.status = "cancel"
+                product = self.product
+                product.stock += self.quantity
+                product.save()
+                self.save()
+
+                # 선물하기인 경우
+                # 결제자에게 주문 취소 알림톡 전송
+                if gift is True:
+                    args_kakao = {
+                        "#{account_name}": self.order_group.orderer_name,
+                        "#{rev_name_gift}": self.rev_name_gift,
+                        "#{product_title}": self.product.title,
+                        "#{cancel_reason}": cancel_reason,
+                    }
+
+                    send_kakao_message(
+                        self.product.order_group.orderer_phone_number,
+                        templateIdList["gift_auto_cancel"],
+                        args_kakao,
+                    )
+
+                # 선물하기 아닌 일반 결제인 경우
+                # 농가에게 주문 취소 알림톡 전송
+                else:
+
+                    args_kakao = {
+                        "#{cancel_reason}": self.cancel_reason,
+                        "#{order_detail_title}": self.product.title,
+                        "#{order_detail_number}": self.order_management_number,
+                        "#{option_name}": self.product.option_name,
+                        "#{quantity}": self.quantity,
+                        "#{rev_name}": self.order_group.orderer_name,
+                        "#{rev_phone_number}": self.order_group.rev_phone_number,
+                    }
+
+                    send_kakao_message(
+                        self.product.farmer.user.phone_number,
+                        templateIdList["order_cancel_by_user"],
+                        args_kakao,
+                    )
+            else:
+                raise Exception(f"주문 취소 bootpay cancel result Http Response Error / 주문관리번호 : {self.order_management_number}")
+        else:
+            raise Exception(f"주문 취소 bootpay get access token Http Response Error / 주문관리번호 : {self.order_management_number}")
+
+        
 
     def send_kakao_msg_payment_complete_for_consumer(self, phone_number_consumer, is_user, is_gift):
         """소비자에게 결제 완료 메시지 전송"""

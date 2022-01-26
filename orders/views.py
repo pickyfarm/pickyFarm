@@ -1283,7 +1283,7 @@ def update_jeju_mountain_delivery_fee(order_group_pk):
     order = Order_Group.get(pk=order_group_pk)
     order_details = Order_Detail.filter(order_group__pk=order_group_pk)
     farmers = list(set(map(lambda u: u.product.farmer, order_details)))
-
+    
 
 def delivery_address_update(request):
     """선물하기 배송 주소 업데이트 함수"""
