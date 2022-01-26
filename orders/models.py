@@ -389,7 +389,7 @@ class Order_Detail(models.Model):
             "#{farmer_nickname}": farmer.user.nickname,
             "#{option_name}": self.product.option_name,
             "#{quantity}": kakao_msg_quantity,
-            "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}"
+            "#{link1}": f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}"
         }
 
         # 회원인 경우
@@ -398,7 +398,7 @@ class Order_Detail(models.Model):
                 "#{link_2}"
             ] = "https://www.pickyfarm.com/user/mypage/orders"  # [일반결제] 회원용 구매확인 링크
             args_consumer_gift[
-                "#{link_2}"
+                "#{link2}"
             ] = "https://www.pickyfarm.com/user/mypage/orders"  # [선물하기] 회원용 구매확인 링크
         # 비회원인 경우
         else:
