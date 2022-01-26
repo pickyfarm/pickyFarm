@@ -23,8 +23,17 @@ urlpatterns = [
     # path('payment_fail', views.fail_test, name="fail_test"), 결제취소 창 테스트용 path
     path("change-refund/<int:pk>", views.create_change_or_refund, name="change_refund"),
     path("payment/subscribe", views.sub_modal, name="payment_success_modal"),
-    path("payment/gifttest", views.PresentTestView.as_view(), name="payment_gift_test"),
-    path("payment/addresstest", views.GiftAddressInputView.as_view(), name="ad_t"),
-    path("payment/addresscomp", views.GiftAddressInputCompleteView.as_view(), name="ad_c_t"),
-    path("payment/orderlist", views.GiftOrderlistPopup.as_view(), name="od_l"),
+    path("payment/gift", views.payment_create_gift, name="payment_gift"),
+    path("payment/gift/update", views.payment_update_gift, name="payment_gift_update"),
+    path("payment/gift/valid", views.payment_valid_gift, name="payment_gift_valid"),
+    path(
+        "payment/gift/popup/address",
+        views.delivery_address_update,
+        name="payment_gift_delivery_update",
+    ),
+    path(
+        "payment/calculate-delivery-fee",
+        views.calculate_delivery_fee,
+        name="calculate_delivery_fee",
+    ),
 ]

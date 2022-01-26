@@ -127,8 +127,7 @@
                 </div> {% endcomment %}
             </div>
             <div id="product-option-section" class="border-b flex py-3">
-                <select name="product-option" id="product-option" class="w-full"
-                    onchange="if(this.value) location.href=this.value;">
+                <select name="product-option" id="product-option" class="w-full" onchange="if(this.value) location.href=this.value;">
                     {% for sibling in siblings %}
                     <option value="{% url 'products:product_detail' sibling.pk %}" {% if sibling.pk == product_pk %}selected{% endif %}>{{sibling.option_name}}</option>
                     {% endfor %}
@@ -195,8 +194,7 @@
 
     // 선물하기
     const giftButton = document.getElementById('gift')
-
-    const giftURL = ""
+    const giftURL = "{% url 'orders:payment_gift' %}"
 
     //바로 구매하기
     let purchaseBtn = document.getElementById("purchase")
