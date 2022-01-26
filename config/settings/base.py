@@ -79,7 +79,6 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    "django_crontab",
 ]
 
 PICKY_APPS = [
@@ -98,6 +97,7 @@ PICKY_APPS = [
     "storages",
     "kakaomessages",
     "rangefilter",
+    "django_crontab",
 ]
 
 INSTALLED_APPS = PICKY_APPS + DJANGO_APPS
@@ -201,8 +201,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Cron 
 CRONJOBS = [
-    ('0 0 * * *', 'orders.cron.auto_cancel_gift', '>> /tmp/log/auto_cancel_gift_cron.log')
+    ('*/1 * * * *', 'orders.cron.auto_cancel_gift', '>> /tmp/log/auto_cancel_gift_cron.log')
 ]
+CRONTAB_DJANGO_SETTINGS_MODULE = 'config.settings.debug'
 
 
 # Internationalization
