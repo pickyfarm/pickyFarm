@@ -322,6 +322,7 @@ class Order_Detail(models.Model):
                     templateIdList["#####템플릿 입력 필요#####"],
                     args_consumer,
                 )
+                print(f'[KAKAO] 선물하기 결제완료 : 주소 입력된 선물하기 주문인 경우 / parameter : {args_consumer}')
             # 주소 미입력된 선물하기 주문인 경우
             elif self.status == 'payment_complete_no_address':
                 send_kakao_message(
@@ -329,6 +330,7 @@ class Order_Detail(models.Model):
                     templateIdList["#####템플릿 입력 필요#####"],
                     args_consumer,
                 )
+                print(f'[KAKAO] 선물하기 결제완료 : 주소 미입력된 선물하기 주문인 경우 / parameter : {args_consumer}')
             
         else:
             send_kakao_message(
@@ -389,6 +391,7 @@ class Order_Detail(models.Model):
                 templateIdList["#####템플릿 입력 필요#####"],
                 args_receiver,
             )
+            print(f'[KAKAO] 선물하기 선물 알림톡 : 주소 입력된 선물하기 주문인 경우 / parameter : {args_receiver}')
         # 주소 미입력된 선물하기 주문인 경우
         elif self.status == 'payment_complete_no_address':
             args_receiver["#{link}"] = "######주소입력하기 모바일 웹링크######"
@@ -397,6 +400,7 @@ class Order_Detail(models.Model):
                 templateIdList["#####템플릿 입력 필요#####"],
                 args_receiver,
             )
+            print(f'[KAKAO] 선물하기 선물 알림톡 : 주소 미입력된 선물하기 주문인 경우 / parameter : {args_receiver}')
 
 
 class RefundExchange(models.Model):

@@ -1313,7 +1313,8 @@ def payment_create_gift(request):
     ctx = {
         "order_group_pk" : order_group.pk,
         "product" : product,
-        "order_group_name" : order_group_name
+        "order_group_name" : order_group_name,
+        "order_management_number" : order_group.order_management_number,
     }
 
     # !!!! html 나오면 넣어주어야!!!!
@@ -1437,6 +1438,9 @@ def payment_valid_gift(request):
     ctx = {
             "order_group": order_group,
     }
+
+    pass
+    # !!! HTML 넣어주세요!!!!
 
 
             
