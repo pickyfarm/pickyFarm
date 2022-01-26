@@ -1581,6 +1581,8 @@ def payment_valid_gift(request):
 
             order_group.status = "payment_complete"
             order_group.save()
+
+            
     except Exception as e:
         print("[ERROR] ", e)
         return redirect(
@@ -1591,4 +1593,6 @@ def payment_valid_gift(request):
         "order_group": order_group,
     }
 
+    payment_complete_notification(order_group.pk)
+    
     return render(request, "orders/gift/payment_gift_success.html", ctx)
