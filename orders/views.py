@@ -454,7 +454,7 @@ def payment_update_gift(request, orderGroupPk):
     total_delivery_fee = int(request.POST.get("totalDeliveryFee"))
     total_quantity = int(request.POST.get("totalQuantity"))
     friends = request.POST.get("friends")
-    product = request.POST.get("product") # 추가해야할듯?
+    product = request.POST.get("product")  # 추가해야할듯?
 
     if request.method == "POST":
         valid = True
@@ -470,11 +470,11 @@ def payment_update_gift(request, orderGroupPk):
             return JsonResponse(data)
 
         # [PROCESS 4] 가격 검증
-        if order_group.total_price != (total_product_price+total_delivery_fee):
+        if order_group.total_price != (total_product_price + total_delivery_fee):
             valid = False
             order_group.set_order_state("error_price_match")
             data = {
-                "valid": valid, 
+                "valid": valid,
                 "error_type": "error_price_match",
             }
             return JsonResponse(data)
@@ -484,17 +484,17 @@ def payment_update_gift(request, orderGroupPk):
             # [PROCESS 5-1] order detail 생성 후 전달받은 정보 저장
             for friend in friends:
                 Order_Detail.objects.create(
-                    quantity = friend.quantity,
-                    total_price = friend.totalProductPrice + friend.deliveryFee,
-                    rev_name_gift = friend.name,
-                    rev_address_gift = friend.address,
-                    rev_phone_number_gift = friend.phoneNum,
-                    gift_message = friend.giftMessage ,
-                    product = product,
-                    order_group = order_group
+                    quantity=friend.quantity,
+                    total_price=friend.totalProductPrice + friend.deliveryFee,
+                    rev_name_gift=friend.name,
+                    rev_address_gift=friend.address,
+                    rev_phone_number_gift=friend.phoneNum,
+                    gift_message=friend.giftMessage,
+                    product=product,
+                    order_group=order_group,
                 )
             # [PROCESS 5-2] order group 정보 업데이트
-            order_group.total_price = total_product_price+total_delivery_fee
+            order_group.total_price = total_product_price + total_delivery_fee
             order_group.total_quantity = total_quantity
             order_group.save()
 
@@ -505,7 +505,6 @@ def payment_update_gift(request, orderGroupPk):
                 "valid": valid,
             }
             return JsonResponse(data)
-
 
 
 # @login_required
@@ -1273,21 +1272,21 @@ def update_jeju_mountain_delivery_fee(order_group_pk):
     order_details = Order_Detail.filter(order_group__pk=order_group_pk)
     farmers = list(set(map(lambda u: u.product.farmer, order_details)))
 
+
 def delivery_address_update(request):
     """선물하기 배송 주소 업데이트 함수"""
     """추가 배송지 여부 판별 후 파머 알림톡 전송"""
     order_management_number = url_encryption.decode_url_string(request.GET.get("odmn"))
     order_detail = Order_Detail.objects.get(order_management_number=order_management_number)
-    if request.method == 'GET':
+    if request.method == "GET":
         if order_detail.order_group.order_type == "gift":
-            ctx = {
-                "order_detail": order_detail
-            }
-            return render(request, 'TEMPLATE URL', ctx)
+            ctx = {"order_detail": order_detail}
+
+            return render(request, "orders/gift/popups/payment_gift_popup_address_input.html", ctx)
         else:
             return redirect(reverse("core:main"))
-    
-    elif request.method == 'POST':
+
+    elif request.method == "POST":
         rev_address = request.POST.get("rev_address")
         zip_code = int(request.POST.get("zipCode", 1))
         fee = calculate_jeju_delivery_fee(zip_code, order_detail.product)
@@ -1302,10 +1301,9 @@ def delivery_address_update(request):
             farmer = order_detail.product.farmer
             farmer.send_kakao_payment_valid(order_group, farmer)
 
-        
-
-
-
+            return render(
+                request, "orders/gift/popups/payment_gift_popup_address_input_complete.html", ctx
+            )
 
 
 def calculate_delivery_fee(request):
