@@ -1,10 +1,9 @@
-{% extends 'base/base_for_other.html' %} {% load static %}
+{% extends 'base/base_for_other.html' %}
+{% load static %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/orders/payment_gift.css' %}" />
 {% endblock stylesheet %}
-{% block title_name %}
-피키팜 | 친구에게 선물하기
-{% endblock title_name %}
+{% block title_name %} 피키팜 | 친구에게 선물하기 {% endblock title_name %}
 {% block main_content %}
 <div class="main_content flex flex-col items-center md:w-content mx-auto" id="payment-app">
     <h1 id="title" class="mx-auto flex items-center color-primary">
@@ -19,30 +18,31 @@
 {% endblock main_content %} {% block scripts %}
 <script>
     /* payment view url */
-    const PAYMENT_UPDATE_URL = '';
-    const PAYMENT_VALID_URL = '';
+    const PAYMENT_UPDATE_URL = '{% url "orders:payment_gift_update" %}';
+    const PAYMENT_VALID_URL = '{% url "orders:payment_gift_valid" %}';
     const PAYMENT_ERROR_URL = '';
 
     /* delivery fee calculation function url */
-    const CALCULATE_DELIVERY_FEE_URL = '';
+    const CALCULATE_DELIVERY_FEE_URL =
+        '{% url "orders:calculate_delvery_fee" %}';
 
     /* constants */
-    const ORDER_GROUP_PK = 0;
-    const ORDER_GROUP_NAME = 'order_group_name_test';
-    const ORDER_MANAGEMENT_NUMBER = 'order_management_number'
+    const ORDER_GROUP_PK = '{{order_group_pk}}';
+    const ORDER_GROUP_NAME = '{{order_group_name}}';
+    const ORDER_MANAGEMENT_NUMBER = '{{order_management_number}}';
 
-    const DELIVERY_FEE = 0
+    const DELIVERY_FEE = parseInt('{{product.default_delivery_fee}}');
 
-    const FARMER_ZIPCODE = '00000';
+    const FARMER_ZIPCODE = '{{product.farmer.address.zipcode}}';
 
-    const PRODUCT_PRICE = 0;
-    const PRODUCT_PK = 0;
-    const PRODUCT_CATEGORY = '사과'
-    const PRODUCT_WEIGHT = 0.0
+    const PRODUCT_PRICE = parseInt('{{product.sell_price}}');
+    const PRODUCT_PK = '{{product.pk}}';
+    const PRODUCT_CATEGORY = '{{product.category.name}}';
+    const PRODUCT_WEIGHT = parseFloat('{{product.weight}}');
 
-    const CONSUMER_NAME = 'consumer_name';
-    const CONSUMER_PHONE_NUM = '01000000000'
-    const CONSUMER_EMAIL = 'email@example.com'
+    const CONSUMER_NAME = '{{request.user.account_name}}';
+    const CONSUMER_PHONE_NUM = '{{request.user.phone_number}}';
+    const CONSUMER_EMAIL = '{{request.user.email}}';
 </script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="{% static 'js/orders/payment_gift.js' %}"></script>

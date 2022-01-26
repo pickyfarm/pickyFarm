@@ -155,7 +155,7 @@
                 <div id="cart" name="{{product_pk}}" class="mr-auto ml-3 transition_element flex justify-center items-center">
                     <img src="{% static 'images/cart.svg' %}" alt="장바구니 담기" class="svg-buttons">
                 </div>
-                <div id="gift" name="{{product.gift}}">선물하기</div>
+                <div id="gift" name="{{product.pk}}">선물하기</div>
                 <div id="purchase" name="{{product_pk}}">바로 구매하기</div>
             </div>
         </div>
@@ -192,6 +192,11 @@
     // 구독하기
     const subBtn = document.getElementById('sub')
     const subURL = "{% url 'users:subs' %}"
+
+    // 선물하기
+    const giftButton = document.getElementById('gift')
+
+    const giftURL = ""
 
     //바로 구매하기
     let purchaseBtn = document.getElementById("purchase")

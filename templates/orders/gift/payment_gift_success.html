@@ -6,6 +6,14 @@
 
 {% endblock stylesheet %} {% block main_content %}
 
+{% define order_group.order_details.first.product as product %}
+{% define order_group.order_details.first.product.farmer as farmer %}
+{% define order_group.order_details as order_details %}
+
+{% widthratio product.weight 1 order_group.total_quantity as total_weight %}
+
+{% with product=order_group.order_details.first.product farmer=order_group.order_details.first.product.farmer order_details=order_group.order_details %}
+
 <div class="order-payment-success-container mx-auto flex">
     <div class="order-payment-success-title flex">주문 / 결제 완료</div>
 
@@ -18,37 +26,42 @@
             <div class="order-payment-success-information-list-wrap">
                 <div class="order-payment-success-information-list flex">
                     <div class="order-payment-success-information-list-left-section">
-                        <img class="order-payment-success-information-image" src="[[order.product.main_image.url]]" />
+                        <img class="order-payment-success-information-image" src="{{order.product.main_image.url}}" />
                     </div>
                     <div class="order-payment-success-information-list-right-section flex">
 
-                        <div class="order-payment-success-information-name"> 농장이름 </div>
+                        <div class="order-payment-success-information-name">{{farmer.farm_name}}</div>
                         <div class="order-payment-success-information-product-tag">
-                            <!-- {% if order.product.kinds == "ugly" %} -->
+                            {% if product.kinds == "ugly" %}
                             <div class="ugly_tag">무난이 작물</div>
-                            <!-- {% elif order.product.kinds == "normal" %}
+                            {% elif product.kinds == "normal" %}
                             <div class="normal_tag">일반 작물</div>
-                            {% elif order.product.kinds == "mix" %}
+                            {% elif product.kinds == "mix" %}
                             <div id="mix_tag">일반&nbsp&nbsp&nbsp<span class="ugly-in-mix">무난이</span></div>
-                            {% endif %} -->
+                            {% endif %}
                         </div>
                         <div class="order-payment-success-information-description-wrap flex">
 
                             <div class="order-payment-success-information-description-right-section flex">
-                                <div class="order-payment-success-information-description"> 상품이름
+                                <div class="order-payment-success-information-description">{{product.title}}
                                 </div>
-                                <div class="order-payment-success-information-description-amount"> 상품갯수
+                                <div class="order-payment-success-information-description-amount">
+                                    {{order_group.total_quantity}}
                                     <span>(개/박스)</span>
                                 </div>
-                                <div class="order-payment-success-information-description-weight"> 10 kg </div>
+                                <div class="order-payment-success-information-description-weight">
+                                    {{total_weight}} {{product.weight_unit}}
+                                </div>
                                 <div class="order-payment-success-information-description-price">
-                                    100,000 원 </div>
+                                    {{order_group.total_price | intcomma}} 원 </div>
                             </div>
                         </div>
                         <div class="order-payment-success-information-description-bottom-wrap flex items-center">
-                            <div class="order-payment-success-information-weight"> 10 kg </div>
+                            <div class="order-payment-success-information-weight">
+                                {% widthratio product.weight 1 order_group.total_quantity %} {{product.weight_unit}}
+                            </div>
                             <div class="divider"></div>
-                            <div class="order-payment-success-information-price"> 100,000 원
+                            <div class="order-payment-success-information-price"> {{product.sell_price | intcomma}} 원
                             </div>
                         </div>
                     </div>
@@ -57,33 +70,42 @@
             <div class="order-payment-success-information-list-border-bottom"></div>
             <!-- 선물 보내는 친구 정보 영역 -->
             <!-- 여기서부터 for문 돌리면 됨 -->
-
+            {% for detail in order_details %}
             <div class="order-payment-success-information-list-wrap friend-info-wrap">
                 <div class="order-payment-success-information-list flex">
                     <div
                         class="order-payment-success-information-list-left-section flex flex-col items-center md:justify-between">
                         <img class="order-payment-success-friend-image"
                             src="{% static 'images/orders/gift/gift_friend_icon.webp' %}" />
-                        <div class="friend-index">친구 1</div>
+                        <div class="friend-index">{{detail.rev_name_gift}}</div>
                     </div>
                     <div class="order-payment-success-information-list-right-section flex">
 
-                        <div class="order-payment-success-information-name friend-name"> 친구이름 </div>
+                        <div class="order-payment-success-information-name friend-name">{{detail.rev_name_gift}}</div>
                         <div class="order-payment-success-information-description-wrap flex">
                             <div class="order-payment-success-information-description-right-section flex">
-                                <div class="order-payment-success-information-description"> 010-0000-0000
+                                <div class="order-payment-success-information-description">
+                                    {{detail.rev_phone_number_gift}}
                                 </div>
-                                <div class="order-payment-success-information-description-amount"> 상품갯수
+                                <div class="order-payment-success-information-description-amount"> {{detail.quantity}}
                                     <span>(개/박스)</span>
                                 </div>
-                                <div class="order-payment-success-information-description-weight"> 10 kg </div>
+                                <div class="order-payment-success-information-description-weight"> {{detail.quantity}}
+                                    {{product.weight_unit}} </div>
                                 <div class="order-payment-success-information-description-price">
-                                    100,000 원 </div>
+                                    {{detail.total_price | intcomma}} 원
+                                </div>
                             </div>
                         </div>
                         <div
                             class="order-payment-success-information-description-bottom-wrap friend-address flex items-center">
-                            <div class="order-payment-success-information-weight"> 서울시 무슨구 무슨동 무슨아파트 </div>
+                            <div class="order-payment-success-information-weight">
+                                {% if detail.rev_address_gift %}
+                                {{detail.rev_address_gift}}
+                                {% else %}
+                                친구가 주소를 입력 후 배송됩니다.
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,11 +113,12 @@
             <div class="order-payment-success-information-list-border-bottom"></div>
             <!-- 선물 보내는 친구 정보 영역 끝 -->
             <!-- 여기까지 for문 돌리면 됩니다. -->
+            {% endfor %}
         </div>
     </div>
     <div class="order-payment-success-amount-wrap flex">
         <div class="order-payment-success-amount-title">총 결제 금액</div>
-        <div class="order-payment-success-amount-number"> 100,000 </div>
+        <div class="order-payment-success-amount-number"> {{order_group.total_price}} </div>
         <div class="order-payment-success-amount-unit">원</div>
     </div>
     <div class="order-payment-success-customer-section">
@@ -104,15 +127,15 @@
         <div class="order-payment-success-customer-information-wrap">
             <div class="order-payment-success-customer-information-name-wrap flex">
                 <div class="order-payment-success-customer-information-name-title"> 이름 </div>
-                <div class="order-payment-success-customer-information-name"> [[order_group.rev_name]] </div>
+                <div class="order-payment-success-customer-information-name"> {{order_group.orderer_name}} </div>
             </div>
             <div class="order-payment-success-customer-information-tel-wrap flex">
                 <div class="order-payment-success-customer-information-tel-title"> 연락처 </div>
-                <div class="order-payment-success-customer-information-tel"> [[order_group.rev_phone_number]] </div>
+                <div class="order-payment-success-customer-information-tel"> {{order_group.orderer_phone_number}} </div>
             </div>
             <div class="order-payment-success-customer-information-email-wrap flex">
                 <div class="order-payment-success-customer-information-email-title"> 이메일 </div>
-                <div class="order-payment-success-customer-information-email"> [[order_group.consumer.user.email]]
+                <div class="order-payment-success-customer-information-email"> {{order_group.consumer.user.email}}
                 </div>
             </div>
         </div>
@@ -124,31 +147,20 @@
 
         <div class="order-payment-success-appreciate-message-card-section-container flex">
             <!-- 여기서부터 구독하지 않은 농장 정보 -->
-            {% for farmer in unsub_farmers %}
+
             <div class="order-payment-success-unsubfarmer-appreciate-message-card-section"
-                data-farmerpk="[[farmer.pk]]">
+                data-farmerpk="{{farmer.pk}}">
                 <div class="order-payment-success-unsubfarmer-appreciate-message-card-wrap flex">
                     <div class="order-payment-success-unsubfarmer-card-photo-section relative">
                         <img class="order-payment-success-unsubfarmer-card-photo-circle"
-                            src="[[farmer.farmer_profile.url]]" />
-                        <!-- <div class="order-payment-success-unsubfarmer-card-photo-wrap">
-                                <img class="order-payment-success-unsubfarmer-card-photo"
-                                     src="{% static 'images/orders/farmer_photo.svg' %}"
-                                     alt="farmer_photo" />
-                            </div>
-                            <div class="order-payment-success-unsubfarmer-card-photo-subscribe-wrap">
-                                <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn"
-                                     src="{% static 'images/orders/subscribe_add.svg' %}"
-                                     alt="subscribe_add" />
-                            </div> -->
-
+                            src="{{farmer.farmer_profile.url}}" />
                         <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn absolute"
                             src="{% static 'images/orders/subscribe_add.svg' %}" alt="subscribe_add" />
                     </div>
                     <div class="order-payment-success-unsubfarmer-card-photo-section2">
-                        <div class="order-payment-success-unsubfarmer-card-farm-name"> [[farmer.farm_name]] </div>
-                        <div class="order-payment-success-unsubfarmer-card-farmer-name"> [[farmer.farmer_name]] </div>
-                        <div class="order-payment-success-unsubfarmer-card-message-text"> [[farmer.farm_thanks_msg]]
+                        <div class="order-payment-success-unsubfarmer-card-farm-name"> {{farmer.farm_name}} </div>
+                        <div class="order-payment-success-unsubfarmer-card-farmer-name"> {{farmer.farmer_name}} </div>
+                        <div class="order-payment-success-unsubfarmer-card-message-text"> {{farmer.farm_thanks_msg}}
                         </div>
                         <a class="order-payment-success-unsubfarmer-card-farm-link-section-anchor" href="#">
                             <div
@@ -167,54 +179,6 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            <!-- 여기까지 구독하지 않은 농장 정보 -->
-            <!-- 여기서부터 구독한 농장 정보 -->
-            {% for farmer in sub_farmers %}
-            <div class="order-payment-success-subfarmer-appreciate-message-card-section">
-                <div class="order-payment-success-subfarmer-appreciate-message-card-wrap flex">
-                    <div class="order-payment-success-subfarmer-card-photo-section relative">
-                        <div class="order-payment-success-subfarmer-card-photo-section relative">
-                            <img class="order-payment-success-subfarmer-card-photo-circle"
-                                src="[[farmer.farmer_profile.url]]" />
-                            <!-- <div class="order-payment-success-unsubfarmer-card-photo-wrap">
-                                    <img class="order-payment-success-unsubfarmer-card-photo"
-                                         src="{% static 'images/orders/farmer_photo.svg' %}"
-                                         alt="farmer_photo" />
-                                </div>
-                                <div class="order-payment-success-unsubfarmer-card-photo-subscribe-wrap">
-                                    <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn"
-                                         src="{% static 'images/orders/subscribe_add.svg' %}"
-                                         alt="subscribe_add" />
-                                </div> -->
-
-                            <img class="transition_element order-payment-success-subfarmer-card-photo-subscribe-btn absolute"
-                                src="{% static 'images/orders/subscribe.svg' %}" alt="subscribe" />
-                        </div>
-                    </div>
-                    <div class="order-payment-success-subfarmer-card-photo-section2">
-                        <div class="order-payment-success-subfarmer-card-farm-name"> [[farmer.farm_name]] </div>
-                        <div class="order-payment-success-subfarmer-card-farmer-name"> [[farmer.farmer_name]] </div>
-                        <div class="order-payment-success-subfarmer-card-message-text"> [[farmer.farm_thanks_msg]]
-                        </div>
-                        <a class="order-payment-success-subfarmer-card-farm-link-section-anchor" href="#">
-                            <a class="order-payment-success-subfarmer-card-farm-link-section flex"
-                                href="{% url 'farmer:farmer_detail' farmer.pk %}">
-                                <div class="order-payment-success-subfarmer-card-farm-link-title"> 농가 페이지 방문하기 </div>
-                                <div class="order-payment-success-subfarmer-card-farm-link-btn">
-                                    <img class="order-payment-success-subfarmer-card-farm-link-btn-arrow"
-                                        src="{% static 'images/orders/arrow.svg' %}" alt="arrow" />
-                                    <img class="order-payment-success-subfarmer-card-farm-link-btn-arrow-mobile"
-                                        src="{% static 'images/orders/visit_farmer_page.svg' %}"
-                                        alt="visit_farmer_page" />
-                                </div>
-                            </a>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            <!-- 여기까지 구독한 농장 정보 -->
         </div>
     </div>
     <div class="order-payment-success-confirm-btn-section flex">
@@ -223,10 +187,11 @@
         </a>
     </div>
 </div>
+{% endwith %}
 
 {% endblock main_content %} {% block mypage_base_script_section %}
 <script>
-    const unsubFarmerCount = parseInt("[[count]]")
+    const unsubFarmerCount = parseInt("{{count}}")
 </script>
 <script defer src="{% static 'js/orders/payment_success_subs_modal.js' %}"></script>
 
