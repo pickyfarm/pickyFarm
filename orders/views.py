@@ -508,9 +508,6 @@ def payment_update_gift(request, orderGroupPk):
             order_group.total_quantity = total_quantity
             order_group.save()
 
-            # [PROCESS 5-3] 상품 재고 차감
-            product.sold(total_quantity)
-
             data = {
                 "valid": valid,
             }
