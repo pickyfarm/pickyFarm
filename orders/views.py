@@ -463,6 +463,7 @@ def payment_update_gift(request):
     total_quantity = int(request.POST.get("totalQuantity"))
     friends = json.loads(request.POST.get("friends"))
     product_pk = request.POST.get("productPK", 0)  # 추가해야할듯?
+    payment_type = request.POST.get("paymentType")
 
     product = Product.objects.get(pk=product_pk)
 
@@ -518,6 +519,8 @@ def payment_update_gift(request):
 
             order_group.order_type = "gift"
             order_group.consumer = request.user.consumer
+
+            order_group.payment_type = payment_type
             order_group.save()
 
             data = {
@@ -1582,7 +1585,6 @@ def payment_valid_gift(request):
             order_group.status = "payment_complete"
             order_group.save()
 
-            
     except Exception as e:
         print("[ERROR] ", e)
         return redirect(
@@ -1594,5 +1596,5 @@ def payment_valid_gift(request):
     }
 
     payment_complete_notification(order_group.pk)
-    
+
     return render(request, "orders/gift/payment_gift_success.html", ctx)

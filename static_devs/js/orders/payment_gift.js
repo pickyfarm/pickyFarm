@@ -182,6 +182,7 @@ function bootpayHandler(instance) {
         totalQuantity: sumOfQuantity,
         friends: JSON.stringify(friends),
         productPK: PRODUCT_PK,
+        paymentType,
     };
 
     /* 부트페이 요청 코드부 */

@@ -22,11 +22,11 @@
             <div class="order-payment-success-information-list-wrap">
                 <div class="order-payment-success-information-list flex">
                     <div class="order-payment-success-information-list-left-section">
-                        <img class="order-payment-success-information-image" src="{{order.product.main_image.url}}" />
+                        <img class="order-payment-success-information-image" src="{{product.main_image.url}}" />
                     </div>
                     <div class="order-payment-success-information-list-right-section flex">
 
-                        <div class="order-payment-success-information-name">{{farmer.farm_name}}</div>
+                        <div class="order-payment-success-information-name">{{product.title}}</div>
                         <div class="order-payment-success-information-product-tag">
                             {% if product.kinds == "ugly" %}
                             <div class="ugly_tag">무난이 작물</div>
@@ -39,7 +39,7 @@
                         <div class="order-payment-success-information-description-wrap flex">
 
                             <div class="order-payment-success-information-description-right-section flex">
-                                <div class="order-payment-success-information-description">{{product.title}}
+                                <div class="order-payment-success-information-description"> {{farmer.farm_name}}
                                 </div>
                                 <div class="order-payment-success-information-description-amount">
                                     {{order_group.total_quantity}}
