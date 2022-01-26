@@ -379,11 +379,28 @@ class Order_Detail(models.Model):
             "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}",
         }
 
+
+        args_consumer_gift = {
+            "#{farm_name}": farmer.farm_name,
+            "#{rev_name_gift}" : self.rev_name_gift,
+            "#{rev_phone_number_gift}" : self.rev_phone_number_gift,
+            "#{rev_address_gift}" : self.rev_address_gift,
+            "#{order_detail_number}": self.order_management_number,
+            "#{order_detail_title}": self.product.title,
+            "#{farmer_nickname}": farmer.user.nickname,
+            "#{option_name}": self.product.option_name,
+            "#{quantity}": kakao_msg_quantity,
+            "#{link_1}": f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}"
+        }
+
         # 회원인 경우
         if is_user == True:
             args_consumer[
                 "#{link_2}"
-            ] = "https://www.pickyfarm.com/user/mypage/orders"  # 회원용 구매확인 링크
+            ] = "https://www.pickyfarm.com/user/mypage/orders"  # [일반결제] 회원용 구매확인 링크
+            args_consumer_gift[
+                "#{link_2}"
+            ] = "https://www.pickyfarm.com/user/mypage/orders"  # [선물하기] 회원용 구매확인 링크
         # 비회원인 경우
         else:
             url_encoded_order_group_number = url_encryption.encode_string_to_url(
@@ -392,6 +409,7 @@ class Order_Detail(models.Model):
             args_consumer[
                 "#{link_2}"
             ] = f"https://www.pickyfarm.com/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
+            
 
         # 선물하기 결제인 경우
         if is_gift == True:
@@ -400,7 +418,7 @@ class Order_Detail(models.Model):
                 send_kakao_message(
                     phone_number_consumer,
                     templateIdList["payment_complete_gift_address"],
-                    args_consumer,
+                    args_consumer_gift,
                 )
                 print(f"[KAKAO] 선물하기 결제완료 : 주소 입력된 선물하기 주문인 경우 / parameter : {args_consumer}")
             # 주소 미입력된 선물하기 주문인 경우
@@ -408,7 +426,7 @@ class Order_Detail(models.Model):
                 send_kakao_message(
                     phone_number_consumer,
                     templateIdList["payment_complete_gift_no_address"],
-                    args_consumer,
+                    args_consumer_gift,
                 )
                 print(f"[KAKAO] 선물하기 결제완료 : 주소 미입력된 선물하기 주문인 경우 / parameter : {args_consumer}")
 
