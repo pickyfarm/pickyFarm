@@ -446,10 +446,12 @@ def payment_update(request, pk):
 def payment_update_gift(request, orderGroupPk):
     """선물하기 결제하기 버튼 클릭"""
 
-    # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
-    order_group = Order_Group.objects.get(pk=orderGroupPk)
+    # # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
+    # order_group = Order_Group.objects.get(pk=orderGroupPk)
 
     # [PROCESS 2] Form에서 데이터 받아오기
+    order_group_pk = int(request.POST.get("orderGroupPk"))
+    order_group = Order_Group.objects.get(pk=order_group_pk)
     total_product_price = int(request.POST.get("totalProductPrice"))
     total_delivery_fee = int(request.POST.get("totalDeliveryFee"))
     total_quantity = int(request.POST.get("totalQuantity"))
@@ -494,7 +496,7 @@ def payment_update_gift(request, orderGroupPk):
                     order_group=order_group,
                 )
                 order_detail.create_order_detail_management_number(product.farmer.user.username)
-                order_detail.save()
+
             # [PROCESS 5-2] order group 정보 업데이트
             order_group.total_price = total_product_price + total_delivery_fee
             order_group.total_quantity = total_quantity
