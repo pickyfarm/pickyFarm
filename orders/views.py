@@ -1292,7 +1292,7 @@ def update_jeju_mountain_delivery_fee(order_group_pk):
     order = Order_Group.get(pk=order_group_pk)
     order_details = Order_Detail.filter(order_group__pk=order_group_pk)
     farmers = list(set(map(lambda u: u.product.farmer, order_details)))
-    
+
 
 def delivery_address_update(request):
     """선물하기 배송 주소 업데이트 함수"""
@@ -1337,7 +1337,7 @@ def calculate_delivery_fee(request):
         farmer_zipcode = int(request.POST.get("farmerZipcode", 1))
         friend_zipcode = int(request.POST.get("friendZipcode", 1))
         product_pk = int(request.POST.get("productPK", None))
-        quantity = int(request.POST.get("productPK", 1))
+        quantity = int(request.POST.get("quantity", 1))
 
         product = Product.objects.get(pk=product_pk)
         total_delivery_fee = product.get_total_delivery_fee(quantity, friend_zipcode)

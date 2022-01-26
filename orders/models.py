@@ -288,7 +288,6 @@ class Order_Detail(models.Model):
     def is_sufficient_stock(self):
         return self.product.is_sufficient_stock(self.quantity)
 
-
     def order_cancel(self, cancel_reason, gift):
 
         """주문 취소 및 금액 환불 진행"""
@@ -354,11 +353,13 @@ class Order_Detail(models.Model):
                         args_kakao,
                     )
             else:
-                raise Exception(f"주문 취소 bootpay cancel result Http Response Error / 주문관리번호 : {self.order_management_number}")
+                raise Exception(
+                    f"주문 취소 bootpay cancel result Http Response Error / 주문관리번호 : {self.order_management_number}"
+                )
         else:
-            raise Exception(f"주문 취소 bootpay get access token Http Response Error / 주문관리번호 : {self.order_management_number}")
-
-        
+            raise Exception(
+                f"주문 취소 bootpay get access token Http Response Error / 주문관리번호 : {self.order_management_number}"
+            )
 
     def send_kakao_msg_payment_complete_for_consumer(self, phone_number_consumer, is_user, is_gift):
         """소비자에게 결제 완료 메시지 전송"""
