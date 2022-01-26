@@ -6,13 +6,9 @@
 
 {% endblock stylesheet %} {% block main_content %}
 
-{% define order_group.order_details.first.product as product %}
-{% define order_group.order_details.first.product.farmer as farmer %}
-{% define order_group.order_details as order_details %}
-
 {% widthratio product.weight 1 order_group.total_quantity as total_weight %}
 
-{% with product=order_group.order_details.first.product farmer=order_group.order_details.first.product.farmer order_details=order_group.order_details %}
+{% with product=order_group.order_details.first.product farmer=order_group.order_details.first.product.farmer order_details=order_group.order_details.all %}
 
 <div class="order-payment-success-container mx-auto flex">
     <div class="order-payment-success-title flex">주문 / 결제 완료</div>
@@ -73,10 +69,8 @@
             {% for detail in order_details %}
             <div class="order-payment-success-information-list-wrap friend-info-wrap">
                 <div class="order-payment-success-information-list flex">
-                    <div
-                        class="order-payment-success-information-list-left-section flex flex-col items-center md:justify-between">
-                        <img class="order-payment-success-friend-image"
-                            src="{% static 'images/orders/gift/gift_friend_icon.webp' %}" />
+                    <div class="order-payment-success-information-list-left-section flex flex-col items-center md:justify-between">
+                        <img class="order-payment-success-friend-image" src="{% static 'images/orders/gift/gift_friend_icon.webp' %}" />
                         <div class="friend-index">{{detail.rev_name_gift}}</div>
                     </div>
                     <div class="order-payment-success-information-list-right-section flex">
@@ -97,8 +91,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="order-payment-success-information-description-bottom-wrap friend-address flex items-center">
+                        <div class="order-payment-success-information-description-bottom-wrap friend-address flex items-center">
                             <div class="order-payment-success-information-weight">
                                 {% if detail.rev_address_gift %}
                                 {{detail.rev_address_gift}}
@@ -148,14 +141,11 @@
         <div class="order-payment-success-appreciate-message-card-section-container flex">
             <!-- 여기서부터 구독하지 않은 농장 정보 -->
 
-            <div class="order-payment-success-unsubfarmer-appreciate-message-card-section"
-                data-farmerpk="{{farmer.pk}}">
+            <div class="order-payment-success-unsubfarmer-appreciate-message-card-section" data-farmerpk="{{farmer.pk}}">
                 <div class="order-payment-success-unsubfarmer-appreciate-message-card-wrap flex">
                     <div class="order-payment-success-unsubfarmer-card-photo-section relative">
-                        <img class="order-payment-success-unsubfarmer-card-photo-circle"
-                            src="{{farmer.farmer_profile.url}}" />
-                        <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn absolute"
-                            src="{% static 'images/orders/subscribe_add.svg' %}" alt="subscribe_add" />
+                        <img class="order-payment-success-unsubfarmer-card-photo-circle" src="{{farmer.farmer_profile.url}}" />
+                        <img class="transition_element order-payment-success-unsubfarmer-card-photo-subscribe-btn absolute" src="{% static 'images/orders/subscribe_add.svg' %}" alt="subscribe_add" />
                     </div>
                     <div class="order-payment-success-unsubfarmer-card-photo-section2">
                         <div class="order-payment-success-unsubfarmer-card-farm-name"> {{farmer.farm_name}} </div>
@@ -163,16 +153,11 @@
                         <div class="order-payment-success-unsubfarmer-card-message-text"> {{farmer.farm_thanks_msg}}
                         </div>
                         <a class="order-payment-success-unsubfarmer-card-farm-link-section-anchor" href="#">
-                            <div
-                                class="order-payment-success-unsubfarmer-card-farm-link-section transition_element flex">
+                            <div class="order-payment-success-unsubfarmer-card-farm-link-section transition_element flex">
                                 <div class="order-payment-success-unsubfarmer-card-farm-link-title"> 농가 페이지 방문하기 </div>
-                                <a class="order-payment-success-unsubfarmer-card-farm-link-btn"
-                                    href="{% url 'farmers:farmer_detail' farmer.pk %}">
-                                    <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow"
-                                        src="{% static 'images/orders/arrow.svg' %}" alt="arrow" />
-                                    <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow-mobile"
-                                        src="{% static 'images/orders/visit_farmer_page.svg' %}"
-                                        alt="visit_farmer_page" />
+                                <a class="order-payment-success-unsubfarmer-card-farm-link-btn" href="">
+                                    <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow" src="{% static 'images/orders/arrow.svg' %}" alt="arrow" />
+                                    <img class="order-payment-success-unsubfarmer-card-farm-link-btn-arrow-mobile" src="{% static 'images/orders/visit_farmer_page.svg' %}" alt="visit_farmer_page" />
                                 </a>
                             </div>
                         </a>

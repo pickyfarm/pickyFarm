@@ -165,6 +165,7 @@ giftButton.addEventListener('click', function () {
 
     console.log(form);
 
+    document.body.appendChild(form);
     form.submit();
 });
 

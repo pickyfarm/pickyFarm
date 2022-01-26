@@ -449,7 +449,7 @@ def payment_update(request, pk):
 
 @require_POST
 @transaction.atomic
-def payment_update_gift(request, orderGroupPk):
+def payment_update_gift(request):
     """선물하기 결제하기 버튼 클릭"""
 
     # # [PROCESS 1] GET Parameter에 있는 pk 가져와서 Order_Group select
@@ -461,8 +461,10 @@ def payment_update_gift(request, orderGroupPk):
     total_product_price = int(request.POST.get("totalProductPrice"))
     total_delivery_fee = int(request.POST.get("totalDeliveryFee"))
     total_quantity = int(request.POST.get("totalQuantity"))
-    friends = request.POST.get("friends")
-    product = request.POST.get("product")  # 추가해야할듯?
+    friends = json.loads(request.POST.get("friends"))
+    product_pk = request.POST.get("productPK", 0)  # 추가해야할듯?
+
+    product = Product.objects.get(pk=product_pk)
 
     if request.method == "POST":
         valid = True
@@ -491,21 +493,31 @@ def payment_update_gift(request, orderGroupPk):
         if valid is True:
             # [PROCESS 5-1] order detail 생성 후 전달받은 정보 저장
             for friend in friends:
+                address = (friend["address"]["sigungu"] + " " + friend["address"]["detail"]).strip()
+
                 order_detail = Order_Detail.objects.create(
-                    quantity=friend.quantity,
-                    total_price=friend.totalProductPrice + friend.deliveryFee,
-                    rev_name_gift=friend.name,
-                    rev_address_gift=friend.address,
-                    rev_phone_number_gift=friend.phoneNum,
-                    gift_message=friend.giftMessage,
+                    quantity=friend["quantity"],
+                    total_price=(friend["quantity"] * product.sell_price) + friend["deliveryFee"],
+                    rev_name_gift=friend["name"],
+                    rev_address_gift=address,
+                    rev_phone_number_gift=friend["phoneNum"],
+                    gift_message=friend["giftMessage"],
                     product=product,
                     order_group=order_group,
                 )
                 order_detail.create_order_detail_management_number(product.farmer.user.username)
 
+                order_detail.save()
+
             # [PROCESS 5-2] order group 정보 업데이트
             order_group.total_price = total_product_price + total_delivery_fee
             order_group.total_quantity = total_quantity
+
+            order_group.orderer_name = request.user.account_name
+            order_group.orderer_phone_number = request.user.phone_number
+
+            order_group.order_type = "gift"
+            order_group.consumer = request.user.consumer
             order_group.save()
 
             data = {
@@ -1296,7 +1308,8 @@ def delivery_address_update(request):
             return redirect(reverse("core:main"))
 
     elif request.method == "POST":
-        rev_address = request.POST.get("rev_address")
+        sigungu = request.POST.get("sigungu")
+        detail = request.POST.get("detail")
         zip_code = int(request.POST.get("zipCode", 1))
         fee = calculate_jeju_delivery_fee(zip_code, order_detail.product)
         default_fee = order_detail.product.default_delivery_fee
@@ -1304,11 +1317,14 @@ def delivery_address_update(request):
             # Error!
             return redirect(reverse("core:main"))
         else:
-            order_detail.rev_address_gift = rev_address
+            order_detail.rev_address_gift = sigungu + " " + detail
+            order_detail.status = "payment_complete"
             order_detail.save()
             order_group = order_detail.order_group
             farmer = order_detail.product.farmer
             farmer.send_kakao_payment_valid(order_group, farmer)
+
+            ctx = {"order_detail": order_detail}
 
             return render(
                 request, "orders/gift/popups/payment_gift_popup_address_input_complete.html", ctx
@@ -1331,6 +1347,16 @@ def calculate_delivery_fee(request):
         }
 
         return JsonResponse(data)
+
+
+def payment_gift_order_list_popup(request):
+    order_management_number = url_encryption.decode_url_string(request.GET.get("odmn"))
+    print(order_management_number)
+    order_detail = Order_Detail.objects.get(order_management_number=order_management_number)
+
+    ctx = {"order_detail": order_detail}
+
+    return render(request, "orders/gift/popups/payment_gift_popup_order_list.html", ctx)
 
 
 ################
@@ -1458,7 +1484,7 @@ def payment_valid_gift(request):
     # client의 post data - receiptId / orderGroupPk
     try:
         receipt_id = request.POST.get("receiptId", None)
-        order_group_pk = request.POST.get("orderGroupPk", None)
+        order_group_pk = int(request.POST.get("orderGroupPk", None))
         if receipt_id is None or order_group_pk is None:
             raise exceptions.HttpBodyDataError
     except Exception as e:
@@ -1468,7 +1494,7 @@ def payment_valid_gift(request):
     # order_group 관련 로직
     # receipt_number set / total_price get / order_details get
     order_group = Order_Group.objects.get(pk=order_group_pk)
-    order_details = order_group.order_details
+    order_details = order_group.order_details.all()
     order_group.recepit_number = receipt_id
     total_price = order_group.total_price
     # save 잊지 말기
@@ -1533,7 +1559,9 @@ def payment_valid_gift(request):
                 # order_detail 재고 차감
                 product.sold(detail.quantity)
                 # order_detail status - payment_complete로 변경
-                detail.status = "payment_complete"
+                detail.status = (
+                    "payment_complete" if detail.rev_address_gift else "payment_complete_no_address"
+                )
                 detail.payment_status = "incoming"  # 정산상태 정산예정으로 변경
                 detail.product.save()
                 detail.save()

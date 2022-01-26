@@ -32,6 +32,11 @@ urlpatterns = [
         name="payment_gift_delivery_update",
     ),
     path(
+        "payment/gift/popup/order",
+        views.payment_gift_order_list_popup,
+        name="payment_gift_order_list",
+    ),
+    path(
         "payment/calculate-delivery-fee",
         views.calculate_delivery_fee,
         name="calculate_delivery_fee",

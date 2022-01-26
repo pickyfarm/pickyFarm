@@ -9,20 +9,20 @@
     <h1 class="f-title">상품 배송 정보 확인</h1>
     <div id="product-info-section" class="flex w-full flex-col  main-content-section">
         <div class="flex justify-center">
-            <img src="" alt="" class="product-image">
+            <img src="{{order_detail.product.main_image.url}}" alt="" class="product-image">
             <div class="flex flex-col justify-between product-info">
                 <div class="flex flex-col">
                     <span class="f-content-label">{{order_detail.product.title}}</span>
                     <span class="f-content-data">{{order_detail.quantity}}개</span>
                 </div>
                 <div class="flex items-center deliver-status">
-                    <span class="f-desc-label">{{order_detail.status}}</span>
+                    <span class="f-desc-label">{{order_detail.get_status_display}}</span>
                 </div>
             </div>
         </div>
         <div class="flex justify-between items-center farmer-info">
             <div class="flex items-center">
-                <img src="" alt="" class="farmer-profile">
+                <img src="{{farmer.farmer_profile.url}}" alt="" class="farmer-profile">
                 <span class="f-desc-label">{{farmer.farm_name}}</span>
             </div>
             <button class="farmer-page-button" onclick="location.href = `{% url 'farmers:farmer_detail' farmer.pk %}`">

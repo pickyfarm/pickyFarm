@@ -6,8 +6,12 @@ html {
     color: #5c6754;
 }
 
-span{
+span {
     word-break: keep-all;
+}
+
+img {
+    object-fit: cover;
 }
 
 #main-logo {
@@ -146,20 +150,19 @@ section {
 }
 
 /* 주문내역 조회 팝업 */
-.deliver-status{
+.deliver-status {
     margin-bottom: 2rem;
 }
 
-
-.farmer-info{
+.farmer-info {
     margin-top: 2.3rem;
 }
 
-.farmer-info span{
+.farmer-info span {
     margin-left: 1rem;
 }
 
-.receiver-info{
+.receiver-info {
     grid-template-columns: 8rem auto;
     row-gap: 1rem;
     grid-auto-flow: dense;
@@ -169,19 +172,19 @@ section {
     word-break: keep-all;
 }
 
-.receiver-info-label{
+.receiver-info-label {
     grid-column: 1;
 }
 
-.receiver-info-data{
+.receiver-info-data {
     grid-column: 2;
 }
 
-.button-group{
+.button-group {
     margin-top: 7rem;
 }
 
-.f-button-signup{
+.f-button-signup {
     width: 18rem;
     margin-right: 1rem;
 }

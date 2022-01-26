@@ -24,7 +24,7 @@
 
     /* delivery fee calculation function url */
     const CALCULATE_DELIVERY_FEE_URL =
-        '{% url "orders:calculate_delvery_fee" %}';
+        '{% url "orders:calculate_delivery_fee" %}';
 
     /* constants */
     const ORDER_GROUP_PK = '{{order_group_pk}}';
@@ -44,6 +44,7 @@
     const CONSUMER_PHONE_NUM = '{{request.user.phone_number}}';
     const CONSUMER_EMAIL = '{{request.user.email}}';
 </script>
+<script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="{% static 'js/orders/payment_gift.js' %}"></script>
 {% endblock scripts %}

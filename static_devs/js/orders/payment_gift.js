@@ -9,7 +9,7 @@ const initinalFriendList = [
             zipCode: '00000',
         },
         quantity: 1,
-        deliveryFee: 0,
+        deliveryFee: DELIVERY_FEE,
         giftMessage: '',
         infoScope: '',
     },
@@ -20,10 +20,10 @@ const purchaseApp = new Vue({
     el: '#payment-app',
     data: {
         friendCount: 1,
-        productPrice: 10000,
+        productPrice: PRODUCT_PRICE,
         friends: initinalFriendList,
-        weight: 1.0,
-        totalDeliveryFee: 0,
+        weight: PRODUCT_WEIGHT,
+        totalDeliveryFee: DELIVERY_FEE,
         paymentType: '',
     },
 
@@ -64,7 +64,7 @@ const purchaseApp = new Vue({
                     zipCode: '00000',
                 },
                 quantity: 1,
-                deliveryFee: 0,
+                deliveryFee: DELIVERY_FEE,
                 giftMessage: '',
                 infoScope: '',
             });
@@ -87,7 +87,8 @@ const purchaseApp = new Vue({
                 this.friends[idx].deliveryFee = getDeliveryFeeByZipCode(
                     FARMER_ZIPCODE,
                     this.friends[idx].address.zipCode,
-                    0
+                    PRODUCT_PK,
+                    this.friends[idx].quantity
                 );
             });
         },
@@ -150,11 +151,12 @@ function bootpayHandler(instance) {
         totalProductPrice: sumOfProductPrice,
         totalDeliveryFee: sumOfDeliveryFee,
         totalQuantity: sumOfQuantity,
-        friends,
+        friends: JSON.stringify(friends),
+        productPK: PRODUCT_PK,
     };
 
     /* 부트페이 요청 코드부 */
-    Bootpay.request({
+    BootPay.request({
         price: instance.orderTotalPrice,
         application_id: '60dad0c05b29480021dc523d',
         name: ORDER_GROUP_NAME,
@@ -185,7 +187,7 @@ function bootpayHandler(instance) {
                     const valid = res.valid;
 
                     if (valid) {
-                        Bootpay.transactionConfirm(data);
+                        BootPay.transactionConfirm(data);
                     } else {
                         if (response.error_type == 'error_stock') {
                             response.invalid_products.forEach(function (item) {
@@ -224,22 +226,19 @@ function bootpayHandler(instance) {
             paymentValidForm.setAttribute('action', PAYMENT_VALID_URL);
 
             // payment_valid_gift view에는 order_group.pk, receipt_id를 전달한다
-            const orderGroupPKHiddenInput = document
-                .createElement('input')
-                .setAttribute('name', 'orderGroupPk');
+            const orderGroupPKHiddenInput = document.createElement('input');
+            orderGroupPKHiddenInput.setAttribute('name', 'orderGroupPk');
             orderGroupPKHiddenInput.setAttribute('type', 'hidden');
             orderGroupPKHiddenInput.setAttribute('value', ORDER_GROUP_PK);
 
-            const receiptIDHiddenInput = document
-                .createElement('input')
-                .setAttribute('name', 'receiptID');
+            const receiptIDHiddenInput = document.createElement('input');
+            receiptIDHiddenInput.setAttribute('name', 'receiptId');
             receiptIDHiddenInput.setAttribute('type', 'hidden');
             receiptIDHiddenInput.setAttribute('value', data.receipt_id);
 
             // XSS 방지용 csrf token
-            const csrfHiddenInput = document
-                .createElement('input')
-                .setAttribute('name', 'csrfmiddlewaretoken');
+            const csrfHiddenInput = document.createElement('input');
+            csrfHiddenInput.setAttribute('name', 'csrfmiddlewaretoken');
             csrfHiddenInput.setAttribute('type', 'hidden');
             csrfHiddenInput.setAttribute('value', CSRF_TOKEN);
 
@@ -250,6 +249,7 @@ function bootpayHandler(instance) {
                 csrfHiddenInput
             );
 
+            document.body.appendChild(paymentValidForm);
             paymentValidForm.submit();
         });
 }

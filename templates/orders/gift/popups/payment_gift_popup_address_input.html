@@ -8,21 +8,21 @@
 
 
     <h1 class="f-subtitle flex flex-col items-center">
-        {{order_group.orderer_name}}님이 보내신 선물을 받기 위해<br>
+        {{order_detail.order_group.orderer_name}}님이 보내신 선물을 받기 위해<br>
         <b>주소를 입력해주세요!</b>
     </h1>
     <form method="post" class="flex flex-col items-center">
-
+        {% csrf_token %}
         <div id="product-info-section" class="flex w-full flex-col  main-content-section">
             <div class="flex justify-center">
-                <img src="" alt="" class="product-image">
+                <img src="{{order_detail.product.main_image.url}}" alt="" class="product-image">
                 <div class="flex flex-col justify-between product-info">
                     <div class="flex flex-col">
                         <span class="f-content-label">{{order_detail.product.title}}</span>
                         <span class="f-content-data">{{order_detail.quantity}}개</span>
                     </div>
                     <div class="flex items-center">
-                        <img src="" alt="" class="farmer-profile">
+                        <img src="{{order_detail.product.farmer.farmer_profile.url}}" alt="" class="farmer-profile">
                         <span class="f-desc-small">{{order_detail.product.farmer.farm_name}}</span>
                     </div>
                 </div>
@@ -30,8 +30,7 @@
             <div id="address-input-section" class="flex flex-col items-center">
                 <h2 class="f-desc-label">받는 분 주소</h2>
                 <div class="flex w-full justify-between">
-                    <input type="text" name='sigungu' class="address-input flex-1" v-model="sigungu"
-                        @click='handleAddressFindClick' readonly>
+                    <input type="text" name='sigungu' class="address-input flex-1" v-model="sigungu" @click='handleAddressFindClick' readonly>
                     <button class="address-find-button f-desc-small" @click='handleAddressFindClick' type="button">
                         주소 찾기
                     </button>

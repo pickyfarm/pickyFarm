@@ -8,9 +8,10 @@
         <span class=" f-title mb-10">주소 입력이 완료되었습니다.</span>
         선물이 농가에서 출발할 때 알려드릴게요!
     </h1>
+
     <div class="flex justify-between w-full mb-10 mt-80">
-        <button class="f-secondary-button" onclick="location.href=`{% url 'farmers:farmer_detail' farmer.pk %}`">농가 알아보기</button>
-        <button class="f-secondary-button" onclick="location.href=`{% url 'orders:order_listr_gift' %}`">배송 정보 확인</button>
+        <button class="f-secondary-button" onclick="location.href = `{% url 'farmers:farmer_detail' farmer.pk %}`">농가 알아보기</button>
+        <button class="f-secondary-button" onclick="location.href=`{% url 'orders:payment_gift_order_list' %}?odmn={{order_detail.encrypt_odmn}}`">배송 정보 확인</button>
     </div>
 
     <button class="f-primary-button f-button-confirm" onclick="location.href = `{% url 'core:main' %}`">확인</button>
