@@ -495,6 +495,7 @@ def payment_update_gift(request):
             # [PROCESS 5-1] order detail 생성 후 전달받은 정보 저장
             for friend in friends:
                 address = (friend["address"]["sigungu"] + " " + friend["address"]["detail"]).strip()
+                status = "payment_complete" if address else "payment_complete_no_address"
 
                 order_detail = Order_Detail.objects.create(
                     quantity=friend["quantity"],
@@ -505,6 +506,7 @@ def payment_update_gift(request):
                     gift_message=friend["giftMessage"],
                     product=product,
                     order_group=order_group,
+                    status=status,
                 )
                 order_detail.create_order_detail_management_number(product.farmer.user.username)
 
@@ -1573,10 +1575,6 @@ def payment_valid_gift(request):
                 detail.send_kakao_msg_payment_complete_for_consumer(
                     phone_number_consumer, is_user=True, is_gift=True
                 )
-
-                # 주소 입력된 선물하기 결제인 경우 파머에게 주문접수 알림톡 전송
-                if detail.status == "payment_complete":
-                    detail.send_kakao_msg_order_for_farmer()
 
                 # 선물 받는이 선물 알림톡 전송
                 detail.send_kakao_msg_gift_for_receiver()
