@@ -1309,6 +1309,8 @@ def delivery_address_update(request):
             ctx = {"order_detail": order_detail}
 
             return render(request, "orders/gift/popups/payment_gift_popup_address_input.html", ctx)
+        elif order_detail.status == "payment_complete":
+            return redirect(reverse("core:completed_alert"))
         else:
             return redirect(reverse("core:main"))
 
