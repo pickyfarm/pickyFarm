@@ -496,8 +496,12 @@ class Order_Detail(models.Model):
         # 주소 미입력된 선물하기 주문인 경우
         elif self.status == "payment_complete_no_address":
             args_receiver[
-                "#{link}"
+                "#{link1}"
             ] = f"https://www.pickyfarm.com/order/payment/gift/popup/address?odmn={self.encrypt_odmn()}"
+
+            args_receiver[
+                "#{link2}"
+            ] = f"https://www.pickyfarm.com/order/payment/gift/popup/order?odmn={self.encrypt_odmn()}"
             send_kakao_message(
                 self.rev_phone_number_gift,
                 templateIdList["gift_notice_no_address"],

@@ -8,22 +8,19 @@
     <div id="friend-info-list" class="flex flex-col items-center main-container">
         <div class="friend-info-row grid items-center" v-for="(friend, idx) in friends" :key="friend.id">
             <div class="profile flex flex-col items-center justify-self-start">
-                <img src="{% static 'images/orders/gift/gift_friend_icon.webp' %}" :alt="'친구' + idx"
-                    class="profile-skeleton" />
+                <img src="{% static 'images/orders/gift/gift_friend_icon.webp' %}" :alt="'친구' + idx" class="profile-skeleton" />
                 <span class="profile-index color-primary">
                     [[friend.name]]
                 </span>
             </div>
             <div class="md:justify-self-start w-full">
                 <input type="radio" value="phoneNumOnly" v-model="friend.infoScope" :id="'phonenum-only' + friend.id" />
-                <label :for="'phonenum-only' + friend.id" class="phonenum-only w-full"
-                    @click='this.alert("선물받는 친구의 주소가 제주 및 도서산간인 경우 배송이 불가능 할 수 있습니다.")'>
+                <label :for="'phonenum-only' + friend.id" class="phonenum-only w-full" @click='this.alert("선물받는 친구의 주소가 제주 및 도서산간인 경우 배송이 불가능 할 수 있습니다.")'>
                     번호만 알아요
                 </label>
             </div>
             <div>
-                <input type="radio" value="all" v-model="friend.infoScope" :id="'phonenum-address' + friend.id"
-                    required />
+                <input type="radio" value="all" v-model="friend.infoScope" :id="'phonenum-address' + friend.id" required />
                 <label :for="'phonenum-address' + friend.id" class="phonenum-address">
                     주소/번호 모두 알아요
                 </label>
@@ -32,8 +29,7 @@
                 <button class="spinner" @click="friend.quantity > 1 && friend.quantity--">
                     -
                 </button>
-                <input type="number" class="product-quantity color-primary" min="1" readonly
-                    v-model="friend.quantity" />
+                <input type="number" class="product-quantity color-primary" min="1" readonly v-model="friend.quantity" />
                 <button class="spinner color-primary" @click="friend.quantity++">
                     +
                 </button>
@@ -41,8 +37,7 @@
             <span class="local-total-price numeric color-primary justify-self-end">
                 [[friend.quantity * productPrice + friend.deliveryFee]] 원
             </span>
-            <button class="friend-delete justify-self-end flex justify-center items-center" v-if="numberOfFriend > 1"
-                @click="deleteFriend(friend.id)">
+            <button class="friend-delete justify-self-end flex justify-center items-center" v-if="numberOfFriend > 1" @click="deleteFriend(friend.id)">
                 <div class="color-primary">×</div>
             </button>
 
@@ -50,33 +45,29 @@
                 <label for="'name' + friend.id" class="color-primary">
                     이름
                 </label>
-                <input type="text" class="name" id="'name' + friend.id" v-model.trim="friend.name"
-                    placeholder="선물받을 사람 이름" />
+                <input type="text" class="name" id="'name' + friend.id" v-model.trim="friend.name" placeholder="선물받을 사람 이름" />
                 <label for="'phonenum' + friend.id" class="color-primary">
                     번호
                 </label>
-                <input type="text" class="phonenum" id="'phonenum' + friend.id" v-model.trim="friend.phoneNum"
-                    placeholder="숫자만 입력해주세요" />
+                <input type="text" class="phonenum" id="'phonenum' + friend.id" v-model.trim="friend.phoneNum" placeholder="숫자만 입력해주세요" />
                 <label v-if="friend.infoScope === 'all'" for="'address' + friend.id" class="color-primary">
                     주소
                 </label>
                 <div v-if="friend.infoScope === 'all'" class="flex flex-col">
                     <div class="flex justify-between" @click="handleAddressFindButtonClick(idx)">
-                        <input type="text" class="address-sigungu flex-1" id="'address' + friend.id"
-                            v-model="friend.address.sigungu" readonly />
+                        <input type="text" class="address-sigungu flex-1" id="'address' + friend.id" v-model="friend.address.sigungu" readonly />
                         <button class="color-primary address-find-button">
                             주소 찾기
                         </button>
                     </div>
-                    <input v-if="friend.infoScope === 'all'" type="text" class="address-detail"
-                        v-model="friend.address.detail" placeholder="상세 주소" />
+                    <input v-if="friend.infoScope === 'all'" type="text" class="address-detail" v-model="friend.address.detail" placeholder="상세 주소" />
                 </div>
                 <input type="hidden" v-model="friend.address.zipCode" />
                 <div class="gift-message flex flex-col">
                     <label for="'message' + friend.id" class="color-primary">
                         선물 메세지
                     </label>
-                    <textarea id="'message' + friend.id" class="message"></textarea>
+                    <textarea id="'message' + friend.id" class="message" v-model="friend.giftMessage"></textarea>
                 </div>
             </div>
         </div>
