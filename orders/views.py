@@ -1585,7 +1585,35 @@ def payment_valid_gift(request):
                 # 농가 주문 접수 알림
                 # 주소입력된 경우
                 if detail.status == "payment_complete":
-                    detail.send_kakao_msg_order_for_farmer()
+                    url_encoded_order_detail_number = url_encryption.encode_string_to_url(
+                            detail.order_management_number
+                     )
+                    kakao_msg_quantity = (str)(detail.quantity) + "개"
+                    # detail.send_kakao_msg_order_for_farmer()
+                    args_farmer = {
+                        "#{order_detail_title}": detail.product.title,
+                        "#{order_detail_number}": detail.order_management_number,
+                        "#{option_name}": detail.product.option_name,
+                        "#{quantity}": kakao_msg_quantity,
+                        "#{rev_name}": order_group.orderer_name,
+                        "#{rev_phone_number}": order_group.rev_phone_number,
+                        "#{rev_address}": order_group.rev_address,
+                        "#{rev_loc_at}": order_group.rev_loc_at,
+                        "#{rev_detail}": order_group.rev_message,
+                        "#{rev_message}": order_group.to_farm_message,
+                        "#{link_1}": f"www.pickyfarm.com/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",  # 임시
+                        "#{link_2}": f"www.pickyfarm.com/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",  # 임시
+                        "#{link_3}": f"www.pickyfarm.com/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",  # 임시
+                    }
+
+                    print(f'주문확인 url : {args_farmer["#{link_1}"]}')
+
+                    send_kakao_message(
+                        detail.product.farmer.user.phone_number,
+                        templateIdList["order_recept"],
+                        args_farmer,
+                    )
+
 
             order_group.status = "payment_complete"
             order_group.save()
