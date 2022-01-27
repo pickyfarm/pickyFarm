@@ -395,10 +395,10 @@ class Order_Detail(models.Model):
         if is_user == True:
             args_consumer[
                 "#{link_2}"
-            ] = "https://www.pickyfarm.com/user/mypage/orders"  # [일반결제] 회원용 구매확인 링크
+            ] = "www.pickyfarm.com/user/mypage/orders"  # [일반결제] 회원용 구매확인 링크
             args_consumer_gift[
                 "#{link2}"
-            ] = "https://www.pickyfarm.com/user/mypage/orders"  # [선물하기] 회원용 구매확인 링크
+            ] = "www.pickyfarm.com/user/mypage/orders"  # [선물하기] 회원용 구매확인 링크
         # 비회원인 경우
         else:
             url_encoded_order_group_number = url_encryption.encode_string_to_url(
@@ -406,7 +406,7 @@ class Order_Detail(models.Model):
             )
             args_consumer[
                 "#{link_2}"
-            ] = f"https://www.pickyfarm.com/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
+            ] = f"www.pickyfarm.com/user/mypage/orders/list?odmn={url_encoded_order_group_number}"  # 비회원용 구매확인 링크
 
         # 선물하기 결제인 경우
         if is_gift == True:
@@ -483,10 +483,8 @@ class Order_Detail(models.Model):
             args_receiver["#{rev_address_gift}"] = self.rev_address_gift
             args_receiver[
                 "#{link1}"
-            ] = f"https://www.pickyfarm.com/order/payment/gift/popup/order?odmn={self.encrypt_odmn}"
-            args_receiver[
-                "#{link2}"
-            ] = f"https://www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}"
+            ] = f"www.pickyfarm.com/order/payment/gift/popup/order?odmn={self.encrypt_odmn()}"
+            args_receiver["#{link2}"] = f"www.pickyfarm.com/farmer/farmer_detail/{farmer.pk}"
             send_kakao_message(
                 self.rev_phone_number_gift,
                 templateIdList["gift_notice_address"],
@@ -497,11 +495,11 @@ class Order_Detail(models.Model):
         elif self.status == "payment_complete_no_address":
             args_receiver[
                 "#{link1}"
-            ] = f"https://www.pickyfarm.com/order/payment/gift/popup/address?odmn={self.encrypt_odmn()}"
+            ] = f"www.pickyfarm.com/order/payment/gift/popup/address?odmn={self.encrypt_odmn()}"
 
             args_receiver[
                 "#{link2}"
-            ] = f"https://www.pickyfarm.com/order/payment/gift/popup/order?odmn={self.encrypt_odmn()}"
+            ] = f"www.pickyfarm.com/order/payment/gift/popup/order?odmn={self.encrypt_odmn()}"
             send_kakao_message(
                 self.rev_phone_number_gift,
                 templateIdList["gift_notice_no_address"],
