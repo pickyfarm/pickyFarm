@@ -1574,6 +1574,10 @@ def payment_valid_gift(request):
                     phone_number_consumer, is_user=True, is_gift=True
                 )
 
+                # 주소 입력된 선물하기 결제인 경우 파머에게 주문접수 알림톡 전송
+                if detail.status == "payment_complete":
+                    detail.send_kakao_msg_order_for_farmer()
+
                 # 선물 받는이 선물 알림톡 전송
                 detail.send_kakao_msg_gift_for_receiver()
 
