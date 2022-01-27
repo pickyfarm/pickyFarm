@@ -25,6 +25,8 @@ const purchaseApp = new Vue({
         weight: PRODUCT_WEIGHT,
         totalDeliveryFee: DELIVERY_FEE,
         paymentType: '',
+        personalInfoAgree: false,
+        purchaseAgree: false,
     },
 
     computed: {
@@ -86,8 +88,32 @@ const purchaseApp = new Vue({
             this.friends = this.friends.filter((el) => el.id !== id);
         },
         handleSubmitButtonClick: function (e) {
-            this.friends = this.friends.filter((el) => el.infoScope);
             e.preventDefault();
+            this.friends = this.friends.filter((el) => el.infoScope);
+            this.friends.forEach((friend) => {
+                friend.phoneNum = friend.phoneNum.trim().replaceAll('-', '');
+            });
+
+            if (!this.paymentType) {
+                alert('결제 수단을 선택해주세요.');
+                this.$refs.paymentTypeRef.focus();
+
+                return;
+            }
+
+            if (!this.personalInfoAgree) {
+                alert('개인 정보 수집 이용에 동의해주세요.');
+                this.$refs.personalInfoAgreeRef.focus();
+
+                return;
+            }
+
+            if (!this.purchaseAgree) {
+                alert('구매 진행에 동의해주세요.');
+                this.$refs.purchaseAgreeRef.focus();
+
+                return;
+            }
 
             if (this.sumOfQuantity > PRODUCT_STOCK) {
                 alert(

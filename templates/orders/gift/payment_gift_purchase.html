@@ -30,15 +30,17 @@
             <div class="divider flex-1"></div>
         </div>
         <div id="payment-type-section" class="flex flex-row">
-            <ul class="flex flex-row">
+            <ul class="flex flex-row" ref='paymentTypeRef'>
                 <li>
                     <label for="id_payment_type_0" class="mr-2">
-                        <input type="radio" name="payment_type" value="card" id="id_payment_type_0" required v-model="paymentType"> 카드결제
+                        <input type="radio" name="payment_type" value="card" id="id_payment_type_0" required
+                            v-model="paymentType"> 카드결제
                     </label>
                 </li>
                 <li>
                     <label for="id_payment_type_1" class="mr-2">
-                        <input type="radio" name="payment_type" value="kakao" id="id_payment_type_1" v-model="paymentType"> 카카오페이
+                        <input type="radio" name="payment_type" value="kakao" id="id_payment_type_1"
+                            v-model="paymentType"> 카카오페이
                     </label>
                 </li>
             </ul>
@@ -48,7 +50,8 @@
     <div id="personal-info-agree-section">
         <div id="div-line"></div>
         <div id="personal-info-agree-top-section" class="flex flex-row">
-            <label id="personal-info-agree-label"><input id="personal-info-agree" class="pt-5" type="radio" value="agree" required>
+            <label id="personal-info-agree-label"><input id="personal-info-agree" class="pt-5" type="radio"
+                    value="agree" required v-model="personalInfoAgree" ref='personalInfoAgreeRef'>
                 개인 정보 수집 이용 동의</label>
             <div id="personal-info-agree-require" class="ml-1">(필수)</div>
         </div>
@@ -61,7 +64,9 @@
 
     <div id="btns-section" class="flex flex-col items-center">
         <div id="agree-section" class="mb-2">
-            <label id="final-agree-label"><input id="final-agree" class="pt-5 ml-2" type="radio" value="agree" required> 구매할 상품의 결제정보를 확인하였으며, 구매진행에
+            <label id="final-agree-label"><input id="final-agree" class="pt-5 ml-2" type="radio" value="agree" required
+                    v-model="purchaseAgree" ref='purchaseAgreeRef'>
+                구매할 상품의 결제정보를 확인하였으며, 구매진행에
                 동의합니다</label>
         </div>
         <div id="buttons" class="flex flex-row mb-12">
