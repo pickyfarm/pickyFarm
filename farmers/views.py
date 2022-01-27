@@ -572,7 +572,7 @@ class FarmerMyPageOrderManage(FarmerMyPageBase):
         qs = (
             Order_Detail.objects.filter(product__farmer=self.request.user.farmer)
             .order_by("order_group")
-            .exclude(status="wait")
+            .exclude(Q(status="wait") | Q(status="payment_complete_no_address"))
         )
 
         print(qs)
