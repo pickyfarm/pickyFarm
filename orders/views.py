@@ -1307,10 +1307,10 @@ def delivery_address_update(request):
     if request.method == "GET":
         if order_detail.order_group.order_type == "gift":
             ctx = {"order_detail": order_detail}
+            if order_detail.status == "payment_complete":
+                return redirect(reverse("core:completed_alert"))
 
             return render(request, "orders/gift/popups/payment_gift_popup_address_input.html", ctx)
-        elif order_detail.status == "payment_complete":
-            return redirect(reverse("core:completed_alert"))
         else:
             return redirect(reverse("core:main"))
 
@@ -1586,8 +1586,8 @@ def payment_valid_gift(request):
                 # 주소입력된 경우
                 if detail.status == "payment_complete":
                     url_encoded_order_detail_number = url_encryption.encode_string_to_url(
-                            detail.order_management_number
-                     )
+                        detail.order_management_number
+                    )
                     kakao_msg_quantity = (str)(detail.quantity) + "개"
                     # detail.send_kakao_msg_order_for_farmer()
                     args_farmer = {
@@ -1613,7 +1613,6 @@ def payment_valid_gift(request):
                         templateIdList["order_recept"],
                         args_farmer,
                     )
-
 
             order_group.status = "payment_complete"
             order_group.save()
