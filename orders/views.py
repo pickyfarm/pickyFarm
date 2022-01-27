@@ -1328,6 +1328,7 @@ def delivery_address_update(request):
             order_group = order_detail.order_group
             farmer = order_detail.product.farmer
             farmer.send_kakao_payment_valid(order_group, farmer)
+            order_detail.send_kakao_msg_order_for_farmer()
 
             ctx = {"order_detail": order_detail}
 
