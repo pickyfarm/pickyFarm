@@ -1,4 +1,3 @@
-from turtle import title
 from django.db import models
 from core.models import CompressedImageField
 from core import url_encryption
