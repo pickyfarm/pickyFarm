@@ -1,7 +1,7 @@
 const initinalFriendList = [
     {
         id: 0,
-        name: '친구1',
+        name: '',
         phoneNum: '',
         address: {
             sigungu: '',
@@ -14,6 +14,14 @@ const initinalFriendList = [
         infoScope: '',
     },
 ];
+
+const validationRegex = {
+    phoneNum: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
+};
+
+const validateValue = (targetVal, valType) => {
+    return !!validationRegex[valType]?.test(targetVal);
+};
 
 const purchaseApp = new Vue({
     delimiters: ['[[', ']]'],
@@ -71,7 +79,7 @@ const purchaseApp = new Vue({
         addFriend: function () {
             this.friends.push({
                 id: this.friendCount++,
-                name: `친구${this.friendCount}`,
+                name: ``,
                 phoneNum: '',
                 address: {
                     sigungu: '',
@@ -87,43 +95,78 @@ const purchaseApp = new Vue({
         deleteFriend: function (id) {
             this.friends = this.friends.filter((el) => el.id !== id);
         },
+        validateInput: function (targetVal, valType) {
+            if (!validateValue(targetVal, valType)) {
+                alert('올바른 값을 입력해주세요');
+            }
+        },
         handleSubmitButtonClick: function (e) {
             e.preventDefault();
+
+            let valid = true; // for form validation
+            let alertMessage = '';
+
             this.friends = this.friends.filter((el) => el.infoScope);
             this.friends.forEach((friend) => {
+                if (friend.infoScope === 'all' && !friend.address.sigungu) {
+                    alertMessage = '주소를 입력하지 않은 친구가 있습니다.';
+
+                    valid = false;
+                    return;
+                }
+
+                if (!validateValue(friend.phoneNum, 'phoneNum')) {
+                    alertMessage = '올바른 번호를 입력하세요.';
+
+                    valid = false;
+                    return;
+                }
+
                 friend.phoneNum = friend.phoneNum.trim().replaceAll('-', '');
             });
 
             if (!this.paymentType) {
-                alert('결제 수단을 선택해주세요.');
+                alertMessage = '결제 수단을 선택해주세요.';
                 this.$refs.paymentTypeRef.focus();
 
-                return;
+                valid = false;
             }
 
             if (!this.personalInfoAgree) {
-                alert('개인 정보 수집 이용에 동의해주세요.');
+                alertMessage = '개인 정보 수집 이용에 동의해주세요.';
                 this.$refs.personalInfoAgreeRef.focus();
 
-                return;
+                valid = false;
             }
 
             if (!this.purchaseAgree) {
-                alert('구매 진행에 동의해주세요.');
+                alertMessage = '구매 진행에 동의해주세요.';
                 this.$refs.purchaseAgreeRef.focus();
 
-                return;
+                valid = false;
             }
 
             if (this.sumOfQuantity > PRODUCT_STOCK) {
-                alert(
-                    `현재 재고량보다 많은 수량의 상품을 담았습니다! 현재 재고: ${PRODUCT_STOCK}개`
-                );
+                alertMessage = `현재 재고량보다 많은 수량의 상품을 담았습니다! 현재 재고: ${PRODUCT_STOCK}개`;
 
+                valid = false;
+            }
+
+            if (this.friends.length < 1) {
+                alertMessage =
+                    '[번호만 알아요], [주소/번호 모두 알아요] 버튼을 눌러 친구의 정보를 입력해주세요';
+
+                this.addFriend();
+
+                valid = false;
+            }
+
+            if (!valid) {
+                !valid && alert(alertMessage);
                 return;
             }
 
-            bootpayHandler(this);
+            valid && bootpayHandler(this);
         },
         handleAddressFindButtonClick: function (idx) {
             // callback 형태로 다음 우편번호 API의 결과값을 내부 변수에 할당할 수 있음

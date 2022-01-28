@@ -5,7 +5,8 @@
 {% endblock stylesheet %}
 {% block title_name %} 피키팜 | 친구에게 선물하기 {% endblock title_name %}
 {% block main_content %}
-<div class="main_content flex flex-col items-center md:w-content mx-auto" id="payment-app">
+<form class="main_content flex flex-col items-center md:w-content mx-auto" id="payment-app"
+    @submit='handleSubmitButtonClick'>
     <h1 id="title" class="mx-auto flex items-center color-primary">
         <img src="{% static 'images/orders/gift/gift-box-icon.svg' %}" alt="선물하기" />
         친구에게 선물하기
@@ -14,7 +15,7 @@
     {% include 'orders/gift/payment_gift_header.html' %}
     {% include 'orders/gift/payment_gift_friends.html' %}
     {% include 'orders/gift/payment_gift_purchase.html' %}
-</div>
+</form>
 {% endblock main_content %} {% block scripts %}
 <script>
     /* payment view url */

@@ -416,6 +416,7 @@ input[type='number']::-webkit-outer-spin-button {
     .info-inputs textarea {
         background-color: #f2f2f2;
         margin-top: 5px;
+        padding: 10px;
     }
 
     /* '선물 메세지' 컬럼 */
@@ -547,6 +548,9 @@ input[type='number']::-webkit-outer-spin-button {
         height: 8rem;
 
         flex: 1;
+
+        padding: 0.8rem;
+
     }
 
     .address-find-button {
