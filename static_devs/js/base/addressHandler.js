@@ -38,3 +38,11 @@ function executeDaumPostcodeAPI(cb) {
         },
     }).open();
 }
+
+const executeDaumPostcodeAPIPromise = function () {
+    return new Promise((resolve, reject) => {
+        executeDaumPostcodeAPI((data) => {
+            resolve(data);
+        });
+    });
+};

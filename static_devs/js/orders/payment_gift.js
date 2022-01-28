@@ -169,19 +169,26 @@ const purchaseApp = new Vue({
             valid && bootpayHandler(this);
         },
         handleAddressFindButtonClick: function (idx) {
-            // callback 형태로 다음 우편번호 API의 결과값을 내부 변수에 할당할 수 있음
-            executeDaumPostcodeAPI((data) => {
-                this.friends[idx].address.sigungu = data.address;
-                this.friends[idx].address.zipCode = data.zipCode;
+            clickedFriend = this.friends[idx];
 
-                getDeliveryFeeByZipCode(
-                    FARMER_ZIPCODE,
-                    this.friends[idx].address.zipCode,
-                    PRODUCT_PK,
-                    this.friends[idx].quantity,
-                    idx
-                );
-            });
+            executeDaumPostcodeAPIPromise()
+                .then((data) => {
+                    clickedFriend.address.sigungu = data.address;
+                    clickedFriend.address.zipCode = data.zipCode;
+
+                    return {
+                        farmerZipcode: FARMER_ZIPCODE,
+                        friendZipcode: clickedFriend.address.zipCode,
+                        productPK: PRODUCT_PK,
+                        quantity: clickedFriend.quantity,
+                    };
+                })
+                .then((data) => {
+                    return getDeliveryFeeByZipCode(data);
+                })
+                .then((deliveryFee) => {
+                    clickedFriend.deliveryFee = parseInt(deliveryFee);
+                });
         },
         setFriendDeliveryFee: function (idx, deliveryFee) {
             this.friends[idx].deliveryFee = deliveryFee;
@@ -189,34 +196,32 @@ const purchaseApp = new Vue({
     },
 });
 
-function getDeliveryFeeByZipCode(
+function getDeliveryFeeByZipCode({
     farmerZipcode,
     friendZipcode,
     productPK,
     quantity,
-    idx
-) {
+}) {
     /* 서버에 AJAX 보내서 계산된 배송비 업데이트 할 것 */
-    let deliveryFee = 0;
-    $.ajax({
-        type: 'POST',
-        url: CALCULATE_DELIVERY_FEE_URL,
-        data: {
-            farmerZipcode,
-            friendZipcode,
-            productPK,
-            quantity,
-        },
-        dataType: 'json',
-        success: (res) => {
-            purchaseApp.setFriendDeliveryFee(
-                idx,
-                parseInt(res['delivery_fee'])
-            );
-        },
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            type: 'POST',
+            url: CALCULATE_DELIVERY_FEE_URL,
+            data: {
+                farmerZipcode,
+                friendZipcode,
+                productPK,
+                quantity,
+            },
+            dataType: 'json',
+            success: (res) => {
+                resolve(res['delivery_fee']);
+            },
+            error: (err) => {
+                reject(err);
+            },
+        });
     });
-
-    return deliveryFee;
 }
 
 function bootpayHandler(instance) {
