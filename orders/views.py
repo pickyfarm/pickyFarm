@@ -1102,50 +1102,11 @@ def order_cancel(request, pk):
 
     elif request.method == "POST":
         cancel_reason = request.POST.get("cancel_reason")
-        order.cancel_reason = cancel_reason
 
-        REST_API_KEY = os.environ.get("BOOTPAY_REST_KEY")
-        PRIVATE_KEY = os.environ.get("BOOTPAY_PRIVATE_KEY")
-
-        bootpay = BootpayApi(application_id=REST_API_KEY, private_key=PRIVATE_KEY)
-        result = bootpay.get_access_token()
-
-        if result["status"] == 200:
-            cancel_result = bootpay.cancel(
-                order.order_group.receipt_number,
-                order.total_price,
-                order.order_group.rev_name,
-                cancel_reason,
-            )
-
-            if cancel_result["status"] == 200:
-                order.status = "cancel"
-                order.order_group.status = "cancel"
-                product = order.product
-                product.stock += order.quantity
-                product.save()
-                order.save()
-
-                args_kakao = {
-                    "#{cancel_reason}": order.cancel_reason,
-                    "#{order_detail_title}": order.product.title,
-                    "#{order_detail_number}": order.order_management_number,
-                    "#{option_name}": order.product.option_name,
-                    "#{quantity}": order.quantity,
-                    "#{rev_name}": order.order_group.orderer_name,
-                    "#{rev_phone_number}": order.order_group.rev_phone_number,
-                }
-
-                send_kakao_message(
-                    order.product.farmer.user.phone_number,
-                    templateIdList["order_cancel_by_user"],
-                    args_kakao,
-                )
-
-                return redirect(reverse("core:popup_callback"))
-
-        return HttpResponse("주문 취소를 실패하였습니다. 고객센터에 문의해주시기 바랍니다.", status=200)
-
+        # 선물하기 여부 판별
+        gift = True if order.order_group.order_type=="gift" else False
+        order.order_cancel(cancel_reason, gift)
+        
     else:
         return redirect(reverse("core:main"))
 
