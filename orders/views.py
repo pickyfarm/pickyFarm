@@ -462,7 +462,7 @@ def payment_update_gift(request):
     total_delivery_fee = int(request.POST.get("totalDeliveryFee"))
     total_quantity = int(request.POST.get("totalQuantity"))
     friends = json.loads(request.POST.get("friends"))
-    product_pk = request.POST.get("productPK", 0)  # 추가해야할듯?
+    product_pk = int(request.POST.get("productPK", None))
     payment_type = request.POST.get("paymentType")
 
     product = Product.objects.get(pk=product_pk)
@@ -666,6 +666,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
 
     order_group.status = "payment_complete"
     order_group.save()
+
 
 
 # @login_required
@@ -1446,7 +1447,7 @@ def payment_create_gift(request):
 
     # client의 Post data - product_pk
     try:
-        product_pk = request.POST.get("product_pk", None)
+        product_pk = int(request.POST.get("product_pk", None))
         if product_pk is None:
             raise exceptions.HttpBodyDataError
     except Exception as e:
@@ -1502,7 +1503,7 @@ def payment_valid_gift(request):
     # receipt_number set / total_price get / order_details get
     order_group = Order_Group.objects.get(pk=order_group_pk)
     order_details = order_group.order_details.all()
-    order_group.recepit_number = receipt_id
+    order_group.receipt_number = receipt_id
     total_price = order_group.total_price
     # save 잊지 말기
 
@@ -1581,12 +1582,13 @@ def payment_valid_gift(request):
                 # 선물 받는이 선물 알림톡 전송
                 detail.send_kakao_msg_gift_for_receiver()
 
-                # (주소 입력된 경우) 농가 주문 접수 알림
+                # (주소 입력된 경우) 농가 주문 접수 알림톡 전송
                 if detail.status == "payment_complete":
                     detail.send_kakao_msg_order_for_farmer(is_gift=True)
 
             order_group.status = "payment_complete"
             order_group.save()
+
 
     except Exception as e:
         print("[ERROR] ", e)

@@ -153,6 +153,7 @@ class Order_Group(models.Model):
 
         # order_pk 기반 주문관리번호 생성 - db에 pk생성 후 (save())후 메소드 호출해야함
         self.order_management_number = self.create_order_group_management_number()
+        self.save()
 
 
 class Order_Detail(models.Model):
@@ -450,7 +451,7 @@ class Order_Detail(models.Model):
             "#{quantity}": kakao_msg_quantity,
             "#{rev_name}": self.order_group.orderer_name,
             "#{rev_phone_number}": self.order_group.orderer_phone_number,
-            "#{rev_address}": "" if is_gift else self.order_group.rev_address,
+            "#{rev_address}": self.rev_address_gift if is_gift else self.order_group.rev_address,
             "#{rev_loc_at}": "" if is_gift else self.order_group.rev_loc_at,
             "#{rev_detail}": "" if is_gift else self.order_group.rev_detail,
             "#{rev_message}": "" if is_gift else self.order_group.to_farm_message,
