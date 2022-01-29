@@ -462,7 +462,7 @@ def payment_update_gift(request):
     total_delivery_fee = int(request.POST.get("totalDeliveryFee"))
     total_quantity = int(request.POST.get("totalQuantity"))
     friends = json.loads(request.POST.get("friends"))
-    product_pk = request.POST.get("productPK", 0)  # 추가해야할듯?
+    product_pk = int(request.POST.get("productPK", None))
     payment_type = request.POST.get("paymentType")
 
     product = Product.objects.get(pk=product_pk)
@@ -666,6 +666,7 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
 
     order_group.status = "payment_complete"
     order_group.save()
+
 
 
 # @login_required
@@ -1329,8 +1330,7 @@ def delivery_address_update(request):
             order_detail.save()
             order_group = order_detail.order_group
             farmer = order_detail.product.farmer
-            farmer.send_kakao_payment_valid(order_group, farmer)
-            order_detail.send_kakao_msg_order_for_farmer()
+            order_detail.send_kakao_msg_order_for_farmer(is_gift=True)
 
             ctx = {"order_detail": order_detail}
 
@@ -1447,7 +1447,7 @@ def payment_create_gift(request):
 
     # client의 Post data - product_pk
     try:
-        product_pk = request.POST.get("product_pk", None)
+        product_pk = int(request.POST.get("product_pk", None))
         if product_pk is None:
             raise exceptions.HttpBodyDataError
     except Exception as e:
@@ -1503,7 +1503,7 @@ def payment_valid_gift(request):
     # receipt_number set / total_price get / order_details get
     order_group = Order_Group.objects.get(pk=order_group_pk)
     order_details = order_group.order_details.all()
-    order_group.recepit_number = receipt_id
+    order_group.receipt_number = receipt_id
     total_price = order_group.total_price
     # save 잊지 말기
 
@@ -1582,40 +1582,13 @@ def payment_valid_gift(request):
                 # 선물 받는이 선물 알림톡 전송
                 detail.send_kakao_msg_gift_for_receiver()
 
-                # 농가 주문 접수 알림
-                # 주소입력된 경우
+                # (주소 입력된 경우) 농가 주문 접수 알림톡 전송
                 if detail.status == "payment_complete":
-                    url_encoded_order_detail_number = url_encryption.encode_string_to_url(
-                        detail.order_management_number
-                    )
-                    kakao_msg_quantity = (str)(detail.quantity) + "개"
-                    # detail.send_kakao_msg_order_for_farmer()
-                    args_farmer = {
-                        "#{order_detail_title}": detail.product.title,
-                        "#{order_detail_number}": detail.order_management_number,
-                        "#{option_name}": detail.product.option_name,
-                        "#{quantity}": kakao_msg_quantity,
-                        "#{rev_name}": order_group.orderer_name,
-                        "#{rev_phone_number}": order_group.rev_phone_number,
-                        "#{rev_address}": order_group.rev_address,
-                        "#{rev_loc_at}": order_group.rev_loc_at,
-                        "#{rev_detail}": order_group.rev_message,
-                        "#{rev_message}": order_group.to_farm_message,
-                        "#{link_1}": f"www.pickyfarm.com/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",  # 임시
-                        "#{link_2}": f"www.pickyfarm.com/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",  # 임시
-                        "#{link_3}": f"www.pickyfarm.com/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",  # 임시
-                    }
-
-                    print(f'주문확인 url : {args_farmer["#{link_1}"]}')
-
-                    send_kakao_message(
-                        detail.product.farmer.user.phone_number,
-                        templateIdList["order_recept"],
-                        args_farmer,
-                    )
+                    detail.send_kakao_msg_order_for_farmer(is_gift=True)
 
             order_group.status = "payment_complete"
             order_group.save()
+
 
     except Exception as e:
         print("[ERROR] ", e)
