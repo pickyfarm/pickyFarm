@@ -434,8 +434,9 @@ class Order_Detail(models.Model):
                 args_consumer,
             )
 
-    def send_kakao_msg_order_for_farmer(self):
+    def send_kakao_msg_order_for_farmer(self, is_gift=True):
         """농가에게 주문 접수 알림톡 전송"""
+        """일반결제/선물하기 분리 필요"""
         url_encoded_order_detail_number = url_encryption.encode_string_to_url(
             self.order_management_number
         )
@@ -449,10 +450,10 @@ class Order_Detail(models.Model):
             "#{quantity}": kakao_msg_quantity,
             "#{rev_name}": self.order_group.orderer_name,
             "#{rev_phone_number}": self.order_group.orderer_phone_number,
-            "#{rev_address}": self.order_group.rev_address,
-            "#{rev_loc_at}": self.order_group.rev_loc_at,
-            "#{rev_detail}": self.order_group.rev_message,
-            "#{rev_message}": self.order_group.to_farm_message,
+            "#{rev_address}": "" if is_gift else self.order_group.rev_address,
+            "#{rev_loc_at}": "" if is_gift else self.order_group.rev_loc_at,
+            "#{rev_detail}": "" if is_gift else self.order_group.rev_detail,
+            "#{rev_message}": "" if is_gift else self.order_group.to_farm_message,
             "#{link_1}": f"www.pickyfarm.com/farmer/mypage/orders/check?odmn={url_encoded_order_detail_number}",
             "#{link_2}": f"www.pickyfarm.com/farmer/mypage/orders/cancel?odmn={url_encoded_order_detail_number}",
             "#{link_3}": f"www.pickyfarm.com/farmer/mypage/orders/invoice?odmn={url_encoded_order_detail_number}",
