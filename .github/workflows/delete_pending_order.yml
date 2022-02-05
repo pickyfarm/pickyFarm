@@ -27,4 +27,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run flushing script
-        run: curl ${{PENDING_ORDER_URL}}
+        run: curl ${{secrets.PENDING_ORDER_URL}}
