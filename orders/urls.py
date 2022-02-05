@@ -1,5 +1,5 @@
 from django.urls import path, include
-from . import views
+from . import views, cron
 
 
 app_name = "orders"
@@ -41,4 +41,6 @@ urlpatterns = [
         views.calculate_delivery_fee,
         name="calculate_delivery_fee",
     ),
+    # crontab actions
+    path("cron/delete-pendings", cron.delete_waiting_orders, name="delete_pending_orders"),
 ]
