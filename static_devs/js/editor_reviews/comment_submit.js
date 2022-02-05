@@ -1,6 +1,11 @@
 const commentSubmit = () => {
     const text = document.querySelector('#id_text').value;
 
+    if (!text) {
+        alert('댓글 내용을 입력하세요.');
+        return;
+    }
+
     $.ajax({
         type: 'POST',
         url: commentSubmitURL,
@@ -36,6 +41,11 @@ const recommentSubmit = (pk) => {
     const targetComment = [...textBox].find(
         (elem) => parseInt(elem.getAttribute('name')) === pk
     );
+
+    if (!targetComment.value) {
+        alert('답글 내용을 입력하세요.');
+        return;
+    }
 
     $.ajax({
         type: 'POST',
