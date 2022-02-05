@@ -162,7 +162,7 @@ class Order_Group(models.Model):
 
         for detail in details:
             if detail.status != "wait":
-                raise Exception("결제 대기중인 주문이 아닙니다!")
+                raise Exception(f"Order Detail {detail.pk}는 결제 대기중인 주문이 아닙니다!")
 
             detail.delete()
 
