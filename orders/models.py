@@ -155,6 +155,20 @@ class Order_Group(models.Model):
         self.order_management_number = self.create_order_group_management_number()
         self.save()
 
+    def delete(self, *args, **kwargs):
+        if self.status != "wait":
+            return
+
+        details = self.order_details.all()
+
+        for detail in details:
+            if detail.status != "wait":
+                raise Exception("결제 대기중인 주문이 아닙니다!")
+
+            detail.delete()
+
+        return super().delete(*args, **kwargs)
+
 
 class Order_Detail(models.Model):
 
