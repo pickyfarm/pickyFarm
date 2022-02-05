@@ -158,7 +158,6 @@ class Order_Group(models.Model):
     def delete(self, *args, **kwargs):
         if self.status != "wait":
             return
-
         details = self.order_details.all()
 
         for detail in details:
