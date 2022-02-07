@@ -1364,7 +1364,7 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
 
         # 카카오 알림톡 전송을 위한 소비자 번호
         order = self.get_object()
-        phone_number_consumer = order.order_group.consumer.user.phone_number
+        phone_number_consumer = order.rev_phone_number_gift or order.order_group.rev_phone_number
         print(f"[송장 입력 팝업 - POST] Consumer phone number : {phone_number_consumer}")
 
         # 주문 상품
