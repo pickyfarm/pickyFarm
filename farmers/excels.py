@@ -21,14 +21,14 @@ def convert_orders(farmerpk, phone_num_type):
         order_num = detail.order_management_number
         orderer = detail.order_group.consumer.user.nickname
         receiver = detail.order_group.rev_name
-        phone_num = detail.order_group.rev_phone_number
+        phone_num = detail.order_group.rev_phone_number or detail.rev_phone_number_gift
         address = detail.order_group.rev_address
         product_name = detail.product.title
         quantity = detail.quantity
         message = detail.order_group.rev_message
 
-        if phone_num_type == 'hyphen':
-            phone_num = f'{phone_num[:3]}-{phone_num[3:7]}-{phone_num[7:]}'
+        if phone_num_type == "hyphen":
+            phone_num = f"{phone_num[:3]}-{phone_num[3:7]}-{phone_num[7:]}"
 
         order_data.append(
             [
@@ -47,7 +47,6 @@ def convert_orders(farmerpk, phone_num_type):
         data=order_data,
         columns=["주문번호", "주문자명", "수취인명", "전화번호", "주소", "상품명", "수량", "배송메세지"],
     )
-
 
     filename = f"{farmer.farm_name}_주문목록.xlsx"
 
