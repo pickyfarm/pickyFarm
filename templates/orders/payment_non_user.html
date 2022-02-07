@@ -341,10 +341,10 @@
     goBtn.addEventListener('click', function () {
         // 22.1.9 기윤 - 비회원 구매 도입을 위한 주문자이름, 번호 추가
         var ordererName = document.getElementById('id_orderer_name').value;
-        var ordererPhoneNumber = document.getElementById('id_orderer_phone_number').value;
+        var ordererPhoneNumber = document.getElementById('id_orderer_phone_number').value.replaceAll('-', '');
 
         var revName = document.getElementById('id_rev_name').value;
-        var revPhoneNumber = document.getElementById('id_rev_phone_number').value;
+        var revPhoneNumber = document.getElementById('id_rev_phone_number').value.replaceAll('-', '');
         var revLocAt = document.querySelector("input[name='rev_loc_at']:checked").value;
         var paymentType = document.querySelector("input[name='payment_type']:checked").value;
         var revMessage = document.getElementById('id_rev_message').value;
@@ -435,6 +435,8 @@
 
             }]);
         });
+
+        console.log(revPhoneNumber, ordererPhoneNumber);
         console.log(itemsList);
         BootPay.request({
             price: parseInt(totalPrice),
