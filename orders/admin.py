@@ -101,10 +101,17 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
                 continue
 
             order.status = "delivery_complete"
-            user = order.order_group.consumer.user
 
-            consumer_nickname = user.nickname
-            phone_number = user.phone_number
+            order_group = order.order_group
+            # 회원 구매인 경우
+            if order_group.consumer_type == 'user':
+                user = order_group.consumer.user
+                consumer_nickname = user.nickname
+                phone_number = user.phone_number
+            # 비회원 구매인 경우
+            else:
+                consumer_nickname = order_group.orderer_name
+                phone_number = order_group.orderer_phone_number
 
             farmer = order.product.farmer
             farmer_pk = farmer.pk
