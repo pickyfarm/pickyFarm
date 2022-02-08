@@ -7,7 +7,7 @@
 {% endblock stylesheet %}
 
 {% block title_name %}
-피키팜 | 결제 진행
+피키팜 | 비회원 결제 진행
 {% endblock title_name %}
 
 {% block main_content %}
@@ -17,7 +17,8 @@
 
     {% csrf_token %}
     <div id="title-section">
-        <p id="title-text">주문서 작성 / 결제</p>
+        <p id="title-text">비회원 결제</p>
+        <p>회원이신 분은 로그인 후 회원 구매해주세요!</p>
         <div id="requried-section" class="flex flex-row justify-end">
             <img src="{% static 'images/orders/dot.svg' %}">
             <div id="required-text">필수입력사항</div>
