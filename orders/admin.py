@@ -31,6 +31,8 @@ class CustomOrderGroupAdmin(admin.ModelAdmin):
         "create_at",
     )
 
+    list_filter = ("consumer_type", "order_type")
+
 
 class OrderDetailFarmerFilter(SimpleListFilter):
     title = "농가 기준으로 필터링"
@@ -80,6 +82,7 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
         "payment_status_progress",
         "payment_status_done",
         "calculate_amount",
+        "send_delivery_start_message_to_consumer",
     ]
 
     # change_list_template = "admin/orders/order_detail/change_list.html"
@@ -104,7 +107,7 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
 
             order_group = order.order_group
             # 회원 구매인 경우
-            if order_group.consumer_type == 'user':
+            if order_group.consumer_type == "user":
                 user = order_group.consumer.user
                 consumer_nickname = user.nickname
                 phone_number = user.phone_number
@@ -248,10 +251,71 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
         else:
             self.message_user(request, f"[정산 진행] 상태가 아닌 주문이 있습니다. : {fail_list}", messages.ERROR)
 
+    def send_delivery_start_message_to_consumer(self, request, queryset):
+        """소비자에게 배송시작 알림톡 재 전송 ADMIN ACTION"""
+        passed_order = 0  # 전송하지 않은 주문 건수 카운트
+        user_order = 0
+
+        for order in queryset:
+            if order.status != "shipping":
+                passed_order += 1
+                continue
+
+            if order.order_group.consumer_type == "user":
+                user_order += 1
+                continue
+
+            order_group = order.order_group
+
+            # 카카오 알림톡 전송을 위한 결제자 번호
+            phone_number_consumer = order_group.orderer_phone_number
+            print(f"[송장 입력 팝업 - POST] Consumer phone number : {phone_number_consumer}")
+
+            # 주문 상품
+            product = order.product
+            # 파머
+            farmer = product.farmer
+
+            kakao_msg_weight = (str)(product.weight) + product.weight_unit
+
+            kakao_msg_quantity = (str)(order.quantity) + "개"
+
+            args_consumer = {
+                "#{order_detail_title}": product.title,
+                "#{farmer_nickname}": farmer.user.nickname,
+                "#{option_name}": product.option_name,
+                "#{quantity}": kakao_msg_quantity,
+                "#{shipping_company}": order.get_delivery_service_company_display(),
+                "#{invoice_number}": order.invoice_number,
+            }
+
+            # 소비자 결제 완료 카카오 알림톡 전송
+            send_kakao_message(
+                phone_number_consumer,
+                templateIdList["delivery_start"],
+                args_consumer,
+            )
+
+            # 선물하기 결제인 경우 선물 받는 사람 번호
+            if order_group.order_type == "gift":
+                phone_number_gift_rev = order.rev_phone_number_gift
+                send_kakao_message(
+                    phone_number_gift_rev,
+                    templateIdList["delivery_start"],
+                    args_consumer,
+                )
+
+        self.message_user(
+            request,
+            f"총 주문 {len(queryset)}건, 배송중이 아닌 주문 {passed_order}건, 회원 주문 {user_order}건, 발송 {len(queryset) - passed_order}건",
+            messages.SUCCESS,
+        )
+
     order_complete.short_description = "[주문관리] 배송 완료 처리"
     payment_status_progress.short_description = "[정산관리] 정산 진행 처리"
     payment_status_done.short_description = "[정산관리] 정산 완료 처리"
     calculate_amount.short_description = "[정산 관리] 정산 진행 항목 정산 금액 계산"
+    send_delivery_start_message_to_consumer.short_description = "[주문관리] 소비자에게 배송 시작 알림톡 전송"
 
 
 @admin.register(models.RefundExchange)
