@@ -152,7 +152,7 @@ class Order_Group(models.Model):
         self.orderer_phone_number = user.phone_number
 
         # order_pk 기반 주문관리번호 생성 - db에 pk생성 후 (save())후 메소드 호출해야함
-        self.order_management_number = self.create_order_group_management_number()
+        self.create_order_group_management_number()
         self.save()
 
     def delete(self, *args, **kwargs):
