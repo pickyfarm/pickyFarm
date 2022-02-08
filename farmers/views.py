@@ -1362,9 +1362,12 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
             }
         )
 
-        # 카카오 알림톡 전송을 위한 소비자 번호
+        
         order = self.get_object()
-        phone_number_consumer = order.rev_phone_number_gift or order.order_group.rev_phone_number
+        order_group = order.order_group
+
+        # 카카오 알림톡 전송을 위한 결제자 번호
+        phone_number_consumer = order_group.orderer_phone_number
         print(f"[송장 입력 팝업 - POST] Consumer phone number : {phone_number_consumer}")
 
         # 주문 상품
@@ -1391,6 +1394,19 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
             templateIdList["delivery_start"],
             args_consumer,
         )
+
+
+        # 선물하기 결제인 경우 선물 받는 사람 번호
+        if order_group.order_type == "gift":
+            phone_number_gift_rev = order.rev_phone_number_gift
+            send_kakao_message(
+                phone_number_gift_rev,
+                templateIdList["delivery_start"],
+                args_consumer,
+            )
+            print(f"[송장 입력 팝업 - POST] 선물하기 Gift rev phone number : {phone_number_gift_rev}")
+
+
 
         return redirect("core:popup_callback")
 
