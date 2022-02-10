@@ -462,7 +462,7 @@ class Order_Detail(models.Model):
             "#{order_detail_number}": self.order_management_number,
             "#{option_name}": self.product.option_name,
             "#{quantity}": kakao_msg_quantity,
-            "#{rev_name}": self.order_group.orderer_name,
+            "#{rev_name}": self.rev_name_gift if is_gift else self.order_group.orderer_name,
             "#{rev_phone_number}": self.order_group.orderer_phone_number,
             "#{rev_address}": self.rev_address_gift if is_gift else self.order_group.rev_address,
             "#{rev_loc_at}": "" if is_gift else self.order_group.rev_loc_at,
