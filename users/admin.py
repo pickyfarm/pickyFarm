@@ -14,6 +14,7 @@ class CustomConsumerAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "consumer_name",
+        "consumer_phone_number",
         "benefit_agree",
         "kakao_farmer_agree",
         "kakao_comment_agree",
