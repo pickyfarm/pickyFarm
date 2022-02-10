@@ -29,6 +29,10 @@ class CustomConsumerAdmin(admin.ModelAdmin):
     def consumer_name(self, consumer):
         return consumer.user.account_name
 
+    @admin.display(description="소비자 전화번호")
+    def consumer_phone_number(self, consumer):
+        return consumer.user.phone_number
+
     search_fields = ["user__account_name"]
 
 
