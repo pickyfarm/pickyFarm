@@ -1,3 +1,4 @@
+from pickle import FALSE
 from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, redirect, reverse
 from django.http import request, JsonResponse, HttpResponse
@@ -32,14 +33,16 @@ def store_list_all(request):
     page_size = 15
     limit = page_size * page
     offset = limit - page_size
-    products_count = Product_Group.objects.filter(open=True).count()
-    products = Product_Group.objects.filter(open=True).order_by("-create_at")
+    products_count = Product_Group.objects.all().count()
+    products = Product_Group.objects.all().order_by("-open", "-create_at")
+    print(products)
+
     if sort == "인기순":
         for product in products:
             product.calculate_sales_rate()
-        products = products.order_by("-sales_rate")
+        products = products.order_by("-open", "-sales_rate")
     elif sort == "마감임박순":
-        products = products.order_by("stock")
+        products = products.order_by("-open", "stock")
     products = products[offset:limit]
     categories = Category.objects.filter(parent=None).order_by("name")
     page_total = ceil(products_count / page_size)
@@ -68,8 +71,8 @@ def store_list_cat(request, cat):
         print(big_category)
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product_Group.objects.filter(category__parent__slug=cat, open=True).order_by(
-                "create_at"
+            products = Product_Group.objects.filter(category__parent__slug=cat).order_by(
+                "-open", "create_at"
             )
         except ObjectDoesNotExist:
             ctx = {
@@ -84,7 +87,7 @@ def store_list_cat(request, cat):
         cat_name = big_cat_name[categories.parent.name]
         print(cat_name)
         try:
-            products = categories.product_groups.filter(open=True).order_by("-create_at")
+            products = categories.product_groups.all().order_by("-open", "-create_at")
             categories = categories.parent.children.all().order_by("name")
         except ObjectDoesNotExist:
             ctx = {
@@ -98,9 +101,9 @@ def store_list_cat(request, cat):
     if sort == "인기순":
         for product in products:
             product.calculate_sales_rate()
-        products = products.order_by("sales_rate")
+        products = products.order_by("-open", "sales_rate")
     elif sort == "마감임박순":
-        products = products.order_by("stock")
+        products = products.order_by("-open", "stock")
     print(products)
     print(page)
     products_count = products.count()
