@@ -1,4 +1,5 @@
 from pickle import FALSE
+from django.db.models import Q
 from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, redirect, reverse
 from django.http import request, JsonResponse, HttpResponse
@@ -30,12 +31,12 @@ def store_list_all(request):
     cat_name = "all"
     page = int(request.GET.get("page", 1))
     sort = request.GET.get("sort", "최신순")
+    kind = request.GET.get("kind", "all")
     page_size = 15
     limit = page_size * page
     offset = limit - page_size
     products_count = Product_Group.objects.all().count()
     products = Product_Group.objects.all().order_by("-open", "-create_at")
-    print(products)
 
     if sort == "인기순":
         for product in products:
@@ -43,7 +44,12 @@ def store_list_all(request):
         products = products.order_by("-open", "-sales_rate")
     elif sort == "마감임박순":
         products = products.order_by("-open", "stock")
+
+    if (kind == "ugly") or (kind == "normal"):
+        products = products.filter(Q(kinds=kind) | Q(kinds="mix"))
+
     products = products[offset:limit]
+
     categories = Category.objects.filter(parent=None).order_by("name")
     page_total = ceil(products_count / page_size)
     ctx = {
@@ -63,12 +69,13 @@ def store_list_cat(request, cat):
     products = []
     page = int(request.GET.get("page", 1))
     sort = request.GET.get("sort", "최신순")
+    kind = request.GET.get("kind", "all")
     page_size = 15
     limit = page_size * page
     offset = limit - page_size
     if cat_name in big_cat:
         big_category = Category.objects.get(slug=cat)
-        print(big_category)
+
         categories = big_category.children.all().order_by("name")
         try:
             products = Product_Group.objects.filter(category__parent__slug=cat).order_by(
@@ -83,9 +90,9 @@ def store_list_cat(request, cat):
     else:
         big_cat_name = {"과일": "fruit", "야채": "vege", "기타": "others"}
         categories = Category.objects.get(slug=cat)
-        print(categories)
+
         cat_name = big_cat_name[categories.parent.name]
-        print(cat_name)
+
         try:
             products = categories.product_groups.all().order_by("-open", "-create_at")
             categories = categories.parent.children.all().order_by("name")
@@ -96,18 +103,19 @@ def store_list_cat(request, cat):
             }
             return render(request, "products/products_list.html", ctx)
 
-    print(categories)
-    print(products)
     if sort == "인기순":
         for product in products:
             product.calculate_sales_rate()
         products = products.order_by("-open", "sales_rate")
     elif sort == "마감임박순":
         products = products.order_by("-open", "stock")
-    print(products)
-    print(page)
+
+    if (kind == "ugly") or (kind == "normal"):
+        products = products.filter(Q(kinds=kind) | Q(kinds="mix"))
+
     products_count = products.count()
     products = products[offset:limit]
+
     if products_count == 0:
         page_total = 1
     else:
