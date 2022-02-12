@@ -163,11 +163,16 @@ button:focus {
     border: 1px solid #5c6754;
 }
 
+#header-category {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .header-category-item {
-    width: 150px;
-    margin: 10px;
+    width: 170px;
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px;
 }
 
 .header-category-item div {
@@ -184,6 +189,49 @@ button:focus {
 
 .header-first:hover #header-category-wrap {
     display: block;
+}
+
+.header-category-item > div {
+    display: none;
+    right: -102px;
+    top: -1px;
+
+    width: 100px;
+
+    background-color: white;
+
+    border: 1px solid #5c6754;
+    border-radius: 10px;
+}
+
+#header-category > li:nth-child(2) > div:nth-child(2) {
+    /* 카테고리에서 채소 선택 시  */
+    top: 109px;
+}
+
+#header-category > li:nth-child(3) > div:nth-child(2) {
+    /* 카테고리에서 기타 선택 시  */
+    top: 218px;
+}
+
+.header-category-item:hover > .kinds {
+    display: block;
+}
+
+.header-category-item .kinds a {
+    display: block;
+    width: 80px;
+    height: 35px;
+
+    line-height: 35px;
+
+    margin: 10px;
+
+    border-radius: 5px;
+}
+
+.header-category-item .kinds a:hover {
+    background-color: #f2f2f2;
 }
 
 #kakao-channel-icon {
