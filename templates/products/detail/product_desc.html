@@ -21,6 +21,9 @@
     </div>
     <div id="desc_img_box">
         <img id="logo" class="mx-auto" src="{% static 'images/mainlogo_small.svg' %}">
+        {% if product.desc_image0 %}
+        <img id="desc_img" class="mx-auto" src="{{product.desc_image0.url}}" alt='상품설명0'>
+        {% endif %}
 
         {% if product.desc_image %}
         <img id="desc_img" class="mx-auto" src="{{product.desc_image.url}}" alt="상품설명1">
