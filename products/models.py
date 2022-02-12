@@ -164,6 +164,9 @@ class Product(models.Model):
     refund_delivery_fee = models.IntegerField(default=0, help_text="반품 배송비(편도)")
     exchange_delivery_fee = models.IntegerField(default=0, help_text="교환 배송비(왕복)")
 
+    desc_image0 = CompressedImageField(
+        upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True, help_text="긴급 공지용 이미지 영역"
+    )
     desc_image = CompressedImageField(
         upload_to="product_desc_image/%Y/%m/%d/", null=True, blank=True
     )
