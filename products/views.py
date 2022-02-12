@@ -36,7 +36,7 @@ def store_list_all(request):
     limit = page_size * page
     offset = limit - page_size
     products_count = Product_Group.objects.all().count()
-    products = Product_Group.objects.all().order_by("-open", "-create_at")
+    products = Product_Group.objects.exclude(title="피키팜 테스트 상품그룹").order_by("-open", "-create_at")
 
     if sort == "인기순":
         for product in products:
@@ -78,7 +78,7 @@ def store_list_cat(request, cat):
 
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product_Group.objects.filter(category__parent__slug=cat).order_by(
+            products = Product_Group.objects.filter(category__parent__slug=cat).exclude(title="피키팜 테스트 상품그룹").order_by(
                 "-open", "create_at"
             )
         except ObjectDoesNotExist:
@@ -94,7 +94,7 @@ def store_list_cat(request, cat):
         cat_name = big_cat_name[categories.parent.name]
 
         try:
-            products = categories.product_groups.all().order_by("-open", "-create_at")
+            products = categories.product_groups.exclude(title="피키팜 테스트 상품그룹").order_by("-open", "-create_at")
             categories = categories.parent.children.all().order_by("name")
         except ObjectDoesNotExist:
             ctx = {
