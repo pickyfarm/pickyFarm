@@ -35,7 +35,6 @@ def store_list_all(request):
     offset = limit - page_size
     products_count = Product_Group.objects.all().count()
     products = Product_Group.objects.all().order_by("-open", "-create_at")
-    print(products)
 
     if sort == "인기순":
         for product in products:

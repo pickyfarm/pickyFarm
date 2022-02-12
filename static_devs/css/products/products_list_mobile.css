@@ -108,6 +108,12 @@
     .farmer-info-overlay {
         display: none;
     }
+    .sold-out-overlay {
+        width: 100%;
+    }
+    .sold-out-overlay--product-name {
+        font-size: 1.2rem;
+    }
     #product_img {
         width: 15.01rem;
         height: 17rem;

@@ -138,6 +138,17 @@
     border-radius: 10px;
 }
 
+.sold-out-overlay {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 265px;
+    height: 100%;
+    opacity: 0.8;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
 .product-image-wrapper {
     margin-bottom: 20px;
 }
@@ -166,6 +177,12 @@
     font-size: 20px;
     font-weight: bold;
     color: #444b3e;
+}
+
+.sold-out-overlay--product-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #5c6754;
 }
 
 #product_img {
