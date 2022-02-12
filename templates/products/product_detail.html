@@ -137,7 +137,11 @@
                 <div id="quantity_letter" class="mr-12">구매수량</div>
                 <div id="quantity_num_section" class="flex flex-row items-center">
                     <div id="minus_btn">-</div>
+                    {% if product.open == True %}
                     <div id="quantity_number" class="">1</div>
+                    {% else %}
+                    <div id="quantity_number" class="">0</div>
+                    {% endif %}
                     <div id="plus_btn">+</div>
                 </div>
             </div>
@@ -146,16 +150,19 @@
                 <div id="total_price">{{product.sell_price}}</div>
                 <div id="won" class="mb-2 ml-2">원</div>
             </div>
-            <div id="buttons" class="flex flex-row">
+            <div id="buttons" class="flex flex-row justify-end">
                 <div id="wish" class="transition_element flex justify-center items-center">
                     <img src="{% static 'images/like.svg' %}" alt="찜하기" class="svg-buttons">
                 </div>
-
+                {% if product.open == True %}
                 <div id="cart" name="{{product_pk}}" class="mr-auto ml-3 transition_element flex justify-center items-center">
                     <img src="{% static 'images/cart.svg' %}" alt="장바구니 담기" class="svg-buttons">
                 </div>
                 <div id="gift" name="{{product.pk}}">선물하기</div>
                 <div id="purchase" name="{{product_pk}}">바로 구매하기</div>
+                {% else %}
+                <div id="soldout" name="{{product.pk}}">곧 다시 만나요!</div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -195,6 +202,9 @@
     const giftButton = document.getElementById('gift')
     const giftURL = "{% url 'orders:payment_gift' %}"
 
+    // 품절 상품
+    const soldoutButton = document.getElementById('soldout')
+
     //바로 구매하기
     let purchaseBtn = document.getElementById("purchase")
     const purchaseURL = "{% url 'orders:payment_create' %}"
@@ -202,6 +212,9 @@
     // 무난이 작물, 일반 작물 전환
     let uglyTag = document.getElementById("ugly_tag")
     let normalTag = document.getElementById("normal_tag")
+
+    // 품절 상품 여부
+    let isSoldOut = "{{product.open}}";
 
     let title = document.getElementById("title")
     let subTitle = document.getElementById("subtitle")

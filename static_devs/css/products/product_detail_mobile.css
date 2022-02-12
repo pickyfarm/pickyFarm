@@ -265,17 +265,20 @@
         margin-left: 0.35rem;
     }
 
-    .svg-buttons{
+    .svg-buttons {
         width: 2rem;
     }
 
-    #wish, #cart{
+    #wish,
+    #cart {
         height: 3.4rem;
         width: 3.4rem;
         border: 3px solid #5c6754;
         border-radius: 100%;
     }
-    #purchase, #gift {
+    #purchase,
+    #gift,
+    #soldout {
         width: 10rem;
         height: 3.4rem;
 
@@ -289,7 +292,6 @@
         font-size: 1.2rem;
         text-align: center;
         line-height: 3rem;
-
     }
     /* 상품 상세 정보 */
     #info_detail {

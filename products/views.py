@@ -35,7 +35,6 @@ def store_list_all(request):
     offset = limit - page_size
     products_count = Product_Group.objects.all().count()
     products = Product_Group.objects.all().order_by("-open", "-create_at")
-    print(products)
 
     if sort == "인기순":
         for product in products:
@@ -144,9 +143,6 @@ def product_detail(request, pk):
         product_pk = pk
         product = Product.objects.get(pk=pk)
 
-        if not product.open and not request.user.username == "pickydevs":
-            return redirect(reverse("products:store_list"))
-
         kinds = product.kinds
         farmer = product.farmer
 
@@ -217,7 +213,7 @@ def product_detail(request, pk):
         ctx = {
             "product_pk": product_pk,
             "product": product,
-            "siblings": siblings.filter(open=True, status="sale"),
+            "siblings": siblings,
             "kinds": kinds,
             "farmer": farmer,
             "comments": comments,

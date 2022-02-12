@@ -80,12 +80,18 @@
                             {% comment %}
                             <!-- <div class="farmer-info-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.pk %}">
                                 <a href="{% url 'farmers:farmer_detail' product.farmer.pk %}" class="flex flex-col items-center">
-
                                     <img class="farmer-profile-image" src="{{product.farmer.farmer_profile.url}}" alt="farmer_profile">
                                     <span class="farmer-info-overlay--farmer-name">{{product.farmer.user.nickname}}</span>
                                     <span class="farmer-info-overlay--farm-name">{{product.farmer.farm_name}}</span>
                                 </a>
                             </div> --> {% endcomment %}
+
+                            {% if product.open == False %}
+                            <div class="sold-out-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.get_main_product.pk %}">
+                                <span class="sold-out-overlay--product-name">곧 다시 만나요!</span>
+                            </div> 
+                            {% endif %}
+                            
                             <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
                                 <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
                             </a>

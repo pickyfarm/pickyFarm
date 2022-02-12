@@ -358,7 +358,8 @@
     color: #000000;
 }
 
-#wish, #cart {
+#wish,
+#cart {
     width: 55px;
     height: 55px;
 
@@ -367,13 +368,13 @@
     cursor: pointer;
 }
 
-.svg-buttons:hover{
+.svg-buttons:hover {
     filter: hue-rotate(90deg);
 }
 
-
-
-#purchase, #gift {
+#purchase,
+#gift,
+#soldout {
     width: 180px;
     height: 55px;
 
@@ -392,7 +393,7 @@
     margin-left: 20px;
 }
 
-#gift{
+#gift {
     background-color: white;
     color: #5c6754;
 }
