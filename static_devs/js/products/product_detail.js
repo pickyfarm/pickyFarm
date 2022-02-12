@@ -66,22 +66,25 @@ function subCalTotalPrice(price, quantity) {
     totalPrice.innerHTML = String(newTotalOrderPrice);
 }
 
-plusBtn.addEventListener('click', function () {
-    var num = parseInt(quantityNum.innerHTML);
-    num += 1;
-    quantityNum.innerHTML = num;
-    addCalTotalPrice(pricePerOne, 1);
-});
-minusBtn.addEventListener('click', function () {
-    var num = parseInt(quantityNum.innerHTML);
-    if (num <= 1) num = 1;
-    else {
-        num -= 1;
+if (isSoldOut != "False") {
+    plusBtn.addEventListener('click', function () {
+        var num = parseInt(quantityNum.innerHTML);
+        num += 1;
         quantityNum.innerHTML = num;
-        subCalTotalPrice(pricePerOne, 1);
-    }
-}); // 상품 사진 조정
+        addCalTotalPrice(pricePerOne, 1);
+    });
+    minusBtn.addEventListener('click', function () {
+        var num = parseInt(quantityNum.innerHTML);
+        if (num <= 1) num = 1;
+        else {
+            num -= 1;
+            quantityNum.innerHTML = num;
+            subCalTotalPrice(pricePerOne, 1);
+        }
+    }); 
+}
 
+// 상품 사진 조정
 var main_image = document.getElementById('main_image');
 var sub_images = document.querySelectorAll('#images');
 sub_images.forEach(function (item) {
@@ -138,71 +141,83 @@ subBtn.addEventListener('click', function () {
 }); //장바구니 담기
 
 var cartInBtn = document.getElementById('cart');
-cartInBtn.addEventListener('click', function () {
-    cartIn(this.getAttribute('name'));
-});
+if (cartInBtn != null) {
+    cartInBtn.addEventListener('click', function () {
+        cartIn(this.getAttribute('name'));
+    });
+}
 
 // 선물하기
-giftButton.addEventListener('click', function () {
-    const productData = {
-        quantity: quantityNum.innerText,
-        product_pk: this.getAttribute('name'),
-        csrfmiddlewaretoken: csrftoken,
-    };
+if (giftButton != null) {
+    giftButton.addEventListener('click', function () {
+        const productData = {
+            quantity: quantityNum.innerText,
+            product_pk: this.getAttribute('name'),
+            csrfmiddlewaretoken: csrftoken,
+        };
 
-    const form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', giftURL);
+        const form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', giftURL);
 
-    for (const key in productData) {
-        const hiddenField = document.createElement('input');
-        hiddenField.setAttribute('type', 'hidden');
-        hiddenField.setAttribute('name', key);
-        hiddenField.setAttribute('value', productData[key]);
+        for (const key in productData) {
+            const hiddenField = document.createElement('input');
+            hiddenField.setAttribute('type', 'hidden');
+            hiddenField.setAttribute('name', key);
+            hiddenField.setAttribute('value', productData[key]);
 
-        form.appendChild(hiddenField);
-    }
+            form.appendChild(hiddenField);
+        }
 
-    console.log(form);
+        console.log(form);
 
-    document.body.appendChild(form);
-    form.submit();
-});
+        document.body.appendChild(form);
+        form.submit();
+    });
+}
+
+// 품절 상품 alert
+if (soldoutButton != null) {
+    soldoutButton.addEventListener('click', function() {
+        alert('지금은 판매하지 않는 상품입니다.');
+    })
+}
 
 // 바로 구매하기
+if (purchaseBtn != null) {
+    purchaseBtn.addEventListener('click', function () {
+        var pk = this.getAttribute('name');
+        var quantity = parseInt(
+            document.getElementById('quantity_number').innerHTML
+        );
+        console.log(pk);
+        console.log(quantity);
+        var product = {
+            pk: pk,
+            quantity: quantity,
+        };
+        var products = [];
+        products.push(product);
+        var data = {
+            orders: JSON.stringify(products),
+            csrfmiddlewaretoken: csrftoken,
+        };
+        var form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', purchaseURL);
 
-purchaseBtn.addEventListener('click', function () {
-    var pk = this.getAttribute('name');
-    var quantity = parseInt(
-        document.getElementById('quantity_number').innerHTML
-    );
-    console.log(pk);
-    console.log(quantity);
-    var product = {
-        pk: pk,
-        quantity: quantity,
-    };
-    var products = [];
-    products.push(product);
-    var data = {
-        orders: JSON.stringify(products),
-        csrfmiddlewaretoken: csrftoken,
-    };
-    var form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', purchaseURL);
+        for (var key in data) {
+            var hiddenField = document.createElement('input');
+            hiddenField.setAttribute('type', 'hidden');
+            hiddenField.setAttribute('name', key);
+            hiddenField.setAttribute('value', data[key]);
+            form.appendChild(hiddenField);
+        }
 
-    for (var key in data) {
-        var hiddenField = document.createElement('input');
-        hiddenField.setAttribute('type', 'hidden');
-        hiddenField.setAttribute('name', key);
-        hiddenField.setAttribute('value', data[key]);
-        form.appendChild(hiddenField);
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-});
+        document.body.appendChild(form);
+        form.submit();
+    });
+}
 
 // // 댓글 작성 버튼 toggle
 // var recomments = document.querySelectorAll('.recomments');
