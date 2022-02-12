@@ -55,13 +55,17 @@
                     카테고리
                     <div id="header-category-wrap" class="absolute">
                         <ul id="header-category">
-                            <li class="header-category-item">
+                            <li class="header-category-item relative">
                                 <a href="{% url 'products:store_list_category' 'fruit' %}">
                                     <div class="flex items-center justify-between">
                                         <img src="{% static 'images/products_list/cat_fruit.svg' %}" alt="">
                                         과일
                                     </div>
                                 </a>
+                                <div class="absolute kinds flex flex-col">
+                                    <a href="{% url 'products:store_list_category' 'fruit' %}?kind=ugly">무난이</a>
+                                    <a href="{% url 'products:store_list_category' 'fruit' %}?kind=normal">일반</a>
+                                </div>
                             </li>
                             <li class="header-category-item">
                                 <a href="{% url 'products:store_list_category' 'vege' %}">
@@ -70,6 +74,10 @@
                                         채소
                                     </div>
                                 </a>
+                                <div class="absolute kinds flex flex-col">
+                                    <a href="{% url 'products:store_list_category' 'vege' %}?kind=ugly">무난이</a>
+                                    <a href="{% url 'products:store_list_category' 'vege' %}?kind=normal">일반</a>
+                                </div>
                             </li>
                             <li class="header-category-item">
                                 <a href="{% url 'products:store_list_category' 'others' %}">
@@ -78,6 +86,10 @@
                                         기타
                                     </div>
                                 </a>
+                                <div class="absolute kinds flex flex-col">
+                                    <a href="{% url 'products:store_list_category' 'others' %}?kind=ugly">무난이</a>
+                                    <a href="{% url 'products:store_list_category' 'others' %}?kind=normal">일반</a>
+                                </div>
                             </li>
                         </ul>
                     </div>
