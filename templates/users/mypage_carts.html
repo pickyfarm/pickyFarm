@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_carts_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
+{% load humanize %}
+
 {% block content %}
 {% if carts.exists is True %}
 <div id="filter-section" class="flex flex-row">
@@ -45,7 +47,7 @@
                 <div class="flex flex-row mt-2">
                     <div id="product_weight">{{cart.product.weight}}g / </div>
                     <div id="product_price_{{cart.product.pk}}" class="product_price" name="{{cart.product.sell_price}}">
-                        {{cart.product.sell_price}}원</div>
+                        {{cart.product.sell_price | intcomma}}원</div>
 
                 </div>
 
@@ -98,6 +100,9 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
 
+    function removeCommaInStringifiedNumber(num) {
+        return parseInt(num.replace(/,/g, "")) // remove comma using regex
+     }
 
     let menuBtns = []
     menuBtns.push(document.getElementById('menu_boughts'))

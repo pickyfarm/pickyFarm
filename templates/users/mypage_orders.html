@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_orders_mobile.css' %}">
 {% endblock stylesheet_detail %}
 
-
+{% load humanize %}
 
 {% block content %}
 {% if order_details_exist == 0 %}
@@ -53,7 +53,7 @@
 
       </div>
       <div class="flex flex-row">
-        <div id="product_price">{{detail.total_price}}원</div>
+        <div id="product_price">{{detail.total_price | intcomma}}원</div>
         <div id="product_quantity">{{detail.quantity}}개</div>
       </div>
       <div class="flex flex-row" id="delivery_status">

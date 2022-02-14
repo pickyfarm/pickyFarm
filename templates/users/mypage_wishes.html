@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_wishes.css' %}">
 <link rel="stylesheet" href="{% static 'css/users/mypage/user/mypage_wishes_mobile.css' %}">
 {% endblock stylesheet_detail %}
-
+{% load humanize %}
 {% block content %}
 
 {% if wishes.exists is False %}
@@ -46,7 +46,7 @@
                 </div>
                 <div class="flex flex-row mt-2"> 
                     <div id="product_weight">{{wish.product.weight}}g <span>/</span> </div>
-                    <div id="product_price"> {{wish.product.sell_price}}원</div>
+                    <div id="product_price"> {{wish.product.sell_price | intcomma}}원</div>
 
                 </div>
 

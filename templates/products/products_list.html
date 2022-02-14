@@ -4,7 +4,7 @@
 {% block og_desc %}피키팜의 무난이들을 만나보세요{% endblock %}
 {% block og_image %}{{products.first.main_image.url}}{% endblock %}
 {% block title_name %}상품목록{% endblock %}
-
+{% load humanize %}
 
 {% load static %}
 {% block stylesheet %}
@@ -119,7 +119,7 @@
                         <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
                             <div class="mt-1">
                                 <p class="" id="title">{{product.title}}</p>
-                                <p class="" id="sell_price">{{product.get_main_product.sell_price}}원</p>
+                                <p class="" id="sell_price">{{product.get_main_product.sell_price | intcomma}}원</p>
                                 <p class="" id="sub_title">{{product.sub_title}}</p>
                             </div>
                         </a>
