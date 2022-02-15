@@ -20,9 +20,9 @@ def convert_orders(farmerpk, phone_num_type):
     for detail in order_details:
         order_num = detail.order_management_number
         orderer = detail.order_group.orderer_name
-        receiver = detail.order_group.rev_name
+        receiver = detail.order_group.rev_name or detail.rev_name_gift
         phone_num = detail.order_group.rev_phone_number or detail.rev_phone_number_gift
-        address = detail.order_group.rev_address
+        address = detail.order_group.rev_address or detail.rev_address_gift
         product_name = detail.product.title
         quantity = detail.quantity
         message = detail.order_group.rev_message
