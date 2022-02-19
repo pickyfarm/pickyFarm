@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, redirect, reverse
 from django.http import request, JsonResponse, HttpResponse
+from django.views.generic import ListView
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -25,6 +26,20 @@ class FailedJsonResponse(JsonResponse):
     def __init__(self, data):
         super().__init__(data)
         data.status_code = 400
+
+
+class StoreList(ListView):
+    model = Product_Group
+    context_object_name = "products"
+    template_name = "products/products_list.html"
+
+    def get_context_data(self, **kwargs):
+        cat_name = self.request.GET.get("cat", all)
+        context = super().get_context_data(**kwargs)
+
+        context["cat_name"] = cat_name
+
+        return context
 
 
 def store_list_all(request):
@@ -78,8 +93,10 @@ def store_list_cat(request, cat):
 
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product_Group.objects.filter(category__parent__slug=cat).exclude(title="피키팜 테스트 상품그룹").order_by(
-                "-open", "create_at"
+            products = (
+                Product_Group.objects.filter(category__parent__slug=cat)
+                .exclude(title="피키팜 테스트 상품그룹")
+                .order_by("-open", "create_at")
             )
         except ObjectDoesNotExist:
             ctx = {
@@ -94,7 +111,9 @@ def store_list_cat(request, cat):
         cat_name = big_cat_name[categories.parent.name]
 
         try:
-            products = categories.product_groups.exclude(title="피키팜 테스트 상품그룹").order_by("-open", "-create_at")
+            products = categories.product_groups.exclude(title="피키팜 테스트 상품그룹").order_by(
+                "-open", "-create_at"
+            )
             categories = categories.parent.children.all().order_by("name")
         except ObjectDoesNotExist:
             ctx = {
