@@ -1548,6 +1548,7 @@ def payment_valid_gift(request):
                     detail.send_kakao_msg_order_for_farmer(is_gift=True)
 
             order_group.status = "payment_complete"
+            order_group.order_at = timezone.now()
             order_group.save()
 
 
