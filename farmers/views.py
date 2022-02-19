@@ -1362,7 +1362,6 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
             }
         )
 
-        
         order = self.get_object()
         order_group = order.order_group
 
@@ -1395,7 +1394,6 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
             args_consumer,
         )
 
-
         # 선물하기 결제인 경우 선물 받는 사람 번호
         if order_group.order_type == "gift":
             phone_number_gift_rev = order.rev_phone_number_gift
@@ -1405,8 +1403,6 @@ class FarmerMypageInvoiceUpdatePopup(FarmerMyPagePopupBase):
                 args_consumer,
             )
             print(f"[송장 입력 팝업 - POST] 선물하기 Gift rev phone number : {phone_number_gift_rev}")
-
-
 
         return redirect("core:popup_callback")
 
