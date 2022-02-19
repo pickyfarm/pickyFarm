@@ -267,17 +267,15 @@ My Picky Farm
 {% block mypage_base_script_section %}
 
 <script>
-
-
-    let subCancelBtn = document.getElementById("sub_cancel_btn")
-    console.log(subCancelBtn)
-    subCancelBtn.addEventListener('click', () => {
-        showModalMessage("구독을 취소하시겠습니까", () => {
-            let pk = subCancelBtn.getAttribute('name')
-            subscribeCancel(pk)
-        })
-    }
-    )
+    const subCancelBtns = document.querySelectorAll("#sub_cancel_btn");
+    subCancelBtns.forEach((item) => {
+        item.addEventListener('click', () => {
+            showModalMessage("구독을 취소하시겠습니까", () => {
+                let pk = item.getAttribute('name')
+                subscribeCancel(pk)
+            })
+        });
+    });
 
     // 모바일에서 구독 3개씩 더보기
     if (window.matchMedia("(max-width: 768px)").matches) {
@@ -311,9 +309,6 @@ My Picky Farm
             showMore(3);
         })
     }
-
-
-    prohibitAccessFromMobile(["#menu_deliveries_btn", "#menu_infos"])
 
 </script>
 {% endblock %}

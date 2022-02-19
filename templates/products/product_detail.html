@@ -191,7 +191,9 @@
     <img src="{{ farmer.farmer_profile.url }}" alt="농가 프로필 이미지" id="farmer-sub-profile">
     <img src="{% static 'images/base/sub_floating_btn.svg' %}" name={{farmer.pk}} alt="농가 구독하기" id="farmer-sub-icon">
 </div>
+{% endblock main_content %}
 
+{% block scripts %}
 
 <script>
     // 구독하기
@@ -238,89 +240,26 @@
     let law_location = document.getElementById("law_location")
     let law_livestock = document.getElementById("law_livestock")
 
-    // uglyTag.addEventListener('click', function () {
-    //     shootToastMessage("무난이 작물로 전환합니다", '2')
-
-    //     title.innerHTML = '{{product.title}}'
-    //     subTitle.innerHTML = '{{product.sub_title}}'
-    //     cost.innerHTML = '{{product.sell_price}}원'
-    //     weight.innerHTML = '{{product.weight}}{{product.weight_unit}}'
-    //     totalCost.innerHTML = '{{product.sell_price}}'
-    //     quantity_number.innerHTML = '1'
-    //     if ('{{product.default_delivery_fee}}' == '0') {
-    //         shippingFee.innerHTML = '무료'
-    //         shippingFee.style.color = "#ff0000"
-    //         shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
-    //     }
-    //     else {
-    //         shippingFee.innerHTML = '{{product.default_delivery_fee}}원'
-    //         shippingFee.style.color = "#5c6854"
-    //         shippingFeeDesc.innerHTML = '{{product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
-    //     }
-
-
-    //     //메인 이미지 변경
-    //     mainImage.setAttribute('sec', '{{product.main_image.url}}')
-
-    //     //바로 구매하기 name pk 변경
-    //     purchaseBtn.setAttribute('name', '{{product.pk}}')
-
-    //     //버튼 색 변경
-    //     this.style.color = "#fff"
-    //     this.style.backgroundColor = "#5c6754"
-    //     normalTag.style.color = "#5c6754"
-    //     normalTag.style.backgroundColor = "#fff"
-
-    //     //삼품 상세
-    //     harvestDate.innerHTML = "{{product_harvest_start_date}} ~ {{product_harvest_end_date}}"
-    //     shelfLifeDate.innerHTML = "{{product_shelf_life_date}}"
-    // })
-
-    // normalTag.addEventListener('click', function () {
-    //     shootToastMessage("일반 작물로 전환합니다", '2')
-
-    //     title.innerHTML = '{{related_product.title}}'
-    //     subTitle.innerHTML = '{{related_product.sub_title}}'
-    //     cost.innerHTML = '{{related_product.sell_price}}원'
-    //     weight.innerHTML = '{{related_product.weight}}{{product.weight_unit}}'
-    //     totalCost.innerHTML = '{{related_product.sell_price}}'
-    //     quantity_number.innerHTML = '1'
-    //     if ('{{related_product.default_delivery_fee}}' == '0') {
-    //         shippingFee.innerHTML = "무료"
-    //         shippingFee.style.color = "#ff0000"
-    //         shippingFeeDesc.innerHTML = '제주 외 도서지역 추가 배송비 추가'
-    //     }
-    //     else {
-    //         shippingFee.innerHTML = '{{related_product.default_delivery_fee}}원'
-    //         shippingFee.style.color = "#5c6854"
-    //         shippingFeeDesc.innerHTML = '{{related_product.additional_delivery_fee_unit}}마다 추가 배송비 부과 / 제주 외 도서지역 추가 배송비 추가'
-    //     }
-
-
-    //     //메인 이미지 변경
-    //     mainImage.setAttribute('sec', '{{related_product.main_image.url}}')
-
-    //     //바로 구매하기 name pk 변경
-    //     purchaseBtn.setAttribute('name', '{{related_product.pk}}')
-
-    //     //버튼 색 변경
-    //     this.style.color = "#fff"
-    //     this.style.backgroundColor = "#5c6754"
-    //     uglyTag.style.color = "#5c6754"
-    //     uglyTag.style.backgroundColor = "#fff"
-
-    //     //상세 정보
-    //     harvestDate.innerHTML = "{{rel_product_harvest_start_date}} ~ {{product_harvest_end_date}}"
-    //     shelfLifeDate.innerHTML = "{{rel_product_shelf_life_date}}"
-
-    // })
-
     // 농가 구독 플로팅 모달
     const floatingBtn = document.getElementById('farmer-sub-icon')
     const modalAjaxURL = "{% url 'farmers:farmer_subs_modal' %}"
     const farmerPK = "{{farmer.pk}}"
     const detailURL = "{% url 'farmers:farmer_detail' farmer.pk %}"
+
+    // Bootpay Trace Data
+    const productData = {
+        item_name: "{{product.title}}",
+        item_img: "{{product.main_image.url}}",
+        unique: "{{product.pk}}",
+        price: "{{product.sell_price}}",
+        cat1: "{{product.category.parent.name}}",
+        cat2: "{{product.category.name}}"
+    }
+
+    const productTraceData = {
+        items: [productData]
+    }
 </script>
 <script defer src="{% static 'js/event/siminwon_event_modal.js' %}"></script>
 <script defer src="{% static 'js/products/product_detail.js' %}"></script>
-{% endblock main_content %}
+{% endblock scripts %}

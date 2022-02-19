@@ -105,13 +105,15 @@
         {% if detail.status == 'delivery_complete' %}
         {% if not detail.product_comments %}
         <!-- <div id="reg-review-btn" class="transition_element" onclick=productCommentPopup({{detail.pk}})> -->
-        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
+        <div id="reg-review-btn" class="transition_element"
+          onclick="window.open('{% url 'user:product_comment_create' detail.pk %}')">
           <a>
             리뷰 쓰기
           </a>
         </div>
         {% else %}
-        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'user:product_comment_detail' detail.product_comments.pk %}', '', 'height=700 width=375')">
+        <div id="reg-review-btn" class="transition_element"
+          onclick="window.open('{% url 'user:product_comment_detail' detail.product_comments.pk %}', '', 'height=700 width=375')">
           <a>
             리뷰 보기
           </a>
@@ -120,7 +122,8 @@
         {% endif %}
 
         {% if detail.status == 'delivery_complete' %}
-        <div id="reg-review-btn" class="transition_element" onclick="window.open('{% url 'orders:change_refund' detail.pk %}')">
+        <div id="reg-review-btn" class="transition_element"
+          onclick="window.open('{% url 'orders:change_refund' detail.pk %}')">
           <a>
             환불/반품
           </a>
@@ -129,7 +132,8 @@
 
 
         {% if detail.status == 'payment_complete' %}
-        <div id="cancel-order-btn" class="transition_element" onclick="window.open('{% url 'orders:payment_cancel' detail.pk %}')">
+        <div id="cancel-order-btn" class="transition_element"
+          onclick="window.open('{% url 'orders:payment_cancel' detail.pk %}')">
           <a>
             주문 취소
           </a>
@@ -137,7 +141,8 @@
         {% endif %}
 
         {% if detail.status == 'wait' and detail.order_group.status == 'wait_vbank' %}
-        <div id="vbank_confirm_btn" class="transition_element" onclick="window.open('{% url 'user:vbank_account_confirm' detail.order_group.pk %}')">
+        <div id="vbank_confirm_btn" class="transition_element"
+          onclick="window.open('{% url 'user:vbank_account_confirm' detail.order_group.pk %}')">
           <a>가상계좌 확인</a>
         </div>
         {% endif %}
@@ -150,7 +155,8 @@
   <div class="flex justify-between w-36 mx-auto mt-8">
     <img src="{% static 'images/pagination/first_page.svg' %}" name='paginator' id='1' style="cursor: pointer">
     {% if order_details.has_previous %}
-    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{order_details.previous_page_number}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='{{order_details.previous_page_number}}'
+      style="cursor: pointer">
     {% else %}
     <img src="{% static 'images/pagination/prev.svg' %}" name='paginator' id='1' style="cursor: pointer">
     {% endif %}
@@ -160,11 +166,14 @@
     <div>{{order_details.paginator.num_pages}}</div>
 
     {% if order_details.has_next %}
-    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{order_details.next_page_number}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{order_details.next_page_number}}'
+      style="cursor: pointer">
     {% else %}
-    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{order_details.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/next.svg' %}" name='paginator' id='{{order_details.paginator.num_pages}}'
+      style="cursor: pointer">
     {% endif %}
-    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator' id='{{order_details.paginator.num_pages}}' style="cursor: pointer">
+    <img src="{% static 'images/pagination/last_page.svg' %}" name='paginator'
+      id='{{order_details.paginator.num_pages}}' style="cursor: pointer">
   </div>
 </div>
 
@@ -216,53 +225,53 @@
     })
   })
 
-  let filter6Month = document.getElementById('filter-6month')
+  // let filter6Month = document.getElementById('filter-6month')
 
-  filter6Month.addEventListener('click', function () {
-    let sDateInput = document.getElementById('filter-start-date')
-    let eDateInput = document.getElementById('filter-end-date')
-    let submitBtn = document.getElementById('filter-submit')
-    const now = new Date()
-    console.log(now)
+  // filter6Month.addEventListener('click', function () {
+  //   let sDateInput = document.getElementById('filter-start-date')
+  //   let eDateInput = document.getElementById('filter-end-date')
+  //   let submitBtn = document.getElementById('filter-submit')
+  //   const now = new Date()
+  //   console.log(now)
 
-    let nowMonth = now.getMonth() + 1
-    console.log(nowMonth)
+  //   let nowMonth = now.getMonth() + 1
+  //   console.log(nowMonth)
 
-    let startMonth = nowMonth - 6
-    let year = now.getFullYear()
-    let startYear = year
-    if (startMonth <= 0) {
-      if (startMonth == 0) {
-        startMonth = 12
-        startYear -= 1
-      }
-      else {
-        startMonth = 12 + startMonth + 1
-        startYear -= 1
-      }
-    }
-    if (startMonth < 10)
-      startMonth = '0' + startMonth
+  //   let startMonth = nowMonth - 6
+  //   let year = now.getFullYear()
+  //   let startYear = year
+  //   if (startMonth <= 0) {
+  //     if (startMonth == 0) {
+  //       startMonth = 12
+  //       startYear -= 1
+  //     }
+  //     else {
+  //       startMonth = 12 + startMonth + 1
+  //       startYear -= 1
+  //     }
+  //   }
+  //   if (startMonth < 10)
+  //     startMonth = '0' + startMonth
 
-    startDate = startYear + '-' + startMonth + '-01'
-    console.log(startDate)
+  //   startDate = startYear + '-' + startMonth + '-01'
+  //   console.log(startDate)
 
-    sDateInput.setAttribute('value', startDate)
+  //   sDateInput.setAttribute('value', startDate)
 
-    nowDate = now.getDate()
-    if (nowDate < 10)
-      nowDate = '0' + nowDate
+  //   nowDate = now.getDate()
+  //   if (nowDate < 10)
+  //     nowDate = '0' + nowDate
 
-    if (nowMonth < 10)
-      nowMonth = '0' + nowMonth
+  //   if (nowMonth < 10)
+  //     nowMonth = '0' + nowMonth
 
-    endDate = year + '-' + nowMonth + '-' + nowDate
-    console.log(endDate)
-    eDateInput.setAttribute('value', endDate)
+  //   endDate = year + '-' + nowMonth + '-' + nowDate
+  //   console.log(endDate)
+  //   eDateInput.setAttribute('value', endDate)
 
-    submitBtn.click()
+  //   submitBtn.click()
 
-  })
+  // })
 
   var popupX = (document.body.offsetWidth / 2) - (375 / 2);
   var popupY = (window.screen.height / 2) - (600 / 2);

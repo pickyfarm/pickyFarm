@@ -240,7 +240,16 @@ class Product(models.Model):
         self.sales_count += quantity
         if self.stock == 0:
             self.open = False
-
+            self.status = "soldout"
+            siblings = self.get_available_sibling_products().exclude(pk=self.pk)
+            # 같은 Product_Group 내에 open=True인 상품이 없으면 Product_Group 내리기
+            if siblings.count() < 1:
+                self.product_group.open = False
+            elif siblings.count() >= 1 and self.main_product:
+                first = siblings.first()
+                self.main_product = False
+                first.main_product = True
+                first.save()
         self.save()
         return
 
