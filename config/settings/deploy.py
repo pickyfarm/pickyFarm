@@ -1,6 +1,5 @@
 from .base import *
 import os
-from datetime import datetime
 
 DEBUG = False
 ALLOWED_HOSTS = ["*"]
@@ -40,4 +39,5 @@ DATABASES = {
 # STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 # STATIC VERSION
-STATIC_VERSION = 20220219
+# 정적 파일 변경 시 버전 업데이트!!!
+STATIC_VERSION = "20220219_v1"
