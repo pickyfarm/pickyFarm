@@ -15,6 +15,7 @@
     <meta property='og:title' content='{% block og_title %}{% endblock %} | 피키팜'>
     <meta property='og:description' content='{% block og_desc %}{% endblock %}'>
     <meta property='og:image' content='{% block og_image %}{% endblock %}'>
+    <meta content="60dad0c05b29480021dc523d" name="bootpay-application-id" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     {% block stylesheet %}
@@ -85,6 +86,6 @@
 {% block scripts %}
 {% endblock %}
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.2.min.js" type="application/javascript"></script>
-
+<script src="{% static 'js/base/BootPayStatistics.js' %}"></script>
 
 </html>
