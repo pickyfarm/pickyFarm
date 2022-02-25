@@ -125,3 +125,15 @@ class ProductListTest(TestCase):
         res = self.client.get(reverse("products:store_list"))
 
         self.assertEqual(len(res.context["products"]), 3)
+
+    def test_list_ugly_products(self):
+        res = self.client.get(f'{reverse("products:store_list")}?cat=ugly')
+
+        products = res.context["products"]
+        self.assertEqual(products.first().kinds, "ugly")
+
+    def test_list_normal_products(self):
+        res = self.client.get(f'{reverse("products:store_list")}?cat=normal')
+
+        products = res.context["products"]
+        self.assertEqual(products.first().kinds, "normal")

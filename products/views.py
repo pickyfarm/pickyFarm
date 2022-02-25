@@ -33,11 +33,18 @@ class StoreList(ListView):
     context_object_name = "products"
     template_name = "products/products_list.html"
 
-    def get_context_data(self, **kwargs):
-        cat_name = self.request.GET.get("cat", all)
-        context = super().get_context_data(**kwargs)
+    def get_queryset(self):
+        qs = super().get_queryset().exclude(title="피키팜 테스트 상품그룹").order_by("-open")
+        cat_name = self.request.GET.get("cat", None)
+        sort_key = self.request.GET.get("sort" "최신순")
 
-        context["cat_name"] = cat_name
+        if cat_name:
+            return qs.filter(kinds=cat_name)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
         return context
 
