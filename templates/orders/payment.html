@@ -363,12 +363,12 @@
         var addressType = document.querySelector("input[name='delivery-cat']:checked").value
 
         const directInputAddress = {
-            full: document.querySelector('#id_full_address'),
-            detail: document.querySelector('#id_detail_address'),
-            sido: document.querySelector('#id_sido'),
-            sigungu: document.querySelector('#id_sigungu'),
-            extra: document.querySelector('#id_extra_address'),
-            zipcode: document.querySelector('#id_zipcode')
+            full: document.querySelector('#id_full_address').value,
+            detail: document.querySelector('#id_detail_address').value,
+            sido: document.querySelector('#id_sido').value,
+            sigungu: document.querySelector('#id_sigungu').value,
+            extra: document.querySelector('#id_extra_address').value,
+            zipcode: document.querySelector('#id_zipcode').value
         }
 
         if (revName == "") {
@@ -522,6 +522,9 @@
         }).confirm(function (data) {
             //결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
             //주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
+            console.log(addressType);
+            console.log(directInputAddress);
+
             var sendData = {
                 'rev_name': revName,
                 'rev_phone_number': revPhoneNumber,
@@ -532,8 +535,7 @@
                 'payment_type': paymentType,
                 'total_price': totalPrice,
                 'address_type': addressType,
-                'direct_input_address': directInputAddress,
-                'is_logined': true
+                'direct_input_address': JSON.stringify(directInputAddress),
             };
 
             $.ajax({
