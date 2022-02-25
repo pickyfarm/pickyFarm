@@ -95,6 +95,7 @@ urlpatterns = [
         name="product_comment_detail",
     ),
     path("mypage/orders/list", views.OrderListPopup.as_view(), name="order_list_popup"),
+    path("mypage/orders/shipping-info/<int:pk>", views.mypage_shipping_info_popup, name="mypage_shipping_info_popup"),
     # mypage pagination ajax
     path("mypage/orders-ajax/", views.mypage_orders_ajax, name="mypage_orders_ajax"),
 ]
