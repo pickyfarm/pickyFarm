@@ -75,10 +75,13 @@
     #top-btn-section>:nth-child(1) {
         font-size: 1.1rem;
     }    
-    #add-rev-address-btn {
-        font-size: 1.1rem;
+    #add-rev-address-btn, #default-address-btn {
+        font-size: 1rem;
         font-weight: bold;
+        width: auto;
+        height: auto;
     }    
+
     #index-title-section > div {
         font-size: 1.2rem;
         color: #5c6754;

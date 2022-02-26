@@ -7,76 +7,86 @@
 
 {% block content %}
 <div id="contents-container">
-<div id="top-btn-section" class="flex flex-row">
-  <div>배송지에 따라 배송비가 달라질 수 있습니다</div>
-  <a href="?type=add"><div id="add-rev-address-btn" class="justify-self-end transition_element">+ 배송지 추가</div></a>
-</div>
-
-<div id="index-section" class="flex flex-row">
-  <div id="index-title-section" class="flex flex-row">
-    <div class="w-10/12">주소</div>
-    <div class="w-1/12">수정</div>
-    <div class="w-1/12">삭제</div>
+  <div id="top-btn-section" class="flex flex-row">
+    <div>배송지에 따라 배송비가 달라질 수 있습니다</div>
   </div>
-</div>
 
-<div id="rev-address-section" class="flex flex-row">
-  
-  {% if rev_addresses.exists is False %}
-    <div class="mt-10 mx-auto" id="not-register">아직 등록된 무난이 배송지가 없습니다!</div>
-  {% else %}
-  <div id="addr-section">
-    {% for addr in rev_addresses %}
-  
-    <div id="addr" class="flex flex-row">
-      <div class="w-10/12 text-center">{{addr.full_address}} {{addr.detail_address}}</div>
-      <div class="flex w-1/12 justify-center"><a href="?type=update&pk={{addr.pk}}"><img id="modify" name="{{addr.pk}}" src="{% static 'images/users/pen.svg' %}"></a></div>
-      <div class="flex w-1/12 justify-center"><img id="delete" name="{{addr.pk}}" src="{% static 'images/users/delete_x.svg' %}"></div>
+  <div id="index-section" class="flex flex-row">
+    <div id="index-title-section" class="flex flex-row">
+      <div class="w-1/12">선택</div>
+      <div class="w-9/12">주소</div>
+      <div class="w-1/12">수정</div>
+      <div class="w-1/12">삭제</div>
     </div>
-  
-    {% endfor %}
   </div>
-  {% endif %}
+
+  <div id="rev-address-section" class="flex flex-row">
     
+    {% if rev_addresses.exists is False %}
+      <div class="mt-10 mx-auto" id="not-register">아직 등록된 무난이 배송지가 없습니다!</div>
+    {% else %}
+    <div id="addr-section">
+      {% for addr in rev_addresses %}
+      <div id="addr" class="flex flex-row">
+        <div class="w-1/12 text-center">
+          {% if consumer.default_address.pk == addr.pk %}
+          <input type="radio" name="default_address" value="{{addr.pk}}" checked>
+          {% else %}
+          <input type="radio" name="default_address" value="{{addr.pk}}">
+          {% endif %}
+        </div>
+        <div class="w-9/12 text-center">{{addr.full_address}} {{addr.detail_address}}</div>
+        <div class="flex w-1/12 justify-center"><a href="?type=update&pk={{addr.pk}}"><img id="modify" name="{{addr.pk}}" src="{% static 'images/users/pen.svg' %}"></a></div>
+        <div class="flex w-1/12 justify-center"><img id="delete" name="{{addr.pk}}" src="{% static 'images/users/delete_x.svg' %}"></div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+      
+  </div>
+  <div class="flex flex-row justify-end">
+    <a id="set-default-addr-btn">
+      <div id="default-address-btn" class="transition_element">기본 배송지로 설정</div>
+    </a>
+    <a href="?type=add">
+      <div id="add-rev-address-btn" >배송지 추가</div>
+    </a>
+  </div>
 </div>
-</div>
-<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
+
 <script>
-
-let menuBtns = []
-    menuBtns.push(document.getElementById('menu_carts'))
-    menuBtns.push(document.getElementById('menu_boughts'))
-    menuBtns.push(document.getElementById('menu_infos'))
-    menuBtns.push(document.getElementById('menu_likes'))
+  let menuBtns = []
+  menuBtns.push(document.getElementById('menu_carts'))
+  menuBtns.push(document.getElementById('menu_boughts'))
+  menuBtns.push(document.getElementById('menu_infos'))
+  menuBtns.push(document.getElementById('menu_likes'))
  
+  $('#menu_deliveries').css({
+      "background-color": "#5c6754",
+      "color": "white",
+  })
 
-    $('#menu_deliveries').css({
-        "background-color": "#5c6754",
-        "color": "white",
-    })
+  // 모바일에서 메뉴 선택
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    document.getElementById('menu_deliveries').classList.add('selected');
+    document.getElementById('selected_line').style.gridArea= "line4";
+  }
 
-    // 모바일에서 메뉴 선택
-    if (window.matchMedia("(max-width: 768px)").matches) {
-      document.getElementById('menu_deliveries').classList.add('selected');
-      document.getElementById('selected_line').style.gridArea= "line4";
-    }
+  menuBtns.forEach(item => {
+      item.addEventListener('mouseover', function () {
+          $(this).css({
+              "background-color": "#5c6754",
+              "color": "white",
 
-
-    menuBtns.forEach(item => {
-        item.addEventListener('mouseover', function () {
-            $(this).css({
-                "background-color": "#5c6754",
-                "color": "white",
-
-            })
-        })
-        item.addEventListener('mouseout', function () {
-            $(this).css({
-                "background-color": "white",
-                "color": "#5c6754"
-            })
-        })
-    })
+          })
+      })
+      item.addEventListener('mouseout', function () {
+          $(this).css({
+              "background-color": "white",
+              "color": "#5c6754"
+          })
+      })
+  })
 
   let deleteBtn = document.querySelectorAll('#delete')
 
@@ -104,8 +114,11 @@ let menuBtns = []
       });
     })
   });
+  const setDefaultAddrURL = "{% url 'users:set_default_address_ajax' %}"
 
 </script>
+<script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/users/mypage/user/mypage_address.js' %}"></script>
 
 {% endblock content %}
 

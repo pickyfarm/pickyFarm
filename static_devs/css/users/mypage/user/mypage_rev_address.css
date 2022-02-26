@@ -1,5 +1,7 @@
 /* ***********배송지 정보 수정************ */
-
+#content {
+  width: 100%;
+}
 #contents-container{
     margin-left:130px;
   }
@@ -69,27 +71,35 @@
     color: #707070;
   }
   
-  #top-btn-section>:nth-child(2){
+  #add-rev-address-btn{
     width: 147px;
     height: 30px;
-    padding: 4px 28px 4px 30px;
+    padding: 3px 30px;
     border-radius: 15px;
     background-color: #5c6754;
-    font-family: NotoSansKR;
     font-size: 15px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
     text-align: center;
     color: #ffffff;
     cursor: pointer;
-    margin-left:300px;
+    margin-left: 30px;
+  }
+
+  #default-address-btn {
+    width: 174px;
+    height: 30px;
+    padding: 3px 10px;
+    border: 1px solid #5C6754;
+    box-sizing: border-box;
+    border-radius: 30px;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  #default-address-btn:hover {
+    background-color: #5c6754;
+    border: 1px solid #5c6754;
+    color: #fff;
   }
   
-  #top-btn-section>:nth-child(2):hover{
-    background-color: #ffffff;
-    color: #5c6754;
-    border: solid 1px #5c6754;
-  }
   

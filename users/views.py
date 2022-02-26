@@ -43,7 +43,16 @@ from kakaomessages.views import send_kakao_message, send_sms
 from config.settings import base
 
 # models
-from .models import Subscribe, Cart, Consumer, Wish, User, Editor, PhoneNumberAuth
+from .models import (
+    AddressMatchException,
+    Subscribe,
+    Cart,
+    Consumer,
+    Wish,
+    User,
+    Editor,
+    PhoneNumberAuth,
+)
 from editor_reviews.models import Editor_Review
 from comments.models import (
     Editor_Review_Comment,
@@ -749,6 +758,7 @@ def mypage(request, cat):
             print(type(q))
 
         ctx = {
+            "consumer": consumer,
             "consumer_nickname": consumer_nickname,
             "sub_farmers": sub_farmers,
             "questions": questions,
@@ -949,6 +959,19 @@ def mypage(request, cat):
         else:
             # 404 페이지 제작 후 여기에 넣어야함
             return redirect(reverse("core:main"))
+
+
+def set_default_address_ajax(request):
+    """user mypage set default address view"""
+    user = request.user
+    if request.method == "POST":
+        addr_pk = request.POST.get("pk")
+        try:
+            user.consumer.set_default_address(addr_pk)
+            response = {"status": True}
+        except AddressMatchException:
+            response = {"status": False, "error": "기본 배송지 설정 오류"}
+    return JsonResponse(response)
 
 
 """Mypage Pagination AJAX"""
