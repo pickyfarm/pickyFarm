@@ -101,5 +101,21 @@
     border: 1px solid #5c6754;
     color: #fff;
   }
+
+  input+label::before {
+    content: '';
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+  }
+
+  input:checked+label::before {
+    content: '';
+  }
+  input {
+    display: none;
+  }
   
   

@@ -30,10 +30,11 @@
       <div id="addr" class="flex flex-row">
         <div class="w-1/12 text-center">
           {% if consumer.default_address.pk == addr.pk %}
-          <input type="radio" name="default_address" value="{{addr.pk}}" checked>
+          <input type="radio" id="{{addr.pk}}" name="default_address" value="{{addr.pk}}" checked>
           {% else %}
-          <input type="radio" name="default_address" value="{{addr.pk}}">
+          <input type="radio" id="{{addr.pk}}" name="default_address" value="{{addr.pk}}">
           {% endif %}
+          <label for="{{addr.pk}}"></label>
         </div>
         <div class="w-9/12 text-center">{{addr.full_address}} {{addr.detail_address}}</div>
         <div class="flex w-1/12 justify-center"><a href="?type=update&pk={{addr.pk}}"><img id="modify" name="{{addr.pk}}" src="{% static 'images/users/pen.svg' %}"></a></div>
@@ -120,5 +121,13 @@
 <script type="text/javascript" src="{% static 'js/get_address.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/users/mypage/user/mypage_address.js' %}"></script>
 
+<style>
+  input+label::before {
+    background-image: url("{% static 'images/users/mypage/user/default_address_unchecked.svg' %}");
+  }
+  input:checked+label::before {
+    background-image: url("{% static 'images/users/mypage/user/default_address_checked.svg' %}");
+  }
+</style>
 {% endblock content %}
 
