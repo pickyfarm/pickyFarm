@@ -289,7 +289,7 @@
     };
 
     var productPrice = document.querySelector('.delivery-fee');
-    var totalPrice = document.getElementById('price_text_b').innerHTML;
+    var totalPrice = document.getElementById('price_text_b')
     var deliveryCatDefault = document.getElementById('delivery-cat-default');
     var deliveryCatChoice = document.getElementById('delivery-cat-choice');
     var deliveryCatDirect = document.getElementById('delivery-cat-direct');
@@ -437,7 +437,7 @@
         });
 
         BootPay.request({
-            price: parseInt(totalPrice),
+            price: parseInt(totalPrice.innerHTML),
             //실제 결제되는 가격
             application_id: "60dad0c05b29480021dc523d",
             name: '{{order_group_name}}',
@@ -490,7 +490,7 @@
                 'rev_message': revMessage,
                 'to_farm_message': toFarmMessage,
                 'payment_type': paymentType,
-                'total_price': totalPrice,
+                'total_price': totalPrice.innerHTML,
                 'order_group_pk': data['params']['orderGroupPk'],
                 'order_group_name': data['params']['orderName'],
                 'v_bank': data['bankname'],
@@ -533,7 +533,7 @@
                 'rev_message': revMessage,
                 'to_farm_message': toFarmMessage,
                 'payment_type': paymentType,
-                'total_price': totalPrice,
+                'total_price': totalPrice.innerHTML,
                 'address_type': addressType,
                 'direct_input_address': JSON.stringify(directInputAddress),
             };
