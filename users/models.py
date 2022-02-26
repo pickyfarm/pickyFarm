@@ -156,13 +156,11 @@ class Consumer(models.Model):
 
     def set_default_address(self, pk):
         default_addr = Address.objects.get(pk=pk)
-        try:
-            if default_addr.user.consumer.pk != self.pk:
-                raise AddressMatchException
-            self.default_address = default_addr
-            self.save()
-        except AddressMatchException:
-            pass
+
+        if default_addr.user.consumer.pk != self.pk:
+            raise AddressMatchException
+        self.default_address = default_addr
+        self.save()
 
 
 class Editor(models.Model):
@@ -262,4 +260,5 @@ class PhoneNumberAuth(models.Model):
 
 
 class AddressMatchException(Exception):
-    pass
+    def __str__(self):
+        return "Address does not match"
