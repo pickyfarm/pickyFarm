@@ -154,6 +154,14 @@ class Consumer(models.Model):
             send_kakao_message(phone_number, templateIdList["payment_complete"], args)
         return
 
+    def set_default_address(self, pk):
+        default_addr = Address.objects.get(pk=pk)
+
+        if default_addr.user.consumer.pk != self.pk:
+            raise AddressMatchException
+        self.default_address = default_addr
+        self.save()
+
 
 class Editor(models.Model):
     user = models.OneToOneField(
@@ -249,3 +257,8 @@ class PhoneNumberAuth(models.Model):
 
     def __str__(self):
         return self.phone_num
+
+
+class AddressMatchException(Exception):
+    def __str__(self):
+        return "Address does not match"
