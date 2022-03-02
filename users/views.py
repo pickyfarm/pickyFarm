@@ -970,6 +970,7 @@ def mypage_shipping_info_popup(request, pk):
 
     STATUS = {
         "payment_complete" : "결제완료 - 농가가 아직 주문을 확인하지 않았어요",
+        "payment_complete_no_address" : "결제완료 - 선물 받는 분이 아직 주소를 입력하지 않았어요",
         "preparing": "배송 준비 중 - 농가가 주문을 확인했어요!",
         "shipping": "배송 중",
         "delivery_complete" : "배송완료",
@@ -989,29 +990,35 @@ def mypage_shipping_info_popup(request, pk):
 
     # 일반 결제인 경우
     if order_group.order_type == "normal":
+        gift = False
         rev_name = order_group.rev_name
         rev_phone_number = order_group.rev_phone_number
         rev_address = order_group.rev_address
         rev_loc_at = order_group.rev_loc_at
         rev_message = order_group.rev_message
+        gift_message = ""
     # 선물하기 결제인 경우
     else:
+        gift = True
         rev_name = order_detail.rev_name_gift
         rev_phone_number = order_detail.rev_phone_number_gift
         rev_address = order_detail.rev_address_gift
         rev_loc_at = ""
         rev_message = ""
+        gift_message = order_detail.gift_message
 
     ctx = {
         "quantity" : quantity,
         "status" : status,
+        "gift" : gift,
         "product" : product,
         "farmer" : farmer,
         "rev_name" : rev_name,
         "rev_phone_number" : rev_phone_number,
         "rev_address" : rev_address,
         "rev_loc_at" : rev_loc_at,
-        "rev_message" : rev_message
+        "rev_message" : rev_message,
+        "gift_message" : gift_message
     }
 
     return render(request, "users/mypage/user/shipping_info_popup.html", ctx)

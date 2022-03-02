@@ -32,18 +32,27 @@
             <span class="receiver-info-label f-content-label">수령인</span>
             <span class="receiver-info-label f-content-label">전화번호</span>
             <span class="receiver-info-label f-content-label">주소</span>
+            {% if gift is True%}
+            <span class="receiver-info-label f-content-label">선물 메세지</span>
+            {% else %}
             <span class="receiver-info-label f-content-label">받으실 장소</span>
             <span class="receiver-info-label f-content-label">배송지 특이사항</span>
+            {% endif %}
+
             <span class="receiver-info-data f-content-data">{{rev_name}}</span>
             <span class="receiver-info-data f-content-data">{{rev_phone_number}}</span>
             <span class="receiver-info-data f-content-data">{{rev_address}}</span>
+
+            {% if gift is True%}
+            <span class="receiver-info-data f-content-data">{{gift_message}}</span>
+            {% else %}
             <span class="receiver-info-data f-content-data">{{rev_loc_at}}</span>
             <span class="receiver-info-data f-content-data">{{rev_message}}</span>
+            {% endif %}
+            
         </div>
     </div>
     <div class="flex justify-between button-group">
-        <button class="f-primary-button f-button-signup" onclick="location.href = `{% url 'users:signup' %}`">회원가입
-            하기</button>
         <button class="f-primary-button f-button-confirm" onclick="location.href = `{% url 'core:main' %}`">확인</button>
     </div>
 </section>
