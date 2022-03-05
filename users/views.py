@@ -117,7 +117,8 @@ def CartInAjax(request):
         else:  # 비회원
             non_member = request.user
             cart_list = request.COOKIES.get("cart_list")
-            message = "(비회원) 상품을 장바구니에 담았습니다!"
+            # message = "(비회원) 상품을 장바구니에 담았습니다!"
+            message = "로그인이 필요합니다."
 
         message = str(message)
         data = {
