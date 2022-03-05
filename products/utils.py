@@ -1,7 +1,7 @@
 import pandas as pd
 from .models import Product, Product_Image, Category
 
-
+# NAVER
 def get_product_db():
     products = Product.objects.filter(open=True, status="sale")
     db_columns = [
@@ -110,4 +110,77 @@ product_title = {
     67: "[당일수확 당일배송] 논산 설향딸기 中 30과 800g / 과학영농 / 산지직송 / 가정용 선물용",
     68: "[당일수확 당일배송] 논산 설향딸기 大 24과 800g / 과학영농 / 산지직송 / 가정용 선물용",
     69: "[당일수확 당일배송] 논산 설향딸기 특大 20과 800g / 과학영농 / 산지직송 / 가정용 선물용",
+}
+
+
+# DAUM
+def get_product_db_daum():
+    products = Product.objects.filter(open=True, status="sale")
+    product_data = []
+
+    for product in products:
+        cat = product.category
+        product_data.append(
+            [
+                "<<<begin>>>",
+                f"<<<mapid>>>{product.pk}",
+                f"<<<price>>>{product.sell_price}",
+                f"<<<pname>>>{product_title_daum[product.pk]}",
+                f"<<<pgurl>>>https://www.pickyfarm.com/product/detail/{product.pk}",
+                f"<<<igurl>>>{product.main_image.url}",
+                f"<<<cate1>>>{cat.parent.name}",
+                f"<<<cate2>>>{cat.name}",
+                f"<<<caid1>>>{get_product_naver_category_code(cat.name)}",
+                f"<<<deliv>>>{product.default_delivery_fee}",
+                "<<<ftend>>>",
+            ]
+        )
+
+    df = pd.DataFrame(data=product_data)
+    filename = "pickyfarm_daum_EP.txt"
+    df.to_csv(filename, index=False, sep="\n", header=None, encoding="utf-8")
+
+
+product_title_daum = {
+    19: " ",
+    39: " ",
+    40: " ",
+    43: " ",
+    42: " ",
+    41: " ",
+    45: " ",
+    46: " ",
+    22: " ",
+    23: " ",
+    24: " ",
+    25: " ",
+    26: " ",
+    27: " ",
+    29: " ",
+    30: " ",
+    31: " ",
+    32: " ",
+    33: " ",
+    34: " ",
+    35: " ",
+    36: " ",
+    44: " ",
+    52: " ",
+    53: " ",
+    54: " ",
+    55: " ",
+    56: " ",
+    57: " ",
+    58: " ",
+    59: " ",
+    60: " ",
+    61: " ",
+    62: " ",
+    63: " ",
+    64: " ",
+    65: " ",
+    66: " ",
+    67: " ",
+    68: " ",
+    69: " ",
 }

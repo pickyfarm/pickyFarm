@@ -11,7 +11,7 @@ from comments.models import Product_Comment
 from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
 from django.utils import timezone, dateformat
-from .utils import get_product_db
+from .utils import get_product_db, get_product_db_daum
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
 from django import template
@@ -78,8 +78,10 @@ def store_list_cat(request, cat):
 
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product_Group.objects.filter(category__parent__slug=cat).exclude(title="피키팜 테스트 상품그룹").order_by(
-                "-open", "create_at"
+            products = (
+                Product_Group.objects.filter(category__parent__slug=cat)
+                .exclude(title="피키팜 테스트 상품그룹")
+                .order_by("-open", "create_at")
             )
         except ObjectDoesNotExist:
             ctx = {
@@ -94,7 +96,9 @@ def store_list_cat(request, cat):
         cat_name = big_cat_name[categories.parent.name]
 
         try:
-            products = categories.product_groups.exclude(title="피키팜 테스트 상품그룹").order_by("-open", "-create_at")
+            products = categories.product_groups.exclude(title="피키팜 테스트 상품그룹").order_by(
+                "-open", "-create_at"
+            )
             categories = categories.parent.children.all().order_by("name")
         except ObjectDoesNotExist:
             ctx = {
@@ -438,8 +442,12 @@ def create_answer(request, pk):
 
 def get_product_EP(request):
     get_product_db()
-
     return HttpResponse("EP 생성 완료")
+
+
+def get_product_daum_EP(request):
+    get_product_db_daum()
+    return HttpResponse("Daum EP 생성 완료")
 
 
 # @login_required
