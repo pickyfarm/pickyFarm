@@ -78,8 +78,10 @@ def store_list_cat(request, cat):
 
         categories = big_category.children.all().order_by("name")
         try:
-            products = Product_Group.objects.filter(category__parent__slug=cat).exclude(title="피키팜 테스트 상품그룹").order_by(
-                "-open", "create_at"
+            products = (
+                Product_Group.objects.filter(category__parent__slug=cat)
+                .exclude(title="피키팜 테스트 상품그룹")
+                .order_by("-open", "create_at")
             )
         except ObjectDoesNotExist:
             ctx = {
@@ -94,7 +96,9 @@ def store_list_cat(request, cat):
         cat_name = big_cat_name[categories.parent.name]
 
         try:
-            products = categories.product_groups.exclude(title="피키팜 테스트 상품그룹").order_by("-open", "-create_at")
+            products = categories.product_groups.exclude(title="피키팜 테스트 상품그룹").order_by(
+                "-open", "-create_at"
+            )
             categories = categories.parent.children.all().order_by("name")
         except ObjectDoesNotExist:
             ctx = {
@@ -161,16 +165,25 @@ def product_detail(request, pk):
         comments = Product_Comment.objects.filter(product=siblings[0])
         for p in siblings[1:]:
             comments = comments | p.product_comments.all()
+
         comments = comments.order_by("-create_at")
         total_comments = comments.count()
         page = request.GET.get("page")
         paginator = Paginator(comments, 5)
         comments = paginator.get_page(page)
 
+        # 파머의 다른 상품 그룹 리뷰
+        other_comments = Product_Comment.objects.filter(product__farmer=farmer).exclude(
+            product__product_group=product.product_group
+        )
+        page1 = request.GET.get("page1")
+        paginator1 = Paginator(other_comments, 2)
+        other_comments = paginator1.get_page(page1)
+
         # 상품 문의
         questions = product.questions.all().order_by("-create_at")
         total_questions = questions.count()
-        page2 = request.GET.get("page")
+        page2 = request.GET.get("page2")
         paginator2 = Paginator(questions, 5)
         questions = paginator2.get_page(page2)
         # product.calculate_total_rating_avg()
@@ -226,6 +239,7 @@ def product_detail(request, pk):
             "kinds": kinds,
             "farmer": farmer,
             "comments": comments,
+            "other_comments": other_comments,
             "total_comments": total_comments,
             "questions": questions,
             "total_questions": total_questions,
