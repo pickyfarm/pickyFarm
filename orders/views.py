@@ -11,6 +11,7 @@ from .utils import payment_complete_notification
 from django.utils import timezone
 from products.models import Product
 from farmers.models import Farmer
+from addresses.models import Address
 from django.apps import apps  # for prevent Circular Import Error
 from addresses.views import check_address_by_zipcode, calculate_jeju_delivery_fee
 import requests, base64
@@ -368,6 +369,7 @@ def payment_update(request, pk):
     to_farm_message = request.POST.get("to_farm_message")
     payment_type = request.POST.get("payment_type")
     client_total_price = int(request.POST.get("total_price"))
+    address_type = request.POST.get("address_type", "default")
 
     # 회원/비회원 구분 플래그
     is_user = cur_user.is_authenticated
@@ -375,6 +377,7 @@ def payment_update(request, pk):
     if is_user:
         orderer_name = cur_user.account_name
         orderer_phone_number = cur_user.phone_number
+        new_address = json.loads(request.POST.get("direct_input_address"))
 
     else:
         orderer_name = request.POST.get("orderer_name", "orderer name is none")
@@ -423,6 +426,21 @@ def payment_update(request, pk):
                     "order_at": timezone.now(),
                 }
             )
+
+            # [PROCESS 7] 주소 직접입력인 경우에 새로운 주소 추가
+            if address_type == "direct":
+                address = Address.objects.create(
+                    user=request.user,
+                    full_address=new_address["full"],
+                    detail_address=new_address["detail"],
+                    sido=new_address["sido"],
+                    sigungu=new_address["sigungu"],
+                    extra_address=new_address["extra"],
+                    zipcode=new_address["zipcode"],
+                    is_jeju_mountain=check_address_by_zipcode(int(new_address["zipcode"])),
+                )
+
+                address.save()
 
             res_data = {
                 "valid": valid,
@@ -666,7 +684,6 @@ def send_kakao_with_payment_complete(order_group_pk, receipt_id):
 
     order_group.status = "payment_complete"
     order_group.save()
-
 
 
 # @login_required
@@ -1104,9 +1121,9 @@ def order_cancel(request, pk):
         cancel_reason = request.POST.get("cancel_reason")
 
         # 선물하기 여부 판별
-        gift = True if order.order_group.order_type=="gift" else False
+        gift = True if order.order_group.order_type == "gift" else False
         order.order_cancel(cancel_reason, gift)
-        
+
     else:
         return redirect(reverse("core:main"))
 
@@ -1550,7 +1567,6 @@ def payment_valid_gift(request):
             order_group.status = "payment_complete"
             order_group.order_at = timezone.now()
             order_group.save()
-
 
     except Exception as e:
         print("[ERROR] ", e)

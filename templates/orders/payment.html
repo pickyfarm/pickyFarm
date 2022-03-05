@@ -55,13 +55,13 @@
         <div id="delivery-cat-section" class="mb-5">
             <ul id="delivery-cat" class="flex flex-row">
                 <li id="label-text2" class="mr-5">
-                    <label for="delivery-cat-default"><input type="radio" name="delivery-cat" id="delivery-cat-default" value="기본 배송지" class="mr-2" required checked>기본 배송지</label>
+                    <label for="delivery-cat-default"><input type="radio" name="delivery-cat" id="delivery-cat-default" value="default" class="mr-2" required checked>기본 배송지</label>
                 </li>
                 <li id="label-text2" class="mr-5">
-                    <label for="delivery-cat-choice"><input type="radio" name="delivery-cat" id="delivery-cat-choice" value="배송지 선택" class="mr-2" required>배송지 선택</label>
+                    <label for="delivery-cat-choice"><input type="radio" name="delivery-cat" id="delivery-cat-choice" value="selection" class="mr-2" required>배송지 선택</label>
                 </li>
                 <li id="label-text2" class="mr-5">
-                    <label for="delivery-cat-direct"><input type="radio" name="delivery-cat" id="delivery-cat-direct" value="직접입력" class="mr-2" required>직접입력</label>
+                    <label for="delivery-cat-direct"><input type="radio" name="delivery-cat" id="delivery-cat-direct" value="direct" class="mr-2" required>직접입력</label>
                 </li>
             </ul>
 
@@ -289,7 +289,7 @@
     };
 
     var productPrice = document.querySelector('.delivery-fee');
-    var totalPrice = document.getElementById('price_text_b').innerHTML;
+    var totalPrice = document.getElementById('price_text_b')
     var deliveryCatDefault = document.getElementById('delivery-cat-default');
     var deliveryCatChoice = document.getElementById('delivery-cat-choice');
     var deliveryCatDirect = document.getElementById('delivery-cat-direct');
@@ -350,9 +350,8 @@
     subAddressInput.addEventListener('input', function (e) {
         deliveryAddress.value = "".concat(mainAddressInput.value, " ").concat(e.target.value);
     });
+
     var goBtn = document.getElementById('go-btn');
-    console.log(goBtn);
-    console.log(window.location.origin);
     goBtn.addEventListener('click', function () {
         var revName = document.getElementById('id_rev_name').value;
         var revPhoneNumber = document.getElementById('id_rev_phone_number').value;
@@ -361,10 +360,16 @@
         var revMessage = document.getElementById('id_rev_message').value;
         var toFarmMessage = document.getElementById('id_to_farm_message').value;
         var items = document.querySelectorAll('#product');
-        console.log(items);
-        console.log(toFarmMessage);
-        console.log(revName);
-        console.log(revLocAt);
+        var addressType = document.querySelector("input[name='delivery-cat']:checked").value
+
+        const directInputAddress = {
+            full: document.querySelector('#id_full_address').value,
+            detail: document.querySelector('#id_detail_address').value,
+            sido: document.querySelector('#id_sido').value,
+            sigungu: document.querySelector('#id_sigungu').value,
+            extra: document.querySelector('#id_extra_address').value,
+            zipcode: document.querySelector('#id_zipcode').value
+        }
 
         if (revName == "") {
             alert("받는이의 이름을 입력해주세요");
@@ -430,9 +435,9 @@
 
             }]);
         });
-        console.log(itemsList);
+
         BootPay.request({
-            price: parseInt(totalPrice),
+            price: parseInt(totalPrice.innerHTML),
             //실제 결제되는 가격
             application_id: "60dad0c05b29480021dc523d",
             name: '{{order_group_name}}',
@@ -485,7 +490,7 @@
                 'rev_message': revMessage,
                 'to_farm_message': toFarmMessage,
                 'payment_type': paymentType,
-                'total_price': totalPrice,
+                'total_price': totalPrice.innerHTML,
                 'order_group_pk': data['params']['orderGroupPk'],
                 'order_group_name': data['params']['orderName'],
                 'v_bank': data['bankname'],
@@ -494,10 +499,7 @@
                 'v_bank_expire_date': data['expiredate'],
                 'receipt_id': data['receipt_id']
             };
-            console.log(data['bankname']);
-            console.log(data['account']);
-            console.log(data['accounthodler']);
-            console.log(data['expiredate']);
+
             var form = document.createElement("form");
             form.setAttribute("method", "post");
             form.setAttribute("action", "{% url 'orders:vbank_progess' %}");
@@ -520,6 +522,9 @@
         }).confirm(function (data) {
             //결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
             //주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
+            console.log(addressType);
+            console.log(directInputAddress);
+
             var sendData = {
                 'rev_name': revName,
                 'rev_phone_number': revPhoneNumber,
@@ -528,10 +533,11 @@
                 'rev_message': revMessage,
                 'to_farm_message': toFarmMessage,
                 'payment_type': paymentType,
-                'total_price': totalPrice
+                'total_price': totalPrice.innerHTML,
+                'address_type': addressType,
+                'direct_input_address': JSON.stringify(directInputAddress),
             };
-            console.log(data);
-            console.log(sendData);
+
             $.ajax({
                 type: "POST",
                 url: "{% url 'orders:payment_update' order_group_pk %}",
@@ -582,7 +588,7 @@
             hiddenFieldAdd.setAttribute('name', 'orderGroupPk');
             hiddenFieldAdd.setAttribute('value', data.params['orderGroupPk']);
             form.appendChild(hiddenFieldAdd);
-            console.log(csrftoken);
+
             var csrfHiddenField = document.createElement('input');
             csrfHiddenField.setAttribute('type', 'hidden');
             csrfHiddenField.setAttribute('name', 'csrfmiddlewaretoken');

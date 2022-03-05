@@ -43,7 +43,16 @@ from kakaomessages.views import send_kakao_message, send_sms
 from config.settings import base
 
 # models
-from .models import Subscribe, Cart, Consumer, Wish, User, Editor, PhoneNumberAuth
+from .models import (
+    AddressMatchException,
+    Subscribe,
+    Cart,
+    Consumer,
+    Wish,
+    User,
+    Editor,
+    PhoneNumberAuth,
+)
 from editor_reviews.models import Editor_Review
 from comments.models import (
     Editor_Review_Comment,
@@ -108,7 +117,8 @@ def CartInAjax(request):
         else:  # 비회원
             non_member = request.user
             cart_list = request.COOKIES.get("cart_list")
-            message = "(비회원) 상품을 장바구니에 담았습니다!"
+            # message = "(비회원) 상품을 장바구니에 담았습니다!"
+            message = "로그인이 필요합니다."
 
         message = str(message)
         data = {
@@ -749,6 +759,7 @@ def mypage(request, cat):
             print(type(q))
 
         ctx = {
+            "consumer": consumer,
             "consumer_nickname": consumer_nickname,
             "sub_farmers": sub_farmers,
             "questions": questions,
@@ -951,6 +962,7 @@ def mypage(request, cat):
             return redirect(reverse("core:main"))
 
 
+
 @login_required
 def mypage_shipping_info_popup(request, pk):
     
@@ -1027,6 +1039,21 @@ def mypage_shipping_info_popup(request, pk):
 
 
 
+
+def set_default_address_ajax(request):
+    """user mypage set default address view"""
+    user = request.user
+    if request.method == "POST":
+        addr_pk = request.POST.get("pk")
+        try:
+            user.consumer.set_default_address(addr_pk)
+            response = {"status": True}
+        except AddressMatchException:
+            response = {"status": False, "error": "기본 배송지 설정 오류"}
+    return JsonResponse(response)
+
+
+"""Mypage Pagination AJAX"""
 
 
 def mypage_orders_ajax(request):

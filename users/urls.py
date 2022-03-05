@@ -75,6 +75,7 @@ urlpatterns = [
     path("cancelWish/", views.cancelWish, name="cancelWish"),
     path("infoUpdate/", views.infoUpdate, name="infoUpdate"),
     path("profileUpdate/", views.profileUpdate, name="profileUpdate"),
+    path("default-address", views.set_default_address_ajax, name="set_default_address_ajax"),
     path("test/", views.testview, name="testview"),
     path("product_refund_test/", views.product_refund, name="product_refund"),
     path("landing_test/", views.landing_test, name="landing_test"),
