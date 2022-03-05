@@ -36,9 +36,9 @@
   {% for detail in order_details %}
   <div id="product" class="flex flex-row mb-5">
     <div class="w-2/12">
-      <img id="product_img" src="{{detail.product.main_image.url}}">
+      <img id="product_img" src="{{detail.product.main_image.url}}" onclick="window.open('{% url 'user:mypage_shipping_info_popup' detail.pk %}')">
     </div>
-    <div id="product-contents" class="w-6/12">
+    <div id="product-contents" class="w-6/12" onclick="window.open('{% url 'user:mypage_shipping_info_popup' detail.pk %}')">
       <div id="product_order_at2">{{detail.order_group.order_at | date}} 주문</div>
       <div class="flex flex-row">
         <div id="product_title">
@@ -56,14 +56,18 @@
         <div id="product_price">{{detail.total_price}}원</div>
         <div id="product_quantity">{{detail.quantity}}개</div>
       </div>
-      <div class="flex flex-row" id="delivery_status">
+      <div class="flex flex-row" id="delivery_status" onclick="window.open('{% url 'user:mypage_shipping_info_popup' detail.pk %}')">
 
-        {% if detail.status == 'preparing' %}
+        {% if detail.status == 'payment_complete'%}
+        <div>결제완료</div>
+        {% elif detail.status == 'payment_complete_no_address'%}
+        <div>결제완료(선물하기-주소입력 대기중)</div>
+        {% elif detail.status == 'preparing' %}
         <img id="delivery-status-icon" src="{% static 'images/users/preparing.svg' %}" alt="배송 준비 중 아이콘">
-        <div>배송 준비 중</div>
+        <div>농가에서 준비중</div>
         {% elif detail.status == 'shipping' %}
         <img id="delivery-status-icon" src="{% static 'images/users/delivering.svg' %}" alt="배송중 아이콘">
-        <div>배송중</div>
+        <div>산지직송 배송중</div>
         {% elif detail.status == 'delivery_complete' %}
         <img id="delivery-status-icon" src="{% static 'images/users/complete.svg' %}" alt="배송 완료 아이콘">
         <div>배송 완료</div>
@@ -98,7 +102,7 @@
 
         <div id="see-product-btn" class="transition_element">
           <a href="{% url 'products:product_detail' detail.product.pk %}">
-            무난이 보기
+            농산물 보기
           </a>
         </div>
 
@@ -130,6 +134,14 @@
         </div>
         {% endif %}
 
+        {% if detail.status == 'payment_complete' or detail.status == 'payment_complete_no_address' or detail.status == 'preparing' or detail.status == 'shipping' or detail.status == 'cancel' %}
+        <div id="shipping-info-btn" class="transition_element"
+          onclick="window.open('{% url 'user:mypage_shipping_info_popup' detail.pk %}')">
+          <a>
+            배송정보
+          </a>
+        </div>
+        {% endif %}
 
         {% if detail.status == 'payment_complete' %}
         <div id="cancel-order-btn" class="transition_element"

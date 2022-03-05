@@ -1,18 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="68.289" height="46.526" viewBox="0 0 68.289 46.526">
-    <defs>
-        <style>
-            .cls-1,.cls-2{fill:none;stroke:#5e6656;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px}.cls-1{stroke-linejoin:round}
-        </style>
-    </defs>
-    <g id="그룹_432" transform="translate(1.5 1.5)">
-        <path id="패스_319" d="M940.51-392.722h11.311l6.295 13.081H940.51z" class="cls-1" transform="translate(-897.228 397.338)"/>
-        <path id="선_80" d="M21.301 0L0 0" class="cls-2" transform="translate(3.308 9.278)"/>
-        <path id="선_81" d="M21.237 0L0 0" class="cls-2" transform="translate(0 17.35)"/>
-        <path id="선_82" d="M0 0L12.465 0" class="cls-2" transform="translate(3.308 25.723)"/>
-        <circle id="타원_256" cx="7.002" cy="7.002" r="7.002" class="cls-1" transform="translate(43.975 29.522)"/>
-        <circle id="타원_257" cx="7.002" cy="7.002" r="7.002" class="cls-1" transform="translate(14.118 29.522)"/>
-        <path id="선_83" d="M7.925 0L0 0" class="cls-2" transform="translate(6.309 36.524)"/>
-        <path id="선_84" d="M16.158 0L0 0" class="cls-2" transform="translate(27.998 36.524)"/>
-        <path id="패스_322" d="M852.241-403.619h37.13v17.7h17.481l4.369 4.844v14.854h-7.258" class="cls-1" transform="translate(-845.931 403.619)"/>
-    </g>
+<svg width="51" height="48" viewBox="0 0 51 48" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect width="51" height="47.8776" fill="url(#pattern0)"/>
+<defs>
+<pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_199_209" transform="translate(-0.000268539) scale(0.0123523 0.0131579)"/>
+</pattern>
+<image id="image0_199_209" width="81" height="76" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABMCAYAAAAVx1tzAAAACXBIWXMAACxKAAAsSgF3enRNAAAEt0lEQVR4nO1cTVbbQAwe+tjDDaAngJ6A3KCpd14l3XnX9ASEExR23pGsvPODE5DcINwAbkBOQJ/yZHAnM4401jg/1fdeFoTYlj9rvpE08hy9v78bCtIsOTXGzIwxF6QDtoN5kZe9rq/8hfHb0Y4TCLhKs6Tf9UU5JO4LLru2k0PixBjzGtGWvcUx1fAiL1+MMedplnSuORtwu22ZIZNYocjLWTRrApBmydu2bThETewcSqIA2MN5D9BWt9+KvFxwDiAH27uKNEtAo6+EzXs0xgyLvCTprQ5nN77jrE+CkujHIM2Sc8oPlcRmjCk/OkRNvCnyknTzhHMBvmKi4YV64r9wkb/xgSiJNWA2Nre+3qiNSuI62N6oJFoI8UYl0Q2WNzrTvjRLhnjQmbBxS6iQF3k5ET6vKMAb0yyZWzM1eOPYNVP7PPE2AoGAE04msGWQvdFH4klE+2OeWwwcbfSReBfRvmnEc0uD5I3ejCXNEljwOZW2SroyLpmxEM9v7CzGW0/k1tQOGPBAnqzbg++G1R8a4myARxv72MywgpJIgy0PJ9jMsIKSSIDHG0eVNyqJdHi9UddY2gEysHP1xHZYeaOS2B69QyDxFofV1rDSRMwHhxGMmO1a705bQCXHGHNdO838GLsF7IhcCtdplvwo8vJhLxgKBAzn2K1ynTdddg0gsXE5UABbb32LjWOoMqMmxvDIRZGX+1KEDcaqiiNZOvofoXGiAJREASiJAlASBaAkCkBJFICSKAAlUQBKogB8DU39SP04e9HQxIXPEyfa0ESHNjQJQBuaBODUxCIvYWF6sg8NTbsAbWgSgIY4AujkVV3sdYRP1WW6wKp37KWJug09tKGSqAWuRrZevohGIjb7jPDjnJHTLHmGkCdW3IjLHlC17zfYAI1K4zZaHaUXB5/6AyOcgRvpS3hFzYYhxqRUG6aYCDTa4Fp3FtdENP6JGQ9CQ9Ks3jgpYMM904ZBqA2iJKL23Tf8BDzu2fO/C9xGq60N/QYblmiDb3+fC8zWWAgezp59Flzp4isOk48uiA16eYdSEAqXjKzpHuolXP+X4zo3DQ90iF77cW42icyN18Drej6dQc+dRU4Fp0VeevuMakM/FEGaeEkk8LWJQPMZ0MdopKrw3EQg2gCj53ebi4SQSJ1Bx5TZFoe53Q8thRHlPNilEboP2gubRPSeO0JPIEfXonSNMWO/EBtWWhsUbEOBov6UXe15zJhvLU8v8vKIY5MrfuMc7xhh5A0tdyV3Jm2dsgPndEKKxDWvY+6oaT/xEI20h+4ZdV8bhG0veSSJkIg6aWskSdTxRgfW1yFlONcxpG43lCM74iDrqeRwtoUZ9ndtJBJjTpegs7MG1OBH6+sBxoGbbHBdjzzRSJLoeup/0iy5deWj6IGuoH3eoiDsWgS7x0lnDeiBC0eWNeWU6USrOI4ZssISn2xlWK/hLahvbarquKxhy4PBOHBWs6HvSRpWb0lxogvxUljDTVDws21tseV+4EvMslgPUTzEwTSLu6K3lCDQfGpjL2CGDyLQxHxBktFFMcUUUXypgLE1Dakg60P0t0yRTCha1GNBMBaG3EMX6yxoQ7XGUgGuC17XzgZjzF8z7M7Iqw3FWQAAAABJRU5ErkJggg=="/>
+</defs>
 </svg>

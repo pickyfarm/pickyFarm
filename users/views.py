@@ -958,8 +958,86 @@ def mypage(request, cat):
 
             return redirect(reverse("users:mypage", kwargs={"cat": "rev_address"}))
         else:
-            # 404 페이지 제작 후 여기에 넣어야함
+            # 404 페이지 제작 후 해당 부분에 추가해야함
             return redirect(reverse("core:main"))
+
+
+
+@login_required
+def mypage_shipping_info_popup(request, pk):
+    
+    """소비자 마이페이지 > 주문 관리 - 배송지 확인 팝업"""
+    """oder_detail이 preparing 혹은 shipping인 경우 배송지 확인 가능"""
+
+    # Post로 접근한 경우 main page로 redirect
+    if request.method == 'POST':
+        # 404 페이지 제작 후 해당 부분에 추가해야함
+        return redirect(reverse("core:main"))
+
+    order_detail_pk = int(pk)
+
+    order_detail = Order_Detail.objects.get(pk=order_detail_pk)
+    order_group = order_detail.order_group
+
+
+    STATUS = {
+        "payment_complete" : "결제완료 - 농가가 아직 주문을 확인하지 않았어요",
+        "payment_complete_no_address" : "결제완료 - 선물 받는 분이 아직 주소를 입력하지 않았어요",
+        "preparing": "배송 준비 중 - 농가가 주문을 확인했어요!",
+        "shipping": "배송 중",
+        "delivery_complete" : "배송완료",
+        "cancel" : "주문취소",
+        "re_recept" : "환불 접수",
+        "ex_recept" : "교환 접수",
+        "re_ex_approve" : "환불/교환 승인",
+        "re_ex_deny" : "환불/교환 거절"
+    }
+
+
+    # 상품 / 파머
+    quantity = order_detail.quantity
+    status = STATUS[order_detail.status]
+    product = order_detail.product
+    farmer = product.farmer
+
+    # 일반 결제인 경우
+    if order_group.order_type == "normal":
+        gift = False
+        rev_name = order_group.rev_name
+        rev_phone_number = order_group.rev_phone_number
+        rev_address = order_group.rev_address
+        rev_loc_at = order_group.rev_loc_at
+        rev_message = order_group.rev_message
+        gift_message = ""
+    # 선물하기 결제인 경우
+    else:
+        gift = True
+        rev_name = order_detail.rev_name_gift
+        rev_phone_number = order_detail.rev_phone_number_gift
+        rev_address = order_detail.rev_address_gift
+        rev_loc_at = ""
+        rev_message = ""
+        gift_message = order_detail.gift_message
+
+    ctx = {
+        "quantity" : quantity,
+        "status" : status,
+        "gift" : gift,
+        "product" : product,
+        "farmer" : farmer,
+        "rev_name" : rev_name,
+        "rev_phone_number" : rev_phone_number,
+        "rev_address" : rev_address,
+        "rev_loc_at" : rev_loc_at,
+        "rev_message" : rev_message,
+        "gift_message" : gift_message
+    }
+
+    return render(request, "users/mypage/user/shipping_info_popup.html", ctx)
+
+
+
+
 
 
 def set_default_address_ajax(request):
@@ -979,6 +1057,9 @@ def set_default_address_ajax(request):
 
 
 def mypage_orders_ajax(request):
+
+    """Mypage Pagination AJAX"""
+
     consumer = request.user.consumer
     groups = consumer.order_groups.all().exclude(status="waiting")
     order_groups = groups.exclude(status="wait")

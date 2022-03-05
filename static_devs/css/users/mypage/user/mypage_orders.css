@@ -95,6 +95,10 @@
     margin-left: 126px;
 }
 
+#product-contents{
+    cursor: pointer;
+}
+
 #product {
     width: 684px;
     height: 130px;
@@ -109,6 +113,7 @@
     margin: 0 20px 0 0;
     border-radius: 20px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 #product_order_at2 {
@@ -292,6 +297,29 @@
     color: #ffffff;
     background-color: #5c6754;
 }
+
+/* 배송정보 확인 버튼 */
+#shipping-info-btn {
+    width: 75px;
+    height: 22px;
+    margin: 0 0 4px 0;
+    padding: 1px 9px 4px 8px;
+    border-radius: 11px;
+    border: solid 0.5px #b3b3b3;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    color: #5c6754;
+    cursor: pointer;
+}
+
+#shipping-info-btn:hover {
+    color: #ffffff;
+    background-color: #5c6754;
+}
+
+
+
 
 /* 주문 취소 버튼 */
 #cancel-order-btn {
