@@ -169,6 +169,7 @@ def payment_create(request):
             "account_name": cur_user.account_name,
             "phone_number": cur_user.phone_number,
             "default_address": consumer.default_address.get_full_address(),
+            "default_zipcode": consumer.default_address.zipcode,
             "addresses": cur_user.addresses.all(),
         }
 
@@ -370,6 +371,7 @@ def payment_update(request, pk):
     payment_type = request.POST.get("payment_type")
     client_total_price = int(request.POST.get("total_price"))
     address_type = request.POST.get("address_type", "default")
+    zipcode = request.POST.get("zipcode", None)
 
     # 회원/비회원 구분 플래그
     is_user = cur_user.is_authenticated
@@ -426,6 +428,11 @@ def payment_update(request, pk):
                     "order_at": timezone.now(),
                 }
             )
+
+            # 각 Order_Detail에 배송지 우편번호 추가
+            for detail in order_details:
+                detail.rev_address_zipcode = zipcode
+                detail.save()
 
             # [PROCESS 7] 주소 직접입력인 경우에 새로운 주소 추가
             if address_type == "direct":
@@ -520,6 +527,7 @@ def payment_update_gift(request):
                     total_price=(friend["quantity"] * product.sell_price) + friend["deliveryFee"],
                     rev_name_gift=friend["name"],
                     rev_address_gift=address,
+                    rev_address_zipcode=friend["address"]["zipCode"],
                     rev_phone_number_gift=friend["phoneNum"],
                     gift_message=friend["giftMessage"],
                     product=product,
