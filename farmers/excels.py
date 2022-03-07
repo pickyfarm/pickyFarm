@@ -23,6 +23,7 @@ def convert_orders(farmerpk, phone_num_type):
         receiver = detail.order_group.rev_name or detail.rev_name_gift
         phone_num = detail.order_group.rev_phone_number or detail.rev_phone_number_gift
         address = detail.order_group.rev_address or detail.rev_address_gift
+        zipcode = detail.rev_address_zipcode
         product_name = detail.product.title
         quantity = detail.quantity
         message = detail.order_group.rev_message
@@ -37,6 +38,7 @@ def convert_orders(farmerpk, phone_num_type):
                 receiver,
                 phone_num,
                 address,
+                zipcode,
                 product_name,
                 quantity,
                 message,
@@ -45,7 +47,7 @@ def convert_orders(farmerpk, phone_num_type):
 
     df = pd.DataFrame(
         data=order_data,
-        columns=["주문번호", "주문자명", "수취인명", "전화번호", "주소", "상품명", "수량", "배송메세지"],
+        columns=["주문번호", "주문자명", "수취인명", "전화번호", "주소", "우편번호", "상품명", "수량", "배송메세지"],
     )
 
     filename = f"{farmer.farm_name}_주문목록.xlsx"

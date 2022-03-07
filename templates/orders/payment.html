@@ -307,7 +307,7 @@
         updateDeliveryFee('{{default_zipcode}}')
     });
 
-    let zipcode_default = document.querySelector('input[name="default-address-zipcode"]')
+    let zipcode_default = document.querySelector('input[name="default-address-zipcode"]').value
 
     var updateDeliveryFee = function updateDeliveryFee(zipcode) {
         $.ajax({
