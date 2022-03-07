@@ -63,6 +63,7 @@
                 <li id="label-text2" class="mr-5">
                     <label for="delivery-cat-direct"><input type="radio" name="delivery-cat" id="delivery-cat-direct" value="direct" class="mr-2" required>직접입력</label>
                 </li>
+                <input type="hidden" name="default-address-zipcode" value="{{default_zipcode}}">
             </ul>
 
         </div>
@@ -306,6 +307,8 @@
         updateDeliveryFee('{{default_zipcode}}')
     });
 
+    let zipcode_default = document.querySelector('input[name="default-address-zipcode"]').value
+
     var updateDeliveryFee = function updateDeliveryFee(zipcode) {
         $.ajax({
             type: 'POST',
@@ -327,18 +330,29 @@
         });
     };
 
-    deliveryCatChoice.addEventListener('click', function () {
-        var add_html = "<div id=\"delivery-cat-detail-index-section\" class=\"flex flex-row\">\n                    <div id=\"delivery-cat-detail-index-title-section\" class=\"flex flex-row\">\n                        <div class=\"\">\uBC30\uC1A1 \uBC1B\uC73C\uC2E4 \uC8FC\uC18C\uB97C \uC120\uD0DD\uD574\uC8FC\uC138\uC694</div>\n                    </div>\n                </div>\n                {% for addr in  addresses%}\n                        <div id=\"delivery-address-choice\" class=\"transition_element text-center\" data-zipcode=\"{{addr.zipcode}}\">{{addr.full_address}} {{addr.detail_address}}</div>\n                {% endfor %}";
-        deliveryCatDetailSection.innerHTML = add_html;
-        var choice = document.querySelectorAll('#delivery-address-choice');
-        choice.forEach(function (item) {
-            return item.addEventListener('click', function () {
-                deliveryAddress.value = item.innerHTML;
-                updateDeliveryFee(item.dataset.zipcode);
-            });
-        });
+    deliveryCatChoice.addEventListener('click', () => {
+        add_html = `<div id="delivery-cat-detail-index-section" class="flex flex-row">
+                    <div id="delivery-cat-detail-index-title-section" class="flex flex-row">
+                        <div class="">배송 받으실 주소를 선택해주세요</div>
+                    </div>
+                </div>
+                {% for addr in  addresses%}
+                        <div id="delivery-address-choice" class="transition_element text-center" data-zipcode="{{addr.zipcode}}">{{addr.full_address}} {{addr.detail_address}}</div>
+                {% endfor %}`
+        deliveryCatDetailSection.innerHTML = add_html
+
+        let choice = document.querySelectorAll('#delivery-address-choice')
+        choice.forEach(item =>
+            item.addEventListener('click', () => {
+                deliveryAddress.value = item.innerHTML
+                updateDeliveryFee(item.dataset.zipcode)
+                zipcode_default = item.dataset.zipcode
+            })
+        )
         deliveryAddressInput.style.display = 'none';
-    });
+
+
+    })
     deliveryCatDirect.addEventListener('click', function () {
         deliveryAddress.value = '';
         deliveryAddressInput.style.display = 'block';
@@ -535,6 +549,7 @@
                 'payment_type': paymentType,
                 'total_price': totalPrice.innerHTML,
                 'address_type': addressType,
+                'zipcode': zipcode_default,
                 'direct_input_address': JSON.stringify(directInputAddress),
             };
 
