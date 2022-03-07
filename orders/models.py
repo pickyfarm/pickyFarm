@@ -243,6 +243,9 @@ class Order_Detail(models.Model):
     gift_message = models.TextField(
         max_length=600, null=True, blank=True, help_text="선물 받는 사람에게 전달할 메세지"
     )
+    rev_address_zipcode = models.CharField(
+        max_length=5, null=True, blank=True, help_text="배송지 우편번호"
+    )
 
     product = models.ForeignKey(
         "products.Product",
