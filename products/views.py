@@ -456,5 +456,9 @@ def get_product_EP(request):
     return HttpResponse("EP 생성 완료")
 
 
+def new_product_page(request):
+    return render(request, "products/product_list_new.html")
+
+
 # @login_required
 # def update_answer(request, pk):
