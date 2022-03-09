@@ -10,6 +10,7 @@ from django.db.models import Q, F, Aggregate, Sum, Value, IntegerField, FloatFie
 from . import models
 from farmers.models import Farmer
 from rangefilter.filters import DateRangeFilter
+from orders.views import send_kakao_with_payment_complete
 
 # Register your models here.
 
@@ -30,6 +31,20 @@ class CustomOrderGroupAdmin(admin.ModelAdmin):
         "update_at",
         "create_at",
     )
+
+    actions = ["send_payment_complete_kakao_message"]
+
+    # 농가, 소비자에게 결제완료 알림톡 전송
+    def send_payment_complete_kakao_message(self, request, queryset):
+        send_kakao_with_payment_complete(self.pk, "")
+
+        self.message_user(
+            request,
+            f"{queryset_len}개의 주문에 대해 알림톡을 전송했습니다. receipt_id는 직접 넣어주시기 바랍니다.",
+            messages.SUCCESS,
+        )
+
+    send_payment_complete_kakao_message.short_description = "[주문관리] 농가, 소비자에게 결제완료 알림톡 전송"
 
     list_filter = ("consumer_type", "order_type")
 
