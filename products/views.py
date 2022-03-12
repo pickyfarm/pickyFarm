@@ -11,7 +11,7 @@ from comments.models import Product_Comment
 from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
 from django.utils import timezone, dateformat
-from .utils import get_product_db
+from .utils import get_product_db, get_product_db_daum
 from math import ceil
 from django.core.exceptions import ObjectDoesNotExist
 from django import template
@@ -452,8 +452,12 @@ def create_answer(request, pk):
 
 def get_product_EP(request):
     get_product_db()
-
     return HttpResponse("EP 생성 완료")
+
+
+def get_product_daum_EP(request):
+    get_product_db_daum()
+    return HttpResponse("Daum EP 생성 완료")
 
 
 # @login_required
