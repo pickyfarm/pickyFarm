@@ -457,7 +457,9 @@ def get_product_EP(request):
 
 
 def new_product_page(request):
-    return render(request, "products/product_list_new.html")
+    products = Product_Group.objects.exclude(title="피키팜 테스트 상품그룹").order_by("-open", "-create_at")
+
+    return render(request, "products/product_list_new.html", {"products": products})
 
 
 # @login_required

@@ -6,17 +6,39 @@
 {% block title_name %}상품목록{% endblock %}
 
 {% load static %}
+{% load humanize %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/base/grid_layout.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_list_new.css' %}">
 {% endblock stylesheet %}
 
 {% block main_content %}
-<div class="grid-container">
-    <div class="col-4 h-8 bg-gray-400" style="background-color: bisque;"></div>
-    <div class="col-4 h-8 bg-gray-400" style="background-color: bisque;"></div>
-    <div class="col-4 h-8 bg-gray-400" style="background-color: bisque;"></div>
-    <div class="col-4 h-8 bg-gray-400" style="background-color: bisque;"></div>
-    <div class="col-4 h-8 bg-gray-400" style="background-color: bisque;"></div>
+<div class="grid-container" id="product-list-page-wrap">
+    <div class="space-b-lg"></div>
+    <div class="space-b-lg"></div>
+    <select name="cat" id="sort-by" class="col-2 off-1 col-m-2 off-m-1 space-b-lg">
+        <option value="all">전체</option>
+        <option value="fruit">과일</option>
+        <option value="vege">채소</option>
+        <option value="etc">기타</option>
+    </select>
+    <div id="kind-select-wrap" class="col-3 off-10 col-m-3 off-m-4 space-b-lg flex justify-end items-center justify-self-end">
+        <a href="?kind=all&q={{q}}" class="{% if kind == 'all' or kind == None %}selected{% endif %}">전체</a>
+        <div class="divider"></div>
+        <a href="?kind=ugly&q={{q}}" class="{% if kind == 'ugly' %}selected{% endif %}">무난이</a>
+        <div class="divider"></div>
+        <a href="?kind=normal&q={{q}}" class="{% if kind == 'normal' %}selected{% endif %}">일반</a>
+    </div>
+    {% for product in products%}
+    <a class="col-4 col-m-3 bg-gray-400 item-wrap zoom-on-hover" href="{% url 'products:product_detail' product.pk %}">
+        <img src="{{product.main_image.url}}" img='{{product.title}}' class="product-img space-b-md">
+        <h1 class="product-title space-b-xs">{{product.title}}</h1>
+        <h2 class="product-price space-b-md">{{product.get_main_product.sell_price | intcomma }} 원</h2>
+        <h2 class="product-subtitle space-b-sm">{{product.sub_title}}</h2>
+        <div class="produc-kind-tag-wrap sp space-b-xl"></div>
+    </a>
+    {% endfor %}
+
 </div>
 
 
