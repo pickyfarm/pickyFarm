@@ -31,20 +31,26 @@ class FailedJsonResponse(JsonResponse):
 class StoreList(ListView):
     model = Product_Group
     context_object_name = "products"
-    template_name = "products/products_list.html"
+    template_name = "products/product_list_new.html"
 
     def get_queryset(self):
         qs = super().get_queryset().exclude(title="피키팜 테스트 상품그룹").order_by("-open")
-        cat_name = self.request.GET.get("cat", None)
-        sort_key = self.request.GET.get("sort" "최신순")
+        cat_name = self.request.GET.get("cat", "all")
+        kind = self.request.GET.get("kind", "all")
 
-        if cat_name:
-            return qs.filter(kinds=cat_name)
+        if kind == "ugly" or kind == "normal":
+            qs = qs.filter(Q(kinds=kind) | Q(kinds="mix"))
+
+        if cat_name == "fruit" or cat_name == "vege" or cat_name == "etc":
+            qs = qs.filter(category__parent__slug=cat_name)
 
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        context["cat"] = self.request.GET.get("cat", "all")
+        context["kind"] = self.request.GET.get("kind", "all")
 
         return context
 
