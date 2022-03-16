@@ -366,7 +366,6 @@ img:not(#farmer-sub-icon) {
     #quantity-spinner-wrap > input {
         width: 120px;
         height: 45px;
-        padding-left: 16px;
     }
 
     #quantity-spinner-wrap > button {
