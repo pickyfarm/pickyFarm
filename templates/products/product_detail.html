@@ -58,9 +58,9 @@
     <!-- Right section of product infomation (PC) -->
     <img id="product-main-image" src="{{product.main_image.url}}" alt="{{product.title}}" class="col-5 col-m-6 space-b-sm space-b-m-xs">
     {% if product.product_images is not None %}
-    <div id="product-subimage-group-wrap" class="col-5 off-1 col-m-6 off-m-1 space-b-m-xs flex space-b-md">
+    <div id="product-subimage-group-wrap" class="col-5 off-1 col-m-6 off-m-1 space-b-m-xs space-b-md subgrid">
         {% for image in product.product_images.all %}
-        <img class="product-subimage zoom-on-hover" src="{{image.image.url}}">
+        <img class="product-subimage zoom-on-hover col-1" src="{{image.image.url}}">
         {% endfor %}
     </div>
     {% endif %}
@@ -94,7 +94,13 @@
             <a class="zoom-on-hover" href="{% url 'farmers:farmer_detail' farmer.pk %}">
                 <h3 id="farmer-name">{{farmer.farm_name}}</h3>
             </a>
-            <button type='button' class="sub-button zoom-on-hover">구독하기</button>
+            <button type='button' class="sub-button zoom-on-hover">
+                {% if subscribed %}
+                구독중
+                {% else %}
+                구독하기
+                {% endif%}
+            </button>
         </div>
     </div>
 

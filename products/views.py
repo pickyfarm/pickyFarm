@@ -8,6 +8,7 @@ from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Product_Group, Product, Category, Question, Answer
+from users.models import Subscribe
 from comments.models import Product_Comment
 from .forms import Question_Form, Answer_Form
 from comments.forms import ProductRecommentForm
@@ -186,6 +187,10 @@ def product_detail(request, pk):
 
         kinds = product.kinds
         farmer = product.farmer
+        if request.user.is_authenticated:
+            subscribed = Subscribe.objects.filter(
+                consumer=request.user.consumer, farmer=farmer
+            ).exists()
 
         # 상품 리뷰
         siblings = product.get_sibling_products()
@@ -264,6 +269,7 @@ def product_detail(request, pk):
             "product_pk": product_pk,
             "product": product,
             "siblings": siblings,
+            "subscribed": subscribed,
             "kinds": kinds,
             "farmer": farmer,
             "comments": comments,
