@@ -8,8 +8,8 @@
 {% load static %}
 {% load humanize %}
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/base/grid_layout.css' %}">
 <link rel="stylesheet" href="{% static 'css/products/product_list_new.css' %}">
+<link rel="stylesheet" href="{% static 'css/products/product_kind_tag.css' %}">
 {% endblock stylesheet %}
 
 {% block main_content %}
@@ -29,17 +29,34 @@
         <div class="divider"></div>
         <a href="?kind=normal&cat={{cat}}" class="{% if kind == 'normal' %}selected{% endif %}">일반</a>
     </div>
-    {% for product in products%}
-    <a class="col-4 col-m-3 bg-gray-400 item-wrap zoom-on-hover" href="{% url 'products:product_detail' product.pk %}">
-        <img src="{{product.main_image.url}}" img='{{product.title}}' class="product-img space-b-md">
-        <h1 class="product-title space-b-xs">{{product.title}}</h1>
-        <h2 class="product-price space-b-md">{{product.get_main_product.sell_price | intcomma }} 원</h2>
-        <h2 class="product-subtitle space-b-sm">{{product.sub_title}}</h2>
-        <div class="produc-kind-tag-wrap sp space-b-xl"></div>
-    </a>
+    {% for product in products %}
+    <div class="col-4 col-m-3 bg-gray-400 item-wrap zoom-on-hover space-b-m-lg subgrid">
+        <div class="product-image-wrap col-4 col-m-3 space-b-md relative">
+            <a href="{% url 'products:product_detail' product.pk  %}">
+                <img src="{{product.main_image.url}}" img='{{product.title}}' class="col-4 col-m-3 product-img">
+            </a>
+            <button type="button" class="cart-button col-1 col-m-1 shadow-button absolute zoom-on-hover" data-pk="{{product.pk}}">
+                <img src="{% static 'images/cart.svg' %}" alt="장바구니 담기">
+            </button>
+        </div>
+        <a href="{% url 'products:product_detail' product.pk  %}" style="display: contents;">
+            <h1 class="col-4 col-m-3 product-title space-b-xs space-b-m-xs">{{product.title}}</h1>
+            <h2 class="col-4 col-m-3 product-price space-b-md space-b-m-xxs">{{product.get_main_product.sell_price | intcomma }} 원</h2>
+            <h2 class="col-4 col-m-3 product-subtitle space-b-xs">{{product.sub_title}}</h2>
+            <div class="col-4 col-m-3 product-kind-tag-wrap space-b-xl">
+                {% if product.kinds == 'ugly' or product.kinds == 'mix' %}
+                <div class="product-kind-tag ugly">무난이 작물</div>
+                {% endif %}
+                {% if product.kinds == 'normal' or product.kinds == 'mix' %}
+                <div class="product-kind-tag normal">일반작물</div>
+                {% endif %}
+            </div>
+        </a>
+    </div>
     {% endfor %}
 
 </div>
-
-
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{% static 'js/products/products_list.js' %}"></script>
 {% endblock %}
