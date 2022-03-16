@@ -94,7 +94,13 @@
             <a class="zoom-on-hover" href="{% url 'farmers:farmer_detail' farmer.pk %}">
                 <h3 id="farmer-name">{{farmer.farm_name}}</h3>
             </a>
-            <button type='button' class="sub-button zoom-on-hover">구독하기</button>
+            <button type='button' class="sub-button zoom-on-hover">
+                {% if subscribed %}
+                구독중
+                {% else %}
+                구독하기
+                {% endif%}
+            </button>
         </div>
     </div>
 
