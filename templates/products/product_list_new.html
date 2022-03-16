@@ -14,15 +14,15 @@
 
 {% block main_content %}
 <div class="grid-container" id="product-list-page-wrap">
+    <div class="space-b-lg space-b-m-md"></div>
     <div class="space-b-lg"></div>
-    <div class="space-b-lg"></div>
-    <select name="cat" id="sort-by" class="col-2 off-1 col-m-2 off-m-1 space-b-lg" onchange="if(this.value) location.href=this.value;">
+    <select name="cat" id="sort-by" class="col-2 off-1 col-m-2 off-m-1 space-b-lg space-b-m-sm" onchange="if(this.value) location.href=this.value;">
         <option {% if cat == '' %}selected{% endif %} value="{% url 'products:store_list' %}">전체</option>
         <option {% if cat == 'fruit' %}selected{% endif %} value="{% url 'products:store_list' %}?kind={{kind}}&cat=fruit">과일</option>
         <option {% if cat == 'vege' %}selected{% endif %} value="{% url 'products:store_list' %}?kind={{kind}}&cat=vege">채소</option>
         <option {% if cat == 'etc' %}selected{% endif %} value="{% url 'products:store_list' %}?kind={{kind}}&cat=etc">기타</option>
     </select>
-    <div id="kind-select-wrap" class="col-3 off-10 col-m-3 off-m-4 space-b-lg flex justify-end items-center justify-self-end">
+    <div id="kind-select-wrap" class="col-3 off-10 col-m-3 off-m-4 space-b-lg space-b-m-sm flex justify-end items-center justify-self-end">
         <a href="?kind=all&cat={{cat}}" class="{% if kind == 'all' or not kind %}selected{% endif %}">전체</a>
         <div class="divider"></div>
         <a href="?kind=ugly&cat={{cat}}" class="{% if kind == 'ugly' %}selected{% endif %}">무난이</a>
