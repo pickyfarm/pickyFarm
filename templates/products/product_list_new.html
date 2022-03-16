@@ -32,14 +32,14 @@
     {% for product in products %}
     <div class="col-4 col-m-3 bg-gray-400 item-wrap zoom-on-hover space-b-m-lg subgrid">
         <div class="product-image-wrap col-4 col-m-3 space-b-md relative">
-            <a href="{% url 'products:product_detail' product.pk  %}">
+            <a href="{% url 'products:product_detail' product.get_main_product.pk %}">
                 <img src="{{product.main_image.url}}" img='{{product.title}}' class="col-4 col-m-3 product-img">
             </a>
             <button type="button" class="cart-button col-1 col-m-1 shadow-button absolute zoom-on-hover" data-pk="{{product.pk}}">
                 <img src="{% static 'images/cart.svg' %}" alt="장바구니 담기">
             </button>
         </div>
-        <a href="{% url 'products:product_detail' product.pk  %}" style="display: contents;">
+        <a href="{% url 'products:product_detail' product.get_main_product.pk %}" style="display: contents;">
             <h1 class="col-4 col-m-3 product-title space-b-xs space-b-m-xs">{{product.title}}</h1>
             <h2 class="col-4 col-m-3 product-price space-b-md space-b-m-xxs">{{product.get_main_product.sell_price | intcomma }} 원</h2>
             <h2 class="col-4 col-m-3 product-subtitle space-b-xs">{{product.sub_title}}</h2>
