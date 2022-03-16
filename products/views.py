@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, redirect, reverse
 from django.http import request, JsonResponse, HttpResponse
+from django.views.generic import ListView
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -25,6 +26,33 @@ class FailedJsonResponse(JsonResponse):
     def __init__(self, data):
         super().__init__(data)
         data.status_code = 400
+
+
+class StoreList(ListView):
+    model = Product_Group
+    context_object_name = "products"
+    template_name = "products/product_list_new.html"
+
+    def get_queryset(self):
+        qs = super().get_queryset().exclude(title="피키팜 테스트 상품그룹").order_by("-open")
+        cat_name = self.request.GET.get("cat", "all")
+        kind = self.request.GET.get("kind", "all")
+
+        if kind == "ugly" or kind == "normal":
+            qs = qs.filter(Q(kinds=kind) | Q(kinds="mix"))
+
+        if cat_name == "fruit" or cat_name == "vege" or cat_name == "etc":
+            qs = qs.filter(category__parent__slug=cat_name)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["cat"] = self.request.GET.get("cat", "all")
+        context["kind"] = self.request.GET.get("kind", "all")
+
+        return context
 
 
 def store_list_all(request):
@@ -454,10 +482,10 @@ def get_product_EP(request):
     get_product_db()
     return HttpResponse("EP 생성 완료")
 
-
 def get_product_daum_EP(request):
     get_product_db_daum()
     return HttpResponse("Daum EP 생성 완료")
+
 
 
 # @login_required

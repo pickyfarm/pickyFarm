@@ -45,55 +45,44 @@ function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 
-var plusBtn = document.getElementById('plus_btn');
-var minusBtn = document.getElementById('minus_btn');
-var totalPrice = document.getElementById('total_price');
-var quantityNum = document.getElementById('quantity_number');
-var pricePerOne = parseInt(totalPrice.innerHTML);
+var plusBtn = document.getElementById('quantity-plus-button');
+var minusBtn = document.getElementById('quantity-minus-button');
+var totalPrice = document.getElementById('total-price');
+var quantityNum = document.getElementById('product-quantity');
 
-function addCalTotalPrice(price, quantity) {
-    var nowTotalPrice = totalPrice.innerHTML;
-    nowTotalPrice = parseInt(nowTotalPrice);
-    var newTotalOrderPrice = nowTotalPrice + price * quantity;
-    totalPrice.innerHTML = String(newTotalOrderPrice);
+function calculateTotalPrice() {
+    return (parseInt(quantityNum.value) * pricePerOne).toLocaleString('en-US');
 }
 
-function subCalTotalPrice(price, quantity) {
-    var nowTotalPrice = totalPrice.innerHTML;
-    nowTotalPrice = parseInt(nowTotalPrice);
-    var newTotalOrderPrice = nowTotalPrice - price * quantity;
-    if (newTotalOrderPrice < 0) newTotalOrderPrice = 0;
-    totalPrice.innerHTML = String(newTotalOrderPrice);
-}
-
-if (isSoldOut != "False") {
+if (isSoldOut != 'False') {
     plusBtn.addEventListener('click', function () {
-        var num = parseInt(quantityNum.innerHTML);
+        var num = parseInt(quantityNum.value);
         num += 1;
-        quantityNum.innerHTML = num;
-        addCalTotalPrice(pricePerOne, 1);
+        quantityNum.value = num;
+        totalPrice.innerText = calculateTotalPrice();
     });
     minusBtn.addEventListener('click', function () {
-        var num = parseInt(quantityNum.innerHTML);
+        var num = parseInt(quantityNum.value);
         if (num <= 1) num = 1;
         else {
             num -= 1;
-            quantityNum.innerHTML = num;
-            subCalTotalPrice(pricePerOne, 1);
+            quantityNum.value = num;
+            totalPrice.innerText = calculateTotalPrice();
         }
-    }); 
+    });
 }
 
 // 상품 사진 조정
-var main_image = document.getElementById('main_image');
-var sub_images = document.querySelectorAll('#images');
-sub_images.forEach(function (item) {
+var main_image = document.getElementById('product-main-image');
+var sub_images = document.querySelectorAll('.product-subimage');
+sub_images?.forEach(function (item) {
     item.addEventListener('click', function () {
         var tmp_url = main_image.getAttribute('src');
         main_image.setAttribute('src', item.getAttribute('src'));
         item.setAttribute('src', tmp_url);
     });
-}); // product review image slider
+});
+// product review image slider
 
 var review_imgs = document.querySelectorAll('#review_imgs');
 review_imgs.forEach(function (img) {
@@ -103,20 +92,21 @@ $('.review_img_slick').slick({
     infinite: false,
     slidesToShow: 3,
     slidesToScroll: 3,
-}); // 찜하기
+});
+// 찜하기
+// var wishBtn = document.getElementById('wish');
+// var product_pk = document
+//     .getElementById('product_content')
+//     .getAttribute('name');
+// wishBtn.addEventListener('click', function () {
+//     wish(product_pk);
+// });
 
-var wishBtn = document.getElementById('wish');
-var product_pk = document
-    .getElementById('product_content')
-    .getAttribute('name');
-wishBtn.addEventListener('click', function () {
-    wish(product_pk);
-}); // 구독하기
+// 구독하기
 
 subBtn.addEventListener('click', function () {
-    var farmerPk = subBtn.getAttribute('name');
     var data = {
-        farmer_pk: farmerPk,
+        farmer_pk: FARMER_PK,
         csrfmiddlewaretoken: csrftoken,
     };
     $.ajax({
@@ -151,8 +141,8 @@ if (cartInBtn != null) {
 if (giftButton != null) {
     giftButton.addEventListener('click', function () {
         const productData = {
-            quantity: quantityNum.innerText,
-            product_pk: this.getAttribute('name'),
+            quantity: quantityNum.value,
+            product_pk: PRODUCT_PK,
             csrfmiddlewaretoken: csrftoken,
         };
 
@@ -178,22 +168,18 @@ if (giftButton != null) {
 
 // 품절 상품 alert
 if (soldoutButton != null) {
-    soldoutButton.addEventListener('click', function() {
+    soldoutButton.addEventListener('click', function () {
         alert('지금은 판매하지 않는 상품입니다.');
-    })
+    });
 }
 
 // 바로 구매하기
 if (purchaseBtn != null) {
     purchaseBtn.addEventListener('click', function () {
-        var pk = this.getAttribute('name');
-        var quantity = parseInt(
-            document.getElementById('quantity_number').innerHTML
-        );
-        console.log(pk);
-        console.log(quantity);
+        var quantity = parseInt(quantityNum.value);
+
         var product = {
-            pk: pk,
+            pk: PRODUCT_PK,
             quantity: quantity,
         };
         var products = [];

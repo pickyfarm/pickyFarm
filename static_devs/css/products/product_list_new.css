@@ -1,0 +1,171 @@
+img {
+    object-fit: cover;
+}
+
+.product-title,
+.product-price,
+.product-subtitle {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #5c6754;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+.product-img {
+    width: 100%;
+}
+
+.shadow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-button {
+    box-shadow: 0px 0px 6px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 100px;
+    background: white;
+}
+
+.product-title {
+    font-weight: 500;
+}
+
+.product-price {
+    font-weight: bold;
+}
+
+.product-subtitle {
+    font-weight: 300;
+}
+
+.product-subtitle {
+    opacity: 0.8;
+}
+
+#sort-by {
+    border: 1px solid #5c6754;
+    border-radius: 99px;
+    color: #5c6754;
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+#kind-select-wrap {
+    width: 100%;
+}
+
+#kind-select-wrap a {
+    color: #9d9d9d;
+}
+
+#kind-select-wrap a.selected {
+    color: #5c6754;
+    font-weight: bold;
+}
+
+.divider {
+    border-left: 1px solid #e5e5e5;
+    height: 13px;
+}
+
+@media screen and (min-width: 769px) {
+    .product-img {
+        height: 524px;
+        border-radius: 12px;
+    }
+
+    .cart-button {
+        right: 22px;
+        bottom: 22px;
+
+        height: 50px;
+        width: 50px;
+    }
+
+    .product-title {
+        font-size: 30px;
+    }
+
+    .product-price {
+        font-size: 34px;
+    }
+
+    .product-subtitle {
+        font-size: 20px;
+    }
+
+    #sort-by {
+        font-size: 15px;
+        width: 72px;
+        height: 30px;
+    }
+
+    #kind-select-wrap {
+        width: 214px;
+        gap: 15px;
+    }
+
+    #kind-select-wrap a {
+        font-size: 15px;
+    }
+
+    #kind-select-wrap a:hover {
+        color: #5c6754;
+        font-weight: bold;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .item-wrap {
+        grid-column: span 3;
+    }
+
+    .product-img {
+        height: 19.5rem;
+        border-radius: 10px;
+        margin-bottom: 0.8rem;
+    }
+
+    .cart-button {
+        right: 1.6rem;
+        bottom: 1.6rem;
+
+        height: 3.3rem;
+        width: 3.3rem;
+    }
+
+    .cart-button > img {
+        width: 15px;
+    }
+
+    .product-title,
+    .product-price {
+        font-size: 1.4rem;
+    }
+
+    .product-subtitle {
+        font-size: 1.2rem;
+        height: 1.2rem;
+        color: #c4c4c4;
+        margin-bottom: 0.8rem;
+    }
+
+    #sort-by {
+        font-size: 1.2rem;
+        height: 2rem;
+        width: 6rem;
+    }
+
+    #kind-select-wrap {
+        gap: 0.5rem;
+    }
+
+    #kind-select-wrap a {
+        flex: 1;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+}

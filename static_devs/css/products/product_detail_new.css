@@ -1,0 +1,407 @@
+img {
+    object-fit: cover;
+}
+
+.grid-container {
+    grid-auto-flow: row dense;
+}
+.grid-container > * {
+    width: 100%;
+}
+
+#farm-news-wrap > span.label {
+    color: #5c6754;
+    font-weight: 500;
+}
+
+.farm-news {
+    color: #9d9d9d;
+    font-weight: 400;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+.product-subimage {
+    border-radius: 100px;
+    border: 1.5px solid #5c6754;
+}
+
+#product-main-title,
+#product-sub-title,
+#product-price {
+    color: #5c6754;
+}
+
+#product-main-title,
+#product-price {
+    font-weight: bold;
+}
+
+#farm-info-wrap img {
+    border-radius: 100px;
+}
+
+.sub-button {
+    border: 1px solid #5c6754;
+    border-radius: 100px;
+    color: #5c6754;
+}
+
+#product-info-wrap {
+    border-top: 1px solid rgba(92, 100, 86, 0.4);
+    grid-auto-flow: row dense;
+}
+
+.product-info-label {
+    color: #5c6754;
+    font-weight: 500;
+}
+
+.product-info-value {
+    font-weight: 300;
+}
+
+#product-quantity-wrap {
+    border-top: 1px solid rgba(92, 100, 86, 0.4);
+    border-bottom: 1px solid rgba(92, 100, 86, 0.4);
+    align-items: center;
+}
+
+#quantity-spinner-wrap {
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+}
+
+#quantity-spinner-wrap > input:focus {
+    outline: none;
+}
+
+#product-quantity {
+    text-align: center;
+}
+
+#total-price-wrap {
+    color: #5c6754;
+    font-weight: 400;
+    align-items: baseline;
+}
+
+#total-price {
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+#cart-button,
+#gift-button,
+#purchase-button,
+#soldout-button {
+    border-radius: 100px;
+}
+
+#gift-button,
+#purchase-button,
+#soldout-button {
+    border: 2px solid #5c6754;
+    text-align: center;
+}
+
+.shadow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cart-button {
+    box-shadow: 0px 0px 6px 4px rgba(0, 0, 0, 0.06);
+}
+
+#gift-button {
+    color: #5c6754;
+}
+
+#purchase-button,
+#soldout-button {
+    background-color: #5c6754;
+    color: white;
+}
+
+@media screen and (max-width: 768px) {
+    #product-main-image {
+        width: 100%;
+        height: 34.5rem;
+    }
+
+    .product-subimage {
+        width: 5rem;
+        height: 5rem;
+    }
+
+    #farm-news-wrap {
+        width: 100%;
+        height: 2.4rem;
+
+        border-radius: 25px;
+        border: 1px solid #e5e5e5;
+
+        padding: 0 1.2rem;
+
+        grid-row: 8;
+    }
+
+    #farm-news-wrap > span.label {
+        font-size: 1.2rem;
+    }
+
+    .divider-h {
+        height: 1rem;
+        border-left: 1px solid #5c6754;
+        margin: auto 6px;
+    }
+
+    .farm-news {
+        font-size: 1.2rem;
+    }
+
+    #share-button {
+        display: none;
+    }
+
+    #product-main-title {
+        font-size: 2.2rem;
+    }
+
+    #product-sub-title {
+        font-size: 1.4rem;
+    }
+
+    #product-price {
+        font-size: 1.8rem;
+    }
+
+    #farm-info-wrap {
+        height: 6.4rem;
+        border-top: 1px solid rgba(92, 100, 86, 0.4);
+        align-content: center;
+    }
+
+    #farm-info-wrap img {
+        height: 4.5rem;
+        width: 4.5rem;
+        background-color: grey;
+    }
+
+    #farmer-name {
+        font-size: 1.2rem;
+    }
+
+    .sub-button {
+        width: 75px;
+        height: 20px;
+
+        text-align: center;
+        font-size: 1.2rem;
+    }
+
+    #product-info-wrap {
+        row-gap: 1.2rem;
+        padding: 1.6rem 0;
+    }
+
+    .product-info-label,
+    .product-info-value {
+        font-size: 1.4rem;
+    }
+
+    #product-quantity-wrap {
+        padding: 1.5rem 0;
+        row-gap: 15px;
+    }
+
+    #quantity-spinner-wrap {
+        height: 2.4rem;
+    }
+
+    #quantity-spinner-wrap > input {
+        width: 45px;
+    }
+
+    #quantity-spinner-wrap > button {
+        width: 35px;
+    }
+
+    #product-quantity,
+    #quantity-spinner-wrap > button {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    #total-price-wrap {
+        font-size: 1.6rem;
+        padding: 1.6rem 0;
+    }
+
+    #total-price {
+        font-weight: bold;
+        font-size: 2.4rem;
+    }
+
+    #cart-button,
+    #gift-button,
+    #purchase-button,
+    #soldout-button {
+        height: 4.5rem;
+    }
+
+    #gift-button,
+    #purchase-button,
+    #soldout-button {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    #product-main-image {
+        width: 100%;
+        height: 730px;
+        grid-row: 1 / 7;
+    }
+
+    .product-subimage {
+        width: 97px;
+        height: 97px;
+    }
+
+    #farm-news-wrap {
+        width: 100%;
+        height: 50px;
+
+        border-radius: 25px;
+        border: 1px solid #e5e5e5;
+
+        padding: 0 25px;
+    }
+
+    #farm-news-wrap > span.label {
+        font-size: 22px;
+    }
+
+    .divider-h {
+        height: 20px;
+        border-left: 1px solid #5c6754;
+        margin: auto 16px;
+    }
+
+    .farm-news {
+        size: 22px;
+    }
+
+    .product-kind-tag-wrap {
+        align-self: flex-end;
+    }
+
+    #product-main-title {
+        font-size: 36px;
+    }
+
+    #product-sub-title {
+        font-size: 22px;
+    }
+
+    #product-price {
+        font-size: 40px;
+    }
+
+    #farm-info-wrap {
+        height: 135px;
+        border-top: 1px solid rgba(92, 100, 86, 0.4);
+        align-content: center;
+    }
+
+    #farm-info-wrap img {
+        height: 72px;
+        background-color: grey;
+    }
+
+    #farmer-name {
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .sub-button {
+        width: 120px;
+        height: 40px;
+
+        text-align: center;
+        font-size: 22px;
+    }
+
+    .sub-button:hover {
+        background-color: #5c6754;
+        color: white;
+    }
+
+    #product-info-wrap {
+        row-gap: 32px;
+        padding: 32px 0;
+    }
+
+    .product-info-label,
+    .product-info-value {
+        font-size: 22px;
+    }
+
+    #product-quantity-wrap {
+        padding: 15px 0;
+        row-gap: 15px;
+    }
+
+    #quantity-spinner-wrap {
+        padding: 0 15px;
+    }
+
+    #quantity-spinner-wrap > input {
+        width: 120px;
+        height: 45px;
+        padding-left: 16px;
+    }
+
+    #quantity-spinner-wrap > button {
+        width: 35px;
+    }
+
+    #product-quantity,
+    #quantity-spinner-wrap > button {
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    #total-price-wrap {
+        font-size: 22px;
+    }
+
+    #total-price {
+        font-weight: bold;
+        font-size: 50px;
+    }
+
+    #cart-button,
+    #gift-button,
+    #purchase-button,
+    #soldout-button {
+        height: 72px;
+    }
+
+    #gift-button,
+    #purchase-button,
+    #soldout-button {
+        font-size: 32px;
+    }
+
+    #cart-button img {
+        width: 38px;
+    }
+}

@@ -99,9 +99,9 @@
                             {% if product.open == False %}
                             <div class="sold-out-overlay absolute flex flex-col items-center justify-center transition_element button" onclick=window.location.href="{% url 'products:product_detail' product.get_main_product.pk %}">
                                 <span class="sold-out-overlay--product-name">곧 다시 만나요!</span>
-                            </div> 
+                            </div>
                             {% endif %}
-                            
+
                             <a href="{% url 'products:product_detail' product.get_main_product.pk %}" class="">
                                 <img class="" id="product_img" src="{{product.main_image.url}}" width="50">
                             </a>
@@ -167,7 +167,6 @@
     </div>
 
 </div>
-<script type="text/javascript" src="{% static 'js/products/products_list.js' %}"></script>
 <script>
     let wishBtn = document.querySelectorAll('#wish')
     console.log(wishBtn)

@@ -4,7 +4,7 @@ from . import views
 app_name = "products"
 
 urlpatterns = [
-    path("list/", views.store_list_all, name="store_list"),
+    path("list/", views.StoreList.as_view(), name="store_list"),
     path("list/<slug:cat>/", views.store_list_cat, name="store_list_category"),
     path("detail/<int:pk>/", views.product_detail, name="product_detail"),
     path("detail/qna_paginator/", views.question_paging, name="qna_paginator"),
@@ -19,4 +19,5 @@ urlpatterns = [
     # EP
     path("get-db", views.get_product_EP, name="get_product_db"),
     path("get-db/daum", views.get_product_daum_EP, name="get_product_db_daum"),
+
 ]
