@@ -187,6 +187,7 @@ def product_detail(request, pk):
 
         kinds = product.kinds
         farmer = product.farmer
+        subscribed = False
         if request.user.is_authenticated:
             subscribed = Subscribe.objects.filter(
                 consumer=request.user.consumer, farmer=farmer
