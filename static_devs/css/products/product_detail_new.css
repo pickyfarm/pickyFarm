@@ -135,10 +135,6 @@ img:not(#farmer-sub-icon) {
         height: 34.5rem;
     }
 
-    .product-subimage-group-wrap {
-        gap: 1rem;
-    }
-
     .product-subimage {
         width: 5rem;
         height: 5rem;
@@ -272,10 +268,6 @@ img:not(#farmer-sub-icon) {
         width: 100%;
         height: 730px;
         grid-row: 1 / 7;
-    }
-
-    .product-subimage-group-wrap {
-        gap: 30px;
     }
 
     .product-subimage {
