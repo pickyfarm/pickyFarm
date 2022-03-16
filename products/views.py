@@ -34,7 +34,7 @@ class StoreList(ListView):
     template_name = "products/product_list_new.html"
 
     def get_queryset(self):
-        qs = super().get_queryset().exclude(title="피키팜 테스트 상품그룹").order_by("-open")
+        qs = super().get_queryset().exclude(title="피키팜 테스트 상품그룹").order_by("-open", "-create_at")
         cat_name = self.request.GET.get("cat", "all")
         kind = self.request.GET.get("kind", "all")
 
@@ -482,10 +482,10 @@ def get_product_EP(request):
     get_product_db()
     return HttpResponse("EP 생성 완료")
 
+
 def get_product_daum_EP(request):
     get_product_db_daum()
     return HttpResponse("Daum EP 생성 완료")
-
 
 
 # @login_required

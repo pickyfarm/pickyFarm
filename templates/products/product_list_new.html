@@ -43,7 +43,7 @@
             <h1 class="col-4 col-m-3 product-title space-b-xs space-b-m-xs">{{product.title}}</h1>
             <h2 class="col-4 col-m-3 product-price space-b-md space-b-m-xxs">{{product.get_main_product.sell_price | intcomma }} 원</h2>
             <h2 class="col-4 col-m-3 product-subtitle space-b-xs">{{product.sub_title}}</h2>
-            <div class="col-4 col-m-3 product-kind-tag-wrap space-b-xl">
+            <div class="col-4 col-m-3 product-kind-tag-wrap space-b-xl flex">
                 {% if product.kinds == 'ugly' or product.kinds == 'mix' %}
                 <div class="product-kind-tag ugly">무난이 작물</div>
                 {% endif %}
