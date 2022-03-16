@@ -105,9 +105,8 @@ $('.review_img_slick').slick({
 // 구독하기
 
 subBtn.addEventListener('click', function () {
-    var farmerPk = subBtn.getAttribute('name');
     var data = {
-        farmer_pk: farmerPk,
+        farmer_pk: FARMER_PK,
         csrfmiddlewaretoken: csrftoken,
     };
     $.ajax({
