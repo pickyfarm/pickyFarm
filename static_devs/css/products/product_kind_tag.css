@@ -21,26 +21,25 @@
 }
 
 @media screen and (min-width: 769px) {
+    .product-kind-tag-wrap {
+        gap: 16px;
+    }
+
     .product-kind-tag {
         font-size: 17px;
         width: 102px;
         height: 30px;
     }
-
-    .product-kind-tag.normal {
-        margin-left: 16px;
-    }
 }
 
 @media screen and (max-width: 768px) {
+    .product-kind-tag-wrap {
+        gap: 1rem;
+    }
     .product-kind-tag {
         font-size: 1rem;
         line-height: 1.5rem;
         width: 6rem;
         height: 1.5rem;
-    }
-
-    .product-kind-tag.normal {
-        margin-left: 1rem;
     }
 }
