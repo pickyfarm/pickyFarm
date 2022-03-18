@@ -34,6 +34,7 @@
         <div class="product-image-wrap col-4 col-m-3 space-b-md relative">
             <a href="{% url 'products:product_detail' product.get_main_product.pk %}">
                 <img src="{{product.main_image.url}}" img='{{product.title}}' class="col-4 col-m-3 product-img">
+                <div class="soldout-overlay absolute flex items-center justify-center" {% if product.open %}hidden{% endif %}>곧 다시 만나요!</div>
             </a>
             <button type="button" class="cart-button col-1 col-m-1 shadow-button absolute zoom-on-hover" data-pk="{{product.pk}}">
                 <img src="{% static 'images/cart.svg' %}" alt="장바구니 담기">
