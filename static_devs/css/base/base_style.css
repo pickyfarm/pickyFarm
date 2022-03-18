@@ -272,6 +272,10 @@ button:focus {
     transform: scale(1.03);
 }
 
+[hidden] {
+    display: none !important;
+}
+
 @media screen and (min-width: 769px) {
     #modal-cancel {
         display: none;
