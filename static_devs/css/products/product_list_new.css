@@ -17,6 +17,16 @@ img {
     width: 100%;
 }
 
+.soldout-overlay {
+    background-color: #ffffff;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    font-weight: bold;
+    color: #5c6754;
+    width: 100%;
+}
+
 .shadow-button {
     display: flex;
     align-items: center;
@@ -72,9 +82,14 @@ img {
 }
 
 @media screen and (min-width: 769px) {
-    .product-img {
+    .product-img,
+    .soldout-overlay {
         height: 524px;
         border-radius: 12px;
+    }
+
+    .soldout-overlay {
+        font-size: 24px;
     }
 
     .cart-button {
@@ -123,10 +138,15 @@ img {
         grid-column: span 3;
     }
 
-    .product-img {
+    .product-img,
+    .soldout-overlay {
         height: 19.5rem;
         border-radius: 10px;
         margin-bottom: 0.8rem;
+    }
+
+    .soldout-overlay {
+        font-size: 1.4rem;
     }
 
     .cart-button {
