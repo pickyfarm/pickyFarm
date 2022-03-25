@@ -115,7 +115,7 @@ product_title = {
 
 # DAUM
 def get_product_db_daum():
-    products = Product.objects.filter(open=True, status="sale")
+    products = Product.objects.filter(open=True, status="sale").exclude(pk=38)
     product_data = []
 
     for product in products:
