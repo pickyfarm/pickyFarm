@@ -40,6 +40,16 @@ img:not(#farmer-sub-icon) {
     font-weight: bold;
 }
 
+.discount-desc {
+    color: #b82100;
+    font-weight: 300;
+}
+
+.previous-price {
+    color: #bbbbbb;
+    text-decoration: line-through;
+}
+
 #farm-info-wrap img {
     border-radius: 100px;
 }
@@ -182,6 +192,21 @@ img:not(#farmer-sub-icon) {
         font-size: 1.8rem;
     }
 
+    .discount-desc {
+        font-size: 1.2rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .previous-price {
+        margin-left: 0.4rem;
+    }
+
+    .unit-price-desc {
+        font-size: 1.2rem;
+        color: #bbbbbb;
+        margin-left: 0.4rem;
+    }
+
     #farm-info-wrap {
         height: 6.4rem;
         border-top: 1px solid rgba(92, 100, 86, 0.4);
@@ -266,8 +291,8 @@ img:not(#farmer-sub-icon) {
 @media screen and (min-width: 769px) {
     #product-main-image {
         width: 100%;
-        height: 730px;
-        grid-row: 1 / 7;
+        height: -webkit-fill-available;
+        grid-row: 1 / 10;
     }
 
     .product-subimage {
@@ -311,8 +336,23 @@ img:not(#farmer-sub-icon) {
         font-size: 22px;
     }
 
+    .discount-desc,
+    .previous-price {
+        font-size: 22px;
+    }
+
+    .previous-price {
+        margin-left: 8px;
+    }
+
     #product-price {
         font-size: 40px;
+    }
+
+    .unit-price-desc {
+        margin-left: 8px;
+        font-size: 22px;
+        font-weight: 400;
     }
 
     #farm-info-wrap {
@@ -347,6 +387,7 @@ img:not(#farmer-sub-icon) {
     #product-info-wrap {
         row-gap: 32px;
         padding: 32px 0;
+        grid-row: 7 / 10;
     }
 
     .product-info-label,
