@@ -35,7 +35,7 @@ class CustomProductAdmin(admin.ModelAdmin):
                 self.message_user(request, f"{product.title}의 할인 금액이 설정되지 않았습니다!", messages.ERROR)
                 return
 
-            product.sell_price -= discount_price
+            product.sell_price -= product.discount_price
             product.save()
 
     apply_discount.short_description = "상품 할인가 적용하기"
