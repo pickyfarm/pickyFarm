@@ -43,6 +43,21 @@ img {
     font-weight: 500;
 }
 
+.discount-desc {
+    color: #b82100;
+    font-weight: 300;
+}
+
+.discount-rate {
+    font-weight: bold;
+    font-size: inherit;
+}
+
+.previous-price {
+    color: #bbbbbb;
+    text-decoration: line-through;
+}
+
 .product-price {
     font-weight: bold;
 }
@@ -100,8 +115,22 @@ img {
         width: 50px;
     }
 
+    .discount-desc {
+        font-size: 18px;
+    }
+
+    .divider.discount {
+        height: 17px;
+        margin: 0 8px;
+    }
+
     .product-title {
         font-size: 30px;
+    }
+
+    .discount-rate {
+        font-size: 34px;
+        margin-right: 8px;
     }
 
     .product-price {
@@ -162,8 +191,22 @@ img {
     }
 
     .product-title,
-    .product-price {
+    .product-price,
+    .discount-rate.discount-desc {
         font-size: 1.4rem;
+    }
+
+    .discount-desc {
+        font-size: 1.2rem;
+    }
+
+    .divider.discount {
+        height: 1rem;
+        margin: 0 0.4rem;
+    }
+
+    .discount-rate {
+        margin-right: 0.4rem;
     }
 
     .product-subtitle {

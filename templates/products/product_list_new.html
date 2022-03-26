@@ -41,9 +41,14 @@
             </button>
         </div>
         <a href="{% url 'products:product_detail' product.get_main_product.pk %}" style="display: contents;">
-            <h1 class="col-4 col-m-3 product-title space-b-xs space-b-m-xs">{{product.title}}</h1>
-            <h2 class="col-4 col-m-3 product-price space-b-md space-b-m-xxs">{{product.get_main_product.sell_price | intcomma }} 원</h2>
-            <h2 class="col-4 col-m-3 product-subtitle space-b-xs">{{product.sub_title}}</h2>
+            <h1 class="col-4 col-m-3 product-title space-b-sm space-b-m-xs">{{product.title}}</h1>
+            <div class="discount-desc col-4 col-m-3 space-b-m-xxs flex items-center">
+                서비스 종료 할인가
+                <div class="divider discount"></div>
+                <span class="previous-price">{{product.get_main_product.sell_price | add:product.get_main_product.discount_price | intcomma}}원</span>
+            </div>
+            <h2 class="col-4 col-m-3 product-price space-b-sm space-b-m-xxs"><span class="discount-rate discount-desc">{{product.get_main_product.calculate_discount_rate}}%</span>{{product.get_main_product.sell_price | intcomma }} 원</h2>
+            <h2 class="col-4 col-m-3 product-subtitle space-b-xxs">{{product.sub_title}}</h2>
             <div class="col-4 col-m-3 product-kind-tag-wrap space-b-xl flex">
                 {% if product.kinds == 'ugly' or product.kinds == 'mix' %}
                 <div class="product-kind-tag ugly">무난이 작물</div>
