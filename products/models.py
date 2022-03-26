@@ -264,9 +264,9 @@ class Product(models.Model):
         print("판매율 계산")
         return self.sales_rate
 
-    # 할인율 계산 함수
+    # 할인율 계산 함수 (할인 적용 이후 실행)
     def calculate_discount_rate(self):
-        discount_rate = round((self.discount_price / self.sell_price) * 100)
+        discount_rate = round((self.discount_price / (self.sell_price + self.discount_price)) * 100)
         return discount_rate
 
     # 리뷰 생성 시 평점 총합 계산을 위한 함수
