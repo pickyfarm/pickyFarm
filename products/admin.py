@@ -31,7 +31,7 @@ class CustomProductAdmin(admin.ModelAdmin):
                 self.message_user(request, f"{product.title}은 이미 변경되었습니다!", messages.ERROR)
                 return
 
-            product.sell_price -= discount_price
+            product.sell_price -= product.discount_price
 
             product.save()
 
