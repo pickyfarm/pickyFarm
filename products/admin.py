@@ -31,10 +31,6 @@ class CustomProductAdmin(admin.ModelAdmin):
                 self.message_user(request, f"{product.title}은 이미 변경되었습니다!", messages.ERROR)
                 return
 
-            if product.discount_price == 0:
-                self.message_user(request, f"{product.title}의 할인 금액이 설정되지 않았습니다!", messages.ERROR)
-                return
-
             product.sell_price -= discount_price
             product.save()
 
