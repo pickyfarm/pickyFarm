@@ -15,7 +15,7 @@ class CustomProductAdmin(admin.ModelAdmin):
         "sell_price",
     )
 
-    actions = ["change_product_commission_rate"]
+    actions = ["change_product_commission_rate", "apply_discount"]
 
     @transaction.atomic
     def change_product_commission_rate(self, request, queryset):
@@ -24,6 +24,21 @@ class CustomProductAdmin(admin.ModelAdmin):
             product.save()
 
         self.message_user(request, f"{len(queryset)}개의 상품의 수수료율을 변경하였습니다.", messages.SUCCESS)
+
+    def apply_discount(self, request, queryset):
+        for product in queryset:
+            if product.modify_count:
+                self.message_user(request, f"{product.title}은 이미 변경되었습니다!", messages.ERROR)
+                return
+
+            if product.discount_price == 0:
+                self.message_user(request, f"{product.title}의 할인 금액이 설정되지 않았습니다!", messages.ERROR)
+                return
+
+            product.sell_price -= discount_price
+            product.save()
+
+    apply_discount.short_description = "상품 할인가 적용하기"
 
 
 @admin.register(models.Product_Group)
