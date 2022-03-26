@@ -142,10 +142,13 @@ class Product(models.Model):
     status = models.CharField(max_length=10, choices=PRODUCT_STATUS, default=PRODUCT_STATUS[0][0])
     open = models.BooleanField(default=False)  # to be deleted
     is_event = models.BooleanField(default=False)
+    unit_price_desc = models.CharField(max_length=50, null=True, blank=True)
 
     # 금액 관련
     sell_price = models.IntegerField(default=0, help_text="현재 판매가")
     commision_rate = models.FloatField(default=0, help_text="수수료율")
+    discount_price = models.IntegerField(default=0, help_text="할인 금액")
+    modify_count = models.IntegerField(default=0, help_text="모델 수정 카운트")
 
     weight = models.FloatField(help_text="판매 중량")
     weight_unit = models.CharField(max_length=5, choices=weight_unit, help_text="판매 중량 단위")
@@ -233,6 +236,7 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.weight = round(self.weight, 1)
         self.sales_count = round(self.sales_count, 2)
+        self.modify_count += 1
         super(Product, self).save(*args, **kwargs)
 
     def sold(self, quantity):
@@ -259,6 +263,11 @@ class Product(models.Model):
         self.save()
         print("판매율 계산")
         return self.sales_rate
+
+    # 할인율 계산 함수 (할인 적용 이후 실행)
+    def calculate_discount_rate(self):
+        discount_rate = round((self.discount_price / (self.sell_price + self.discount_price)) * 100)
+        return discount_rate
 
     # 리뷰 생성 시 평점 총합 계산을 위한 함수
     def calculate_total_rating_sum(self, new_rating):

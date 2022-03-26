@@ -32,6 +32,7 @@ class CustomProductAdmin(admin.ModelAdmin):
                 return
 
             product.sell_price -= discount_price
+
             product.save()
 
     apply_discount.short_description = "상품 할인가 적용하기"
