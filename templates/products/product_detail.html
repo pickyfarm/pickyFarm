@@ -61,7 +61,12 @@
         <span class="previous-price">{{product.sell_price | add:product.discount_price | intcomma}}원</span>
     </span>
     {% endif %}
-    <h2 id="product-price" class="col-3 off-7 col-m-6 space-b-lg space-b-m-sm">{{product.sell_price | intcomma}} 원<span class="unit-price-desc">{{product.unit_price_desc}}</span></h2>
+    <h2 id="product-price" class="col-3 off-7 col-m-6 space-b-lg space-b-m-sm">
+        {{product.sell_price | intcomma}} 원
+        {% if product.unit_price_desc %}
+        <span class="unit-price-desc">{{product.unit_price_desc}}</span>
+        {% endif %}
+    </h2>
 
     <img id="share-button" src="{% static 'images/product_detail/share.svg' %}" class="col-1 off-12">
 
