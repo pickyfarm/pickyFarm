@@ -94,7 +94,13 @@
         <span class="product-info-label col-2 off-1 col-m-2 off-m-1">원산지</span>
         <span class="product-info-label col-2 off-1 col-m-2 off-m-1">안내사항</span>
 
-        <div class="product-info-value col-4 off-3 col-m-4 off-m-3">무료</div>
+        <div class="product-info-value col-4 off-3 col-m-4 off-m-3">
+            {% if product.default_delivery_fee == 0 %}
+            무료
+            {% else %}
+            {{ product.default_delivery_fee | intcomma }} 원
+            {% endif %}
+        </div>
         <div class="product-info-value col-4 off-3 col-m-4 off-m-3">{{product.weight}}{{product.weight_unit}}</div>
         <div class="product-info-value col-4 off-3 col-m-4 off-m-3">국산</div>
         <div class="product-info-value col-4 off-3 col-m-4 off-m-3">{{product.shelf_life_date}}</div>
