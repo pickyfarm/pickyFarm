@@ -98,7 +98,7 @@
             {% if product.default_delivery_fee == 0 %}
             무료
             {% else %}
-            product.default_delivery_fee
+            {{ product.default_delivery_fee | intcomma }} 원
             {% endif %}
         </div>
         <div class="product-info-value col-4 off-3 col-m-4 off-m-3">{{product.weight}}{{product.weight_unit}}</div>
