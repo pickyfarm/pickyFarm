@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'HSBombaram';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/HSBombaram.woff')
+        format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#countdown-wrap {
+    width: 100%;
+    background-image: url('../../images/index/countdown.png');
+    background-size: contain;
+}
+
+#countdown-img {
+    width: 100%;
+    height: auto;
+    top: 0;
+    visibility: hidden;
+}
+
+#countdown-ten {
+    left: 39.8%;
+}
+
+#countdown-one {
+    left: 51%;
+}
+
+#countdown-hours {
+    left: 60.7%;
+}
+
+#countdown-ten,
+#countdown-one {
+    width: 9.6%;
+    height: 28.25%;
+    top: 38.625%;
+    font-size: 120px;
+}
+
+#countdown-hours {
+    width: 10.4%;
+    height: 12.5%;
+    top: 54%;
+    font-size: 20px;
+}
+
+#countdown-ten,
+#countdown-one,
+#countdown-hours {
+    text-align: center;
+    color: #5c6754;
+    font-family: 'HSBombaram';
+}
+
+@media screen and (max-width: 768px) {
+    #countdown-ten,
+    #countdown-one {
+        font-size: 3rem;
+    }
+
+    #countdown-hours {
+        font-size: 1rem;
+    }
+}
