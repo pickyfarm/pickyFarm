@@ -1,0 +1,15 @@
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/base/countdown.css' %}">
+{% endblock %}
+<div id="countdown-wrap" class="flex relative">
+    <img src="{% static 'images/index/countdown.png' %}" id="countdown-img" class="">
+    <div class="absolute flex justify-center items-center" id="countdown-ten"></div>
+    <div class="absolute flex justify-center items-center" id="countdown-one"></div>
+    <div class="absolute flex justify-center items-center" id="countdown-hours"></div>
+</div>
+
+{% block scripts %}
+<script src="{% static 'js/countdown.js' %}"></script>
+{% endblock %}
