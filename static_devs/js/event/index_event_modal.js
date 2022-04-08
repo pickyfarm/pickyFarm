@@ -1,11 +1,16 @@
-'use strict';
+const PRODUCT_URL = '/product/list';
 
-var PRODUCT_URL = '/product/detail/37';
-var modalImage = '\n    <a href='.concat(
-    PRODUCT_URL,
-    ">\n        <img src='/static/images/event/index-popup.jpg' alt='\uD50C\uB798\uC74C \uC774\uBCA4\uD2B8' style='width: 380px;'/>\n    </a>\n"
-);
+const modalImage = `
+    <a href=${PRODUCT_URL}>
+        <img src='/static/images/index/end.jpg' alt='피키팜 끝' style='width: 380px;'/>
+    </a>
+`;
 
-window.onload = function () {
-    return showModalMessage(modalImage, function () {}, 'event');
-};
+window.onload = () =>
+    showModalMessage(
+        modalImage,
+        () => {
+            location.href = PRODUCT_URL;
+        },
+        'event'
+    );
