@@ -8,7 +8,7 @@
 
 #countdown-wrap {
     width: 100%;
-    background-image: url('../../images/index/countdown.png');
+    background-image: url('../../images/index/countdown_second.png');
     background-size: contain;
 }
 
@@ -40,10 +40,12 @@
 }
 
 #countdown-hours {
-    width: 10.4%;
+    width: 13.1%;
     height: 12.5%;
     top: 54%;
-    font-size: 20px;
+    font-size: 30px;
+    color: rgba(92, 103, 84, 0.8) !important;
+    letter-spacing: 0.1em;
 }
 
 #countdown-ten,
