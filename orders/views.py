@@ -126,8 +126,8 @@ def changeAddressAjax(request):
 
         for detail in order_group.order_details.all():
             delivery_fee = detail.product.get_total_delivery_fee(detail.quantity, zip_code)
-            detail.total_price = delivery_fee + detail.product.sell_price
             quantity = (int)(detail.quantity)
+            detail.total_price = delivery_fee + detail.product.sell_price * quantity
             detail.save()
             # detail_fee = calculate_jeju_delivery_fee(zip_code, detail.product)
             # detail.total_price = detail_fee + detail.product.sell_priceget_total_delivery_fee
