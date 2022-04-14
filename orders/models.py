@@ -211,6 +211,12 @@ class Order_Detail(models.Model):
         ("HAPDONG", "합동택배"),
     )
 
+    CONSUMER_TYPE = (("user", "회원"), ("non_user", "비회원"))
+
+    consumer_type = models.CharField(
+        max_length=20, choices=CONSUMER_TYPE, default="user", help_text="구매 회원 타입"
+    )
+
     status = models.CharField(max_length=27, choices=STATUS, default="wait", help_text="주문 상태")
     payment_status = models.CharField(
         max_length=10, choices=PAYMENT_STATUS, default="none", help_text="정산 상태"

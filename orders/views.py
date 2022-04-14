@@ -262,6 +262,7 @@ def payment_create(request):
             total_price = product.sell_price * quantity
 
             # [PROCESS 5] 결제 대기 상태의 order_detail 생성 및 Order_Group으로 묶어줌
+            consumer_type = "user" if cur_user.is_authenticated else "non_user"
             order_detail = Order_Detail(
                 status="wait",
                 quantity=quantity,
@@ -269,6 +270,7 @@ def payment_create(request):
                 total_price=total_price + delivery_fee,  # 구매 총액 + 배송비
                 product=product,
                 order_group=order_group,
+                consumer_type=consumer_type,
             )
             order_detail.save()
 
