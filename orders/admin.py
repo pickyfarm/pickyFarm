@@ -83,6 +83,7 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
     )
 
     list_filter = (
+        "consumer_type",
         "status",
         "payment_status",
         "product",
@@ -98,6 +99,7 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
         "payment_status_done",
         "calculate_amount",
         "send_delivery_start_message_to_consumer",
+        "retrospect_consumer_type",
     ]
 
     # change_list_template = "admin/orders/order_detail/change_list.html"
@@ -326,11 +328,19 @@ class CustomOrderDetailAdmin(admin.ModelAdmin):
             messages.SUCCESS,
         )
 
+    def retrospect_consumer_type(self, request, queryset):
+        for detail in queryset:
+            detail.consumer_type = detail.order_group.consumer_type
+            detail.save()
+
+        self.message_user(request, f"총 {len(queryset)}건의 order_detail의 회원 여부를 소급적용했습니다.")
+
     order_complete.short_description = "[주문관리] 배송 완료 처리"
     payment_status_progress.short_description = "[정산관리] 정산 진행 처리"
     payment_status_done.short_description = "[정산관리] 정산 완료 처리"
     calculate_amount.short_description = "[정산 관리] 정산 진행 항목 정산 금액 계산"
     send_delivery_start_message_to_consumer.short_description = "[주문관리] 소비자에게 배송 시작 알림톡 전송"
+    retrospect_consumer_type.short_description = "[ADMIN] 회원 여부 필드 소급 적용"
 
 
 @admin.register(models.RefundExchange)

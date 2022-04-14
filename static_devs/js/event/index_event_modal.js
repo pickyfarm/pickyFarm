@@ -1,4 +1,4 @@
-const PRODUCT_URL = '/product/list';
+const PRODUCT_URL = '/';
 
 const modalImage = `
     <a href=${PRODUCT_URL}>
@@ -6,11 +6,4 @@ const modalImage = `
     </a>
 `;
 
-window.onload = () =>
-    showModalMessage(
-        modalImage,
-        () => {
-            location.href = PRODUCT_URL;
-        },
-        'event'
-    );
+window.onload = () => showModalMessage(modalImage, () => {}, 'event');
