@@ -1,3 +1,5 @@
+from ensurepip import bootstrap
+from sys import api_version
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -15,7 +17,7 @@ from addresses.models import Address
 from django.apps import apps  # for prevent Circular Import Error
 from addresses.views import check_address_by_zipcode, calculate_jeju_delivery_fee
 import requests, base64
-import json
+
 import os
 from datetime import datetime
 from .BootpayApi import BootpayApi
@@ -28,6 +30,12 @@ from core import url_encryption
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 from core import exceptions
+from kafka import KafkaProducer
+from kafka import KafkaConsumer
+from json import loads
+import json
+import pickle
+
 
 # Create your views here.
 
@@ -1591,3 +1599,30 @@ def payment_valid_gift(request):
     payment_complete_notification(order_group.pk)
 
     return render(request, "orders/gift/payment_gift_success.html", ctx)
+
+
+
+
+def tmp(request):
+    # producer = KafkaProducer(bootstrap_servers='13.125.248.123:9092', api_version=(7,0,1))
+    print("start send")
+    producer = KafkaProducer(acks=0, compression_type='gzip', bootstrap_servers=['15.164.222.160:9092'], value_serializer=lambda x: json.dumps(x).encode('utf-8'))
+
+    data = {'pickyfarm' : 'pickypicky'}
+
+    # serialized_data = pickle.dumps(v, pickle.HIGHEST_PROTOCOL)
+    producer.send('kakaomsg', value=data)
+    producer.flush()
+    producer.close()
+    print("end send")
+
+    print("consumer start")
+    consumer = KafkaConsumer('kakaomsg', bootstrap_servers=['15.164.222.160:9092'],
+    auto_offset_reset='earliest', enable_auto_commit=True, value_deserializer=lambda x: loads(x.decode('utf-8')), consumer_timeout_ms=1000)
+
+    for message in consumer:
+        print("partition : %d, Offset : %d, Value : %s" % (message.partition, message.offset, message.value))
+    
+    print("consumer end")
+    return redirect(reverse("core:main"))
+

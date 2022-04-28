@@ -43,4 +43,6 @@ urlpatterns = [
     ),
     # crontab actions
     path("cron/delete-pendings", cron.delete_waiting_orders, name="delete_pending_orders"),
+    # temp test
+    path("kafka", views.tmp, name="kafka_test"),
 ]
